@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#e6e7e8</color>
+    <color name="colorPrimaryDark">#02284c</color>
+    <color name="colorPrimaryVeryDark">#021bb2</color>
+    <color name="colorPrimaryLight">#E57373</color>
+    <color name="colorAccent">#D2D3D5</color>
+    <color name="colorPrimaryPurple">#A8518A</color>
+
+    <!--dark theme-->
+    <color name="colorPrimaryThemeDark">#02284C</color>
+    <color name="colorPrimaryVeryDarkThemeDark">#0082FC</color>
+    <color name="textColorSecondaryDarkTheme">#0082FC</color>
+
+    <color name="textColorPrimary">#606062</color>
+    <color name="textColorSecondary">#0082FC</color>
+    <color name="textColorLight">#FFFFFF</color>
+    <color name="textColorPrimaryLight">#E57373</color>
+    <color name="textColorLightDisabled">#eaeaea</color>
+    <color name="textColorRed">#ED3237</color>
+
+    <color name="divider">#BDBDBD</color>
+    <color name="gray_back">#f5f5f5</color>
+    <color name="dark_gray">#656565</color>
+
+    <color name="new_theme_primary">#E6E7E8</color>
+
+    <color name="blackOverlay">#66000000</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="countNormal">@color/colorPrimaryDark</color>
+    <color name="whiteCard">#FFFFFF</color>
+    <color name="yellowCard">#FFFF00</color>
+    <color name="yellowCardDisabled">#dddd66</color>
+    <color name="redCard">#FF0000</color>\
+
+    <color name="black">#000000</color>
+    <color name="blackDisabled">#222222</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="enabledBack">#FFFFFF</color>
+    <color name="disabledBack">#eaeaea</color>
+
+    <color name="disabledPrimaryDark">#606062</color>
+    <color name="disabledPrimary">#799CeE</color>
+
+    <color name="leftFighter">#b8374d</color>
+    <color name="rightFighter">#308d68</color>
+</resources>

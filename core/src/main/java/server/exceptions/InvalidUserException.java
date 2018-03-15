@@ -1,0 +1,1 @@
+package server.exceptions;import android.content.Context;public class InvalidUserException extends NetworkException {    private static final long serialVersionUID = 1193L;    public InvalidUserException(Context context) {        super(context, "invalid_user", "Invalid client or password.");    }}

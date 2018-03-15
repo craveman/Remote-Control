@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="16">
+
+        <TextView
+            android:id="@+id/fight_result_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:paddingLeft="4dp"
+            android:text="@string/time"
+            android:lines="1"
+            android:textAlignment="viewStart" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:text="@string/score"
+            android:id="@+id/fight_result_score"
+            android:textAlignment="viewStart"
+            android:lines="1"
+            android:paddingLeft="4dp"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:id="@+id/fight_action_label"/>
+
+        <TextView
+            android:id="@+id/fight_result_action"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:paddingLeft="8dp"
+            android:text="@string/action"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textAlignment="viewStart" />
+
+    </LinearLayout>
+
+</LinearLayout>

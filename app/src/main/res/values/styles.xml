@@ -1,0 +1,160 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:typeface">normal</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:typeface">serif</item>
+    </style>
+
+    <style name="AppThemeDark">
+        <item name="colorPrimary">@color/colorPrimaryThemeDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/whiteCard</item>
+        <item name="android:textColorPrimary">@color/whiteCard</item>
+        <item name="android:windowBackground">@color/colorPrimaryThemeDark</item>
+    </style>
+
+    <style name="AppThemeDark.NoActionBar" parent="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryThemeDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/whiteCard</item>
+        <item name="android:textColorPrimary">@color/whiteCard</item>
+        <item name="android:windowBackground">@color/colorPrimaryThemeDark</item>
+        <item name="android:textColorPrimaryDisableOnly">@color/whiteCard</item>
+        <item name="android:alertDialogStyle">@style/AppThemeDark.AlertDialogTheme</item>
+        <item name="android:checkboxStyle">@style/AppThemeDark.CheckboxStyle</item>
+        <item name="android:editTextStyle">@style/EditTextDark</item>
+        <item name="android:textColorHint">@color/whiteCard</item>
+        <item name="android:editTextColor">@color/whiteCard</item>
+        <item name="android:textColorSecondary">@color/whiteCard</item>
+        <item name="android:itemBackground">@color/colorPrimaryThemeDark</item>
+        <item name="android:listDivider">@drawable/divider</item>
+        <item name="android:textColorAlertDialogListItem">@color/whiteCard</item>
+        <item name="android:textColorTertiary">@color/whiteCard</item>
+    </style>
+
+    <style name="EditTextDark" parent="android:Widget.EditText">
+        <item name="android:textColor">@color/whiteCard</item>
+        <item name="android:textColorHint">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/whiteCard</item>
+        <item name="android:textColorPrimaryDisableOnly">@color/whiteCard</item>
+        <item name="android:textColorSecondary">@color/whiteCard</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/textColorSecondaryDarkTheme</item>
+    </style>
+
+    <style name="AppThemeDark.DatePickerDialog" parent="AlertDialog.AppCompat">
+        <item name="colorPrimary">@color/colorPrimaryThemeDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/whiteCard</item>
+        <item name="android:textColorPrimary">@color/whiteCard</item>
+        <item name="android:windowBackground">@color/colorPrimaryThemeDark</item>
+        <item name="android:textColorPrimaryDisableOnly">@color/whiteCard</item>
+        <item name="android:alertDialogStyle">@style/AppThemeDark.AlertDialogTheme</item>
+        <item name="android:checkboxStyle">@style/AppThemeDark.CheckboxStyle</item>
+        <item name="android:editTextStyle">@style/EditTextDark</item>
+        <item name="android:textColorHint">@color/whiteCard</item>
+        <item name="android:editTextColor">@color/whiteCard</item>
+        <item name="android:textColorSecondary">@color/whiteCard</item>
+        <item name="android:itemBackground">@color/colorPrimaryThemeDark</item>
+        <item name="android:listDivider">@drawable/divider</item>
+        <item name="android:textColorAlertDialogListItem">@color/whiteCard</item>
+        <item name="android:textColorTertiary">@color/whiteCard</item>
+    </style>
+
+    <style name="HintText" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="AppThemeDark.AlertDialogTheme"  parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="android:textColorPrimary">@color/whiteCard</item>
+        <item name="colorAccent">@color/textColorSecondaryDarkTheme</item>
+        <item name="android:textColor">@color/whiteCard</item>
+        <item name="background">@color/colorPrimaryThemeDark</item>
+        <item name="android:background">@color/colorPrimaryThemeDark</item>
+        <item name="textColorAlertDialogListItem">@color/whiteCard</item>
+        <item name="android:textColorSecondary">@color/whiteCard</item>
+    </style>
+
+    <style name="NavigationDrawerStyle">
+        <item name="android:textSize">16sp</item><!-- text size in menu-->
+        <item name="android:listPreferredItemHeightSmall">46dp</item><!-- item size in menu-->
+        <item name="listPreferredItemHeightSmall">46dp</item><!-- item size in menu-->
+    </style>
+
+    <style name="CustomTextAppearance" parent="TextAppearance.MaterialCalendarWidget.Date">
+        <item name="android:textColor">@color/calendar_color</item>
+    </style>
+
+    <style name="CustomTextAppearanceDark" parent="TextAppearance.MaterialCalendarWidget.Date">
+        <item name="android:textColor">@color/calendar_color_dark_theme</item>
+    </style>
+
+    <style name="AppThemeDark.CheckboxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:textColor">@color/whiteCard</item>
+        <item name="android:textColorPrimary">@color/whiteCard</item>
+    </style>
+
+    <style name="AppThemeDark.SwitchStyle">
+        <item name="android:textColor">@color/whiteCard</item>
+        <item name="android:textColorPrimary">@color/whiteCard</item>
+    </style>
+
+    <style name="WindowAnimationTransition">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+    </style>
+
+    <style name="AppThemeDark.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/whiteCard</item>
+        <item name="android:textColorPrimaryDisableOnly">@color/whiteCard</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+    </style>
+
+    <style name="AppThemeDark.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">@color/whiteCard</item>
+        <item name="android:textColorPrimaryDisableOnly">@color/whiteCard</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="FullscreenTheme" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/blackOverlay</item>
+    </style>
+
+    <style name="ApplyButton" parent="android:Widget.Button">
+        <item name="colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/textColorLight</item>
+        <item name="android:textSize">@dimen/main_font_size</item>
+    </style>
+
+    <style name="CountButton" parent="android:Widget.Button">
+        <item name="colorButtonNormal">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/textColorLight</item>
+        <item name="android:textSize">@dimen/main_font_size</item>
+        <item name="android:shape">oval</item>
+    </style>
+</resources>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_three_mins"
+        android:orderInCategory="100"
+        android:title="@string/fight_time"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_pause"
+        android:orderInCategory="100"
+        android:title="@string/action_pause"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_time"
+        android:orderInCategory="100"
+        android:title="@string/other_time"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_reset"
+        android:orderInCategory="100"
+        android:title="@string/action_reset"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_period"
+        android:orderInCategory="100"
+        android:title="@string/action_period"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_priority"
+        android:orderInCategory="100"
+        android:title="@string/action_priority"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_change_score"
+        android:orderInCategory="100"
+        android:title="@string/action_change_points"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_swap_fighters"
+        android:orderInCategory="100"
+        android:title="@string/swap_fighters"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_end_fight"
+        android:orderInCategory="200"
+        android:title="@string/action_end_fight"
+        android:actionLayout="@layout/action_menu_layout"
+        app:showAsAction="never" />
+
+
+</menu>

@@ -1,0 +1,234 @@
+﻿<resources>
+    <string name="ru_language">Русский</string>
+    <string name="en_language">English</string>
+
+    <string name="app_name">Inspiration point</string>
+
+    <string name="login">Вход</string>
+    <string name="registration">Регистрация</string>
+    <string name="main">Inspiration point</string>
+    <string name="fight">Бой</string>
+    <string name="fight_result_title" formatted="false">%s %d : %d %s</string>
+    <string name="new_fight">Новый бой</string>
+    <string name="training_sessions">Тренировки</string>
+    <string name="training_session">Тренировка</string>
+    <string name="comments">Комментарии</string>
+    <string name="profile">Профиль</string>
+    <string name="settings">Настройки</string>
+    <string name="about_app">О программе</string>
+    <string name="about_app_mail_link">mailto:support@inspirationpoint.ru</string>
+    <string name="about_app_web_link">https://drive.google.com/file/d/1_yeHX45076mQvYMmnnw4JyOCJtn4hgbm/view?usp=sharing</string>
+    <string name="intent_error">Не поддерживается на вашем устройстве.</string>
+
+    <string name="after_the_fight">после боя</string>
+
+    <string name="prompt_filter">Поиск по дате</string>
+    <string name="list_is_empty">Список пуст</string>
+    <string name="diary_list_is_empty">Записей нет</string>
+    <string name="no_comments">Комментарии отсутствуют</string>
+    <string name="trainer_filter">Поиск по тренерам</string>
+
+    <string name="sound">Звук</string>
+    <string name="vibration">Вибрация</string>
+
+    <string name="fight_count">Боёв: %d</string>
+    <string name="fighter_names" formatted="false">%s - %s</string>
+    <string name="fighter_score" formatted="false">%d : %d</string>
+
+    <string name="action_sign_in">Войти</string>
+    <string name="action_register">Зарегистрировать</string>
+    <string name="reset_password">Сбросить пароль</string>с
+    <string name="prompt_email">Электронная почта</string>
+    <string name="prompt_nick">Ник</string>
+    <string name="prompt_phone">Номер телефона</string>
+    <string name="weapon_type">Вид оружия</string>
+    <string name="man">М</string>
+    <string name="woman">Ж</string>
+    <string name="category">Разряд</string>
+    <string name="trainers">Тренеры</string>
+
+    <string name="new_coach_hint">Тренер</string>
+    <string name="new_friend_hint">Друг</string>
+
+    <string name="statistic_access">Доступ к статистике</string>
+    <string name="prompt_password">Пароль</string>
+    <string name="prompt_name">Фамилия, Имя</string>
+    <string name="club_selector">Клуб</string>
+    <string name="error_field_required">Обязательное поле</string>
+    <string name="wrong_email">Неверный формат e-mail</string>
+    <string name="success_registration_message">Регистрация успешно заверешена. Пароль для входа выслан Вам на почту.</string>
+    <string name="error">Ошибка</string>
+    <string name="not_selected_club">Клуб не указан</string>
+    <string name="read_clubs_error">При получении списка клубов возникла ошибка: \"%s\"</string>
+    <string name="read_profile_error">При загрузке профиля возникла ошибка: \"%s\"</string>
+    <string name="read_coaches_error">При загрузке списка тренеров возникла ошибка: \"%s\"</string>
+    <string name="read_friends_error">При загрузке списка подписчиков возникла ошибка: \"%s\"</string>
+    <string name="read_trainings_error">При загрузке списка тренировок возникла ошибка: \"%s\"</string>
+    <string name="registration_error">Ошибка регистрации</string>
+    <string name="save_profile_error">При сохранении профиля возникла ошибка: \"%s\"</string>
+    <string name="save_coaches_error">При сохранении списка тренеров возникла ошибка: \"%s\"</string>
+    <string name="save_friends_error">При сохранении списка подписчиков возникла ошибка: \"%s\"</string>
+    <string name="add_friends_error">При добавлении в список пописчиков возникла ошибка: \"%s\"</string>
+    <string name="login_error">Ошибка логина</string>
+    <string name="reset_complete">Пароль успешно обновлён. Новый пароль для входа выслан Вам на почту.</string>
+
+    <string name="reset_error">Ошибка сброса пароля</string>
+    <string name="invalid_user_and_password">Неверная комбинация логина и пароля.</string>
+    <string name="invalid_email">Указанный адрес электронной почты не зарегистрирован.</string>
+    <string name="email_exist">Указанный адрес электронной почты уже зарегистрирован.</string>
+
+
+    <string name="date">Дата:</string>
+    <string name="time">Время:</string>
+    <string name="duration">Длительность:</string>
+    <string name="referee">Судья:</string>
+    <string name="place">Место:</string>
+    <string name="left_fighter_hint"> Боец слева</string>
+    <string name="right_fighter_hint">Боец справа</string>
+    <string name="enter_users_name">Введите имена обоих участников</string>
+    <string name="save_fight_error">При сохранении результатов боя на сервере возникла ошибка: \"%s\"</string>
+    <string name="save_comments_error">При сохранении комментариев возникла ошибка: \"%s\"</string>
+
+    <string name="pause">Перерыв</string>
+    <string name="other_period">Свободное время</string>
+    <string name="extra_round">A</string>
+
+    <string name="start_fight">Начать бой!</string>
+    <string name="stop_fight">Остановить бой</string>
+    <string name="exit_conformation">Данные боя не сохранены. Вы уверены что хотите выйти?</string>
+    <string name="reset_conformation">Вы уверены что хотите сгенерироваль новый пароль?</string>
+    <string name="winner_not_detected_title">Победитель не определён</string>
+    <string name="winner_not_detected">Для сохранения боя необходимо чтобы один из участников имел перевес по очкам или приоритет.</string>
+    <string name="not_started_fight_title">Бой не начат</string>
+    <string name="not_started_fight">Для успешного сохранения данных боя необходимо запустить таймер.</string>
+    <string name="detect_location">Определение местоположения</string>
+    <string name="location_not_permitted">Геолокация не разрешена</string>
+    <string name="not_detected">Не определено</string>
+
+    <string name="training_format">Тренировка %d</string>
+    <string name="fight_format">Бой %d</string>
+    <string name="name_format">Имя %d</string>
+
+    <string name="fight_time">3 минуты</string>
+    <string name="pause_time">Пауза (1 мин)</string>
+    <string name="extra_time">Добавленное время</string>
+    <string name="other_time">Другое время</string>
+
+    <string name="next_period">Следующий период</string>
+    <string name="reset_period">Сбросить</string>
+    <string name="period">Период: %d</string>
+
+    <string name="about_app_ver">Версия программы %s</string>
+    <string name="about_address">Inspiration Point\n197374, Saint-Petersburg, Smolenki river embankment, b. 31, office 11A</string>
+    <string name="about_manager"> Обратная связь:</string>
+    <string name="about_instruction">Инструкция по Inspiration Point App</string>
+    <string name="about_mail_us">Напишите нам</string>
+
+    <string name="line">Дорожка %d</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="my_diary">Дневник</string>
+
+    <string name="action_sync">Синхронизация</string>
+    <string name="action_time">Время</string>
+    <string name="action_period">Период</string>
+    <string name="action_priority">Приоритет</string>
+    <string name="action_add_comment">Комментарий</string>
+    <string name="action_change_points">Изменить счёт</string>
+    <string name="action_cards">Карточки</string>
+    <string name="action_reset">Сброс</string>
+    <string name="action_end_fight">Завершить бой</string>
+    <string name="action_apply">Применить</string>
+
+    <string name="ok">Ок</string>
+    <string name="cancel">Отмена</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="warning">Предупреждение</string>
+    <string name="priority_title">Указать приоритет</string>
+    <string name="card_title">Карточки</string>
+    <string name="time_period">Время</string>
+    <string name="select_period">Выбрать период</string>
+    <string name="change_score">Изменить счёт</string>
+    <string name="comment">Комментарий</string>
+    <string name="line_select">Выбор дорожки</string>
+    <string name="user_select">Выбор пользователя</string>
+    <string name="count_period">период</string>
+    <string name="reset_to_three_mins_confirm">Сбросить таймер на 3:00?</string>
+    <string name="action_pause">Пауза (1 мин)</string>
+    <string name="pause_confirmation">Установить паузу на 1 минуту?</string>
+    <string name="reset_confirm">Выполнить сброс?</string>
+    <string name="score">Счет:</string>
+    <string name="action">Событие:</string>
+    <string name="start_time">Начало боя:</string>
+    <string name="full_time">Полное время:</string>
+    <string name="pure_time">Чистое время:</string>
+    <string name="point_left">Налево</string>
+    <string name="point_right">Направо</string>
+    <string name="priority_left">Приоритет налево</string>
+    <string name="priority_right">Приоритет направо</string>
+    <string name="rc_left">Красная налево</string>
+    <string name="rc_right">Красная направо</string>
+    <string name="reset">Сброс аппарата</string>
+    <string name="yc_left">Желтая налево</string>
+    <string name="yc_right">Желтая направо</string>
+    <string name="set_time">Время: %s</string>
+    <string name="end_fight">Конец боя</string>
+    <string name="end_fight_confirm">Завершить бой?</string>
+    <string name="date_pick">Выберите дату (даты)</string>
+    <string name="diary_fighters_is_empty">Доступных бойцов нет</string>
+    <string name="fighter_filter">Поиск по имени</string>
+    <string name="theme">Тема</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Темная</string>
+    <string name="group">Группа</string>
+    <string name="enter_all_names">Введите имена всех участников</string>
+    <string name="surname_name">Фамилия, имя</string>
+    <string name="next_pair">Следующая пара:</string>
+    <string name="swap_fighters">Поменять местами</string>
+    <string name="limit_warning">Вы достигли лимита 100 боев в памяти устройства. С этого момента самые старые бои будут перезаписываться новыми. Мы работаем над тем, чтобы убрать этот лимит. Спасибо за понимание.</string>
+    <string name="pause_cancel_confirmation">Завершить паузу?</string>
+    <string name="type_saber">Сабля</string>
+    <string name="type_rapier">Рапира</string>
+    <string name="type_epee">Шпага</string>
+    <string name="nav_messages">Сообщения</string>
+    <string name="users_load_error">Не удалось загрузить список пользователей, отсутствует соединение с интернетом</string>
+    <string name="register_confirm">Еще не зарегистрировались?</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="enter_email">Введите адрес электронной почты</string>
+    <string name="pass_reset">Сброс пароля</string>
+    <string name="sign_out">Выйти из аккаунта</string>
+    <string name="choose_event">Выберите фразу</string>
+    <string name="confirm_event">Подтвердить фразу?</string>
+    <string name="group_results_title">Результаты группы</string>
+    <string name="pdf_button">.PDF</string>
+    <string name="document_created">Документ успешно создан:</string>
+    <string name="no_added_subscribers">Нет добавленных подписчиков</string>
+    <string name="subscribers">Подписчики</string>
+    <string name="add_subscriber">Добавить подписчика</string>
+    <string name="delete_user_confirm">из подписчиков?</string>
+    <string name="delete">Удалить</string>
+    <string name="add">Добавить</string>
+    <string name="enter_name">Введите имя/ник</string>
+    <string name="birthday">День рождения</string>
+    <string name="enter_date">Выберите дату</string>
+    <string name="no_available_diaries">Нет доступных дневников</string>
+    <string name="title_messages">Сообщения</string>
+    <string name="write_message">Написать сообщение</string>
+    <string name="blocked_users">Заблокированные</string>
+    <string name="to_whom">Кому</string>
+    <string name="text">Текст</string>
+    <string name="send">Отправить</string>
+    <string name="unblock">Разблокировать?</string>
+    <string name="new_mess_label">новое</string>
+    <string name="reply"><u>Ответить</u></string>
+    <string name="block">Заблокировать</string>
+    <string name="error_select_user">Выберите адресата</string>
+    <string name="empty_dialogs">Нет активных диалогов</string>
+    <string name="choose_phrase">Выберите фразу</string>
+    <string name="changing_score">Изменение счета</string>
+    <string name="events">Фразы</string>
+
+</resources>

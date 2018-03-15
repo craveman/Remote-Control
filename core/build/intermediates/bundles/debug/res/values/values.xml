@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="already_exists_server_error">Already exists.</string>
+    <string name="disabled_user_server_error">Disabled user.</string>
+    <string name="internal_server_error">Internal server error.</string>
+    <string name="invalid_parameter_server_error">Invalid parameter.</string>
+    <string name="invalid_session_server_error">Invalid session.</string>
+    <string name="invalid_user_server_error">Invalid user.</string>
+    <string name="not_found_server_error">Not found.</string>
+    <string name="not_responding_server_error">Not responding.</string>
+    <string name="null_input_stream_server_error">Null input stream.</string>
+    <string name="object_in_use_server_error">Object in use.</string>
+    <string name="ssl_required_server_error">SSL required.</string>
+    <string name="weak_password_server_error">Weak password.</string>
+</resources>
