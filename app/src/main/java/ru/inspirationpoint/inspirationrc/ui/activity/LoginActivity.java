@@ -42,14 +42,6 @@ public class LoginActivity extends LocalAppCompatActivity implements InputDialog
         getSupportActionBar().setHomeButtonEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
 
-//        setTitle(R.string.login);
-//
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setDisplayShowHomeEnabled(false);
-
         ImageButton signInButton = (ImageButton) findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -189,10 +181,9 @@ public class LoginActivity extends LocalAppCompatActivity implements InputDialog
     private void goToMainActivity() {
         finish();
 
-        //TODO!!!!!!
-//        Intent intent = new Intent(this, TrainingListActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        startActivity(intent);
+        Intent intent = new Intent(this, NewFightActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override

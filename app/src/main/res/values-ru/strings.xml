@@ -1,8 +1,7 @@
-﻿<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
     <string name="ru_language">Русский</string>
     <string name="en_language">English</string>
-
-    <string name="app_name">Inspiration point</string>
 
     <string name="login">Вход</string>
     <string name="registration">Регистрация</string>
@@ -230,5 +229,6 @@
     <string name="choose_phrase">Выберите фразу</string>
     <string name="changing_score">Изменение счета</string>
     <string name="events">Фразы</string>
-
+    <string name="blocked">Заблокированные</string>
+    <string name="synced">Синхронизирован с:</string>
 </resources>

@@ -55,8 +55,16 @@ public class CommandHelper {
     }
 
     public static byte[] startTimer(boolean start) throws IOException {
-        StartTimerCommand command = new StartTimerCommand(start ? 1 : 0);
+        StartTimerCommand command = new StartTimerCommand(start ? 0 : 1);
         return command.getBytes();
+    }
+
+    public static byte getCommand(byte[] message) {
+        return message[5];
+    }
+
+    public static byte getPerson(byte[] message) {
+        return message[6];
     }
 
 }

@@ -72,27 +72,27 @@ public class FightResultActivity extends LocalAppCompatActivity {
 
         isFromFight = getIntent().getBooleanExtra("fight", false);
 
-        mPlaceTextView = findViewById(R.id.place);
+        mPlaceTextView = (TextView) findViewById(R.id.place);
 
-        mLeftFighterTextView = findViewById(R.id.left_fighter);
-        mRightFighterTextView = findViewById(R.id.right_fighter);
+        mLeftFighterTextView = (TextView) findViewById(R.id.left_fighter);
+        mRightFighterTextView = (TextView) findViewById(R.id.right_fighter);
 
         progressLay = findViewById(R.id.pb_lay);
 
-        mLeftScore = findViewById(R.id.left_score);
-        mRightScore = findViewById(R.id.right_score);
+        mLeftScore = (TextView) findViewById(R.id.left_score);
+        mRightScore = (TextView) findViewById(R.id.right_score);
 
-        mFightActions = findViewById(R.id.fight_result_recycler);
+        mFightActions = (RecyclerView) findViewById(R.id.fight_result_recycler);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         mFightActions.setLayoutManager(llm);
         adapter = new FightActionsAdapter(this, false);
         mFightActions.setAdapter(adapter);
 
-        mStartTimeTextView = findViewById(R.id.start_time);
-        mPureTimeTextView = findViewById(R.id.pure_time);
-        mFullTimeTextView = findViewById(R.id.full_time);
-        mNextPair = findViewById(R.id.pair);
-        mPairLay = findViewById(R.id.pair_lay);
+        mStartTimeTextView = (TextView) findViewById(R.id.start_time);
+        mPureTimeTextView = (TextView) findViewById(R.id.pure_time);
+        mFullTimeTextView = (TextView) findViewById(R.id.full_time);
+        mNextPair = (TextView) findViewById(R.id.pair);
+        mPairLay = (LinearLayout) findViewById(R.id.pair_lay);
     }
 
     @Override

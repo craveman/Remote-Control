@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/coordinator_layout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout_trainings"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <ViewStub
         android:id="@+id/viewStub"
@@ -22,6 +29,61 @@
             android:layout_margin="@dimen/activity_vertical_margin"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/fight_btn_margin"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:layout_marginBottom="6dp">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/large_margin"
+                    android:layout_marginEnd="@dimen/large_margin"
+                    android:id="@+id/btn_sync"
+                    android:background="@drawable/sync_btn"
+                    android:textColor="@color/textColorSecondary"
+                    android:text="@string/action_sync"
+                    android:textSize="@dimen/main_font_size"
+                    android:textAllCaps="false"
+                    android:visibility="gone"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:id="@+id/synced_lay"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textColorSecondary"
+                        android:text="@string/synced"
+                        android:textSize="@dimen/main_font_size"
+                        android:layout_gravity="center_horizontal"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/synced_name"
+                        android:textColor="@color/textColorSecondary"
+                        android:textSize="@dimen/main_font_size"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="@dimen/small_margin"
+                        android:layout_marginEnd="@dimen/small_margin"
+                        android:layout_marginBottom="@dimen/small_margin"/>
+                </LinearLayout>
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    android:layout_centerInParent="true"
+                    android:id="@+id/sync_progress" />
+            </RelativeLayout>
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -34,7 +96,7 @@
                     android:text="@string/left_fighter_hint"
                     android:textSize="@dimen/main_font_size" />
 
-                <ru.inspirationpoint.diaryapp.ui.view.FightersAutoCompleteTextView
+                <ru.inspirationpoint.inspirationrc.ui.view.FightersAutoCompleteTextView
                     android:id="@+id/left_fighter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -67,7 +129,7 @@
                     android:text="@string/right_fighter_hint"
                     android:textSize="@dimen/main_font_size" />
 
-                <ru.inspirationpoint.diaryapp.ui.view.FightersAutoCompleteTextView
+                <ru.inspirationpoint.inspirationrc.ui.view.FightersAutoCompleteTextView
                     android:id="@+id/right_fighter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -89,8 +151,12 @@
 
             <CheckBox
                 android:id="@+id/events_check"
-                android:layout_width="match_parent"
-                android:layout_margin="@dimen/large_margin"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:layout_marginStart="@dimen/controller_size"
+                android:paddingStart="@dimen/small_margin"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layoutDirection="rtl"
@@ -101,7 +167,7 @@
                 android:layout_width="@dimen/card_height"
                 android:layout_height="@dimen/card_height"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/fight_btn_margin"
+                android:layout_marginTop="@dimen/small_margin"
                 android:background="@drawable/button_square" />
 
             <LinearLayout
@@ -232,4 +298,35 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+    </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view_training"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_dairy"
+        app:menu="@menu/activity_dairy_drawer"
+        app:theme="@style/NavigationDrawerStyle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="14dp"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/sign_out"
+                android:textColor="@color/black"
+                android:textSize="@dimen/main_font_size" />
+        </LinearLayout>
+
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>

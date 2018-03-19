@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import ru.inspirationpoint.inspirationrc.manager.Constants;
 import ru.inspirationpoint.inspirationrc.manager.DataManager;
 import ru.inspirationpoint.inspirationrc.manager.helpers.LocaleHelper;
+import ru.inspirationpoint.inspirationrc.tcpHandle.TCPHelper;
 import ru.inspirationpoint.inspirationrc.ui.activity.LoginActivity;
 import server.Server;
 
@@ -26,6 +27,7 @@ public final class InspirationDayApplication extends Application {
     private static InspirationDayApplication mApplicationInstance = null;
     private static Typeface customFontTypeface;
     private static String STRING_DOLAR = "$";
+    private TCPHelper helper;
 
     public static InspirationDayApplication getApplication() {
         return mApplicationInstance;
@@ -41,6 +43,15 @@ public final class InspirationDayApplication extends Application {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    public TCPHelper startTCPHelper(String ip) {
+        helper = new TCPHelper(ip);
+        return helper;
+    }
+
+    public TCPHelper getHelper() {
+        return helper;
     }
 
     @Override

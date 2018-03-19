@@ -15,12 +15,14 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
 
+import ru.inspirationpoint.inspirationrc.InspirationDayApplication;
 import ru.inspirationpoint.inspirationrc.R;
 import ru.inspirationpoint.inspirationrc.manager.Constants;
 import ru.inspirationpoint.inspirationrc.manager.DataManager;
@@ -31,6 +33,9 @@ import ru.inspirationpoint.inspirationrc.manager.dataEntities.FighterData;
 import ru.inspirationpoint.inspirationrc.manager.helpers.Helper;
 import ru.inspirationpoint.inspirationrc.manager.helpers.JSONHelper;
 import ru.inspirationpoint.inspirationrc.manager.helpers.LocaleHelper;
+import ru.inspirationpoint.inspirationrc.tcpHandle.CommandHelper;
+import ru.inspirationpoint.inspirationrc.tcpHandle.TCPHelper;
+import ru.inspirationpoint.inspirationrc.tcpHandle.commands.CommandsContract;
 import ru.inspirationpoint.inspirationrc.ui.dialog.CardDialog;
 import ru.inspirationpoint.inspirationrc.ui.dialog.ChangeScoresDialog;
 import ru.inspirationpoint.inspirationrc.ui.dialog.ConfirmationDialog;
@@ -57,7 +62,8 @@ import static ru.inspirationpoint.inspirationrc.ui.activity.FightActivity.CardSt
 
 public class FightActivity extends LocalAppCompatActivity implements PriorityDialog.Listener,
         CardDialog.Listener, TimeDialog.Listener, ChangeScoresDialog.Listener,
-        ConfirmationDialog.Listener, LineDialog.Listener, PeriodDialog.Listener, MessageDialog.Listener, PhraseDialog.Listener, PhraseConfirmDialog.Listener{
+        ConfirmationDialog.Listener, LineDialog.Listener, PeriodDialog.Listener, MessageDialog.Listener,
+        PhraseDialog.Listener, PhraseConfirmDialog.Listener, TCPHelper.TCPListener{
 
     private final static long FIGHT_DURATION = 3 * 60 * 1000;
     private final static long PAUSE_DURATION = 60 * 1000;
@@ -126,6 +132,8 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
     private boolean isLeft = true;
     private ArrayList<Training> cacheTrainings;
 
+    private TCPHelper tcpHelper;
+
     private final Runnable mTickRunnable = new Runnable() {
         @Override
         public void run() {
@@ -174,6 +182,10 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
         configureToolbar();
 
         mToolbar = toolbar;
+        tcpHelper = InspirationDayApplication.getApplication().getHelper();
+        if (tcpHelper != null) {
+            tcpHelper.setListener(this);
+        }
 
         setCustomTitle(R.string.fight);
         mMainContentView = findViewById(R.id.main_content);
@@ -695,6 +707,13 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
     private void onTimerButtonClick() {
         beep(500);
         synchronized (mStateSync) {
+            if (tcpHelper != null) {
+                try {
+                    tcpHelper.send(CommandHelper.startTimer(mTimerState != TimerState.InProgress));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             goToState(mTimerState == TimerState.InProgress ? TimerState.InPause : TimerState.InProgress);
         }
     }
@@ -724,7 +743,7 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
             if (mFightData.getLeftFighter().isScoreIncreased() && mFightData.getRightFighter().getCard() == CardStatus_YellowPlus) {
                 mFightData.getRightFighter().setCard(CardStatus_Yellow);
             }
-            mFightData.getLeftFighter().toggleScore();
+            mFightData.getLeftFighter().toggleScore(true);
             if (inc && SettingsManager.getValue(Constants.IS_PHRASES_ENABLED, false)) {
                 PhraseDialog.show(this, true);
                 isLeft = true;
@@ -738,8 +757,8 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
             if (mFightData.getRightFighter().isScoreIncreased() && mFightData.getLeftFighter().getCard() == CardStatus_YellowPlus) {
                 mFightData.getLeftFighter().setCard(CardStatus_Yellow);
             }
-            mFightData.getRightFighter().toggleScore();
-            if (inc) {
+            mFightData.getRightFighter().toggleScore(false);
+            if (inc && SettingsManager.getValue(Constants.IS_PHRASES_ENABLED, false)) {
                 isLeft = false;
                 PhraseDialog.show(this, false);
             }
@@ -911,14 +930,14 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
 
                 case CardStatus_Yellow:
                     if (mFightData.getRightFighter().isScoreIncreased()) {
-                        mFightData.getRightFighter().toggleScore();
+                        mFightData.getRightFighter().toggleScore(false);
                     }
                     phraseRight = 10;
                     break;
 
                 case CardStatus_YellowPlus:
                     if (!mFightData.getRightFighter().isScoreIncreased()) {
-                        mFightData.getRightFighter().toggleScore();
+                        mFightData.getRightFighter().toggleScore(false);
                     }
                     phraseRight = 10;
                     break;
@@ -934,14 +953,14 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
 
                 case CardStatus_Yellow:
                     if (mFightData.getLeftFighter().isScoreIncreased()) {
-                        mFightData.getLeftFighter().toggleScore();
+                        mFightData.getLeftFighter().toggleScore(true);
                     }
                     phraseLeft = 10;
                     break;
 
                 case CardStatus_YellowPlus:
                     if (!mFightData.getLeftFighter().isScoreIncreased()) {
-                        mFightData.getLeftFighter().toggleScore();
+                        mFightData.getLeftFighter().toggleScore(true);
                     }
                     phraseLeft = 10;
                     break;
@@ -956,10 +975,24 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
         switch (actionPeriod) {
             case Fight:
                 mFightData.addAction(FightActionData.createSetTime(mInitDurationMS > mPureFightDuration ? mInitDurationMS - mPureFightDuration : 0, mPeriod, FIGHT_DURATION, System.currentTimeMillis()));
+                if (tcpHelper != null) {
+                    try {
+                        tcpHelper.send(CommandHelper.setTimer(FIGHT_DURATION));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
 
             case Other:
                 mFightData.addAction(FightActionData.createSetTime(mInitDurationMS > mPureFightDuration ? mInitDurationMS - mPureFightDuration : 0, mPeriod, otherDuration, System.currentTimeMillis()));
+                if (tcpHelper != null) {
+                    try {
+                        tcpHelper.send(CommandHelper.setTimer(otherDuration));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
 
             case Pause:
@@ -970,9 +1003,32 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
     }
 
     @Override
-    public void onScoreChanged(int leftScore, int rightScore) {
+    public void onScoreChanged(int leftScore, final int rightScore) {
         mFightData.getLeftFighter().setScore(leftScore);
         mFightData.getRightFighter().setScore(rightScore);
+
+        if (tcpHelper != null) {
+            tcpHelper.setListener(new TCPHelper.TCPListener() {
+                @Override
+                public void onReceive(byte[] message) {
+                    if (CommandHelper.getCommand(message) == CommandsContract.SETSCORE_TCP_CMD &&
+                            CommandHelper.getPerson(message) == CommandsContract.PERSON_TYPE_LEFT) {
+                        try {
+                            tcpHelper.send(CommandHelper.setScore(CommandsContract.PERSON_TYPE_RIGHT, rightScore));
+                            tcpHelper.setListener(FightActivity.this);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+            try {
+                tcpHelper.send(CommandHelper.setScore(CommandsContract.PERSON_TYPE_LEFT, leftScore));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
 
         update();
     }
@@ -983,6 +1039,26 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
             case FINISH_PAUSE:
                 onTimerButtonClick();
                 initTime(FightActionData.ActionPeriod.Fight, 0);
+                if (tcpHelper != null) {
+                    tcpHelper.setListener(new TCPHelper.TCPListener() {
+                        @Override
+                        public void onReceive(byte[] message) {
+                            if (CommandHelper.getCommand(message) == CommandsContract.SETTIMER_TCP_CMD) {
+                                try {
+                                    tcpHelper.send(CommandHelper.startTimer(true));
+                                    tcpHelper.setListener(FightActivity.this);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    });
+                    try {
+                        tcpHelper.send(CommandHelper.setTimer(180000));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 mFightData.addAction(FightActionData.createSetTime(mInitDurationMS > mPureFightDuration ?
                         mInitDurationMS - mPureFightDuration : 0, mPeriod, FIGHT_DURATION, System.currentTimeMillis()));
                 break;
@@ -996,8 +1072,16 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
                 break;
             case THREE_MINS_ID:
                 onDurationSet(FightActionData.ActionPeriod.Fight, 0);
+                if (tcpHelper != null) {
+                    try {
+                        tcpHelper.send(CommandHelper.setTimer(FIGHT_DURATION));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 break;
             case PAUSE_ID:
+                //TODO handle in TCP
                 onDurationSet(FightActionData.ActionPeriod.Pause, 0);
                 mFightData.addAction(FightActionData.createSetPause(mInitDurationMS > mPureFightDuration ? mInitDurationMS - mPureFightDuration : 0, mPeriod, System.currentTimeMillis()));
                 break;
@@ -1013,6 +1097,67 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
                 mFightData.getLeftFighter().setScore(0);
                 mFightData.getRightFighter().setScore(0);
                 mActionPeriod = FightActionData.ActionPeriod.Fight;
+                if (tcpHelper != null) {
+                    tcpHelper.setListener(new TCPHelper.TCPListener() {
+                        @Override
+                        public void onReceive(byte[] message) {
+                            if (CommandHelper.getCommand(message) == CommandsContract.SETPERIOD_TCP_CMD) {
+                                try {
+                                    tcpHelper.send(CommandHelper.setTimer(FIGHT_DURATION));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (CommandHelper.getCommand(message) == CommandsContract.SETTIMER_TCP_CMD) {
+                                try {
+                                    tcpHelper.send(CommandHelper.setScore(CommandsContract.PERSON_TYPE_LEFT, 0));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (CommandHelper.getCommand(message) == CommandsContract.SETSCORE_TCP_CMD &&
+                                    CommandHelper.getPerson(message) == CommandsContract.PERSON_TYPE_LEFT) {
+                                try {
+                                    tcpHelper.send(CommandHelper.setScore(CommandsContract.PERSON_TYPE_RIGHT, 0));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (CommandHelper.getCommand(message) == CommandsContract.SETSCORE_TCP_CMD &&
+                                    CommandHelper.getPerson(message) == CommandsContract.PERSON_TYPE_RIGHT) {
+                                try {
+                                    tcpHelper.send(CommandHelper.setPriority(CommandsContract.PERSON_TYPE_LEFT, false));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (CommandHelper.getCommand(message) == CommandsContract.SETPRIORITY_TCP_CMD &&
+                                    CommandHelper.getPerson(message) == CommandsContract.PERSON_TYPE_LEFT) {
+                                try {
+                                    tcpHelper.send(CommandHelper.setPriority(CommandsContract.PERSON_TYPE_RIGHT, false));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (CommandHelper.getCommand(message) == CommandsContract.SETPRIORITY_TCP_CMD &&
+                                    CommandHelper.getPerson(message) == CommandsContract.PERSON_TYPE_RIGHT) {
+                                try {
+                                    tcpHelper.send(CommandHelper.setCard(CommandsContract.PERSON_TYPE_LEFT, false));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (CommandHelper.getCommand(message) == CommandsContract.SETCARD_TCP_CMD &&
+                                    CommandHelper.getPerson(message) == CommandsContract.PERSON_TYPE_LEFT) {
+                                try {
+                                    tcpHelper.send(CommandHelper.setCard(CommandsContract.PERSON_TYPE_RIGHT, false));
+                                    tcpHelper.setListener(FightActivity.this);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    });
+                    try {
+                        tcpHelper.send(CommandHelper.setPeriod(1));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 mPeriod = 1;
                 isItFirstClick = false;
                 initTime(FightActionData.ActionPeriod.Fight, 0);
@@ -1144,6 +1289,42 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
                 mFightData.setmRightFighterData(temp);
                 mLeftFighterName.setText(mFightData.getLeftFighter().getName());
                 mRightFighterName.setText(mFightData.getRightFighter().getName());
+                if (tcpHelper != null) {
+                    tcpHelper.setListener(new TCPHelper.TCPListener() {
+                        @Override
+                        public void onReceive(byte[] message) {
+                            //TODO maybe handle another fighters data
+                            if (CommandHelper.getCommand(message) == CommandsContract.SETNAME_TCP_CMD &&
+                                    CommandHelper.getPerson(message) == CommandsContract.PERSON_TYPE_RIGHT) {
+                                try {
+                                    tcpHelper.send(CommandHelper.setName(CommandsContract.PERSON_TYPE_LEFT, mFightData.getLeftFighter().getName()));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (CommandHelper.getCommand(message) == CommandsContract.SETNAME_TCP_CMD &&
+                                    CommandHelper.getPerson(message) == CommandsContract.PERSON_TYPE_LEFT) {
+                                try {
+                                    tcpHelper.send(CommandHelper.setScore(CommandsContract.PERSON_TYPE_LEFT, mFightData.getLeftFighter().getScore()));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            } else if (CommandHelper.getCommand(message) == CommandsContract.SETSCORE_TCP_CMD &&
+                                    CommandHelper.getPerson(message) == CommandsContract.PERSON_TYPE_LEFT) {
+                                try {
+                                    tcpHelper.send(CommandHelper.setScore(CommandsContract.PERSON_TYPE_RIGHT, mFightData.getRightFighter().getScore()));
+                                    tcpHelper.setListener(FightActivity.this);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    });
+                    try {
+                        tcpHelper.send(CommandHelper.setName(CommandsContract.PERSON_TYPE_RIGHT, mFightData.getRightFighter().getName()));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
                 update();
                 break;
         }
@@ -1156,9 +1337,29 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
     }
 
     @Override
-    public void onPeriodChanged(int period) {
+    public void onPeriodChanged(final int period) {
         mPeriod = period;
         initTime(FightActionData.ActionPeriod.Fight, 0);
+        if (tcpHelper != null) {
+            tcpHelper.setListener(new TCPHelper.TCPListener() {
+                @Override
+                public void onReceive(byte[] message) {
+                    if (CommandHelper.getCommand(message) == CommandsContract.SETTIMER_TCP_CMD) {
+                        try {
+                            tcpHelper.send(CommandHelper.setPeriod(period));
+                            tcpHelper.setListener(FightActivity.this);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+            try {
+                tcpHelper.send(CommandHelper.setTimer(180000));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         mFightData.addAction(FightActionData.createSetPeriod(mInitDurationMS > mPureFightDuration ? mInitDurationMS - mPureFightDuration : 0, period, System.currentTimeMillis()));
         update();
     }
@@ -1194,22 +1395,27 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
         switch (messageId) {
             case PHRASE_SELECT:
                 if (isLeft && !mFightData.getLeftFighter().isScoreIncreased()) {
-                    mFightData.getLeftFighter().toggleScore();
+                    mFightData.getLeftFighter().toggleScore(true);
                 } else if (!isLeft && !mFightData.getRightFighter().isScoreIncreased()) {
-                    mFightData.getRightFighter().toggleScore();
+                    mFightData.getRightFighter().toggleScore(false);
                 }
                 break;
             case 11:
                 if (isLeft) {
                     phraseLeft = 0;
-                    mFightData.getLeftFighter().toggleScore();
+                    mFightData.getLeftFighter().toggleScore(true);
                 } else {
                     phraseRight = 0;
-                    mFightData.getRightFighter().toggleScore();
+                    mFightData.getRightFighter().toggleScore(false);
                 }
                 PhraseDialog.show(this, isLeft);
                 break;
         }
+    }
+
+    @Override
+    public void onReceive(byte[] message) {
+
     }
 
     private enum TimerState {

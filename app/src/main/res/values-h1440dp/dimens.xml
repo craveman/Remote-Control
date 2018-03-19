@@ -26,7 +26,7 @@
     <dimen name="small_card_height">30dp</dimen>
     <dimen name="small_card_corner">4dp</dimen>
 
-    <dimen name="fight_btn_margin">48dp</dimen>
+    <dimen name="fight_btn_margin">60dp</dimen>
 
     <dimen name="counter_width_seconds">138dp</dimen>
     <dimen name="counter_width_santiseconds">196dp</dimen>

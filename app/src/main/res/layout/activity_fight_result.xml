@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.inspirationpoint.diaryapp.ui.activity.DiaryActivity">
+    tools:context="ru.inspirationpoint.inspirationrc.ui.activity.FightResultActivity">
 
     <ViewStub
         android:id="@+id/viewStub"
