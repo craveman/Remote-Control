@@ -925,12 +925,34 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
             mFightData.getLeftFighter().setCard(leftFighter);
             switch (leftFighter) {
                 case CardStatus_None:
+                    if (tcpHelper != null) {
+                        try {
+                            tcpHelper.send(CommandHelper.setCard(CommandsContract.PERSON_TYPE_LEFT, false));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 case CardStatus_NonePlus:
+                    if (tcpHelper != null) {
+                        try {
+                            tcpHelper.send(CommandHelper.setCard(CommandsContract.PERSON_TYPE_LEFT, true));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     break;
 
                 case CardStatus_Yellow:
                     if (mFightData.getRightFighter().isScoreIncreased()) {
                         mFightData.getRightFighter().toggleScore(false);
+                    }
+                    //TODO handle red cards on tcp
+                    if (tcpHelper != null) {
+                        try {
+                            tcpHelper.send(CommandHelper.setCard(CommandsContract.PERSON_TYPE_LEFT, true));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                     phraseRight = 10;
                     break;
@@ -938,6 +960,13 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
                 case CardStatus_YellowPlus:
                     if (!mFightData.getRightFighter().isScoreIncreased()) {
                         mFightData.getRightFighter().toggleScore(false);
+                    }
+                    if (tcpHelper != null) {
+                        try {
+                            tcpHelper.send(CommandHelper.setCard(CommandsContract.PERSON_TYPE_LEFT, true));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                     phraseRight = 10;
                     break;
@@ -948,12 +977,33 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
             mFightData.getRightFighter().setCard(rightFighter);
             switch (rightFighter) {
                 case CardStatus_None:
+                    if (tcpHelper != null) {
+                        try {
+                            tcpHelper.send(CommandHelper.setCard(CommandsContract.PERSON_TYPE_RIGHT, false));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 case CardStatus_NonePlus:
+                    if (tcpHelper != null) {
+                        try {
+                            tcpHelper.send(CommandHelper.setCard(CommandsContract.PERSON_TYPE_RIGHT, true));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     break;
 
                 case CardStatus_Yellow:
                     if (mFightData.getLeftFighter().isScoreIncreased()) {
                         mFightData.getLeftFighter().toggleScore(true);
+                    }
+                    if (tcpHelper != null) {
+                        try {
+                            tcpHelper.send(CommandHelper.setCard(CommandsContract.PERSON_TYPE_RIGHT, true));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                     phraseLeft = 10;
                     break;
@@ -961,6 +1011,13 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
                 case CardStatus_YellowPlus:
                     if (!mFightData.getLeftFighter().isScoreIncreased()) {
                         mFightData.getLeftFighter().toggleScore(true);
+                    }
+                    if (tcpHelper != null) {
+                        try {
+                            tcpHelper.send(CommandHelper.setCard(CommandsContract.PERSON_TYPE_RIGHT, true));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                     phraseLeft = 10;
                     break;
@@ -1063,12 +1120,12 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
                         mInitDurationMS - mPureFightDuration : 0, mPeriod, FIGHT_DURATION, System.currentTimeMillis()));
                 break;
             case EXIT_MESSAGE_ID:
-                //TODO !!!!!
+                //TODO  handle on TCP reset
 //                mFightData.setmEndTime(System.currentTimeMillis());
-//                SettingsManager.setValue(Constants.CURRENT_PAIR, 21);
-//                Intent intent = new Intent(FightActivity.this, TrainingListActivity.class);
-//                startActivity(intent);
-//                finish();
+                SettingsManager.setValue(Constants.CURRENT_PAIR, 21);
+                Intent intent = new Intent(FightActivity.this, NewFightActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             case THREE_MINS_ID:
                 onDurationSet(FightActionData.ActionPeriod.Fight, 0);
@@ -1179,7 +1236,6 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
                     FightActionData actionData = mFightData.getAction(i);
                     fight.actions[i] = new FightAction();
                     fight.actions[i].type = actionData.getStringActionType();
-                    Log.d("IN FIGHT", actionData.getStringActionType());
                     fight.actions[i].timestamp = actionData.getTime();
                     fight.actions[i].fighter = actionData.getStringFighter();
                     fight.actions[i].period = String.valueOf(actionData.getFightPeriod());
@@ -1212,28 +1268,6 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
                 Log.d("FIGHT", statArrayList.size() + statArrayList.get(0).name);
                 JSONHelper.exportToJSON(this, statArrayList);
 
-//                cacheTrainings = (ArrayList<Training>) JSONHelper.importFromJSON(FightActivity.this, JSONHelper.ItemClass.Training);
-//                if (cacheTrainings == null) {
-//                    cacheTrainings = new ArrayList<>();
-//                }
-//                boolean isExist = false;
-//                if (cacheTrainings.size() != 0) {
-//                    for (Training training : cacheTrainings) {
-//                        if (training.date.equals(fight.date) && training.address.equals(fight.address)) {
-//                            training.fightsCount = training.fightsCount + 1;
-//                            isExist = true;
-//                        }
-//                    }
-//                }
-//                if (!isExist) {
-//                    Training training = new Training();
-//                    training.date = fight.date;
-//                    training.address = fight.address;
-//                    training.fightsCount = 1;
-//                    cacheTrainings.add(training);
-//                }
-//                JSONHelper.exportToJSON(FightActivity.this, cacheTrainings);
-
                 SettingsManager.setValue(Constants.IS_PHRASES_ENABLED, true);
 
                 DataManager.instance().saveFight(fight, new DataManager.RequestListener<SaveFightResult>() {
@@ -1258,17 +1292,6 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
                         if (dataList == null) {
                             dataList = new ArrayList<>();
                         }
-                        if (dataList.size() >= 100) {
-                            for (int i = 0; i < dataList.size() - 99; i++) {
-                                FightInput input = dataList.get(i);
-                                for (Training training : cacheTrainings) {
-                                    if (training.date.equals(input.date) && training.address.equals(input.address)) {
-                                        training.fightsCount --;
-                                    }
-                                }
-                                dataList.remove(input);
-                            }
-                        }
                         dataList.add(fight);
                         JSONHelper.exportToJSON(FightActivity.this, dataList);
                         Intent intent = new Intent(FightActivity.this, FightResultActivity.class);
@@ -1282,6 +1305,7 @@ public class FightActivity extends LocalAppCompatActivity implements PriorityDia
                         showProgress(inProgress);
                     }
                 });
+                //TODO TCP handle
                 break;
             case SWAP_ID:
                 FighterData temp = mFightData.getLeftFighter();

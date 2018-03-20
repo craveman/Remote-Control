@@ -195,8 +195,9 @@ public class FightResultActivity extends LocalAppCompatActivity {
             int currentPairNum = SettingsManager.getValue(Constants.CURRENT_PAIR, 21);
             if (currentPairNum == 21) {
                 //TODO !!!!!!
-//                Intent intent = new Intent(FightResultActivity.this, TrainingListActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(FightResultActivity.this, NewFightActivity.class);
+                startActivity(intent);
+                finish();
             } else if (currentPairNum == 20) {
 //                ArrayList<GroupResult> results = (ArrayList<GroupResult>) JSONHelper.importFromJSON(this, JSONHelper.ItemClass.GroupResult);
 //                if (results == null) {
