@@ -1,6 +1,0 @@
-{
-  "PLATFORM": "android",
-  "OUTPUT": "src/main/java/server",
-  "SERVER_ADDRESS": "diary-public.q-s.pw",
-  "SERVER_PORT": 80
-}

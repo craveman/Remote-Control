@@ -1,1 +1,0 @@
-package server.exceptions;import android.content.Context;public class SslRequiredException extends NetworkException {    private static final long serialVersionUID = 1188L;    public SslRequiredException(Context context) {        super(context, "ssl_required", "SSL is required for this call.");    }}

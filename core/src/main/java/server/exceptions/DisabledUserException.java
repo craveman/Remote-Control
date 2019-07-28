@@ -1,1 +1,0 @@
-package server.exceptions;import android.content.Context;public class DisabledUserException extends NetworkException {    private static final long serialVersionUID = 1191L;    public DisabledUserException(Context context) {        super(context, "disabled_user", "User is disabled");    }}

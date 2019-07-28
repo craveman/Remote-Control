@@ -1,1 +1,0 @@
-package server.exceptions;import android.content.Context;public class InvalidParameterException extends NetworkException {    private static final long serialVersionUID = 1187L;    public InvalidParameterException(Context context) {        super(context, "invalid_parameter", "Parameter unknown, missed or has invalid value.");    }}
