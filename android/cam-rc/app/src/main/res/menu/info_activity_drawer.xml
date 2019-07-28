@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:id="@+id/group_message">
+        <item
+            android:id="@+id/messages"
+            android:title="@string/nav_messages"
+            android:visible="false"/>
+    </group>
+    <group android:id="@+id/group_profile">
+        <item
+            android:id="@+id/profile"
+            android:title="@string/profile"
+            android:visible="false"/>
+    </group>
+    <group android:id="@+id/group_settings">
+        <item
+            android:id="@+id/settings"
+            android:title="@string/settings"
+            android:visible="false"/>
+    </group>
+
+    <group android:id="@+id/group_about">
+        <item
+            android:id="@+id/about_app"
+            android:title="@string/about_app" />
+    </group>
+
+    <group android:id="@+id/group_t">
+        <item
+            android:id="@+id/t_app"
+            android:title="" />
+    </group>
+
+    <group android:id="@+id/group_diary">
+        <item
+            android:id="@+id/diary"
+            android:title="@string/my_diary" />
+    </group>
+
+    <group android:id="@+id/group_other">
+        <item
+            android:id="@+id/holder_0"
+            android:title=""
+            />
+        <item
+            android:id="@+id/holder_1"
+            android:title=""
+            />
+        <item
+            android:id="@+id/holder_2"
+            android:title=""
+            />
+        <item
+            android:id="@+id/nav_item_lang"
+            android:title="@string/ru_language"
+            />
+    </group>
+
+</menu>

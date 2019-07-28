@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/selected_cam"
+        android:textColor="@color/textColorSecondary"
+        android:textSize="@dimen/large_font_size"
+        android:layout_margin="@dimen/small_margin"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/small_margin">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:layout_weight="9"
+                android:textSize="@dimen/large_font_size"
+                android:layout_gravity="center_vertical"
+                android:text="@string/video_translation"/>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/btn_target_change"
+                android:layout_weight="5">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_target"
+                    android:textSize="@dimen/large_font_size"
+                    android:textColor="@color/textColorSecondary"/>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/small_margin">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:textSize="@dimen/large_font_size"
+                android:layout_gravity="center_vertical"
+                android:text="@string/save_video"/>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/btn_store_change"
+                android:layout_weight="2">
+
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/store_switch"
+                    android:textOn="@string/yes"
+                    android:textOff="@string/no"
+                    android:textSize="@dimen/large_font_size"
+                    android:textColor="@color/textColorSecondary"
+                    android:layout_centerInParent="true"/>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/small_margin">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/large_font_size"
+                android:layout_gravity="center_vertical"
+                android:text="@string/replays_by"/>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="166dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_by_time"
+                    android:text="@string/by_time_stop"
+                    android:textSize="@dimen/large_font_size"
+                    android:textAlignment="center"
+                    android:textColor="@color/textColorSecondary"
+                    android:layout_toStartOf="@id/event_switch"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/event_switch"
+                    android:textColor="@color/textColorSecondary"
+                    android:layout_centerInParent="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_by_flags"
+                    android:layout_toEndOf="@id/event_switch"
+                    android:text="@string/by_flags"
+                    android:textColor="@color/textColorSecondary"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/large_font_size" />
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin"
+        android:id="@+id/btn_done">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/textColorSecondary"
+            android:textSize="@dimen/large_font_size"
+            android:text="@string/done"
+            android:layout_centerInParent="true"
+            android:padding="@dimen/small_margin"/>
+    </RelativeLayout>
+
+</LinearLayout>

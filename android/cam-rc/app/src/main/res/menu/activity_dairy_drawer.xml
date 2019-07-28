@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:id="@+id/group_mode_rc">
+        <item
+            android:id="@+id/mode_rc"
+            android:title="@string/new_fight">
+        </item>
+    </group>
+    <group android:id="@+id/group_rc_inner">
+        <item
+            android:id="@+id/foil"
+            android:title="@string/type_rapier"
+            />
+        <item
+            android:id="@+id/epee"
+            android:title="@string/type_epee"
+            />
+        <item
+            android:id="@+id/saber"
+            android:title="@string/type_saber"
+            />
+        <item
+            android:id="@+id/off"
+            android:title="@string/off"
+            />
+    </group>
+    <group android:id="@+id/group_mode_cam">
+        <item
+            android:id="@+id/mode_camera"
+            android:title="@string/mode_camera"
+            />
+    </group>
+    <group android:id="@+id/group_mode_diary">
+        <item
+            android:id="@+id/mode_diary"
+            android:title="@string/my_diary">
+        </item>
+    </group>
+    <group android:id="@+id/group_diary_inner">
+        <item
+            android:id="@+id/messages"
+            android:title="@string/nav_messages" />
+
+        <item
+            android:id="@+id/profile"
+            android:title="@string/profile"
+            />
+    </group>
+    <group android:id="@+id/group_mode_rr">
+        <item
+            android:id="@+id/reserve_ref"
+            android:title="@string/reserve_referee"
+            />
+    </group>
+
+    <group android:id="@+id/group_navigation">
+        <item
+            android:id="@+id/settings"
+            android:title="@string/settings" />
+        <item
+            android:id="@+id/about_app"
+            android:title="@string/about_app" />
+    </group>
+
+</menu>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ru.inspirationpoint.inspirationrc.rc.ui.activity.FightActivityVM" />
+        <import type="android.view.View" alias="v"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/timer_content"
+        android:onClick="@{() -> viewModel.onTimerStopClick()}"
+        android:background="@color/colorPrimaryDark"
+        >
+
+        <android.support.constraint.Guideline
+            android:id="@+id/timer_main_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".15" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/timer_main_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".85" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/timer_main_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".30" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/medical_text_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".18" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/medical_text_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".25" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/timer_main_content"
+            android:background="@drawable/big_btn_border"
+            app:layout_constraintTop_toTopOf="@id/timer_main_top"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintStart_toStartOf="@id/timer_main_left"
+            app:layout_constraintEnd_toEndOf="@id/timer_main_right">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="140dp"
+                android:text="@{viewModel.timeToDisplay}"
+                android:id="@+id/tv_timer_main"
+                android:layout_centerVertical="true"
+                android:textColor="@{viewModel.timerMode == viewModel.TIMER_MODE_MAIN ? @color/white : (viewModel.timerMode == viewModel.TIMER_MODE_PAUSE ? @color/yellowCard : @color/redCard)}"
+                android:textAlignment="center"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/fa_timeout"
+                android:id="@+id/pause_main_text"
+                android:layout_centerVertical="true"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:layout_above="@id/tv_timer_main"
+                android:visibility="@{viewModel.timerState == viewModel.TIMER_MODE_PAUSE ? v.VISIBLE:v.GONE}"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"/>
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/fa_medical_pause"
+            android:id="@+id/medical_main_text"
+            android:layout_centerVertical="true"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:layout_above="@id/timer_main_content"
+            android:visibility="@{viewModel.timerState == viewModel.TIMER_MODE_MEDICINE ? v.VISIBLE:v.GONE}"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintTop_toTopOf="@id/medical_text_top"
+            app:layout_constraintBottom_toBottomOf="@id/medical_text_bottom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

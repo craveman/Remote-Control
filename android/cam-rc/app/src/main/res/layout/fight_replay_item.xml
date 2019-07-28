@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_timestamp"
+        android:textSize="@dimen/large_font_size"
+        android:layout_margin="@dimen/large_margin"/>
+
+    <ImageView
+        android:layout_width="@dimen/card_width"
+        android:layout_height="@dimen/card_width"
+        android:src="@drawable/video_button"
+        android:layout_toEndOf="@id/tv_timestamp"
+        android:layout_centerVertical="true"/>
+
+</RelativeLayout>

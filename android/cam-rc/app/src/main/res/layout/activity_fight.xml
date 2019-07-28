@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:keepScreenOn="true">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ru.inspirationpoint.inspirationrc.rc.ui.activity.FightActivityVM" />
+        <import type="android.view.View" alias="v"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark">
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_sync_lay"
+            android:id="@+id/sync_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_SYNC_LAY ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_p_cards_lay"
+            android:id="@+id/p_cards_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_P_CARDS_LAY ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_cards_lay"
+            android:id="@+id/cards_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_CARDS_LAY ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_passive_lay"
+            android:id="@+id/passive_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_PASSIVE_LAY ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_priority_lay"
+            android:id="@+id/priority_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_PRIORITY_LAY ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_score_lay"
+            android:id="@+id/score_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_SCORE_LAY ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_timer_lay"
+            android:id="@+id/timer_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_TIMER_LAY ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_menu_cards_priority_lay"
+            android:id="@+id/menu_cards_priority_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_MENU_CARDS_PRIO ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_menu_settings"
+            android:id="@+id/menu_settings"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_MENU_SETTINGS ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_menu_fight_actions"
+            android:id="@+id/menu_fight_actions"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_MENU_FIGHT_ACTIONS ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_period_lay"
+            android:id="@+id/period_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_PERIOD_LAY ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_weapon_lay"
+            android:id="@+id/weapon_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_WEAPON_LAY ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_def_time_lay"
+            android:id="@+id/def_time_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_DEF_TIME_LAY ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_names_lay"
+            android:id="@+id/names_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_NAMES_LAY ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_waiting_lay"
+            android:id="@+id/waiting_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_STATE_WAITING ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_video_lay"
+            android:id="@+id/video_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_STATE_VIDEO ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_compet_set_lay"
+            android:id="@+id/compet_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_COMPETITION_LAY ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_menu_options"
+            android:id="@+id/options_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_STATE_OPTIONS ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_player_lay"
+            android:id="@+id/player_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_REPLAYS_LAY ? v.VISIBLE:v.GONE }"
+            />
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/main_lay"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_MAIN ? v.VISIBLE:v.GONE }">
+
+            <android.support.constraint.Guideline
+                android:id="@+id/title_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".015" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/title_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".07" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/title_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".15" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/title_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".85" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/menu_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".93" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/divider_1_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent=".085" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:text="@string/settings"
+                android:textColor="@color/white"
+                android:id="@+id/title_main"
+                android:textAlignment="center"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:onClick="@{() -> viewModel.onSettingsBtn()}"
+                android:visibility="@{viewModel.timerState == viewModel.TIMER_STATE_IN_PROGRESS ? v.GONE : v.VISIBLE}"
+                app:autoSizeMaxTextSize="100sp"
+                app:autoSizeMinTextSize="12sp"
+                app:autoSizeStepGranularity="2sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintTop_toTopOf="@id/title_top"
+                app:layout_constraintBottom_toBottomOf="@id/title_bottom"
+                app:layout_constraintStart_toStartOf="@id/title_left"
+                app:layout_constraintEnd_toEndOf="@id/title_right"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:id="@+id/divider_top"
+                android:background="@color/white"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="40dp"
+                app:layout_constraintTop_toTopOf="@id/divider_1_top" />
+
+            <include
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                layout="@layout/incl_timer_main_content"
+                android:id="@+id/timer_main_content"
+                app:viewModel="@{viewModel}"
+                app:layout_constraintTop_toTopOf="@id/divider_1_top"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="@{viewModel.timerState == viewModel.TIMER_STATE_IN_PROGRESS ? v.VISIBLE:v.GONE }"
+                />
+
+            <include
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                layout="@layout/incl_main_content"
+                android:id="@+id/main_content"
+                app:viewModel="@{viewModel}"
+                android:layout_marginTop="6dp"
+                app:layout_constraintTop_toTopOf="@id/divider_1_top"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="@{viewModel.timerState != viewModel.TIMER_STATE_IN_PROGRESS ? v.VISIBLE:v.GONE }"
+                />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </RelativeLayout>
+
+</layout>

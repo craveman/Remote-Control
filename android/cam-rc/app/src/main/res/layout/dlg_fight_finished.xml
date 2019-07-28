@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/textColorSecondary"
+        android:textSize="22sp"
+        android:id="@+id/semi_title"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/semi_1_0"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:textColor="@color/white"
+        android:text="@string/fight_end_accept"
+        android:layout_marginTop="16dp"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:layout_gravity="center_horizontal"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:textSize="23sp"
+            android:id="@+id/fight_end_prev"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/next"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:textSize="23sp"
+            android:id="@+id/fight_end_next"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
+        android:visibility="gone"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/white"
+        android:text="@string/semi_exit_ask"
+        android:textAlignment="center"
+        android:layout_marginTop="28dp"
+        android:id="@+id/fight_end_exit_semi"
+        android:layout_gravity="center_horizontal"/>
+
+
+</LinearLayout>
