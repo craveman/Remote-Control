@@ -1,0 +1,1 @@
+package ru.inspirationpoint.remotecontrol.internalServer.exceptions;import android.content.Context;public class WeakPasswordException extends NetworkException {    private static final long serialVersionUID = 1195L;    public WeakPasswordException(Context context) {        super(context, "weak_password", "Password too short.");    }}

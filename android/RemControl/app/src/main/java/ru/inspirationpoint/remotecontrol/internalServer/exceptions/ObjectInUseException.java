@@ -1,0 +1,1 @@
+package ru.inspirationpoint.remotecontrol.internalServer.exceptions;import android.content.Context;public class ObjectInUseException extends NetworkException {    private static final long serialVersionUID = 1192L;    public ObjectInUseException(Context context) {        super(context, "object_in_use", "Object is used and cannot be deleted or moved.");    }}

@@ -1,0 +1,1 @@
+package ru.inspirationpoint.remotecontrol.internalServer.exceptions;import android.content.Context;public class AlreadyExistsException extends NetworkException {    private static final long serialVersionUID = 1190L;    public AlreadyExistsException(Context context) {        super(context, "already_exists", "Item already exists.");    }}

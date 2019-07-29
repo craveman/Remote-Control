@@ -1,0 +1,1 @@
+package ru.inspirationpoint.remotecontrol.internalServer.exceptions;import android.content.Context;public class InternalException extends NetworkException {    private static final long serialVersionUID = 1186L;    public InternalException(Context context) {        super(context, "internal", "Internal server error occurred.");    }}

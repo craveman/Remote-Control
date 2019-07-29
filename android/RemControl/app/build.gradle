@@ -1,0 +1,84 @@
+apply plugin: 'com.android.application'
+
+configurations {
+    cleanedAnnotations
+    compile.exclude group: 'org.jetbrains', module: 'annotations'
+}
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "ru.inspirationpoint.inspirationrc"
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 32
+        versionName "1.19"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def date = new Date()
+                    def version = "_v1_19"
+                    def formattedDate = date.format('yyyyMMdd')
+                    def newName = "IP_RC-release" + formattedDate + version + ".apk"
+                    outputFileName = newName
+                }
+            }
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def date = new Date()
+                    def version = "_v1_19"
+                    def formattedDate = date.format('yyyyMMdd')
+                    def newName = "IP_RC-debug" + formattedDate + version + ".apk"
+                    outputFileName = newName
+                }
+            }
+        }
+    }
+    productFlavors {
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding.enabled = true
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:support-vector-drawable:27.1.1'
+    implementation 'com.shawnlin:number-picker:2.4.4'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.yalantis:contextmenu:1.0.7'
+    implementation 'com.prolificinteractive:material-calendarview:1.4.3'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.github.stfalcon:androidmvvmhelper:0.4'
+    implementation 'org.jetbrains:annotations-java5:15.0'
+    implementation 'commons-net:commons-net:3.6'
+    implementation 'com.googlecode.mp4parser:isoparser:1.1.21'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.squareup.okio:okio:2.1.0'
+    implementation 'com.jjoe64:graphview:4.2.1'
+    implementation 'com.github.rtoshiro.fullscreenvideoview:fullscreenvideoview:1.1.2'
+    implementation 'com.budiyev.android:code-scanner:2.1.0'
+    implementation 'com.github.felHR85:UsbSerial:6.0.3'
+}

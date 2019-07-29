@@ -1,1 +1,0 @@
-package server.exceptions;import android.content.Context;public class InvalidSessionException extends NetworkException {    private static final long serialVersionUID = 1194L;    public InvalidSessionException(Context context) {        super(context, "invalid_session", "Session is unknown or expired.");    }}
