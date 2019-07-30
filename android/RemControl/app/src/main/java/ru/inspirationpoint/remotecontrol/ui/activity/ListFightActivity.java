@@ -11,14 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightData;
-import ru.inspirationpoint.inspirationrc.rc.manager.helpers.JSONHelper;
-import ru.inspirationpoint.inspirationrc.rc.ui.DividerItemDecoration;
-import ru.inspirationpoint.inspirationrc.rc.ui.adapter.FightListAdapter;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
+import ru.inspirationpoint.remotecontrol.ui.DividerItemDecoration;
+import ru.inspirationpoint.remotecontrol.ui.adapter.FightListAdapter;
 
 public class ListFightActivity extends LocalAppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 

@@ -28,7 +28,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 
-import ru.inspirationpoint.inspirationrc.rc.ui.activity.LoginActivity;
+import ru.inspirationpoint.remotecontrol.ui.activity.LoginActivity;
 
 import static android.hardware.usb.UsbManager.ACTION_USB_ACCESSORY_ATTACHED;
 import static android.hardware.usb.UsbManager.ACTION_USB_DEVICE_ATTACHED;

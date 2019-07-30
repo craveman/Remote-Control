@@ -8,11 +8,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
-import ru.inspirationpoint.inspirationrc.InspirationDayApplication;
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.manager.helpers.LocaleHelper;
+import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.helpers.LocaleHelper;
 
 public class SettingsActivity extends LocalAppCompatActivity {
 

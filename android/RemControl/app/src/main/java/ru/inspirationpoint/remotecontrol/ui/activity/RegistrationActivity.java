@@ -11,13 +11,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.manager.helpers.Helper;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.MessageDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.WeaponChooseDialog;
-import server.schemas.responses.RegisterResult;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.helpers.Helper;
+import ru.inspirationpoint.remotecontrol.ui.dialog.MessageDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.WeaponChooseDialog;
 
 public class RegistrationActivity extends LocalAppCompatActivity implements MessageDialog.Listener, WeaponChooseDialog.Listener {
 

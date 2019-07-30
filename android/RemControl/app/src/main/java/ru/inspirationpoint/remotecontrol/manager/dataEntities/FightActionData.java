@@ -2,8 +2,8 @@ package ru.inspirationpoint.remotecontrol.manager.dataEntities;
 
 import java.io.Serializable;
 
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
 
 public class FightActionData implements Cloneable, Serializable {
     private static final String FIGHTER_NONE = "none";

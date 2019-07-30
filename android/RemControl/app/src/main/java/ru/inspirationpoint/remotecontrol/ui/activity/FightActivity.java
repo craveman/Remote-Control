@@ -19,9 +19,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.BR;
-
 import com.stfalcon.androidmvvmhelper.mvvm.activities.BindingActivity;
 
 import java.text.SimpleDateFormat;
@@ -29,28 +26,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import ru.inspirationpoint.inspirationrc.camera.utils.PermissionHelper;
-import ru.inspirationpoint.inspirationrc.databinding.ActivityFightBinding;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.EthernetFinishAskCommand;
-import ru.inspirationpoint.inspirationrc.manager.helpers.Helper;
-import ru.inspirationpoint.inspirationrc.manager.helpers.LocaleHelper;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightData;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FighterData;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FullFightInfo;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.ConfirmationDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.FightApplyDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.FightCantEndDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.FightFinishAskDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.FightFinishedDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.FightRestoreDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.PhraseDialog;
-import server.schemas.responses.SaveFightResult;
+import ru.inspirationpoint.remotecontrol.BR;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.databinding.ActivityFightBinding;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FullFightInfo;
+import ru.inspirationpoint.remotecontrol.manager.helpers.LocaleHelper;
+import ru.inspirationpoint.remotecontrol.ui.dialog.ConfirmationDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.FightApplyDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.FightFinishAskDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.FightFinishedDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.FightRestoreDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.PhraseDialog;
 
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.LAST_FIGHT_ID;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.UNFINISHED_FIGHT;
-import static ru.inspirationpoint.inspirationrc.rc.ui.activity.FightActivityVM.PERSON_TYPE_NONE;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UNFINISHED_FIGHT;
 
 
 public class FightActivity extends BindingActivity<ActivityFightBinding, FightActivityVM> implements

@@ -8,7 +8,7 @@ import android.util.Log;
 import java.util.Objects;
 
 import static android.hardware.usb.UsbManager.ACTION_USB_DEVICE_DETACHED;
-import static ru.inspirationpoint.inspirationrc.manager.usb.UsbService.ACTION_USB_READY;
+import static ru.inspirationpoint.remotecontrol.manager.usb.UsbService.ACTION_USB_READY;
 
 public class UsbBroadcastReceiver extends BroadcastReceiver {
 

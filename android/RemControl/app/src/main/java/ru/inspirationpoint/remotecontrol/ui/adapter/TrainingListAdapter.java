@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import java.util.Date;
 
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.manager.helpers.Helper;
-import server.schemas.responses.Training;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.Training;
+import ru.inspirationpoint.remotecontrol.manager.helpers.Helper;
 
 public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapter.OrdersViewHolder> {
 

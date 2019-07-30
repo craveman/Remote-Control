@@ -12,11 +12,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightData;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FullFightInfo;
-import server.schemas.requests.FightInput;
-import server.schemas.responses.FightOutput;
-import server.schemas.responses.FighterStat;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.requests.FightInput;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.FightOutput;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.FighterStat;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FullFightInfo;
 
 public class JSONHelper {
 

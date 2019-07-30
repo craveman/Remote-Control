@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import ru.inspirationpoint.inspirationrc.R;
+import ru.inspirationpoint.remotecontrol.R;
 
 public class FightCantEndDialog extends DialogFragment {
 

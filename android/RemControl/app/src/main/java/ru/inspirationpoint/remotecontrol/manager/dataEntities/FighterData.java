@@ -2,12 +2,12 @@ package ru.inspirationpoint.remotecontrol.manager.dataEntities;
 
 import java.io.Serializable;
 
-import ru.inspirationpoint.inspirationrc.InspirationDayApplication;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.tcpHandle.CommandHelper;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract;
+import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract;
+import ru.inspirationpoint.remotecontrol.manager.tcpHandle.CommandHelper;
 
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.CardStatus.CardStatus_None;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.CardStatus.CardStatus_None;
 
 
 public class FighterData implements Cloneable, Serializable {

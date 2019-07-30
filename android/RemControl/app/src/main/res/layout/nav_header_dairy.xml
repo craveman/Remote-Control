@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="ru.inspirationpoint.inspirationrc.rc.ui.NavHeaderVM" />
+            type="ru.inspirationpoint.remotecontrol.ui.NavHeaderVM" />
         <import type="android.view.View" alias="v"/>
     </data>
 

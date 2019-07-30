@@ -11,13 +11,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Set;
 
-import ru.inspirationpoint.inspirationrc.InspirationDayApplication;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.CardStatus;
-import ru.inspirationpoint.inspirationrc.rc.manager.ActionUploadCallback;
-import ru.inspirationpoint.inspirationrc.rc.manager.Camera;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightActionData.ActionType;
-
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.UDPCommands.SEND_TO_CLOUD;
+import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
+import ru.inspirationpoint.remotecontrol.manager.ActionUploadCallback;
+import ru.inspirationpoint.remotecontrol.manager.Camera;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
 
 public class FightData implements Cloneable, Serializable {
 
@@ -220,12 +217,12 @@ public class FightData implements Cloneable, Serializable {
             }
         }
         mActionsList.add(action);
-        if (action.getActionType() == ActionType.RedCardLeft ||
-                action.getActionType() == ActionType.RedCardRight ||
-                action.getActionType() == ActionType.YellowCardLeft ||
-                action.getActionType() == ActionType.YellowCardRight ||
-                action.getActionType() == ActionType.SetScoreLeft ||
-                action.getActionType() == ActionType.SetScoreRight) {
+        if (action.getActionType() == FightActionData.ActionType.RedCardLeft ||
+                action.getActionType() == FightActionData.ActionType.RedCardRight ||
+                action.getActionType() == FightActionData.ActionType.YellowCardLeft ||
+                action.getActionType() == FightActionData.ActionType.YellowCardRight ||
+                action.getActionType() == FightActionData.ActionType.SetScoreLeft ||
+                action.getActionType() == FightActionData.ActionType.SetScoreRight) {
             new Thread(() -> {
                 for (Camera camera : InspirationDayApplication.getApplication().getCameras()) {
 //                    try {
@@ -247,10 +244,10 @@ public class FightData implements Cloneable, Serializable {
                 setmCurrentPeriod(action.getFightPeriod());
                 break;
             case RedCardLeft:
-                getLeftFighter().setCard(CardStatus.CardStatus_Red);
+                getLeftFighter().setCard(CommonConstants.CardStatus.CardStatus_Red);
                 break;
             case RedCardRight:
-                getRightFighter().setCard(CardStatus.CardStatus_Red);
+                getRightFighter().setCard(CommonConstants.CardStatus.CardStatus_Red);
                 break;
             case SetScoreLeft:
                 getLeftFighter().setScore(action.getScore());
@@ -259,10 +256,10 @@ public class FightData implements Cloneable, Serializable {
                 getRightFighter().setScore(action.getScore());
                 break;
             case YellowCardLeft:
-                getLeftFighter().setCard(CardStatus.CardStatus_Yellow);
+                getLeftFighter().setCard(CommonConstants.CardStatus.CardStatus_Yellow);
                 break;
             case YellowCardRight:
-                getRightFighter().setCard(CardStatus.CardStatus_Yellow);
+                getRightFighter().setCard(CommonConstants.CardStatus.CardStatus_Yellow);
                 break;
         }
 //        DataManager.instance().saveFightAction(action.getFightAction(), new DataManager.RequestListener<SaveFightActionResult>() {

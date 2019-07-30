@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.FILE_TRANSFER_START;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.FILE_TRANSFER_START;
 
 public class ClientRxThread extends Thread {
     private String dstAddress;

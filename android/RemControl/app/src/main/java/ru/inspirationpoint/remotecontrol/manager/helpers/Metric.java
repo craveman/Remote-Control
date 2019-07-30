@@ -3,7 +3,7 @@ package ru.inspirationpoint.remotecontrol.manager.helpers;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightActionData;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightActionData;
 
 public class Metric implements Serializable{
 

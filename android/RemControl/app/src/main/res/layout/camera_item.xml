@@ -6,7 +6,7 @@
 
         <variable
             name="camera"
-            type="ru.inspirationpoint.inspirationrc.manager.coreObjects.Device" />
+            type="ru.inspirationpoint.remotecontrol.manager.coreObjects.Device" />
     </data>
 
     <LinearLayout

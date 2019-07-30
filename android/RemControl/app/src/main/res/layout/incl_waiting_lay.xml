@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="ru.inspirationpoint.inspirationrc.rc.ui.activity.FightActivityVM" />
+            type="ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM" />
     </data>
 <LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"

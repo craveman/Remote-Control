@@ -7,8 +7,6 @@ import android.widget.TextView;
 
 import java.util.Date;
 
-import ru.inspirationpoint.inspirationrc.manager.helpers.Helper;
-
 public class ClockRefreshHelper {
 
     private Handler h = null;

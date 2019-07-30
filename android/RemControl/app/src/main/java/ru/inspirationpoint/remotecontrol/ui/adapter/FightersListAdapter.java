@@ -8,8 +8,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import ru.inspirationpoint.inspirationrc.R;
-import server.schemas.responses.ListUser;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.ListUser;
+
 
 public class FightersListAdapter extends RecyclerView.Adapter<FightersListAdapter.FightersListViewHolder> {
 

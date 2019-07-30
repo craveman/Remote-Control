@@ -28,30 +28,26 @@ import com.stfalcon.androidmvvmhelper.mvvm.activities.BindingActivity;
 import java.io.IOException;
 import java.util.Locale;
 
-import ru.inspirationpoint.inspirationrc.BR;
-import ru.inspirationpoint.inspirationrc.InspirationDayApplication;
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.camera.utils.PermissionHelper;
-import ru.inspirationpoint.inspirationrc.databinding.ActivityNewFightBinding;
-import ru.inspirationpoint.inspirationrc.databinding.NavHeaderDairyBinding;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.manager.coreObjects.Device;
-import ru.inspirationpoint.inspirationrc.manager.helpers.LocaleHelper;
-import ru.inspirationpoint.inspirationrc.rc.manager.Camera;
-import ru.inspirationpoint.inspirationrc.rc.manager.Referee;
-import ru.inspirationpoint.inspirationrc.rc.manager.helpers.ToolbarHelper;
-import ru.inspirationpoint.inspirationrc.rc.ui.NavHeaderVM;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.CameraConnectionDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.ConfirmationDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.MessageDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.QRScanDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.SyncDialog;
+import ru.inspirationpoint.remotecontrol.BR;
+import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.databinding.ActivityNewFightBinding;
+import ru.inspirationpoint.remotecontrol.databinding.NavHeaderDairyBinding;
+import ru.inspirationpoint.remotecontrol.manager.Camera;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.coreObjects.Device;
+import ru.inspirationpoint.remotecontrol.manager.helpers.LocaleHelper;
+import ru.inspirationpoint.remotecontrol.manager.helpers.ToolbarHelper;
+import ru.inspirationpoint.remotecontrol.ui.NavHeaderVM;
+import ru.inspirationpoint.remotecontrol.ui.dialog.ConfirmationDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.MessageDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.QRScanDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.SyncDialog;
 
 
 public class NewFightActivity extends BindingActivity<ActivityNewFightBinding, NewFightActivityVM>
-        implements SyncDialog.SyncListener, ConfirmationDialog.Listener, NavigationView.OnNavigationItemSelectedListener,
-        CameraConnectionDialog.CameraConnectionListener, QRScanDialog.QRListener, MessageDialog.Listener {
+        implements SyncDialog.SyncListener, ConfirmationDialog.Listener, NavigationView.OnNavigationItemSelectedListener, QRScanDialog.QRListener, MessageDialog.Listener {
 
     private Device camera;
     private Device referee;
@@ -323,17 +319,6 @@ public class NewFightActivity extends BindingActivity<ActivityNewFightBinding, N
 
     public void onQRScanNeed() {
         QRScanDialog.newInstance().show(this.getSupportFragmentManager(), "QRSCAN");
-    }
-
-    public void showCamConnDlg(Camera camera){
-        CameraConnectionDialog dialog = CameraConnectionDialog.newInstance(camera.name.get(), !InspirationDayApplication.getApplication().getRepeaters().isEmpty());
-        dialog.show(getSupportFragmentManager(), "CAM CONN");
-    }
-
-    @Override
-    public void onReady(boolean isTargetSM, boolean isSaveNeeded) {
-        InspirationDayApplication.getApplication().setSMVideoTarget(isTargetSM);
-        InspirationDayApplication.getApplication().setSaveNeeded(isSaveNeeded);
     }
 
     @Override

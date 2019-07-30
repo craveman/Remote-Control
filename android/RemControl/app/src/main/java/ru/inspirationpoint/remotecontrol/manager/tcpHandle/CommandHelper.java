@@ -2,27 +2,7 @@ package ru.inspirationpoint.remotecontrol.manager.tcpHandle;
 
 import android.util.Log;
 
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.CompetitionSetCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.EthernetStartCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.EthernetStopCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.HelloCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.LoadFileCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.PassiveLockChangeCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.PingCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.PlayerCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.ResetCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.SetCardCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.SetDefTimerCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.SetNameCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.SetPeriodCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.SetPriorityCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.SetScoreCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.SetTimerCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.SetWeaponCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.StartTimerCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.SwapFightersCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.VideoCounterCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.VisibilityOptionsCommand;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.*;
 
 public class CommandHelper {
 

@@ -8,10 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.Set;
 
-import ru.inspirationpoint.inspirationrc.databinding.CameraItemBinding;
-import ru.inspirationpoint.inspirationrc.manager.coreObjects.Device;
+import ru.inspirationpoint.remotecontrol.databinding.CameraItemBinding;
+import ru.inspirationpoint.remotecontrol.manager.coreObjects.Device;
 
 public class CamerasAdapter extends RecyclerView.Adapter<CamerasAdapter.CamerasHolder>{
 

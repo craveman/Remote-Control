@@ -1,10 +1,11 @@
 package ru.inspirationpoint.remotecontrol.manager.constants.commands;
 
+import org.apache.commons.net.util.Charsets;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-
-import kotlin.text.Charsets;
+import java.nio.charset.Charset;
 
 public class CompetitionSetCommand extends CommonTCPCommand {
 
@@ -22,7 +23,7 @@ public class CompetitionSetCommand extends CommonTCPCommand {
         ByteArrayOutputStream b1 = new ByteArrayOutputStream();
         DataOutputStream s1 = new DataOutputStream(b1);
         try {
-            byte[] buf = name.getBytes(Charsets.UTF_8);
+            byte[] buf = name.getBytes(Charset.forName("UTF-8"));
             s1.write(buf);
         } catch (IOException e) {
             e.printStackTrace();

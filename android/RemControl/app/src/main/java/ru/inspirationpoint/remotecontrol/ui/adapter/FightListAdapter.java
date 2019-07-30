@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightData;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
 
 public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.FightViewHolder> {
 

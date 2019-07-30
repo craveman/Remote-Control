@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="ru.inspirationpoint.inspirationrc.rc.ui.activity.FightActivityVM" />
+            type="ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM" />
     </data>
 
     <android.support.constraint.ConstraintLayout

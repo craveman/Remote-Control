@@ -24,6 +24,7 @@ import com.stfalcon.androidmvvmhelper.mvvm.activities.ActivityViewModel;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,66 +36,40 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
-import kotlin.text.Charsets;
-import ru.inspirationpoint.inspirationrc.InspirationDayApplication;
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.EthernetApplyFightCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.EthernetNextCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.EthernetPrevCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.FinishFightCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.PlayerCommand;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.StartTimerCommand;
-import ru.inspirationpoint.inspirationrc.manager.coreObjects.Device;
-import ru.inspirationpoint.inspirationrc.manager.handlers.CoreHandler;
-import ru.inspirationpoint.inspirationrc.manager.handlers.EthernetCommandsHelpers.FightFinishAskHandler;
-import ru.inspirationpoint.inspirationrc.manager.helpers.Helper;
-import ru.inspirationpoint.inspirationrc.rc.manager.ActionUploadCallback;
-import ru.inspirationpoint.inspirationrc.rc.manager.Camera;
-import ru.inspirationpoint.inspirationrc.rc.manager.FightersAutoComplConfig;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightActionData;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightData;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FighterData;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FullFightInfo;
-import ru.inspirationpoint.inspirationrc.rc.manager.helpers.BackupHelper;
-import ru.inspirationpoint.inspirationrc.rc.manager.helpers.JSONHelper;
-import ru.inspirationpoint.inspirationrc.rc.ui.adapter.FightersAutoCompleteAdapter;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.ConfirmationDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.FightApplyDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.FightCantEndDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.FightFinishAskDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.FightFinishedDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.FightRestoreDialog;
-import ru.inspirationpoint.inspirationrc.tcpHandle.CommandHelper;
-import server.schemas.requests.FightAction;
-import server.schemas.responses.ListUser;
-import server.schemas.responses.SaveFightResult;
+import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.requests.FightAction;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.ListUser;
+import ru.inspirationpoint.remotecontrol.manager.ActionUploadCallback;
+import ru.inspirationpoint.remotecontrol.manager.FightersAutoComplConfig;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.EthernetApplyFightCommand;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.EthernetNextCommand;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.EthernetPrevCommand;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.FinishFightCommand;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.StartTimerCommand;
+import ru.inspirationpoint.remotecontrol.manager.coreObjects.Device;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightActionData;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FighterData;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FullFightInfo;
+import ru.inspirationpoint.remotecontrol.manager.handlers.CoreHandler;
+import ru.inspirationpoint.remotecontrol.manager.handlers.EthernetCommandsHelpers.FightFinishAskHandler;
+import ru.inspirationpoint.remotecontrol.manager.helpers.BackupHelper;
+import ru.inspirationpoint.remotecontrol.manager.helpers.JSONHelper;
+import ru.inspirationpoint.remotecontrol.manager.tcpHandle.CommandHelper;
+import ru.inspirationpoint.remotecontrol.ui.adapter.FightersAutoCompleteAdapter;
+import ru.inspirationpoint.remotecontrol.ui.dialog.ConfirmationDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.FightApplyDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.FightCantEndDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.FightFinishAskDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.FightFinishedDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.FightRestoreDialog;
 
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.UDPCommands.TIMER_START_UDP;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.UDPCommands.TIMER_STOP_UDP;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.UNFINISHED_FIGHT;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.CARD_P_STATUS_BLACK;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.CARD_P_STATUS_NONE;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.CARD_P_STATUS_RED;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.CARD_P_STATUS_YELLOW;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.CARD_STATUS_BLACK;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.CARD_STATUS_NONE;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.CARD_STATUS_RED;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.CARD_STATUS_YELLOW;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.DISP_RECEIVE_CMD;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.ETH_ACK;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.ETH_NAK;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.ETH_SEMI_ACTIVE;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.FLAG_TCP_CMD;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.PASSIVE_MAX;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.PASSIVE_SHOW;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.PAUSE_FINISHED;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.PLAYER_PAUSE;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.PLAYER_START;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.PLAYER_TCP_CMD;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.SETTIMER_TCP_CMD;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.*;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.*;
 
 
 public class FightActivityVM extends ActivityViewModel<FightActivity> implements CoreHandler.CoreServerCallback {
@@ -406,9 +381,9 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                     core.sendToSM(CommandHelper.setName(CommandsContract.PERSON_TYPE_LEFT, leftName));
                     core.sendToSM(CommandHelper.setName(CommandsContract.PERSON_TYPE_RIGHT, rightName));
                     //TODO create fight info, set names
-                    if (!TextUtils.isEmpty(SettingsManager.getValue(CommonConstants.UNFINISHED_FIGHT, ""))) {
+                    if (!TextUtils.isEmpty(SettingsManager.getValue(UNFINISHED_FIGHT, ""))) {
                         FullFightInfo infoToRestore = JSONHelper.importLastFightFromJSON(getActivity(),
-                                SettingsManager.getValue(CommonConstants.UNFINISHED_FIGHT, ""));
+                                SettingsManager.getValue(UNFINISHED_FIGHT, ""));
                         if (infoToRestore != null) {
                             if (infoToRestore.getFightData() != null)
                                 if (infoToRestore.getFightData().getLeftFighter().getScore() != 0 ||
@@ -769,9 +744,9 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             }
         }
         if (syncState.get() == SYNC_STATE_SYNCED) {
-            if (!TextUtils.isEmpty(SettingsManager.getValue(CommonConstants.UNFINISHED_FIGHT, ""))) {
+            if (!TextUtils.isEmpty(SettingsManager.getValue(UNFINISHED_FIGHT, ""))) {
                 FullFightInfo info = JSONHelper.importLastFightFromJSON(getActivity(),
-                        SettingsManager.getValue(CommonConstants.UNFINISHED_FIGHT, ""));
+                        SettingsManager.getValue(UNFINISHED_FIGHT, ""));
                 if (info != null) {
                     if (info.getFightData().getLeftFighter().getScore() != 0 ||
                             info.getFightData().getRightFighter().getScore() != 0)
@@ -1248,7 +1223,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         goToNewScreen = false;
         getActivity().startActivity(intent);
-        SettingsManager.removeValue(CommonConstants.UNFINISHED_FIGHT);
+        SettingsManager.removeValue(UNFINISHED_FIGHT);
     }
 
     public void stopSync() {
@@ -1445,8 +1420,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 System.arraycopy(message, 7 + message[5], nameRBuf, 0, message[6 + message[5]]);
 //                byte[] timeBuf = new byte[message[7 + nameLBuf.length + nameRBuf.length]];
 //                System.arraycopy(message, 8 + nameLBuf.length + nameRBuf.length, timeBuf, 0, timeBuf.length);
-                String lName = new String(nameLBuf, Charsets.UTF_8);
-                String rName = new String(nameRBuf, Charsets.UTF_8);
+                String lName = new String(nameLBuf, Charset.forName("UTF-8"));
+                String rName = new String(nameRBuf, Charset.forName("UTF-8"));
                 core.sendToSM(CommandHelper.setName(PERSON_TYPE_LEFT, lName));
                 core.sendToSM(CommandHelper.setName(PERSON_TYPE_RIGHT, rName));
                 core.sendToSM(CommandHelper.setScore(PERSON_TYPE_LEFT, scoreL));
@@ -1577,7 +1552,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public void fightFinish() {
         onMenuDeviceReset();
         core.sendToSM(new FinishFightCommand().getBytes());
-        SettingsManager.removeValue(CommonConstants.UNFINISHED_FIGHT);
+        SettingsManager.removeValue(UNFINISHED_FIGHT);
     }
 
     public void goToNewFight() {
@@ -1586,7 +1561,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         goToNewScreen = true;
         getActivity().startActivity(intent);
-        SettingsManager.removeValue(CommonConstants.UNFINISHED_FIGHT);
+        SettingsManager.removeValue(UNFINISHED_FIGHT);
     }
 
     //Binders section

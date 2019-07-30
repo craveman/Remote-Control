@@ -1,6 +1,6 @@
 package ru.inspirationpoint.remotecontrol.manager.constants.commands;
 
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.DISCONNECT_TCP_CMD;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.DISCONNECT_TCP_CMD;
 
 public class DisconnectCommand extends CommonTCPCommand {
 

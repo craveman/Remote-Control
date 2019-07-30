@@ -14,8 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightData;
-
 public abstract class Helper {
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());

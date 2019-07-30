@@ -7,14 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextWatcher;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;
-
-import ru.inspirationpoint.inspirationrc.InspirationDayApplication;
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.rc.ui.adapter.FightersAutoCompleteAdapter;
-import ru.inspirationpoint.inspirationrc.rc.ui.view.FightersAutoCompleteTextView;
 import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.ui.adapter.FightersAutoCompleteAdapter;
+import ru.inspirationpoint.remotecontrol.ui.view.FightersAutoCompleteTextView;
 
 public class FightersAutoComplConfig extends BaseObservable {
 

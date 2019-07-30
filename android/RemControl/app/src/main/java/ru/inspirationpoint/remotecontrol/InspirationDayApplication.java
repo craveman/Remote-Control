@@ -18,24 +18,21 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Random;
 
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.handlers.CoreHandler;
-import ru.inspirationpoint.inspirationrc.manager.handlers.UsbConnectionHandler;
-import ru.inspirationpoint.inspirationrc.manager.helpers.LocaleHelper;
-import ru.inspirationpoint.inspirationrc.manager.helpers.UDPHelper;
-import ru.inspirationpoint.inspirationrc.rc.manager.Camera;
-import ru.inspirationpoint.inspirationrc.rc.manager.Repeater;
-import ru.inspirationpoint.inspirationrc.rc.ui.activity.LoginActivity;
-import ru.inspirationpoint.inspirationrc.tcpHandle.TCPHelper;
 import ru.inspirationpoint.remotecontrol.manager.Camera;
 import ru.inspirationpoint.remotecontrol.manager.Repeater;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.handlers.CoreHandler;
+import ru.inspirationpoint.remotecontrol.manager.handlers.UsbConnectionHandler;
+import ru.inspirationpoint.remotecontrol.manager.helpers.LocaleHelper;
+import ru.inspirationpoint.remotecontrol.manager.helpers.UDPHelper;
+import ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPHelper;
+import ru.inspirationpoint.remotecontrol.ui.activity.LoginActivity;
 
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.CHARS;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.DEVICE_ID_SETTING;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.DEV_STRING_TYPE_RC;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.DEV_TYPE_RC;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.CHARS;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEVICE_ID_SETTING;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEV_STRING_TYPE_RC;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.DEV_TYPE_RC;
 
 
 public final class InspirationDayApplication extends Application {

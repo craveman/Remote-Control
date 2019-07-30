@@ -30,18 +30,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import ru.inspirationpoint.inspirationrc.InspirationDayApplication;
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightActionData;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightData;
-import ru.inspirationpoint.inspirationrc.rc.ui.adapter.FightActionsAdapter;
+import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightActionData;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
+import ru.inspirationpoint.remotecontrol.ui.adapter.FightActionsAdapter;
 
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.phrasesEN;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.phrasesRU;
-import static ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightActionData.ActionType.SetScoreLeft;
-import static ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightActionData.ActionType.SetScoreRight;
-import static ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightActionData.ActionType.Start;
-import static ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightActionData.ActionType.Stop;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.phrasesEN;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.phrasesRU;
+import static ru.inspirationpoint.remotecontrol.manager.dataEntities.FightActionData.ActionType.SetScoreLeft;
+import static ru.inspirationpoint.remotecontrol.manager.dataEntities.FightActionData.ActionType.SetScoreRight;
+import static ru.inspirationpoint.remotecontrol.manager.dataEntities.FightActionData.ActionType.Start;
+import static ru.inspirationpoint.remotecontrol.manager.dataEntities.FightActionData.ActionType.Stop;
 
 public class PDFCreator {
 

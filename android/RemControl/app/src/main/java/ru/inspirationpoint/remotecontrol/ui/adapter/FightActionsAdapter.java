@@ -14,13 +14,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Date;
 
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.manager.helpers.Helper;
-import ru.inspirationpoint.inspirationrc.manager.helpers.LocaleHelper;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightActionData;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightActionData;
+import ru.inspirationpoint.remotecontrol.manager.helpers.Helper;
+import ru.inspirationpoint.remotecontrol.manager.helpers.LocaleHelper;
 
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.phrasesEN;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.phrasesRU;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.phrasesEN;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.phrasesRU;
 
 public class FightActionsAdapter extends RecyclerView.Adapter<FightActionsAdapter.ItemHolder> {
 

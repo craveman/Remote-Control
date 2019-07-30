@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="ru.inspirationpoint.inspirationrc.rc.ui.activity.NewFightActivityVM" />
+            type="ru.inspirationpoint.remotecontrol.ui.activity.NewFightActivityVM" />
         <import type="android.view.View" alias="v"/>
     </data>
 
@@ -112,7 +112,7 @@
                             android:text="@string/left_fighter_hint"
                             android:textSize="@dimen/main_font_size" />
 
-                        <ru.inspirationpoint.inspirationrc.rc.ui.view.FightersAutoCompleteTextView
+                        <ru.inspirationpoint.remotecontrol.ui.view.FightersAutoCompleteTextView
                             android:id="@+id/left_fighter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
                             android:text="@string/right_fighter_hint"
                             android:textSize="@dimen/main_font_size" />
 
-                        <ru.inspirationpoint.inspirationrc.rc.ui.view.FightersAutoCompleteTextView
+                        <ru.inspirationpoint.remotecontrol.ui.view.FightersAutoCompleteTextView
                             android:id="@+id/right_fighter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -261,7 +261,7 @@
                         android:visibility="gone">
                         <!--android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_SYNCED ? v.VISIBLE : v.GONE}">-->
 
-                        <ru.inspirationpoint.inspirationrc.rc.ui.view.VerticalTextView
+                        <ru.inspirationpoint.remotecontrol.ui.view.VerticalTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/rc_devices"
@@ -276,7 +276,7 @@
                             android:orientation="horizontal"
                             android:id="@+id/cameras_rv"/>
 
-                        <ru.inspirationpoint.inspirationrc.rc.ui.view.VerticalTextView
+                        <ru.inspirationpoint.remotecontrol.ui.view.VerticalTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/referee"

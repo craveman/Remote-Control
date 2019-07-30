@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FullFightInfo;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FullFightInfo;
 
 public class FightRestoreDialog extends DialogFragment {
 

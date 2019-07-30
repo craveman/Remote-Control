@@ -20,21 +20,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.rc.ui.adapter.ClubSpinnerAdapter;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.ConfirmationDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.WeaponChooseDialog;
-import server.schemas.responses.AddUserToFriendsResult;
-import server.schemas.responses.GetClubsResult;
-import server.schemas.responses.GetFriendsResult;
-import server.schemas.responses.GetMyProfileResult;
-import server.schemas.responses.ListUser;
-import server.schemas.responses.Profile;
-import server.schemas.responses.RemoveUserFromFriendsResult;
-import server.schemas.responses.SaveMyProfileResult;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.Profile;
+import ru.inspirationpoint.remotecontrol.ui.adapter.ClubSpinnerAdapter;
+import ru.inspirationpoint.remotecontrol.ui.dialog.WeaponChooseDialog;
+
 
 public class ProfileMainActivity extends LocalAppCompatActivity
 //        implements MessageDialog.Listener,
@@ -84,14 +75,11 @@ public class ProfileMainActivity extends LocalAppCompatActivity
         mBirthdayEdit = findViewById(R.id.birthday_edit);
         mBirthdayEdit.setFocusable(false);
         mBirthdayEdit.setInputType(InputType.TYPE_NULL);
-        mBirthdayEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        mBirthdayEdit.setOnClickListener(view -> {
 //                DatePickerDialog tpd = new DatePickerDialog(ProfileMainActivity.this,
 //                        !SettingsManager.getValue(CommonConstants.IS_DARK_THEME, false) ? AlertDialog.THEME_HOLO_LIGHT : AlertDialog.THEME_HOLO_DARK,
 //                        ProfileMainActivity.this, 1990, 0, 1);
 //                tpd.show();
-            }
         });
 
         mClubSpinner = findViewById(R.id.club_spinner);
@@ -99,12 +87,7 @@ public class ProfileMainActivity extends LocalAppCompatActivity
         mWeaponEdit.setFocusable(false);
         mFriendsIsEmty = findViewById(R.id.empty_fighters_list_text);
         mWeaponEdit.setInputType(InputType.TYPE_NULL);
-        mWeaponEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                WeaponChooseDialog.show(ProfileMainActivity.this);
-            }
-        });
+        mWeaponEdit.setOnClickListener(view -> WeaponChooseDialog.show(ProfileMainActivity.this));
 
 //        initFriendList();
 //

@@ -15,19 +15,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.SetTimerCommand;
-import ru.inspirationpoint.inspirationrc.manager.coreObjects.Device;
-import ru.inspirationpoint.inspirationrc.manager.helpers.UDPHelper;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.ConfirmationDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.MessageDialog;
-import ru.inspirationpoint.inspirationrc.tcpHandle.CommandHelper;
-import ru.inspirationpoint.inspirationrc.tcpHandle.TCPHelper;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.SetTimerCommand;
+import ru.inspirationpoint.remotecontrol.manager.coreObjects.Device;
+import ru.inspirationpoint.remotecontrol.manager.helpers.UDPHelper;
+import ru.inspirationpoint.remotecontrol.manager.tcpHandle.CommandHelper;
+import ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPHelper;
+import ru.inspirationpoint.remotecontrol.ui.dialog.ConfirmationDialog;
 
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.DEV_TYPE_CAM;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.DEV_TYPE_REFEREE;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.DEV_TYPE_SM;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.UDPCommands.PING_UDP;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEV_TYPE_REFEREE;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEV_TYPE_SM;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UDPCommands.PING_UDP;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.DEV_TYPE_CAM;
+
 
 public class CoreHandler implements TCPHelper.TCPListener{
 

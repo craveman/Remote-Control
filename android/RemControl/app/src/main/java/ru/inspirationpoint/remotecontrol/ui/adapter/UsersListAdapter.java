@@ -8,8 +8,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import ru.inspirationpoint.inspirationrc.R;
-import server.schemas.responses.Fighter;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.Fighter;
 
 public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.OrdersViewHolder> {
 

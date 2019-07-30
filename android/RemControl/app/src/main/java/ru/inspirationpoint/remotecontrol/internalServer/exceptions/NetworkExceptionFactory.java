@@ -2,7 +2,7 @@ package ru.inspirationpoint.remotecontrol.internalServer.exceptions;
 
 import android.content.Context;
 
-import server.schemas.Status;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.Status;
 
 public abstract class NetworkExceptionFactory {
 

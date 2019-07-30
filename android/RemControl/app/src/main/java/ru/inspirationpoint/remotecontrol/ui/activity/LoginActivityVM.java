@@ -12,15 +12,13 @@ import android.widget.TextView;
 
 import com.stfalcon.androidmvvmhelper.mvvm.activities.ActivityViewModel;
 
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.manager.helpers.Helper;
-import ru.inspirationpoint.inspirationrc.rc.manager.helpers.ToolbarHelper;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.InputDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.MessageDialog;
-import server.schemas.responses.LoginResult;
-import server.schemas.responses.ResetPasswordResult;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.helpers.Helper;
+import ru.inspirationpoint.remotecontrol.manager.helpers.ToolbarHelper;
+import ru.inspirationpoint.remotecontrol.ui.dialog.InputDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.MessageDialog;
 
 
 public class LoginActivityVM extends ActivityViewModel<LoginActivity> {

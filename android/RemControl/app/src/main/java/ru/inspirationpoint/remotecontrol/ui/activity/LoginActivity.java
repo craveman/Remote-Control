@@ -4,13 +4,13 @@ import android.view.WindowManager;
 
 import com.stfalcon.androidmvvmhelper.mvvm.activities.BindingActivity;
 
-import ru.inspirationpoint.inspirationrc.BR;
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.databinding.ActivityLoginBinding;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.InputDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.MessageDialog;
+import ru.inspirationpoint.remotecontrol.BR;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.databinding.ActivityLoginBinding;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.ui.dialog.InputDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.MessageDialog;
 
 
 public class LoginActivity extends BindingActivity<ActivityLoginBinding, LoginActivityVM> implements InputDialog.Listener, MessageDialog.Listener{

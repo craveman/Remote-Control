@@ -2,7 +2,7 @@ package ru.inspirationpoint.remotecontrol.internalServer.schemas.requests;
 
 import com.google.gson.annotations.SerializedName;
 
-import server.schemas.JsonSchema;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.JsonSchema;
 
 public class GetFightActionRequest extends JsonSchema {
 

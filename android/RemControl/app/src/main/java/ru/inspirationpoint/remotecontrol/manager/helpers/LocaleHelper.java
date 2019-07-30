@@ -10,8 +10,8 @@ import android.util.DisplayMetrics;
 
 import java.util.Locale;
 
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
 
 public class LocaleHelper {
 

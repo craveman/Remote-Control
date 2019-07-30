@@ -34,42 +34,34 @@ import java.util.BitSet;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
-import java.util.Objects;
 
-import ru.inspirationpoint.inspirationrc.InspirationDayApplication;
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.camera.CameraStartActivity;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.SetNameCommand;
-import ru.inspirationpoint.inspirationrc.manager.coreObjects.Device;
-import ru.inspirationpoint.inspirationrc.manager.handlers.CoreHandler;
-import ru.inspirationpoint.inspirationrc.manager.helpers.Helper;
-import ru.inspirationpoint.inspirationrc.rc.manager.FightersAutoComplConfig;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightData;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FighterData;
-import ru.inspirationpoint.inspirationrc.rc.manager.helpers.ClockRefreshHelper;
-import ru.inspirationpoint.inspirationrc.rc.manager.helpers.MetricsHelper;
-import ru.inspirationpoint.inspirationrc.rc.ui.adapter.FightersAutoCompleteAdapter;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.MessageDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.SyncDialog;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract;
-import ru.inspirationpoint.inspirationrc.tcpHandle.CommandHelper;
-import server.schemas.responses.GetAddressByLocationResult;
-import server.schemas.responses.ListUser;
-import server.schemas.responses.LogoutResult;
+
+import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.ListUser;
+import ru.inspirationpoint.remotecontrol.manager.FightersAutoComplConfig;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.SetNameCommand;
+import ru.inspirationpoint.remotecontrol.manager.coreObjects.Device;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FighterData;
+import ru.inspirationpoint.remotecontrol.manager.handlers.CoreHandler;
+import ru.inspirationpoint.remotecontrol.manager.helpers.ClockRefreshHelper;
+import ru.inspirationpoint.remotecontrol.manager.helpers.Helper;
+import ru.inspirationpoint.remotecontrol.manager.helpers.MetricsHelper;
+import ru.inspirationpoint.remotecontrol.manager.tcpHandle.CommandHelper;
+import ru.inspirationpoint.remotecontrol.ui.adapter.FightersAutoCompleteAdapter;
+import ru.inspirationpoint.remotecontrol.ui.dialog.MessageDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.SyncDialog;
 
 import static android.content.Context.LOCATION_SERVICE;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.DEV_STRING_TYPE_RC;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.DEV_TYPE_CAM;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.DEV_TYPE_CP;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.DEV_TYPE_RC;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.DEV_TYPE_REFEREE;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.DEV_TYPE_REP;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.DEV_TYPE_SM;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.PHRASES_METRIC;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.PERSON_TYPE_LEFT;
-import static ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract.PERSON_TYPE_RIGHT;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEV_STRING_TYPE_RC;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEV_TYPE_RC;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.PHRASES_METRIC;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.PERSON_TYPE_LEFT;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.PERSON_TYPE_RIGHT;
 
 
 public class NewFightActivityVM extends ActivityViewModel<NewFightActivity> implements CoreHandler.CoreServerCallback {
@@ -523,9 +515,6 @@ public class NewFightActivityVM extends ActivityViewModel<NewFightActivity> impl
 //                getActivity().finish();
 //                break;
             case R.id.mode_camera:
-                Intent intent3 = new Intent(getActivity(), CameraStartActivity.class);
-                getActivity().startActivity(intent3);
-                getActivity().finish();
                 break;
             case R.id.diary:
                 Intent intent0 = new Intent(getActivity(), InfoActivity.class);

@@ -15,8 +15,8 @@ import android.util.Log;
 import java.util.Arrays;
 import java.util.Set;
 
-import ru.inspirationpoint.inspirationrc.manager.usb.UsbBroadcastReceiver;
-import ru.inspirationpoint.inspirationrc.manager.usb.UsbService;
+import ru.inspirationpoint.remotecontrol.manager.usb.UsbBroadcastReceiver;
+import ru.inspirationpoint.remotecontrol.manager.usb.UsbService;
 
 public class UsbConnectionHandler implements UsbBroadcastReceiver.OnUSBEventListener, UsbService.ConnectionListener {
 

@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="ru.inspirationpoint.inspirationrc.rc.ui.activity.FightActivityVM" />
+            type="ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM" />
     </data>
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -200,7 +200,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp">
 
-            <ru.inspirationpoint.inspirationrc.rc.ui.view.FightersAutoCompleteTextView
+            <ru.inspirationpoint.remotecontrol.ui.view.FightersAutoCompleteTextView
                 android:id="@+id/left_fighter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -250,7 +250,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp">
 
-            <ru.inspirationpoint.inspirationrc.rc.ui.view.FightersAutoCompleteTextView
+            <ru.inspirationpoint.remotecontrol.ui.view.FightersAutoCompleteTextView
                 android:id="@+id/right_fighter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -2,7 +2,7 @@ package ru.inspirationpoint.remotecontrol.internalServer.schemas.responses;
 
 import com.google.gson.annotations.SerializedName;
 
-import server.schemas.JsonSchema;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.JsonSchema;
 
 public class AddUserToFriendsRequest extends JsonSchema {
 

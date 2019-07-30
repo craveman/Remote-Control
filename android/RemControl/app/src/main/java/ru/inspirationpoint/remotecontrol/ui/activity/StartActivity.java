@@ -2,9 +2,9 @@ package ru.inspirationpoint.remotecontrol.ui.activity;
 
 import com.stfalcon.androidmvvmhelper.mvvm.activities.BindingActivity;
 
-import ru.inspirationpoint.inspirationrc.BR;
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.databinding.ActivityStartBinding;
+import ru.inspirationpoint.remotecontrol.BR;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.databinding.ActivityStartBinding;
 
 
 public class StartActivity extends BindingActivity<ActivityStartBinding, StartActivityVM> {

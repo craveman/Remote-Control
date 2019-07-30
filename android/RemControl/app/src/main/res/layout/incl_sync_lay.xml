@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="ru.inspirationpoint.inspirationrc.rc.ui.activity.FightActivityVM" />
+            type="ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM" />
         <import type="android.view.View" alias="v"/>
     </data>
 

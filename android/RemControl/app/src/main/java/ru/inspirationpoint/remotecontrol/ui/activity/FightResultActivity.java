@@ -17,14 +17,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.helpers.Helper;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightActionData;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightData;
-import ru.inspirationpoint.inspirationrc.rc.ui.DividerItemDecoration;
-import ru.inspirationpoint.inspirationrc.rc.ui.adapter.FightActionsAdapter;
-import server.schemas.responses.GetFightResult;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightActionData;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
+import ru.inspirationpoint.remotecontrol.manager.helpers.Helper;
+import ru.inspirationpoint.remotecontrol.ui.DividerItemDecoration;
+import ru.inspirationpoint.remotecontrol.ui.adapter.FightActionsAdapter;
+
 
 public class FightResultActivity extends LocalAppCompatActivity implements FightActionsAdapter.OnItemClickListener,
         SwipeRefreshLayout.OnRefreshListener {
@@ -214,13 +213,6 @@ public class FightResultActivity extends LocalAppCompatActivity implements Fight
     }
 
     @Override
-    public void onItemClick(View view, FightActionData fightData) {
-//        Intent intent = new Intent(this, VideoActivity.class);
-//        intent.putExtra("url", CommonConstants.CLOUD_STORAGE + fightData.getVideoUrl());
-//        startActivityForResult(intent, 543);
-    }
-
-    @Override
     public void onRefresh() {
 //        DataManager.instance().getFightById(mFightData.getId(), new DataManager.RequestListener<GetFightResult>() {
 //            @Override
@@ -240,5 +232,12 @@ public class FightResultActivity extends LocalAppCompatActivity implements Fight
 //
 //            }
 //        });
+    }
+
+    @Override
+    public void onItemClick(View view, FightActionData fightData) {
+        //        Intent intent = new Intent(this, VideoActivity.class);
+//        intent.putExtra("url", CommonConstants.CLOUD_STORAGE + fightData.getVideoUrl());
+//        startActivityForResult(intent, 543);
     }
 }

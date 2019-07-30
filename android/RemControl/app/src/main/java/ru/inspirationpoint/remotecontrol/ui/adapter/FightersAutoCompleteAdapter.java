@@ -12,10 +12,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import server.schemas.responses.ListUser;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.ListUser;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+
 
 public class FightersAutoCompleteAdapter extends BaseAdapter implements Filterable {
 

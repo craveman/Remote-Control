@@ -3,11 +3,11 @@ package ru.inspirationpoint.remotecontrol.manager.helpers;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightActionData;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightActionData;
 
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.METRICS;
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.PHRASES_METRIC;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.METRICS;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.PHRASES_METRIC;
 
 public class MetricsHelper {
 

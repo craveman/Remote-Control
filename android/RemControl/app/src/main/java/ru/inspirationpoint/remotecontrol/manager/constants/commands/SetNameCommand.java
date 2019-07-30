@@ -3,8 +3,7 @@ package ru.inspirationpoint.remotecontrol.manager.constants.commands;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-
-import kotlin.text.Charsets;
+import java.nio.charset.Charset;
 
 public class SetNameCommand extends CommonTCPCommand {
 
@@ -30,7 +29,7 @@ public class SetNameCommand extends CommonTCPCommand {
         try {
             s1.writeByte(person);
             s1.writeByte(nameLength);
-            byte[] buf = name.getBytes(Charsets.UTF_8);
+            byte[] buf = name.getBytes(Charset.forName("UTF-8"));
             s1.write(buf);
         } catch (IOException e) {
             e.printStackTrace();

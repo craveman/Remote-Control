@@ -3,8 +3,8 @@ package ru.inspirationpoint.remotecontrol.manager.handlers.EthernetCommandsHelpe
 import android.os.Handler;
 import android.os.HandlerThread;
 
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.EthernetFinishAskCommand;
-import ru.inspirationpoint.inspirationrc.manager.handlers.CoreHandler;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.EthernetFinishAskCommand;
+import ru.inspirationpoint.remotecontrol.manager.handlers.CoreHandler;
 
 public class FightFinishAskHandler {
 

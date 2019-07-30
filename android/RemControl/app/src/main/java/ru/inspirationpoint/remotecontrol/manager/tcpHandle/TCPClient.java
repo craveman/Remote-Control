@@ -10,12 +10,12 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.Arrays;
 
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.constants.commands.CommandsContract;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract;
 
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.DEVICE_ID_SETTING;
-import static ru.inspirationpoint.inspirationrc.tcpHandle.TCPHelper.PORT;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEVICE_ID_SETTING;
+import static ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPHelper.PORT;
 
 public class TCPClient {
 

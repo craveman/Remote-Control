@@ -22,14 +22,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.helpers.Helper;
-import ru.inspirationpoint.inspirationrc.rc.ui.adapter.TrainingListAdapter;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.CalendarDialog;
-import server.schemas.responses.GetTrainingsResult;
-import server.schemas.responses.Training;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.Training;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.helpers.Helper;
+import ru.inspirationpoint.remotecontrol.ui.adapter.TrainingListAdapter;
+import ru.inspirationpoint.remotecontrol.ui.dialog.CalendarDialog;
 
 public class UserDispFightActivity extends LocalAppCompatActivity implements CalendarDialog.DateListener {
 

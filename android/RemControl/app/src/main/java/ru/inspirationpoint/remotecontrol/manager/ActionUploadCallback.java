@@ -1,6 +1,7 @@
 package ru.inspirationpoint.remotecontrol.manager;
 
-import server.schemas.requests.FightAction;
+
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.requests.FightAction;
 
 public interface ActionUploadCallback {
 

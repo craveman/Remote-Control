@@ -6,7 +6,7 @@ import android.util.Log;
 
 import java.io.IOException;
 
-import ru.inspirationpoint.inspirationrc.manager.helpers.UDPHelper;
+import ru.inspirationpoint.remotecontrol.manager.helpers.UDPHelper;
 
 public class Sender {
 

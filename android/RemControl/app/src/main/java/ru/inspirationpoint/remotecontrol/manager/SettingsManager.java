@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import ru.inspirationpoint.inspirationrc.InspirationDayApplication;
 import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
 
 public abstract class SettingsManager {

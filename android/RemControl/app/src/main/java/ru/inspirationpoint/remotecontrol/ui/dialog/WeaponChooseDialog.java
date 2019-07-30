@@ -15,9 +15,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
 
 public class WeaponChooseDialog extends DialogFragment {
 

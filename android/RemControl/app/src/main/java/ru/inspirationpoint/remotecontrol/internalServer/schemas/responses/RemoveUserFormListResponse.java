@@ -1,6 +1,6 @@
 package ru.inspirationpoint.remotecontrol.internalServer.schemas.responses;
 
-import server.schemas.JsonSchemaResponse;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.JsonSchemaResponse;
 
 public class RemoveUserFormListResponse extends JsonSchemaResponse<RemoveUserFormListResult> {
 

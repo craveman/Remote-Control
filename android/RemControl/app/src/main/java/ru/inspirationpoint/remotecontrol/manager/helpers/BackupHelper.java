@@ -5,16 +5,14 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import ru.inspirationpoint.inspirationrc.InspirationDayApplication;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.rc.manager.Camera;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.Device;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightData;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FullFightInfo;
-import ru.inspirationpoint.inspirationrc.tcpHandle.TCPHelper;
-
-import static ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants.UNFINISHED_FIGHT;
+import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
+import ru.inspirationpoint.remotecontrol.manager.Camera;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.Device;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FullFightInfo;
+import ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPHelper;
 
 public class BackupHelper {
 

@@ -6,12 +6,11 @@ import android.view.View;
 
 import com.stfalcon.androidmvvmhelper.mvvm.activities.ActivityViewModel;
 
-import ru.inspirationpoint.inspirationrc.camera.CameraStartActivity;
-import ru.inspirationpoint.inspirationrc.camera.utils.PermissionHelper;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.manager.cloudManager.CloudRequestManager;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.helpers.LocaleHelper;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.cloudManager.CloudRequestManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.helpers.LocaleHelper;
+import ru.inspirationpoint.remotecontrol.manager.helpers.PermissionHelper;
 
 
 public class StartActivityVM extends ActivityViewModel<StartActivity> {

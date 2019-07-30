@@ -39,29 +39,25 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import ru.inspirationpoint.inspirationrc.InspirationDayApplication;
-import ru.inspirationpoint.inspirationrc.R;
-import ru.inspirationpoint.inspirationrc.manager.SettingsManager;
-import ru.inspirationpoint.inspirationrc.manager.constants.CommonConstants;
-import ru.inspirationpoint.inspirationrc.manager.handlers.CoreHandler;
-import ru.inspirationpoint.inspirationrc.manager.helpers.Helper;
-import ru.inspirationpoint.inspirationrc.manager.helpers.LocaleHelper;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FightData;
-import ru.inspirationpoint.inspirationrc.rc.manager.dataEntities.FighterData;
-import ru.inspirationpoint.inspirationrc.rc.ui.adapter.FighterListAutoCompleteAdapter;
-import ru.inspirationpoint.inspirationrc.rc.ui.adapter.FightersListAdapter;
-import ru.inspirationpoint.inspirationrc.rc.ui.adapter.TrainingListAdapter;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.CalendarDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.ConfirmationDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.dialog.MessageDialog;
-import ru.inspirationpoint.inspirationrc.rc.ui.view.FightersAutoCompleteTextView;
-import server.schemas.responses.DialogOutput;
-import server.schemas.responses.GetDialogsResult;
-import server.schemas.responses.GetMyTrainingsResult;
-import server.schemas.responses.GetUsersAddedMeResult;
-import server.schemas.responses.ListUser;
-import server.schemas.responses.LogoutResult;
-import server.schemas.responses.Training;
+import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
+import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.DialogOutput;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.ListUser;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.Training;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FighterData;
+import ru.inspirationpoint.remotecontrol.manager.handlers.CoreHandler;
+import ru.inspirationpoint.remotecontrol.manager.helpers.Helper;
+import ru.inspirationpoint.remotecontrol.manager.helpers.LocaleHelper;
+import ru.inspirationpoint.remotecontrol.ui.adapter.FighterListAutoCompleteAdapter;
+import ru.inspirationpoint.remotecontrol.ui.adapter.FightersListAdapter;
+import ru.inspirationpoint.remotecontrol.ui.adapter.TrainingListAdapter;
+import ru.inspirationpoint.remotecontrol.ui.dialog.CalendarDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.ConfirmationDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.MessageDialog;
+import ru.inspirationpoint.remotecontrol.ui.view.FightersAutoCompleteTextView;
 
 //TODO resume to network error dialogs everywhere
 
