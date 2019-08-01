@@ -96,7 +96,7 @@ public class FightActionData implements Cloneable, Serializable {
         return newFightActionData;
     }
 
-    public static FightActionData createStartRound(long time, int period, ActionPeriod actionPeriod, long systemTime, String comment) {
+    public static FightActionData createStartRound(long time, int period, ActionPeriod actionPeriod, long systemTime) {
         FightActionData action = new FightActionData();
         action.mActionPeriod = actionPeriod;
         action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
@@ -104,7 +104,6 @@ public class FightActionData implements Cloneable, Serializable {
         action.mTime = time;
         action.fightPeriod = period;
         action.systemTime = systemTime;
-        action.comment = comment;
         return action;
     }
 
@@ -119,112 +118,106 @@ public class FightActionData implements Cloneable, Serializable {
         return action;
     }
 
-    public static FightActionData createSetScoreLeft(long time, int period, Fighter fighter, int score,
-                                                     long systemTime, int phrase) {
+    public static FightActionData createSetScoreLeft(long time, int period, int score, int phrase) {
         FightActionData action = new FightActionData();
         action.mActionType = ActionType.SetScoreLeft;
         action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
-        action.mFighter = fighter;
+        action.mFighter = Fighter.Left;
         action.mScore = score;
         action.mTime = time;
         action.fightPeriod = period;
-        action.systemTime = systemTime;
+        action.systemTime = System.currentTimeMillis();
         action.phrase = phrase;
         return action;
     }
 
-    public static FightActionData createSetScoreRight(long time, int period, Fighter fighter, int score,
-                                                      long systemTime, int phrase) {
+    public static FightActionData createSetScoreRight(long time, int period, int score, int phrase) {
         FightActionData action = new FightActionData();
         action.mActionType = ActionType.SetScoreRight;
         action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
-        action.mFighter = fighter;
+        action.mFighter = Fighter.Right;
         action.mScore = score;
         action.mTime = time;
         action.fightPeriod = period;
-        action.systemTime = systemTime;
+        action.systemTime = System.currentTimeMillis();
         action.phrase = phrase;
         return action;
     }
 
-    public static FightActionData createSetPriorityLeft(long time, int period, Fighter fighter,
-                                                        long systemTime) {
+    public static FightActionData createSetPriorityLeft(long time, int period) {
         FightActionData action = new FightActionData();
         action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
         action.mActionType = ActionType.SetPriorityLeft;
-        action.mFighter = fighter;
+        action.mFighter = Fighter.Left;
         action.fightPeriod = period;
-        action.systemTime = systemTime;
+        action.systemTime = System.currentTimeMillis();
         action.mTime = time;
         return action;
     }
 
-    public static FightActionData createSetPriorityRight(long time, int period, Fighter fighter,
-                                                         long systemTime) {
+    public static FightActionData createSetPriorityRight(long time, int period) {
         FightActionData action = new FightActionData();
         action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
         action.mActionType = ActionType.SetPriorityRight;
-        action.mFighter = fighter;
+        action.mFighter = Fighter.Right;
         action.mTime = time;
         action.fightPeriod = period;
-        action.systemTime = systemTime;
+        action.systemTime = System.currentTimeMillis();
         return action;
     }
 
-    public static FightActionData createSetCardLeft(long time, int period, Fighter fighter, int score,
-                                                    boolean isYellow, long systemTime) {
+    public static FightActionData createSetCardLeft(long time, int period,
+                                                    boolean isYellow) {
         FightActionData action = new FightActionData();
         action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
         action.mActionType = isYellow ? ActionType.YellowCardLeft : ActionType.RedCardLeft;
-        action.mFighter = fighter;
+        action.mFighter = Fighter.Left;
         action.mTime = time;
-        action.mScore = score;
         action.fightPeriod = period;
-        action.systemTime = systemTime;
+        action.systemTime = System.currentTimeMillis();
         return action;
     }
 
-    public static FightActionData createSetCardRight(long time, int period, Fighter fighter, int score,
-                                                     boolean isYellow, long systemTime) {
+    public static FightActionData createSetCardRight(long time, int period,
+                                                     boolean isYellow) {
         FightActionData action = new FightActionData();
         action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
         action.mActionType = isYellow ? ActionType.YellowCardRight : ActionType.RedCardRight;
-        action.mFighter = fighter;
+        action.mFighter = Fighter.Right;
         action.mTime = time;
-        action.mScore = score;
         action.fightPeriod = period;
-        action.systemTime = systemTime;
+        action.systemTime = System.currentTimeMillis();
         return action;
     }
 
-    public static FightActionData createSetTime(long time, int period, long estTime, long systemTime) {
+    public static FightActionData createSetTime(long time, int period, long estTime) {
         FightActionData action = new FightActionData();
         action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
         action.mActionType = ActionType.SetTime;
         action.mTime = time;
         action.fightPeriod = period;
         action.establishedTime = estTime;
-        action.systemTime = systemTime;
+        action.systemTime = System.currentTimeMillis();
         return action;
     }
 
-    public static FightActionData createSetPeriod(long time, int period, long systemTime) {
+    public static FightActionData createSetPeriod(long time, int period) {
         FightActionData action = new FightActionData();
         action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
         action.mActionType = ActionType.SetPeriod;
         action.mTime = time;
         action.fightPeriod = period;
-        action.systemTime = systemTime;
+        action.systemTime = System.currentTimeMillis();
         return action;
     }
 
-    public static FightActionData createSetPause(long time, int period, long systemTime) {
+    public static FightActionData createSetPause(long time, int period) {
         FightActionData action = new FightActionData();
         action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
         action.mActionType = ActionType.SetPause;
         action.mTime = time;
         action.fightPeriod = period;
-        action.systemTime = systemTime;
+        action.systemTime = System.currentTimeMillis();
         return action;
     }
 
@@ -244,7 +237,7 @@ public class FightActionData implements Cloneable, Serializable {
         action.mActionType = ActionType.Reset;
         action.mTime = time;
         action.fightPeriod = period;
-        action.systemTime = systemTime;
+        action.systemTime = System.currentTimeMillis();
         return action;
     }
 

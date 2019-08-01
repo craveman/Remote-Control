@@ -1,5 +1,8 @@
 package ru.inspirationpoint.remotecontrol.manager.dataEntities;
 
+import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
+
 import java.io.Serializable;
 
 import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
@@ -8,29 +11,21 @@ import ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsCont
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.CommandHelper;
 
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.CardStatus.CardStatus_None;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.CardStatus.CardStatus_Red;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.CardStatus.CardStatus_Yellow;
 
 
 public class FighterData implements Cloneable, Serializable {
     private String mId = "";
-    private String mName = "";
-    private int mScore = 0;
-    private boolean mIsScoreIncreased = false;
-    private boolean mIsScoreSet = false;
+    private String mName;
+    private int mScore;
+    private int yellowCardCount;
+    private int redCardCount;
     private CommonConstants.CardStatus mCard = CardStatus_None;
 
     public FighterData(String id, String name) {
         mId = id;
         mName = name;
-    }
-
-    @Override
-    public FighterData clone() {
-        FighterData newFighterData = new FighterData(mId, mName);
-        newFighterData.mScore = mScore;
-        newFighterData.mIsScoreIncreased = mIsScoreIncreased;
-        newFighterData.mIsScoreSet = mIsScoreSet;
-        newFighterData.mCard = mCard;
-        return newFighterData;
     }
 
     public String getId() {
@@ -47,53 +42,6 @@ public class FighterData implements Cloneable, Serializable {
 
     public void setScore(int score) {
         mScore = score;
-        mIsScoreSet = true;
-    }
-
-    public void toggleScore(boolean isLeft) {
-        mIsScoreIncreased = !mIsScoreIncreased;
-        mScore += mIsScoreIncreased ? 1 : -1;
-        if (InspirationDayApplication.getApplication().getHelper() != null) {
-            tcpScore(isLeft);
-        }
-    }
-
-    public void tcpScore(boolean isLeft) {
-        InspirationDayApplication.getApplication().getHelper().send(CommandHelper.setScore(isLeft ?
-                CommandsContract.PERSON_TYPE_LEFT : CommandsContract.PERSON_TYPE_RIGHT, mScore));
-    }
-
-    public void increaseScore(boolean isLeft) {
-        mIsScoreIncreased = true;
-        mIsScoreSet = true;
-        mScore += 1;
-        if (InspirationDayApplication.getApplication().getHelper() != null) {
-            tcpScore(isLeft);
-        }
-    }
-
-    public void decreaseScore(boolean isLeft) {
-        mIsScoreSet = !mIsScoreSet;
-        mIsScoreIncreased = false;
-        mScore -= 1;
-        if (InspirationDayApplication.getApplication().getHelper() != null) {
-            tcpScore(isLeft);
-        }
-    }
-
-    public boolean isScoreIncreased() {
-        return mIsScoreIncreased;
-    }
-
-    public boolean isScoreChanged() {
-        return mIsScoreIncreased || mIsScoreSet;
-    }
-
-    public void applyScoreChanges() {
-        if (mIsScoreIncreased) {
-            mIsScoreIncreased = false;
-        }
-        mIsScoreSet = false;
     }
 
     public CommonConstants.CardStatus getCard() {
@@ -102,9 +50,30 @@ public class FighterData implements Cloneable, Serializable {
 
     public void setCard(CommonConstants.CardStatus card) {
         mCard = card;
+        if (card == CardStatus_Yellow) {
+            yellowCardCount ++;
+        } else if (card == CardStatus_Red) {
+            redCardCount ++;
+        }
     }
 
     public void setName(String name) {
         mName = name;
+    }
+
+    public int getYellowCardCount() {
+        return yellowCardCount;
+    }
+
+    public void setYellowCardCount(int yellowCardCount) {
+        this.yellowCardCount = yellowCardCount;
+    }
+
+    public int getRedCardCount() {
+        return redCardCount;
+    }
+
+    public void setRedCardCount(int redCardCount) {
+        this.redCardCount = redCardCount;
     }
 }

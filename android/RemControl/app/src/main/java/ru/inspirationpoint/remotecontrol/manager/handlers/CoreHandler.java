@@ -21,6 +21,7 @@ import ru.inspirationpoint.remotecontrol.manager.coreObjects.Device;
 import ru.inspirationpoint.remotecontrol.manager.helpers.UDPHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.CommandHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPHelper;
+import ru.inspirationpoint.remotecontrol.ui.activity.FightActivity;
 import ru.inspirationpoint.remotecontrol.ui.dialog.ConfirmationDialog;
 
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEV_TYPE_REFEREE;
@@ -42,10 +43,9 @@ public class CoreHandler implements TCPHelper.TCPListener{
     private UDPHelper udpHelper;
     private String camIp = "";
     private String smIp = "";
+    private FightValuesHandler fightHandler;
 
     public boolean camExists = false;
-
-    public boolean keepAliveDirectServer = false;
 
     public CoreHandler(Context context, int mode) {
         this.context = context;
@@ -173,6 +173,10 @@ public class CoreHandler implements TCPHelper.TCPListener{
 
     public void setActivity(AppCompatActivity activity) {
         this.activity = activity;
+        if (activity instanceof FightActivity) {
+            //TODO fix to check old fight
+            fightHandler = new FightValuesHandler(null, this);
+        }
     }
 
     public void setServerCallback(CoreServerCallback serverCallback) {
@@ -239,5 +243,9 @@ public class CoreHandler implements TCPHelper.TCPListener{
 
     public void onUsbConnected(UsbDevice device) {
 
+    }
+
+    public FightValuesHandler getFightHandler() {
+        return fightHandler;
     }
 }

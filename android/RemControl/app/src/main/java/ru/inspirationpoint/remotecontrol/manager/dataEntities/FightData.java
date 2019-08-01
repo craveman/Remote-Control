@@ -80,15 +80,6 @@ public class FightData implements Cloneable, Serializable {
 //        mRightFighterData.applyScoreChanges();
 //    }
 
-    @Override
-    public FightData clone() {
-        FightData newFightData = new FightData(mId, mDate, mLeftFighterData.clone(), mRightFighterData.clone(), mPlace, mOwner);
-        for (FightActionData actionData : mActionsList) {
-            newFightData.addAction(actionData.clone(), null, null);
-        }
-        return newFightData;
-    }
-
 //    public static ArrayList<FightData> getFightData(FightOutput[] fightOutputArray) {
 //        ArrayList<FightData> fightArray = new ArrayList<>();
 //        for (FightOutput fight : fightOutputArray) {
@@ -204,122 +195,11 @@ public class FightData implements Cloneable, Serializable {
         return mOwner;
     }
 
-    public void addAction(FightActionData action, ActionUploadCallback callback, Set<String> videoUrls) {
-        if (videoUrls != null) {
-            for (String url : videoUrls) {
-                String[] splitted = url.split("_");
-                if (splitted[1].equals(String.valueOf(action.getTime())) &&
-                        splitted[2].split("\\.")[0].equals(String.valueOf(action.getFightPeriod()))) {
-                    action.setVideoUrl(url);
-                    Log.wtf("SETURL", url);
-                }
-
-            }
-        }
+    public void add(FightActionData action) {
         mActionsList.add(action);
-        if (action.getActionType() == FightActionData.ActionType.RedCardLeft ||
-                action.getActionType() == FightActionData.ActionType.RedCardRight ||
-                action.getActionType() == FightActionData.ActionType.YellowCardLeft ||
-                action.getActionType() == FightActionData.ActionType.YellowCardRight ||
-                action.getActionType() == FightActionData.ActionType.SetScoreLeft ||
-                action.getActionType() == FightActionData.ActionType.SetScoreRight) {
-            new Thread(() -> {
-                for (Camera camera : InspirationDayApplication.getApplication().getCameras()) {
-//                    try {
-//                        if (InspirationDayApplication.getApplication().getUdpHelper() != null)
-//                        InspirationDayApplication.getApplication().getUdpHelper().sendTargetMessage(SEND_TO_CLOUD,
-//                                camera.ip.get());
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-                    //TODO upload command send
-                }
-            }).start();
-        }
-        switch (action.getActionType()) {
-            case SetTime:
-                setmCurrentTime(action.getTime());
-                break;
-            case SetPeriod:
-                setmCurrentPeriod(action.getFightPeriod());
-                break;
-            case RedCardLeft:
-                getLeftFighter().setCard(CommonConstants.CardStatus.CardStatus_Red);
-                break;
-            case RedCardRight:
-                getRightFighter().setCard(CommonConstants.CardStatus.CardStatus_Red);
-                break;
-            case SetScoreLeft:
-                getLeftFighter().setScore(action.getScore());
-                break;
-            case SetScoreRight:
-                getRightFighter().setScore(action.getScore());
-                break;
-            case YellowCardLeft:
-                getLeftFighter().setCard(CommonConstants.CardStatus.CardStatus_Yellow);
-                break;
-            case YellowCardRight:
-                getRightFighter().setCard(CommonConstants.CardStatus.CardStatus_Yellow);
-                break;
-        }
-//        DataManager.instance().saveFightAction(action.getFightAction(), new DataManager.RequestListener<SaveFightActionResult>() {
-//            @Override
-//            public void onSuccess(SaveFightActionResult result) {
-//                if (callback != null) {
-//                    callback.onUpload(result.fight.actions[result.fight.actions.length - 1]);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailed(String error, String message) {
-//            }
-//
-//            @Override
-//            public void onStateChanged(boolean inProgress) {
-//
-//            }
-//        });
     }
 
     //TODO do common method instead of one parameter change
-    public String refreshAction(String fightActionId, ActionUploadCallback callback, String videoUrl) {
-//            DataManager.instance().getFightAction(fightActionId, new DataManager.RequestListener<GetFightActionResult>() {
-//                @Override
-//                public void onSuccess(GetFightActionResult result) {
-//                    FightAction action = result.action;
-//                    action.videoUrl = videoUrl;
-//                    Log.wtf("REFRESHING", action._id + "|" + action.videoUrl);
-//                        DataManager.instance().saveFightAction(action, new DataManager.RequestListener<SaveFightActionResult>() {
-//                            @Override
-//                            public void onSuccess(SaveFightActionResult result) {
-//                                callback.onRefresh(fightActionId);
-//                                Log.wtf("REFRESHED", fightActionId);
-//                            }
-//
-//                            @Override
-//                            public void onFailed(String error, String message) {
-//                                Log.wtf("REFRESH", "FAIL " + error + "|" + message);
-//                            }
-//
-//                            @Override
-//                            public void onStateChanged(boolean inProgress) {
-//
-//                            }
-//                        });
-//                }
-//
-//                @Override
-//                public void onFailed(String error, String message) {
-//                    Log.wtf("GET", "FAIL " + error + "|" + message);
-//                }
-//
-//                @Override
-//                public void onStateChanged(boolean inProgress) {
-//
-//                }
-//            });
-            return fightActionId;
-    }
 
     public void refreshActionPhrase(String fightActionId, ActionUploadCallback callback, int phrase) {
 //        DataManager.instance().getFightAction(fightActionId, new DataManager.RequestListener<GetFightActionResult>() {

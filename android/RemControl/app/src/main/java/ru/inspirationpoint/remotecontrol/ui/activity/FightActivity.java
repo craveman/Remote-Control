@@ -64,31 +64,21 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
-        // This work only for android 4.4+
         if(currentApiVersion >= Build.VERSION_CODES.KITKAT)
         {
 
             getWindow().getDecorView().setSystemUiVisibility(flags);
 
-            // Code below is to handle presses of Volume up or Volume down.
-            // Without this, after pressing volume buttons, the navigation bar will
-            // show up and won't hide
             final View decorView = getWindow().getDecorView();
             decorView
-                    .setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener()
-                    {
-
-                        @Override
-                        public void onSystemUiVisibilityChange(int visibility)
+                    .setOnSystemUiVisibilityChangeListener(visibility -> {
+                        if((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0)
                         {
-                            if((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0)
-                            {
-                                decorView.setSystemUiVisibility(flags);
-                            }
+                            decorView.setSystemUiVisibility(flags);
                         }
                     });
         }
-        String languageToLoad  = SettingsManager.getValue(CommonConstants.LANGUAGE_FIELD, "en"); // your language
+        String languageToLoad  = SettingsManager.getValue(CommonConstants.LANGUAGE_FIELD, "en");
         Locale locale = new Locale(languageToLoad);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
@@ -134,19 +124,6 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
     @Override
     protected void onStart() {
         super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        getViewModel().onTimerStopClick();
-        if (getViewModel().goToNewScreen) {
-            getViewModel().core.keepAliveDirectServer = true;
-            getViewModel().goToNewScreen = false;
-        } else {
-            getViewModel().core.keepAliveDirectServer = false;
-        }
-        getViewModel().stopSync();
-        super.onStop();
     }
 
     @Override

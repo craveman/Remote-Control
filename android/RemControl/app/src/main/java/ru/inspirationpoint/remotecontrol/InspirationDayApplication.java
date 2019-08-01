@@ -137,6 +137,7 @@ public final class InspirationDayApplication extends Application {
         camId = (new Random().nextInt((999) + 1))*100;
         refereeId = (new Random().nextInt((999) + 1))*10;
         coreHandler = new CoreHandler(this, DEV_TYPE_RC);
+        coreHandler.startWiFiNetworking();
 //        usbHandler = new UsbConnectionHandler(this, coreHandler);
     }
 

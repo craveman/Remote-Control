@@ -22,7 +22,7 @@ public class UDPHelper extends Thread {
     private BroadcastListener listener;
     private Context ctx;
     private DatagramSocket socket;
-    private static final int PORT = 21074;
+    private static final int PORT = 21075;
     private Handler handler;
 
     public UDPHelper(Context ctx) {

@@ -338,7 +338,6 @@ public class InfoActivity extends LocalAppCompatActivity implements NavigationVi
             SettingsManager.setValue(CommonConstants.IS_THEME_CHANGED, false);
             recreate();
         }
-        coreHandler.startWiFiNetworking();
     }
 
     private void loadData() {

@@ -12,17 +12,14 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.budiyev.android.codescanner.CodeScanner;
-import com.budiyev.android.codescanner.CodeScannerView;
 import com.stfalcon.androidmvvmhelper.mvvm.activities.ActivityViewModel;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
@@ -32,8 +29,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
@@ -76,8 +71,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
     public static final int COLOR_USUAL = R.color.white;
     public static final int COLOR_SELECTED = R.color.textColorSecondary;
-
-    //TODO fix timer color as weapon
     public static final int COLOR_RED = R.color.redCard;
     public static final int COLOR_YELLOW = R.color.yellowCard;
 
@@ -129,9 +122,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public static final int SYNC_STATE_SYNCED = 42;
 
     public static final int PERSON_TYPE_NONE = 0;
-    public static final int PERSON_TYPE_LEFT = 1;
-    public static final int PERSON_TYPE_RIGHT = 2;
-
 
     public ObservableInt screenState = new ObservableInt(SCREEN_MAIN);
     public ObservableInt timerMode = new ObservableInt(TIMER_MODE_MAIN);
@@ -173,7 +163,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public String leftName;
     public String rightName;
     private boolean timerStateChanged = false;
-    public FightData fightData;
     private String competition = "";
 
     public String fightId;
@@ -211,11 +200,11 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //        if (DataManager.instance().getCurrentFight() != null) {
 //            fightData = DataManager.instance().getCurrentFight();
 //        } else {
-            fightData = new FightData("", new Date(), new FighterData("", leftName), new FighterData("", rightName),
-                    "", SettingsManager.getValue(CommonConstants.LAST_USER_NAME_FIELD, ""));
-            fightData.setmStartTime(System.currentTimeMillis());
-            fightData.setmCurrentTime(defaultTime.get());
-            fightData.setmCurrentPeriod(period.get());
+//            fightData = new FightData("", new Date(), new FighterData("", leftName), new FighterData("", rightName),
+//                    "", SettingsManager.getValue(CommonConstants.LAST_USER_NAME_FIELD, ""));
+//            fightData.setmStartTime(System.currentTimeMillis());
+//            fightData.setmCurrentTime(defaultTime.get());
+//            fightData.setmCurrentPeriod(period.get());
 //        }
 //        activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
 //                | View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -229,11 +218,11 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         core.setServerCallback(this);
         fightFinishAskHandler = new FightFinishAskHandler(core);
 //        withSEMI.set(getActivity().getIntent().getBooleanExtra("SEMI", false));
-        if (!withSEMI.get()) {
-            leftName = getActivity().getIntent().getStringExtra("LEFT");
-            rightName = getActivity().getIntent().getStringExtra("RIGHT");
-        }
-        phrasesEnabled.set(getActivity().getIntent().getBooleanExtra("PHRASES", false));
+//        if (!withSEMI.get()) {
+//            leftName = getActivity().getIntent().getStringExtra("LEFT");
+//            rightName = getActivity().getIntent().getStringExtra("RIGHT");
+//        }
+//        phrasesEnabled.set(getActivity().getIntent().getBooleanExtra("PHRASES", false));
 //        mCodeScanner = new CodeScanner(getActivity(), scannerView);
 //        mCodeScanner.setDecodeCallback(result -> {
 //            mCodeScanner.stopPreview();
@@ -299,9 +288,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                         break;
                     case TIMER_MODE_PAUSE:
                         timerColor.set(COLOR_YELLOW);
-                        fightData.addAction(FightActionData.createSetPause(timeMillisecs.get(),
-                                period.get(), System.currentTimeMillis()), null, null);
-                        backupHelper.backupLastFight(backupHelper.createBackup(fightData), fightId);
+                        core.getFightHandler().setTime(timeMillisecs.get(), 60000, TIMER_MODE_PAUSE);
                         break;
                 }
             }
@@ -311,25 +298,9 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             public void onPropertyChanged(Observable sender, int propertyId) {
                 if (leftScore.get() < 0) {
                     leftScore.set(0);
+                } else {
+                    core.getFightHandler().setScore(timeMillisecs.get(), PERSON_TYPE_LEFT, leftScore.get());
                 }
-                core.sendToSM(CommandHelper.setScore(PERSON_TYPE_LEFT, leftScore.get()));
-                fightData.addAction(FightActionData.createSetScoreLeft(timeMillisecs.get(),
-                        period.get(), FightActionData.Fighter.Left, leftScore.get(),
-                        System.currentTimeMillis(), 14), new ActionUploadCallback() {
-                    @Override
-                    public void onUpload(FightAction action) {
-                        if (phrasesEnabled.get()) {
-                            lastScoreActionId = action._id;
-                            isLastAndOutdated = true;
-                        }
-                    }
-
-                    @Override
-                    public void onRefresh(String id) {
-
-                    }
-                }, null);
-                backupHelper.backupLastFight(backupHelper.createBackup(fightData), fightId);
             }
         });
         rightScore.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
@@ -337,36 +308,16 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             public void onPropertyChanged(Observable sender, int propertyId) {
                 if (rightScore.get() < 0) {
                     rightScore.set(0);
+                } else {
+                    core.getFightHandler().setScore(timeMillisecs.get(), PERSON_TYPE_RIGHT, rightScore.get());
                 }
-                core.sendToSM(CommandHelper.setScore(PERSON_TYPE_RIGHT, rightScore.get()));
-                fightData.addAction(FightActionData.createSetScoreRight(timeMillisecs.get(),
-                        period.get(), FightActionData.Fighter.Right, rightScore.get(),
-                        System.currentTimeMillis(), 14), new ActionUploadCallback() {
-                    @Override
-                    public void onUpload(FightAction action) {
-                        if (phrasesEnabled.get()) {
-                            lastScoreActionId = action._id;
-                            isLastAndOutdated = true;
-                        }
-                    }
-
-                    @Override
-                    public void onRefresh(String id) {
-
-                    }
-                }, null);
-                backupHelper.backupLastFight(backupHelper.createBackup(fightData), fightId);
             }
         });
         period.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 timerMode.set(TIMER_MODE_MAIN);
-                core.sendToSM(CommandHelper.setPeriod(period.get()));
-                core.sendToSM(CommandHelper.setTimer(defaultTime.get(), timerMode.get() - 80));
-                fightData.addAction(FightActionData.createSetPeriod(timeMillisecs.get(),
-                        period.get(), System.currentTimeMillis()), null, null);
-                backupHelper.backupLastFight(backupHelper.createBackup(fightData), fightId);
+                core.getFightHandler().setPeriod(timeMillisecs.get(), period.get(), defaultTime.get());
                 isPeriodFinished = false;
             }
         });
@@ -395,11 +346,11 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //                        if (DataManager.instance().getCurrentFight() != null) {
 //                            fightData = DataManager.instance().getCurrentFight();
 //                        } else {
-                            fightData = new FightData("", new Date(), new FighterData("", leftName), new FighterData("", rightName),
-                                    "", SettingsManager.getValue(CommonConstants.LAST_USER_NAME_FIELD, ""));
-                            fightData.setmStartTime(System.currentTimeMillis());
-                            fightData.setmCurrentTime(defaultTime.get());
-                            fightData.setmCurrentPeriod(period.get());
+//                            fightData = new FightData("", new Date(), new FighterData("", leftName), new FighterData("", rightName),
+//                                    "", SettingsManager.getValue(CommonConstants.LAST_USER_NAME_FIELD, ""));
+//                            fightData.setmStartTime(System.currentTimeMillis());
+//                            fightData.setmCurrentTime(defaultTime.get());
+//                            fightData.setmCurrentPeriod(period.get());
 //                        }
                     }
                     fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
@@ -415,26 +366,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         leftCard.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                switch (leftCard.get()) {
-                    case CARD_STATE_NONE:
-                        core.sendToSM(CommandHelper.setCard(PERSON_TYPE_LEFT, CARD_STATUS_NONE));
-                        break;
-                    case CARD_STATE_YELLOW:
-                        core.sendToSM(CommandHelper.setCard(PERSON_TYPE_LEFT, CARD_STATUS_YELLOW));
-                        break;
-                    case CARD_STATE_RED:
-                        core.sendToSM(CommandHelper.setCard(PERSON_TYPE_LEFT, CARD_STATUS_RED));
-                        break;
-                    case CARD_STATE_BLACK:
-                        core.sendToSM(CommandHelper.setCard(PERSON_TYPE_LEFT, CARD_STATUS_BLACK));
-                        break;
-                }
-                if (leftCard.get() != CARD_STATE_NONE) {
-                    fightData.addAction(FightActionData.createSetCardLeft(timeMillisecs.get(),
-                            period.get(), FightActionData.Fighter.Left, leftScore.get(), leftCard.get() == CARD_STATE_YELLOW,
-                            System.currentTimeMillis()), null, null);
-                    backupHelper.backupLastFight(backupHelper.createBackup(fightData), fightId);
-                }
+                core.getFightHandler().setCard(timeMillisecs.get(), PERSON_TYPE_LEFT, leftCard.get());
             }
         });
         leftPCard.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
@@ -459,26 +391,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         rightCard.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                switch (rightCard.get()) {
-                    case CARD_STATE_NONE:
-                        core.sendToSM(CommandHelper.setCard(PERSON_TYPE_RIGHT, CARD_STATUS_NONE));
-                        break;
-                    case CARD_STATE_YELLOW:
-                        core.sendToSM(CommandHelper.setCard(PERSON_TYPE_RIGHT, CARD_STATUS_YELLOW));
-                        break;
-                    case CARD_STATE_RED:
-                        core.sendToSM(CommandHelper.setCard(PERSON_TYPE_RIGHT, CARD_STATUS_RED));
-                        break;
-                    case CARD_STATE_BLACK:
-                        core.sendToSM(CommandHelper.setCard(PERSON_TYPE_RIGHT, CARD_STATUS_BLACK));
-                        break;
-                }
-                if (leftCard.get() != CARD_STATE_NONE) {
-                    fightData.addAction(FightActionData.createSetCardRight(timeMillisecs.get(),
-                            period.get(), FightActionData.Fighter.Right, rightScore.get(), rightCard.get() == CARD_STATE_YELLOW,
-                            System.currentTimeMillis()), null, null);
-                    backupHelper.backupLastFight(backupHelper.createBackup(fightData), fightId);
-                }
+                core.getFightHandler().setCard(timeMillisecs.get(), PERSON_TYPE_RIGHT, rightCard.get());
             }
         });
         rightPCard.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
@@ -504,26 +417,12 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 convertMStoDigits(timeMillisecs.get());
-                fightData.setmCurrentTime(timeMillisecs.get());
-                backupHelper.backupLastFight(backupHelper.createBackup(fightData), fightId);
             }
         });
         priority.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
-                core.sendToSM(CommandHelper.setPriority(priority.get()));
-                if (priority.get() == PERSON_TYPE_LEFT) {
-                    fightData.addAction(FightActionData.createSetPriorityLeft(timeMillisecs.get(),
-                            period.get(), FightActionData.Fighter.Left,
-                            System.currentTimeMillis()), null, null);
-                } else if (priority.get() == PERSON_TYPE_RIGHT) {
-                    if (leftCard.get() != CARD_STATE_NONE) {
-                        fightData.addAction(FightActionData.createSetPriorityRight(timeMillisecs.get(),
-                                period.get(), FightActionData.Fighter.Right,
-                                System.currentTimeMillis()), null, null);
-                    }
-                }
-                backupHelper.backupLastFight(backupHelper.createBackup(fightData), fightId);
+                core.getFightHandler().setPriority(timeMillisecs.get(), priority.get());
             }
         });
         getActivity().getBinding().scoreLay.scoreLeft.setValue(leftScore.get());
@@ -655,10 +554,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         configLeft.setAdapter(new FightersAutoCompleteAdapter(activity, true));
         configLeft.setListener((adapterView, view, position, id) -> {
             ListUser listUser = (ListUser) adapterView.getItemAtPosition(position);
-            fightData.setmLeftFighterData(new FighterData(listUser._id, listUser.name));
             activity.getBinding().namesLay.leftFighter.setText(listUser.name);
             configRight.getAdapter().setExcludeUser(listUser);
-            fightData.setId(SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, ""));
             saveFightData();
         });
         configLeft.setWatcher(new TextWatcher() {
@@ -671,7 +568,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 configRight.getAdapter().setExcludeUser(null);
                 leftName = charSequence.toString();
                 core.sendToSM(CommandHelper.setName(CommandsContract.PERSON_TYPE_LEFT, leftName));
-                fightData.getLeftFighter().setName(leftName);
                 saveFightData();
             }
 
@@ -685,9 +581,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         configRight.setListener((adapterView, view, position, id) -> {
             ListUser listUser = (ListUser) adapterView.getItemAtPosition(position);
             activity.getBinding().namesLay.rightFighter.setText(listUser.name);
-            fightData.setmRightFighterData(new FighterData(listUser._id, listUser.name));
             configLeft.getAdapter().setExcludeUser(listUser);
-            fightData.setId(SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, ""));
             saveFightData();
         });
         configRight.setWatcher(new TextWatcher() {
@@ -699,7 +593,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 configLeft.getAdapter().setExcludeUser(null);
                 rightName = charSequence.toString();
-                fightData.getRightFighter().setName(rightName);
                 core.sendToSM(CommandHelper.setName(CommandsContract.PERSON_TYPE_RIGHT, rightName));
                 saveFightData();
             }
@@ -754,7 +647,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 }
             } else {
                 SettingsManager.setValue(UNFINISHED_FIGHT, fightId);
-                backupHelper.backupLastFight(backupHelper.createBackup(fightData), fightId);
             }
         }
 
@@ -762,28 +654,28 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     }
 
     public void restoreFromExisted(FullFightInfo info) {
-        fightId = SettingsManager.getValue(UNFINISHED_FIGHT, "");
-        fightData = info.getFightData();
-        leftScore.set(fightData.getLeftFighter().getScore());
-        rightScore.set(fightData.getRightFighter().getScore());
-        period.set(fightData.getmCurrentPeriod());
-        core.sendToSM(CommandHelper.setPeriod(period.get()));
-        rightName = fightData.getRightFighter().getName();
-        core.sendToSM(CommandHelper.setName(CommandsContract.PERSON_TYPE_RIGHT, rightName));
-        leftName = fightData.getLeftFighter().getName();
-        core.sendToSM(CommandHelper.setName(CommandsContract.PERSON_TYPE_LEFT, leftName));
-        timeMillisecs.set((int) fightData.getmCurrentTime());
-        timeNotifySM02();
-        if (fightData.getLeftFighter().getCard() == CommonConstants.CardStatus.CardStatus_Yellow) {
-            leftCard.set(CARD_STATE_YELLOW);
-        } else if (fightData.getLeftFighter().getCard() == CommonConstants.CardStatus.CardStatus_Red) {
-            leftCard.set(CARD_STATE_RED);
-        }
-        if (fightData.getRightFighter().getCard() == CommonConstants.CardStatus.CardStatus_Yellow) {
-            rightCard.set(CARD_STATE_YELLOW);
-        } else if (fightData.getRightFighter().getCard() == CommonConstants.CardStatus.CardStatus_Red) {
-            rightCard.set(CARD_STATE_RED);
-        }
+//        fightId = SettingsManager.getValue(UNFINISHED_FIGHT, "");
+//        fightData = info.getFightData();
+//        leftScore.set(fightData.getLeftFighter().getScore());
+//        rightScore.set(fightData.getRightFighter().getScore());
+//        period.set(fightData.getmCurrentPeriod());
+//        core.sendToSM(CommandHelper.setPeriod(period.get()));
+//        rightName = fightData.getRightFighter().getName();
+//        core.sendToSM(CommandHelper.setName(CommandsContract.PERSON_TYPE_RIGHT, rightName));
+//        leftName = fightData.getLeftFighter().getName();
+//        core.sendToSM(CommandHelper.setName(CommandsContract.PERSON_TYPE_LEFT, leftName));
+//        timeMillisecs.set((int) fightData.getmCurrentTime());
+//        timeNotifySM02();
+//        if (fightData.getLeftFighter().getCard() == CommonConstants.CardStatus.CardStatus_Yellow) {
+//            leftCard.set(CARD_STATE_YELLOW);
+//        } else if (fightData.getLeftFighter().getCard() == CommonConstants.CardStatus.CardStatus_Red) {
+//            leftCard.set(CARD_STATE_RED);
+//        }
+//        if (fightData.getRightFighter().getCard() == CommonConstants.CardStatus.CardStatus_Yellow) {
+//            rightCard.set(CARD_STATE_YELLOW);
+//        } else if (fightData.getRightFighter().getCard() == CommonConstants.CardStatus.CardStatus_Red) {
+//            rightCard.set(CARD_STATE_RED);
+//        }
     }
 
     private void convertMStoDigits(int milliseconds) {
@@ -1072,8 +964,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public void onMenuDeviceReset() {
         core.vibr();
         core.sendToSM(CommandHelper.reset(defaultTime.get()));
-        fightData = new FightData("", new Date(), new FighterData("", leftName), new FighterData("", rightName),
-                "", SettingsManager.getValue(CommonConstants.LAST_USER_NAME_FIELD, ""));
 //        DataManager.instance().saveFight(Helper.convertFightDataToInput(fightData), new DataManager.RequestListener<SaveFightResult>() {
 //            @Override
 //            public void onSuccess(SaveFightResult result) {
@@ -1092,13 +982,11 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //        });
         fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
         SettingsManager.setValue(UNFINISHED_FIGHT, fightId);
-        backupHelper.backupLastFight(backupHelper.createBackup(fightData), fightId);
         reset();
     }
 
     public void reset() {
         fightId = "";
-        fightData.setId("");
         SettingsManager.removeValue(CommonConstants.LAST_FIGHT_ID);
         timeToDisplay.set(String.valueOf(timerDefMinDec.get()) + String.valueOf(timerDefMinUnit.get()) + ":" +
                 String.valueOf(timerDefSecDec.get()) + String.valueOf(timerDefSecUnit.get()));
@@ -1184,9 +1072,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 priority.set(PERSON_TYPE_LEFT);
                 break;
         }
-        FighterData temp = fightData.getLeftFighter();
-        fightData.setmLeftFighterData(fightData.getRightFighter());
-        fightData.setmRightFighterData(temp);
         saveFightData();
         screenState.set(SCREEN_MAIN);
     }
@@ -1209,41 +1094,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         screenState.set(SCREEN_MAIN);
         getActivity().getBinding().playerLay.seekSb.setProgress(4);
         getActivity().getBinding().playerLay.speedSb.setProgress(4);
-    }
-
-    public void onSyncCancel() {
-        core.keepAliveDirectServer = false;
-        stopSync();
-        SettingsManager.removeValue(CommonConstants.GROUP_ADDRESS);
-    }
-
-    public void onSyncDecline() {
-        core.vibr();
-        Intent intent = new Intent(getActivity(), NewFightActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        goToNewScreen = false;
-        getActivity().startActivity(intent);
-        SettingsManager.removeValue(UNFINISHED_FIGHT);
-    }
-
-    public void stopSync() {
-//        if (withSEMI.get()) {
-//            core.sendGOMessage(core.getConnectedSm(), new EthernetStopCommand().getBytes());
-//        }
-//        core.stopServer();
-//        reset();
-//        screenState.set(SCREEN_SYNC_LAY);
-        syncState.set(SYNC_STATE_NONE);
-//        WifiManager wifiManager = (WifiManager)this.getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-//        if (wifiManager != null) {
-//            try {
-//                wifiManager.setWifiEnabled(false);
-//                Thread.sleep(50);
-//                wifiManager.setWifiEnabled(true);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 
     public void onOptionsSelect() {
@@ -1318,7 +1168,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
     public void onPhraseSelected(int phrase, boolean isLeft) {
         if (isLastAndOutdated) {
-            fightData.refreshActionPhrase(lastScoreActionId, null, phrase);
             isLastAndOutdated = false;
         }
     }
@@ -1355,7 +1204,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //            public void onStateChanged(boolean inProgress) {
 //            }
 //        });
-        backupHelper.backupLastFight(backupHelper.createBackup(fightData), fightId);
     }
 
     //Core section
@@ -1435,10 +1283,10 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 rightName = rName;
                 leftCard.set(message[3] + 20);
                 rightCard.set(message[4] + 20);
-                fightData = new FightData("", new Date(), new FighterData("", leftName), new FighterData("", rightName),
-                        "", SettingsManager.getValue(CommonConstants.LAST_USER_NAME_FIELD, ""));
-//                DataManager.instance().setCurrentFight(fightData);
-                fightData.setmStartTime(System.currentTimeMillis());
+//                fightData = new FightData("", new Date(), new FighterData("", leftName), new FighterData("", rightName),
+//                        "", SettingsManager.getValue(CommonConstants.LAST_USER_NAME_FIELD, ""));
+////                DataManager.instance().setCurrentFight(fightData);
+//                fightData.setmStartTime(System.currentTimeMillis());
 //                String timeStr = new String(timeBuf, Charsets.UTF_8);
 //                Log.wtf("RECEIVED TIME", timeStr);
 //                int ms = (timeStr.length() == 5 ? Integer.parseInt(String.valueOf(timeStr.charAt(0)))*10*60*1000 : 0) +
@@ -1513,12 +1361,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 isVideoReady.set(true);
                 break;
         }
-    }
-
-    private void updateData() {
-        //TODO fill data and send it to server if fighters ids != null
-        //TODO THINK IF IT NEEDED
-        fightData.setmCurrentPeriod(period.get());
     }
 
     @Override
