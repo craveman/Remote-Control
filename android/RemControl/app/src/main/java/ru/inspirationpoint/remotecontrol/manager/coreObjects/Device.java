@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class Device {
 
-    private InetAddress address;
+    private String address;
     private int type;
     private String name;
     private Pair<Byte, byte[]> message = new Pair<>(Byte.valueOf("0"), new byte[0x0]);
@@ -16,17 +16,17 @@ public class Device {
     public Device() {
     }
 
-    public Device(InetAddress address, int type, String name) {
+    public Device(String address, int type, String name) {
         this.address = address;
         this.type = type;
         this.name = name;
     }
 
-    public InetAddress getInetAddress() {
+    public String getInetAddress() {
         return address;
     }
 
-    public void setInetAddress(InetAddress address) {
+    public void setInetAddress(String address) {
         this.address = address;
     }
 

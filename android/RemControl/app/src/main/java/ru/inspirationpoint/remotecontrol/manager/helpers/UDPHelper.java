@@ -15,7 +15,12 @@ import java.net.InetSocketAddress;
 import java.net.SocketException;
 import java.util.Arrays;
 
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+
 import static android.content.Context.WIFI_SERVICE;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEVICE_ID_SETTING;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.GROUP_ADDRESS;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UDPCommands.PING_UDP;
 
 public class UDPHelper extends Thread {
 
@@ -143,8 +148,15 @@ public class UDPHelper extends Thread {
                     if (!packet.getAddress().getHostName().equals(ip)) {
                         Log.wtf("RECVD in helper", text);
                         String[] messageArray = text.split("\0");
-                        if ((messageArray.length >= 1))
-                        listener.onReceive(messageArray, packet.getAddress().getHostAddress());
+                        if ((messageArray.length >= 1)) {
+                            if (messageArray[0].equals(PING_UDP)) {
+                                sendTargetMessage("HELLO" + "\0" + "2" + "\0"
+                                        + SettingsManager.getValue(GROUP_ADDRESS, ""),
+                                        packet.getAddress().getHostAddress());
+                            } else {
+                                listener.onReceive(messageArray, packet.getAddress().getHostAddress());
+                            }
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

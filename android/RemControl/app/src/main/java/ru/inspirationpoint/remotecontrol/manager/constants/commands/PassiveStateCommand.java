@@ -4,16 +4,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class PlayerCommand extends CommonTCPCommand {
+public class PassiveStateCommand extends CommonTCPCommand {
 
-    private int mode;
-    private int speed;
-    private int timestamp;
+    private int show;
+    private int lock;
+    private int defTime;
 
-    public PlayerCommand(int mode, int speed, int timestamp) {
-        this.mode = mode;
-        this.speed = speed;
-        this.timestamp = timestamp;
+    public PassiveStateCommand(boolean isShown, boolean isLocked, int defTime) {
+        show = isShown?1:0;
+        lock = isLocked?1:0;
+        this.defTime = defTime;
     }
 
     @Override
@@ -21,14 +21,14 @@ public class PlayerCommand extends CommonTCPCommand {
         ByteArrayOutputStream b1 = new ByteArrayOutputStream();
         DataOutputStream s1 = new DataOutputStream(b1);
         try {
-            s1.writeByte(speed);
-            s1.writeByte(mode);
-            s1.write(intToBytes(timestamp));
+            s1.writeByte(show);
+            s1.writeByte(lock);
+            s1.write(intToBytes(defTime));
         } catch (IOException e) {
             e.printStackTrace();
         }
         body = b1.toByteArray();
-        cmd = CommandsContract.PLAYER_TCP_CMD;
+        cmd = CommandsContract.PASSIVE_STATE;
         return super.getBytes();
     }
 }

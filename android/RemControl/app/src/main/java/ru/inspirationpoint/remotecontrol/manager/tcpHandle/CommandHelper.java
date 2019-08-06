@@ -1,7 +1,5 @@
 package ru.inspirationpoint.remotecontrol.manager.tcpHandle;
 
-import android.util.Log;
-
 import ru.inspirationpoint.remotecontrol.manager.constants.commands.*;
 
 public class CommandHelper {
@@ -58,17 +56,17 @@ public class CommandHelper {
     }
 
     public static byte[] startTimer(boolean start) {
-        StartTimerCommand command = new StartTimerCommand(start ? 0 : 1);
+        StartTimerCommand command = new StartTimerCommand(start ? 1 : 0);
         return command.getBytes();
     }
 
-    public static byte[] notifyPlayer(int mode, int speed) {
-        PlayerCommand command = new PlayerCommand(mode, speed);
+    public static byte[] notifyPlayer(int mode, int speed, int timestamp) {
+        PlayerCommand command = new PlayerCommand(mode, speed, timestamp);
         return command.getBytes();
     }
 
-    public static byte[] loadFile(int source, String fileName) {
-        LoadFileCommand command = new LoadFileCommand(fileName, source);
+    public static byte[] loadFile(String fileName) {
+        LoadFileCommand command = new LoadFileCommand(fileName);
         return command.getBytes();
     }
 
@@ -78,14 +76,10 @@ public class CommandHelper {
     }
 
     public static byte[] ethStart() {
-        EthernetStartCommand command = new EthernetStartCommand();
-        Log.wtf("WTH START", "CALLED");
-        return command.getBytes();
-    }
-
-    public static byte[] ethStop() {
-        EthernetStopCommand command = new EthernetStopCommand();
-        return command.getBytes();
+//        EthernetStartCommand command = new EthernetStartCommand();
+//        Log.wtf("WTH START", "CALLED");
+//        return command.getBytes();
+        return null;
     }
 
     public static byte[] visibilityOpt(boolean isVideo, boolean isPhoto, boolean isPassive, boolean isCountry) {
@@ -98,8 +92,8 @@ public class CommandHelper {
         return command.getBytes();
     }
 
-    public static byte[] passiveLock() {
-        PassiveLockChangeCommand command = new PassiveLockChangeCommand();
+    public static byte[] passiveState(boolean isShown, boolean isLocked, int defaultTime) {
+        PassiveStateCommand command = new PassiveStateCommand(isShown, isLocked, defaultTime);
         return command.getBytes();
     }
 

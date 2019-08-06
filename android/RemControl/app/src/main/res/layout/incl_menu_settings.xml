@@ -16,6 +16,20 @@
         android:background="@color/colorPrimaryDark">
 
         <android.support.constraint.Guideline
+            android:id="@+id/names_title_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".02" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/names_title_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".075" />
+
+        <android.support.constraint.Guideline
             android:id="@+id/msett_divider_1_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -140,6 +154,24 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".91" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/settings"
+            android:textColor="@color/textColorSecondary"
+            android:id="@+id/names_title"
+            android:textAlignment="center"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintTop_toTopOf="@id/names_title_top"
+            app:layout_constraintBottom_toBottomOf="@id/names_title_bottom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <View
             android:layout_width="match_parent"

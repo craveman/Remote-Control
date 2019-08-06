@@ -12,10 +12,12 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
 import ru.inspirationpoint.remotecontrol.manager.constants.commands.SetTimerCommand;
 import ru.inspirationpoint.remotecontrol.manager.coreObjects.Device;
 import ru.inspirationpoint.remotecontrol.manager.helpers.UDPHelper;
@@ -26,8 +28,10 @@ import ru.inspirationpoint.remotecontrol.ui.dialog.ConfirmationDialog;
 
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEV_TYPE_REFEREE;
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEV_TYPE_SM;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.GROUP_ADDRESS;
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UDPCommands.PING_UDP;
 import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.DEV_TYPE_CAM;
+import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SYNC_STATE_SYNCED;
 
 
 public class CoreHandler implements TCPHelper.TCPListener{
@@ -55,7 +59,13 @@ public class CoreHandler implements TCPHelper.TCPListener{
         udpHelper.setListener(new UDPHelper.BroadcastListener() {
             @Override
             public void onReceive(String[] msg, String ip) {
-                if (msg[0].equals(PING_UDP)) {
+                if (msg[0].equals("OK") && tcpHelper == null) {
+                    //TODO ADD CODE IN CONSTRUCTOR
+                    tcpHelper = new TCPHelper(ip);
+                    tcpHelper.setListener(CoreHandler.this);
+                    tcpHelper.start();
+                    connectedDevices.add(new Device(ip, DEV_TYPE_SM, SettingsManager.getValue(GROUP_ADDRESS, "")));
+                } else if (msg[0].equals("WRCODE")) {
 
                 }
             }
@@ -193,6 +203,10 @@ public class CoreHandler implements TCPHelper.TCPListener{
     @Override
     public void onStreamCreated() {
         sendToSM(new SetTimerCommand(180000, 0).getBytes());
+        Log.wtf("STREAM", "+");
+        if (activity instanceof FightActivity) {
+            ((FightActivity) activity).getViewModel().syncState.set(SYNC_STATE_SYNCED);
+        }
     }
 
     @Override
@@ -201,6 +215,7 @@ public class CoreHandler implements TCPHelper.TCPListener{
         tcpHelper = null;
         if (serverCallback != null)
         serverCallback.connectionLost();
+        connectedDevices.clear();
     }
 
     public void sendToSM(byte[] message) {
@@ -225,9 +240,7 @@ public class CoreHandler implements TCPHelper.TCPListener{
         sendToSM(CommandHelper.videoCounters(left, right));
     }
 
-    public void passiveLockChange() {
-        sendToSM(CommandHelper.passiveLock());
-    }
+
 
     public void setUsbHandler(UsbConnectionHandler usbHandler) {
         this.usbHandler = usbHandler;

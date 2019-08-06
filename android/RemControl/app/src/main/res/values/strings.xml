@@ -270,12 +270,12 @@
     <string name="qr_need_explain">Please scan QR-code displayed by selected SM02</string>
     <string name="fa_sync_explain">For connection, direct the camera of the phone to the QR code located on the screen</string>
     <string name="fa_sync_message">Remote control is not connected to the device</string>
-    <string name="fa_timers_period_score">Timers, period, score</string>
-    <string name="fa_warnings_priority">Warnings, priority</string>
+    <string name="fa_timers_period_score">Timers</string>
+    <string name="fa_warnings_priority">Penalties</string>
     <string name="fa_medical_pause">Medical pause</string>
-    <string name="fa_warnings">Warnings</string>
-    <string name="fa_p_warnings">P - Warnings</string>
-    <string name="fa_p_cards">P-Warnings</string>
+    <string name="fa_warnings">Cards</string>
+    <string name="fa_p_warnings">P - Cards</string>
+    <string name="fa_p_cards">P-Cards</string>
     <string name="fa_passive_title">Passive</string>
     <string name="fa_passive_remove">Remove passive fight timer?</string>
     <string name="fa_passive_display">Display passive fight timer?</string>

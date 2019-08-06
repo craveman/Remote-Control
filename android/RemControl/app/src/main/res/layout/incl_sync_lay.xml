@@ -135,82 +135,82 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/msg_1_top" />
 
-        <!--<TextView-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:layout_marginEnd="30dp"-->
-            <!--android:layout_marginStart="30dp"-->
-            <!--android:text="@string/fa_sync_explain"-->
-            <!--android:textAlignment="center"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"-->
-            <!--app:autoSizeMaxTextSize="100sp"-->
-            <!--app:autoSizeMinTextSize="12sp"-->
-            <!--app:autoSizeStepGranularity="2sp"-->
-            <!--app:autoSizeTextType="uniform"-->
-            <!--app:layout_constraintBottom_toBottomOf="@id/msg_2_bottom"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintTop_toTopOf="@id/msg_2_top" />-->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"
+            android:text="@string/fa_sync_explain"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@id/msg_2_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/msg_2_top" />
 
-        <!--<com.budiyev.android.codescanner.CodeScannerView-->
-            <!--android:id="@+id/scanner_view"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"-->
-            <!--app:autoFocusButtonVisible="false"-->
-            <!--app:flashButtonVisible="false"-->
-            <!--app:frameAspectRatioHeight="1"-->
-            <!--app:frameAspectRatioWidth="1"-->
-            <!--app:frameColor="@color/redCard"-->
-            <!--app:frameCornersRadius="0dp"-->
-            <!--app:frameCornersSize="50dp"-->
-            <!--app:frameSize="0.75"-->
-            <!--app:frameThickness="2dp"-->
-            <!--app:layout_constraintDimensionRatio="h,16:9"-->
-            <!--app:layout_constraintEnd_toEndOf="@id/qr_right"-->
-            <!--app:layout_constraintStart_toStartOf="@id/qr_left"-->
-            <!--app:layout_constraintTop_toTopOf="@id/qr_top"-->
-            <!--app:maskColor="@color/transparent" />-->
+        <com.budiyev.android.codescanner.CodeScannerView
+            android:id="@+id/scanner_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
+            app:autoFocusButtonVisible="false"
+            app:flashButtonVisible="false"
+            app:frameAspectRatioHeight="1"
+            app:frameAspectRatioWidth="1"
+            app:frameColor="@color/redCard"
+            app:frameCornersRadius="0dp"
+            app:frameCornersSize="50dp"
+            app:frameSize="0.75"
+            app:frameThickness="2dp"
+            app:layout_constraintDimensionRatio="h,16:9"
+            app:layout_constraintEnd_toEndOf="@id/qr_right"
+            app:layout_constraintStart_toStartOf="@id/qr_left"
+            app:layout_constraintTop_toTopOf="@id/qr_top"
+            app:maskColor="@color/transparent" />
 
-        <!--<RelativeLayout-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_SYNCING ? v.VISIBLE : v.GONE}"-->
-            <!--app:layout_constraintEnd_toEndOf="@id/qr_right"-->
-            <!--app:layout_constraintStart_toStartOf="@id/qr_left"-->
-            <!--app:layout_constraintTop_toTopOf="@id/qr_top"-->
-            <!--app:layout_constraintBottom_toBottomOf="@id/sync_progress_bottom">-->
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_SYNCING ? v.VISIBLE : v.GONE}"
+            app:layout_constraintEnd_toEndOf="@id/qr_right"
+            app:layout_constraintStart_toStartOf="@id/qr_left"
+            app:layout_constraintTop_toTopOf="@id/qr_top"
+            app:layout_constraintBottom_toBottomOf="@id/sync_progress_bottom">
 
-            <!--<ProgressBar-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"-->
-                <!--android:layout_centerInParent="true"-->
-                <!--android:indeterminate="true"/>-->
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_centerInParent="true"
+                android:indeterminate="true"/>
 
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="25sp"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:layout_centerHorizontal="true"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:text="@string/fa_syncing_msg"/>-->
-        <!--</RelativeLayout>-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:text="@string/fa_syncing_msg"/>
+        </RelativeLayout>
 
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_SYNCING ? v.VISIBLE : v.GONE}"-->
-            <!--app:layout_constraintTop_toBottomOf="@id/sync_progress_bottom"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:text="@string/cancel"-->
-            <!--android:textSize="24sp"-->
-            <!--android:textAlignment="center"-->
-            <!--android:layout_marginTop="28dp"-->
-            <!--android:id="@+id/sync_cancel"-->
-            <!--android:onClick="@{() -> viewModel.onSyncCancel()}"/>-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_SYNCING ? v.VISIBLE : v.GONE}"
+            app:layout_constraintTop_toBottomOf="@id/sync_progress_bottom"
+            android:textColor="@color/white"
+            android:text="@string/cancel"
+            android:textSize="24sp"
+            android:textAlignment="center"
+            android:layout_marginTop="28dp"
+            android:id="@+id/sync_cancel"
+            android:onClick="@{() -> viewModel.onSyncCancel()}"/>
 
         <!--<TextView-->
             <!--android:layout_width="match_parent"-->

@@ -1,5 +1,7 @@
 package ru.inspirationpoint.remotecontrol.manager.tcpHandle;
 
+import android.util.Log;
+
 import java.io.IOException;
 
 public class TCPHelper extends Thread {

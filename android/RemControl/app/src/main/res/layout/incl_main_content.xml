@@ -191,32 +191,46 @@
                     app:layout_constraintGuide_percent=".88" />
 
                 <android.support.constraint.Guideline
-                    android:id="@+id/passive_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".30" />
+                android:id="@+id/passive_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".04" />
 
                 <android.support.constraint.Guideline
                     android:id="@+id/passive_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".70" />
+                    app:layout_constraintGuide_percent=".26" />
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/play_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent=".72" />
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/play_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent=".98" />
 
                 <android.support.constraint.Guideline
                     android:id="@+id/passive_top"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".06" />
+                    app:layout_constraintGuide_percent=".64" />
 
                 <android.support.constraint.Guideline
                     android:id="@+id/passive_bottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".24" />
+                    app:layout_constraintGuide_percent=".80" />
 
                 <android.support.constraint.Guideline
                     android:id="@+id/timer_left"
@@ -323,8 +337,6 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginStart="30dp"
                     android:text="P"
                     android:textAlignment="center"
                     android:textColor="@color/white"
@@ -344,14 +356,13 @@
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_marginStart="30dp"
                     android:id="@+id/main_player_btn"
                     android:src="@drawable/btn_play"
+                    android:scaleType="centerInside"
                     android:onClick="@{() -> viewModel.onVideoBtn()}"
                     android:visibility="@{viewModel.isVideoBtnVisible?v.VISIBLE:v.GONE}"
-                    app:layout_constraintEnd_toEndOf="@id/passive_right"
-                    app:layout_constraintStart_toStartOf="@id/passive_left"
+                    app:layout_constraintEnd_toEndOf="@id/play_right"
+                    app:layout_constraintStart_toStartOf="@id/play_left"
                     app:layout_constraintTop_toTopOf="@id/passive_top"
                     app:layout_constraintBottom_toBottomOf="@id/passive_bottom"/>
 

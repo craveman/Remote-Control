@@ -271,8 +271,8 @@
     <string name="qr_need_explain">Просканируйте QR-код, отображенный на экране нужного SM02</string>
     <string name="fa_sync_explain">Для подключения наведите камеру смартфона на QR код на экране SM-02</string>
     <string name="fa_sync_message">Не соединен с SM-02</string>
-    <string name="fa_timers_period_score">Таймеры, период, счет</string>
-    <string name="fa_warnings_priority">Предупреждения, приоритет</string>
+    <string name="fa_timers_period_score">Таймеры</string>
+    <string name="fa_warnings_priority">Предупреждения</string>
     <string name="fa_medical_pause">Мед. пауза</string>
     <string name="fa_warnings">Предупреждения</string>
     <string name="fa_p_warnings">P-Предупреждения</string>

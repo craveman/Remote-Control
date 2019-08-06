@@ -75,9 +75,7 @@ public class TCPClient {
                         byte[] buffer = new byte[temp[4] - CommandsContract.HEADER_LENGTH];
                         inputStream.read(buffer);
                         if (temp[5] == CommandsContract.PING_TCP_CMD) {
-                            Log.wtf("TCPClient","PING RCVD");
-                            sendMessage(CommandHelper.hello(CommonConstants.DEV_TYPE_RC, CommonConstants.DEV_STRING_TYPE_RC
-                             + "_" + SettingsManager.getValue(DEVICE_ID_SETTING, "")));
+                            sendMessage(CommandHelper.hello(CommonConstants.DEV_TYPE_RC, SettingsManager.getValue(DEVICE_ID_SETTING, "")));
                         } else {
                             Log.wtf("TCPClient","MSG" + Arrays.toString(buffer));
                             mMessageListener.messageReceived(temp[5], buffer);
