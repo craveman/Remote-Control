@@ -119,24 +119,10 @@ public interface CommonConstants {
             "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 
     interface UDPCommands{
-        String FIGHT_START_UDP = "ACTST";
-        String RESET_UDP = "RESE";
-        String STATE_REQUEST_UDP = "STAT";
-        String TIMER_START_UDP = "STARTF";
-        String FIGHT_STOP_UDP = "STOPF";
-        String TIMER_STOP_UDP = "PAUSEF";
         String PING_UDP = "PING";
-        String SEND_TO_SM_UDP = "SENDF";
-        String SEND_TO_REP_UDP = "SENDFR";
-        String UI_STATE_UDP = "STATE";
-        String INNER_STATE_UDP = "INNST";
-        String SEND_TO_CLOUD = "SENDCL";
-        String FILE_SENT_TO_SM = "SNTSM";
-        String FILE_SENT_TO_CLOUD = "SNTCLD";
-        String DEVICES_REQUEST_UDP = "DEVREQ";
-        String DEVICES_LIST_UDP = "DEVLIST";
-        String CAMERA_BEGIN_UDP = "BEGIN";
-        String CAMERA_READY_UDP = "CAMRDY";
-        String VIDEO_CUTTED_UDP = "CUTCOMPL";
+        String HELLO_UDP = "HELLO";
+        String OK_UDP = "OK";
+        String RC_EXISTS_UDP = "EXIST";
+        String WRONG_CODE_UDP = "WRCODE";
     }
 }

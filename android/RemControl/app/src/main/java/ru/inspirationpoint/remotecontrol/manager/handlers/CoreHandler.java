@@ -29,8 +29,12 @@ import ru.inspirationpoint.remotecontrol.ui.dialog.ConfirmationDialog;
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEV_TYPE_REFEREE;
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEV_TYPE_SM;
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.GROUP_ADDRESS;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UDPCommands.OK_UDP;
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UDPCommands.PING_UDP;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UDPCommands.RC_EXISTS_UDP;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UDPCommands.WRONG_CODE_UDP;
 import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.DEV_TYPE_CAM;
+import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SYNC_STATE_NONE;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SYNC_STATE_SYNCED;
 
 
@@ -59,14 +63,15 @@ public class CoreHandler implements TCPHelper.TCPListener{
         udpHelper.setListener(new UDPHelper.BroadcastListener() {
             @Override
             public void onReceive(String[] msg, String ip) {
-                if (msg[0].equals("OK") && tcpHelper == null) {
-                    //TODO ADD CODE IN CONSTRUCTOR
+                if (msg[0].equals(OK_UDP) && tcpHelper == null) {
                     tcpHelper = new TCPHelper(ip);
                     tcpHelper.setListener(CoreHandler.this);
                     tcpHelper.start();
                     connectedDevices.add(new Device(ip, DEV_TYPE_SM, SettingsManager.getValue(GROUP_ADDRESS, "")));
-                } else if (msg[0].equals("WRCODE")) {
-
+                } else if (msg[0].equals(WRONG_CODE_UDP) || msg[0].equals(RC_EXISTS_UDP)) {
+                    if (activity instanceof FightActivity) {
+                        ((FightActivity) activity).getViewModel().syncState.set(SYNC_STATE_NONE);
+                    }
                 }
             }
 
@@ -255,7 +260,6 @@ public class CoreHandler implements TCPHelper.TCPListener{
     }
 
     public void onUsbConnected(UsbDevice device) {
-
     }
 
     public FightValuesHandler getFightHandler() {
