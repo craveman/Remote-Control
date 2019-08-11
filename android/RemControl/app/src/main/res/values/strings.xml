@@ -284,6 +284,7 @@
     <string name="fa_remove_priority">Remove priority</string>
     <string name="fa_video_replays">Video replays</string>
     <string name="fa_def_time">Period time</string>
+    <string name="fa_def_p_time">Passive time</string>
     <string name="fa_video_reset_q">Reset the bout?</string>
     <string name="fa_score">Score</string>
     <string name="fa_fight_timer">Fight timer</string>
@@ -329,5 +330,11 @@
     <string name="player_title">Video watching</string>
     <string name="seek_title">Position</string>
     <string name="speed_title">Speed</string>
+    <string name="sm_off">SM01 is off! Connect it to continue</string>
+    <string name="end_bout">End bout</string>
+    <string name="close">Close</string>
+    <string name="timer_set">Bout timer set</string>
+    <string name="passive_timer_set">Passive timer set</string>
+    <string name="disconnect">Disconnect</string>
 
 </resources>

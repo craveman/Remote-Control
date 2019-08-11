@@ -16,6 +16,20 @@
         android:background="@color/colorPrimaryDark">
 
         <android.support.constraint.Guideline
+            android:id="@+id/timers_title_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".015" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/timers_title_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".07" />
+
+        <android.support.constraint.Guideline
             android:id="@+id/menu_fa_divider_1_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,14 +58,14 @@
             app:layout_constraintGuide_percent=".19" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/menu_fa_period_top"
+            android:id="@+id/menu_fa_timer_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".21" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/menu_fa_period_bottom"
+            android:id="@+id/menu_fa_timer_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -65,14 +79,14 @@
             app:layout_constraintGuide_percent=".29" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/menu_fa_score_top"
+            android:id="@+id/menu_fa_period_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".31" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/menu_fa_score_bottom"
+            android:id="@+id/menu_fa_period_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -86,14 +100,14 @@
             app:layout_constraintGuide_percent=".39" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/menu_fa_timer_top"
+            android:id="@+id/menu_fa_timer_set_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".41" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/menu_fa_timer_bottom"
+            android:id="@+id/menu_fa_timer_set_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -107,14 +121,14 @@
             app:layout_constraintGuide_percent=".49" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/menu_fa_med_top"
+            android:id="@+id/menu_fa_p_time_set_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".51" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/menu_fa_med_bottom"
+            android:id="@+id/menu_fa_p_time_set_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -128,14 +142,14 @@
             app:layout_constraintGuide_percent=".59" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/menu_fa_passive_top"
+            android:id="@+id/menu_fa_med_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".61" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/menu_fa_passive_bottom"
+            android:id="@+id/menu_fa_med_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -146,7 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".785" />
+            app:layout_constraintGuide_percent=".69" />
 
         <android.support.constraint.Guideline
             android:id="@+id/msett_cancel_top"
@@ -161,6 +175,24 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".91" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/fa_timers_period_score"
+            android:textColor="@color/textColorSecondary"
+            android:id="@+id/options_title"
+            android:textAlignment="center"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintTop_toTopOf="@id/timers_title_top"
+            app:layout_constraintBottom_toBottomOf="@id/timers_title_bottom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <View
             android:layout_width="match_parent"
@@ -230,21 +262,23 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="@string/score"
+            android:text="@string/timer_set"
             android:textColor="@color/white"
-            android:id="@+id/menu_fa_score"
+            android:id="@+id/msett_def_time"
             android:textAlignment="center"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:onClick="@{() -> viewModel.onMenuScore()}"
+            android:onClick="@{() -> viewModel.onMenuDefTime()}"
             app:autoSizeMaxTextSize="100sp"
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"
             app:autoSizeTextType="uniform"
-            app:layout_constraintTop_toTopOf="@id/menu_fa_score_top"
-            app:layout_constraintBottom_toBottomOf="@id/menu_fa_score_bottom"
+            app:layout_constraintTop_toTopOf="@id/menu_fa_timer_set_top"
+            app:layout_constraintBottom_toBottomOf="@id/menu_fa_timer_set_bottom"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+
+
 
         <View
             android:layout_width="match_parent"
@@ -286,19 +320,19 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="@string/fight_end_menu"
+            android:text="@string/passive_timer_set"
             android:textColor="@color/white"
-            android:id="@+id/menu_fa_passive"
+            android:id="@+id/menu_fa_def_time"
             android:textAlignment="center"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:onClick="@{() -> viewModel.onFightEndStart()}"
+            android:onClick="@{() -> viewModel.onMenuDefPassiveTime()}"
             app:autoSizeMaxTextSize="100sp"
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"
             app:autoSizeTextType="uniform"
-            app:layout_constraintTop_toTopOf="@id/menu_fa_passive_top"
-            app:layout_constraintBottom_toBottomOf="@id/menu_fa_passive_bottom"
+            app:layout_constraintTop_toTopOf="@id/menu_fa_p_time_set_top"
+            app:layout_constraintBottom_toBottomOf="@id/menu_fa_p_time_set_bottom"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -314,13 +348,13 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="@string/video_replays"
+            android:text="@string/fa_medical_pause"
             android:textColor="@color/white"
-            android:id="@+id/options_video"
+            android:id="@+id/menu_fa_med"
+            android:onClick="@{() -> viewModel.onMenuMedical()}"
             android:textAlignment="center"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:onClick="@{() -> viewModel.onMenuVideoReplays()}"
             app:autoSizeMaxTextSize="100sp"
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"
@@ -342,7 +376,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="@string/cancel"
+            android:text="@string/close"
             android:textColor="@color/white"
             android:id="@+id/msett_cancel"
             android:textAlignment="center"
@@ -357,6 +391,7 @@
             app:layout_constraintBottom_toBottomOf="@id/msett_cancel_bottom"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+
 
     </android.support.constraint.ConstraintLayout>
 

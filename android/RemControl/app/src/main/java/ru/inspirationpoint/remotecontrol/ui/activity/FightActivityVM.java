@@ -54,6 +54,7 @@ import ru.inspirationpoint.remotecontrol.ui.dialog.FightCantEndDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.FightFinishAskDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.FightFinishedDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.FightRestoreDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.SmOffDialog;
 
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.*;
 import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.*;
@@ -91,6 +92,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public static final int SCREEN_STATE_VIDEO = 18;
     public static final int SCREEN_COMPETITION_LAY = 19;
     public static final int SCREEN_REPLAYS_LAY = 20;
+    public static final int SCREEN_DEF_PASSIVE_TIME_LAY = 21;
 
     public static final int TIMER_MODE_MAIN = 80;
     public static final int TIMER_MODE_PAUSE = 81;
@@ -120,6 +122,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public ObservableInt timerState = new ObservableInt(TIMER_STATE_NOT_STARTED);
     public ObservableField<String> timeToDisplay = new ObservableField<>("03:00");
     public ObservableInt defaultTime = new ObservableInt(180000);
+    public ObservableInt defaultPassiveTime = new ObservableInt(60000);
     public ObservableInt timeMillisecs = new ObservableInt(defaultTime.get());
     public ObservableInt timerColor = new ObservableInt(COLOR_USUAL);
     public ObservableInt leftPCard = new ObservableInt(CARD_STATE_NONE);
@@ -140,6 +143,9 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public ObservableInt timerDefMinUnit = new ObservableInt(3);
     public ObservableInt timerDefSecDec = new ObservableInt(0);
     public ObservableInt timerDefSecUnit = new ObservableInt(0);
+    public ObservableInt timerPDefMinUnit = new ObservableInt(0);
+    public ObservableInt timerPDefSecDec = new ObservableInt(6);
+    public ObservableInt timerPDefSecUnit = new ObservableInt(0);
     public ObservableBoolean isVideo = new ObservableBoolean(false);
     public ObservableBoolean isPhoto = new ObservableBoolean(false);
     public ObservableBoolean isPassive = new ObservableBoolean(true);
@@ -186,6 +192,9 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
     public ObservableInt videoSpeed = new ObservableInt(4);
     public ObservableInt videoProgress = new ObservableInt(0);
+
+    private ObservableBoolean isSM01alive = new ObservableBoolean(false);
+    private SmOffDialog dialog;
 
     public FightActivityVM(FightActivity activity) {
         super(activity);
@@ -246,10 +255,17 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                         getActivity().getBinding().timerLay.timerUnitSec.setValue(timerSecUnit.get());
                         break;
                     case SCREEN_DEF_TIME_LAY:
+                        getActivity().getBinding().defTimeLay.defTimeDecMin.setVisibility(View.VISIBLE);
                         getActivity().getBinding().defTimeLay.defTimeDecMin.setValue(timerDefMinDec.get());
                         getActivity().getBinding().defTimeLay.defTimeUnitMin.setValue(timerDefMinUnit.get());
                         getActivity().getBinding().defTimeLay.defTimeDecSec.setValue(timerDefSecDec.get());
                         getActivity().getBinding().defTimeLay.defTimeUnitSec.setValue(timerDefSecUnit.get());
+                        break;
+                    case SCREEN_DEF_PASSIVE_TIME_LAY:
+                        getActivity().getBinding().defTimeLay.defTimeDecMin.setVisibility(View.GONE);
+                        getActivity().getBinding().defTimeLay.defTimeUnitMin.setValue(timerPDefMinUnit.get());
+                        getActivity().getBinding().defTimeLay.defTimeDecSec.setValue(timerPDefSecDec.get());
+                        getActivity().getBinding().defTimeLay.defTimeUnitSec.setValue(timerPDefSecUnit.get());
                         break;
                     case SCREEN_PERIOD_LAY:
                         getActivity().getBinding().periodLay.periodNp.setValue(period.get());
@@ -264,6 +280,12 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 core.sendToSM(CommandHelper.setDefTimer(defaultTime.get()));
+            }
+        });
+        defaultPassiveTime.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                core.sendToSM(CommandHelper.passiveState(isPassive.get(), false, defaultPassiveTime.get()));
             }
         });
         timerMode.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
@@ -416,6 +438,19 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 core.getFightHandler().setPriority(timeMillisecs.get(), priority.get());
             }
         });
+        isSM01alive.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                if (!isSM01alive.get()) {
+                    dialog = SmOffDialog.newInstance();
+                    dialog.show(getActivity().getSupportFragmentManager(), "sm_dialog");
+                } else {
+                    if (dialog != null) {
+                        dialog.close();
+                    }
+                }
+            }
+        });
         getActivity().getBinding().scoreLay.scoreLeft.setValue(leftScore.get());
         getActivity().getBinding().scoreLay.scoreLeft.setOnValueChangedListener((picker, oldVal, newVal) ->
                 leftScore.set(newVal));
@@ -451,21 +486,39 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
         getActivity().getBinding().defTimeLay.defTimeUnitMin.setValue(timerDefMinUnit.get());
         getActivity().getBinding().defTimeLay.defTimeUnitMin.setOnValueChangedListener((picker, oldVal, newVal) -> {
-            defaultTime.set(((timerDefMinDec.get() * 10 + timerDefMinUnit.get()) * 60 +
-                    (timerDefSecDec.get() * 10 + timerDefSecUnit.get())) * 1000);
-            timerDefMinUnit.set(newVal);
+            if (screenState.get() == SCREEN_DEF_TIME_LAY) {
+                defaultTime.set(((timerDefMinDec.get() * 10 + timerDefMinUnit.get()) * 60 +
+                        (timerDefSecDec.get() * 10 + timerDefSecUnit.get())) * 1000);
+                timerDefMinUnit.set(newVal);
+            } else if (screenState.get() == SCREEN_DEF_PASSIVE_TIME_LAY){
+                defaultPassiveTime.set(((timerDefMinUnit.get()) * 60 +
+                        (timerDefSecDec.get() * 10 + timerDefSecUnit.get())) * 1000);
+                timerDefMinUnit.set(newVal);
+            }
         });
         getActivity().getBinding().defTimeLay.defTimeDecSec.setValue(timerDefSecDec.get());
         getActivity().getBinding().defTimeLay.defTimeDecSec.setOnValueChangedListener((picker, oldVal, newVal) -> {
-            defaultTime.set(((timerDefMinDec.get() * 10 + timerDefMinUnit.get()) * 60 +
-                    (timerDefSecDec.get() * 10 + timerDefSecUnit.get())) * 1000);
-            timerDefSecDec.set(newVal);
+            if (screenState.get() == SCREEN_DEF_TIME_LAY) {
+                defaultTime.set(((timerDefMinDec.get() * 10 + timerDefMinUnit.get()) * 60 +
+                        (timerDefSecDec.get() * 10 + timerDefSecUnit.get())) * 1000);
+                timerDefSecDec.set(newVal);
+            } else if (screenState.get() == SCREEN_DEF_PASSIVE_TIME_LAY){
+                defaultPassiveTime.set(((timerDefMinUnit.get()) * 60 +
+                        (timerDefSecDec.get() * 10 + timerDefSecUnit.get())) * 1000);
+                timerDefMinUnit.set(newVal);
+            }
         });
         getActivity().getBinding().defTimeLay.defTimeUnitSec.setValue(timerDefSecUnit.get());
         getActivity().getBinding().defTimeLay.defTimeUnitSec.setOnValueChangedListener((picker, oldVal, newVal) -> {
-            defaultTime.set(((timerDefMinDec.get() * 10 + timerDefMinUnit.get()) * 60 +
-                    (timerDefSecDec.get() * 10 + timerDefSecUnit.get())) * 1000);
-            timerDefSecUnit.set(newVal);
+            if (screenState.get() == SCREEN_DEF_TIME_LAY) {
+                defaultTime.set(((timerDefMinDec.get() * 10 + timerDefMinUnit.get()) * 60 +
+                        (timerDefSecDec.get() * 10 + timerDefSecUnit.get())) * 1000);
+                timerDefSecUnit.set(newVal);
+            } else if (screenState.get() == SCREEN_DEF_PASSIVE_TIME_LAY) {
+                defaultPassiveTime.set(((timerDefMinUnit.get()) * 60 +
+                        (timerDefSecDec.get() * 10 + timerDefSecUnit.get())) * 1000);
+                timerDefMinUnit.set(newVal);
+            }
         });
         getActivity().getBinding().periodLay.periodNp.setValue(period.get());
         getActivity().getBinding().periodLay.periodNp.setOnValueChangedListener((picker, oldVal, newVal) ->
@@ -625,7 +678,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             syncState.set(SYNC_STATE_SYNCED);
         } else {
             screenState.set(SCREEN_SYNC_LAY);
-            if (!TextUtils.isEmpty(SettingsManager.getValue(CommonConstants.GROUP_ADDRESS, ""))) {
+            if (!TextUtils.isEmpty(SettingsManager.getValue(GROUP_ADDRESS, ""))) {
                 syncState.set(SYNC_STATE_SYNCING);
                 Log.wtf("SYNCing", "+");
             } else {
@@ -894,8 +947,13 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
     public void onDefTimeAccepted() {
         core.vibr();
-        defaultTime.set(((timerDefMinDec.get() * 10 + timerDefMinUnit.get()) * 60 +
-                (timerDefSecDec.get() * 10 + timerDefSecUnit.get())) * 1000);
+        if (screenState.get() == SCREEN_DEF_TIME_LAY) {
+            defaultTime.set(((timerDefMinDec.get() * 10 + timerDefMinUnit.get()) * 60 +
+                    (timerDefSecDec.get() * 10 + timerDefSecUnit.get())) * 1000);
+        } else {
+            defaultPassiveTime.set(((timerDefMinUnit.get()) * 60 +
+                    (timerDefSecDec.get() * 10 + timerDefSecUnit.get())) * 1000);
+        }
         screenState.set(SCREEN_MAIN);
     }
 
@@ -982,6 +1040,10 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         reset();
     }
 
+    public void onMenuEndBout() {
+        //TODO
+    }
+
     public void reset() {
         fightId = "";
         SettingsManager.removeValue(CommonConstants.LAST_FIGHT_ID);
@@ -1020,11 +1082,26 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public void onMenuDefTime() {
         core.vibr();
         screenState.set(SCREEN_DEF_TIME_LAY);
+        getActivity().getBinding().defTimeLay.defTimeTitle
+                .setText(getActivity().getResources().getString(R.string.fa_def_time));
+    }
+
+    public void onMenuDefPassiveTime() {
+        core.vibr();
+        screenState.set(SCREEN_DEF_PASSIVE_TIME_LAY);
+        getActivity().getBinding().defTimeLay.defTimeTitle
+                .setText(getActivity().getResources().getString(R.string.fa_def_p_time));
     }
 
     public void onMenuVideoReplays() {
         core.vibr();
         screenState.set(SCREEN_STATE_VIDEO);
+    }
+
+    public void onMenuDisconnect() {
+        core.vibr();
+        SettingsManager.removeValue(GROUP_ADDRESS);
+        core.onDisconnect();
     }
 
     public void onPeriodNext() {
@@ -1138,6 +1215,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     }
 
     public void onFightEndStart() {
+        //TODO union with end bout method
         core.vibr();
         if (leftScore.get() == rightScore.get() &&
                 priority.get() == PERSON_TYPE_NONE) {
@@ -1214,10 +1292,16 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public void messageReceived(byte command, byte[] message) {
         switch (command) {
             case BROADCAST_TCP_CMD:
-                weapon.set(message[0]);
-                //TODO handle flags
-                byte[] time = new byte[4];
-                System.arraycopy(message, 3, time, 0, 4);
+                if (message[0] == 0 && message[7] == 2 && isSM01alive.get()) {
+                    isSM01alive.set(false);
+                } else {
+                    if (!isSM01alive.get()) {
+                        isSM01alive.set(true);
+                    }
+                    weapon.set(message[0]);
+                    //TODO handle flags
+                    byte[] time = new byte[4];
+                    System.arraycopy(message, 3, time, 0, 4);
 //                if (timerState.get() == TIMER_STATE_IN_PROGRESS && message[5] == 1) {
 //                    getActivity().runOnUiThread(() -> {
 //                        onTimerStopClick();
@@ -1233,30 +1317,31 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //                    });
 //                }
 //                if (message[5] == 0) {
-                timeMillisecs.set(ByteBuffer.wrap(time).getInt());
-                if (!isPeriodFinished && ByteBuffer.wrap(time).getInt() < 5 && timerMode.get() == TIMER_MODE_MAIN) {
-                    ConfirmationDialog.show(getActivity(), 456, getActivity().getResources().getString(R.string.period_finished),
-                            getActivity().getResources().getString(R.string.pause_start_ask));
-                    isPeriodFinished = true;
-                }
-                if (message[7] == 0 && timerState.get() == TIMER_STATE_IN_PROGRESS) {
-                    getActivity().runOnUiThread(() -> {
-                        timerState.set(TIMER_STATE_PAUSED);
-                        getActivity().getBinding().titleMain.setVisibility(View.VISIBLE);
-                        isVideoBtnVisible.set(true);
-                        String filename = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "") + "_" +
-                                timeToDisplay.get() + "_" + String.valueOf(period.get());
+                    timeMillisecs.set(ByteBuffer.wrap(time).getInt());
+                    if (!isPeriodFinished && ByteBuffer.wrap(time).getInt() < 5 && timerMode.get() == TIMER_MODE_MAIN) {
+                        ConfirmationDialog.show(getActivity(), 456, getActivity().getResources().getString(R.string.period_finished),
+                                getActivity().getResources().getString(R.string.pause_start_ask));
+                        isPeriodFinished = true;
+                    }
+                    if (message[7] == 0 && timerState.get() == TIMER_STATE_IN_PROGRESS) {
+                        getActivity().runOnUiThread(() -> {
+                            timerState.set(TIMER_STATE_PAUSED);
+                            getActivity().getBinding().titleMain.setVisibility(View.VISIBLE);
+                            isVideoBtnVisible.set(true);
+                            String filename = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "") + "_" +
+                                    timeToDisplay.get() + "_" + String.valueOf(period.get());
 //                        core.sendToCams(TIMER_STOP_UDP + "\0" + filename);
-                        isVideoReady.set(false);
-                    });
-                } else if (message[7] == 1 && timerState.get() != TIMER_STATE_IN_PROGRESS) {
-                    getActivity().runOnUiThread(() -> {
-                        timerState.set(TIMER_STATE_IN_PROGRESS);
-                        getActivity().getBinding().titleMain.setVisibility(View.GONE);
-                        isPassiveBtnVisible.set(false);
-                        activity.getBinding().mainContent.mainPassiveBtn.setBackground(activity.getResources().getDrawable(R.drawable.big_btn_border));
-                        activity.getBinding().mainContent.mainPassiveBtn.setTextColor(activity.getResources().getColor(R.color.white));
-                    });
+                            isVideoReady.set(false);
+                        });
+                    } else if (message[7] == 1 && timerState.get() != TIMER_STATE_IN_PROGRESS) {
+                        getActivity().runOnUiThread(() -> {
+                            timerState.set(TIMER_STATE_IN_PROGRESS);
+                            getActivity().getBinding().titleMain.setVisibility(View.GONE);
+                            isPassiveBtnVisible.set(false);
+                            activity.getBinding().mainContent.mainPassiveBtn.setBackground(activity.getResources().getDrawable(R.drawable.big_btn_border));
+                            activity.getBinding().mainContent.mainPassiveBtn.setTextColor(activity.getResources().getColor(R.color.white));
+                        });
+                    }
                 }
 //                }
                 break;
@@ -1349,7 +1434,11 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     @Override
     public void connectionLost() {
         //TODO check if need??
-        syncState.set(SYNC_STATE_SYNCING);
+        if (!TextUtils.isEmpty(SettingsManager.getValue(GROUP_ADDRESS, ""))) {
+            syncState.set(SYNC_STATE_SYNCING);
+        } else {
+            syncState.set(SYNC_STATE_NONE);
+        }
     }
 
     @Override
@@ -1392,6 +1481,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public void onSyncCancel() {
         core.vibr();
         syncState.set(SYNC_STATE_NONE);
+        SettingsManager.setValue(GROUP_ADDRESS, "");
     }
 
     //Binders section

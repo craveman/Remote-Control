@@ -285,11 +285,12 @@
     <string name="fa_remove_priority">Убрать приоритет</string>
     <string name="fa_video_replays">Видеоповторы</string>
     <string name="fa_def_time">Время периода</string>
+    <string name="fa_def_p_time">Время пассива</string>
     <string name="fa_video_reset_q">Сбросить значения на аппарате?</string>
     <string name="fa_score">Счет</string>
     <string name="fa_fight_timer">Таймер боя</string>
     <string name="fa_video_replays_display_q">Отображать количество видеоповторов?</string>
-    <string name="fa_device_reset">Сброс аппарата</string>
+    <string name="fa_device_reset">Начать заново</string>
     <string name="fa_weapon_type">Вид оружия</string>
     <string name="fa_surnames">Фамилии</string>
     <string name="fa_pause_full">Пауза 1 минута</string>
@@ -330,5 +331,11 @@
     <string name="player_title">Просмотр видео</string>
     <string name="seek_title">Позиция</string>
     <string name="speed_title">Скорость</string>
+    <string name="sm_off">SM01 отключен! Подключите устройство для продолжения</string>
+    <string name="end_bout">Завершить бой</string>
+    <string name="close">Закрыть</string>
+    <string name="timer_set">Настройка времени боя</string>
+    <string name="passive_timer_set">Настройка таймера пассива</string>
+    <string name="disconnect">Отключить от дорожки</string>
 
 </resources>

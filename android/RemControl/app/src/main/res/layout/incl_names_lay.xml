@@ -16,14 +16,14 @@
         android:background="@color/colorPrimaryDark">
 
         <android.support.constraint.Guideline
-            android:id="@+id/names_title_top"
+            android:id="@+id/sett_title_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".02" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/names_title_bottom"
+            android:id="@+id/sett_title_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -161,8 +161,8 @@
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"
             app:autoSizeTextType="uniform"
-            app:layout_constraintTop_toTopOf="@id/names_title_top"
-            app:layout_constraintBottom_toBottomOf="@id/names_title_bottom"
+            app:layout_constraintTop_toTopOf="@id/sett_title_top"
+            app:layout_constraintBottom_toBottomOf="@id/sett_title_bottom"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
