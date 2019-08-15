@@ -39,7 +39,7 @@ struct Font {
 }
 
 
-fileprivate enum FontEffect: Int, ParseFromString {
+private enum FontEffect: Int, ParseFromString {
 
   case normal = 0
   case bold = 1
@@ -70,7 +70,7 @@ fileprivate enum FontEffect: Int, ParseFromString {
 }
 
 
-fileprivate enum FontColor: Int, ParseFromString {
+private enum FontColor: Int, ParseFromString {
 
   case black = 30
   case red = 31
@@ -107,23 +107,18 @@ fileprivate enum FontColor: Int, ParseFromString {
 }
 
 
-fileprivate protocol ParseFromString: CaseIterable, CustomStringConvertible {
+private protocol ParseFromString: CaseIterable, CustomStringConvertible {
 
 }
 
 
-fileprivate extension ParseFromString {
+private extension ParseFromString {
 
   static func from (_ string: String) -> Self? {
     let normal = string
       .trimmingCharacters(in: .whitespacesAndNewlines)
       .lowercased()
 
-    for myCase in Self.allCases {
-      if normal == myCase.description {
-        return myCase
-      }
-    }
-    return nil
+    return Self.allCases.first { $0.description == normal }
   }
 }

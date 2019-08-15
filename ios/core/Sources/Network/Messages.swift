@@ -34,15 +34,15 @@ public enum StatusCard: UInt8 {
   case yellow = 0x02
   case red = 0x03
   case black = 0x04
-  case passive_none = 0x05
-  case passive_yellow = 0x06
-  case passive_red = 0x07
-  case passive_black = 0x08
+  case passiveNone = 0x05
+  case passiveYellow = 0x06
+  case passiveRed = 0x07
+  case passiveBlack = 0x08
 }
 
 public enum Decision: UInt8 {
 
-  case not_acknowledge = 0x00
+  case notAcknowledge = 0x00
   case acknowledge = 0x01
 }
 

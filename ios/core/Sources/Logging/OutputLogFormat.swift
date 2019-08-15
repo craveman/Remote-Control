@@ -66,14 +66,8 @@ struct OutputLogFormat {
         let string = dateFormatter.string(from: logMessage.date)
         result.append(string)
       case .thread:
-        let threadLabel = __dispatch_queue_get_label(nil)
-        if let string = String(cString: threadLabel, encoding: .utf8) {
-          result.append(string)
-        } else if Thread.current.isMainThread {
-          result.append("main")
-        } else {
-          result.append("unknown")
-        }
+        let threadName = getThreadName()
+        result.append(threadName)
       case .function:
         result.append(logMessage.function)
       case .lineNumber:
@@ -91,9 +85,19 @@ struct OutputLogFormat {
     }
     return result
   }
+
+  private func getThreadName () -> String {
+    let threadLabel = __dispatch_queue_get_label(nil)
+    if let string = String(cString: threadLabel, encoding: .utf8) {
+      return string
+    } else if Thread.current.isMainThread {
+      return "main"
+    }
+    return "unknown"
+  }
 }
 
-fileprivate enum Placeholder: String {
+private enum Placeholder: String {
 
   case date = "${DATE}"
   case thread = "${THREAD}"
