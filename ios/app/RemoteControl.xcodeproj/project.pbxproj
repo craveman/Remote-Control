@@ -7,24 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B9AD54ED2305B94700F97E4B /* Logging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD54EC2305B94700F97E4B /* Logging.framework */; };
-		B9AD54EF2305B94700F97E4B /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD54EE2305B94700F97E4B /* Network.framework */; };
-		B9AD54F12305B9CC00F97E4B /* CNIOAtomics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD54F02305B9CC00F97E4B /* CNIOAtomics.framework */; };
-		B9AD54F22305B9CC00F97E4B /* CNIOAtomics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD54F02305B9CC00F97E4B /* CNIOAtomics.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B9AD54F42305B9CC00F97E4B /* CNIOSHA1.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD54F32305B9CC00F97E4B /* CNIOSHA1.framework */; };
-		B9AD54F52305B9CC00F97E4B /* CNIOSHA1.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD54F32305B9CC00F97E4B /* CNIOSHA1.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B9AD54F72305B9CC00F97E4B /* CNIOLinux.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD54F62305B9CC00F97E4B /* CNIOLinux.framework */; };
-		B9AD54F82305B9CC00F97E4B /* CNIOLinux.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD54F62305B9CC00F97E4B /* CNIOLinux.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B9AD54FA2305B9CC00F97E4B /* NIOConcurrencyHelpers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD54F92305B9CC00F97E4B /* NIOConcurrencyHelpers.framework */; };
-		B9AD54FB2305B9CC00F97E4B /* NIOConcurrencyHelpers.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD54F92305B9CC00F97E4B /* NIOConcurrencyHelpers.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B9AD54FD2305B9CC00F97E4B /* Logging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD54FC2305B9CC00F97E4B /* Logging.framework */; };
-		B9AD54FE2305B9CC00F97E4B /* Logging.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD54FC2305B9CC00F97E4B /* Logging.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B9AD55002305B9CC00F97E4B /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD54FF2305B9CC00F97E4B /* Network.framework */; };
-		B9AD55012305B9CC00F97E4B /* Network.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD54FF2305B9CC00F97E4B /* Network.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B9AD55032305B9CC00F97E4B /* CNIODarwin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD55022305B9CC00F97E4B /* CNIODarwin.framework */; };
-		B9AD55042305B9CC00F97E4B /* CNIODarwin.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD55022305B9CC00F97E4B /* CNIODarwin.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B9AD55062305B9CD00F97E4B /* NIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD55052305B9CD00F97E4B /* NIO.framework */; };
-		B9AD55072305B9CD00F97E4B /* NIO.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B9AD55052305B9CD00F97E4B /* NIO.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B99CD76023077A08001F4DC7 /* RemoteControl_Logging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B99CD75F23077A08001F4DC7 /* RemoteControl_Logging.framework */; };
+		B99CD76123077A08001F4DC7 /* RemoteControl_Logging.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B99CD75F23077A08001F4DC7 /* RemoteControl_Logging.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B99CD76323077A08001F4DC7 /* RemoteControl_Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B99CD76223077A08001F4DC7 /* RemoteControl_Network.framework */; };
+		B99CD76423077A08001F4DC7 /* RemoteControl_Network.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B99CD76223077A08001F4DC7 /* RemoteControl_Network.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */; };
 		B9C8BEE02305A2C5004DBBF8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDF2305A2C5004DBBF8 /* ViewController.swift */; };
 		B9C8BEE32305A2C6004DBBF8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE12305A2C6004DBBF8 /* Main.storyboard */; };
@@ -52,20 +38,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		B9FDCBA92305B07300D9BB13 /* Embed Frameworks */ = {
+		B99CD76523077A08001F4DC7 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B9AD54F82305B9CC00F97E4B /* CNIOLinux.framework in Embed Frameworks */,
-				B9AD55042305B9CC00F97E4B /* CNIODarwin.framework in Embed Frameworks */,
-				B9AD54F52305B9CC00F97E4B /* CNIOSHA1.framework in Embed Frameworks */,
-				B9AD54F22305B9CC00F97E4B /* CNIOAtomics.framework in Embed Frameworks */,
-				B9AD54FE2305B9CC00F97E4B /* Logging.framework in Embed Frameworks */,
-				B9AD54FB2305B9CC00F97E4B /* NIOConcurrencyHelpers.framework in Embed Frameworks */,
-				B9AD55012305B9CC00F97E4B /* Network.framework in Embed Frameworks */,
-				B9AD55072305B9CD00F97E4B /* NIO.framework in Embed Frameworks */,
+				B99CD76123077A08001F4DC7 /* RemoteControl_Logging.framework in Embed Frameworks */,
+				B99CD76423077A08001F4DC7 /* RemoteControl_Network.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -73,16 +53,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		B99CD75F23077A08001F4DC7 /* RemoteControl_Logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RemoteControl_Logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B99CD76223077A08001F4DC7 /* RemoteControl_Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RemoteControl_Network.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9AD54EC2305B94700F97E4B /* Logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9AD54EE2305B94700F97E4B /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Network.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B9AD54F02305B9CC00F97E4B /* CNIOAtomics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CNIOAtomics.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B9AD54F32305B9CC00F97E4B /* CNIOSHA1.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CNIOSHA1.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B9AD54F62305B9CC00F97E4B /* CNIOLinux.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CNIOLinux.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B9AD54F92305B9CC00F97E4B /* NIOConcurrencyHelpers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NIOConcurrencyHelpers.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B9AD54FC2305B9CC00F97E4B /* Logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B9AD54FF2305B9CC00F97E4B /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Network.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B9AD55022305B9CC00F97E4B /* CNIODarwin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CNIODarwin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B9AD55052305B9CD00F97E4B /* NIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = NIO.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9C8BEDA2305A2C5004DBBF8 /* RemoteControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoteControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9C8BEDF2305A2C5004DBBF8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -103,16 +77,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9AD54F42305B9CC00F97E4B /* CNIOSHA1.framework in Frameworks */,
-				B9AD54FA2305B9CC00F97E4B /* NIOConcurrencyHelpers.framework in Frameworks */,
-				B9AD54F72305B9CC00F97E4B /* CNIOLinux.framework in Frameworks */,
-				B9AD55032305B9CC00F97E4B /* CNIODarwin.framework in Frameworks */,
-				B9AD54FD2305B9CC00F97E4B /* Logging.framework in Frameworks */,
-				B9AD54ED2305B94700F97E4B /* Logging.framework in Frameworks */,
-				B9AD54EF2305B94700F97E4B /* Network.framework in Frameworks */,
-				B9AD54F12305B9CC00F97E4B /* CNIOAtomics.framework in Frameworks */,
-				B9AD55002305B9CC00F97E4B /* Network.framework in Frameworks */,
-				B9AD55062305B9CD00F97E4B /* NIO.framework in Frameworks */,
+				B99CD76023077A08001F4DC7 /* RemoteControl_Logging.framework in Frameworks */,
+				B99CD76323077A08001F4DC7 /* RemoteControl_Network.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,14 +111,8 @@
 		B9C8BED12305A2C5004DBBF8 = {
 			isa = PBXGroup;
 			children = (
-				B9AD55052305B9CD00F97E4B /* NIO.framework */,
-				B9AD55022305B9CC00F97E4B /* CNIODarwin.framework */,
-				B9AD54FF2305B9CC00F97E4B /* Network.framework */,
-				B9AD54FC2305B9CC00F97E4B /* Logging.framework */,
-				B9AD54F92305B9CC00F97E4B /* NIOConcurrencyHelpers.framework */,
-				B9AD54F62305B9CC00F97E4B /* CNIOLinux.framework */,
-				B9AD54F32305B9CC00F97E4B /* CNIOSHA1.framework */,
-				B9AD54F02305B9CC00F97E4B /* CNIOAtomics.framework */,
+				B99CD76223077A08001F4DC7 /* RemoteControl_Network.framework */,
+				B99CD75F23077A08001F4DC7 /* RemoteControl_Logging.framework */,
 				B9C8BEDC2305A2C5004DBBF8 /* RemoteControl */,
 				B9C8BEF12305A2C7004DBBF8 /* RemoteControlTests */,
 				B9C8BEFC2305A2C7004DBBF8 /* RemoteControlUITests */,
@@ -213,7 +173,7 @@
 				B9C8BED62305A2C5004DBBF8 /* Sources */,
 				B9C8BED72305A2C5004DBBF8 /* Frameworks */,
 				B9C8BED82305A2C5004DBBF8 /* Resources */,
-				B9FDCBA92305B07300D9BB13 /* Embed Frameworks */,
+				B99CD76523077A08001F4DC7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -448,7 +408,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../core/.build/debug/**";
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -464,13 +424,13 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../core/.build/debug/**";
+				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/../core/.build/debug/**";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -512,7 +472,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../core/.build/debug/**";
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -522,12 +482,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../core/.build/debug/**";
+				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/../core/.build/debug/**";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -539,16 +499,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8BU6982BUJ;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../core/.build/debug/**";
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = RemoteControl/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../core/.build/debug/**";
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xxlabaza.RemoteControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/../core/.build/debug/**";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -560,16 +520,16 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8BU6982BUJ;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../core/.build/debug/**";
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = RemoteControl/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../core/.build/debug/**";
+				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xxlabaza.RemoteControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/../core/.build/debug/**";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

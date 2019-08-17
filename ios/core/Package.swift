@@ -7,42 +7,57 @@ let package = Package(
   name: "core",
 
   platforms: [
-    .macOS(.v10_12),
-    .iOS(.v10),
+    .macOS(.v10_14),
+    .iOS(.v12),
   ],
 
   products: [
     .library(
-      name: "Network",
-      targets: ["Network"]
+      name: "RemoteControl_Network",
+      targets: [
+        "RemoteControl_Network",
+      ]
     ),
     .library(
-      name: "Logging",
-      targets: ["Logging"]
+      name: "RemoteControl_Logging",
+      targets: [
+        "RemoteControl_Logging",
+      ]
     ),
   ],
 
   dependencies: [
     .package(url: "https://github.com/apple/swift-nio.git", from: "2.6.1"),
+    .package(url: "https://github.com/luoxiu/Schedule", from: "2.0.3"),
   ],
 
   targets: [
     .target(
-      name: "Network",
+      name: "RemoteControl_Network",
       dependencies: [
-        "NIO"
-      ]
+        "NIO",
+      ],
+      path: "./Sources/Network"
     ),
     .target(
-      name: "Logging",
-      dependencies: []
+      name: "RemoteControl_Logging",
+      dependencies: [],
+      path: "./Sources/Logging"
     ),
 
     .testTarget(
-      name: "NetworkTests",
+      name: "RemoteControl_NetworkTests",
       dependencies: [
-        "Network",
-        "Logging"
+        "SM02Server",
+      ],
+      path: "./Tests/NetworkTests"
+    ),
+    .testTarget(
+      name: "SM02Server",
+      dependencies: [
+        "RemoteControl_Logging",
+        "RemoteControl_Network",
+        "Schedule"
       ]
     ),
   ],

@@ -1,6 +1,6 @@
 
 import XCTest
-@testable import Network
+@testable import RemoteControl_Network
 
 
 final class NetworkTests: XCTestCase {

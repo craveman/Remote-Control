@@ -7,21 +7,19 @@
 //
 
 import UIKit
-import Logging
-import Network
+import RemoteControl_Network
+import RemoteControl_Logging
 
 class ViewController: UIViewController {
 
   override func viewDidLoad() {
     let outbound = Outbound.swap
-    
+
     let logger = LoggerFactory.create()
     logger.info("Hello world")
-    
+
     super.viewDidLoad()
     // Do any additional setup after loading the view.
   }
-
-
 }
 
