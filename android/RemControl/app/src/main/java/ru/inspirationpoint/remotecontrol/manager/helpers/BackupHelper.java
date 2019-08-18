@@ -42,6 +42,10 @@ public class BackupHelper {
         JSONHelper.exportToJSON(context, data, "");
     }
 
+    public void backupFight(FightData data) {
+        JSONHelper.exportToJSON(context, data);
+    }
+
     public void backupLastFight(FullFightInfo data, String appendix) {
         Log.wtf("BACKUP CALLED", appendix);
         Log.wtf("TO SAVE", data.getFightData().getOwner() + "|" +
@@ -51,13 +55,12 @@ public class BackupHelper {
         JSONHelper.exportToJSON(context, data, appendix);
     }
 
-    public FullFightInfo getBackup() {
-        FullFightInfo data = JSONHelper.importFightFromJSON(context);
+    public FightData getBackup() {
         //TODO ??
 //        if (data != null && data.getFightData()) {
 //            data.getFightData().setId("");
 //        }
-        return data;
+        return JSONHelper.importFightFromJSON(context);
     }
 
     public void cleanBackup() {

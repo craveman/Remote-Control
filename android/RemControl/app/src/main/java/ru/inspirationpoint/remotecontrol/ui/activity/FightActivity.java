@@ -31,6 +31,8 @@ import ru.inspirationpoint.remotecontrol.R;
 import ru.inspirationpoint.remotecontrol.databinding.ActivityFightBinding;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
 import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FighterData;
 import ru.inspirationpoint.remotecontrol.manager.dataEntities.FullFightInfo;
 import ru.inspirationpoint.remotecontrol.manager.helpers.LocaleHelper;
 import ru.inspirationpoint.remotecontrol.ui.dialog.ConfirmationDialog;
@@ -202,7 +204,7 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
     }
 
     @Override
-    public void onAccept(FullFightInfo restoredInfo) {
+    public void onAccept(FightData restoredInfo) {
         getViewModel().restoreFromExisted(restoredInfo);
     }
 
@@ -210,6 +212,9 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
     public void onDecline() {
         getViewModel().fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
         SettingsManager.setValue(UNFINISHED_FIGHT, getViewModel().fightId);
+        getViewModel().fightCache = new FightData("1", null, new FighterData("", ""),
+                new FighterData("", ""), "", "");
+        getViewModel().onMenuDeviceReset();
 //        if (DataManager.instance().getCurrentFight() != null) {
 //            getViewModel().fightData = DataManager.instance().getCurrentFight();
 //        } else {

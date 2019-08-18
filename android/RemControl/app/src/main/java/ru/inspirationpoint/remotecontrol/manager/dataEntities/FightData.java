@@ -41,6 +41,9 @@ public class FightData implements Cloneable, Serializable {
     @SerializedName("mCurrentPeriod")
     private int mCurrentPeriod = 0;
 
+    public FightData() {
+    }
+
     public FightData(String id, Date date, FighterData leftFighterData, FighterData rightFighterData, String place, String owner) {
         mId = id;
         mDate = date;

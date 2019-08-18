@@ -169,7 +169,7 @@ public class JSONHelper {
         }
     }
 
-    public static FullFightInfo importFightFromJSON (Context context) {
+    public static FightData importFightFromJSON (Context context) {
         InputStreamReader streamReader = null;
         FileInputStream fileInputStream = null;
         try {
@@ -179,7 +179,7 @@ public class JSONHelper {
             }
             Gson gson = new Gson();
             if (streamReader != null) {
-                FullFightInfo cached = gson.fromJson(streamReader, FullFightInfo.class);
+                FightData cached = gson.fromJson(streamReader, FightData.class);
                 if (cached != null) {
                     return cached;
                 }

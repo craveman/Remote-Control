@@ -34,6 +34,8 @@ public class SmOffDialog extends DialogFragment {
     }
 
     public void close() {
-        smDialog.dismiss();
+        if (smDialog != null) {
+                smDialog.dismiss();
+        }
     }
 }

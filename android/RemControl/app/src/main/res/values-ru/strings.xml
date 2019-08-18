@@ -281,7 +281,7 @@
     <string name="fa_passive_remove">Убрать таймер пассивного боя?</string>
     <string name="fa_passive_display">Отображать таймер пассивного боя?</string>
     <string name="fa_passive_explanation_1">Таймер пассивного боя - 1 минута с момента последнего укола, нанесенного одним из бойцов</string>
-    <string name="fa_passive_explanation_2">Отображается уменьшающейся белой полосой под таймером боя.</string>
+    <string name="fa_passive_explanation_2">Отображается уменьшающимся белым таймером под таймером боя.</string>
     <string name="fa_remove_priority">Убрать приоритет</string>
     <string name="fa_video_replays">Видеоповторы</string>
     <string name="fa_def_time">Время периода</string>
@@ -337,5 +337,7 @@
     <string name="timer_set">Настройка времени боя</string>
     <string name="passive_timer_set">Настройка таймера пассива</string>
     <string name="disconnect">Отключить от дорожки</string>
+    <string name="piste">Дорожка</string>
+    <string name="phrases">Фразы</string>
 
 </resources>

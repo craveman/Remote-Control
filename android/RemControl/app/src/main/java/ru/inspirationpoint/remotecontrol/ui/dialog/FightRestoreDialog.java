@@ -17,16 +17,17 @@ import android.widget.TextView;
 import java.util.Locale;
 
 import ru.inspirationpoint.remotecontrol.R;
+import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
 import ru.inspirationpoint.remotecontrol.manager.dataEntities.FullFightInfo;
 
 public class FightRestoreDialog extends DialogFragment {
 
     private final static String FIGHT_TO_RESTORE = "FTR";
 
-    private FullFightInfo info;
+    private FightData info;
     private RestoreListener listener;
 
-    public static FightRestoreDialog show(FragmentActivity activity, FullFightInfo info) {
+    public static FightRestoreDialog show(FragmentActivity activity, FightData info) {
         FragmentManager manager = activity.getSupportFragmentManager();
         FightRestoreDialog dialog = new FightRestoreDialog();
         Bundle params = new Bundle();
@@ -50,20 +51,17 @@ public class FightRestoreDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        info = (FullFightInfo) getArguments().getSerializable(FIGHT_TO_RESTORE);
-        Log.wtf("TO RESTORE", info.getFightData().getOwner() + "|" +
-                info.getFightData().getmCurrentPeriod() + "|" +
-                info.getFightData().getLeftFighter().getScore() + "|" +
-                info.getFightData().getRightFighter().getScore());
+        info = (FightData) getArguments().getSerializable(FIGHT_TO_RESTORE);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View contentView = inflater.inflate(R.layout.dlg_fight_restore, null);
         ((TextView) contentView.findViewById(R.id.restore_data_names))
-                .setText(String.format("%s - %s", info.getFightData().getLeftFighter().getName(),
-                        info.getFightData().getRightFighter().getName()));
+                .setText(String.format("%s - %s", info.getLeftFighter().getName(),
+                        info.getRightFighter().getName()));
         ((TextView) contentView.findViewById(R.id.restore_data_score))
-                .setText(String.format(Locale.getDefault(), "%d - %d", info.getFightData().getLeftFighter().getScore(),
-                        info.getFightData().getRightFighter().getScore()));
+                .setText(String.format(Locale.getDefault(), "%d - %d", info.getLeftFighter().getScore(),
+                        info.getRightFighter().getScore()));
+        Log.wtf("RESTREDLG", info.getmCurrentTime() + "");
         contentView.findViewById(R.id.unfinished_accept).setOnClickListener(v -> {
             listener.onAccept(info);
             dismiss();
@@ -92,7 +90,7 @@ public class FightRestoreDialog extends DialogFragment {
     }
 
     public interface RestoreListener {
-        void onAccept(FullFightInfo restoredInfo);
+        void onAccept(FightData restoredInfo);
 
         void onDecline();
     }
