@@ -1,0 +1,39 @@
+
+# Take a look at this config:
+# https://github.com/realm/SwiftLint#configuration
+
+disabled_rules:
+  - leading_whitespace
+
+included: # paths to include during linting. `--path` is ignored if present.
+  - Sources
+
+cyclomatic_complexity:
+  warning: 10
+  error: 11
+
+identifier_name:
+  validates_start_with_lowercase: false
+  allowed_symbols:
+    - _
+  min_length: # only min_length
+    error: 2 # only error
+  excluded: # excluded via string array
+    - id
+    - to
+
+vertical_whitespace:
+  max_empty_lines: 2
+
+force_cast: warning
+
+force_try:
+  severity: warning
+
+line_length: 120
+
+file_length:
+  warning: 200
+  error: 500
+
+reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji, sonarqube, markdown)
