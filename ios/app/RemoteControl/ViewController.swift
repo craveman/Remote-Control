@@ -10,8 +10,13 @@ import UIKit
 import RemoteControl_Network
 import RemoteControl_Logging
 
+let networksSegue = "toNetworks";
+let timeout = 2.2;
+
 class ViewController: UIViewController {
 
+  @IBOutlet weak var spinner: UIActivityIndicatorView!
+  
   override func viewDidLoad() {
     let outbound = Outbound.swap
 
@@ -20,6 +25,17 @@ class ViewController: UIViewController {
 
     super.viewDidLoad()
     // Do any additional setup after loading the view.
+    spinner.startAnimating();
+    //do stuff
+    Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { timer in
+      self.spinner.stopAnimating();
+    // when ready to select netowks
+      self.jumpToNetworkSelect();
+    }
+  }
+    
+  private func jumpToNetworkSelect() {
+    performSegue(withIdentifier: networksSegue, sender: self)
   }
 }
 

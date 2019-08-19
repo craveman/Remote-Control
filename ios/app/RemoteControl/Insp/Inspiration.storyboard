@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="CZh-Sh-1zF">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Networks-->
+        <scene sceneID="rvV-ti-Zpt">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Networks" id="0Oz-of-faG" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EoP-nt-W75" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1467" y="623"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="z0D-pi-whn">
+            <objects>
+                <viewController id="z6e-MJ-cZE" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dJc-Sv-fbS">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RFH-p7-iog">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="SM-2" id="xg2-OF-ZLx">
+                                        <barButtonItem key="leftBarButtonItem" title="Exit" width="20" springLoaded="YES" id="qJR-2j-uod">
+                                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <connections>
+                                                <segue destination="0Oz-of-faG" kind="show" id="anr-jB-THS"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Settings" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" preferredMaxLayoutWidth="414" translatesAutoresizingMaskIntoConstraints="NO" id="pS0-VI-OuM">
+                                <rect key="frame" x="132" y="405" width="150" height="86"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="86" id="Ger-mD-eHU"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="b25-V3-7sG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="0.0" height="0.0"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="pS0-VI-OuM" firstAttribute="centerY" secondItem="dJc-Sv-fbS" secondAttribute="centerY" id="3af-sT-MSe"/>
+                            <constraint firstItem="pS0-VI-OuM" firstAttribute="centerX" secondItem="dJc-Sv-fbS" secondAttribute="centerX" id="65x-t9-Aq0"/>
+                            <constraint firstItem="wIo-V8-DQo" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="pS0-VI-OuM" secondAttribute="bottom" constant="97" id="GmB-Xu-MFK"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="wIo-V8-DQo"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Settings" image="first" id="S0p-ip-guF"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="opx-bJ-zHb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2143.4782608695655" y="-320.75892857142856"/>
+        </scene>
+        <!--Penalties-->
+        <scene sceneID="IhJ-xf-lw4">
+            <objects>
+                <viewController id="H8g-di-TSv" customClass="GameViewController" customModule="Insp1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qE6-dV-9fi">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Penalties" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="v62-JB-ara">
+                                <rect key="frame" x="137" y="426.5" width="140" height="43"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loaded by SecondViewController" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oSa-Ka-seu">
+                                <rect key="frame" x="99.5" y="477.5" width="215" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jzV-Zg-AXK">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="SM-2" id="bO9-27-gVx">
+                                        <barButtonItem key="leftBarButtonItem" title="Exit" width="20" springLoaded="YES" id="YxQ-xE-heE">
+                                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <connections>
+                                                <segue destination="0Oz-of-faG" kind="show" id="m2h-Au-N6O"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="oSa-Ka-seu" firstAttribute="top" secondItem="v62-JB-ara" secondAttribute="bottom" constant="8" symbolic="YES" id="7dI-R5-BAd"/>
+                            <constraint firstItem="oSa-Ka-seu" firstAttribute="centerX" secondItem="v62-JB-ara" secondAttribute="centerX" id="AYU-Iv-Aav"/>
+                            <constraint firstAttribute="centerX" secondItem="v62-JB-ara" secondAttribute="centerX" id="Hya-ZW-TXA"/>
+                            <constraint firstAttribute="centerY" secondItem="v62-JB-ara" secondAttribute="centerY" id="rQb-U8-d3Q"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="e7a-gE-4rc"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Penalties" image="second" id="Vxg-rx-cum"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cuK-2I-UZB" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1467" y="-320"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="WYB-B5-F2D">
+            <objects>
+                <tabBarController id="CZh-Sh-1zF" sceneMemberID="viewController">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="jug-CE-GnZ">
+                        <rect key="frame" x="0.0" y="975" width="768" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="5ur-fD-baM" kind="relationship" relationship="viewControllers" id="L2m-RQ-Hk2"/>
+                        <segue destination="H8g-di-TSv" kind="relationship" relationship="viewControllers" id="Z3T-U0-fVN"/>
+                        <segue destination="z6e-MJ-cZE" kind="relationship" relationship="viewControllers" id="cU6-fg-n3e"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hy9-od-cKP" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1467" y="-1053"/>
+        </scene>
+        <!--Fight-->
+        <scene sceneID="OJ3-J1-eij">
+            <objects>
+                <viewController id="5ur-fD-baM" customClass="GameViewController" customModule="Insp1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="AyB-gY-Sh4">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Fight" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="FFg-Ti-xdN">
+                                <rect key="frame" x="167.5" y="426.5" width="79" height="43"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loaded by SecondViewController" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ulp-99-2FQ">
+                                <rect key="frame" x="99.5" y="477.5" width="215" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sxf-ql-oOs">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="SM-2" id="l7e-PA-ZeG">
+                                        <barButtonItem key="leftBarButtonItem" title="Exit" width="20" springLoaded="YES" id="zdE-aK-KYC">
+                                            <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <connections>
+                                                <segue destination="0Oz-of-faG" kind="show" id="v0I-9e-fsV"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="centerY" secondItem="FFg-Ti-xdN" secondAttribute="centerY" id="4Re-xK-AYu"/>
+                            <constraint firstItem="ulp-99-2FQ" firstAttribute="top" secondItem="FFg-Ti-xdN" secondAttribute="bottom" constant="8" symbolic="YES" id="TW0-9q-iWY"/>
+                            <constraint firstItem="ulp-99-2FQ" firstAttribute="centerX" secondItem="FFg-Ti-xdN" secondAttribute="centerX" id="pxC-lQ-7U8"/>
+                            <constraint firstAttribute="centerX" secondItem="FFg-Ti-xdN" secondAttribute="centerX" id="vnK-Lr-gRG"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="bfr-VB-Lgv"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Fight" image="first" id="YTf-db-z8T"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3bZ-z6-qHC" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="772" y="-320"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="first" width="16" height="16"/>
+        <image name="second" width="16" height="16"/>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="m2h-Au-N6O"/>
+    </inferredMetricsTieBreakers>
+</document>
