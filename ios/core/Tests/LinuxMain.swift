@@ -1,7 +1,8 @@
 import XCTest
 
-import RemoteControl_NetworkTests
+import networkingTests
 
 var tests = [XCTestCaseEntry]()
+tests += SM02Tests.allTests()
 tests += NetworkTests.allTests()
 XCTMain(tests)

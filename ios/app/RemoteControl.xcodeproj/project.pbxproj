@@ -10,10 +10,10 @@
 		85A99334230B3E39003FC5BE /* NetworkSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A99333230B3E39003FC5BE /* NetworkSelectController.swift */; };
 		85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A99338230B47A4003FC5BE /* Inspiration.storyboard */; };
 		85A9933C230B4CD0003FC5BE /* Networks.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A9933B230B4CD0003FC5BE /* Networks.storyboard */; };
-		B99CD76023077A08001F4DC7 /* RemoteControl_Logging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B99CD75F23077A08001F4DC7 /* RemoteControl_Logging.framework */; };
-		B99CD76123077A08001F4DC7 /* RemoteControl_Logging.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B99CD75F23077A08001F4DC7 /* RemoteControl_Logging.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B99CD76323077A08001F4DC7 /* RemoteControl_Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B99CD76223077A08001F4DC7 /* RemoteControl_Network.framework */; };
-		B99CD76423077A08001F4DC7 /* RemoteControl_Network.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B99CD76223077A08001F4DC7 /* RemoteControl_Network.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8F49D7DE230E1018005176E1 /* networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F49D7DD230E1018005176E1 /* networking.framework */; };
+		8F49D7DF230E1018005176E1 /* networking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F49D7DD230E1018005176E1 /* networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8F49D7E1230E1018005176E1 /* logging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F49D7E0230E1018005176E1 /* logging.framework */; };
+		8F49D7E2230E1018005176E1 /* logging.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F49D7E0230E1018005176E1 /* logging.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */; };
 		B9C8BEE02305A2C5004DBBF8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDF2305A2C5004DBBF8 /* ViewController.swift */; };
 		B9C8BEE32305A2C6004DBBF8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE12305A2C6004DBBF8 /* Main.storyboard */; };
@@ -41,14 +41,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		B99CD76523077A08001F4DC7 /* Embed Frameworks */ = {
+		8F49D7E3230E1018005176E1 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				B99CD76123077A08001F4DC7 /* RemoteControl_Logging.framework in Embed Frameworks */,
-				B99CD76423077A08001F4DC7 /* RemoteControl_Network.framework in Embed Frameworks */,
+				8F49D7E2230E1018005176E1 /* logging.framework in Embed Frameworks */,
+				8F49D7DF230E1018005176E1 /* networking.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -59,8 +59,8 @@
 		85A99333230B3E39003FC5BE /* NetworkSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSelectController.swift; sourceTree = "<group>"; };
 		85A99338230B47A4003FC5BE /* Inspiration.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Inspiration.storyboard; sourceTree = "<group>"; };
 		85A9933B230B4CD0003FC5BE /* Networks.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Networks.storyboard; sourceTree = "<group>"; };
-		B99CD75F23077A08001F4DC7 /* RemoteControl_Logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RemoteControl_Logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B99CD76223077A08001F4DC7 /* RemoteControl_Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RemoteControl_Network.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F49D7DD230E1018005176E1 /* networking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F49D7E0230E1018005176E1 /* logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9AD54EC2305B94700F97E4B /* Logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9AD54EE2305B94700F97E4B /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Network.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9C8BEDA2305A2C5004DBBF8 /* RemoteControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoteControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,8 +83,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B99CD76023077A08001F4DC7 /* RemoteControl_Logging.framework in Frameworks */,
-				B99CD76323077A08001F4DC7 /* RemoteControl_Network.framework in Frameworks */,
+				8F49D7E1230E1018005176E1 /* logging.framework in Frameworks */,
+				8F49D7DE230E1018005176E1 /* networking.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,8 +134,8 @@
 		B9C8BED12305A2C5004DBBF8 = {
 			isa = PBXGroup;
 			children = (
-				B99CD76223077A08001F4DC7 /* RemoteControl_Network.framework */,
-				B99CD75F23077A08001F4DC7 /* RemoteControl_Logging.framework */,
+				8F49D7E0230E1018005176E1 /* logging.framework */,
+				8F49D7DD230E1018005176E1 /* networking.framework */,
 				B9C8BEDC2305A2C5004DBBF8 /* RemoteControl */,
 				B9C8BEF12305A2C7004DBBF8 /* RemoteControlTests */,
 				B9C8BEFC2305A2C7004DBBF8 /* RemoteControlUITests */,
@@ -198,7 +198,7 @@
 				B9C8BED62305A2C5004DBBF8 /* Sources */,
 				B9C8BED72305A2C5004DBBF8 /* Frameworks */,
 				B9C8BED82305A2C5004DBBF8 /* Resources */,
-				B99CD76523077A08001F4DC7 /* Embed Frameworks */,
+				8F49D7E3230E1018005176E1 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

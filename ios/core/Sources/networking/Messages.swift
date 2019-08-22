@@ -70,61 +70,81 @@ public enum TimerMode: UInt8 {
 
 public struct Device {
 
-  let name: String
-  let type: DeviceType
+  public let name: String
+  public let type: DeviceType
+
+  public init (name: String, type: DeviceType) {
+    self.name = name
+    self.type = type
+  }
 }
 
 public struct Side {
 
-  let score: UInt8
-  let card: StatusCard
-  let name: String
+  public let score: UInt8
+  public let card: StatusCard
+  public let name: String
+
+  public init (score: UInt8, card: StatusCard, name: String) {
+    self.score = score
+    self.card = card
+    self.name = name
+  }
 }
 
 public struct Camera {
 
-  let name: String
-  let target: String
+  public let name: String
+  public let target: String
+
+  public init (name: String, target: String) {
+    self.name = name
+    self.target = target
+  }
 }
 
 public enum Inbound {
 
+  case tock
   case broadcast(weapon: Weapon, left: FlagState, right: FlagState, timer: UInt32, timerState: TimerState)
   case deviceList(devices: [Device])
   case ethernetDisplay(period: UInt8, time: UInt32, left: Side, right: Side)
   case fightResult(result: Decision)
   case passiveMax
   case pauseFinished
-  case ping
   case videoReady(name: String)
   case videoReceived
+  case authentication
+  case genericResponse(request: UInt8)
 }
 
 public enum Outbound {
 
-  case setName(personType: PersonType, name: String)
-  case setScore(personType: PersonType, score: UInt8)
-  case setCard(personType: PersonType, statusCard: StatusCard)
-  case setPriority(personType: PersonType)
+  case setName(person: PersonType, name: String)
+  case setScore(person: PersonType, score: UInt8)
+  case setCard(person: PersonType, status: StatusCard)
+  case setPriority(person: PersonType)
   case setPeriod(period: UInt8)
   case setWeapon(weapon: Weapon)
   case setTimer(time: UInt32, mode: TimerMode)
-  case startTimer(timerState: TimerState)
+  case startTimer(state: TimerState)
   case swap
-  case visibility(video: Bool, photo: Bool, passice: Bool, country: Bool)
+  case visibility(video: Bool, photo: Bool, passive: Bool, country: Bool)
   case videoCounters(left: UInt8, right: UInt8)
-  case hello(deviceType: DeviceType, name: String)
   case disconnect
-  case passive(shown: Bool, locked: Bool, defaultMilliseconds: UInt32)
+  case passiveTimer(shown: Bool, locked: Bool, defaultMilliseconds: UInt32)
   case setDefaultTime(time: UInt32)
-  case competition(name: String)
+  case setCompetition(name: String)
   case videoRoutes(cameras: [Camera])
   case loadFile(name: String)
   case player(speed: UInt8, recordMode: RecordMode, timestamp: UInt32)
   case record(recordMode: RecordMode)
   case devicesRequest
   case reset
-  case ethernetNextOrPrevious(neext: Bool)
+  case ethernetNextOrPrevious(next: Bool)
   case ethernetApply
   case ethernetFinishAsk
+  case tick
+  case authenticate(device: DeviceType, code: [UInt8], name: String, version: UInt8)
+  case genericResponse(request: UInt8)
 }

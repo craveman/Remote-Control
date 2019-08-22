@@ -13,52 +13,65 @@ let package = Package(
 
   products: [
     .library(
-      name: "RemoteControl_Network",
+      name: "networking",
       targets: [
-        "RemoteControl_Network",
+        "networking",
       ]
     ),
     .library(
-      name: "RemoteControl_Logging",
+      name: "logging",
       targets: [
-        "RemoteControl_Logging",
+        "logging",
+      ]
+    ),
+    .library(
+      name: "sm02",
+      targets: [
+        "sm02",
       ]
     ),
   ],
 
   dependencies: [
     .package(url: "https://github.com/apple/swift-nio.git", from: "2.6.1"),
-    .package(url: "https://github.com/luoxiu/Schedule", from: "2.0.3"),
+    .package(url: "https://github.com/apple/swift-nio-extras.git", from: "1.0.0"),
+    // .package(url: "https://github.com/luoxiu/Schedule", from: "2.0.3"),
   ],
 
   targets: [
     .target(
-      name: "RemoteControl_Network",
+      name: "networking",
       dependencies: [
         "NIO",
-      ],
-      path: "./Sources/Network"
+        "NIOExtras"
+      ]
     ),
     .target(
-      name: "RemoteControl_Logging",
-      dependencies: [],
-      path: "./Sources/Logging"
+      name: "logging",
+      dependencies: []
+    ),
+    .target(
+      name: "sm02",
+      dependencies: [
+        "logging",
+        "networking"
+      ]
     ),
 
     .testTarget(
-      name: "RemoteControl_NetworkTests",
+      name: "networking_tests",
       dependencies: [
-        "SM02Server",
+        "sm02",
       ],
-      path: "./Tests/NetworkTests"
+      path: "./Tests/networking"
     ),
     .testTarget(
-      name: "SM02Server",
+      name: "sm02_tests",
       dependencies: [
-        "RemoteControl_Logging",
-        "RemoteControl_Network",
-        "Schedule"
-      ]
+        "sm02",
+        "NIOTestUtils"
+      ],
+      path: "./Tests/sm02"
     ),
   ],
 

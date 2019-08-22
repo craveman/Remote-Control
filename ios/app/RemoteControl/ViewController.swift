@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import RemoteControl_Network
-import RemoteControl_Logging
+import networking
+import logging
 
 let networksSegue = "toNetworks";
 let timeout = 2.2;
@@ -16,7 +16,7 @@ let timeout = 2.2;
 class ViewController: UIViewController {
 
   @IBOutlet weak var spinner: UIActivityIndicatorView!
-  
+
   override func viewDidLoad() {
     let outbound = Outbound.swap
 
@@ -33,7 +33,7 @@ class ViewController: UIViewController {
       self.jumpToNetworkSelect();
     }
   }
-    
+
   private func jumpToNetworkSelect() {
     performSegue(withIdentifier: networksSegue, sender: self)
   }
