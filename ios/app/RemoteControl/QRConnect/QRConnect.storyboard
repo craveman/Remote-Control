@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ibl-f8-asG">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Networks-->
+        <scene sceneID="BMP-fW-7B9">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Networks" id="Bjc-X2-ezI" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5KP-co-bLj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-762" y="357"/>
+        </scene>
+        <!--Reader View Controller-->
+        <scene sceneID="fr3-KP-y0S">
+            <objects>
+                <viewController id="ibl-f8-asG" customClass="QRReaderViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2w1-7v-B5Y">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D4G-ka-EXi">
+                                <rect key="frame" x="0.0" y="818" width="414" height="44"/>
+                                <items>
+                                    <barButtonItem systemItem="cancel" id="Y4v-Ds-Pez">
+                                        <connections>
+                                            <segue destination="Bjc-X2-ezI" kind="show" id="J5x-fI-mVA"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem systemItem="done" id="ZLX-NK-U3U">
+                                        <connections>
+                                            <action selector="connectedComplete:" destination="ibl-f8-asG" id="L5t-TA-css"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="D4G-ka-EXi" firstAttribute="bottom" secondItem="HVN-Dx-KI6" secondAttribute="bottom" id="j5F-Aa-5m4"/>
+                            <constraint firstItem="D4G-ka-EXi" firstAttribute="leading" secondItem="2w1-7v-B5Y" secondAttribute="leading" id="oTF-dV-1KR"/>
+                            <constraint firstAttribute="trailing" secondItem="D4G-ka-EXi" secondAttribute="trailing" id="t7E-gF-N1T"/>
+                            <constraint firstItem="D4G-ka-EXi" firstAttribute="top" secondItem="HVN-Dx-KI6" secondAttribute="top" constant="774" id="wgh-OD-GD4"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="HVN-Dx-KI6"/>
+                    </view>
+                    <connections>
+                        <segue destination="po2-Vp-2Jh" kind="show" identifier="toInspiration" id="Xfi-e6-o1e"/>
+                        <segue destination="d6A-va-9lx" kind="show" identifier="noAccess" id="XFh-kt-eZn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="492-mO-6og" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="33" y="108"/>
+        </scene>
+        <!--Inspiration-->
+        <scene sceneID="acv-zF-Ot2">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Inspiration" id="po2-Vp-2Jh" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A59-1I-ld1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="711" y="108"/>
+        </scene>
+        <!--No Camera Access View Controller-->
+        <scene sceneID="M4a-nu-5Hg">
+            <objects>
+                <viewController id="d6A-va-9lx" customClass="NoCameraAccessViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="SKd-Gm-UIA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGX-xa-xcW">
+                                <rect key="frame" x="44.5" y="420" width="325.5" height="57"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="We have no access to camera  Please change this in settings">
+                                        <attributes>
+                                            <font key="NSFont" metaFont="system" size="24"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NyD-Bu-JM7">
+                                <rect key="frame" x="168" y="539" width="78" height="39"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="39" id="c1R-iZ-cCe"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Settings"/>
+                                <connections>
+                                    <action selector="toSettings:" destination="d6A-va-9lx" eventType="touchUpInside" id="CLJ-CP-yDi"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="tGX-xa-xcW" firstAttribute="centerY" secondItem="iIm-kP-trD" secondAttribute="centerY" constant="-4.5" id="16D-Ii-eNA"/>
+                            <constraint firstItem="NyD-Bu-JM7" firstAttribute="top" secondItem="tGX-xa-xcW" secondAttribute="bottom" constant="62" id="1MN-Ac-Pku"/>
+                            <constraint firstItem="NyD-Bu-JM7" firstAttribute="leading" secondItem="iIm-kP-trD" secondAttribute="leading" constant="168" id="AEX-so-uod"/>
+                            <constraint firstItem="tGX-xa-xcW" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iIm-kP-trD" secondAttribute="leading" priority="250" constant="32" id="BXY-Jx-Ka9"/>
+                            <constraint firstItem="iIm-kP-trD" firstAttribute="bottom" secondItem="NyD-Bu-JM7" secondAttribute="bottom" constant="284" id="Bdb-uv-hfa"/>
+                            <constraint firstItem="NyD-Bu-JM7" firstAttribute="centerX" secondItem="iIm-kP-trD" secondAttribute="centerX" id="QCo-vx-5kV"/>
+                            <constraint firstItem="iIm-kP-trD" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="tGX-xa-xcW" secondAttribute="bottom" priority="250" constant="200" id="WxJ-LQ-pKt"/>
+                            <constraint firstItem="tGX-xa-xcW" firstAttribute="centerX" secondItem="iIm-kP-trD" secondAttribute="centerX" id="ngC-mz-5lg"/>
+                            <constraint firstItem="NyD-Bu-JM7" firstAttribute="top" relation="greaterThanOrEqual" secondItem="tGX-xa-xcW" secondAttribute="bottom" priority="750" constant="32" id="sZU-Of-Q8P"/>
+                            <constraint firstItem="iIm-kP-trD" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="NyD-Bu-JM7" secondAttribute="bottom" priority="250" constant="32" id="tEk-z0-58F"/>
+                            <constraint firstItem="tGX-xa-xcW" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iIm-kP-trD" secondAttribute="top" priority="250" constant="200" id="yLF-tS-SsU"/>
+                            <constraint firstItem="iIm-kP-trD" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="tGX-xa-xcW" secondAttribute="trailing" priority="250" constant="32" id="ypO-94-ZMr"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="iIm-kP-trD"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6QJ-ZX-Z8D" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="708.69565217391312" y="828.34821428571422"/>
+        </scene>
+    </scenes>
+</document>

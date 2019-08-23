@@ -21,7 +21,7 @@
         <!--Settings-->
         <scene sceneID="z0D-pi-whn">
             <objects>
-                <viewController id="z6e-MJ-cZE" sceneMemberID="viewController">
+                <viewController id="z6e-MJ-cZE" customClass="SettingsViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dJc-Sv-fbS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -71,7 +71,7 @@
         <!--Penalties-->
         <scene sceneID="IhJ-xf-lw4">
             <objects>
-                <viewController id="H8g-di-TSv" customClass="GameViewController" customModule="Insp1" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="H8g-di-TSv" customClass="PenaltiesViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qE6-dV-9fi">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -143,7 +143,7 @@
         <!--Fight-->
         <scene sceneID="OJ3-J1-eij">
             <objects>
-                <viewController id="5ur-fD-baM" customClass="GameViewController" customModule="Insp1" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="5ur-fD-baM" customClass="FightViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="AyB-gY-Sh4">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -195,10 +195,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="first" width="16" height="16"/>
-        <image name="second" width="16" height="16"/>
+        <image name="first" width="30" height="30"/>
+        <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="m2h-Au-N6O"/>
+        <segue reference="v0I-9e-fsV"/>
     </inferredMetricsTieBreakers>
 </document>

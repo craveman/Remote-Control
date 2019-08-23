@@ -18,12 +18,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <navigationBar key="tableHeaderView" contentMode="scaleToFill" misplaced="YES" id="uyC-E2-rLF">
+                        <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="uyC-E2-rLF">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <gestureRecognizers/>
                             <items>
                                 <navigationItem title="Select network" id="BWl-fl-kSq">
+                                    <barButtonItem key="leftBarButtonItem" title="Skip" id="VM4-4r-4ft"/>
                                     <barButtonItem key="rightBarButtonItem" systemItem="add" id="CGT-ot-HY7">
                                         <connections>
                                             <action selector="click:" destination="g8C-on-ZKM" id="WDF-42-HUq"/>
@@ -175,16 +176,16 @@
             </objects>
             <point key="canvasLocation" x="2226" y="39"/>
         </scene>
-        <!--Inspiration-->
+        <!--QRConnect-->
         <scene sceneID="H0K-mt-UIQ">
             <objects>
-                <viewControllerPlaceholder storyboardName="Inspiration" id="Dnf-qg-Hks" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="QRConnect" id="Dnf-qg-Hks" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VZF-ze-e5b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2225" y="492"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="pH8-A1-M7z"/>
+        <segue reference="7hK-vI-im4"/>
     </inferredMetricsTieBreakers>
 </document>
