@@ -17,10 +17,10 @@
 		85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934C23109E2D003FC5BE /* InspViewController.swift */; };
 		85A9934F23109E94003FC5BE /* PenaltiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934E23109E94003FC5BE /* PenaltiesViewController.swift */; };
 		85A9935123109EA2003FC5BE /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9935023109EA2003FC5BE /* SettingsViewController.swift */; };
-		B99CD76023077A08001F4DC7 /* RemoteControl_Logging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B99CD75F23077A08001F4DC7 /* RemoteControl_Logging.framework */; };
-		B99CD76123077A08001F4DC7 /* RemoteControl_Logging.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B99CD75F23077A08001F4DC7 /* RemoteControl_Logging.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		B99CD76323077A08001F4DC7 /* RemoteControl_Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B99CD76223077A08001F4DC7 /* RemoteControl_Network.framework */; };
-		B99CD76423077A08001F4DC7 /* RemoteControl_Network.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B99CD76223077A08001F4DC7 /* RemoteControl_Network.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8FA0F07623172168004E1FE4 /* networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FA0F07523172168004E1FE4 /* networking.framework */; };
+		8FA0F07723172168004E1FE4 /* networking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FA0F07523172168004E1FE4 /* networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8FA0F07923172168004E1FE4 /* logging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FA0F07823172168004E1FE4 /* logging.framework */; };
+		8FA0F07A23172168004E1FE4 /* logging.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FA0F07823172168004E1FE4 /* logging.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */; };
 		B9C8BEE02305A2C5004DBBF8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDF2305A2C5004DBBF8 /* ViewController.swift */; };
 		B9C8BEE32305A2C6004DBBF8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE12305A2C6004DBBF8 /* Main.storyboard */; };
@@ -54,8 +54,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8F49D7E2230E1018005176E1 /* logging.framework in Embed Frameworks */,
-				8F49D7DF230E1018005176E1 /* networking.framework in Embed Frameworks */,
+				8FA0F07A23172168004E1FE4 /* logging.framework in Embed Frameworks */,
+				8FA0F07723172168004E1FE4 /* networking.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -73,8 +73,8 @@
 		85A9934C23109E2D003FC5BE /* InspViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspViewController.swift; sourceTree = "<group>"; };
 		85A9934E23109E94003FC5BE /* PenaltiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltiesViewController.swift; sourceTree = "<group>"; };
 		85A9935023109EA2003FC5BE /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		B99CD75F23077A08001F4DC7 /* RemoteControl_Logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RemoteControl_Logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B99CD76223077A08001F4DC7 /* RemoteControl_Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RemoteControl_Network.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FA0F07523172168004E1FE4 /* networking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FA0F07823172168004E1FE4 /* logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9AD54EC2305B94700F97E4B /* Logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9AD54EE2305B94700F97E4B /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Network.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9C8BEDA2305A2C5004DBBF8 /* RemoteControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoteControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,8 +97,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F49D7E1230E1018005176E1 /* logging.framework in Frameworks */,
-				8F49D7DE230E1018005176E1 /* networking.framework in Frameworks */,
+				8FA0F07923172168004E1FE4 /* logging.framework in Frameworks */,
+				8FA0F07623172168004E1FE4 /* networking.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,8 +186,8 @@
 		B9C8BED12305A2C5004DBBF8 = {
 			isa = PBXGroup;
 			children = (
-				8F49D7E0230E1018005176E1 /* logging.framework */,
-				8F49D7DD230E1018005176E1 /* networking.framework */,
+				8FA0F07823172168004E1FE4 /* logging.framework */,
+				8FA0F07523172168004E1FE4 /* networking.framework */,
 				B9C8BEDC2305A2C5004DBBF8 /* RemoteControl */,
 				B9C8BEF12305A2C7004DBBF8 /* RemoteControlTests */,
 				B9C8BEFC2305A2C7004DBBF8 /* RemoteControlUITests */,
@@ -586,7 +586,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8BU6982BUJ;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = RemoteControl/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -607,7 +607,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8BU6982BUJ;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = RemoteControl/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
