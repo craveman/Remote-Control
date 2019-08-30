@@ -25,6 +25,12 @@ let package = Package(
       ]
     ),
     .library(
+      name: "utils",
+      targets: [
+        "utils",
+      ]
+    ),
+    .library(
       name: "sm02",
       targets: [
         "sm02",
@@ -42,11 +48,16 @@ let package = Package(
       name: "networking",
       dependencies: [
         "NIO",
-        "NIOExtras"
+        "NIOExtras",
+        "utils",
       ]
     ),
     .target(
       name: "logging",
+      dependencies: []
+    ),
+    .target(
+      name: "utils",
       dependencies: []
     ),
     .target(

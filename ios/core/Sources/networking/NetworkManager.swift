@@ -2,20 +2,19 @@
 import Foundation
 
 
-public typealias InboundHandler = (_ message: Inbound) -> Void
+public typealias InboundHandler = (_ message: Inbound) -> Outbound?
 public typealias EventHandler = (_ event: ConnectionEvent) -> Void
 
 public protocol NetworkManagerProtocol {
 
-  func on (messages handler: @escaping InboundHandler) -> UUID
+  @discardableResult
+  func on (messages handler: @escaping InboundHandler) -> NetworkManagerProtocol
 
-  func on (events handler: @escaping EventHandler) -> UUID
+  @discardableResult
+  func on (events handler: @escaping EventHandler) -> NetworkManagerProtocol
 
-  func remove (messagesHandler: UUID)
-
-  func remove (eventsHandler: UUID)
-
-  func start ()
+  @discardableResult
+  func start () -> NetworkManagerProtocol
 
   func stop ()
 
@@ -26,33 +25,41 @@ public class NetworkManager: NetworkManagerProtocol {
 
   public static let shared: NetworkManagerProtocol = NetworkManager()
 
-  public func on (messages handler: @escaping InboundHandler) -> UUID {
-    let uuid = UUID()
-    return uuid
+  let pingCatcher: PingCatcherService
+  let client: TcpClient
+
+  init () {
+    client = TcpClient()
+    pingCatcher = PingCatcherService { [weak client] (remoteAddress) in
+      client?.connect(to: remoteAddress)
+    }
   }
 
-  public func on (events handler: @escaping EventHandler) -> UUID {
-    let uuid = UUID()
-    return uuid
+  deinit {
+    stop()
   }
 
-  public func remove (messagesHandler: UUID) {
-
+  public func on (messages handler: @escaping InboundHandler) -> NetworkManagerProtocol {
+    client.on(messages: handler)
+    return self
   }
 
-  public func remove (eventsHandler: UUID) {
-
+  public func on (events handler: @escaping EventHandler) -> NetworkManagerProtocol {
+    client.on(events: handler)
+    return self
   }
 
-  public func start () {
-
+  public func start () -> NetworkManagerProtocol {
+    pingCatcher.start()
+    return self
   }
 
   public func stop () {
-
+    pingCatcher.stop()
+    client.close()
   }
 
   public func send (message: Outbound) {
-
+    client.send(message)
   }
 }

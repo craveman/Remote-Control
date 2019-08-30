@@ -1,28 +1,22 @@
 
 import NIO
+import Foundation
 
 import logging
-import networking
 import utils
 
 
 final class MessagesHandler: ChannelInboundHandler, Loggable {
 
-  typealias InboundIn = Outbound
-  typealias OutboundOut = Inbound
+  typealias InboundIn = Inbound
+  typealias OutboundOut = Outbound
 
-  let messagesProcessor: Atomic<MessagesProcessor?>
-  let eventsProcessor: Atomic<EventsProcessor?>
-
-  init (_ messagesProcessor: Atomic<MessagesProcessor?>,
-        _ eventsProcessor: Atomic<EventsProcessor?>
-  ) {
-    self.messagesProcessor = messagesProcessor
-    self.eventsProcessor = eventsProcessor
-  }
+  let messagesProcessor = Atomic<InboundHandler?>(nil)
+  let eventsProcessor = Atomic<EventHandler?>(nil)
 
   public func channelRead (context: ChannelHandlerContext, data: NIOAny) {
     let outbound = unwrapInboundIn(data)
+
     guard let processor = messagesProcessor.load() else {
       log.warn("there is no messages processor for {} client", context.remoteAddress!)
       return
@@ -32,5 +26,9 @@ final class MessagesHandler: ChannelInboundHandler, Loggable {
       context.writeAndFlush(out, promise: nil)
       return
     }
+  }
+
+  func send (_ message: Outbound) {
+
   }
 }

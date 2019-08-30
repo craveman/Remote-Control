@@ -4,6 +4,7 @@ import NIOExtras
 
 import networking
 import logging
+import utils
 
 
 final class TcpServer: Loggable {
@@ -12,8 +13,8 @@ final class TcpServer: Loggable {
   let port: Int
   let group: MultiThreadedEventLoopGroup
   let bootstrap: ServerBootstrap
-  let messagesProcessor: ThreadSafeProperty<MessagesProcessor>
-  let eventsProcessor: ThreadSafeProperty<EventsProcessor>
+  let messagesProcessor: Atomic<MessagesProcessor?>
+  let eventsProcessor: Atomic<EventsProcessor?>
 
   var channel: Channel?
 
@@ -21,8 +22,8 @@ final class TcpServer: Loggable {
     self.host = host
     self.port = port
 
-    messagesProcessor = ThreadSafeProperty<MessagesProcessor>()
-    eventsProcessor = ThreadSafeProperty<EventsProcessor>()
+    messagesProcessor = Atomic<MessagesProcessor?>(nil)
+    eventsProcessor = Atomic<EventsProcessor?>(nil)
 
     let sharedDecoderHandler = ByteBufferToOutboundDecoder()
     let sharedLogOnErrorHandler = LogOnErrorHandler()

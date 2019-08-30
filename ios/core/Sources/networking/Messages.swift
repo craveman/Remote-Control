@@ -68,6 +68,13 @@ public enum TimerMode: UInt8 {
   case medicine = 0x02
 }
 
+public enum AuthenticationStatus: UInt8 {
+
+  case success = 0x01
+  case wrongAuthenticationCode = 0x81
+  case alreadyRegistered = 0x82
+}
+
 public struct Device {
 
   public let name: String
@@ -114,7 +121,7 @@ public enum Inbound {
   case pauseFinished
   case videoReady(name: String)
   case videoReceived
-  case authentication
+  case authentication(status: AuthenticationStatus)
   case genericResponse(request: UInt8)
 }
 

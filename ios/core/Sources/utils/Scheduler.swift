@@ -3,9 +3,9 @@ import Dispatch
 import Foundation
 
 
-class Scheduler {
+public class Scheduler {
 
-  static let shared = Scheduler()
+  public static let shared = Scheduler()
 
   let queue: DispatchQueue
   var timers: [String: DispatchSourceTimer]
@@ -19,7 +19,7 @@ class Scheduler {
     stop()
   }
 
-  func schedule (every repeating: DispatchTimeInterval, run action: @escaping () -> Void) -> String {
+  public func schedule (every repeating: DispatchTimeInterval, run action: @escaping () -> Void) -> String {
     let timer = DispatchSource.makeTimerSource(queue: queue)
     timer.schedule(deadline: .now(), repeating: repeating)
     timer.setEventHandler { action() }
@@ -32,13 +32,13 @@ class Scheduler {
     return id
   }
 
-  func cancel (id: String) {
+  public func cancel (id: String) {
     if let timer = self[id] {
       timer.cancel()
     }
   }
 
-  func stop () {
+  public func stop () {
     queue.sync {
       var iterator = timers.makeIterator()
       while let (key, value) = iterator.next() {
@@ -48,7 +48,7 @@ class Scheduler {
     }
   }
 
-  subscript(id: String) -> DispatchSourceTimer? {
+  public subscript(id: String) -> DispatchSourceTimer? {
     var result: DispatchSourceTimer?
     queue.sync {
       result = timers[id]

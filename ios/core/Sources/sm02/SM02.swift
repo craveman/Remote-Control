@@ -37,12 +37,12 @@ public class SM02 {
   }
 
   public func on (messages handler: @escaping MessagesProcessor) -> SM02 {
-    tcpServer.messagesProcessor.value = handler
+    tcpServer.messagesProcessor.store(handler)
     return self
   }
 
   public func on (events handler: @escaping EventsProcessor) -> SM02 {
-    tcpServer.eventsProcessor.value = handler
+    tcpServer.eventsProcessor.store(handler)
     return self
   }
 }
