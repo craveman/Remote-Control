@@ -155,3 +155,111 @@ public enum Outbound {
   case authenticate(device: DeviceType, code: [UInt8], name: String, version: UInt8)
   case genericResponse(request: UInt8)
 }
+
+public protocol Message: Hashable {
+
+  var tag: UInt8 { get }
+}
+
+public extension Message {
+
+  static func == (left: Self, right: Self) -> Bool {
+    return left.tag == right.tag
+  }
+
+  func hash (into hasher: inout Hasher) {
+    hasher.combine(tag)
+  }
+}
+
+extension Inbound: Message {
+
+  public var tag: UInt8 {
+    switch self {
+    case .tock:
+      return 0xF2
+    case .broadcast:
+      return 0x0B
+    case .deviceList:
+      return 0x1A
+    case .ethernetDisplay:
+      return 0x21
+    case .fightResult:
+      return 0x22
+    case .passiveMax:
+      return 0x11
+    case .pauseFinished:
+      return 0x12
+    case .videoReady:
+      return 0x1B
+    case .videoReceived:
+      return 0x1C
+    case .authentication:
+      return 0x24
+    case .genericResponse:
+      return 0xAA
+    }
+  }
+}
+
+extension Outbound: Message {
+
+  public var tag: UInt8 {
+    switch self {
+    case .setName:
+      return 0x01
+    case .setScore:
+      return 0x03
+    case .setCard:
+      return 0x04
+    case .setPriority:
+      return 0x05
+    case .setPeriod:
+      return 0x06
+    case .setWeapon:
+      return 0x07
+    case .setTimer:
+      return 0x08
+    case .startTimer:
+      return 0x09
+    case .swap:
+      return 0x0A
+    case .visibility:
+      return 0x0C
+    case .videoCounters:
+      return 0x0D
+    case .disconnect:
+      return 0x0F
+    case .passiveTimer:
+      return 0x10
+    case .setDefaultTime:
+      return 0x13
+    case .setCompetition:
+      return 0x14
+    case .videoRoutes:
+      return 0x15
+    case .loadFile:
+      return 0x16
+    case .player:
+      return 0x17
+    case .record:
+      return 0x18
+    case .devicesRequest:
+      return 0x19
+    case .reset:
+      return 0x1D
+    case .ethernetNextOrPrevious:
+      return 0x1E
+    case .ethernetApply:
+      return 0x1F
+    case .ethernetFinishAsk:
+      return 0x20
+    case .authenticate:
+      return 0x23
+    case .genericResponse:
+      return 0xAA
+    case .tick:
+      return 0xF1
+    }
+  }
+}

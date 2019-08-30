@@ -8,9 +8,9 @@ import logging
 final class OutboundToByteBufferEncoder: ChannelOutboundHandler, Loggable {
 
   private typealias Encoder = (Outbound) -> [UInt8]
-  // private static let encoders: [Outbound: Encoder] = [
-  //     .tock: encodeTock
-  // ]
+  private static let encoders: [Outbound: Encoder] = [
+      .tick: encodeTick
+  ]
 
   private static func encodeTick (response: Outbound) -> [UInt8] {
     return [0xF1, 0x00]
