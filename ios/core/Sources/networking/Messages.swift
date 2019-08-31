@@ -112,7 +112,6 @@ public struct Camera {
 
 public enum Inbound {
 
-  case tock
   case broadcast(weapon: Weapon, left: FlagState, right: FlagState, timer: UInt32, timerState: TimerState)
   case deviceList(devices: [Device])
   case ethernetDisplay(period: UInt8, time: UInt32, left: Side, right: Side)
@@ -151,7 +150,6 @@ public enum Outbound {
   case ethernetNextOrPrevious(next: Bool)
   case ethernetApply
   case ethernetFinishAsk
-  case tick
   case authenticate(device: DeviceType, code: [UInt8], name: String, version: UInt8)
   case genericResponse(request: UInt8)
 }
@@ -176,8 +174,6 @@ extension Inbound: Message {
 
   public var tag: UInt8 {
     switch self {
-    case .tock:
-      return 0xF2
     case .broadcast:
       return 0x0B
     case .deviceList:
@@ -258,8 +254,6 @@ extension Outbound: Message {
       return 0x23
     case .genericResponse:
       return 0xAA
-    case .tick:
-      return 0xF1
     }
   }
 }

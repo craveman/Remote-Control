@@ -19,7 +19,6 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler, Loggable {
     0x1C: decodeVideoReceived,
     0x24: decodeAuthentication,
     0xAA: decodeGenericResponse,
-    0xF2: decodeTock
   ]
 
   private static func decodeBroadcast (buffer: inout ByteBuffer) -> Inbound? {
@@ -125,10 +124,6 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler, Loggable {
       return nil
     }
     return .genericResponse(request: request)
-  }
-
-  private static func decodeTock (buffer: inout ByteBuffer) -> Inbound? {
-    return .tock
   }
 
   typealias InboundIn = ByteBuffer

@@ -23,15 +23,17 @@ final class InboundToByteBufferEncoder: ChannelOutboundHandler, Loggable {
   public func write (context: ChannelHandlerContext, data: NIOAny, promise: EventLoopPromise<Void>?) {
     let inbound = unwrapOutboundIn(data)
 
-    // guard let encoder = encoders[inbound] else {
-    //   context.fireErrorCaught(.encodingInboundFail("=("))
-    //   return
-    // }
-    let encoder = InboundToByteBufferEncoder.encodeTock
-    let bytes = encoder(inbound)
+    var buffer = context.channel.allocator.buffer(capacity: 2)
 
-    var buffer = context.channel.allocator.buffer(capacity: bytes.count)
-    buffer.writeBytes(bytes)
+    switch inbound {
+    case let .genericResponse(request):
+      buffer.writeInteger(inbound.tag as UInt8)
+      buffer.writeInteger(1 as UInt8)
+      buffer.writeInteger(request as UInt8)
+    default:
+      log.error("Unsupported type {}", inbound)
+      return
+    }
 
     let out = wrapOutboundOut(buffer)
     context.write(out, promise: nil)

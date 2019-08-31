@@ -11,6 +11,10 @@ import networking
 
 final class SM02Tests: XCTestCase, Loggable {
 
+  static var allTests = [
+    ("testExample", testExample),
+  ]
+
   func testExample () {
     let server = SM02()
         .on(messages: handle)
@@ -20,31 +24,31 @@ final class SM02Tests: XCTestCase, Loggable {
       server.stop()
     }
 
-    let expect = expectation(description: "Get TOCK-message back")
-    var tockMessage: [UInt8]?
-    sendTick({
-        tockMessage = $0
+    let expect = expectation(description: "Get response back")
+    var response: [UInt8]?
+    sendDisconnect({
+        response = $0
         expect.fulfill()
     })
 
     waitForExpectations(timeout: 3)
-    XCTAssertEqual(tockMessage, [0x00, 0x02, 0xF2, 0x01])
+    XCTAssertEqual(response, [0x00, 0x03, 0xAA, 0x01, 0x0F])
   }
 
   private func handle (request: Outbound) -> Inbound? {
     log.info("parsed request - {}", request)
     switch request {
-    case .tick:
-      return .tock
+    case .disconnect:
+      return .genericResponse(request: request.tag)
     default:
       return nil
     }
   }
 
-  private func sendTick (_ handler: @escaping ([UInt8]) -> Void) {
-    let tockBytes: [UInt8] = [0x00, 0x02, 0xF1, 0x00]
-    var data = Data(capacity: tockBytes.count)
-    data.append(contentsOf: tockBytes)
+  private func sendDisconnect (_ handler: @escaping ([UInt8]) -> Void) {
+    let disconnectBytes: [UInt8] = [0x00, 0x02, 0x0F, 0x00]
+    var data = Data(capacity: disconnectBytes.count)
+    data.append(contentsOf: disconnectBytes)
 
     let endpointPort = NWEndpoint.Port(rawValue: UInt16(21074))!
     let endpointHost = NWEndpoint.Host("127.0.0.1")
@@ -73,8 +77,4 @@ final class SM02Tests: XCTestCase, Loggable {
 
     connection.start(queue: DispatchQueue.global(qos: .background))
   }
-
-  static var allTests = [
-    ("testExample", testExample),
-  ]
 }

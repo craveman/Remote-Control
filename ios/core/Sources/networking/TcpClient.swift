@@ -16,10 +16,11 @@ final class TcpClient: Loggable {
   init () {
     messagesHandler = MessagesHandler()
 
+    let sharedTickTockHandler = TickTockHandler()
     let sharedDecoderHandler = ByteBufferToInboundDecoder()
+    let sharedEncoderHandler = OutboundToByteBufferEncoder()
     let sharedLogOnErrorHandler = LogOnErrorHandler()
     let sharedCloseOnErrorHandler = NIOCloseOnErrorHandler()
-    let sharedEncoderHandler = OutboundToByteBufferEncoder()
 
     group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
     bootstrap = ClientBootstrap(group: group)
@@ -29,6 +30,7 @@ final class TcpClient: Loggable {
               channel.pipeline.addHandlers([
                   ByteToMessageHandler(LengthFieldBasedFrameDecoder(lengthFieldLength: .two), maximumBufferSize: Int(UInt16.max)),
                   LengthFieldPrepender(lengthFieldLength: .two),
+                  sharedTickTockHandler,
                   sharedDecoderHandler,
                   sharedEncoderHandler,
                   messagesHandler,

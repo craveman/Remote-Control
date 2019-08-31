@@ -36,7 +36,6 @@ final class ByteBufferToOutboundDecoder: ChannelInboundHandler, Loggable {
     0x20: decodeEthernetFinishAsk,
     0x23: decodeAuthenticate,
     0xAA: decodeGenericResponse,
-    0xF1: decodeTick
   ]
 
   private static func decodeSetName (buffer: inout ByteBuffer) -> Outbound? {
@@ -267,10 +266,6 @@ final class ByteBufferToOutboundDecoder: ChannelInboundHandler, Loggable {
 
   private static func decodeEthernetFinishAsk (buffer: inout ByteBuffer) -> Outbound? {
     return .ethernetFinishAsk
-  }
-
-  private static func decodeTick (buffer: inout ByteBuffer) -> Outbound? {
-    return .tick
   }
 
   private static func decodeGenericResponse (buffer: inout ByteBuffer) -> Outbound? {

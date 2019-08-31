@@ -25,26 +25,16 @@ final class TcpServer: Loggable {
     messagesProcessor = Atomic<MessagesProcessor?>(nil)
     eventsProcessor = Atomic<EventsProcessor?>(nil)
 
+    let sharedTickTockHandler = TickTockHandler()
     let sharedDecoderHandler = ByteBufferToOutboundDecoder()
+    let sharedEncoderHandler = InboundToByteBufferEncoder()
     let sharedLogOnErrorHandler = LogOnErrorHandler()
     let sharedCloseOnErrorHandler = NIOCloseOnErrorHandler()
-    let sharedEncoderHandler = InboundToByteBufferEncoder()
 
     group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
     bootstrap = ServerBootstrap(group: group)
         .serverChannelOption(ChannelOptions.backlog, value: 64)
         .serverChannelOption(ChannelOptions.socket(SocketOptionLevel(SOL_SOCKET), SO_REUSEADDR), value: 1)
-        // .childChannelInitializer { channel in
-        //     channel.pipeline.addHandler(BackPressureHandler()).flatMap { () in
-        //         channel.pipeline.addHandlers([
-        //             ByteToMessageHandler(LengthFieldBasedFrameDecoder(lengthFieldLength: .two), maximumBufferSize: Int(UInt16.max)),
-        //             sharedDecoderHandler,
-        //             MessagesHandler(messagesProcessor, eventsProcessor),
-        //             logOnErrorHandler,
-        //             closeOnErrorHandler,
-        //         ])
-        //     }
-        // }
         .childChannelOption(ChannelOptions.socket(IPPROTO_TCP, TCP_NODELAY), value: 1)
         .childChannelOption(ChannelOptions.socket(SocketOptionLevel(SOL_SOCKET), SO_REUSEADDR), value: 1)
         .childChannelOption(ChannelOptions.maxMessagesPerRead, value: 1)
@@ -55,6 +45,7 @@ final class TcpServer: Loggable {
             channel.pipeline.addHandlers([
                 ByteToMessageHandler(LengthFieldBasedFrameDecoder(lengthFieldLength: .two), maximumBufferSize: Int(UInt16.max)),
                 LengthFieldPrepender(lengthFieldLength: .two),
+                sharedTickTockHandler,
                 sharedDecoderHandler,
                 sharedEncoderHandler,
                 MessagesHandler(self.messagesProcessor, self.eventsProcessor),
