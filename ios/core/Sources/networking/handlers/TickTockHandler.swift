@@ -94,4 +94,12 @@ final class TickTockHandler: ChannelInboundHandler, Loggable {
     let error = ConnectionError.parsingdError(message)
     context.fireErrorCaught(error)
   }
+
+  public func userInboundEventTriggered (context: ChannelHandlerContext, event: Any) {
+    if event is IdleStateHandler.IdleStateEvent {
+      log.error("connection is expired, closing")
+      context.close(promise: nil)
+    }
+    context.fireUserInboundEventTriggered(event)
+  }
 }

@@ -26,17 +26,18 @@ final class TcpClient: Loggable {
     bootstrap = ClientBootstrap(group: group)
         .channelOption(ChannelOptions.socket(SocketOptionLevel(SOL_SOCKET), SO_REUSEADDR), value: 1)
         .channelInitializer { [unowned messagesHandler] (channel) in
-            channel.pipeline.addHandler(BackPressureHandler()).flatMap {
-              channel.pipeline.addHandlers([
-                  ByteToMessageHandler(LengthFieldBasedFrameDecoder(lengthFieldLength: .two), maximumBufferSize: Int(UInt16.max)),
-                  LengthFieldPrepender(lengthFieldLength: .two),
-                  sharedTickTockHandler,
-                  sharedDecoderHandler,
-                  sharedEncoderHandler,
-                  messagesHandler,
-                  sharedLogOnErrorHandler,
-                  sharedCloseOnErrorHandler,
-              ])
+          channel.pipeline.addHandler(BackPressureHandler()).flatMap {
+            channel.pipeline.addHandlers([
+              ByteToMessageHandler(LengthFieldBasedFrameDecoder(lengthFieldLength: .two), maximumBufferSize: Int(UInt16.max)),
+              LengthFieldPrepender(lengthFieldLength: .two),
+              IdleStateHandler(readTimeout: .seconds(6)),
+              sharedTickTockHandler,
+              sharedDecoderHandler,
+              sharedEncoderHandler,
+              messagesHandler,
+              sharedLogOnErrorHandler,
+              sharedCloseOnErrorHandler,
+            ])
           }
         }
   }
