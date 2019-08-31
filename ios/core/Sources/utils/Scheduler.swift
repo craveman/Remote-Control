@@ -8,7 +8,7 @@ public class Scheduler {
   public static let shared = Scheduler()
 
   let queue: DispatchQueue
-  var timers: [String: DispatchSourceTimer]
+  var timers: [UUID: DispatchSourceTimer]
 
   private init () {
     queue = DispatchQueue(label: "scheduledTasks", qos: .background)
@@ -19,20 +19,20 @@ public class Scheduler {
     stop()
   }
 
-  public func schedule (every repeating: DispatchTimeInterval, run action: @escaping () -> Void) -> String {
+  public func schedule (every repeating: DispatchTimeInterval, run action: @escaping () -> Void) -> UUID {
     let timer = DispatchSource.makeTimerSource(queue: queue)
     timer.schedule(deadline: .now(), repeating: repeating)
     timer.setEventHandler { action() }
     timer.resume()
 
-    let id = UUID().uuidString
+    let id = UUID()
     queue.sync {
       timers[id] = timer
     }
     return id
   }
 
-  public func cancel (id: String) {
+  public func cancel (id: UUID) {
     if let timer = self[id] {
       timer.cancel()
     }
@@ -48,7 +48,7 @@ public class Scheduler {
     }
   }
 
-  public subscript(id: String) -> DispatchSourceTimer? {
+  public subscript(id: UUID) -> DispatchSourceTimer? {
     var result: DispatchSourceTimer?
     queue.sync {
       result = timers[id]

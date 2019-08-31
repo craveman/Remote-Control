@@ -1,6 +1,7 @@
 
-import Network
+import Foundation
 import Dispatch
+import Network
 
 import logging
 import utils
@@ -10,7 +11,7 @@ final class PingBroadcastService: Loggable {
 
   private static let ping = "PING".data(using: .utf8)!
 
-  var scheduledJobId: String?
+  var scheduledJobId: UUID?
   var connection: NWConnection?
 
   init? (host: String = "127.0.0.1", port: Int = 21075) {
