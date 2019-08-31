@@ -42,16 +42,16 @@ final class TcpServer: Loggable {
 
     _ = bootstrap.childChannelInitializer { channel in
         channel.pipeline.addHandler(BackPressureHandler()).flatMap { [unowned self] () in
-            channel.pipeline.addHandlers([
-                ByteToMessageHandler(LengthFieldBasedFrameDecoder(lengthFieldLength: .two), maximumBufferSize: Int(UInt16.max)),
-                LengthFieldPrepender(lengthFieldLength: .two),
-                sharedTickTockHandler,
-                sharedDecoderHandler,
-                sharedEncoderHandler,
-                MessagesHandler(self.messagesProcessor, self.eventsProcessor),
-                sharedLogOnErrorHandler,
-                sharedCloseOnErrorHandler,
-            ])
+          channel.pipeline.addHandlers([
+              ByteToMessageHandler(LengthFieldBasedFrameDecoder(lengthFieldLength: .two), maximumBufferSize: Int(UInt16.max)),
+              LengthFieldPrepender(lengthFieldLength: .two),
+              sharedTickTockHandler,
+              sharedDecoderHandler,
+              sharedEncoderHandler,
+              MessagesHandler(self.messagesProcessor, self.eventsProcessor),
+              sharedLogOnErrorHandler,
+              sharedCloseOnErrorHandler,
+          ])
         }
     }
   }
