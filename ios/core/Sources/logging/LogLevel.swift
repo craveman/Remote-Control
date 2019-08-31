@@ -5,6 +5,7 @@ public enum LogLevel: Int {
   case INFO = 2
   case WARN = 3
   case ERROR = 4
+  case OFF = 99
 }
 
 extension LogLevel {
@@ -19,6 +20,8 @@ extension LogLevel {
       return " WARN"
     case .ERROR:
       return "ERROR"
+    case .OFF:
+      return "  OFF"
     }
   }
 }
