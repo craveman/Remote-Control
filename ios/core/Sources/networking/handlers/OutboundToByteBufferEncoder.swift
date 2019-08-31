@@ -11,6 +11,11 @@ final class OutboundToByteBufferEncoder: ChannelOutboundHandler, Loggable {
   typealias OutboundOut = ByteBuffer
 
   public func write (context: ChannelHandlerContext, data: NIOAny, promise: EventLoopPromise<Void>?) {
+    if data.description.contains("ByteBuffer") {
+      context.write(data, promise: nil)
+      return
+    }
+
     let outbound = unwrapOutboundIn(data)
 
     var buffer = context.channel.allocator.buffer(capacity: 2)
