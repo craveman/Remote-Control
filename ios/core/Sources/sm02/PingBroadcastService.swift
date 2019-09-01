@@ -52,7 +52,10 @@ final class PingBroadcastService: Loggable {
       Scheduler.shared.cancel(id: jobId)
       log.debug("scheduled job '{}' canceled", jobId)
     }
-    connection?.cancel()
+    if connection != nil {
+      connection!.cancel()
+      connection = nil
+    }
     log.debug("stopped")
   }
 }

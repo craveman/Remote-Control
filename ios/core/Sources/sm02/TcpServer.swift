@@ -69,7 +69,10 @@ final class TcpServer: Loggable {
 
   func stop () {
     log.debug("stopping..")
-    let _ = channel?.close()
+    if channel != nil, channel!.isActive {
+      let _ = channel?.close()
+      channel = nil
+    }
     log.debug("stopped")
   }
 }
