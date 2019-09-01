@@ -138,22 +138,22 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler, Loggable {
     }
   }
 
-  func decode (_ data: NIOAny) -> Result<Inbound, ClientError> {
+  func decode (_ data: NIOAny) -> Result<Inbound, ConnectionError> {
     var buffer = unwrapInboundIn(data)
     guard let tag = buffer.readUInt8() else {
-      return .failure(.decodingInboundFail("The message doesn't have a tag"))
+      return .failure(.parsingdError("The message doesn't have a tag"))
     }
     guard let decoder = ByteBufferToInboundDecoder.decoders[tag] else {
-      return .failure(.decodingInboundFail("The message doen't have a decoder for the tag - '\(tag)'"))
+      return .failure(.parsingdError("The message doen't have a decoder for the tag - '\(tag)'"))
     }
     guard let status = buffer.readUInt8() else {
-      return .failure(.decodingInboundFail("The message doesn't have status"))
+      return .failure(.parsingdError("The message doesn't have status"))
     }
     if status != 0 {
-      return .failure(.decodingInboundFail("The message has invalid request status. Should be 0, but it is - '\(status)'"))
+      return .failure(.parsingdError("The message has invalid request status. Should be 0, but it is - '\(status)'"))
     }
     guard let outbound = decoder(&buffer) else {
-      return .failure(.decodingInboundFail("The message has invalid request status. Should be 0, but it is - '\(status)'"))
+      return .failure(.parsingdError("The message has invalid request status. Should be 0, but it is - '\(status)'"))
     }
     return .success(outbound)
   }
