@@ -59,6 +59,7 @@ final class TcpClient: Loggable {
   func close () {
     log.debug("closing..")
     let _ = channel?.close()
+    EventService.shared.clear()
     log.debug("closed")
   }
 

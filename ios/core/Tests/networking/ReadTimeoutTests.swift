@@ -20,6 +20,9 @@ final class ReadTimeoutTests: XCTestCase {
     LogContext.ROOT.logLevel = .DEBUG
 
     let server = SilentServer()
+    defer {
+      server.close()
+    }
 
     sleep(1)
 
@@ -37,6 +40,9 @@ final class ReadTimeoutTests: XCTestCase {
     LogContext.ROOT.logLevel = .DEBUG
 
     let server = SM02().start()
+    defer {
+      server.stop()
+    }
 
     sleep(1)
 
@@ -48,6 +54,30 @@ final class ReadTimeoutTests: XCTestCase {
     sleep(7)
 
     XCTAssertTrue(client.channel!.isActive)
+  }
+
+  func testFiresConnectionTimeoutEvent () {
+    LogContext.ROOT.logLevel = .DEBUG
+
+    var expect = expectation(description: "Event fired")
+    EventService.shared.add(handler: { event in
+      expect.fulfill()
+    })
+
+    let server = SilentServer()
+    defer {
+      server.close()
+    }
+
+    sleep(1)
+
+    let client = TcpClient()
+    client.connect(to: try! SocketAddress(ipAddress: "127.0.0.1", port: 21078))
+
+    XCTAssertTrue(client.channel!.isActive)
+
+    waitForExpectations(timeout: 7)
+    XCTAssertFalse(client.channel!.isActive)
   }
 }
 

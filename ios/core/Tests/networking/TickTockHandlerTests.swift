@@ -75,6 +75,9 @@ final class MyClient {
   }
 
   func close () {
+    if !channel.isActive {
+      return
+    }
     let _ = channel.close()
     try! group.syncShutdownGracefully()
   }

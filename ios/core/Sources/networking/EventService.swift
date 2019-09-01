@@ -25,13 +25,19 @@ final class EventService {
   }
 
   func fire (event: ConnectionEvent) {
-    queue.async { [weak self] in
+    queue.async(flags: .barrier) { [weak self] in
       guard let self = self else {
         return
       }
       for handler in self.handlers {
         handler(event)
       }
+    }
+  }
+
+  func clear () {
+    queue.sync {
+      self.handlers.removeAll()
     }
   }
 }
