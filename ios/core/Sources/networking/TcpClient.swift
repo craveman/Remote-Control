@@ -34,6 +34,7 @@ final class TcpClient: Loggable {
               sharedTickTockHandler,
               sharedDecoderHandler,
               sharedEncoderHandler,
+              // AuthenticationHandler(),
               messagesHandler,
               sharedLogOnErrorHandler,
               sharedCloseOnErrorHandler,
