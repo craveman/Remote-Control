@@ -11,7 +11,11 @@ public class Scheduler {
   var timers: [UUID: DispatchSourceTimer]
 
   private init () {
-    queue = DispatchQueue(label: "scheduledTasks", qos: .background)
+    queue = DispatchQueue(
+      label: "scheduledTasks",
+      qos: .background,
+      attributes: .concurrent
+    )
     timers = [:]
   }
 
