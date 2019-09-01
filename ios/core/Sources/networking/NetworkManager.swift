@@ -45,7 +45,7 @@ public class NetworkManager: NetworkManagerProtocol {
   }
 
   public func on (events handler: @escaping EventHandler) -> NetworkManagerProtocol {
-    client.on(events: handler)
+    EventService.shared.add(handler: handler)
     return self
   }
 

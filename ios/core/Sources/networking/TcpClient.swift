@@ -69,8 +69,4 @@ final class TcpClient: Loggable {
   func on (messages handler: @escaping InboundHandler) {
     messagesHandler.messagesProcessor.store(handler)
   }
-
-  func on (events handler: @escaping EventHandler) {
-    messagesHandler.eventsProcessor.store(handler)
-  }
 }

@@ -12,7 +12,6 @@ final class MessagesHandler: ChannelInboundHandler, Loggable {
   typealias OutboundOut = Outbound
 
   let messagesProcessor = Atomic<InboundHandler?>(nil)
-  let eventsProcessor = Atomic<EventHandler?>(nil)
 
   var connectionContext: ChannelHandlerContext?
 
