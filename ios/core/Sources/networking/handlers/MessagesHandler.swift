@@ -8,34 +8,55 @@ import utils
 
 final class MessagesHandler: ChannelInboundHandler, Loggable {
 
+  typealias Factory = Singletons & ChannelHandlerFactory
   typealias InboundIn = Inbound
   typealias OutboundOut = Outbound
 
-  let messagesProcessor = Atomic<InboundHandler?>(nil)
+  let messages: MessagesManager
 
-  var connectionContext: ChannelHandlerContext?
-
-  public func channelActive (context: ChannelHandlerContext) {
-    log.debug("connected to {}", context.remoteAddress!)
-    connectionContext = context
+  init (factory: Factory) {
+    messages = factory.messagesManager
   }
 
   public func channelRead (context: ChannelHandlerContext, data: NIOAny) {
     let request = unwrapInboundIn(data)
 
-    guard let processor = messagesProcessor.load() else {
+    let (response, handled) = messages.fire(it: request)
+    if handled == false {
       log.warn("there is no messages processor for {} client", context.remoteAddress!)
       return
     }
 
-    let response = processor(request) ?? Outbound.genericResponse(request: request.tag)
+    if let response = response {
+      let out = wrapOutboundOut(response)
+      context.writeAndFlush(out, promise: nil)
+      return
+    }
 
-    let out = wrapOutboundOut(response)
-    context.writeAndFlush(out, promise: nil)
+    if request.hasGenericResponse() {
+      let response = Outbound.genericResponse(request: request.tag)
+      let out = wrapOutboundOut(response)
+      context.writeAndFlush(out, promise: nil)
+      return
+    }
+
+    let error = ConnectionError.mandatoryResponseAbsent(request: request)
+    context.fireErrorCaught(error)
   }
+}
 
-  func send (_ message: Outbound) {
-    let out = wrapOutboundOut(message)
-    connectionContext?.writeAndFlush(out, promise: nil)
+extension Inbound {
+
+  func hasGenericResponse () -> Bool {
+    switch self {
+    case .broadcast,
+         .ethernetDisplay,
+         .fightResult,
+         .videoReady,
+         .videoReceived:
+      return true
+    default:
+      return false
+    }
   }
 }

@@ -5,9 +5,9 @@ import Dispatch
 import logging
 
 
-typealias PingCatchedAction = (_ remoteAddress: SocketAddress) -> Void
-
 final class PingCatcherService: Loggable {
+
+  typealias Factory = Singletons
 
   let port: Int
   let group: MultiThreadedEventLoopGroup
@@ -15,9 +15,10 @@ final class PingCatcherService: Loggable {
 
   var channel: Channel?
 
-  init (listen port: Int = 21075, _ action: @escaping PingCatchedAction) {
+  init (listen port: Int = 21075, factory: Factory) {
     self.port = port
-    let handler = Catcher(action)
+
+    let handler = PingCatcherHandler(factory: factory)
 
     group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
     bootstrap = DatagramBootstrap(group: group)
@@ -28,8 +29,7 @@ final class PingCatcherService: Loggable {
   }
 
   deinit {
-    stop()
-    try! group.syncShutdownGracefully()
+    close()
   }
 
   func start () {
@@ -46,18 +46,24 @@ final class PingCatcherService: Loggable {
     }
     log.debug("stopped")
   }
+
+  func close () {
+    stop()
+    try! group.syncShutdownGracefully()
+  }
 }
 
-private class Catcher: ChannelInboundHandler, Loggable {
+fileprivate final class PingCatcherHandler: ChannelInboundHandler, Loggable {
 
   private static let ping = [UInt8] ("PING".utf8)
 
+  typealias Factory = Singletons
   typealias InboundIn = AddressedEnvelope<ByteBuffer>
 
-  let handler: PingCatchedAction
+  let events: EventsManager
 
-  init (_ handler: @escaping PingCatchedAction) {
-    self.handler = handler
+  init (factory: Factory) {
+    events = factory.eventsManager
   }
 
   public func channelRead (context: ChannelHandlerContext, data: NIOAny) {
@@ -65,22 +71,14 @@ private class Catcher: ChannelInboundHandler, Loggable {
     var requestData = requestEnvelope.data
     let bytes = requestData.readBytes(length: requestData.readableBytes)!
 
-    context.close(promise: nil)
-    if bytes == Catcher.ping {
-      let remoteAddress = requestEnvelope.remoteAddress
-      handler(remoteAddress)
+    if bytes == PingCatcherHandler.ping {
+      let serverAddress = requestEnvelope.remoteAddress
+      let event = ConnectionEvent.pingCatched(serverAddress: serverAddress)
+      events.fire(it: event)
+      context.close(promise: nil)
     } else {
       log.error("wrong ping message - {}", bytes)
     }
-  }
-
-  public func channelReadComplete(ctx: ChannelHandlerContext) {
-    ctx.flush()
-  }
-
-  public func errorCaught(ctx: ChannelHandlerContext, error: Error) {
-    log.error("connection error occured - {}", error)
-    ctx.close(promise: nil)
   }
 }
 

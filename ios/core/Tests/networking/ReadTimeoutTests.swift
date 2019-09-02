@@ -26,8 +26,13 @@ final class ReadTimeoutTests: XCTestCase {
 
     sleep(1)
 
-    let client = TcpClient()
-    client.connect(to: try! SocketAddress(ipAddress: "127.0.0.1", port: 21078))
+    let serverAddress = try! SocketAddress(ipAddress: "127.0.0.1", port: 21078)
+    let container = DependencyContainer()
+    let client = container.makeTcpClient(for: serverAddress)
+    defer {
+      client.close()
+    }
+    client.start()
 
     XCTAssertTrue(client.channel!.isActive)
 
@@ -46,8 +51,13 @@ final class ReadTimeoutTests: XCTestCase {
 
     sleep(1)
 
-    let client = TcpClient()
-    client.connect(to: try! SocketAddress(ipAddress: "127.0.0.1", port: 21074))
+    let serverAddress = try! SocketAddress(ipAddress: "127.0.0.1", port: 21074)
+    let container = DependencyContainer()
+    let client = container.makeTcpClient(for: serverAddress)
+    defer {
+      client.close()
+    }
+    client.start()
 
     XCTAssertTrue(client.channel!.isActive)
 
@@ -60,8 +70,11 @@ final class ReadTimeoutTests: XCTestCase {
     LogContext.ROOT.logLevel = .DEBUG
 
     var expect = expectation(description: "Event fired")
-    EventService.shared.add(handler: { event in
-      expect.fulfill()
+    let container = DependencyContainer()
+    container.eventsManager.add(handler: { event in
+      if case .connectionReadTimeout = event {
+        expect.fulfill()
+      }
     })
 
     let server = SilentServer()
@@ -71,8 +84,12 @@ final class ReadTimeoutTests: XCTestCase {
 
     sleep(1)
 
-    let client = TcpClient()
-    client.connect(to: try! SocketAddress(ipAddress: "127.0.0.1", port: 21078))
+    let serverAddress = try! SocketAddress(ipAddress: "127.0.0.1", port: 21078)
+    let client = container.makeTcpClient(for: serverAddress)
+    defer {
+      client.close()
+    }
+    client.start()
 
     XCTAssertTrue(client.channel!.isActive)
 

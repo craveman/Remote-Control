@@ -13,11 +13,14 @@ final class PingCatcherServiceTests: XCTestCase {
   func testCatchServerPing () {
     var expect = expectation(description: "Catch ping message")
 
-    var catchResult: SocketAddress?
-    let catcher = PingCatcherService { remoteAddress in
-      catchResult = remoteAddress
-      expect.fulfill()
-    }
+    let container = DependencyContainer()
+    let catcher = PingCatcherService(factory: container)
+
+    container.eventsManager.add(handler: { event in
+      if case .pingCatched(_) = event {
+        expect.fulfill()
+      }
+    })
 
     catcher.start()
     defer {
@@ -29,7 +32,6 @@ final class PingCatcherServiceTests: XCTestCase {
       server.stop()
     }
     waitForExpectations(timeout: 3)
-    XCTAssertNotNil(catchResult)
   }
 
   static var allTests = [

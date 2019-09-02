@@ -46,10 +46,11 @@ final class MyClient {
   let channel: Channel
 
   init (tockReceivedAction: @escaping TickTockHandler.TockReceivedAction) {
-    let sharedTickTockHandler = TickTockHandler()
+    let container = DependencyContainer()
+    let sharedTickTockHandler = TickTockHandler(factory: container)
     sharedTickTockHandler.tockReceivedAction = tockReceivedAction
 
-    let sharedLogOnErrorHandler = LogOnErrorHandler()
+    let sharedLogOnErrorHandler = LogOnErrorHandler(factory: container)
     let sharedCloseOnErrorHandler = NIOCloseOnErrorHandler()
 
     group = MultiThreadedEventLoopGroup(numberOfThreads: 1)

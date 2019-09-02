@@ -8,6 +8,7 @@ import utils
 
 final class TickTockHandler: ChannelInboundHandler, Loggable {
 
+  typealias Factory = Singletons
   typealias InboundIn = ByteBuffer
   typealias OutboundOut = ByteBuffer
   typealias TockReceivedAction = () -> Void
@@ -19,9 +20,15 @@ final class TickTockHandler: ChannelInboundHandler, Loggable {
 
   var tockReceivedAction: TockReceivedAction? = nil
 
+  private let events: EventsManager
+
   private var tickMessage: ByteBuffer? = nil
   private var channel: Channel? = nil
   private var scheduledJobId: UUID? = nil
+
+  init (factory: Factory) {
+    events = factory.eventsManager
+  }
 
   public func channelActive (context: ChannelHandlerContext) {
     log.debug("connected to {}", context.remoteAddress!)
@@ -98,7 +105,7 @@ final class TickTockHandler: ChannelInboundHandler, Loggable {
   public func userInboundEventTriggered (context: ChannelHandlerContext, event: Any) {
     if event is IdleStateHandler.IdleStateEvent {
       log.error("connection is expired, closing")
-      EventService.shared.fire(event: .connectionReadTimeout)
+      events.fire(it: .connectionReadTimeout)
       context.close(promise: nil)
     }
     context.fireUserInboundEventTriggered(event)
