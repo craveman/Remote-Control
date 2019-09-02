@@ -19,8 +19,8 @@
 		85A9935123109EA2003FC5BE /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9935023109EA2003FC5BE /* SettingsViewController.swift */; };
 		8FA0F07623172168004E1FE4 /* networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FA0F07523172168004E1FE4 /* networking.framework */; };
 		8FA0F07723172168004E1FE4 /* networking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FA0F07523172168004E1FE4 /* networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8FA0F07923172168004E1FE4 /* logging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FA0F07823172168004E1FE4 /* logging.framework */; };
-		8FA0F07A23172168004E1FE4 /* logging.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FA0F07823172168004E1FE4 /* logging.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8FCF4E4A231DD84E0017B9D7 /* logging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCF4E49231DD84E0017B9D7 /* logging.framework */; };
+		8FCF4E4B231DD84E0017B9D7 /* logging.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCF4E49231DD84E0017B9D7 /* logging.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */; };
 		B9C8BEE02305A2C5004DBBF8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDF2305A2C5004DBBF8 /* ViewController.swift */; };
 		B9C8BEE32305A2C6004DBBF8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE12305A2C6004DBBF8 /* Main.storyboard */; };
@@ -54,7 +54,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8FA0F07A23172168004E1FE4 /* logging.framework in Embed Frameworks */,
+				8FCF4E4B231DD84E0017B9D7 /* logging.framework in Embed Frameworks */,
 				8FA0F07723172168004E1FE4 /* networking.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -74,7 +74,7 @@
 		85A9934E23109E94003FC5BE /* PenaltiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltiesViewController.swift; sourceTree = "<group>"; };
 		85A9935023109EA2003FC5BE /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		8FA0F07523172168004E1FE4 /* networking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8FA0F07823172168004E1FE4 /* logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FCF4E49231DD84E0017B9D7 /* logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9AD54EC2305B94700F97E4B /* Logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9AD54EE2305B94700F97E4B /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Network.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9C8BEDA2305A2C5004DBBF8 /* RemoteControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoteControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,7 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FA0F07923172168004E1FE4 /* logging.framework in Frameworks */,
+				8FCF4E4A231DD84E0017B9D7 /* logging.framework in Frameworks */,
 				8FA0F07623172168004E1FE4 /* networking.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -186,7 +186,7 @@
 		B9C8BED12305A2C5004DBBF8 = {
 			isa = PBXGroup;
 			children = (
-				8FA0F07823172168004E1FE4 /* logging.framework */,
+				8FCF4E49231DD84E0017B9D7 /* logging.framework */,
 				8FA0F07523172168004E1FE4 /* networking.framework */,
 				B9C8BEDC2305A2C5004DBBF8 /* RemoteControl */,
 				B9C8BEF12305A2C7004DBBF8 /* RemoteControlTests */,
