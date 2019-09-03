@@ -72,6 +72,7 @@ let package = Package(
       name: "networking_tests",
       dependencies: [
         "sm02",
+        "test_utils",
       ],
       path: "./Tests/networking"
     ),
@@ -79,9 +80,18 @@ let package = Package(
       name: "sm02_tests",
       dependencies: [
         "sm02",
-        "NIOTestUtils"
+        "NIOTestUtils",
+        "test_utils"
       ],
       path: "./Tests/sm02"
+    ),
+    .testTarget(
+      name: "test_utils",
+      dependencies: [
+        "networking",
+        "utils",
+      ],
+      path: "./Tests/utils"
     ),
   ],
 

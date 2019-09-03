@@ -18,8 +18,6 @@ final class TickTockHandler: ChannelInboundHandler, Loggable {
   private static let TOCK_TAG: UInt8 = 0xF2
   private static let TOCK_RESPONSE_STATUS: UInt8 = 0x01
 
-  private var tockMessage: ByteBuffer? = nil
-
   public func channelRead (context: ChannelHandlerContext, data: NIOAny) {
     var buffer = unwrapInboundIn(data)
 
@@ -50,14 +48,11 @@ final class TickTockHandler: ChannelInboundHandler, Loggable {
       return
     }
 
-    if tockMessage == nil {
-      tockMessage = context.channel.allocator.buffer(capacity: 2)
-      tockMessage!.writeInteger(TickTockHandler.TOCK_TAG as UInt8)
-      tockMessage!.writeInteger(TickTockHandler.TOCK_RESPONSE_STATUS as UInt8)
-    }
+    var tockMessage = context.channel.allocator.buffer(capacity: 2)
+    tockMessage.writeInteger(TickTockHandler.TOCK_TAG as UInt8)
+    tockMessage.writeInteger(TickTockHandler.TOCK_RESPONSE_STATUS as UInt8)
 
-    tockMessage!.moveReaderIndex(to: 0)
-    let out = self.wrapOutboundOut(tockMessage!)
+    let out = self.wrapOutboundOut(tockMessage)
     context.writeAndFlush(out, promise: nil)
   }
 }

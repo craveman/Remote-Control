@@ -21,33 +21,22 @@ final class MessagesHandler: ChannelInboundHandler, Loggable {
   public func channelRead (context: ChannelHandlerContext, data: NIOAny) {
     let request = unwrapInboundIn(data)
 
-    let (response, handled) = messages.fire(it: request)
-    if handled == false {
+    if messages.fire(it: request) == false {
       log.warn("there is no messages processor for {} client", context.remoteAddress!)
       return
     }
 
-    if let response = response {
-      let out = wrapOutboundOut(response)
-      context.writeAndFlush(out, promise: nil)
-      return
-    }
-
-    if request.hasGenericResponse() {
+    if request.hasGenericResponse {
       let response = Outbound.genericResponse(request: request.tag)
       let out = wrapOutboundOut(response)
       context.writeAndFlush(out, promise: nil)
-      return
     }
-
-    let error = ConnectionError.mandatoryResponseAbsent(request: request)
-    context.fireErrorCaught(error)
   }
 }
 
 extension Inbound {
 
-  func hasGenericResponse () -> Bool {
+  var hasGenericResponse: Bool {
     switch self {
     case .broadcast,
          .ethernetDisplay,

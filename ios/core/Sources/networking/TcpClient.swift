@@ -8,15 +8,17 @@ final class TcpClient: Loggable {
 
   typealias Factory = Singletons & ChannelHandlerFactory
 
-  let serverAddress: SocketAddress
+  let host: String
+  let port: Int
   let factory: Factory
   let group: MultiThreadedEventLoopGroup
   let bootstrap: ClientBootstrap
 
   var channel: Channel?
 
-  init (for serverAddress: SocketAddress, factory: Factory) {
-    self.serverAddress = serverAddress
+  init (for host: String, port: Int = 21074, factory: Factory) {
+    self.host = host
+    self.port = port
     self.factory = factory
 
     group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
@@ -35,23 +37,32 @@ final class TcpClient: Loggable {
     if let _ = channel {
       close()
     }
-    log.debug("connecting...")
-    channel = try! bootstrap.connect(to: serverAddress).wait()
-    log.debug("connected")
+
+    log.debug("connecting to {}:{}", host, port)
+    do {
+      channel = try bootstrap.connect(host: host, port: port).wait()
+      log.debug("connected")
+    } catch {
+      log.error("connection error - {}", error)
+    }
   }
 
   func stop () {
     log.debug("closing..")
-    if channel != nil, channel!.isActive {
-      let _ = channel!.close()
-      channel = nil
+    if let channel = channel {
+      let _ = channel.close()
+      self.channel = nil
     }
     log.debug("closed")
   }
 
   func close () {
     stop()
-    try! group.syncShutdownGracefully()
+    do {
+      try group.syncShutdownGracefully()
+    } catch {
+      log.error("closing error - {}", error)
+    }
   }
 
   func send (_ message: Outbound) {

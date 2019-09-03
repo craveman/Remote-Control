@@ -33,16 +33,20 @@ final class PingCatcherService: Loggable {
   }
 
   func start () {
-    log.debug("starting...")
-    channel = try! bootstrap.bind(host: "127.0.0.1", port: port).wait()
-    log.debug("started")
+    log.debug("starting on port {}", port)
+    do {
+      channel = try bootstrap.bind(host: "127.0.0.1", port: port).wait()
+      log.debug("started")
+    } catch {
+      log.error("connection error - {}", error)
+    }
   }
 
   func stop () {
     log.debug("stopping...")
-    if channel != nil, channel!.isActive {
-      let _ = channel!.close()
-      channel = nil
+    if let channel = channel {
+      let _ = channel.close()
+      self.channel = nil
     }
     log.debug("stopped")
   }
@@ -71,13 +75,25 @@ fileprivate final class PingCatcherHandler: ChannelInboundHandler, Loggable {
     var requestData = requestEnvelope.data
     let bytes = requestData.readBytes(length: requestData.readableBytes)!
 
-    if bytes == PingCatcherHandler.ping {
-      let serverAddress = requestEnvelope.remoteAddress
-      let event = ConnectionEvent.pingCatched(serverAddress: serverAddress)
+    if bytes != PingCatcherHandler.ping {
+      log.error("wrong ping message - {}", bytes)
+    }
+
+    var host: String?
+    switch requestEnvelope.remoteAddress {
+    case let .v4(address):
+      host = address.host
+    case let .v6(address):
+      host = address.host
+    default:
+      log.error("unsupported remote server address type {}", requestEnvelope.remoteAddress)
+      return
+    }
+
+    if let host = host {
+      let event = ConnectionEvent.pingCatched(remoteHost: host)
       events.fire(it: event)
       context.close(promise: nil)
-    } else {
-      log.error("wrong ping message - {}", bytes)
     }
   }
 }

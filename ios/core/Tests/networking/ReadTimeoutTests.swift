@@ -5,20 +5,20 @@ import XCTest
 
 import logging
 import sm02
+import test_utils
 
 @testable import networking
 
 
-final class ReadTimeoutTests: XCTestCase {
+final class ReadTimeoutTests: AbstractTestCase {
 
   static var allTests = [
     ("testReadTimeoutFailure", testReadTimeoutFailure),
-    ("testsReadTimeoutSuccess", testsReadTimeoutSuccess),
+    ("testReadTimeoutSuccess", testReadTimeoutSuccess),
+    ("testFiresConnectionTimeoutEvent", testFiresConnectionTimeoutEvent),
   ]
 
   func testReadTimeoutFailure () {
-    LogContext.ROOT.logLevel = .DEBUG
-
     let server = SilentServer()
     defer {
       server.close()
@@ -26,9 +26,8 @@ final class ReadTimeoutTests: XCTestCase {
 
     sleep(1)
 
-    let serverAddress = try! SocketAddress(ipAddress: "127.0.0.1", port: 21078)
     let container = DependencyContainer()
-    let client = container.makeTcpClient(for: serverAddress)
+    let client = container.makeTcpClient(for: "127.0.0.1", port: 21078)
     defer {
       client.close()
     }
@@ -41,9 +40,7 @@ final class ReadTimeoutTests: XCTestCase {
     XCTAssertFalse(client.channel!.isActive)
   }
 
-  func testsReadTimeoutSuccess () {
-    LogContext.ROOT.logLevel = .DEBUG
-
+  func testReadTimeoutSuccess () {
     let server = SM02().start()
     defer {
       server.stop()
@@ -51,9 +48,8 @@ final class ReadTimeoutTests: XCTestCase {
 
     sleep(1)
 
-    let serverAddress = try! SocketAddress(ipAddress: "127.0.0.1", port: 21074)
     let container = DependencyContainer()
-    let client = container.makeTcpClient(for: serverAddress)
+    let client = container.makeTcpClient(for: "127.0.0.1", port: 21074)
     defer {
       client.close()
     }
@@ -67,9 +63,8 @@ final class ReadTimeoutTests: XCTestCase {
   }
 
   func testFiresConnectionTimeoutEvent () {
-    LogContext.ROOT.logLevel = .DEBUG
-
     var expect = expectation(description: "Event fired")
+
     let container = DependencyContainer()
     container.eventsManager.add(handler: { event in
       if case .connectionReadTimeout = event {
@@ -84,8 +79,7 @@ final class ReadTimeoutTests: XCTestCase {
 
     sleep(1)
 
-    let serverAddress = try! SocketAddress(ipAddress: "127.0.0.1", port: 21078)
-    let client = container.makeTcpClient(for: serverAddress)
+    let client = container.makeTcpClient(for: "127.0.0.1", port: 21078)
     defer {
       client.close()
     }

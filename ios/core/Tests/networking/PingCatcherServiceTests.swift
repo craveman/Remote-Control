@@ -4,11 +4,16 @@ import NIOExtras
 import XCTest
 
 import sm02
+import test_utils
 
 @testable import networking
 
 
-final class PingCatcherServiceTests: XCTestCase {
+final class PingCatcherServiceTests: AbstractTestCase {
+
+  static var allTests = [
+    ("testCatchServerPing", testCatchServerPing),
+  ]
 
   func testCatchServerPing () {
     var expect = expectation(description: "Catch ping message")
@@ -33,8 +38,4 @@ final class PingCatcherServiceTests: XCTestCase {
     }
     waitForExpectations(timeout: 3)
   }
-
-  static var allTests = [
-    ("testCatchServerPing", testCatchServerPing),
-  ]
 }

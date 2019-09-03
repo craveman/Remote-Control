@@ -2,6 +2,8 @@
 import NIO
 import NIOExtras
 
+import logging
+
 
 protocol Singletons {
 
@@ -13,7 +15,7 @@ protocol NetworkServiceFactory {
 
   func makePingCatcherService () -> PingCatcherService
 
-  func makeTcpClient (for remoteAddress: SocketAddress) -> TcpClient
+  func makeTcpClient (for host: String, port: Int) -> TcpClient
 }
 
 protocol ChannelHandlerFactory {
@@ -27,10 +29,19 @@ protocol ChannelHandlerFactory {
   func makeClientPipeline (_ channel: Channel) -> EventLoopFuture<Void>
 }
 
-class DependencyContainer: Singletons {
+class DependencyContainer: Singletons, Loggable {
 
   lazy private(set) var eventsManager = EventsManager()
   lazy private(set) var messagesManager = MessagesManager()
+}
+
+public struct RuntimeError: Error {
+
+  public let message: String
+
+  public init(_ message: String) {
+    self.message = message
+  }
 }
 
 extension DependencyContainer: NetworkServiceFactory {
@@ -39,8 +50,8 @@ extension DependencyContainer: NetworkServiceFactory {
     return PingCatcherService(factory: self)
   }
 
-  func makeTcpClient (for remoteAddress: SocketAddress) -> TcpClient {
-    return TcpClient(for: remoteAddress, factory: self)
+  func makeTcpClient (for host: String, port: Int) -> TcpClient {
+    return TcpClient(for: host, port: port, factory: self)
   }
 }
 

@@ -1,9 +1,16 @@
 
 import XCTest
+
+import test_utils
+
 @testable import networking
 
 
-final class NetworkTests: XCTestCase {
+final class NetworkTests: AbstractTestCase {
+
+  static var allTests = [
+    ("testExample", testExample),
+  ]
 
   func testExample() {
   //   // This is an example of a functional test case.
@@ -11,8 +18,4 @@ final class NetworkTests: XCTestCase {
   //   // results.
   //   XCTAssertEqual(Core().text, "Hello, World!")
   }
-
-  static var allTests = [
-    ("testExample", testExample),
-  ]
 }

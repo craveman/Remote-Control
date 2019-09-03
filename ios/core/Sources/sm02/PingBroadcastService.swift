@@ -14,10 +14,8 @@ final class PingBroadcastService: Loggable {
   var scheduledJobId: UUID?
   var connection: NWConnection?
 
-  init? (host: String = "127.0.0.1", port: Int = 21075) {
-    guard let endpointPort = NWEndpoint.Port(rawValue: UInt16(port)) else {
-      return nil
-    }
+  init (host: String = "127.0.0.1", port: Int = 21075) {
+    let endpointPort = NWEndpoint.Port(rawValue: UInt16(port))!
     let endpointHost = NWEndpoint.Host(host)
     connection = NWConnection(host: endpointHost, port: endpointPort, using: .udp)
   }
@@ -53,9 +51,9 @@ final class PingBroadcastService: Loggable {
       log.debug("scheduled job '{}' canceled", jobId)
       scheduledJobId = nil
     }
-    if connection != nil {
-      connection!.cancel()
-      connection = nil
+    if let connection = connection {
+      connection.cancel()
+      self.connection = nil
     }
     log.debug("stopped")
   }

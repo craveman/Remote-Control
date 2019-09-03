@@ -5,7 +5,7 @@ import logging
 import utils
 
 
-public typealias InboundHandler = (_ message: Inbound) -> Outbound?
+public typealias InboundHandler = (_ message: Inbound) -> Void
 public typealias EventHandler = (_ event: ConnectionEvent) -> Void
 
 public protocol NetworkManagerProtocol {
@@ -64,13 +64,13 @@ public class NetworkManager: NetworkManagerProtocol, Loggable {
     tcpClient = nil
 
     events.add(handler: { [weak self] (event) in
-      guard case let .pingCatched(serverAddress) = event else {
+      guard case let .pingCatched(remoteHost) = event else {
         return
       }
       guard let self = self else {
         return
       }
-      self.tcpClient = self.factory.makeTcpClient(for: serverAddress)
+      self.tcpClient = self.factory.makeTcpClient(for: remoteHost, port: 21074)
       self.tcpClient!.start()
 
       self.pingCatcher?.close()
@@ -97,8 +97,8 @@ public class NetworkManager: NetworkManagerProtocol, Loggable {
       guard let self = self else {
         return state
       }
-      if self.tcpClient != nil {
-        self.tcpClient!.start()
+      if let tcpClient = self.tcpClient {
+        tcpClient.start()
         return .running
       }
       if self.pingCatcher == nil {
@@ -137,15 +137,17 @@ public class NetworkManager: NetworkManagerProtocol, Loggable {
   }
 
   public func send (message: Outbound) {
-    tcpClient?.send(message)
+    if let tcpClient = tcpClient {
+      tcpClient.send(message)
+    } else {
+      log.warn("there is no connection to remote server, sending message '{}' is impossible", message)
+    }
   }
 
   private func changeState (expected: [NetworkState], _ action: @escaping (NetworkState) -> NetworkState) {
-    let _ = networkState.mutatingSync({ [weak self] currentState -> NetworkState in
+    let _ = networkState.mutatingSync({ currentState -> NetworkState in
       if expected.contains(currentState) {
         currentState = action(currentState)
-      } else {
-        self!.log.warn("expected the following states {}, but current is {}", expected, currentState)
       }
       return currentState
     })

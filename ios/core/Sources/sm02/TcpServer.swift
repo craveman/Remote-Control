@@ -57,8 +57,7 @@ final class TcpServer: Loggable {
   }
 
   deinit {
-    stop()
-    try! group.syncShutdownGracefully()
+    close()
   }
 
   func start () {
@@ -69,10 +68,15 @@ final class TcpServer: Loggable {
 
   func stop () {
     log.debug("stopping..")
-    if channel != nil, channel!.isActive {
-      let _ = channel?.close()
-      channel = nil
+    if let channel = channel {
+      let _ = channel.close()
+      self.channel = nil
     }
     log.debug("stopped")
+  }
+
+  func close () {
+    stop()
+    try! group.syncShutdownGracefully()
   }
 }

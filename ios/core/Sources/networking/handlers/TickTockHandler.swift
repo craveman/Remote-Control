@@ -31,7 +31,6 @@ final class TickTockHandler: ChannelInboundHandler, Loggable {
   }
 
   public func channelActive (context: ChannelHandlerContext) {
-    log.debug("connected to {}", context.remoteAddress!)
     channel = context.channel
 
     if tickMessage == nil {
