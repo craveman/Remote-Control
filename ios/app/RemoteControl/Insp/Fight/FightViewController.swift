@@ -10,12 +10,38 @@ import UIKit
 
 class FightViewController: UIViewController {
 
+    @IBOutlet weak var fightSubView: UIView!
+    
+    @IBOutlet weak var viewSelector: UISegmentedControl!
+    
+    let pointsCtrl = PointsViewController()
+    let timersCtrl = TimersTableViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("Selected \(viewSelector?.selectedSegmentIndex ?? 0)");
+        if let segmentedControl = viewSelector as UISegmentedControl? {
+            segmentedControl.addTarget(self, action: Selector(("indexChanged:")), for: .valueChanged)
+        }
+        
+        fightSubView.addSubview(pointsCtrl.view)
+        
         // Do any additional setup after loading the view.
     }
     
+    @objc func indexChanged(_ sender: UISegmentedControl) {
+        fightSubView.
+        switch viewSelector?.selectedSegmentIndex {
+            case 0:
+                print("Select 0")
+        fightSubView.addSubview(pointsCtrl.view)
+        case 1:
+                print("Select 1")
+        fightSubView.addSubview(timersCtrl.view)
+        default:
+                print("Select: None")
+        }
+    }
 
     /*
     // MARK: - Navigation
