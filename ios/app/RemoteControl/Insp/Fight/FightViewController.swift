@@ -33,11 +33,11 @@ class FightViewController: UIViewController {
         switch viewSelector?.selectedSegmentIndex {
             case 0:
                 print("Select 0")
-        fightSubView.addSubview(pointsCtrl.view)
-        case 1:
+                fightSubView.addSubview(pointsCtrl.view)
+            case 1:
                 print("Select 1")
-        fightSubView.addSubview(timersCtrl.view)
-        default:
+                fightSubView.addSubview(timersCtrl.view)
+            default:
                 print("Select: None")
         }
     }
