@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8546BB3A231EC04900F7C86F /* FightStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */; };
+		8558AA2F231EE8F5006C8BA3 /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */; };
+		8583E89B231E21110006BC43 /* PointsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8583E89A231E21110006BC43 /* PointsViewController.swift */; };
+		8583E89D231E21280006BC43 /* TimersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8583E89C231E21280006BC43 /* TimersTableViewController.swift */; };
+		8583E8A6231EA13E0006BC43 /* ReplaysStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8583E8A5231EA13E0006BC43 /* ReplaysStoryboard.storyboard */; };
+		8583E8AA231EAA4C0006BC43 /* ReplaysCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8583E8A9231EAA4C0006BC43 /* ReplaysCollectionViewController.swift */; };
 		85A99334230B3E39003FC5BE /* NetworkSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A99333230B3E39003FC5BE /* NetworkSelectController.swift */; };
 		85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A99338230B47A4003FC5BE /* Inspiration.storyboard */; };
 		85A9933C230B4CD0003FC5BE /* Networks.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A9933B230B4CD0003FC5BE /* Networks.storyboard */; };
@@ -17,10 +23,12 @@
 		85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934C23109E2D003FC5BE /* InspViewController.swift */; };
 		85A9934F23109E94003FC5BE /* PenaltiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934E23109E94003FC5BE /* PenaltiesViewController.swift */; };
 		85A9935123109EA2003FC5BE /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9935023109EA2003FC5BE /* SettingsViewController.swift */; };
-		8FA0F07623172168004E1FE4 /* networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FA0F07523172168004E1FE4 /* networking.framework */; };
-		8FA0F07723172168004E1FE4 /* networking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FA0F07523172168004E1FE4 /* networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		8FCF4E4A231DD84E0017B9D7 /* logging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCF4E49231DD84E0017B9D7 /* logging.framework */; };
-		8FCF4E4B231DD84E0017B9D7 /* logging.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCF4E49231DD84E0017B9D7 /* logging.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		85A9936023113521003FC5BE /* Options.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A9935F23113521003FC5BE /* Options.storyboard */; };
+		85A9936723113C15003FC5BE /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9936623113C15003FC5BE /* OptionsViewController.swift */; };
+		B991AD9A231ECDDB008A55EA /* logging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B991AD99231ECDDB008A55EA /* logging.framework */; };
+		B991AD9B231ECDDB008A55EA /* logging.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B991AD99231ECDDB008A55EA /* logging.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B991AD9D231ECDDB008A55EA /* networking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B991AD9C231ECDDB008A55EA /* networking.framework */; };
+		B991AD9E231ECDDB008A55EA /* networking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B991AD9C231ECDDB008A55EA /* networking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */; };
 		B9C8BEE02305A2C5004DBBF8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDF2305A2C5004DBBF8 /* ViewController.swift */; };
 		B9C8BEE32305A2C6004DBBF8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE12305A2C6004DBBF8 /* Main.storyboard */; };
@@ -54,8 +62,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8FCF4E4B231DD84E0017B9D7 /* logging.framework in Embed Frameworks */,
-				8FA0F07723172168004E1FE4 /* networking.framework in Embed Frameworks */,
+				B991AD9E231ECDDB008A55EA /* networking.framework in Embed Frameworks */,
+				B991AD9B231ECDDB008A55EA /* logging.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -63,6 +71,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FightStoryboard.storyboard; sourceTree = "<group>"; };
+		8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownViewController.swift; sourceTree = "<group>"; };
+		8583E89A231E21110006BC43 /* PointsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsViewController.swift; sourceTree = "<group>"; };
+		8583E89C231E21280006BC43 /* TimersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimersTableViewController.swift; sourceTree = "<group>"; };
+		8583E8A5231EA13E0006BC43 /* ReplaysStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ReplaysStoryboard.storyboard; sourceTree = "<group>"; };
+		8583E8A9231EAA4C0006BC43 /* ReplaysCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaysCollectionViewController.swift; sourceTree = "<group>"; };
 		85A99333230B3E39003FC5BE /* NetworkSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSelectController.swift; sourceTree = "<group>"; };
 		85A99338230B47A4003FC5BE /* Inspiration.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Inspiration.storyboard; sourceTree = "<group>"; };
 		85A9933B230B4CD0003FC5BE /* Networks.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Networks.storyboard; sourceTree = "<group>"; };
@@ -73,10 +87,10 @@
 		85A9934C23109E2D003FC5BE /* InspViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspViewController.swift; sourceTree = "<group>"; };
 		85A9934E23109E94003FC5BE /* PenaltiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltiesViewController.swift; sourceTree = "<group>"; };
 		85A9935023109EA2003FC5BE /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		8FA0F07523172168004E1FE4 /* networking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8FCF4E49231DD84E0017B9D7 /* logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B9AD54EC2305B94700F97E4B /* Logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B9AD54EE2305B94700F97E4B /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Network.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		85A9935F23113521003FC5BE /* Options.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Options.storyboard; sourceTree = "<group>"; };
+		85A9936623113C15003FC5BE /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
+		B991AD99231ECDDB008A55EA /* logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B991AD9C231ECDDB008A55EA /* networking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9C8BEDA2305A2C5004DBBF8 /* RemoteControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoteControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9C8BEDF2305A2C5004DBBF8 /* ViewController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -97,8 +111,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FCF4E4A231DD84E0017B9D7 /* logging.framework in Frameworks */,
-				8FA0F07623172168004E1FE4 /* networking.framework in Frameworks */,
+				B991AD9D231ECDDB008A55EA /* networking.framework in Frameworks */,
+				B991AD9A231ECDDB008A55EA /* logging.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +133,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8583E8A4231EA1170006BC43 /* Replays */ = {
+			isa = PBXGroup;
+			children = (
+				8583E8A5231EA13E0006BC43 /* ReplaysStoryboard.storyboard */,
+				8583E8A9231EAA4C0006BC43 /* ReplaysCollectionViewController.swift */,
+			);
+			path = Replays;
+			sourceTree = "<group>";
+		};
 		85A99335230B4696003FC5BE /* SelectingNetwork */ = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +154,8 @@
 		85A9933A230B4C40003FC5BE /* Insp */ = {
 			isa = PBXGroup;
 			children = (
+				8583E8A4231EA1170006BC43 /* Replays */,
+				85A9935E231134EA003FC5BE /* Options */,
 				85A9934723109C96003FC5BE /* Settings */,
 				85A9934623109C89003FC5BE /* Penalties */,
 				85A9934523109C7D003FC5BE /* Fight */,
@@ -154,6 +179,10 @@
 			isa = PBXGroup;
 			children = (
 				85A9934923109CB7003FC5BE /* FightViewController.swift */,
+				8583E89A231E21110006BC43 /* PointsViewController.swift */,
+				8583E89C231E21280006BC43 /* TimersTableViewController.swift */,
+				8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */,
+				8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */,
 			);
 			path = Fight;
 			sourceTree = "<group>";
@@ -174,11 +203,18 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		85A9935E231134EA003FC5BE /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				85A9935F23113521003FC5BE /* Options.storyboard */,
+				85A9936623113C15003FC5BE /* OptionsViewController.swift */,
+			);
+			path = Options;
+			sourceTree = "<group>";
+		};
 		B9AD54EB2305B94700F97E4B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B9AD54EC2305B94700F97E4B /* Logging.framework */,
-				B9AD54EE2305B94700F97E4B /* Network.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -186,8 +222,8 @@
 		B9C8BED12305A2C5004DBBF8 = {
 			isa = PBXGroup;
 			children = (
-				8FCF4E49231DD84E0017B9D7 /* logging.framework */,
-				8FA0F07523172168004E1FE4 /* networking.framework */,
+				B991AD9C231ECDDB008A55EA /* networking.framework */,
+				B991AD99231ECDDB008A55EA /* logging.framework */,
 				B9C8BEDC2305A2C5004DBBF8 /* RemoteControl */,
 				B9C8BEF12305A2C7004DBBF8 /* RemoteControlTests */,
 				B9C8BEFC2305A2C7004DBBF8 /* RemoteControlUITests */,
@@ -346,10 +382,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8583E8A6231EA13E0006BC43 /* ReplaysStoryboard.storyboard in Resources */,
+				85A9936023113521003FC5BE /* Options.storyboard in Resources */,
 				85A9933C230B4CD0003FC5BE /* Networks.storyboard in Resources */,
 				B9C8BEE82305A2C7004DBBF8 /* LaunchScreen.storyboard in Resources */,
 				85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */,
 				B9C8BEE52305A2C7004DBBF8 /* Assets.xcassets in Resources */,
+				8546BB3A231EC04900F7C86F /* FightStoryboard.storyboard in Resources */,
 				B9C8BEE32305A2C6004DBBF8 /* Main.storyboard in Resources */,
 				85A9933F23108120003FC5BE /* QRConnect.storyboard in Resources */,
 			);
@@ -396,15 +435,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8558AA2F231EE8F5006C8BA3 /* CountdownViewController.swift in Sources */,
 				85A993422310821A003FC5BE /* QRReaderViewController.swift in Sources */,
 				B9C8BEE02305A2C5004DBBF8 /* ViewController.swift in Sources */,
 				B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */,
+				8583E8AA231EAA4C0006BC43 /* ReplaysCollectionViewController.swift in Sources */,
 				85A99334230B3E39003FC5BE /* NetworkSelectController.swift in Sources */,
 				85A9934F23109E94003FC5BE /* PenaltiesViewController.swift in Sources */,
+				8583E89D231E21280006BC43 /* TimersTableViewController.swift in Sources */,
+				8583E89B231E21110006BC43 /* PointsViewController.swift in Sources */,
 				85A9934423109191003FC5BE /* NoCameraAccessViewController.swift in Sources */,
 				85A9934A23109CB7003FC5BE /* FightViewController.swift in Sources */,
 				85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */,
 				85A9935123109EA2003FC5BE /* SettingsViewController.swift in Sources */,
+				85A9936723113C15003FC5BE /* OptionsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -585,7 +629,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = RemoteControl/Info.plist;
@@ -596,6 +640,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xxlabaza.RemoteControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -606,7 +651,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = RemoteControl/Info.plist;
@@ -617,6 +662,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xxlabaza.RemoteControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

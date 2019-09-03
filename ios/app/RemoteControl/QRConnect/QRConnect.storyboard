@@ -26,31 +26,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D4G-ka-EXi">
-                                <rect key="frame" x="0.0" y="818" width="414" height="44"/>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vih-qH-EbZ">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <barButtonItem systemItem="cancel" id="Y4v-Ds-Pez">
-                                        <connections>
-                                            <segue destination="Bjc-X2-ezI" kind="show" id="J5x-fI-mVA"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem systemItem="done" id="ZLX-NK-U3U">
-                                        <connections>
-                                            <action selector="connectedComplete:" destination="ibl-f8-asG" id="L5t-TA-css"/>
-                                        </connections>
-                                    </barButtonItem>
+                                    <navigationItem title="Scan QR code" id="lY0-uE-6EH">
+                                        <barButtonItem key="leftBarButtonItem" title="Networks" id="Y4v-Ds-Pez">
+                                            <connections>
+                                                <segue destination="Bjc-X2-ezI" kind="show" id="J5x-fI-mVA"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Connect" id="ZLX-NK-U3U">
+                                            <connections>
+                                                <action selector="connectedComplete:" destination="ibl-f8-asG" id="L5t-TA-css"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
-                            </toolbar>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="D4G-ka-EXi" firstAttribute="bottom" secondItem="HVN-Dx-KI6" secondAttribute="bottom" id="j5F-Aa-5m4"/>
-                            <constraint firstItem="D4G-ka-EXi" firstAttribute="leading" secondItem="2w1-7v-B5Y" secondAttribute="leading" id="oTF-dV-1KR"/>
-                            <constraint firstAttribute="trailing" secondItem="D4G-ka-EXi" secondAttribute="trailing" id="t7E-gF-N1T"/>
-                            <constraint firstItem="D4G-ka-EXi" firstAttribute="top" secondItem="HVN-Dx-KI6" secondAttribute="top" constant="774" id="wgh-OD-GD4"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="HVN-Dx-KI6"/>
                     </view>
+                    <toolbarItems/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics" barStyle="black"/>
                     <connections>
                         <segue destination="po2-Vp-2Jh" kind="show" identifier="toInspiration" id="Xfi-e6-o1e"/>
                         <segue destination="d6A-va-9lx" kind="show" identifier="noAccess" id="XFh-kt-eZn"/>
@@ -77,7 +77,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGX-xa-xcW">
-                                <rect key="frame" x="44.5" y="420" width="325.5" height="57"/>
+                                <rect key="frame" x="44.5" y="457" width="325.5" height="56"/>
                                 <attributedString key="attributedText">
                                     <fragment content="We have no access to camera  Please change this in settings">
                                         <attributes>
@@ -89,7 +89,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NyD-Bu-JM7">
-                                <rect key="frame" x="168" y="539" width="78" height="39"/>
+                                <rect key="frame" x="168" y="575" width="78" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="39" id="c1R-iZ-cCe"/>
                                 </constraints>

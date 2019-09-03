@@ -6,14 +6,19 @@
 //  Copyright © 2019 Sergei Andreev. All rights reserved.
 //
 
-let cellProtoId = "networkName";
-
+import SystemConfiguration.CaptiveNetwork
 import UIKit
+import NotificationCenter
+
+let cellProtoId = "networkName"
+
+var networksList = ["SM 156.02", "SM 156.03", "SM 156.04"]
+let currentSsid: String? = networksList[1];
 
 class NetworkSelectController: UITableViewController {
 
-    var networksList = ["SM 156.02", "SM 156.04"]
-    
+    @IBOutlet weak var navBar: UINavigationBar!
+    @IBOutlet weak var skipButton: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -23,22 +28,57 @@ class NetworkSelectController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print(currentSSIDs(), currentSsid ?? "-");
+        addSkipButtonIfConneted()
+//        self.tabBarController?.navigationItem.hidesBackButton = true
+    }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
+        if currentSsid != nil {
+            return 2;
+        }
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        if currentSsid != nil {
+            if section == 1 {
+                return networksList.count - 1;
+            }
+            
+            return 1;
+        }
+        
         return networksList.count
     }
     
     override func tableView(_ tv: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tv.dequeueReusableCell(withIdentifier: cellProtoId, for: indexPath)
-        cell.textLabel?.text = networksList[indexPath.row]
+        let section = indexPath.section;
+        cell.textLabel?.isEnabled = true;
+        if currentSsid != nil {
+            
+            let rest = networksList.filter { $0 != currentSsid! }
+            
+            if section == 1 {
+                cell.textLabel?.text = rest[indexPath.row]
+                return cell;
+            }
+            
+            cell.textLabel?.text = currentSsid!
+            cell.textLabel?.isEnabled = false;
+            return cell;
+        }
+        
+       cell.textLabel?.text = networksList[indexPath.row]
+        
         return cell;
     }
 
@@ -96,5 +136,27 @@ class NetworkSelectController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    func currentSSIDs() -> [String] {
+        guard let interfaceNames = CNCopySupportedInterfaces() as? [String] else {
+            return []
+        }
+        return interfaceNames.compactMap { name in
+            guard let info = CNCopyCurrentNetworkInfo(name as CFString) as? [String:AnyObject] else {
+                return nil
+            }
+            guard let ssid = info[kCNNetworkInfoKeySSID as String] as? String else {
+                return nil
+            }
+            return ssid
+        }
+    }
+    
+    func addSkipButtonIfConneted() -> Void {
+        var ctrlItms: [UIBarButtonItem] = []
+        if currentSsid != nil {
+            ctrlItms = [skipButton]
+        }
+         self.navBar.items?.first?.leftBarButtonItems = ctrlItms
+    }
 
 }
