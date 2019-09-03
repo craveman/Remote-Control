@@ -5,7 +5,7 @@ import logging
 import utils
 
 
-public typealias InboundHandler = (_ message: Inbound) -> Outbound?
+public typealias InboundHandler = (_ message: Inbound) -> Void
 public typealias EventHandler = (_ event: ConnectionEvent) -> Void
 
 public protocol NetworkManagerProtocol {

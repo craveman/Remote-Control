@@ -4,20 +4,18 @@ import utils
 
 final class MessagesManager {
 
-  typealias ResponseContainer = (response: Outbound?, processed: Bool)
-
   private var atomic = Atomic<InboundHandler?>(nil)
 
   func set (handler: @escaping InboundHandler) {
     atomic.store(handler)
   }
 
-  func fire (it: Inbound) -> ResponseContainer {
+  func fire (it: Inbound) -> Bool {
     guard let handle = atomic.load() else {
-      return (nil, false)
+      return false
     }
-    let response = handle(it)
-    return (response, true)
+    handle(it)
+    return true
   }
 
   func clear () {
