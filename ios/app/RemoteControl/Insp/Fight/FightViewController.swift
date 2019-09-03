@@ -30,7 +30,6 @@ class FightViewController: UIViewController {
     }
     
     @objc func indexChanged(_ sender: UISegmentedControl) {
-        fightSubView.
         switch viewSelector?.selectedSegmentIndex {
             case 0:
                 print("Select 0")
