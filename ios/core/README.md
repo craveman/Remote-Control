@@ -73,6 +73,8 @@ NetworkManager.shared.send(message: request)
 
 Входящие (**Inbound**) и исходящие (**Outbound**) сообщения описаны в [файле](./Sources/networking/Messages.swift).
 
+События, на которые можно *подписаться*, описаны в этом [файле](./Sources/networking/ConnectionEvent.swift).
+
 Тест, который показывает сценарий использования `NetworkManager` и *симулятора* `SM-02` находится [здесь](./Tests/sm02/IntegrationTests.swift).
 
 <a name="logging"></a>
