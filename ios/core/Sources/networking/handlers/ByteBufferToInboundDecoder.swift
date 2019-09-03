@@ -146,14 +146,11 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler, Loggable {
     guard let decoder = ByteBufferToInboundDecoder.decoders[tag] else {
       return .failure(.parsingdError("The message doen't have a decoder for the tag - '\(tag)'"))
     }
-    guard let status = buffer.readUInt8() else {
-      return .failure(.parsingdError("The message doesn't have status"))
-    }
-    if status != 0 {
-      return .failure(.parsingdError("The message has invalid request status. Should be 0, but it is - '\(status)'"))
+    guard let _ = buffer.readUInt8() else {
+      return .failure(.parsingdError("The message '\(tag)' doesn't have status"))
     }
     guard let outbound = decoder(&buffer) else {
-      return .failure(.parsingdError("The message has invalid request status. Should be 0, but it is - '\(status)'"))
+      return .failure(.parsingdError("The message '\(tag)' doesn't have a decoder"))
     }
     return .success(outbound)
   }

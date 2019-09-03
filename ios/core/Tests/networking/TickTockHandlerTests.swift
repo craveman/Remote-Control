@@ -5,19 +5,18 @@ import XCTest
 
 import logging
 import sm02
+import test_utils
 
 @testable import networking
 
 
-final class TickTockHandlerTests: XCTestCase {
+final class TickTockHandlerTests: AbstractTestCase {
 
   static var allTests = [
     ("testSendTickAndReceiveTock", testSendTickAndReceiveTock),
   ]
 
   func testSendTickAndReceiveTock () {
-    LogContext.ROOT.logLevel = .DEBUG
-
     var expect = expectation(description: "Catch tock message")
     expect.expectedFulfillmentCount = 3
 

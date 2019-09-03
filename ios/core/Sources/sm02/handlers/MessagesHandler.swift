@@ -24,7 +24,11 @@ final class MessagesHandler: ChannelInboundHandler, Loggable {
   public func channelRead (context: ChannelHandlerContext, data: NIOAny) {
     let outbound = unwrapInboundIn(data)
     guard let processor = messagesProcessor.load() else {
-      log.warn("there is no messages processor for {} client", context.remoteAddress!)
+      let remoteAddress = context.remoteAddress
+          .map { String(describing: $0) }
+          ?? "<none>"
+
+      log.warn("there is no messages processor for {} client", remoteAddress)
       return
     }
     if let response = processor(outbound) {

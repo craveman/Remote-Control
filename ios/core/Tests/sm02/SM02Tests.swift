@@ -4,12 +4,14 @@ import Network
 import Dispatch
 import XCTest
 
-@testable import sm02
 import logging
 import networking
+import test_utils
+
+@testable import sm02
 
 
-final class SM02Tests: XCTestCase, Loggable {
+final class SM02Tests: AbstractTestCase {
 
   static var allTests = [
     ("testExample", testExample),
@@ -17,11 +19,11 @@ final class SM02Tests: XCTestCase, Loggable {
 
   func testExample () {
     let server = SM02()
-        .on(messages: handle)
+        .handle(messages: handler)
         .start()
 
     defer {
-      server.stop()
+      server.close()
     }
 
     let expect = expectation(description: "Get response back")
@@ -35,7 +37,7 @@ final class SM02Tests: XCTestCase, Loggable {
     XCTAssertEqual(response, [0x00, 0x03, 0xAA, 0x01, 0x0F])
   }
 
-  private func handle (request: Outbound) -> Inbound? {
+  private func handler (request: Outbound) -> Inbound? {
     log.info("parsed request - {}", request)
     switch request {
     case .disconnect:

@@ -3,10 +3,17 @@ import NIO
 import NIOExtras
 import XCTest
 
+import test_utils
+
 @testable import sm02
 
 
-final class PingBroadcastServiceTests: XCTestCase {
+final class PingBroadcastServiceTests: AbstractTestCase {
+
+  static var allTests = [
+    ("testPingBroadcastServiceSendsPingMessage", testPingBroadcastServiceSendsPingMessage),
+    ("testPingBroadcastServiceInSM02Server", testPingBroadcastServiceInSM02Server),
+  ]
 
   func testPingBroadcastServiceSendsPingMessage () {
     var expect = expectation(description: "Catch ping message")
@@ -20,10 +27,7 @@ final class PingBroadcastServiceTests: XCTestCase {
       catcher.close()
     }
 
-    guard let pingBroadcastService = PingBroadcastService() else {
-      XCTFail("Couldn't start ping broadcast service")
-      return
-    }
+    let pingBroadcastService = PingBroadcastService()
     defer {
       pingBroadcastService.stop()
     }
@@ -53,11 +57,6 @@ final class PingBroadcastServiceTests: XCTestCase {
     waitForExpectations(timeout: 3)
     XCTAssertEqual(catchResult, [0x50, 0x49, 0x4E, 0x47])
   }
-
-  static var allTests = [
-    ("testPingBroadcastServiceSendsPingMessage", testPingBroadcastServiceSendsPingMessage),
-    ("testPingBroadcastServiceInSM02Server", testPingBroadcastServiceInSM02Server),
-  ]
 }
 
 
