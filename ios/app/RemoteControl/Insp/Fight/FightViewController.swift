@@ -14,8 +14,26 @@ class FightViewController: UIViewController {
     
     @IBOutlet weak var viewSelector: UISegmentedControl!
     
-    let pointsCtrl = PointsViewController()
-    let timersCtrl = TimersTableViewController()
+    lazy var pointsCtrl: PointsViewController = {
+        let stbrd = UIStoryboard(name: "FightStoryboard", bundle: nil)
+
+        var vc = stbrd.instantiateViewController(withIdentifier: "FightPoints") as! PointsViewController
+
+        self.addViewControllerAsChildViewController(childViewController: vc)
+        print(vc)
+        return vc
+    }()
+    
+    
+    lazy var timersCtrl: TimersTableViewController = {
+        let stbrd = UIStoryboard(name: "FightStoryboard", bundle: nil)
+
+        var vc = stbrd.instantiateViewController(withIdentifier: "FightTimers") as! TimersTableViewController
+
+        self.addViewControllerAsChildViewController(childViewController: vc)
+        print(vc)
+        return vc
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +42,8 @@ class FightViewController: UIViewController {
             segmentedControl.addTarget(self, action: Selector(("indexChanged:")), for: .valueChanged)
         }
         
-        fightSubView.addSubview(pointsCtrl.view)
-        
+        updateView()
+      
         // Do any additional setup after loading the view.
     }
     
@@ -33,13 +51,34 @@ class FightViewController: UIViewController {
         switch viewSelector?.selectedSegmentIndex {
             case 0:
                 print("Select 0")
-                fightSubView.addSubview(pointsCtrl.view)
+
             case 1:
                 print("Select 1")
-                fightSubView.addSubview(timersCtrl.view)
+
             default:
                 print("Select: None")
         }
+        
+        updateView()
+    }
+    
+    private func updateView() {
+        print("update view")
+        
+        pointsCtrl.view.isHidden = !(viewSelector.selectedSegmentIndex == 0)
+        timersCtrl.view.isHidden = (viewSelector.selectedSegmentIndex == 0)
+    }
+    
+    private func addViewControllerAsChildViewController(childViewController: UIViewController) {
+        
+        addChild(childViewController)
+        
+        fightSubView.addSubview(childViewController.view)
+        childViewController.view.frame = fightSubView.bounds
+        childViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        childViewController.didMove(toParent: self)
+        
     }
 
     /*

@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8546BB3A231EC04900F7C86F /* FightStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */; };
+		8558AA2F231EE8F5006C8BA3 /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */; };
 		8583E89B231E21110006BC43 /* PointsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8583E89A231E21110006BC43 /* PointsViewController.swift */; };
 		8583E89D231E21280006BC43 /* TimersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8583E89C231E21280006BC43 /* TimersTableViewController.swift */; };
-		8583E89F231E21B40006BC43 /* PointsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8583E89E231E21B40006BC43 /* PointsView.xib */; };
-		8583E8A1231E21CB0006BC43 /* TimersView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8583E8A0231E21CB0006BC43 /* TimersView.xib */; };
 		8583E8A6231EA13E0006BC43 /* ReplaysStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8583E8A5231EA13E0006BC43 /* ReplaysStoryboard.storyboard */; };
 		8583E8AA231EAA4C0006BC43 /* ReplaysCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8583E8A9231EAA4C0006BC43 /* ReplaysCollectionViewController.swift */; };
 		85A99334230B3E39003FC5BE /* NetworkSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A99333230B3E39003FC5BE /* NetworkSelectController.swift */; };
@@ -71,10 +71,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FightStoryboard.storyboard; sourceTree = "<group>"; };
+		8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownViewController.swift; sourceTree = "<group>"; };
 		8583E89A231E21110006BC43 /* PointsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsViewController.swift; sourceTree = "<group>"; };
 		8583E89C231E21280006BC43 /* TimersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimersTableViewController.swift; sourceTree = "<group>"; };
-		8583E89E231E21B40006BC43 /* PointsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PointsView.xib; sourceTree = "<group>"; };
-		8583E8A0231E21CB0006BC43 /* TimersView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TimersView.xib; sourceTree = "<group>"; };
 		8583E8A5231EA13E0006BC43 /* ReplaysStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ReplaysStoryboard.storyboard; sourceTree = "<group>"; };
 		8583E8A9231EAA4C0006BC43 /* ReplaysCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaysCollectionViewController.swift; sourceTree = "<group>"; };
 		85A99333230B3E39003FC5BE /* NetworkSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSelectController.swift; sourceTree = "<group>"; };
@@ -181,8 +181,8 @@
 				85A9934923109CB7003FC5BE /* FightViewController.swift */,
 				8583E89A231E21110006BC43 /* PointsViewController.swift */,
 				8583E89C231E21280006BC43 /* TimersTableViewController.swift */,
-				8583E89E231E21B40006BC43 /* PointsView.xib */,
-				8583E8A0231E21CB0006BC43 /* TimersView.xib */,
+				8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */,
+				8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */,
 			);
 			path = Fight;
 			sourceTree = "<group>";
@@ -384,14 +384,13 @@
 			files = (
 				8583E8A6231EA13E0006BC43 /* ReplaysStoryboard.storyboard in Resources */,
 				85A9936023113521003FC5BE /* Options.storyboard in Resources */,
-				8583E8A1231E21CB0006BC43 /* TimersView.xib in Resources */,
 				85A9933C230B4CD0003FC5BE /* Networks.storyboard in Resources */,
 				B9C8BEE82305A2C7004DBBF8 /* LaunchScreen.storyboard in Resources */,
 				85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */,
 				B9C8BEE52305A2C7004DBBF8 /* Assets.xcassets in Resources */,
+				8546BB3A231EC04900F7C86F /* FightStoryboard.storyboard in Resources */,
 				B9C8BEE32305A2C6004DBBF8 /* Main.storyboard in Resources */,
 				85A9933F23108120003FC5BE /* QRConnect.storyboard in Resources */,
-				8583E89F231E21B40006BC43 /* PointsView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +435,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8558AA2F231EE8F5006C8BA3 /* CountdownViewController.swift in Sources */,
 				85A993422310821A003FC5BE /* QRReaderViewController.swift in Sources */,
 				B9C8BEE02305A2C5004DBBF8 /* ViewController.swift in Sources */,
 				B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */,

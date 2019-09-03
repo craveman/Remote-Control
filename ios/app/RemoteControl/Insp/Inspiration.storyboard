@@ -104,6 +104,19 @@
             </objects>
             <point key="canvasLocation" x="202" y="90"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="nB8-JK-7aB">
+            <objects>
+                <navigationController id="fVd-Y6-pwl" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="f25-eX-ZKh">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e7A-PB-Zws" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-757" y="-211"/>
+        </scene>
         <!--Fight-->
         <scene sceneID="OJ3-J1-eij">
             <objects>
@@ -135,18 +148,18 @@
                                 </items>
                             </navigationBar>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R9Y-Nj-D4R">
-                                <rect key="frame" x="32" y="120" width="350" height="392"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="bfr-VB-Lgv" firstAttribute="trailing" secondItem="R9Y-Nj-D4R" secondAttribute="trailing" constant="32" id="7dd-bX-stj"/>
+                            <constraint firstItem="bfr-VB-Lgv" firstAttribute="trailing" secondItem="R9Y-Nj-D4R" secondAttribute="trailing" id="7dd-bX-stj"/>
                             <constraint firstItem="R9Y-Nj-D4R" firstAttribute="centerX" secondItem="Sxf-ql-oOs" secondAttribute="centerX" id="BTx-zw-3LR"/>
-                            <constraint firstItem="R9Y-Nj-D4R" firstAttribute="leading" secondItem="bfr-VB-Lgv" secondAttribute="leading" constant="32" id="HtD-RK-eO5"/>
+                            <constraint firstItem="R9Y-Nj-D4R" firstAttribute="leading" secondItem="bfr-VB-Lgv" secondAttribute="leading" id="HtD-RK-eO5"/>
                             <constraint firstItem="Sxf-ql-oOs" firstAttribute="leading" secondItem="AyB-gY-Sh4" secondAttribute="leading" id="LnX-z5-vNW"/>
                             <constraint firstItem="bfr-VB-Lgv" firstAttribute="top" secondItem="Sxf-ql-oOs" secondAttribute="top" id="Sh5-76-yiX"/>
-                            <constraint firstItem="Sxf-ql-oOs" firstAttribute="bottom" secondItem="R9Y-Nj-D4R" secondAttribute="top" constant="-32" id="cNI-3g-ShH"/>
-                            <constraint firstItem="bfr-VB-Lgv" firstAttribute="bottom" secondItem="R9Y-Nj-D4R" secondAttribute="bottom" priority="250" constant="301" id="u9F-gs-7UK"/>
+                            <constraint firstItem="Sxf-ql-oOs" firstAttribute="bottom" secondItem="R9Y-Nj-D4R" secondAttribute="top" id="cNI-3g-ShH"/>
+                            <constraint firstItem="bfr-VB-Lgv" firstAttribute="bottom" secondItem="R9Y-Nj-D4R" secondAttribute="bottom" priority="250" id="u9F-gs-7UK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bfr-VB-Lgv"/>
                     </view>
@@ -160,7 +173,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3bZ-z6-qHC" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="771.01449275362324" y="-320.08928571428572"/>
+            <point key="canvasLocation" x="614.49275362318849" y="-283.25892857142856"/>
         </scene>
     </scenes>
     <resources>
