@@ -26,9 +26,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vih-qH-EbZ">
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vih-qH-EbZ">
                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <navigationItem title="Scan QR code" id="lY0-uE-6EH">
                                         <barButtonItem key="leftBarButtonItem" title="Networks" id="Y4v-Ds-Pez">
@@ -44,14 +43,51 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sqy-J1-Xt7">
+                                <rect key="frame" x="87" y="333" width="240" height="240"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="45U-7J-jpL"/>
+                                    <constraint firstAttribute="height" constant="240" id="qk5-cZ-EbP"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mO4-fL-8K3">
+                                <rect key="frame" x="87" y="304.5" width="240" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="Adh-Vs-B25"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="Please scan QR code on device">
+                                        <attributes>
+                                            <font key="NSFont" metaFont="system" size="17"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Sqy-J1-Xt7" firstAttribute="centerY" secondItem="HVN-Dx-KI6" secondAttribute="centerY" id="8db-7x-ZFT"/>
+                            <constraint firstItem="HVN-Dx-KI6" firstAttribute="trailing" secondItem="Sqy-J1-Xt7" secondAttribute="trailing" priority="750" constant="87" id="Cs8-7D-vpl"/>
+                            <constraint firstItem="vih-qH-EbZ" firstAttribute="leading" secondItem="2w1-7v-B5Y" secondAttribute="leading" id="JB0-AA-86B"/>
+                            <constraint firstItem="Sqy-J1-Xt7" firstAttribute="top" secondItem="HVN-Dx-KI6" secondAttribute="top" priority="750" constant="284" id="NDD-QF-Hkw"/>
+                            <constraint firstItem="HVN-Dx-KI6" firstAttribute="bottom" secondItem="Sqy-J1-Xt7" secondAttribute="bottom" priority="750" constant="294" id="c6Q-dW-1PT"/>
+                            <constraint firstItem="Sqy-J1-Xt7" firstAttribute="centerX" secondItem="HVN-Dx-KI6" secondAttribute="centerX" id="fS0-qN-oKB"/>
+                            <constraint firstItem="vih-qH-EbZ" firstAttribute="top" secondItem="HVN-Dx-KI6" secondAttribute="top" id="h1H-0k-fMp"/>
+                            <constraint firstItem="Sqy-J1-Xt7" firstAttribute="top" secondItem="mO4-fL-8K3" secondAttribute="bottom" constant="8" symbolic="YES" id="jPG-dS-BPw"/>
+                            <constraint firstItem="mO4-fL-8K3" firstAttribute="centerX" secondItem="HVN-Dx-KI6" secondAttribute="centerX" id="k3A-xu-2FU"/>
+                            <constraint firstAttribute="trailing" secondItem="vih-qH-EbZ" secondAttribute="trailing" id="tGO-RA-AtE"/>
+                            <constraint firstItem="Sqy-J1-Xt7" firstAttribute="leading" secondItem="HVN-Dx-KI6" secondAttribute="leading" priority="750" constant="87" id="x10-Co-IST"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="HVN-Dx-KI6"/>
                     </view>
                     <toolbarItems/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics" barStyle="black"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="cameraPreview" destination="Sqy-J1-Xt7" id="fqW-fj-vDw"/>
                         <segue destination="po2-Vp-2Jh" kind="show" identifier="toInspiration" id="Xfi-e6-o1e"/>
                         <segue destination="d6A-va-9lx" kind="show" identifier="noAccess" id="XFh-kt-eZn"/>
                     </connections>
@@ -77,7 +113,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tGX-xa-xcW">
-                                <rect key="frame" x="44.5" y="457" width="325.5" height="56"/>
+                                <rect key="frame" x="44.5" y="420" width="325.5" height="57"/>
                                 <attributedString key="attributedText">
                                     <fragment content="We have no access to camera  Please change this in settings">
                                         <attributes>
@@ -89,7 +125,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NyD-Bu-JM7">
-                                <rect key="frame" x="168" y="575" width="78" height="32"/>
+                                <rect key="frame" x="168" y="539" width="78" height="39"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="39" id="c1R-iZ-cCe"/>
                                 </constraints>

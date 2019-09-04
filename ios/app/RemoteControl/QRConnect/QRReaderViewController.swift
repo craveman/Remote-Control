@@ -31,6 +31,7 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
             }
         }
     }
+    @IBOutlet weak var cameraPreview: UIView!
     
     @IBAction func connectedComplete(_ sender: Any) {
         DispatchQueue.global(qos: .background).async {
@@ -95,9 +96,9 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
         }
         
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        previewLayer.frame = view.layer.bounds
+        previewLayer.frame = (cameraPreview?.layer.bounds)!
         previewLayer.videoGravity = .resizeAspectFill
-        view.layer.addSublayer(previewLayer)
+        cameraPreview?.layer.addSublayer(previewLayer)
     }
     
     func failed() {

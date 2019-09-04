@@ -8,6 +8,25 @@
 
 import UIKit
 
+enum TimersActions {
+    case shortBreak
+    case fightTimer
+    case period
+    case fightTimerSettings
+    case passiveTimerSettings
+    case medicineBreak
+}
+
+let timers: [(title: String, action: TimersActions)] = [
+    ("1 minute break", .shortBreak),
+    ("Fight timer", .fightTimer),
+    ("Period", .period),
+    ("Fight timer settings", .fightTimerSettings),
+    ("Passive timer settings", .passiveTimerSettings),
+    ("Medicine break", .medicineBreak)
+    
+]
+
 class TimersTableViewController: UITableViewController {
 
     override func viewDidLoad() {
@@ -29,14 +48,13 @@ class TimersTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 5
+        return timers.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "timersCell", for: indexPath)
-
-        cell.textLabel?.text = "\(indexPath.row)"
-
+        let (title, _) = timers[indexPath.row]
+        cell.textLabel?.text = "\(title)"
         return cell
     }
    

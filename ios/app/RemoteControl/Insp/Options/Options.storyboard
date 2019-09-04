@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Options-->
+        <!--Options View Controller-->
         <scene sceneID="nvi-Ld-dQ3">
             <objects>
                 <tableViewController id="qt4-Wz-CJn" customClass="OptionsViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,9 +17,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <navigationBar key="tableHeaderView" contentMode="scaleToFill" id="Nfw-m2-v5y">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <items>
+                                <navigationItem title="Options" id="eQS-QA-RLP">
+                                    <barButtonItem key="leftBarButtonItem" title="Back" id="hTd-qb-30V">
+                                        <connections>
+                                            <action selector="goBack:" destination="qt4-Wz-CJn" id="pIW-mL-Dof"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </navigationItem>
+                            </items>
+                        </navigationBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="options" textLabel="v83-BN-Hch" style="IBUITableViewCellStyleDefault" id="RZz-fg-Dua">
-                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="72" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RZz-fg-Dua" id="8uW-vP-VDT">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
@@ -42,9 +55,6 @@
                             <outlet property="delegate" destination="qt4-Wz-CJn" id="cDG-ih-MRS"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Options" id="A7q-uf-wxK" userLabel="Settings">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="jYu-o3-lB6"/>
-                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <segue destination="hvC-YZ-vT6" kind="show" identifier="toRoot" id="swO-SM-uSi"/>

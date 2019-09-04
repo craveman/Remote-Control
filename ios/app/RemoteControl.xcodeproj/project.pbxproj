@@ -9,10 +9,15 @@
 /* Begin PBXBuildFile section */
 		8546BB3A231EC04900F7C86F /* FightStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */; };
 		8558AA2F231EE8F5006C8BA3 /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */; };
+		8558AA33232017F5006C8BA3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558AA32232017F5006C8BA3 /* SettingsViewController.swift */; };
+		8558AA352320198A006C8BA3 /* PenaltiesStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8558AA342320198A006C8BA3 /* PenaltiesStoryboard.storyboard */; };
 		8583E89B231E21110006BC43 /* PointsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8583E89A231E21110006BC43 /* PointsViewController.swift */; };
 		8583E89D231E21280006BC43 /* TimersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8583E89C231E21280006BC43 /* TimersTableViewController.swift */; };
 		8583E8A6231EA13E0006BC43 /* ReplaysStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8583E8A5231EA13E0006BC43 /* ReplaysStoryboard.storyboard */; };
 		8583E8AA231EAA4C0006BC43 /* ReplaysCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8583E8A9231EAA4C0006BC43 /* ReplaysCollectionViewController.swift */; };
+		858C62E3232038540096FBF9 /* PenaltiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858C62E2232038540096FBF9 /* PenaltiesViewController.swift */; };
+		858C62E523203DA20096FBF9 /* PenaltiesCardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858C62E423203DA20096FBF9 /* PenaltiesCardsViewController.swift */; };
+		858C62E72320432B0096FBF9 /* PenaltySelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858C62E62320432B0096FBF9 /* PenaltySelectorViewController.swift */; };
 		85A99334230B3E39003FC5BE /* NetworkSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A99333230B3E39003FC5BE /* NetworkSelectController.swift */; };
 		85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A99338230B47A4003FC5BE /* Inspiration.storyboard */; };
 		85A9933C230B4CD0003FC5BE /* Networks.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A9933B230B4CD0003FC5BE /* Networks.storyboard */; };
@@ -21,8 +26,6 @@
 		85A9934423109191003FC5BE /* NoCameraAccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934323109191003FC5BE /* NoCameraAccessViewController.swift */; };
 		85A9934A23109CB7003FC5BE /* FightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934923109CB7003FC5BE /* FightViewController.swift */; };
 		85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934C23109E2D003FC5BE /* InspViewController.swift */; };
-		85A9934F23109E94003FC5BE /* PenaltiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934E23109E94003FC5BE /* PenaltiesViewController.swift */; };
-		85A9935123109EA2003FC5BE /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9935023109EA2003FC5BE /* SettingsViewController.swift */; };
 		85A9936023113521003FC5BE /* Options.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A9935F23113521003FC5BE /* Options.storyboard */; };
 		85A9936723113C15003FC5BE /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9936623113C15003FC5BE /* OptionsViewController.swift */; };
 		B991AD9A231ECDDB008A55EA /* logging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B991AD99231ECDDB008A55EA /* logging.framework */; };
@@ -73,10 +76,15 @@
 /* Begin PBXFileReference section */
 		8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FightStoryboard.storyboard; sourceTree = "<group>"; };
 		8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownViewController.swift; sourceTree = "<group>"; };
+		8558AA32232017F5006C8BA3 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		8558AA342320198A006C8BA3 /* PenaltiesStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PenaltiesStoryboard.storyboard; sourceTree = "<group>"; };
 		8583E89A231E21110006BC43 /* PointsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsViewController.swift; sourceTree = "<group>"; };
 		8583E89C231E21280006BC43 /* TimersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimersTableViewController.swift; sourceTree = "<group>"; };
 		8583E8A5231EA13E0006BC43 /* ReplaysStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ReplaysStoryboard.storyboard; sourceTree = "<group>"; };
 		8583E8A9231EAA4C0006BC43 /* ReplaysCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaysCollectionViewController.swift; sourceTree = "<group>"; };
+		858C62E2232038540096FBF9 /* PenaltiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltiesViewController.swift; sourceTree = "<group>"; };
+		858C62E423203DA20096FBF9 /* PenaltiesCardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltiesCardsViewController.swift; sourceTree = "<group>"; };
+		858C62E62320432B0096FBF9 /* PenaltySelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltySelectorViewController.swift; sourceTree = "<group>"; };
 		85A99333230B3E39003FC5BE /* NetworkSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSelectController.swift; sourceTree = "<group>"; };
 		85A99338230B47A4003FC5BE /* Inspiration.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Inspiration.storyboard; sourceTree = "<group>"; };
 		85A9933B230B4CD0003FC5BE /* Networks.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Networks.storyboard; sourceTree = "<group>"; };
@@ -85,8 +93,6 @@
 		85A9934323109191003FC5BE /* NoCameraAccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoCameraAccessViewController.swift; sourceTree = "<group>"; };
 		85A9934923109CB7003FC5BE /* FightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightViewController.swift; sourceTree = "<group>"; };
 		85A9934C23109E2D003FC5BE /* InspViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspViewController.swift; sourceTree = "<group>"; };
-		85A9934E23109E94003FC5BE /* PenaltiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltiesViewController.swift; sourceTree = "<group>"; };
-		85A9935023109EA2003FC5BE /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		85A9935F23113521003FC5BE /* Options.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Options.storyboard; sourceTree = "<group>"; };
 		85A9936623113C15003FC5BE /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
 		B991AD99231ECDDB008A55EA /* logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -190,7 +196,10 @@
 		85A9934623109C89003FC5BE /* Penalties */ = {
 			isa = PBXGroup;
 			children = (
-				85A9934E23109E94003FC5BE /* PenaltiesViewController.swift */,
+				8558AA342320198A006C8BA3 /* PenaltiesStoryboard.storyboard */,
+				858C62E2232038540096FBF9 /* PenaltiesViewController.swift */,
+				858C62E423203DA20096FBF9 /* PenaltiesCardsViewController.swift */,
+				858C62E62320432B0096FBF9 /* PenaltySelectorViewController.swift */,
 			);
 			path = Penalties;
 			sourceTree = "<group>";
@@ -198,7 +207,7 @@
 		85A9934723109C96003FC5BE /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				85A9935023109EA2003FC5BE /* SettingsViewController.swift */,
+				8558AA32232017F5006C8BA3 /* SettingsViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -388,6 +397,7 @@
 				B9C8BEE82305A2C7004DBBF8 /* LaunchScreen.storyboard in Resources */,
 				85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */,
 				B9C8BEE52305A2C7004DBBF8 /* Assets.xcassets in Resources */,
+				8558AA352320198A006C8BA3 /* PenaltiesStoryboard.storyboard in Resources */,
 				8546BB3A231EC04900F7C86F /* FightStoryboard.storyboard in Resources */,
 				B9C8BEE32305A2C6004DBBF8 /* Main.storyboard in Resources */,
 				85A9933F23108120003FC5BE /* QRConnect.storyboard in Resources */,
@@ -437,17 +447,19 @@
 			files = (
 				8558AA2F231EE8F5006C8BA3 /* CountdownViewController.swift in Sources */,
 				85A993422310821A003FC5BE /* QRReaderViewController.swift in Sources */,
+				858C62E3232038540096FBF9 /* PenaltiesViewController.swift in Sources */,
+				858C62E72320432B0096FBF9 /* PenaltySelectorViewController.swift in Sources */,
 				B9C8BEE02305A2C5004DBBF8 /* ViewController.swift in Sources */,
 				B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */,
+				858C62E523203DA20096FBF9 /* PenaltiesCardsViewController.swift in Sources */,
 				8583E8AA231EAA4C0006BC43 /* ReplaysCollectionViewController.swift in Sources */,
 				85A99334230B3E39003FC5BE /* NetworkSelectController.swift in Sources */,
-				85A9934F23109E94003FC5BE /* PenaltiesViewController.swift in Sources */,
 				8583E89D231E21280006BC43 /* TimersTableViewController.swift in Sources */,
 				8583E89B231E21110006BC43 /* PointsViewController.swift in Sources */,
+				8558AA33232017F5006C8BA3 /* SettingsViewController.swift in Sources */,
 				85A9934423109191003FC5BE /* NoCameraAccessViewController.swift in Sources */,
 				85A9934A23109CB7003FC5BE /* FightViewController.swift in Sources */,
 				85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */,
-				85A9935123109EA2003FC5BE /* SettingsViewController.swift in Sources */,
 				85A9936723113C15003FC5BE /* OptionsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
