@@ -19,21 +19,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="InspirationApp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l2i-nW-VeR">
-                                <rect key="frame" x="107" y="429" width="200" height="39"/>
+                                <rect key="frame" x="107" y="433.5" width="200" height="39"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zqe-yf-N0g">
-                                <rect key="frame" x="197" y="568" width="20" height="20"/>
+                                <rect key="frame" x="197" y="480.5" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="zqe-yf-N0g" firstAttribute="top" secondItem="l2i-nW-VeR" secondAttribute="bottom" constant="100" id="2fj-so-gcm"/>
-                            <constraint firstItem="l2i-nW-VeR" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="2wy-IK-sBm"/>
+                            <constraint firstItem="l2i-nW-VeR" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="6Bf-BR-31v"/>
+                            <constraint firstItem="zqe-yf-N0g" firstAttribute="top" secondItem="l2i-nW-VeR" secondAttribute="bottom" constant="8" symbolic="YES" id="6zY-vZ-54S"/>
                             <constraint firstItem="zqe-yf-N0g" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Xfc-Yz-Kxf"/>
-                            <constraint firstItem="l2i-nW-VeR" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="385" id="YLq-sG-Mva"/>
+                            <constraint firstItem="l2i-nW-VeR" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="rKa-OK-hEC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

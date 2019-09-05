@@ -8,19 +8,41 @@
 
 import UIKit
 
-let optionsList = [
-    ("Names", "namesOptions"),
-    ("Piste", "pisteOptions"),
-    ("Video Replays", "videoReplays"),
-    ("Timer passives", "timerPassives"),
-    ("Phrases", "phrases"),
-    ("Disconnect", "disconnect"),
+
+enum OptionsActions {
+    case namesOptions
+    case pisteOptions
+    case videoReplays
+    case timerPassives
+    case phrases
+    case disconnect
+    
+}
+
+let optionsList: [(title: String,action: OptionsActions)] = [
+    ("Names", .namesOptions),
+    ("Piste", .pisteOptions),
+    ("Video Replays", .videoReplays),
+    ("Timer passives", .timerPassives),
+    ("Phrases", .phrases),
+    ("Disconnect", .disconnect),
 ]
 
 let protoCellName = "options"
 
 class OptionsViewController: UITableViewController {
-
+   
+    var animated = true;
+    
+    @IBAction func goBack(_ sender: Any) {
+        dismiss(animated: self.animated, completion: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated);
+        self.animated = animated;
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -57,7 +79,7 @@ class OptionsViewController: UITableViewController {
         let (_, id) = optionsList[indexPath.row]
         
         switch id {
-        case "disconnect":
+        case .disconnect:
             print(id)
             goToRoot()
         default:
