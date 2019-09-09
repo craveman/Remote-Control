@@ -33,6 +33,7 @@
 		8F66234923264BF90028A34D /* ReaderOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F66234823264BF90028A34D /* ReaderOverlayView.swift */; };
 		8F66234B23264C0D0028A34D /* SwitchCameraButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F66234A23264C0D0028A34D /* SwitchCameraButton.swift */; };
 		8F66234D23264C200028A34D /* ToggleTorchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F66234C23264C200028A34D /* ToggleTorchButton.swift */; };
+		8F66234F23267C700028A34D /* ServerAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F66234E23267C700028A34D /* ServerAccess.swift */; };
 		B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */; };
 		B9C8BEE02305A2C5004DBBF8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDF2305A2C5004DBBF8 /* ViewController.swift */; };
 		B9C8BEE32305A2C6004DBBF8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE12305A2C6004DBBF8 /* Main.storyboard */; };
@@ -86,6 +87,7 @@
 		8F66234823264BF90028A34D /* ReaderOverlayView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ReaderOverlayView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		8F66234A23264C0D0028A34D /* SwitchCameraButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchCameraButton.swift; sourceTree = "<group>"; };
 		8F66234C23264C200028A34D /* ToggleTorchButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleTorchButton.swift; sourceTree = "<group>"; };
+		8F66234E23267C700028A34D /* ServerAccess.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ServerAccess.swift; sourceTree = "<group>"; tabWidth = 2; };
 		B9C8BEDA2305A2C5004DBBF8 /* RemoteControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoteControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9C8BEDF2305A2C5004DBBF8 /* ViewController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -253,6 +255,7 @@
 				B9C8BEE42305A2C7004DBBF8 /* Assets.xcassets */,
 				B9C8BEE62305A2C7004DBBF8 /* LaunchScreen.storyboard */,
 				B9C8BEE92305A2C7004DBBF8 /* Info.plist */,
+				8F66234E23267C700028A34D /* ServerAccess.swift */,
 			);
 			path = RemoteControl;
 			sourceTree = "<group>";
@@ -446,6 +449,7 @@
 				8583E8AA231EAA4C0006BC43 /* ReplaysCollectionViewController.swift in Sources */,
 				8583E89D231E21280006BC43 /* TimersTableViewController.swift in Sources */,
 				8583E89B231E21110006BC43 /* PointsViewController.swift in Sources */,
+				8F66234F23267C700028A34D /* ServerAccess.swift in Sources */,
 				8F66234D23264C200028A34D /* ToggleTorchButton.swift in Sources */,
 				8558AA33232017F5006C8BA3 /* SettingsViewController.swift in Sources */,
 				8F66233F23264B910028A34D /* QRCodeReaderView.swift in Sources */,

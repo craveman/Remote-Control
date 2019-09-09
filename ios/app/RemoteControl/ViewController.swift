@@ -35,23 +35,45 @@ class ViewController: UIViewController {
     
     reader.didFindCode = { [weak self] (result) in
       print("Completion with result: \(result.value) of type \(result.metadataType)")
-      self?.process(scanned: result)
+      guard let self = self else {
+        return
+      }
+      self.reader.stopScanning()
+      
+      switch ServerAccess.parse(url: result.value) {
+      case .success(let access):
+        self.process(success: access)
+      case .failure(let reason):
+        self.process(error: reason)
+      }
     }
     
     reader.startScanning()
   }
   
-  private func process (scanned result: QRCodeReaderResult) {
-    reader.stopScanning()
-    
+  private func process (success access: ServerAccess) {
     let alert = UIAlertController(
-      title: "QRCodeReader",
-      message: String (format:"%@ (of type %@)", result.value, result.metadataType),
+      title: "QR-код распознан",
+      message: "\(access)",
       preferredStyle: .alert
     )
     
     alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] (action) in
       self?.performSegue(withIdentifier: "toInspiration", sender: nil)
+    }))
+    
+    present(alert, animated: true, completion: nil)
+  }
+  
+  private func process (error: ServerAccess.ParsingError) {
+    let alert = UIAlertController(
+      title: "QR-код не распознан",
+      message: "\(error)",
+      preferredStyle: .alert
+    )
+    
+    alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] (action) in
+      self?.reader.startScanning()
     }))
     
     present(alert, animated: true, completion: nil)
@@ -86,4 +108,3 @@ class ViewController: UIViewController {
     }
   }
 }
-
