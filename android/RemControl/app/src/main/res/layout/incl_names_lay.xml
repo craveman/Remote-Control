@@ -348,7 +348,8 @@
             app:layout_constraintTop_toTopOf="@id/names_btn_cancel_top"
             app:layout_constraintBottom_toBottomOf="@id/names_btn_cancel_bottom"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"/>
 
 </android.support.constraint.ConstraintLayout>
 

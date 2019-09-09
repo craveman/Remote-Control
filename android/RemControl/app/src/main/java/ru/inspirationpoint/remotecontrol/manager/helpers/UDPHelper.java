@@ -1,7 +1,6 @@
 package ru.inspirationpoint.remotecontrol.manager.helpers;
 
 import android.content.Context;
-import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.text.format.Formatter;
@@ -18,8 +17,7 @@ import java.util.Arrays;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
 
 import static android.content.Context.WIFI_SERVICE;
-import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEVICE_ID_SETTING;
-import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.GROUP_ADDRESS;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.SM_CODE;
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UDPCommands.PING_UDP;
 
 public class UDPHelper extends Thread {
@@ -112,6 +110,8 @@ public class UDPHelper extends Thread {
         byte[] sendData = msg.getBytes();
         DatagramPacket sendPacket = new DatagramPacket(
                 sendData, sendData.length, InetAddress.getByName(ip), PORT);
+        Log.wtf("PACKET ADDR", "||"
+         + sendPacket.getAddress().isLoopbackAddress());
         socket.send(sendPacket);
     }
 
@@ -123,7 +123,7 @@ public class UDPHelper extends Thread {
                 socket = new DatagramSocket(null);
                 socket.setReuseAddress(true);
                 socket.bind(new InetSocketAddress(PORT));
-                socket.setBroadcast(true);
+//                socket.setBroadcast(false);
             }
         } catch (SocketException e) {
             e.printStackTrace();
@@ -146,17 +146,17 @@ public class UDPHelper extends Thread {
                         ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
                     }
                     if (!packet.getAddress().getHostName().equals(ip)) {
-                        Log.wtf("RECVD in helper", text);
-                        String[] messageArray = text.split("\0");
-                        if ((messageArray.length >= 1)) {
-                            if (messageArray[0].equals(PING_UDP)) {
-                                sendTargetMessage("HELLO" + "\0" + "2" + "\0"
-                                        + SettingsManager.getValue(GROUP_ADDRESS, ""),
-                                        packet.getAddress().getHostAddress());
-                            } else {
+                        Log.wtf("UDP RECEIVE", text);
+//                        if (text.equals(PING_UDP)) {
+//                            sendTargetMessage("HELLO" + "\0" + "2" + "\0"
+//                                            + SettingsManager.getValue(SM_CODE, ""),
+//                                    packet.getAddress().getHostName());
+//                        }else {
+                            String[] messageArray = text.split("\0");
+                            if ((messageArray.length >= 1)) {
                                 listener.onReceive(messageArray, packet.getAddress().getHostAddress());
                             }
-                        }
+//                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -183,17 +183,17 @@ public class UDPHelper extends Thread {
     }
 
     private InetAddress getBroadcastAddress() throws IOException {
-        WifiManager wifi = (WifiManager) ctx.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        DhcpInfo dhcp = null;
-        if (wifi != null) {
-            dhcp = wifi.getDhcpInfo();
-        }
-        if(dhcp == null)
+//        WifiManager wifi = (WifiManager) ctx.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+//        DhcpInfo dhcp = null;
+//        if (wifi != null) {
+//            dhcp = wifi.getDhcpInfo();
+//        }
+//        if(dhcp == null)
             return InetAddress.getByName("255.255.255.255");
-        int broadcast = (dhcp.ipAddress & dhcp.netmask) | ~dhcp.netmask;
-        byte[] quads = new byte[4];
-        for (int k = 0; k < 4; k++)
-            quads[k] = (byte) ((broadcast >> k * 8) & 0xFF);
-        return InetAddress.getByAddress(quads);
+//        int broadcast = (dhcp.ipAddress & dhcp.netmask) | ~dhcp.netmask;
+//        byte[] quads = new byte[4];
+//        for (int k = 0; k < 4; k++)
+//            quads[k] = (byte) ((broadcast >> k * 8) & 0xFF);
+//        return InetAddress.getByAddress(quads);
     }
 }

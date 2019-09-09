@@ -77,7 +77,6 @@ public class TCPClient {
                         if (temp[5] == CommandsContract.PING_TCP_CMD) {
                             sendMessage(CommandHelper.hello(CommonConstants.DEV_TYPE_RC, SettingsManager.getValue(DEVICE_ID_SETTING, "")));
                         } else {
-                            Log.wtf("TCPClient","MSG" + Arrays.toString(buffer));
                             mMessageListener.messageReceived(temp[5], buffer);
                         }
                     }

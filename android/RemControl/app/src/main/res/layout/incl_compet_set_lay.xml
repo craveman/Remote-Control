@@ -67,7 +67,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="@string/competition"
+            android:text="@string/piste"
             android:textColor="@color/textColorSecondary"
             android:id="@+id/compet_title"
             android:textAlignment="center"
@@ -99,7 +99,7 @@
             android:layout_marginLeft="5dp"
             android:backgroundTint="@color/white"
             android:textSize="@dimen/very_large_font_size"
-            android:maxEms="25"
+            android:maxLength="25"
             android:imeOptions="flagNoExtractUi|actionDone"
             android:inputType="textCapSentences"
             android:paddingRight="32dp"

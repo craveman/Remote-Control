@@ -1,5 +1,7 @@
 package ru.inspirationpoint.remotecontrol.manager.constants.commands;
 
+import android.util.Log;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -11,6 +13,9 @@ public class SetTimerCommand extends CommonTCPCommand {
 
     public SetTimerCommand(long time, int mode) {
         this.time = time;
+        if (time < 0) {
+            this.time = 0;
+        }
         this.mode = mode;
     }
 
@@ -26,6 +31,7 @@ public class SetTimerCommand extends CommonTCPCommand {
         }
         body = b1.toByteArray();
         cmd = CommandsContract.SETTIMER_TCP_CMD;
+        Log.wtf("IN CMD", time + "");
         return super.getBytes();
     }
 

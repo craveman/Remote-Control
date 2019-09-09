@@ -39,6 +39,16 @@ public interface CommandsContract {
     byte FINISH_FIGHT_ASK = (byte) 0x20;
     byte DISP_RECEIVE_CMD = (byte) 0x21;
     byte ETH_ACK_NAK = (byte) 0x22;
+    byte AUTH_TCP_CMD = (byte) 0x23;
+    byte AUTH_RESPONSE = (byte) 0x24;
+
+    //TODO REMOVE TEMP AND ASK FOR DEVICES
+
+    byte TCP_OK = (byte) 0x01;
+    byte CODE_INCORRECT_AUTH = (byte) 0x81;
+    byte RC_EXISTS_AUTH = (byte) 0x82;
+
+    byte CAMERA_ONLINE = (byte) 0x66;
 
     int PERSON_TYPE_LEFT = 1;
     int PERSON_TYPE_RIGHT = 2;

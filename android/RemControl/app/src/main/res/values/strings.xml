@@ -333,8 +333,8 @@
     <string name="sm_off">SM01 is off! Connect it to continue</string>
     <string name="end_bout">End bout</string>
     <string name="close">Close</string>
-    <string name="timer_set">Bout timer set</string>
-    <string name="passive_timer_set">Passive timer set</string>
+    <string name="timer_set">Set bout timer</string>
+    <string name="passive_timer_set">Set passive timer</string>
     <string name="disconnect">Disconnect</string>
     <string name="piste">Piste</string>
     <string name="phrases">Actions</string>

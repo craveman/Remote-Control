@@ -131,7 +131,16 @@
             layout="@layout/incl_def_time_lay"
             android:id="@+id/def_time_lay"
             app:viewModel="@{viewModel}"
-            android:visibility="@{(viewModel.screenState == viewModel.SCREEN_DEF_TIME_LAY || viewModel.screenState == viewModel.SCREEN_DEF_PASSIVE_TIME_LAY)  ? v.VISIBLE:v.GONE }"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_DEF_TIME_LAY ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_def_passive_lay"
+            android:id="@+id/def_passive_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_DEF_PASSIVE_TIME_LAY ? v.VISIBLE:v.GONE }"
             />
 
         <include

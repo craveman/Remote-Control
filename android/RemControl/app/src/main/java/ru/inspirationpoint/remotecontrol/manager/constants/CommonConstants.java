@@ -28,7 +28,9 @@ public interface CommonConstants {
     String IS_BY_FLAGS_STOP = "by_flags";
     String DEVICE_ID_SETTING = "device_id";
     String UNFINISHED_FIGHT = "unfinished";
-    String GROUP_ADDRESS = "group_address";
+    String SM_CODE = "group_address";
+    String SM_IP = "sm_ip";
+
 
     String[] phrasesRU = {"Простая атака", "Атака с действием на оружие", "Сложная атака",
             "Ответная атака", "Атака на подготовку", "Контратака", "Ремиз", "Парад рипост",
@@ -108,8 +110,8 @@ public interface CommonConstants {
         NotStarted, InProgress, InPause
     }
     enum CardStatus {
-        CardStatus_None, CardStatus_Yellow, CardStatus_Red,
-        CardPStatus_None, CardPStatus_Yellow, CardPStatus_Red
+        CardStatus_None, CardStatus_Yellow, CardStatus_Red, CardStatus_Black,
+        CardPStatus_None, CardPStatus_Yellow, CardPStatus_Red, CardPStatus_Black
     }
     enum TimerMode {
         Usual, Pause, Medical

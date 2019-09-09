@@ -1,9 +1,20 @@
 package ru.inspirationpoint.remotecontrol.manager.dataEntities;
 
+import android.util.Log;
+
 import java.io.Serializable;
 
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
 import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
+
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.CARD_P_STATUS_BLACK;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.CARD_P_STATUS_NONE;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.CARD_P_STATUS_RED;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.CARD_P_STATUS_YELLOW;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.CARD_STATUS_BLACK;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.CARD_STATUS_NONE;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.CARD_STATUS_RED;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.CARD_STATUS_YELLOW;
 
 public class FightActionData implements Cloneable, Serializable {
     private static final String FIGHTER_NONE = "none";
@@ -167,10 +178,23 @@ public class FightActionData implements Cloneable, Serializable {
     }
 
     public static FightActionData createSetCardLeft(long time, int period,
-                                                    boolean isYellow) {
+                                                    int card) {
         FightActionData action = new FightActionData();
         action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
-        action.mActionType = isYellow ? ActionType.YellowCardLeft : ActionType.RedCardLeft;
+        switch (card) {
+            case CARD_STATUS_YELLOW:
+                action.mActionType = ActionType.YellowCardLeft;
+                break;
+            case CARD_STATUS_RED:
+                action.mActionType = ActionType.RedCardLeft;
+                break;
+            case CARD_STATUS_BLACK:
+                action.mActionType = ActionType.BlackCardLeft;
+                break;
+            case CARD_STATUS_NONE:
+                action.mActionType = ActionType.NoneCardLeft;
+                break;
+        }
         action.mFighter = Fighter.Left;
         action.mTime = time;
         action.fightPeriod = period;
@@ -179,10 +203,73 @@ public class FightActionData implements Cloneable, Serializable {
     }
 
     public static FightActionData createSetCardRight(long time, int period,
-                                                     boolean isYellow) {
+                                                     int card) {
         FightActionData action = new FightActionData();
         action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
-        action.mActionType = isYellow ? ActionType.YellowCardRight : ActionType.RedCardRight;
+        switch (card) {
+            case CARD_STATUS_YELLOW:
+                action.mActionType = ActionType.YellowCardRight;
+                break;
+            case CARD_STATUS_RED:
+                action.mActionType = ActionType.RedCardRight;
+                break;
+            case CARD_STATUS_BLACK:
+                action.mActionType = ActionType.BlackCardRight;
+                break;
+            case CARD_STATUS_NONE:
+                action.mActionType = ActionType.NoneCardRight;
+                break;
+        }
+        action.mFighter = Fighter.Right;
+        action.mTime = time;
+        action.fightPeriod = period;
+        action.systemTime = System.currentTimeMillis();
+        return action;
+    }
+
+    public static FightActionData createSetPCardLeft(long time, int period,
+                                                    int card) {
+        FightActionData action = new FightActionData();
+        action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
+        switch (card) {
+            case CARD_P_STATUS_YELLOW:
+                action.mActionType = ActionType.PCardYellowLeft;
+                break;
+            case CARD_P_STATUS_RED:
+                action.mActionType = ActionType.PCardRedLeft;
+                break;
+            case CARD_P_STATUS_BLACK:
+                action.mActionType = ActionType.PCardBlackLeft;
+                break;
+            case CARD_P_STATUS_NONE:
+                action.mActionType = ActionType.NonePCardLeft;
+                break;
+        }
+        action.mFighter = Fighter.Left;
+        action.mTime = time;
+        action.fightPeriod = period;
+        action.systemTime = System.currentTimeMillis();
+        return action;
+    }
+
+    public static FightActionData createSetPCardRight(long time, int period,
+                                                     int card) {
+        FightActionData action = new FightActionData();
+        action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
+        switch (card) {
+            case CARD_P_STATUS_YELLOW:
+                action.mActionType = ActionType.PCardYellowRight;
+                break;
+            case CARD_P_STATUS_RED:
+                action.mActionType = ActionType.PCardRedRight;
+                break;
+            case CARD_P_STATUS_BLACK:
+                action.mActionType = ActionType.PCardBlackRight;
+                break;
+            case CARD_P_STATUS_NONE:
+                action.mActionType = ActionType.NonePCardRight;
+                break;
+        }
         action.mFighter = Fighter.Right;
         action.mTime = time;
         action.fightPeriod = period;
@@ -215,6 +302,26 @@ public class FightActionData implements Cloneable, Serializable {
         FightActionData action = new FightActionData();
         action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
         action.mActionType = ActionType.SetPause;
+        action.mTime = time;
+        action.fightPeriod = period;
+        action.systemTime = System.currentTimeMillis();
+        return action;
+    }
+
+    public static FightActionData createSetMedical(long time, int period) {
+        FightActionData action = new FightActionData();
+        action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
+        action.mActionType = ActionType.SetMedical;
+        action.mTime = time;
+        action.fightPeriod = period;
+        action.systemTime = System.currentTimeMillis();
+        return action;
+    }
+
+    public static FightActionData createVideo(long time, int period, boolean isLeft) {
+        FightActionData action = new FightActionData();
+        action.fightId = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "");
+        action.mActionType = isLeft ? ActionType.VideoLeft : ActionType.VideoRight;
         action.mTime = time;
         action.fightPeriod = period;
         action.systemTime = System.currentTimeMillis();
@@ -468,7 +575,9 @@ public class FightActionData implements Cloneable, Serializable {
 
     public enum ActionType {Start, Stop, SetScoreLeft, SetScoreRight, YellowCardLeft, YellowCardRight,
             RedCardLeft, RedCardRight, SetPriorityLeft, SetPriorityRight, SetPeriod, SetPause,
-            SetTime, Reset}
+            SetTime, Reset, VideoLeft, VideoRight, PCardYellowLeft, PCardYellowRight, PCardRedLeft,
+        PCardRedRight, BlackCardLeft, BlackCardRight, PCardBlackLeft, PCardBlackRight, SetMedical, NoneCardLeft,
+        NoneCardRight, NonePCardLeft, NonePCardRight}
 
     public enum ActionPeriod {fight, pause, extra, other, medical}
 }

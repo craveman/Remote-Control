@@ -107,4 +107,9 @@ public class CommandHelper {
         return command.getBytes();
     }
 
+    public static byte[] auth(String code, String name) {
+        AuthRequestCommand command = new AuthRequestCommand(code, name);
+        return command.getBytes();
+    }
+
 }

@@ -148,7 +148,7 @@
             app:np_orientation="vertical"
             app:np_dividerColor="@color/transparent"
             app:np_min="0"
-            app:np_value="@{viewModel.leftScore}"
+            app:np_value="@={viewModel.leftScore}"
             app:np_wheelItemCount="5"
             app:np_textSize="40sp"
             app:np_selectedTextSize="60sp"
@@ -172,7 +172,7 @@
             app:np_orientation="vertical"
             app:np_dividerColor="@color/transparent"
             app:np_min="0"
-            app:np_value="@{viewModel.rightScore}"
+            app:np_value="@={viewModel.rightScore}"
             app:np_textSize="40sp"
             app:np_selectedTextSize="60sp"
             app:np_wheelItemCount="5"
@@ -233,7 +233,8 @@
             app:layout_constraintTop_toTopOf="@id/score_cancel_top"
             app:layout_constraintBottom_toBottomOf="@id/score_cancel_bottom"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"/>
 
 </android.support.constraint.ConstraintLayout>
 

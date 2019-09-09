@@ -64,6 +64,8 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent=".85" />
 
+
+
         <android.support.constraint.Guideline
             android:id="@+id/def_time_divider_2_top"
             android:layout_width="wrap_content"
@@ -144,7 +146,7 @@
                 app:np_dividerColor="@color/transparent"
                 app:np_min="0"
                 app:np_max="3"
-                app:np_value="@{viewModel.timerDefMinDec}"
+                app:np_value="@={viewModel.timerDefMinDec}"
                 app:np_textSize="50sp"
                 app:np_selectedTextSize="60sp"
                 app:np_wheelItemCount="3"
@@ -162,7 +164,7 @@
                 app:np_dividerColor="@color/transparent"
                 app:np_min="0"
                 app:np_max="9"
-                app:np_value="@{viewModel.screenState == viewModel.SCREEN_DEF_TIME_LAY ? viewModel.timerDefMinUnit : viewModel.timerPDefMinUnit}"
+                app:np_value="@={viewModel.timerDefMinUnit}"
                 app:np_textSize="50sp"
                 app:np_selectedTextSize="60sp"
                 app:np_wheelItemCount="3"
@@ -189,7 +191,7 @@
                 app:np_dividerColor="@color/transparent"
                 app:np_min="0"
                 app:np_max="9"
-                app:np_value="@{viewModel.screenState == viewModel.SCREEN_DEF_TIME_LAY ? viewModel.timerDefSecDec : viewModel.timerPDefSecDec}"
+                app:np_value="@={viewModel.timerDefSecUnit}"
                 app:np_textSize="50sp"
                 app:np_selectedTextSize="60sp"
                 app:np_wheelItemCount="3"
@@ -207,7 +209,7 @@
                 app:np_dividerColor="@color/transparent"
                 app:np_min="0"
                 app:np_max="5"
-                app:np_value="@{viewModel.screenState == viewModel.SCREEN_DEF_TIME_LAY ? viewModel.timerDefSecUnit : viewModel.timerPDefSecUnit}"
+                app:np_value="@={viewModel.timerDefSecDec}"
                 app:np_textSize="50sp"
                 app:np_selectedTextSize="60sp"
                 app:np_wheelItemCount="3"
@@ -253,7 +255,7 @@
             android:textAlignment="center"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:onClick="@{() -> viewModel.onDefTimeAccepted()}"
+            android:onClick="@{() -> viewModel.onCloseBtn()}"
             app:autoSizeMaxTextSize="100sp"
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"
@@ -261,7 +263,8 @@
             app:layout_constraintTop_toTopOf="@id/def_time_cancel_top"
             app:layout_constraintBottom_toBottomOf="@id/def_time_cancel_bottom"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"/>
 
     </android.support.constraint.ConstraintLayout>
 

@@ -4,12 +4,15 @@ import android.util.Log;
 
 import java.util.Set;
 
-import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.requests.FightAction;
 import ru.inspirationpoint.remotecontrol.manager.ActionUploadCallback;
-import ru.inspirationpoint.remotecontrol.manager.Camera;
 import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
 import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightActionData;
 import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
+
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.PERSON_TYPE_LEFT;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.PERSON_TYPE_RIGHT;
+import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.PERSON_TYPE_NONE;
 
 public class FightActionsHandler {
 
@@ -17,6 +20,22 @@ public class FightActionsHandler {
 
     public FightActionsHandler(FightData fightData) {
         this.fightData = fightData;
+    }
+
+    public void updateTime(int time) {
+        fightData.setmCurrentTime(time);
+    }
+
+    public void setLeftName(String name) {
+        fightData.getLeftFighter().setName(name);
+    }
+
+    public void setRightName(String name) {
+        fightData.getRightFighter().setName(name);
+    }
+
+    public void setPriorityNone() {
+        fightData.setmPriority(PERSON_TYPE_NONE);
     }
 
     public void addAction(FightActionData action, ActionUploadCallback callback, Set<String> videoUrls) {
@@ -38,11 +57,47 @@ public class FightActionsHandler {
             case SetPeriod:
                 fightData.setmCurrentPeriod(action.getFightPeriod());
                 break;
+            case NoneCardLeft:
+                fightData.getLeftFighter().setCard(CommonConstants.CardStatus.CardStatus_None);
+                break;
+            case NoneCardRight:
+                fightData.getRightFighter().setCard(CommonConstants.CardStatus.CardStatus_None);
+                break;
+            case NonePCardLeft:
+                fightData.getLeftFighter().setCard(CommonConstants.CardStatus.CardPStatus_None);
+                break;
+            case NonePCardRight:
+                fightData.getRightFighter().setCard(CommonConstants.CardStatus.CardPStatus_None);
+                break;
             case RedCardLeft:
                 fightData.getLeftFighter().setCard(CommonConstants.CardStatus.CardStatus_Red);
                 break;
             case RedCardRight:
                 fightData.getRightFighter().setCard(CommonConstants.CardStatus.CardStatus_Red);
+                break;
+            case BlackCardLeft:
+                fightData.getLeftFighter().setCard(CommonConstants.CardStatus.CardStatus_Black);
+                break;
+            case BlackCardRight:
+                fightData.getRightFighter().setCard(CommonConstants.CardStatus.CardStatus_Black);
+                break;
+            case PCardYellowLeft:
+                fightData.getLeftFighter().setCard(CommonConstants.CardStatus.CardPStatus_Yellow);
+                break;
+            case PCardYellowRight:
+                fightData.getRightFighter().setCard(CommonConstants.CardStatus.CardPStatus_Yellow);
+                break;
+            case PCardRedLeft:
+                fightData.getLeftFighter().setCard(CommonConstants.CardStatus.CardPStatus_Red);
+                break;
+            case PCardRedRight:
+                fightData.getRightFighter().setCard(CommonConstants.CardStatus.CardPStatus_Red);
+                break;
+            case PCardBlackLeft:
+                fightData.getLeftFighter().setCard(CommonConstants.CardStatus.CardPStatus_Black);
+                break;
+            case PCardBlackRight:
+                fightData.getRightFighter().setCard(CommonConstants.CardStatus.CardPStatus_Yellow);
                 break;
             case SetScoreLeft:
                 fightData.getLeftFighter().setScore(action.getScore());
@@ -55,6 +110,18 @@ public class FightActionsHandler {
                 break;
             case YellowCardRight:
                 fightData.getRightFighter().setCard(CommonConstants.CardStatus.CardStatus_Yellow);
+                break;
+            case VideoLeft:
+                fightData.setmVideoLeft(fightData.getmVideoLeft() > 0 ? fightData.getmVideoLeft() - 1 : 0);
+                break;
+            case VideoRight:
+                fightData.setmVideoRight(fightData.getmVideoRight() > 0 ? fightData.getmVideoRight() - 1 : 0);
+                break;
+            case SetPriorityLeft:
+                fightData.setmPriority(PERSON_TYPE_LEFT);
+                break;
+            case SetPriorityRight:
+                fightData.setmPriority(PERSON_TYPE_RIGHT);
                 break;
         }
 //        DataManager.instance().saveFightAction(action.getFightAction(), new DataManager.RequestListener<SaveFightActionResult>() {
@@ -74,6 +141,14 @@ public class FightActionsHandler {
 //
 //            }
 //        });
+    }
+
+    public void setVideo(long definer, String video) {
+        for (FightActionData action : fightData.getActionsList()) {
+            if (action.getSystemTime() == definer) {
+                action.setVideoPreviewUrl(video);
+            }
+        }
     }
 
     public String refreshAction(String fightActionId, ActionUploadCallback callback, String videoUrl) {

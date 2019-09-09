@@ -18,27 +18,29 @@ import java.util.Arrays;
 
 import ru.inspirationpoint.remotecontrol.R;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
-import ru.inspirationpoint.remotecontrol.manager.constants.commands.SetTimerCommand;
 import ru.inspirationpoint.remotecontrol.manager.coreObjects.Device;
+import ru.inspirationpoint.remotecontrol.manager.helpers.BackupHelper;
 import ru.inspirationpoint.remotecontrol.manager.helpers.UDPHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.CommandHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPHelper;
 import ru.inspirationpoint.remotecontrol.ui.activity.FightActivity;
 import ru.inspirationpoint.remotecontrol.ui.dialog.ConfirmationDialog;
 
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEVICE_ID_SETTING;
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEV_TYPE_REFEREE;
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEV_TYPE_SM;
-import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.GROUP_ADDRESS;
-import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UDPCommands.OK_UDP;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.SM_CODE;
+import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.SM_IP;
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UDPCommands.PING_UDP;
-import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UDPCommands.RC_EXISTS_UDP;
-import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UDPCommands.WRONG_CODE_UDP;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.AUTH_RESPONSE;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.CODE_INCORRECT_AUTH;
 import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.DEV_TYPE_CAM;
-import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SYNC_STATE_NONE;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.RC_EXISTS_AUTH;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.TCP_OK;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SYNC_STATE_SYNCED;
 
 
-public class CoreHandler implements TCPHelper.TCPListener{
+public class CoreHandler implements TCPHelper.TCPListener {
 
     private static Vibrator vibrator;
     private Context context;
@@ -52,6 +54,7 @@ public class CoreHandler implements TCPHelper.TCPListener{
     private String camIp = "";
     private String smIp = "";
     private FightValuesHandler fightHandler;
+    private BackupHelper backupHelper;
 
     public boolean camExists = false;
 
@@ -63,14 +66,37 @@ public class CoreHandler implements TCPHelper.TCPListener{
         udpHelper.setListener(new UDPHelper.BroadcastListener() {
             @Override
             public void onReceive(String[] msg, String ip) {
-                if (msg[0].equals(OK_UDP) && tcpHelper == null) {
-                    tcpHelper = new TCPHelper(ip);
-                    tcpHelper.setListener(CoreHandler.this);
-                    tcpHelper.start();
-                    connectedDevices.add(new Device(ip, DEV_TYPE_SM, SettingsManager.getValue(GROUP_ADDRESS, "")));
-                } else if (msg[0].equals(WRONG_CODE_UDP) || msg[0].equals(RC_EXISTS_UDP)) {
-                    if (activity instanceof FightActivity) {
-                        ((FightActivity) activity).getViewModel().syncState.set(SYNC_STATE_NONE);
+//                if (msg[0].equals(OK_UDP) && tcpHelper == null) {
+//                    tcpHelper = new TCPHelper(ip);
+//                    tcpHelper.setListener(CoreHandler.this);
+//                    tcpHelper.start();
+//                    connectedDevices.add(new Device(ip, DEV_TYPE_SM, SettingsManager.getValue(SM_CODE, "")));
+//                } else if (msg[0].equals(WRONG_CODE_UDP) || msg[0].equals(RC_EXISTS_UDP)) {
+//                    if (activity instanceof FightActivity) {
+//                        ((FightActivity) activity).getViewModel().syncState.set(SYNC_STATE_NONE);
+//                    }
+//                }
+                if (msg[0].equals(PING_UDP)) {
+                    if (tcpHelper == null || !tcpHelper.isConnected()) {
+                        if (!TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
+                            try {
+                                if (InetAddress.getByName(SettingsManager.getValue(SM_IP, "")).isReachable(100)) {
+                                    tcpHelper = new TCPHelper(SettingsManager.getValue(SM_IP, ""));
+                                    tcpHelper.setListener(CoreHandler.this);
+                                    tcpHelper.start();
+                                } else {
+                                    SettingsManager.removeValue(SM_CODE);
+                                    SettingsManager.removeValue(SM_IP);
+                                    onDisconnect();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            SettingsManager.removeValue(SM_CODE);
+                            SettingsManager.removeValue(SM_IP);
+                            onDisconnect();
+                        }
                     }
                 }
             }
@@ -107,6 +133,12 @@ public class CoreHandler implements TCPHelper.TCPListener{
         }
     }
 
+    public void startTCP(String ip) {
+        tcpHelper = new TCPHelper(ip);
+        tcpHelper.setListener(CoreHandler.this);
+        tcpHelper.start();
+    }
+
     public void vibrContiniously() {
         if (vibrator != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -127,8 +159,7 @@ public class CoreHandler implements TCPHelper.TCPListener{
                 WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
 
                 return wifiInfo.getNetworkId() != -1;
-            }
-            else {
+            } else {
                 return false;
             }
         }
@@ -191,7 +222,12 @@ public class CoreHandler implements TCPHelper.TCPListener{
         if (activity instanceof FightActivity) {
             //TODO fix to check old fight
             fightHandler = new FightValuesHandler(null, this);
+            backupHelper = new BackupHelper(activity);
         }
+    }
+
+    public BackupHelper getBackupHelper() {
+        return backupHelper;
     }
 
     public void setServerCallback(CoreServerCallback serverCallback) {
@@ -200,6 +236,20 @@ public class CoreHandler implements TCPHelper.TCPListener{
 
     @Override
     public void onReceive(byte command, byte[] message) {
+        if (command == AUTH_RESPONSE) {
+            switch (message[0]) {
+                case TCP_OK:
+                    ((FightActivity)activity).getViewModel().syncState.set(SYNC_STATE_SYNCED);
+                    break;
+                case CODE_INCORRECT_AUTH:
+                case RC_EXISTS_AUTH:
+                    SettingsManager.removeValue(SM_CODE);
+                    SettingsManager.removeValue(SM_IP);
+                    onDisconnect();
+                    break;
+
+            }
+        } else
         if (serverCallback != null) {
             serverCallback.messageReceived(command, message);
         }
@@ -207,25 +257,27 @@ public class CoreHandler implements TCPHelper.TCPListener{
 
     @Override
     public void onStreamCreated() {
-        sendToSM(new SetTimerCommand(180000, 0).getBytes());
-        Log.wtf("STREAM", "+");
-        if (activity instanceof FightActivity) {
-            ((FightActivity) activity).getViewModel().syncState.set(SYNC_STATE_SYNCED);
-        }
+//        sendToSM(new SetTimerCommand(180000, 0).getBytes());
+//        Log.wtf("STREAM", "+");
+        sendToSM(CommandHelper.auth(SettingsManager.getValue(SM_CODE, ""),
+                SettingsManager.getValue(DEVICE_ID_SETTING, "")));
     }
 
     @Override
     public void onDisconnect() {
-        tcpHelper.end();
+        if (tcpHelper != null) {
+            tcpHelper.end();
+        }
         tcpHelper = null;
         if (serverCallback != null)
-        serverCallback.connectionLost();
+            serverCallback.connectionLost();
         connectedDevices.clear();
     }
 
     public void sendToSM(byte[] message) {
         if (tcpHelper != null) {
             tcpHelper.send(message);
+            Log.wtf("SENT", Arrays.toString(message));
         } else {
             Log.wtf("TCP NULL", "++++");
         }
@@ -233,7 +285,9 @@ public class CoreHandler implements TCPHelper.TCPListener{
 
     public interface CoreServerCallback {
         void messageReceived(byte command, byte[] message);
+
         void connectionLost();
+
         void devicesUpdated(ArrayList<Device> devices);
     }
 
@@ -244,7 +298,6 @@ public class CoreHandler implements TCPHelper.TCPListener{
     public void changeVideoCounters(int left, int right) {
         sendToSM(CommandHelper.videoCounters(left, right));
     }
-
 
 
     public void setUsbHandler(UsbConnectionHandler usbHandler) {

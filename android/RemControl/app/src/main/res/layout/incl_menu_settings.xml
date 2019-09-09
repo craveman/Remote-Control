@@ -167,14 +167,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".84" />
+            app:layout_constraintGuide_percent=".86" />
 
         <android.support.constraint.Guideline
             android:id="@+id/msett_cancel_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".91" />
+            app:layout_constraintGuide_percent=".93" />
 
         <TextView
             android:layout_width="0dp"

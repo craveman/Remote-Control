@@ -212,8 +212,6 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
     public void onDecline() {
         getViewModel().fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
         SettingsManager.setValue(UNFINISHED_FIGHT, getViewModel().fightId);
-        getViewModel().fightCache = new FightData("1", null, new FighterData("", ""),
-                new FighterData("", ""), "", "");
         getViewModel().onMenuDeviceReset();
 //        if (DataManager.instance().getCurrentFight() != null) {
 //            getViewModel().fightData = DataManager.instance().getCurrentFight();
@@ -253,6 +251,28 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
     public void onConfirmed(int messageId) {
         if (messageId == 456) {
             getViewModel().onMenuPause();
+        } else if (messageId == 424) {
+            getViewModel().core.vibr();
+            getViewModel().isFightReady.set(true);
+//        DataManager.instance().saveFight(Helper.convertFightDataToInput(fightData), new DataManager.RequestListener<SaveFightResult>() {
+//            @Override
+//            public void onSuccess(SaveFightResult result) {
+//                SettingsManager.setValue(CommonConstants.LAST_FIGHT_ID, result.fight._id);
+//                Log.wtf("Fight ID", result.fight._id);
+//            }
+//
+//            @Override
+//            public void onFailed(String error, String message) {
+//                Log.wtf("ERR FIGHT UPL", error + "|" + message);
+//            }
+//
+//            @Override
+//            public void onStateChanged(boolean inProgress) {
+//            }
+//        });
+            getViewModel().fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
+            SettingsManager.setValue(UNFINISHED_FIGHT, getViewModel().fightId);
+            getViewModel().reset();
         }
     }
 }

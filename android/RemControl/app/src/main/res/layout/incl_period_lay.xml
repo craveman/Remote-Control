@@ -208,6 +208,7 @@
             app:np_wrapSelectorWheel="false"
             app:np_selectedTextColor="@color/textColorSecondary"
             app:np_textColor="@color/white"
+            app:np_value="@={viewModel.period}"
             app:autoSizeMaxTextSize="100sp"
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"
@@ -253,7 +254,8 @@
             app:layout_constraintTop_toTopOf="@id/period_cancel_top"
             app:layout_constraintBottom_toBottomOf="@id/period_cancel_bottom"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"/>
 
         <View
             android:layout_width="match_parent"

@@ -39,7 +39,13 @@ public class FightData implements Cloneable, Serializable {
     @SerializedName("mCurrentTime")
     private long mCurrentTime;
     @SerializedName("mCurrentPeriod")
-    private int mCurrentPeriod = 0;
+    private int mCurrentPeriod = 1;
+    @SerializedName("mPriority")
+    private int mPriority = 0;
+    @SerializedName("mVideoLeft")
+    private int mVideoLeft = 2;
+    @SerializedName("mVideoRight")
+    private int mVideoRight = 2;
 
     public FightData() {
     }
@@ -301,5 +307,29 @@ public class FightData implements Cloneable, Serializable {
 
     public void setmCurrentPeriod(int mCurrentPeriod) {
         this.mCurrentPeriod = mCurrentPeriod;
+    }
+
+    public int getmPriority() {
+        return mPriority;
+    }
+
+    public void setmPriority(int mPriority) {
+        this.mPriority = mPriority;
+    }
+
+    public int getmVideoLeft() {
+        return mVideoLeft;
+    }
+
+    public void setmVideoLeft(int mVideoLeft) {
+        this.mVideoLeft = mVideoLeft;
+    }
+
+    public int getmVideoRight() {
+        return mVideoRight;
+    }
+
+    public void setmVideoRight(int mVideoRight) {
+        this.mVideoRight = mVideoRight;
     }
 }
