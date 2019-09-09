@@ -49,17 +49,6 @@ class PenaltiesViewController: UIViewController {
     }
     
     @objc func indexChanged(_ sender: UISegmentedControl) {
-        switch viewSelector?.selectedSegmentIndex {
-        case 0:
-            print("Select Penalties")
-            
-        case 1:
-            print("Select P-Cards")
-            
-        default:
-            print("Select: None")
-        }
-        
         updateView()
     }
     
@@ -68,7 +57,7 @@ class PenaltiesViewController: UIViewController {
         pCardsCtrl.view.isHidden = (viewSelector.selectedSegmentIndex == 0)
         
         penaltiesCtrl.setType(.basic)
-        pCardsCtrl.setType(.p)
+        pCardsCtrl.setType(.passive)
     }
     
     private func addViewControllerAsChildViewController(childViewController: UIViewController) {

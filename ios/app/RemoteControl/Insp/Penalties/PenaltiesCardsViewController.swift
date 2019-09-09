@@ -7,11 +7,11 @@
 //
 
 import UIKit
-
+import networking
 
 enum PenaltiesTypes {
     case basic
-    case p
+    case passive
 }
 
 class PenaltiesCardsViewController: UIViewController {
@@ -25,14 +25,15 @@ class PenaltiesCardsViewController: UIViewController {
         updateView();
     }
     
-    func updateView() -> Void {
-        updateSubViewType(left.subviews.first)
-        updateSubViewType(right.subviews.first)
+    private func updateView() -> Void {
+        updateSubViewType(left.subviews.first, .left)
+        updateSubViewType(right.subviews.first, .right)
     }
     
-    func updateSubViewType(_ view: UIView?) {
+    private func updateSubViewType(_ view: UIView?, _ personType: PersonType) {
         if let vc = view?.next as? PenaltySelectorViewController {
             vc.penaltyType = self.type
+            vc.personType = personType
         }
     }
 

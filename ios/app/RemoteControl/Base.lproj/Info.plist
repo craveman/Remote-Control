@@ -23,7 +23,7 @@
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
-	<string>Main</string>
+	<string>Intro</string>
 	<key>NSCameraUsageDescription</key>
 	<string>In order to connect we need to scan QR code</string>
 	<key>Access WiFi Information Entitlement</key>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Weapon Select View Controller-->
+        <scene sceneID="OSQ-EL-dEy">
+            <objects>
+                <viewController storyboardIdentifier="WeaponSelectViewController" id="92B-Qn-mfC" customClass="WeaponSelectViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="u9t-ge-l7k">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dy0-WP-XSf">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="Select Weapon" id="4v6-J6-dMc">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Hbe-Ab-AZc">
+                                            <connections>
+                                                <segue destination="ecX-Jl-0YP" kind="show" identifier="done" id="RFZ-ew-HTK"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="jEc-zl-Gfe">
+                                <rect key="frame" x="176.5" y="367.5" width="61" height="171"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fjb-hM-5Ve">
+                                        <rect key="frame" x="12" y="0.0" width="37" height="41"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <state key="normal" title="Foil"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sui-dH-1w5">
+                                        <rect key="frame" x="4" y="65" width="53" height="41"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <state key="normal" title="Epee"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zBH-dE-GvM">
+                                        <rect key="frame" x="0.0" y="130" width="61" height="41"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <state key="normal" title="Sabre"/>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="kfv-c2-7pv"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="dy0-WP-XSf" firstAttribute="leading" secondItem="u9t-ge-l7k" secondAttribute="leading" id="334-dd-Xob"/>
+                            <constraint firstItem="jEc-zl-Gfe" firstAttribute="centerX" secondItem="Ex7-7r-WuR" secondAttribute="centerX" id="FEo-zd-T5q"/>
+                            <constraint firstItem="jEc-zl-Gfe" firstAttribute="centerY" secondItem="Ex7-7r-WuR" secondAttribute="centerY" id="JAd-9d-vXU"/>
+                            <constraint firstItem="Ex7-7r-WuR" firstAttribute="centerX" secondItem="dy0-WP-XSf" secondAttribute="centerX" id="spL-s2-6Ie"/>
+                            <constraint firstItem="jEc-zl-Gfe" firstAttribute="centerX" secondItem="Ex7-7r-WuR" secondAttribute="centerX" id="tcg-2v-UQ3"/>
+                            <constraint firstItem="dy0-WP-XSf" firstAttribute="top" secondItem="Ex7-7r-WuR" secondAttribute="top" id="zKO-xE-OH3"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Ex7-7r-WuR"/>
+                    </view>
+                    <connections>
+                        <outlet property="epeeButton" destination="Sui-dH-1w5" id="kkj-ru-fZp"/>
+                        <outlet property="foilButton" destination="Fjb-hM-5Ve" id="KWv-8G-FdN"/>
+                        <outlet property="sabreButton" destination="zBH-dE-GvM" id="97E-yI-4MG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="F2c-YT-PEa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-246.37681159420291" y="42.857142857142854"/>
+        </scene>
+        <!--Inspiration-->
+        <scene sceneID="lN6-l8-mXD">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Inspiration" id="ecX-Jl-0YP" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Oxf-4O-ska" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="331" y="-248"/>
+        </scene>
+        <!--Priority Select View Controller-->
+        <scene sceneID="HLx-h4-FZe">
+            <objects>
+                <viewController storyboardIdentifier="PrioritySelectViewController" id="47k-Hn-AUy" customClass="PrioritySelectViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="EH2-Fc-81g">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q9K-Wr-Qab">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="Set Priority" id="JOH-gJ-r88">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="nKA-gp-voB">
+                                            <connections>
+                                                <segue destination="rcn-oW-43Z" kind="show" identifier="done" id="YWb-YZ-ceN"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="eWr-Se-i9y">
+                                <rect key="frame" x="138.5" y="360.5" width="137" height="185"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NxS-rv-N6N">
+                                        <rect key="frame" x="8.5" y="0.0" width="120" height="120"/>
+                                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="0mh-BK-xOA"/>
+                                            <constraint firstAttribute="height" constant="120" id="1cK-Mo-Mv2"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="72"/>
+                                        <state key="normal" title="P">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8No-8h-kM1">
+                                        <rect key="frame" x="0.0" y="144" width="137" height="41"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <state key="normal" title="Reset priority"/>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="BZ1-1H-7J5"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="eWr-Se-i9y" firstAttribute="centerX" secondItem="oG9-R8-Mhf" secondAttribute="centerX" id="3Y7-iL-iYL"/>
+                            <constraint firstItem="eWr-Se-i9y" firstAttribute="centerX" secondItem="oG9-R8-Mhf" secondAttribute="centerX" id="Kec-hR-6EQ"/>
+                            <constraint firstItem="Q9K-Wr-Qab" firstAttribute="leading" secondItem="EH2-Fc-81g" secondAttribute="leading" id="SC8-r6-UAd"/>
+                            <constraint firstItem="oG9-R8-Mhf" firstAttribute="centerX" secondItem="Q9K-Wr-Qab" secondAttribute="centerX" id="rDJ-Ts-dF9"/>
+                            <constraint firstItem="Q9K-Wr-Qab" firstAttribute="top" secondItem="oG9-R8-Mhf" secondAttribute="top" id="sys-On-61Y"/>
+                            <constraint firstItem="eWr-Se-i9y" firstAttribute="centerY" secondItem="oG9-R8-Mhf" secondAttribute="centerY" id="v3E-Ek-TuN"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="oG9-R8-Mhf"/>
+                    </view>
+                    <connections>
+                        <outlet property="resetPriorityButton" destination="8No-8h-kM1" id="wa7-E3-H68"/>
+                        <outlet property="setPriorityButton" destination="NxS-rv-N6N" id="eHY-mf-ZqS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p1C-7X-Seo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="984" y="52"/>
+        </scene>
+        <!--Inspiration-->
+        <scene sceneID="soc-pU-niX">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Inspiration" id="rcn-oW-43Z" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ujI-Jg-IFu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1518" y="-248"/>
+        </scene>
+    </scenes>
+</document>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sQ0-z0-FbK">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Connections View Controller-->
+        <scene sceneID="W0z-Wf-cek">
+            <objects>
+                <viewController id="sQ0-z0-FbK" customClass="ConnectionsViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UTB-3o-rUT">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G01-oJ-bgF">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="embed" id="Oyj-WY-ESf"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="G01-oJ-bgF" firstAttribute="leading" secondItem="UTB-3o-rUT" secondAttribute="leading" id="VfJ-iZ-h5h"/>
+                            <constraint firstItem="G01-oJ-bgF" firstAttribute="top" secondItem="2IZ-CK-Xpj" secondAttribute="top" id="syB-eu-Awy"/>
+                            <constraint firstAttribute="trailing" secondItem="G01-oJ-bgF" secondAttribute="trailing" id="wqV-RA-LtS"/>
+                            <constraint firstItem="G01-oJ-bgF" firstAttribute="bottom" secondItem="2IZ-CK-Xpj" secondAttribute="bottom" id="zz0-lW-wL0"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="2IZ-CK-Xpj"/>
+                    </view>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="qrReaderSubViewWrapper" destination="G01-oJ-bgF" id="Mz8-CW-Aip"/>
+                        <outlet property="view" destination="G01-oJ-bgF" id="bAw-40-WCK"/>
+                        <segue destination="po2-Vp-2Jh" kind="show" identifier="skipQR" id="TA0-Lc-3MV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Cc-N1-SWR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1901" y="-366"/>
+        </scene>
+        <!--Qr View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="QrViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ROG-L6-Gnz" customClass="QRCodeReaderView" customModule="RemoteControl" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="69" width="414" height="394"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Connection message" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10P-Ts-tf1">
+                                <rect key="frame" x="20" y="479" width="374" height="305"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="305" id="2Zt-dV-y3v"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="bottomMargin" secondItem="10P-Ts-tf1" secondAttribute="bottom" id="3fg-SV-HMO"/>
+                            <constraint firstItem="10P-Ts-tf1" firstAttribute="top" secondItem="ROG-L6-Gnz" secondAttribute="bottom" constant="16" id="6ur-1i-vAt"/>
+                            <constraint firstAttribute="trailing" secondItem="ROG-L6-Gnz" secondAttribute="trailing" id="S5D-hh-Jke"/>
+                            <constraint firstItem="ROG-L6-Gnz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="25" id="Z2G-ef-t5W"/>
+                            <constraint firstItem="ROG-L6-Gnz" firstAttribute="centerX" secondItem="10P-Ts-tf1" secondAttribute="centerX" id="rff-Nl-bz1"/>
+                            <constraint firstItem="ROG-L6-Gnz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="rgI-fy-L6W"/>
+                            <constraint firstItem="10P-Ts-tf1" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="sKi-oM-DUL"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="previewView" destination="ROG-L6-Gnz" id="AnF-TH-j7l"/>
+                        <segue destination="po2-Vp-2Jh" kind="show" identifier="toInspiration" id="d5W-no-M5f"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1900" y="376"/>
+        </scene>
+        <!--Inspiration-->
+        <scene sceneID="acv-zF-Ot2">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Inspiration" id="po2-Vp-2Jh" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A59-1I-ld1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-701" y="-366"/>
+        </scene>
+    </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="d5W-no-M5f"/>
+    </inferredMetricsTieBreakers>
+</document>

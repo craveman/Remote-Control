@@ -5,6 +5,8 @@
 //  Created by Sergei Andreev on 04/09/2019.
 //  Copyright © 2019 Artem Labazin. All rights reserved.
 //
+import UIKit
+import networking
 
 enum SettingsActions {
     case finishFight
@@ -24,13 +26,13 @@ let settingsList: [(title: String, action: SettingsActions)] = [
 
 let settingCellId = "settingsCell"
 
-import UIKit
+
 
 class SettingsViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -43,6 +45,15 @@ class SettingsViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //Change the selected background view of the cell.
+        let (_, action) = settingsList[indexPath.row]
+        
+        doAction(action)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -58,6 +69,33 @@ class SettingsViewController: UITableViewController {
         // Configure the cell...
 
         return cell
+    }
+    
+    private func doAction(_ action: SettingsActions) {
+        print(action)
+        let stbrd = UIStoryboard(name: "SettingsStoryboard", bundle: nil)
+        
+        switch action {
+        case .finishFight:
+            NetworkManager.shared.send(message: Outbound.reset)
+            if tabBarController != nil {
+                tabBarController!.selectedIndex = 0
+            }
+            
+        case .points: break
+        case .priorities:
+            if let psvc = stbrd.instantiateViewController(withIdentifier: "PrioritySelectViewController") as? PrioritySelectViewController {
+                present(psvc, animated: true, completion: nil)
+            }
+        case .weapons:
+            if let wsvc = stbrd.instantiateViewController(withIdentifier: "WeaponSelectViewController") as? WeaponSelectViewController {
+                present(wsvc, animated: true, completion: nil)
+            }
+            
+        case .restart:
+            // restart
+            break
+        }
     }
  
 
