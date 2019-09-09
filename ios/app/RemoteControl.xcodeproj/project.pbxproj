@@ -18,9 +18,7 @@
 		858C62E3232038540096FBF9 /* PenaltiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858C62E2232038540096FBF9 /* PenaltiesViewController.swift */; };
 		858C62E523203DA20096FBF9 /* PenaltiesCardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858C62E423203DA20096FBF9 /* PenaltiesCardsViewController.swift */; };
 		858C62E72320432B0096FBF9 /* PenaltySelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858C62E62320432B0096FBF9 /* PenaltySelectorViewController.swift */; };
-		85A99334230B3E39003FC5BE /* NetworkSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A99333230B3E39003FC5BE /* NetworkSelectController.swift */; };
 		85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A99338230B47A4003FC5BE /* Inspiration.storyboard */; };
-		85A9933C230B4CD0003FC5BE /* Networks.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A9933B230B4CD0003FC5BE /* Networks.storyboard */; };
 		85A9934A23109CB7003FC5BE /* FightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934923109CB7003FC5BE /* FightViewController.swift */; };
 		85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934C23109E2D003FC5BE /* InspViewController.swift */; };
 		85A9936023113521003FC5BE /* Options.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A9935F23113521003FC5BE /* Options.storyboard */; };
@@ -73,9 +71,7 @@
 		858C62E2232038540096FBF9 /* PenaltiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltiesViewController.swift; sourceTree = "<group>"; };
 		858C62E423203DA20096FBF9 /* PenaltiesCardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltiesCardsViewController.swift; sourceTree = "<group>"; };
 		858C62E62320432B0096FBF9 /* PenaltySelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltySelectorViewController.swift; sourceTree = "<group>"; };
-		85A99333230B3E39003FC5BE /* NetworkSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkSelectController.swift; sourceTree = "<group>"; };
 		85A99338230B47A4003FC5BE /* Inspiration.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Inspiration.storyboard; sourceTree = "<group>"; };
-		85A9933B230B4CD0003FC5BE /* Networks.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Networks.storyboard; sourceTree = "<group>"; };
 		85A9934923109CB7003FC5BE /* FightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightViewController.swift; sourceTree = "<group>"; };
 		85A9934C23109E2D003FC5BE /* InspViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspViewController.swift; sourceTree = "<group>"; };
 		85A9935F23113521003FC5BE /* Options.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Options.storyboard; sourceTree = "<group>"; };
@@ -137,15 +133,6 @@
 				8583E8A9231EAA4C0006BC43 /* ReplaysCollectionViewController.swift */,
 			);
 			path = Replays;
-			sourceTree = "<group>";
-		};
-		85A99335230B4696003FC5BE /* SelectingNetwork */ = {
-			isa = PBXGroup;
-			children = (
-				85A99333230B3E39003FC5BE /* NetworkSelectController.swift */,
-				85A9933B230B4CD0003FC5BE /* Networks.storyboard */,
-			);
-			path = SelectingNetwork;
 			sourceTree = "<group>";
 		};
 		85A9933A230B4C40003FC5BE /* Insp */ = {
@@ -260,7 +247,6 @@
 			children = (
 				8F662338232648DD0028A34D /* utils */,
 				85A9933A230B4C40003FC5BE /* Insp */,
-				85A99335230B4696003FC5BE /* SelectingNetwork */,
 				B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */,
 				B9C8BEDF2305A2C5004DBBF8 /* ViewController.swift */,
 				B9C8BEE12305A2C6004DBBF8 /* Main.storyboard */,
@@ -396,7 +382,6 @@
 			files = (
 				8583E8A6231EA13E0006BC43 /* ReplaysStoryboard.storyboard in Resources */,
 				85A9936023113521003FC5BE /* Options.storyboard in Resources */,
-				85A9933C230B4CD0003FC5BE /* Networks.storyboard in Resources */,
 				B9C8BEE82305A2C7004DBBF8 /* LaunchScreen.storyboard in Resources */,
 				85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */,
 				B9C8BEE52305A2C7004DBBF8 /* Assets.xcassets in Resources */,
@@ -459,7 +444,6 @@
 				B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */,
 				858C62E523203DA20096FBF9 /* PenaltiesCardsViewController.swift in Sources */,
 				8583E8AA231EAA4C0006BC43 /* ReplaysCollectionViewController.swift in Sources */,
-				85A99334230B3E39003FC5BE /* NetworkSelectController.swift in Sources */,
 				8583E89D231E21280006BC43 /* TimersTableViewController.swift in Sources */,
 				8583E89B231E21110006BC43 /* PointsViewController.swift in Sources */,
 				8F66234D23264C200028A34D /* ToggleTorchButton.swift in Sources */,
