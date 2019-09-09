@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Penalties Cards View Controller-->
+        <scene sceneID="qoK-cS-oRC">
+            <objects>
+                <viewController storyboardIdentifier="PenaltiesCards" id="OYJ-nv-7iF" customClass="PenaltiesCardsViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jqI-WX-r8p">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Qu-tm-P6V">
+                                <rect key="frame" x="207" y="78" width="207" height="906"/>
+                                <connections>
+                                    <segue destination="nJ5-91-k8V" kind="embed" identifier="right" id="Hj6-r3-HvX"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DZe-CZ-X2v">
+                                <rect key="frame" x="0.0" y="78" width="207" height="906"/>
+                                <connections>
+                                    <segue destination="nJ5-91-k8V" kind="embed" identifier="left" id="zd6-b2-lrZ"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="3Qu-tm-P6V" firstAttribute="leading" secondItem="jqI-WX-r8p" secondAttribute="centerX" id="0NO-5p-egL"/>
+                            <constraint firstItem="DZe-CZ-X2v" firstAttribute="leading" secondItem="jqI-WX-r8p" secondAttribute="leading" id="1bf-Ix-OLP"/>
+                            <constraint firstItem="3Qu-tm-P6V" firstAttribute="top" secondItem="DZe-CZ-X2v" secondAttribute="top" id="OZm-sm-W46"/>
+                            <constraint firstAttribute="trailing" secondItem="3Qu-tm-P6V" secondAttribute="trailing" id="T8c-fl-X3E"/>
+                            <constraint firstItem="3Qu-tm-P6V" firstAttribute="bottom" secondItem="DZe-CZ-X2v" secondAttribute="bottom" id="dYh-cS-LEa"/>
+                            <constraint firstItem="3Qu-tm-P6V" firstAttribute="centerY" secondItem="PCV-uU-XJW" secondAttribute="centerY" id="i1P-96-aH2"/>
+                            <constraint firstItem="3Qu-tm-P6V" firstAttribute="leading" secondItem="DZe-CZ-X2v" secondAttribute="trailing" id="nX8-1H-euL"/>
+                            <constraint firstItem="3Qu-tm-P6V" firstAttribute="top" secondItem="jqI-WX-r8p" secondAttribute="top" id="oEc-wo-RDu"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="PCV-uU-XJW"/>
+                    </view>
+                    <connections>
+                        <outlet property="left" destination="DZe-CZ-X2v" id="wu3-Zx-8qa"/>
+                        <outlet property="right" destination="3Qu-tm-P6V" id="jVd-FX-YY5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UFH-YE-3aU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-936.23188405797111" y="0.0"/>
+        </scene>
+        <!--Penalty Selector View Controller-->
+        <scene sceneID="pLs-29-TIA">
+            <objects>
+                <viewController id="nJ5-91-k8V" customClass="PenaltySelectorViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vJz-33-vqW">
+                        <rect key="frame" x="0.0" y="0.0" width="207" height="906"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="TjR-gM-EPB">
+                                <rect key="frame" x="63.5" y="297" width="80" height="312"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Tw-Vl-qho">
+                                        <rect key="frame" x="20" y="0.0" width="40" height="80"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" button="YES" playsSound="YES"/>
+                                        </accessibility>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="80" id="Dmq-sw-28l"/>
+                                            <constraint firstAttribute="width" constant="40" id="NUs-bR-r4u"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="42"/>
+                                        <state key="normal" title="P"/>
+                                        <connections>
+                                            <action selector="blackSelected:" destination="nJ5-91-k8V" eventType="touchUpInside" id="1mp-rC-sh6"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YhY-3C-Qix">
+                                        <rect key="frame" x="20" y="88" width="40" height="80"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" button="YES" playsSound="YES"/>
+                                        </accessibility>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="80" id="KgY-tS-ie2"/>
+                                            <constraint firstAttribute="width" constant="40" id="qcm-mB-Ls7"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="42"/>
+                                        <state key="normal" title="X">
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="decreaseSelected:" destination="nJ5-91-k8V" eventType="touchUpInside" id="0FD-On-ZvY"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OYn-eK-6Dv">
+                                        <rect key="frame" x="0.0" y="199" width="80" height="2"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="2" id="NWk-DQ-akd"/>
+                                            <constraint firstAttribute="width" constant="80" id="txi-SR-gkC"/>
+                                        </constraints>
+                                        <attributedString key="attributedText">
+                                            <fragment content=" ">
+                                                <attributes>
+                                                    <font key="NSFont" metaFont="smallSystem"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                </attributes>
+                                            </fragment>
+                                        </attributedString>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kSQ-7r-Xi7">
+                                        <rect key="frame" x="20" y="232" width="40" height="80"/>
+                                        <color key="backgroundColor" red="1" green="0.65015366500000005" blue="0.2203573465" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" button="YES" playsSound="YES"/>
+                                        </accessibility>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="ZPw-3l-fWY"/>
+                                            <constraint firstAttribute="height" constant="80" id="uCp-cm-nuE"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="42"/>
+                                        <state key="normal" title="P">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="increaseSelected:" destination="nJ5-91-k8V" eventType="touchUpInside" id="s11-vx-v49"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="kSQ-7r-Xi7" firstAttribute="top" secondItem="OYn-eK-6Dv" secondAttribute="bottom" constant="31" id="d9V-Hc-OS1"/>
+                                    <constraint firstItem="OYn-eK-6Dv" firstAttribute="top" secondItem="YhY-3C-Qix" secondAttribute="bottom" constant="31" id="dK7-yD-hoA"/>
+                                    <constraint firstItem="kSQ-7r-Xi7" firstAttribute="top" secondItem="YhY-3C-Qix" secondAttribute="bottom" constant="64" id="kP5-hG-fDy"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="TjR-gM-EPB" firstAttribute="centerX" secondItem="vJz-33-vqW" secondAttribute="centerX" id="6Cj-to-mWY"/>
+                            <constraint firstItem="TjR-gM-EPB" firstAttribute="centerY" secondItem="vJz-33-vqW" secondAttribute="centerY" id="RBX-t4-FoY"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="blackCard" destination="7Tw-Vl-qho" id="92n-Eg-OHf"/>
+                        <outlet property="decreaseCard" destination="YhY-3C-Qix" id="IIK-fk-JQS"/>
+                        <outlet property="increaseCard" destination="kSQ-7r-Xi7" id="DzW-Eu-ylZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9xa-SY-VGK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Hj6-r3-HvX"/>
+    </inferredMetricsTieBreakers>
+</document>

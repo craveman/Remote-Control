@@ -13,52 +13,85 @@ let package = Package(
 
   products: [
     .library(
-      name: "RemoteControl_Network",
+      name: "networking",
       targets: [
-        "RemoteControl_Network",
+        "networking",
       ]
     ),
     .library(
-      name: "RemoteControl_Logging",
+      name: "logging",
       targets: [
-        "RemoteControl_Logging",
+        "logging",
+      ]
+    ),
+    .library(
+      name: "utils",
+      targets: [
+        "utils",
+      ]
+    ),
+    .library(
+      name: "sm02",
+      targets: [
+        "sm02",
       ]
     ),
   ],
 
   dependencies: [
-    .package(url: "https://github.com/apple/swift-nio.git", from: "2.6.1"),
-    .package(url: "https://github.com/luoxiu/Schedule", from: "2.0.3"),
+    .package(url: "https://github.com/apple/swift-nio.git", .exact("2.7.1")),
+    .package(url: "https://github.com/apple/swift-nio-extras.git", .exact("1.2.0")),
   ],
 
   targets: [
     .target(
-      name: "RemoteControl_Network",
+      name: "networking",
       dependencies: [
         "NIO",
-      ],
-      path: "./Sources/Network"
+        "NIOExtras",
+        "utils",
+      ]
     ),
     .target(
-      name: "RemoteControl_Logging",
-      dependencies: [],
-      path: "./Sources/Logging"
+      name: "logging",
+      dependencies: []
+    ),
+    .target(
+      name: "utils",
+      dependencies: []
+    ),
+    .target(
+      name: "sm02",
+      dependencies: [
+        "logging",
+        "networking"
+      ]
     ),
 
     .testTarget(
-      name: "RemoteControl_NetworkTests",
+      name: "networking_tests",
       dependencies: [
-        "SM02Server",
+        "sm02",
+        "test_utils",
       ],
-      path: "./Tests/NetworkTests"
+      path: "./Tests/networking"
     ),
     .testTarget(
-      name: "SM02Server",
+      name: "sm02_tests",
       dependencies: [
-        "RemoteControl_Logging",
-        "RemoteControl_Network",
-        "Schedule"
-      ]
+        "sm02",
+        "NIOTestUtils",
+        "test_utils"
+      ],
+      path: "./Tests/sm02"
+    ),
+    .testTarget(
+      name: "test_utils",
+      dependencies: [
+        "networking",
+        "utils",
+      ],
+      path: "./Tests/utils"
     ),
   ],
 

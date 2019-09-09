@@ -4,4 +4,5 @@
 
 Документация:
 
+- [Авторизация](https://github.com/craveman/Remote-Control/wiki/Авторизация);
 - [Работа с сетью](https://github.com/craveman/Remote-Control/wiki/Работа-с-сетью).
