@@ -18,41 +18,49 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="InspirationApp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l2i-nW-VeR">
-                                <rect key="frame" x="107" y="433.5" width="200" height="39"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ROG-L6-Gnz" customClass="QRCodeReaderView" customModule="RemoteControl" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="69" width="414" height="414"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ROG-L6-Gnz" secondAttribute="height" multiplier="1:1" id="5Br-7H-vZp"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Для подключения, необходимо считать QR-код с телеэкрана." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10P-Ts-tf1">
+                                <rect key="frame" x="20" y="493" width="374" height="383"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="zqe-yf-N0g">
-                                <rect key="frame" x="197" y="480.5" width="20" height="20"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="l2i-nW-VeR" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="6Bf-BR-31v"/>
-                            <constraint firstItem="zqe-yf-N0g" firstAttribute="top" secondItem="l2i-nW-VeR" secondAttribute="bottom" constant="8" symbolic="YES" id="6zY-vZ-54S"/>
-                            <constraint firstItem="zqe-yf-N0g" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Xfc-Yz-Kxf"/>
-                            <constraint firstItem="l2i-nW-VeR" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="rKa-OK-hEC"/>
+                            <constraint firstItem="10P-Ts-tf1" firstAttribute="centerX" secondItem="ROG-L6-Gnz" secondAttribute="centerX" id="KZE-5q-mRy"/>
+                            <constraint firstAttribute="bottom" secondItem="10P-Ts-tf1" secondAttribute="bottom" constant="20" symbolic="YES" id="Ka0-Gn-44E"/>
+                            <constraint firstItem="ROG-L6-Gnz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="25" id="PRY-tS-qsG"/>
+                            <constraint firstItem="ROG-L6-Gnz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="QE6-0G-jg2"/>
+                            <constraint firstItem="ROG-L6-Gnz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="VvE-2x-OVX"/>
+                            <constraint firstItem="10P-Ts-tf1" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="XJb-dB-G2B"/>
+                            <constraint firstItem="10P-Ts-tf1" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="nnF-aK-SU8"/>
+                            <constraint firstItem="10P-Ts-tf1" firstAttribute="top" secondItem="ROG-L6-Gnz" secondAttribute="bottom" constant="10" id="xcM-4P-xXO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="spinner" destination="zqe-yf-N0g" id="yYr-CA-byZ"/>
-                        <segue destination="sHk-uN-zyV" kind="show" identifier="toNetworks" id="tE2-sL-8pg"/>
+                        <outlet property="previewView" destination="ROG-L6-Gnz" id="AnF-TH-j7l"/>
+                        <segue destination="po2-Vp-2Jh" kind="show" identifier="toInspiration" id="d5W-no-M5f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-222" y="39"/>
         </scene>
-        <!--Networks-->
-        <scene sceneID="OyC-VO-lm4">
+        <!--Inspiration-->
+        <scene sceneID="acv-zF-Ot2">
             <objects>
-                <viewControllerPlaceholder storyboardName="Networks" id="sHk-uN-zyV" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="U5M-i0-oSC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewControllerPlaceholder storyboardName="Inspiration" id="po2-Vp-2Jh" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A59-1I-ld1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="337" y="39"/>
+            <point key="canvasLocation" x="711" y="108"/>
         </scene>
     </scenes>
 </document>
