@@ -20,13 +20,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Qu-tm-P6V">
-                                <rect key="frame" x="207" y="78" width="207" height="906"/>
+                                <rect key="frame" x="207" y="0.0" width="207" height="906"/>
                                 <connections>
                                     <segue destination="nJ5-91-k8V" kind="embed" identifier="right" id="Hj6-r3-HvX"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DZe-CZ-X2v">
-                                <rect key="frame" x="0.0" y="78" width="207" height="906"/>
+                                <rect key="frame" x="0.0" y="0.0" width="207" height="906"/>
                                 <connections>
                                     <segue destination="nJ5-91-k8V" kind="embed" identifier="left" id="zd6-b2-lrZ"/>
                                 </connections>
@@ -63,17 +63,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="TjR-gM-EPB">
-                                <rect key="frame" x="63.5" y="297" width="80" height="312"/>
+                                <rect key="frame" x="63.5" y="308" width="80" height="290"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Tw-Vl-qho">
-                                        <rect key="frame" x="20" y="0.0" width="40" height="80"/>
+                                        <rect key="frame" x="24" y="0.0" width="32" height="64"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" button="YES" playsSound="YES"/>
                                         </accessibility>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="80" id="Dmq-sw-28l"/>
-                                            <constraint firstAttribute="width" constant="40" id="NUs-bR-r4u"/>
+                                            <constraint firstAttribute="height" constant="64" id="Dmq-sw-28l"/>
+                                            <constraint firstAttribute="width" constant="32" id="NUs-bR-r4u"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="42"/>
                                         <state key="normal" title="P"/>
@@ -82,25 +82,25 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YhY-3C-Qix">
-                                        <rect key="frame" x="20" y="88" width="40" height="80"/>
+                                        <rect key="frame" x="24" y="96" width="32" height="32"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" button="YES" playsSound="YES"/>
                                         </accessibility>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="80" id="KgY-tS-ie2"/>
-                                            <constraint firstAttribute="width" constant="40" id="qcm-mB-Ls7"/>
+                                            <constraint firstAttribute="height" constant="32" id="KgY-tS-ie2"/>
+                                            <constraint firstAttribute="width" constant="32" id="qcm-mB-Ls7"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="42"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="34"/>
                                         <state key="normal" title="X">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>
-                                            <action selector="decreaseSelected:" destination="nJ5-91-k8V" eventType="touchUpInside" id="0FD-On-ZvY"/>
+                                            <action selector="resetPenalty:" destination="nJ5-91-k8V" eventType="touchUpInside" id="0FD-On-ZvY"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OYn-eK-6Dv">
-                                        <rect key="frame" x="0.0" y="199" width="80" height="2"/>
+                                        <rect key="frame" x="0.0" y="159" width="80" height="2"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="2" id="NWk-DQ-akd"/>
@@ -117,14 +117,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kSQ-7r-Xi7">
-                                        <rect key="frame" x="20" y="232" width="40" height="80"/>
+                                        <rect key="frame" x="8" y="192" width="64" height="98"/>
                                         <color key="backgroundColor" red="1" green="0.65015366500000005" blue="0.2203573465" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" button="YES" playsSound="YES"/>
                                         </accessibility>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="ZPw-3l-fWY"/>
-                                            <constraint firstAttribute="height" constant="80" id="uCp-cm-nuE"/>
+                                            <constraint firstAttribute="width" constant="64" id="ZPw-3l-fWY"/>
+                                            <constraint firstAttribute="height" constant="98" id="uCp-cm-nuE"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="42"/>
                                         <state key="normal" title="P">
@@ -140,6 +140,7 @@
                                     <constraint firstItem="kSQ-7r-Xi7" firstAttribute="top" secondItem="OYn-eK-6Dv" secondAttribute="bottom" constant="31" id="d9V-Hc-OS1"/>
                                     <constraint firstItem="OYn-eK-6Dv" firstAttribute="top" secondItem="YhY-3C-Qix" secondAttribute="bottom" constant="31" id="dK7-yD-hoA"/>
                                     <constraint firstItem="kSQ-7r-Xi7" firstAttribute="top" secondItem="YhY-3C-Qix" secondAttribute="bottom" constant="64" id="kP5-hG-fDy"/>
+                                    <constraint firstItem="YhY-3C-Qix" firstAttribute="top" secondItem="7Tw-Vl-qho" secondAttribute="bottom" constant="32" id="y7Y-KZ-weK"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -148,11 +149,12 @@
                             <constraint firstItem="TjR-gM-EPB" firstAttribute="centerX" secondItem="vJz-33-vqW" secondAttribute="centerX" id="6Cj-to-mWY"/>
                             <constraint firstItem="TjR-gM-EPB" firstAttribute="centerY" secondItem="vJz-33-vqW" secondAttribute="centerY" id="RBX-t4-FoY"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="zvZ-X6-RWH"/>
                     </view>
                     <connections>
                         <outlet property="blackCard" destination="7Tw-Vl-qho" id="92n-Eg-OHf"/>
-                        <outlet property="decreaseCard" destination="YhY-3C-Qix" id="IIK-fk-JQS"/>
                         <outlet property="increaseCard" destination="kSQ-7r-Xi7" id="DzW-Eu-ylZ"/>
+                        <outlet property="resetPenaltyCard" destination="YhY-3C-Qix" id="IIK-fk-JQS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9xa-SY-VGK" userLabel="First Responder" sceneMemberID="firstResponder"/>

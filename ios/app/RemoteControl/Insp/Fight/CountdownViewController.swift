@@ -7,23 +7,23 @@
 //
 
 import UIKit
+import networking
 
 class CountdownViewController: UIViewController {
 
-    var animated = true;
+    private var animated = true;
     
-    @IBAction func tap(_ sender: UITapGestureRecognizer) {
-        dismiss(animated: self.animated, completion: nil)
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated);
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         self.animated = animated;
+        self.view.isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: Selector(("handleTap:")))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func handleTap(_ sender : UIView?) {
+        NetworkManager.shared.send(message: Outbound.startTimer(state: .suspended))
+        dismiss(animated: self.animated, completion: nil)
     }
     /*
     // MARK: - Navigation

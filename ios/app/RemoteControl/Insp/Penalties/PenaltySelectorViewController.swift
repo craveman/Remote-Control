@@ -7,39 +7,73 @@
 //
 
 import UIKit
+import networking
 
 class PenaltySelectorViewController: UIViewController {
-    var blackIsSet = false;
+    private var maxIncreaseLevel = 0;
     
-    var penaltyCounter = 0
+    private var currentPenaltyCard: StatusCard?
+    private var enabledCardsList: [StatusCard] = [];
     
     var penaltyType: PenaltiesTypes = .basic {
         didSet(type) {
+            updateList()
             updateView()
+            
         }
     }
     
-    @IBOutlet weak var blackCard: UIButton!
+    var personType: PersonType = .none;
     
-    @IBOutlet weak var decreaseCard: UIButton!
-    
-    @IBOutlet weak var increaseCard: UIButton!
-    
-    @IBAction func blackSelected(_ sender: UIButton) {
-        blackIsSet = !blackIsSet
-        updateView()
+    @IBOutlet weak var blackCard: UIButton! {
+        didSet {
+            self.blackCard?.layer.cornerRadius = UIGlobals.cardCornerRadius
+        }
     }
     
-    @IBAction func decreaseSelected(_ sender: UIButton) {
-        print("decrease")
-        penaltyCounter -= 1
-        updateView()
+    @IBOutlet weak var resetPenaltyCard: UIButton! {
+        didSet {
+            self.resetPenaltyCard?.layer.cornerRadius = UIGlobals.cardCornerRadius
+            self.resetPenaltyCard?.layer.borderColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            self.resetPenaltyCard?.layer.borderWidth = CGFloat(1)
+        }
+    }
+    
+    @IBOutlet weak var increaseCard: UIButton! {
+        didSet {
+            self.increaseCard?.layer.cornerRadius = UIGlobals.cardCornerRadius
+        }
+    }
+    
+    @IBAction func blackSelected(_ sender: UIButton) {
+        if currentPenaltyCard == enabledCardsList.last {
+            return
+        }
+        currentPenaltyCard = enabledCardsList.last
+        print("black penalty")
+        remoteAction(currentPenaltyCard!)
+        UITools.disableButtonForTime(sender)
+    }
+    
+    @IBAction func resetPenalty(_ sender: UIButton) {
+        print("reset")
+        currentPenaltyCard = enabledCardsList.first
+        remoteAction(currentPenaltyCard!)
+        UITools.disableButtonForTime(sender)
     }
     
     @IBAction func increaseSelected(_ sender: UIButton) {
-        penaltyCounter += 1
-        print("increase")
-        updateView()
+        
+        if currentPenaltyCard == nil || isBlackActive() {
+            return
+        }
+        print("penalty \(sender.isEnabled)")
+        let penaltyIndex = enabledCardsList.firstIndex(of: currentPenaltyCard!) ?? -1
+        if penaltyIndex < maxIncreaseLevel - 1 {
+            currentPenaltyCard = enabledCardsList[penaltyIndex + 1]
+        }
+        remoteAction(currentPenaltyCard!)
+        UITools.disableButtonForTime(sender)
     }
     
     
@@ -50,25 +84,56 @@ class PenaltySelectorViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    func updateView() {
-        increaseCard.backgroundColor = penaltyCounter == 0 ? #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 1) : #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1);
-        increaseCard.isEnabled = !blackIsSet
+    private func updateList() -> Void {
+        switch penaltyType {
+        case .basic:
+            enabledCardsList = [.none, .yellow, .red, .black]
+        case .passive:
+            enabledCardsList = [.passiveNone, .passiveYellow, .passiveRed, .passiveBlack]
+        }
+        currentPenaltyCard = enabledCardsList.first
+        maxIncreaseLevel = enabledCardsList.count - 1
         
+    }
+    
+    private func updateView() {
+        if currentPenaltyCard != nil {
+            let penaltyIndex = enabledCardsList.firstIndex(of: currentPenaltyCard!) ?? -1
+            blackCard?.backgroundColor = isBlackActive() ? #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1) : #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            increaseCard?.backgroundColor = isBlackActive() ? #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1) : penaltyIndex == 0 ? #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 1) : #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1);
+            increaseCard?.isEnabled = !isBlackActive() && penaltyIndex <= maxIncreaseLevel
+            
+        }
         
-        decreaseCard.isEnabled = !blackIsSet && penaltyCounter > 0
+        setCardsTitles()
+    }
+    
+    private func setCardsTitles() {
         
-        blackCard.isSelected = blackIsSet
-        blackCard.backgroundColor = blackIsSet ? #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1) : #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        let markedCards = [increaseCard, blackCard]
+        var title = "-", hidden = true;
         
         switch penaltyType {
-        case .p:
-            increaseCard.setTitle("P", for: .normal)
-            blackCard.setTitle("P", for: .normal)
-            break
-        default:
-            increaseCard.setTitle("", for: .normal)
-            blackCard.setTitle("", for: .normal)
+        case .passive: title = "P"; hidden = false
+        case .basic: title = ""; hidden = false
         }
+        markedCards.forEach { btn in
+            if btn != nil {
+                btn!.setTitle(title, for: .normal)
+                btn!.isHidden = hidden
+            }
+            
+        }
+    }
+    
+    private func remoteAction(_ card: StatusCard) {
+        print("send: \(currentPenaltyCard!) \(personType)")
+        let _ = Outbound.setCard(person: personType, status: card)
+        updateView()
+    }
+    
+    private func isBlackActive() -> Bool {
+        return currentPenaltyCard == enabledCardsList.last
     }
 
     /*

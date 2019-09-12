@@ -68,8 +68,14 @@ class OptionsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: protoCellName, for: indexPath)
-        let (name, _) = optionsList[indexPath.row]
+        let (name, id) = optionsList[indexPath.row]
         cell.textLabel?.text = name
+        switch id {
+        case .disconnect:
+        cell.textLabel?.textColor = self.view.tintColor
+        default:
+            break
+        }
         // Configure the cell...
 
         return cell
@@ -89,8 +95,7 @@ class OptionsViewController: UITableViewController {
     }
     
     private func goToRoot() {
-        let rootSegue = "toRoot";
-        performSegue(withIdentifier: rootSegue, sender: self)
+        performSegue(withIdentifier: "toRoot", sender: self)
     }
     
 

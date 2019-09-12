@@ -47,6 +47,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="zTa-Dk-4wp" kind="show" identifier="toRoot" trigger="accessoryAction" id="m4z-bF-QAf"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <sections/>
@@ -60,6 +63,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N2m-4G-IQg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-212" y="99"/>
+        </scene>
+        <!--QRConnect-->
+        <scene sceneID="cSH-AW-t0W">
+            <objects>
+                <viewControllerPlaceholder storyboardName="QRConnect" id="zTa-Dk-4wp" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2CW-zb-uz2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="429" y="217"/>
         </scene>
     </scenes>
 </document>
