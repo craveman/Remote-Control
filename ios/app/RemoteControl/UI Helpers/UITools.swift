@@ -27,7 +27,7 @@ class Utils {
 
 class UITools {
     
-    static func disableButtonForTime(_ sender: UIButton, _ delay: Int = 2000) {
+    static func disableButtonForTime(_ sender: UIButton, _ delay: Int = 1000) {
         let savedEnabledState = sender.isEnabled,
         savedHighlightState = sender.isHighlighted,
         savedBorderState = (sender.layer.borderColor, sender.layer.borderWidth)

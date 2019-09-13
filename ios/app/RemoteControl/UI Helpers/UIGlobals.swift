@@ -9,9 +9,10 @@ import Foundation
 import UIKit
 
 class UIGlobals {
-    static let buttonCornerRadius = CGFloat(5);
-    static let cardCornerRadius = CGFloat(10);
-    static let activeCardBorder = (CGColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)),  CGFloat(2));
+    static let buttonCornerRadius = CGFloat(5)
+    static let cardCornerRadius = CGFloat(10)
+    static let activeCardBorder = (color: CGColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)),  width: CGFloat(2))
+    static let activeButtonBorder = (color: CGColor(#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)),  width: CGFloat(4))
 }
 
 class UIState: NSObject {
