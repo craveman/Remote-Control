@@ -36,6 +36,8 @@
 		850AAEE1232855C000DBFD93 /* SettingsStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 850AAEE0232855C000DBFD93 /* SettingsStoryboard.storyboard */; };
 		850AAEE3232855F600DBFD93 /* WeaponSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAEE2232855F600DBFD93 /* WeaponSelectViewController.swift */; };
 		850AAEE52328653200DBFD93 /* PrioritySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAEE42328653200DBFD93 /* PrioritySelectViewController.swift */; };
+		850AAEEB232AFC2900DBFD93 /* TimersStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 850AAEEA232AFC2900DBFD93 /* TimersStoryboard.storyboard */; };
+		850AAEEF232AFCDE00DBFD93 /* FightTimePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAEEE232AFCDD00DBFD93 /* FightTimePickerViewController.swift */; };
 		8546BB3A231EC04900F7C86F /* FightStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */; };
 		8558AA2F231EE8F5006C8BA3 /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */; };
 		8558AA33232017F5006C8BA3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558AA32232017F5006C8BA3 /* SettingsViewController.swift */; };
@@ -141,6 +143,8 @@
 		850AAEE0232855C000DBFD93 /* SettingsStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingsStoryboard.storyboard; sourceTree = "<group>"; };
 		850AAEE2232855F600DBFD93 /* WeaponSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponSelectViewController.swift; sourceTree = "<group>"; };
 		850AAEE42328653200DBFD93 /* PrioritySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrioritySelectViewController.swift; sourceTree = "<group>"; };
+		850AAEEA232AFC2900DBFD93 /* TimersStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TimersStoryboard.storyboard; sourceTree = "<group>"; };
+		850AAEEE232AFCDD00DBFD93 /* FightTimePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightTimePickerViewController.swift; sourceTree = "<group>"; };
 		8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FightStoryboard.storyboard; sourceTree = "<group>"; };
 		8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownViewController.swift; sourceTree = "<group>"; };
 		8558AA32232017F5006C8BA3 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -246,6 +250,25 @@
 			path = "UI Helpers";
 			sourceTree = "<group>";
 		};
+		850AAEEC232AFC3A00DBFD93 /* Timers */ = {
+			isa = PBXGroup;
+			children = (
+				850AAEEA232AFC2900DBFD93 /* TimersStoryboard.storyboard */,
+				8583E89C231E21280006BC43 /* TimersTableViewController.swift */,
+				850AAEEE232AFCDD00DBFD93 /* FightTimePickerViewController.swift */,
+			);
+			path = Timers;
+			sourceTree = "<group>";
+		};
+		850AAEED232AFC4200DBFD93 /* Points */ = {
+			isa = PBXGroup;
+			children = (
+				850AAE622322E60800DBFD93 /* PointsStepperViewController.swift */,
+				8583E89A231E21110006BC43 /* PointsViewController.swift */,
+			);
+			path = Points;
+			sourceTree = "<group>";
+		};
 		8583E8A4231EA1170006BC43 /* Replays */ = {
 			isa = PBXGroup;
 			children = (
@@ -272,12 +295,11 @@
 		85A9934523109C7D003FC5BE /* Fight */ = {
 			isa = PBXGroup;
 			children = (
+				850AAEED232AFC4200DBFD93 /* Points */,
+				850AAEEC232AFC3A00DBFD93 /* Timers */,
 				85A9934923109CB7003FC5BE /* FightViewController.swift */,
-				8583E89A231E21110006BC43 /* PointsViewController.swift */,
-				8583E89C231E21280006BC43 /* TimersTableViewController.swift */,
-				8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */,
 				8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */,
-				850AAE622322E60800DBFD93 /* PointsStepperViewController.swift */,
+				8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */,
 			);
 			path = Fight;
 			sourceTree = "<group>";
@@ -526,6 +548,7 @@
 				B9C8BEE52305A2C7004DBBF8 /* Assets.xcassets in Resources */,
 				8558AA352320198A006C8BA3 /* PenaltiesStoryboard.storyboard in Resources */,
 				850AAE7023270F0E00DBFD93 /* Intro.storyboard in Resources */,
+				850AAEEB232AFC2900DBFD93 /* TimersStoryboard.storyboard in Resources */,
 				8546BB3A231EC04900F7C86F /* FightStoryboard.storyboard in Resources */,
 				850AAE7E2327194800DBFD93 /* Info.plist in Resources */,
 				B9C8BEE32305A2C6004DBBF8 /* QRConnect.storyboard in Resources */,
@@ -602,6 +625,7 @@
 				850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */,
 				85A9934A23109CB7003FC5BE /* FightViewController.swift in Sources */,
 				8F66233D23264B7B0028A34D /* QRCodeReaderResult.swift in Sources */,
+				850AAEEF232AFCDE00DBFD93 /* FightTimePickerViewController.swift in Sources */,
 				8F66234523264BD50028A34D /* QRCodeReaderViewControllerBuilder.swift in Sources */,
 				85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */,
 				85A9936723113C15003FC5BE /* OptionsViewController.swift in Sources */,

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Fight Time Picker View Controller-->
+        <scene sceneID="vOn-mo-4eJ">
+            <objects>
+                <viewController storyboardIdentifier="Picker" id="WGF-am-nrA" customClass="FightTimePickerViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" opaque="NO" contentMode="scaleToFill" id="45t-Zs-cjR">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XRz-t3-agy">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="Fight Timer" id="X2Q-Be-Sqx">
+                                        <barButtonItem key="leftBarButtonItem" style="plain" systemItem="cancel" id="7oD-Up-xfA">
+                                            <connections>
+                                                <action selector="cancel:" destination="WGF-am-nrA" id="PdZ-EX-rHS"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="save" id="8uI-Op-Zpb">
+                                            <connections>
+                                                <action selector="save:" destination="WGF-am-nrA" id="TIa-aY-Yr2"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MED-0T-n05">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                            </pickerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="XRz-t3-agy" firstAttribute="leading" secondItem="45t-Zs-cjR" secondAttribute="leading" id="6pm-Ql-ioK"/>
+                            <constraint firstItem="XRz-t3-agy" firstAttribute="top" secondItem="X0P-jq-LHk" secondAttribute="top" id="A9f-9h-rvs"/>
+                            <constraint firstItem="MED-0T-n05" firstAttribute="bottom" secondItem="X0P-jq-LHk" secondAttribute="bottom" id="DAM-yO-Psc"/>
+                            <constraint firstItem="XRz-t3-agy" firstAttribute="trailing" secondItem="MED-0T-n05" secondAttribute="trailing" id="QH9-F6-Ayz"/>
+                            <constraint firstItem="MED-0T-n05" firstAttribute="top" secondItem="XRz-t3-agy" secondAttribute="bottom" id="VUR-Ov-ItE"/>
+                            <constraint firstAttribute="trailing" secondItem="XRz-t3-agy" secondAttribute="trailing" id="enP-f0-UY6"/>
+                            <constraint firstItem="XRz-t3-agy" firstAttribute="leading" secondItem="MED-0T-n05" secondAttribute="leading" id="wgv-SL-sG5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="X0P-jq-LHk"/>
+                    </view>
+                    <connections>
+                        <outlet property="navBar" destination="XRz-t3-agy" id="34n-xL-336"/>
+                        <outlet property="time" destination="MED-0T-n05" id="D59-2a-01T"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zWw-6X-v6A" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1194.2028985507247" y="3.3482142857142856"/>
+        </scene>
+    </scenes>
+</document>

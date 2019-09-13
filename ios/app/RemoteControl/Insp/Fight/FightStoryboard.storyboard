@@ -47,12 +47,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eVo-h2-e5t">
-                                <rect key="frame" x="90" y="356" width="140" height="55"/>
+                                <rect key="frame" x="100" y="356" width="120" height="60"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="55" id="aAY-KT-Q2I"/>
+                                    <constraint firstAttribute="height" constant="60" id="Ie2-2U-SzT"/>
+                                    <constraint firstAttribute="width" constant="120" id="P7G-F1-FDi"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <inset key="contentEdgeInsets" minX="33" minY="8" maxX="33" maxY="8"/>
                                 <state key="normal" title="Start">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -93,11 +94,12 @@
                                             <constraint firstAttribute="height" constant="120" id="2b3-3f-1Jn"/>
                                             <constraint firstItem="Egc-Nj-0cf" firstAttribute="leading" secondItem="xTG-Z5-eCQ" secondAttribute="leading" id="35P-ZY-fpf"/>
                                             <constraint firstItem="D6V-cj-gIg" firstAttribute="top" secondItem="xTG-Z5-eCQ" secondAttribute="top" id="5z0-eD-I1V"/>
+                                            <constraint firstItem="Egc-Nj-0cf" firstAttribute="height" secondItem="xTG-Z5-eCQ" secondAttribute="height" id="IaA-gG-oz9"/>
                                             <constraint firstAttribute="bottom" secondItem="Egc-Nj-0cf" secondAttribute="bottom" id="Otb-gg-GYO"/>
                                             <constraint firstAttribute="trailing" secondItem="D6V-cj-gIg" secondAttribute="trailing" id="P6V-9W-TQ3"/>
                                             <constraint firstAttribute="bottom" secondItem="D6V-cj-gIg" secondAttribute="bottom" id="gGC-0y-eu9"/>
                                             <constraint firstItem="Egc-Nj-0cf" firstAttribute="top" secondItem="xTG-Z5-eCQ" secondAttribute="top" id="qDo-w9-o0E"/>
-                                            <constraint firstItem="D6V-cj-gIg" firstAttribute="top" secondItem="Egc-Nj-0cf" secondAttribute="top" id="z1N-05-X5A"/>
+                                            <constraint firstItem="D6V-cj-gIg" firstAttribute="height" secondItem="xTG-Z5-eCQ" secondAttribute="height" id="tSg-On-5Tn"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
@@ -111,12 +113,26 @@
                                     <constraint firstItem="xTG-Z5-eCQ" firstAttribute="top" secondItem="oEb-Nw-ANS" secondAttribute="top" priority="750" constant="32" id="yt0-8j-IOc"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RnH-Zv-gqd">
+                                <rect key="frame" x="52" y="366" width="40" height="40"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="ayA-W8-uPp"/>
+                                    <constraint firstAttribute="width" constant="40" id="bs4-Xv-Ncd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="P">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="eVo-h2-e5t" firstAttribute="leading" secondItem="RnH-Zv-gqd" secondAttribute="trailing" priority="250" constant="8" id="64I-0i-Bl3"/>
                             <constraint firstItem="33o-uh-9Sw" firstAttribute="centerY" secondItem="BQq-PL-KDR" secondAttribute="centerY" id="DTz-qS-lNU"/>
                             <constraint firstItem="oEb-Nw-ANS" firstAttribute="centerX" secondItem="33o-uh-9Sw" secondAttribute="centerX" id="I9O-C5-FNO"/>
                             <constraint firstItem="33o-uh-9Sw" firstAttribute="top" secondItem="oEb-Nw-ANS" secondAttribute="bottom" constant="8" symbolic="YES" id="KUy-qd-i1R"/>
+                            <constraint firstItem="RnH-Zv-gqd" firstAttribute="centerY" secondItem="eVo-h2-e5t" secondAttribute="centerY" id="LET-o6-HbZ"/>
                             <constraint firstItem="eVo-h2-e5t" firstAttribute="centerX" secondItem="BQq-PL-KDR" secondAttribute="centerX" id="QIw-Nx-yvC"/>
                             <constraint firstItem="oEb-Nw-ANS" firstAttribute="top" secondItem="BQq-PL-KDR" secondAttribute="top" id="dbu-8i-fNX"/>
                             <constraint firstItem="eVo-h2-e5t" firstAttribute="top" secondItem="33o-uh-9Sw" secondAttribute="bottom" priority="750" constant="32" id="eeF-tV-F7x"/>
@@ -127,6 +143,7 @@
                     </view>
                     <connections>
                         <outlet property="left" destination="Egc-Nj-0cf" id="KAx-gI-Uvi"/>
+                        <outlet property="passiveToggleButton" destination="RnH-Zv-gqd" id="Nhw-Jn-xnx"/>
                         <outlet property="right" destination="D6V-cj-gIg" id="wW8-rP-4fg"/>
                         <outlet property="startButton" destination="eVo-h2-e5t" id="VrD-1F-rO2"/>
                     </connections>
@@ -186,7 +203,8 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aeB-VU-mNn">
                                         <rect key="frame" x="0.0" y="0.0" width="112" height="52"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                        <fontDescription key="fontDescription" name=".SFNSDisplay" family=".SF NS Display" pointSize="50"/>
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="5"/>
                                         <state key="normal" title="-">
                                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -198,6 +216,7 @@
                                         <rect key="frame" x="0.0" y="68" width="112" height="52"/>
                                         <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                        <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="5"/>
                                         <state key="normal" title="+">
                                             <color key="titleColor" red="0.93725490570000003" green="0.93725490570000003" blue="0.95686274770000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -228,6 +247,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Exb-dr-n2C"/>
+        <segue reference="tXO-Qp-c34"/>
     </inferredMetricsTieBreakers>
 </document>
