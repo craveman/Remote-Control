@@ -29,6 +29,11 @@ class FightViewController: UIViewController {
         let stbrd = UIStoryboard(name: "FightStoryboard", bundle: nil)
 
         var vc = stbrd.instantiateViewController(withIdentifier: "FightTimers") as! TimersTableViewController
+        
+        vc.fightNavigationBack = { [weak self] in
+            self?.viewSelector.selectedSegmentIndex = 0
+            self?.updateView()
+        }
 
         self.addViewControllerAsChildViewController(childViewController: vc)
         print(vc)
