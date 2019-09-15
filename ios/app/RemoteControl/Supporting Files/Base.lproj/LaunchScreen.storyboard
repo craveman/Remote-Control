@@ -21,11 +21,11 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="InspirationApp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y8L-x0-aNO">
                                 <rect key="frame" x="60.5" y="264.5" width="199.5" height="39"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="32"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="y8L-x0-aNO" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="O4r-Iq-t0A"/>
                             <constraint firstItem="y8L-x0-aNO" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="rcb-v2-n5o"/>
