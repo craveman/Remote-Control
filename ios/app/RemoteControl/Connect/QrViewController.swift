@@ -117,7 +117,7 @@ class QrViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Setting", style: .default, handler: { (_) in
           DispatchQueue.main.async {
             if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
-              UIApplication.shared.openURL(settingsURL)
+              UIApplication.shared.open(settingsURL)
             }
           }
         }))
