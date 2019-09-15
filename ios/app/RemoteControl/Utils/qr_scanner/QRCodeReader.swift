@@ -29,12 +29,17 @@ public final class QRCodeReader: NSObject, AVCaptureMetadataOutputObjectsDelegat
         position: .front
       )
     }
-    for device in AVCaptureDevice.devices(for: AVMediaType.video) {
-      if device.position == .front {
-        return device
-      }
-    }
-    return nil
+    
+    return AVCaptureDevice.DiscoverySession(
+      deviceTypes: [
+        .builtInTrueDepthCamera,
+        .builtInDualCamera,
+        .builtInWideAngleCamera,
+        .builtInTelephotoCamera
+      ],
+      mediaType: .video,
+      position: .front
+    ).devices.first
   }()
     
   lazy var defaultDeviceInput: AVCaptureDeviceInput? = {
