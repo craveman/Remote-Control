@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sQ0-z0-FbK">
-    <device id="retina6_1" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,11 +15,11 @@
             <objects>
                 <viewController id="sQ0-z0-FbK" customClass="ConnectionsViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UTB-3o-rUT">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G01-oJ-bgF">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <connections>
                                     <segue destination="BYZ-38-t0r" kind="embed" id="Oyj-WY-ESf"/>
                                 </connections>
@@ -50,18 +50,18 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="QrViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="818"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ROG-L6-Gnz" customClass="QRCodeReaderView" customModule="RemoteControl" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="69" width="414" height="394"/>
+                                <rect key="frame" x="16" y="36" width="288" height="288"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ROG-L6-Gnz" secondAttribute="height" multiplier="1:1" id="I4Q-GF-Bwd"/>
+                                </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Connection message" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10P-Ts-tf1">
-                                <rect key="frame" x="20" y="479" width="374" height="305"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="305" id="2Zt-dV-y3v"/>
-                                </constraints>
+                                <rect key="frame" x="16" y="332" width="288" height="200"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -69,13 +69,13 @@
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="bottomMargin" secondItem="10P-Ts-tf1" secondAttribute="bottom" id="3fg-SV-HMO"/>
-                            <constraint firstItem="10P-Ts-tf1" firstAttribute="top" secondItem="ROG-L6-Gnz" secondAttribute="bottom" constant="16" id="6ur-1i-vAt"/>
-                            <constraint firstAttribute="trailing" secondItem="ROG-L6-Gnz" secondAttribute="trailing" id="S5D-hh-Jke"/>
-                            <constraint firstItem="ROG-L6-Gnz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="25" id="Z2G-ef-t5W"/>
-                            <constraint firstItem="ROG-L6-Gnz" firstAttribute="centerX" secondItem="10P-Ts-tf1" secondAttribute="centerX" id="rff-Nl-bz1"/>
-                            <constraint firstItem="ROG-L6-Gnz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="rgI-fy-L6W"/>
-                            <constraint firstItem="10P-Ts-tf1" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="sKi-oM-DUL"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="10P-Ts-tf1" secondAttribute="bottom" constant="16" id="CbO-aS-HYF"/>
+                            <constraint firstItem="10P-Ts-tf1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Drc-S3-d2W"/>
+                            <constraint firstItem="ROG-L6-Gnz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="ILI-rg-2vX"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ROG-L6-Gnz" secondAttribute="trailing" constant="16" id="KCK-Ol-dWq"/>
+                            <constraint firstItem="10P-Ts-tf1" firstAttribute="top" secondItem="ROG-L6-Gnz" secondAttribute="bottom" constant="8" symbolic="YES" id="Rwo-FJ-9Gi"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="10P-Ts-tf1" secondAttribute="trailing" constant="16" id="S2S-pJ-gBK"/>
+                            <constraint firstItem="ROG-L6-Gnz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="ha4-jd-dUn"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -86,7 +86,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1900" y="376"/>
+            <point key="canvasLocation" x="-1901.25" y="375"/>
         </scene>
         <!--Inspiration-->
         <scene sceneID="acv-zF-Ot2">
