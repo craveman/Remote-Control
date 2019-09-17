@@ -14,7 +14,7 @@ class ConnectionsViewController: UIViewController {
     
     override func viewDidLoad() {
         //todo beware the user to allow access and/or handle no-access
-        if isSimulationEnv(){
+        if isSimulationEnv() {
             skipQR()
         }
         super.viewDidLoad()
