@@ -27,9 +27,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="G01-oJ-bgF" firstAttribute="leading" secondItem="UTB-3o-rUT" secondAttribute="leading" id="VfJ-iZ-h5h"/>
+                            <constraint firstItem="G01-oJ-bgF" firstAttribute="leading" secondItem="2IZ-CK-Xpj" secondAttribute="leading" id="VfJ-iZ-h5h"/>
                             <constraint firstItem="G01-oJ-bgF" firstAttribute="top" secondItem="2IZ-CK-Xpj" secondAttribute="top" id="syB-eu-Awy"/>
-                            <constraint firstAttribute="trailing" secondItem="G01-oJ-bgF" secondAttribute="trailing" id="wqV-RA-LtS"/>
+                            <constraint firstItem="2IZ-CK-Xpj" firstAttribute="trailing" secondItem="G01-oJ-bgF" secondAttribute="trailing" id="wqV-RA-LtS"/>
                             <constraint firstItem="G01-oJ-bgF" firstAttribute="bottom" secondItem="2IZ-CK-Xpj" secondAttribute="bottom" id="zz0-lW-wL0"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2IZ-CK-Xpj"/>
@@ -37,7 +37,6 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="qrReaderSubViewWrapper" destination="G01-oJ-bgF" id="Mz8-CW-Aip"/>
-                        <outlet property="view" destination="G01-oJ-bgF" id="bAw-40-WCK"/>
                         <segue destination="po2-Vp-2Jh" kind="show" identifier="skipQR" id="TA0-Lc-3MV"/>
                     </connections>
                 </viewController>
