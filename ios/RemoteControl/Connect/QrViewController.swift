@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import QRCodeReader
 import struct Sm02Client.RemoteServer
 
 
