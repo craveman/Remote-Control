@@ -5,19 +5,19 @@ import PackageDescription
 
 let package = Package(
   name: "Sm02Client",
-  
+
   products: [
     .library(
       name: "Sm02Client",
       targets: ["Sm02Client"]
     ),
   ],
-  
+
   dependencies: [
     .package(url: "https://github.com/apple/swift-nio.git", .exact("2.8.0")),
     .package(url: "https://github.com/apple/swift-nio-extras.git", .exact("1.2.0")),
   ],
-  
+
   targets: [
     .target(
       name: "Sm02Client",

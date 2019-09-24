@@ -76,13 +76,9 @@
 		850AAE7323270FC400DBFD93 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		850AAE7F2327194800DBFD93 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
 		850AAE812327194D00DBFD93 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = ru; path = ru.lproj/Info.plist; sourceTree = "<group>"; };
-		850AAE8223271B9200DBFD93 /* logging.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = logging.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		850AAE8423271B9500DBFD93 /* networking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = networking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		850AAEA923271F2A00DBFD93 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		850AAEAB23271FDE00DBFD93 /* CNIODarwin.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CNIODarwin.framework; path = "../../../../Library/Developer/Xcode/DerivedData/workspace-ggxzmdnwwomtqbeikrrxmfaogzqm/Build/Products/Debug-iphoneos/CNIODarwin.framework"; sourceTree = "<group>"; };
 		850AAEAC23271FDE00DBFD93 /* NIOExtras.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NIOExtras.framework; path = "../../../../Library/Developer/Xcode/DerivedData/workspace-ggxzmdnwwomtqbeikrrxmfaogzqm/Build/Products/Debug-iphoneos/NIOExtras.framework"; sourceTree = "<group>"; };
-		850AAEAD23271FDE00DBFD93 /* sm02.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sm02.framework; path = "../../../../Library/Developer/Xcode/DerivedData/workspace-ggxzmdnwwomtqbeikrrxmfaogzqm/Build/Products/Debug-iphoneos/sm02.framework"; sourceTree = "<group>"; };
-		850AAEAE23271FDE00DBFD93 /* utils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = utils.framework; path = "../../../../Library/Developer/Xcode/DerivedData/workspace-ggxzmdnwwomtqbeikrrxmfaogzqm/Build/Products/Debug-iphoneos/utils.framework"; sourceTree = "<group>"; };
 		850AAEAF23271FDE00DBFD93 /* CNIOSHA1.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CNIOSHA1.framework; path = "../../../../Library/Developer/Xcode/DerivedData/workspace-ggxzmdnwwomtqbeikrrxmfaogzqm/Build/Products/Debug-iphoneos/CNIOSHA1.framework"; sourceTree = "<group>"; };
 		850AAEB023271FDE00DBFD93 /* NIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NIO.framework; path = "../../../../Library/Developer/Xcode/DerivedData/workspace-ggxzmdnwwomtqbeikrrxmfaogzqm/Build/Products/Debug-iphoneos/NIO.framework"; sourceTree = "<group>"; };
 		850AAEB123271FDE00DBFD93 /* NIOTestUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NIOTestUtils.framework; path = "../../../../Library/Developer/Xcode/DerivedData/workspace-ggxzmdnwwomtqbeikrrxmfaogzqm/Build/Products/Debug-iphoneos/NIOTestUtils.framework"; sourceTree = "<group>"; };
@@ -275,17 +271,13 @@
 			children = (
 				850AAEB223271FDE00DBFD93 /* CNIOAtomics.framework */,
 				850AAEB123271FDE00DBFD93 /* NIOTestUtils.framework */,
-				850AAEAD23271FDE00DBFD93 /* sm02.framework */,
 				850AAEB023271FDE00DBFD93 /* NIO.framework */,
 				850AAEAB23271FDE00DBFD93 /* CNIODarwin.framework */,
 				850AAEAC23271FDE00DBFD93 /* NIOExtras.framework */,
 				850AAEB323271FDF00DBFD93 /* CNIOLinux.framework */,
-				850AAEAE23271FDE00DBFD93 /* utils.framework */,
 				850AAEAF23271FDE00DBFD93 /* CNIOSHA1.framework */,
 				850AAEB423271FDF00DBFD93 /* NIOConcurrencyHelpers.framework */,
 				850AAEA923271F2A00DBFD93 /* AVFoundation.framework */,
-				850AAE8223271B9200DBFD93 /* logging.framework */,
-				850AAE8423271B9500DBFD93 /* networking.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

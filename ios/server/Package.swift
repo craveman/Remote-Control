@@ -6,12 +6,20 @@ import PackageDescription
 let package = Package(
   name: "sm02",
 
-  dependencies: [],
+  dependencies: [
+    .package(url: "https://github.com/apple/swift-nio.git", .exact("2.8.0")),
+    .package(url: "https://github.com/apple/swift-nio-extras.git", .exact("1.2.0")),
+    .package(path: "../client/Sm02Client"),
+  ],
 
   targets: [
     .target(
       name: "sm02",
-      dependencies: []
+      dependencies: [
+        "NIO",
+        "NIOExtras",
+        "Sm02Client",
+      ]
     ),
     .testTarget(
       name: "sm02Tests",
