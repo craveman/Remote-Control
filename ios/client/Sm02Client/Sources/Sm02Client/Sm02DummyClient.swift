@@ -1,7 +1,7 @@
 
 class Sm02DummyClient: Sm02Client {
   
-  var connected = false
+  var isConnected = false
   
   func connect (to remote: RemoteServer) {
     

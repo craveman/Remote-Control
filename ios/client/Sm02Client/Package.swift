@@ -4,25 +4,31 @@
 import PackageDescription
 
 let package = Package(
-    name: "Sm02Client",
-    products: [
-        // Products define the executables and libraries produced by a package, and make them visible to other packages.
-        .library(
-            name: "Sm02Client",
-            targets: ["Sm02Client"]),
-    ],
-    dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
-    ],
-    targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages which this package depends on.
-        .target(
-            name: "Sm02Client",
-            dependencies: []),
-        .testTarget(
-            name: "Sm02ClientTests",
-            dependencies: ["Sm02Client"]),
-    ]
+  name: "Sm02Client",
+  
+  products: [
+    .library(
+      name: "Sm02Client",
+      targets: ["Sm02Client"]
+    ),
+  ],
+  
+  dependencies: [
+    .package(url: "https://github.com/apple/swift-nio.git", .exact("2.8.0")),
+    .package(url: "https://github.com/apple/swift-nio-extras.git", .exact("1.2.0")),
+  ],
+  
+  targets: [
+    .target(
+      name: "Sm02Client",
+      dependencies: [
+        "NIO",
+        "NIOExtras",
+      ]
+    ),
+    .testTarget(
+      name: "Sm02ClientTests",
+      dependencies: ["Sm02Client"]
+    ),
+  ]
 )

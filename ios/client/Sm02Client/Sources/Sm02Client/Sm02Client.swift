@@ -1,7 +1,7 @@
 
 protocol Sm02Client {
   
-  var connected: Bool { get }
+  var isConnected: Bool { get }
   
   func connect (to remote: RemoteServer)
   

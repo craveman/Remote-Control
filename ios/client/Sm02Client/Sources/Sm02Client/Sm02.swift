@@ -6,18 +6,21 @@ public typealias EventHandler = (_ event: ConnectionEvent) -> Void
 
 public class Sm02 {
   
-  public static var connected: Bool {
-    return client?.connected ?? false
+  typealias Container = Singletons & NetworkServiceFactory
+  
+  public static var isConnected: Bool {
+    return client?.isConnected ?? false
   }
   
-  private static let context = ConnectionContext()
+  static var container: Container = DependencyContainer()
+  
   private static var client: Sm02Client? = Sm02DummyClient()
 
   public static func connect (to remote: RemoteServer) {
     if let client = client {
       client.close()
     } else {
-      client = Sm02TcpClient(context: Sm02.context)
+      client = container.makeTcpClient()
     }
     client?.connect(to: remote)
   }
@@ -27,36 +30,14 @@ public class Sm02 {
   }
 
   public static func on (message handler: @escaping InboundHandler) {
-    context.add(handler)
+    container.messagesManager.add(handler: handler)
   }
 
   public static func on (event handler: @escaping EventHandler) {
-    context.add(handler)
+    container.eventsManager.add(handler: handler)
   }
   
   public static func disconnect () {
     client?.close()
-  }
-}
-
-class ConnectionContext {
-  
-  private var messageHandlers = ThreadedArray<InboundHandler>()
-  private var eventHandlers = ThreadedArray<EventHandler>()
-  
-  func add (_ handler: @escaping InboundHandler) {
-    messageHandlers.append(handler)
-  }
-  
-  func getAllMessageHandlers () -> [InboundHandler] {
-    return messageHandlers.unthreaded
-  }
-  
-  func add (_ handler: @escaping EventHandler) {
-    eventHandlers.append(handler)
-  }
-  
-  func getAllEventHandlers () -> [EventHandler] {
-    return eventHandlers.unthreaded
   }
 }
