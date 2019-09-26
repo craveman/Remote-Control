@@ -54,8 +54,8 @@ final class InboundToByteBufferEncoder: ChannelOutboundHandler {
       buffer.writeInteger(0 as UInt8)
     case let .authentication(status):
       buffer.writeInteger(status.rawValue as UInt8)
-    case let .genericResponse(request):
-      buffer.writeInteger(1 as UInt8)
+    case let .genericResponse(status, request):
+      buffer.writeInteger(status as UInt8)
       buffer.writeInteger(request as UInt8)
     }
 

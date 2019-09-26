@@ -21,11 +21,11 @@ let thisServer = RemoteServer(
   ssid: wifi.ssid,
   ip: wifi.ip,
   code: [
-    Int.random(in: 0 ..< 255),
-    Int.random(in: 0 ..< 255),
-    Int.random(in: 0 ..< 255),
-    Int.random(in: 0 ..< 255),
-    Int.random(in: 0 ..< 255)
+    UInt8.random(in: 0 ..< 255),
+    UInt8.random(in: 0 ..< 255),
+    UInt8.random(in: 0 ..< 255),
+    UInt8.random(in: 0 ..< 255),
+    UInt8.random(in: 0 ..< 255)
   ]
 )
 
@@ -59,3 +59,5 @@ print(" INFO: url: \(url)")
 print(" INFO: QR-code was writed to \(outputFile)")
 Shell.exec("open", outputFile)
 print(" INFO: QR-code was opened in preview app...")
+
+try! server.channel?.closeFuture.wait()

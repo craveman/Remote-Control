@@ -280,7 +280,7 @@ final class ByteBufferToOutboundDecoder: ChannelInboundHandler {
       print("ERROR: The 'authenticate' message doesn't have 'device' field")
       return nil
     }
-    guard let code = buffer.readBytes() else {
+    guard let code = buffer.ext_readBytes() else {
       print("ERROR: The 'authenticate' message doesn't have 'code' field")
       return nil
     }
@@ -322,7 +322,7 @@ final class ByteBufferToOutboundDecoder: ChannelInboundHandler {
       return .failure(.decodingOutboundFail("The message has invalid request status. Should be 0, but it is - '\(status)'"))
     }
     guard let outbound = decoder(&buffer) else {
-      return .failure(.decodingOutboundFail("The message has invalid request status. Should be 0, but it is - '\(status)'"))
+      return .failure(.decodingOutboundFail("Decoding request with tag '\(tag)' was failed"))
     }
     return .success(outbound)
   }
@@ -352,7 +352,7 @@ extension ByteBuffer {
 
 extension ByteBuffer {
 
-  mutating func readBytes () -> [UInt8]? {
+  mutating func ext_readBytes () -> [UInt8]? {
     return readUInt8()
         .map(Int.init)
         .flatMap {

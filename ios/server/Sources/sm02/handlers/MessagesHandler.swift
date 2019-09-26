@@ -8,11 +8,11 @@ final class MessagesHandler: ChannelInboundHandler {
   typealias InboundIn = Outbound
   typealias OutboundOut = Inbound
 
-  let messagesProcessor: Atomic<MessagesProcessor?>
-  let eventsProcessor: Atomic<EventsProcessor?>
+  let messagesProcessor: MessagesProcessor
+  let eventsProcessor: EventsProcessor
 
-  init (_ messagesProcessor: Atomic<MessagesProcessor?>,
-        _ eventsProcessor: Atomic<EventsProcessor?>
+  init (_ messagesProcessor: @escaping MessagesProcessor,
+        _ eventsProcessor: @escaping EventsProcessor
   ) {
     self.messagesProcessor = messagesProcessor
     self.eventsProcessor = eventsProcessor
@@ -20,18 +20,17 @@ final class MessagesHandler: ChannelInboundHandler {
 
   public func channelRead (context: ChannelHandlerContext, data: NIOAny) {
     let outbound = unwrapInboundIn(data)
-    guard let processor = messagesProcessor.load() else {
-      let remoteAddress = context.remoteAddress
-          .map { String(describing: $0) }
-          ?? "<none>"
 
-      print("WARN: there is no messages processor for \(remoteAddress) client")
+    let result: Inbound
+    if let response = messagesProcessor(outbound) {
+      result = response
+    } else if case .genericResponse(_, _) = outbound {
       return
+    } else {
+      result = .genericResponse(request: outbound.tag)
     }
-    if let response = processor(outbound) {
-      let out = wrapOutboundOut(response)
-      context.writeAndFlush(out, promise: nil)
-      return
-    }
+
+    let out = wrapOutboundOut(result)
+    context.writeAndFlush(out, promise: nil)
   }
 }
