@@ -121,7 +121,7 @@ public enum Inbound {
   case videoReady(name: String)
   case videoReceived
   case authentication(status: AuthenticationStatus)
-  case genericResponse(request: UInt8)
+  case genericResponse(status: UInt8 = 0x01, request: UInt8)
 }
 
 public enum Outbound {
@@ -151,7 +151,7 @@ public enum Outbound {
   case ethernetApply
   case ethernetFinishAsk
   case authenticate(device: DeviceType, code: [UInt8], name: String, version: UInt8)
-  case genericResponse(request: UInt8)
+  case genericResponse(status: UInt8 = 0x01, request: UInt8)
 }
 
 public protocol Message: Hashable {

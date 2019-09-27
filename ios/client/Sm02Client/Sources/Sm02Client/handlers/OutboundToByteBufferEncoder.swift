@@ -81,10 +81,10 @@ final class OutboundToByteBufferEncoder: ChannelOutboundHandler {
       buffer.writeInteger((next ? 1 : 0) as UInt8)
     case let .authenticate(device, code, name, version):
       buffer.writeInteger(device.rawValue as UInt8)
-      buffer.writeBytes(code)
+      buffer.ext_write(code)
       buffer.ext_write(name)
       buffer.writeInteger(version as UInt8)
-    case let .genericResponse(request):
+    case let .genericResponse(_, request):
       buffer.writeInteger(request as UInt8)
     default:
       return
@@ -94,10 +94,17 @@ final class OutboundToByteBufferEncoder: ChannelOutboundHandler {
 
 extension ByteBuffer {
 
+  mutating func ext_write (_ value: [UInt8]) {
+    writeInteger(UInt8(value.count))
+    writeBytes(value)
+  }
+}
+
+extension ByteBuffer {
+
   mutating func ext_write (_ value: String) {
     let valueBytes: [UInt8] = Array(value.utf8)
-    writeInteger(UInt8(valueBytes.count))
-    writeBytes(valueBytes)
+    ext_write(valueBytes)
   }
 }
 
