@@ -11,6 +11,7 @@
         android:textColor="@color/textColorSecondary"
         android:textSize="22sp"
         android:textAlignment="center"
+        android:id="@+id/restore_title"
         android:layout_gravity="center_horizontal"
         android:text="@string/unfinished_title"/>
 

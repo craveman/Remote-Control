@@ -569,4 +569,9 @@ public class InfoActivity extends LocalAppCompatActivity implements NavigationVi
     public void onConfirmed(int messageId) {
         startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
     }
+
+    @Override
+    public void onConfirmDeclined(int messageId) {
+
+    }
 }

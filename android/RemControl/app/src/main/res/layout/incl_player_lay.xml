@@ -185,6 +185,7 @@
             app:layout_constraintTop_toTopOf="@id/player_seek_top"
             android:id="@+id/seek_sb"
             android:max="100"
+            style="@style/Widget.AppCompat.SeekBar"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"/>
 

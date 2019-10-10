@@ -35,7 +35,11 @@ public class TCPClient {
         new Thread(() -> {
             if (outputStream != null) {
                 try {
-                    outputStream.write(message);
+                    if (message != null) {
+                        if (message.length != 0) {
+                            outputStream.write(message);
+                        }
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -72,7 +76,7 @@ public class TCPClient {
                     byte[] temp = new byte[CommandsContract.HEADER_LENGTH];
                     int read = inputStream.read(temp, 0, CommandsContract.HEADER_LENGTH);
                     if (temp[0] == CommandsContract.PROTOCOL_VERSION ) {
-                        byte[] buffer = new byte[temp[4] - CommandsContract.HEADER_LENGTH];
+                        byte[] buffer = new byte[temp[4]&0xFF - CommandsContract.HEADER_LENGTH];
                         inputStream.read(buffer);
                         if (temp[5] == CommandsContract.PING_TCP_CMD) {
                             sendMessage(CommandHelper.hello(CommonConstants.DEV_TYPE_RC, SettingsManager.getValue(DEVICE_ID_SETTING, "")));

@@ -56,6 +56,8 @@ public class CoreHandler implements TCPHelper.TCPListener {
     private FightValuesHandler fightHandler;
     private BackupHelper backupHelper;
 
+    private SMMainAliveHandler smMainAliveHandler;
+
     public boolean camExists = false;
 
     public CoreHandler(Context context, int mode) {
@@ -77,27 +79,7 @@ public class CoreHandler implements TCPHelper.TCPListener {
 //                    }
 //                }
                 if (msg[0].equals(PING_UDP)) {
-                    if (tcpHelper == null || !tcpHelper.isConnected()) {
-                        if (!TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
-                            try {
-                                if (InetAddress.getByName(SettingsManager.getValue(SM_IP, "")).isReachable(100)) {
-                                    tcpHelper = new TCPHelper(SettingsManager.getValue(SM_IP, ""));
-                                    tcpHelper.setListener(CoreHandler.this);
-                                    tcpHelper.start();
-                                } else {
-                                    SettingsManager.removeValue(SM_CODE);
-                                    SettingsManager.removeValue(SM_IP);
-                                    onDisconnect();
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            SettingsManager.removeValue(SM_CODE);
-                            SettingsManager.removeValue(SM_IP);
-                            onDisconnect();
-                        }
-                    }
+                    tryToConnect();
                 }
             }
 
@@ -106,6 +88,33 @@ public class CoreHandler implements TCPHelper.TCPListener {
 
             }
         });
+        smMainAliveHandler = new SMMainAliveHandler(this);
+    }
+
+    public void tryToConnect() {
+        if (tcpHelper == null || !tcpHelper.isConnected()) {
+            if (!TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
+                    new Thread(() -> {
+                        try {
+                            if (InetAddress.getByName(SettingsManager.getValue(SM_IP, "")).isReachable(100)) {
+                                tcpHelper = new TCPHelper(SettingsManager.getValue(SM_IP, ""));
+                                tcpHelper.setListener(CoreHandler.this);
+                                tcpHelper.start();
+                            } else {
+                                SettingsManager.removeValue(SM_CODE);
+                                SettingsManager.removeValue(SM_IP);
+                                onDisconnect();
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+            } else {
+                SettingsManager.removeValue(SM_CODE);
+                SettingsManager.removeValue(SM_IP);
+                onDisconnect();
+            }
+        }
     }
 
     public void startWiFiNetworking() {
@@ -236,10 +245,12 @@ public class CoreHandler implements TCPHelper.TCPListener {
 
     @Override
     public void onReceive(byte command, byte[] message) {
+        smMainAliveHandler.start();
         if (command == AUTH_RESPONSE) {
             switch (message[0]) {
                 case TCP_OK:
                     ((FightActivity)activity).getViewModel().syncState.set(SYNC_STATE_SYNCED);
+                    connectedDevices.add(new Device(tcpHelper.getServerIp(), DEV_TYPE_SM, SettingsManager.getValue(SM_CODE, "")));
                     break;
                 case CODE_INCORRECT_AUTH:
                 case RC_EXISTS_AUTH:
@@ -261,6 +272,7 @@ public class CoreHandler implements TCPHelper.TCPListener {
 //        Log.wtf("STREAM", "+");
         sendToSM(CommandHelper.auth(SettingsManager.getValue(SM_CODE, ""),
                 SettingsManager.getValue(DEVICE_ID_SETTING, "")));
+        smMainAliveHandler.start();
     }
 
     @Override
@@ -272,6 +284,13 @@ public class CoreHandler implements TCPHelper.TCPListener {
         if (serverCallback != null)
             serverCallback.connectionLost();
         connectedDevices.clear();
+        smMainAliveHandler.finish();
+    }
+
+    public void updateSMAlive(int remain) {
+        if (remain == 0) {
+            onDisconnect();
+        }
     }
 
     public void sendToSM(byte[] message) {

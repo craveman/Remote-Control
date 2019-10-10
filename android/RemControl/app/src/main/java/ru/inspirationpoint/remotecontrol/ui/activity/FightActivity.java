@@ -80,22 +80,22 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
                         }
                     });
         }
-        String languageToLoad  = SettingsManager.getValue(CommonConstants.LANGUAGE_FIELD, "en");
-        Locale locale = new Locale(languageToLoad);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getBaseContext().getResources().updateConfiguration(config,
-                getBaseContext().getResources().getDisplayMetrics());
+//        String languageToLoad  = SettingsManager.getValue(CommonConstants.LANGUAGE_FIELD, "en");
+//        Locale locale = new Locale(languageToLoad);
+//        Locale.setDefault(locale);
+//        Configuration config = new Configuration();
+//        config.locale = locale;
+//        getBaseContext().getResources().updateConfiguration(config,
+//                getBaseContext().getResources().getDisplayMetrics());
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        String lang_code = SettingsManager.getValue(CommonConstants.LANGUAGE_FIELD, "en");
-        Context context = LocaleHelper.changeLang(newBase, lang_code);
-        super.attachBaseContext(context);
-    }
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        String lang_code = SettingsManager.getValue(CommonConstants.LANGUAGE_FIELD, "en");
+//        Context context = LocaleHelper.changeLang(newBase, lang_code);
+//        super.attachBaseContext(context);
+//    }
 
     @SuppressLint("NewApi")
     @Override
@@ -193,9 +193,10 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
 
     @Override
     public void semiExit() {
-        Intent intent = new Intent(FightActivity.this, NewFightActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+//        Intent intent = new Intent(FightActivity.this, NewFightActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
+        getViewModel().exitCyranoMode();
     }
 
     @Override
@@ -273,6 +274,13 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
             getViewModel().fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
             SettingsManager.setValue(UNFINISHED_FIGHT, getViewModel().fightId);
             getViewModel().reset();
+        }
+    }
+
+    @Override
+    public void onConfirmDeclined(int messageId) {
+        if (messageId == 424) {
+            getViewModel().isSM01alive.set(true);
         }
     }
 }

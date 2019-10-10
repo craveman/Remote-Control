@@ -23,15 +23,18 @@ import ru.inspirationpoint.remotecontrol.manager.dataEntities.FullFightInfo;
 public class FightRestoreDialog extends DialogFragment {
 
     private final static String FIGHT_TO_RESTORE = "FTR";
+    private final static String FROM_SEMI = "SEMI";
 
     private FightData info;
     private RestoreListener listener;
+    private boolean isFromSEMI = false;
 
-    public static FightRestoreDialog show(FragmentActivity activity, FightData info) {
+    public static FightRestoreDialog show(FragmentActivity activity, FightData info, boolean isFromSEMI) {
         FragmentManager manager = activity.getSupportFragmentManager();
         FightRestoreDialog dialog = new FightRestoreDialog();
         Bundle params = new Bundle();
         params.putSerializable(FIGHT_TO_RESTORE, info);
+        params.putBoolean(FROM_SEMI, isFromSEMI);
         dialog.setArguments(params);
         dialog.show(manager, "MessageType");
         return dialog;
@@ -52,6 +55,7 @@ public class FightRestoreDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         info = (FightData) getArguments().getSerializable(FIGHT_TO_RESTORE);
+        isFromSEMI = getArguments().getBoolean(FROM_SEMI);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View contentView = inflater.inflate(R.layout.dlg_fight_restore, null);
@@ -61,6 +65,9 @@ public class FightRestoreDialog extends DialogFragment {
         ((TextView) contentView.findViewById(R.id.restore_data_score))
                 .setText(String.format(Locale.getDefault(), "%d - %d", info.getLeftFighter().getScore(),
                         info.getRightFighter().getScore()));
+        if (isFromSEMI) {
+            ((TextView) contentView.findViewById(R.id.restore_title)).setText(R.string.fight_start_ready);
+        }
         Log.wtf("RESTREDLG", info.getmCurrentTime() + "");
         contentView.findViewById(R.id.unfinished_accept).setOnClickListener(v -> {
             listener.onAccept(info);

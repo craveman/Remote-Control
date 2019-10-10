@@ -16,9 +16,10 @@ import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
 import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
 import ru.inspirationpoint.remotecontrol.manager.helpers.Helper;
 import ru.inspirationpoint.remotecontrol.ui.dialog.MessageDialog;
-import ru.inspirationpoint.remotecontrol.ui.dialog.WeaponChooseDialog;
 
-public class RegistrationActivity extends LocalAppCompatActivity implements MessageDialog.Listener, WeaponChooseDialog.Listener {
+public class RegistrationActivity extends LocalAppCompatActivity implements MessageDialog.Listener
+//        , WeaponChooseDialog.Listener
+{
 
     private static final int SUCCESS_MESSAGE_ID = 1;
     private static final int OTHER_MESSAGE_ID = 2;
@@ -48,8 +49,8 @@ public class RegistrationActivity extends LocalAppCompatActivity implements Mess
         mProgressView = findViewById(R.id.login_progress);
         weaponType = findViewById(R.id.weapon_type);
         weaponTitle = findViewById(R.id.weapon_title);
-        weaponTitle.setOnClickListener(view -> WeaponChooseDialog.show(RegistrationActivity.this));
-        weaponType.setOnClickListener(view -> WeaponChooseDialog.show(RegistrationActivity.this));
+//        weaponTitle.setOnClickListener(view -> WeaponChooseDialog.Companion.show(RegistrationActivity.this));
+//        weaponType.setOnClickListener(view -> WeaponChooseDialog.Companion.show(RegistrationActivity.this));
 
         mNameEditText = findViewById(R.id.name_edit);
         mEmailEditText = findViewById(R.id.email_edit);
@@ -155,12 +156,12 @@ public class RegistrationActivity extends LocalAppCompatActivity implements Mess
         }
     }
 
-    @Override
-    public void onWeaponChoosed(String weaponType) {
-        weapon = weaponType;
-        this.weaponType.setText(weaponType);
-        this.weaponTitle.setTextColor(!SettingsManager.getValue(CommonConstants.IS_DARK_THEME, false) ?
-                getResources().getColor(R.color.textColorPrimary) : getResources().getColor(R.color.whiteCard));
-        this.weaponTitle.setText(String.format("%s:", getResources().getString(R.string.weapon_type)));
-    }
+//    @Override
+//    public void onWeaponChoosed(String weaponType) {
+//        weapon = weaponType;
+//        this.weaponType.setText(weaponType);
+//        this.weaponTitle.setTextColor(!SettingsManager.getValue(CommonConstants.IS_DARK_THEME, false) ?
+//                getResources().getColor(R.color.textColorPrimary) : getResources().getColor(R.color.whiteCard));
+//        this.weaponTitle.setText(String.format("%s:", getResources().getString(R.string.weapon_type)));
+//    }
 }

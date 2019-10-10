@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textColor="@color/textColorSecondary"
-        android:textSize="22sp"
+        android:textSize="27sp"
         android:id="@+id/semi_title"
         android:layout_gravity="center_horizontal"
         android:text="@string/semi_1_0"/>
@@ -19,8 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="30dp"
         android:textColor="@color/white"
-        android:text="@string/fight_end_accept"
+        android:id="@+id/tv_title"
         android:layout_marginTop="16dp"
         android:textSize="24sp"
         android:textAlignment="center"
@@ -39,7 +40,7 @@
             android:text="@string/cancel"
             android:textColor="@color/white"
             android:textAlignment="center"
-            android:textSize="23sp"
+            android:textSize="26sp"
             android:id="@+id/fight_end_prev"/>
 
         <TextView
@@ -49,7 +50,7 @@
             android:text="@string/next"
             android:textColor="@color/white"
             android:textAlignment="center"
-            android:textSize="23sp"
+            android:textSize="26sp"
             android:id="@+id/fight_end_next"/>
     </LinearLayout>
 

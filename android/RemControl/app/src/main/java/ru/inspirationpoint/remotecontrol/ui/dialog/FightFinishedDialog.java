@@ -19,8 +19,9 @@ import ru.inspirationpoint.remotecontrol.R;
 public class FightFinishedDialog extends DialogFragment {
 
     private FightFinishedListener listener;
+    private final static String TITLE_PARAM = "title";
 
-    public static void show(FragmentActivity fragmentActivity) {
+    public static void show(FragmentActivity fragmentActivity, String title) {
         FragmentManager manager = fragmentActivity.getSupportFragmentManager();
         FragmentTransaction ft = fragmentActivity.getSupportFragmentManager().beginTransaction();
         Fragment prev = manager.findFragmentByTag("FightFinishedDialog");
@@ -29,6 +30,9 @@ public class FightFinishedDialog extends DialogFragment {
         }
         ft.addToBackStack(null);
         FightFinishedDialog myDialogFragment = new FightFinishedDialog();
+        Bundle params = new Bundle();
+        params.putString(TITLE_PARAM, title);
+        myDialogFragment.setArguments(params);
         myDialogFragment.show(manager, "FightFinishedDialog");
     }
 
@@ -37,22 +41,28 @@ public class FightFinishedDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        String title = "";
+        if (getArguments() != null) {
+            title = getArguments().getString(TITLE_PARAM);
+        }
         View contentView = inflater.inflate(R.layout.dlg_fight_finished, null);
+        ((TextView)contentView.findViewById(R.id.tv_title)).setText(title);
         TextView semiExit = contentView.findViewById(R.id.fight_end_exit_semi);
         semiExit.setOnClickListener(v -> {
             listener.semiExit();
             dismiss();
         });
-        contentView.findViewById(R.id.fight_end_prev).setVisibility(View.GONE);
-//                .setOnClickListener(v -> {
-//            listener.prev();
-//            dismiss();
-//        });
-        contentView.findViewById(R.id.fight_end_next).setVisibility(View.GONE);
-//                .setOnClickListener(v -> {
-//            listener.next();
-//            dismiss();
-//        });
+        contentView.findViewById(R.id.fight_end_prev)
+                .setOnClickListener(v -> {
+            listener.prev();
+            dismiss();
+        });
+        contentView.findViewById(R.id.fight_end_next)
+                .setOnClickListener(v -> {
+            listener.next();
+            dismiss();
+        });
+        builder.setCancelable(false);
         return builder.setView(contentView).show();
     }
 

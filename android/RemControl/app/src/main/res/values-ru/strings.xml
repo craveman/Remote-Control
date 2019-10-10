@@ -139,7 +139,7 @@
     <string name="action_priority">Приоритет</string>
     <string name="action_add_comment">Комментарий</string>
     <string name="action_change_points">Изменить счёт</string>
-    <string name="action_cards">Предупреждения</string>
+    <string name="action_cards">Карточки</string>
     <string name="action_reset">Сброс</string>
     <string name="action_end_fight">Завершить бой</string>
     <string name="action_apply">Применить</string>
@@ -148,7 +148,7 @@
     <string name="cancel">Отмена</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
-    <string name="warning">Предупреждение</string>
+    <string name="warning">Внимание!</string>
     <string name="priority_title">Приоритет</string>
     <string name="card_title">Карточки</string>
     <string name="time_period">Время</string>
@@ -272,11 +272,11 @@
     <string name="fa_sync_explain">Для подключения наведите камеру смартфона на QR код на экране SM-02</string>
     <string name="fa_sync_message">Не соединен с SM-02</string>
     <string name="fa_timers_period_score">Таймеры</string>
-    <string name="fa_warnings_priority">Предупреждения</string>
+    <string name="fa_warnings_priority">Карточки</string>
     <string name="fa_medical_pause">Мед. пауза</string>
-    <string name="fa_warnings">Предупреждения</string>
-    <string name="fa_p_warnings">P-Предупреждения</string>
-    <string name="fa_p_cards">P-Предупреждения</string>
+    <string name="fa_warnings">Карточки</string>
+    <string name="fa_p_warnings">P-Карточки</string>
+    <string name="fa_p_cards">P-Карточки</string>
     <string name="fa_passive_title">Пассив</string>
     <string name="fa_passive_remove">Убрать таймер пассивного боя?</string>
     <string name="fa_passive_display">Отображать таймер пассивного боя?</string>
@@ -302,14 +302,18 @@
     <string name="fa_timer_title">Таймер боя</string>
     <string name="fa_syncing_msg">Синхронизация с SM-02, пожалуйста подождите…</string>
     <string name="next">Следующий</string>
-    <string name="semi_mode">Режим SEMI 1.0</string>
+    <string name="semi_mode">Cyrano 1.0</string>
+    <string name="fight_received">Получен бой от сервера:</string>
     <string name="prev">Пред.</string>
+    <string name="ask_prev">Предыдущий бой</string>
+    <string name="ask_next">Следующий бой</string>
     <string name="fight_waiting">Ждем ответ от сервера информационной системы соревнований</string>
     <string name="fight_start_ready">Все готово. Активировать бой?</string>
     <string name="semi_1_0">SEMI 1.0</string>
     <string name="fight_end_ask">Завершить бой?</string>
     <string name="fight_end_error">Нельзя завершить бой при равном счете</string>
     <string name="fight_end_accept">Бой завершен</string>
+    <string name="fight_no_active">Нет активных боев. Запросите следующий или предыдущий бой с сервера.</string>
     <string name="semi_exit_ask">Выйти из режима SEMI 1.0</string>
     <string name="options">Опции</string>
     <string name="names">Имена</string>
@@ -336,7 +340,7 @@
     <string name="close">Закрыть</string>
     <string name="timer_set">Настройка времени боя</string>
     <string name="passive_timer_set">Настройка таймера пассива</string>
-    <string name="disconnect">Отключить от дорожки</string>
+    <string name="disconnect">Отключить</string>
     <string name="piste">Дорожка</string>
     <string name="phrases">Фразы</string>
 

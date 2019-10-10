@@ -137,6 +137,15 @@
         <include
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            layout="@layout/incl_cyrano_controls"
+            android:id="@+id/cyrano_controls"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_STATE_CYRANO_CONTROLS ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             layout="@layout/incl_def_passive_lay"
             android:id="@+id/def_passive_lay"
             app:viewModel="@{viewModel}"

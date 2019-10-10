@@ -30,7 +30,7 @@ public class StartActivityVM extends ActivityViewModel<StartActivity> {
     public StartActivityVM(StartActivity activity) {
         super(activity);
         CloudRequestManager.login();
-        LocaleHelper.setLocale(getActivity(), "en");
+//        LocaleHelper.setLocale(getActivity(), "en");
         SettingsManager.setValue(CommonConstants.LOCALE_CHANGED_FIELD, true);
         activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -104,7 +104,7 @@ public class StartActivityVM extends ActivityViewModel<StartActivity> {
 
     private void goToMainActivity() {
         finish();
-        LocaleHelper.setLocale(getActivity(), "en");
+//        LocaleHelper.setLocale(getActivity(), "en");
         SettingsManager.setValue(CommonConstants.LOCALE_CHANGED_FIELD, true);
 
 //        if (DataManager.instance().isLoggedIn()) {

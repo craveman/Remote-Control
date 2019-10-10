@@ -309,7 +309,6 @@
             android:background="@color/white"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
-            android:visibility="gone"
             app:layout_constraintTop_toTopOf="@id/menu_fa_divider_6_top" />
 
         <TextView
@@ -330,6 +329,25 @@
             app:layout_constraintBottom_toBottomOf="@id/menu_fa_timer_set_bottom"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/options_passive"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:onClick="@{() -> viewModel.onMenuPassive()}"
+            android:text="@string/passive"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@id/menu_fa_p_time_set_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/menu_fa_p_time_set_top" />
 
         <View
             android:layout_width="match_parent"

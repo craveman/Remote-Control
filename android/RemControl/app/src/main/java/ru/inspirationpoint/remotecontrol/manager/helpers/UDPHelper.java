@@ -146,7 +146,6 @@ public class UDPHelper extends Thread {
                         ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
                     }
                     if (!packet.getAddress().getHostName().equals(ip)) {
-                        Log.wtf("UDP RECEIVE", text);
 //                        if (text.equals(PING_UDP)) {
 //                            sendTargetMessage("HELLO" + "\0" + "2" + "\0"
 //                                            + SettingsManager.getValue(SM_CODE, ""),

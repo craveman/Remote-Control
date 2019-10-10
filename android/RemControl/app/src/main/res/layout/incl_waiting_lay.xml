@@ -12,7 +12,8 @@
     </data>
 <LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
     
     <TextView
         android:layout_width="wrap_content"
@@ -36,13 +37,62 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:layout_marginTop="160dp"
-        android:layout_marginBottom="160dp"
+        android:layout_marginTop="130dp"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textAlignment="center"
-        android:text="@string/fight_waiting"/>
+        android:text="@string/fight_received"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/tv_fight_data_1"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:text="@{viewModel.dispDataFirst}"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="160dp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/tv_fight_data_2"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:text="@{viewModel.dispDataSecond}"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/divider"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/semi_apply_lay"
+        android:onClick="@{() -> viewModel.fightApplyOk()}">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:textSize="34sp"
+            android:text="@string/action_apply"/>
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
@@ -56,7 +106,7 @@
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:id="@+id/semi_cancel_lay"
-        android:onClick="@{() -> viewModel.goToNewFight()}">
+        android:onClick="@{() -> viewModel.onCloseBtn()}">
 
         <TextView
             android:layout_width="wrap_content"

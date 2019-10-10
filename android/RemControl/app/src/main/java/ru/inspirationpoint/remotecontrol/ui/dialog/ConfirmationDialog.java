@@ -71,6 +71,9 @@ public class ConfirmationDialog extends DialogFragment {
 //                if (mMessageId == FightActionActivity.PHRASE_SELECT) {
 //                    mListener.onConfirmed(11);
 //                }
+                if (mListener != null) {
+                    mListener.onConfirmDeclined(mMessageId);
+                }
                 dismiss();
             }
         });
@@ -144,5 +147,6 @@ public class ConfirmationDialog extends DialogFragment {
 
     public interface Listener {
         void onConfirmed(int messageId);
+        void onConfirmDeclined(int messageId);
     }
 }

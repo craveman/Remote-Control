@@ -146,7 +146,7 @@
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="warning">Warning</string>
+    <string name="warning">Warning!</string>
     <string name="priority_title">Priority</string>
     <string name="card_title">Warnings</string>
     <string name="time_period">Time</string>
@@ -275,7 +275,6 @@
     <string name="fa_medical_pause">Medical pause</string>
     <string name="fa_warnings">Cards</string>
     <string name="fa_p_warnings">P - Cards</string>
-    <string name="fa_p_cards">P-Cards</string>
     <string name="fa_passive_title">Passive</string>
     <string name="fa_passive_remove">Remove passive fight timer?</string>
     <string name="fa_passive_display">Display passive fight timer?</string>
@@ -300,15 +299,19 @@
     <string name="fa_accept">Accept</string>
     <string name="fa_timer_title">Fight timer</string>
     <string name="fa_syncing_msg">Syncing, please wait...</string>
-    <string name="semi_mode">SEMI 1.0 mode</string>
+    <string name="semi_mode">Cyrano 1.0</string>
+    <string name="fight_received">Received fight from server:</string>
     <string name="next">Next</string>
     <string name="prev">Prev.</string>
+    <string name="ask_prev">Ask previous</string>
+    <string name="ask_next">Ask next</string>
     <string name="fight_waiting">Waiting data from competition info system server</string>
     <string name="fight_start_ready">All is ready. Activate fight?</string>
     <string name="semi_1_0">SEMI 1.0</string>
     <string name="fight_end_ask">Finish fight?</string>
     <string name="fight_end_error">Сant finish fight with an equal score</string>
     <string name="fight_end_accept">Fight finished</string>
+    <string name="fight_no_active">No active fights. request next or previous fight from server.</string>
     <string name="semi_exit_ask">Exit from SEMI 1.0 mode</string>
     <string name="options">Options</string>
     <string name="names">Names</string>
@@ -338,5 +341,6 @@
     <string name="disconnect">Disconnect</string>
     <string name="piste">Piste</string>
     <string name="phrases">Actions</string>
+    <string name="fa_p_cards">P - cards</string>
 
 </resources>

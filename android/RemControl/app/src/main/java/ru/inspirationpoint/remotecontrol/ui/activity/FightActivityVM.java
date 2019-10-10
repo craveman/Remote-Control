@@ -45,13 +45,15 @@ import ru.inspirationpoint.remotecontrol.manager.FightersAutoComplConfig;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
 import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
 import ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract;
-import ru.inspirationpoint.remotecontrol.manager.constants.commands.EthernetApplyFightCommand;
 import ru.inspirationpoint.remotecontrol.manager.constants.commands.EthNextPrevCommand;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.EthernetApplyFightCommand;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.EthernetFinishAskCommand;
 import ru.inspirationpoint.remotecontrol.manager.coreObjects.Device;
 import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
 import ru.inspirationpoint.remotecontrol.manager.dataEntities.FighterData;
 import ru.inspirationpoint.remotecontrol.manager.dataEntities.UrlEncodeObject;
 import ru.inspirationpoint.remotecontrol.manager.handlers.CoreHandler;
+import ru.inspirationpoint.remotecontrol.manager.handlers.EthernetCommandsHelpers.EthernetDispHandler;
 import ru.inspirationpoint.remotecontrol.manager.handlers.EthernetCommandsHelpers.FightFinishAskHandler;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.CommandHelper;
 import ru.inspirationpoint.remotecontrol.ui.adapter.FightersAutoCompleteAdapter;
@@ -100,6 +102,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public static final int SCREEN_COMPETITION_LAY = 19;
     public static final int SCREEN_REPLAYS_LAY = 20;
     public static final int SCREEN_DEF_PASSIVE_TIME_LAY = 21;
+    public static final int SCREEN_STATE_CYRANO_CONTROLS = 23;
 
     public static final int TIMER_MODE_MAIN = 80;
     public static final int TIMER_MODE_PAUSE = 81;
@@ -162,6 +165,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public ObservableBoolean isPassiveBtnVisible = new ObservableBoolean(false);
     public ObservableBoolean isVideoBtnVisible = new ObservableBoolean(false);
     public ObservableBoolean isVideoReady = new ObservableBoolean(false);
+    public ObservableField<String> dispDataFirst = new ObservableField<>();
+    public ObservableField<String> dispDataSecond = new ObservableField<>();
     public boolean isCamConnected = false;
 
     public ObservableBoolean isFightFinishPassed = new ObservableBoolean(false);
@@ -199,12 +204,21 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public ObservableInt videoSpeed = new ObservableInt(4);
     public ObservableInt videoProgress = new ObservableInt(0);
 
-    private ObservableBoolean isSM01alive = new ObservableBoolean(true);
+    public ObservableBoolean isSM01alive = new ObservableBoolean(true);
     private SmOffDialog dialog;
 
     public ObservableBoolean isFightReady = new ObservableBoolean(false);
 
     private int backupCounter = 0;
+
+    private EthernetDispHandler dispHandler = new EthernetDispHandler();
+    public boolean isSemiInWork = false;
+
+    private FightData dispTempData = null;
+
+    private boolean isFightFinishInProgress = false;
+
+    public ObservableBoolean isNamesLocked = new ObservableBoolean(false);
 
     public FightActivityVM(FightActivity activity) {
         super(activity);
@@ -236,18 +250,28 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //        phrasesEnabled.set(getActivity().getIntent().getBooleanExtra("PHRASES", false));
         mCodeScanner = new CodeScanner(getActivity(), scannerView);
         mCodeScanner.setDecodeCallback(result -> {
-            mCodeScanner.stopPreview();
-            mCodeScanner.releaseResources();
-            syncState.set(SYNC_STATE_SYNCING);
-            Uri uri = Uri.parse(result.getText());
-            String encode = uri.getQueryParameter("access");
-            Gson gson = new Gson();
-            byte[] data = Base64.decode(encode, Base64.DEFAULT);
-            String text = new String(data, StandardCharsets.UTF_8);
-            UrlEncodeObject encodeObject = gson.fromJson(text, UrlEncodeObject.class);
-            SettingsManager.setValue(CommonConstants.SM_CODE, encodeObject.getCode());
-            SettingsManager.setValue(SM_IP, encodeObject.getIp());
-            core.startTCP(encodeObject.getIp());
+            Log.wtf("SCAN", result.getText());
+            if (result.getText().contains("access=")) {
+                mCodeScanner.stopPreview();
+                mCodeScanner.releaseResources();
+                syncState.set(SYNC_STATE_SYNCING);
+                Uri uri = Uri.parse(result.getText());
+                String encode = uri.getQueryParameter("access");
+                Gson gson = new Gson();
+                byte[] data = Base64.decode(encode, Base64.DEFAULT);
+                String text = new String(data, StandardCharsets.UTF_8);
+                Log.wtf("RESULT SCAN", text);
+                UrlEncodeObject encodeObject = gson.fromJson(text, UrlEncodeObject.class);
+                if (!encodeObject.getIp().equals("0.0.0.0")) {
+                    SettingsManager.setValue(CommonConstants.SM_CODE, encodeObject.getCode());
+                    SettingsManager.setValue(SM_IP, encodeObject.getIp());
+                    core.startTCP(encodeObject.getIp());
+                } else {
+                    onDisconnect();
+                }
+            } else {
+                mCodeScanner.startPreview();
+            }
         });
         isVideo.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
             @Override
@@ -258,6 +282,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         screenState.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
+                isSemiInWork = false;
                 switch (screenState.get()) {
                     case SCREEN_SYNC_LAY:
                         mCodeScanner.startPreview();
@@ -352,34 +377,10 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                     Gson gson = new Gson();
                     Log.wtf("RESTORED", gson.toJson(tempFightCache));
                     if (tempFightCache != null) {
-                        FightRestoreDialog.show(getActivity(), tempFightCache);
+                        FightRestoreDialog.show(getActivity(), tempFightCache, false);
                     } else {
                         onMenuDeviceReset();
                     }
-                    //TODO create fight info, set names
-
-//                    if (!TextUtils.isEmpty(SettingsManager.getValue(UNFINISHED_FIGHT, ""))) {
-//                        fn
-//                        FullFightInfo infoToRestore = JSONHelper.importLastFightFromJSON(getActivity(),
-//                                SettingsManager.getValue(UNFINISHED_FIGHT, ""));
-//                        if (infoToRestore != null) {
-//                            if (infoToRestore.getFightData() != null)
-//                                if (infoToRestore.getFightData().getLeftFighter().getScore() != 0 ||
-//                                        infoToRestore.getFightData().getRightFighter().getScore() != 0) {
-//                                    FightRestoreDialog.show(getActivity(), infoToRestore);
-//                                }
-//                        }
-//                    } else {
-//                        if (DataManager.instance().getCurrentFight() != null) {
-//                            fightData = DataManager.instance().getCurrentFight();
-//                        } else {
-//                            fightData = new FightData("", new Date(), new FighterData("", leftName), new FighterData("", rightName),
-//                                    "", SettingsManager.getValue(CommonConstants.LAST_USER_NAME_FIELD, ""));
-//                            fightData.setmStartTime(System.currentTimeMillis());
-//                            fightData.setmCurrentTime(defaultTime.get());
-//                            fightData.setmCurrentPeriod(period.get());
-//                        }
-//                    }
                     fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
                     SettingsManager.setValue(UNFINISHED_FIGHT, fightId);
                     saveFightData();
@@ -682,6 +683,27 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 getActivity().getBinding().periodLay.periodNp.setValue(period.get());
                 break;
         }
+
+        isNamesLocked.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                if (isNamesLocked.get()) {
+                    activity.findViewById(R.id.left_fighter).setEnabled(false);
+                    activity.findViewById(R.id.left_fighter).setFocusable(false);
+                    activity.findViewById(R.id.left_fighter).setClickable(false);
+                    activity.findViewById(R.id.right_fighter).setEnabled(false);
+                    activity.findViewById(R.id.right_fighter).setFocusable(false);
+                    activity.findViewById(R.id.right_fighter).setClickable(false);
+                } else {
+                    activity.findViewById(R.id.left_fighter).setEnabled(true);
+                    activity.findViewById(R.id.left_fighter).setFocusable(true);
+                    activity.findViewById(R.id.left_fighter).setClickable(true);
+                    activity.findViewById(R.id.right_fighter).setEnabled(true);
+                    activity.findViewById(R.id.right_fighter).setFocusable(true);
+                    activity.findViewById(R.id.right_fighter).setClickable(true);
+                }
+            }
+        });
     }
 
     @Override
@@ -696,6 +718,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             !TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
                 syncState.set(SYNC_STATE_SYNCING);
                 Log.wtf("SYNCing", "+");
+                core.tryToConnect();
             } else {
                 syncState.set(SYNC_STATE_NONE);
                 Log.wtf("SYNCED", "NOO");
@@ -752,10 +775,12 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 }
 
                 int rpcl = info.getLeftFighter().getRedPCardCount();
+                Log.wtf("RPCL", rpcl + "");
                 if (rpcl != 0) {
-                    for (int i = 0; i < rcl; i++) {
+                    for (int i = 0; i < rpcl; i++) {
                         leftPCard.set(CARD_STATE_RED);
                         leftPCard.set(CARD_STATE_YELLOW);
+                        Log.wtf("LEFT P CARD", "++" + i);
                     }
                 } else {
                     int ypcl = info.getLeftFighter().getYellowPCardCount();
@@ -768,9 +793,10 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
                 int rpcr = info.getRightFighter().getRedPCardCount();
                 if (rpcr != 0) {
-                    for (int i = 0; i < rcr; i++) {
+                    for (int i = 0; i < rpcr; i++) {
                         rightPCard.set(CARD_STATE_RED);
                         rightPCard.set(CARD_STATE_YELLOW);
+                        Log.wtf("RIGHT P CARD", "++" + i);
                     }
                 } else {
                     int ypcr = info.getRightFighter().getYellowPCardCount();
@@ -780,7 +806,10 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                         rightPCard.set(CARD_STATE_BLACK);
                     }
                 }
-                uiHandler.postDelayed(() -> isFightReady.set(true), 800);
+                uiHandler.postDelayed(() -> {
+                    isFightReady.set(true);
+                    isSemiInWork = false;
+                }, 800);
             }
         }, 700);
     }
@@ -795,10 +824,10 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             timerMinDec.set(minutes / 10);
         }
         int millis = milliseconds > 10000 ? milliseconds + 999 : milliseconds;
-        timeToDisplay.set(String.valueOf(TimeUnit.MILLISECONDS.toMinutes(millis) / 10) +
-                String.valueOf((TimeUnit.MILLISECONDS.toMinutes(millis)) % 10) + ":" +
-                String.valueOf(((TimeUnit.MILLISECONDS.toSeconds(millis)) % 60) / 10) +
-                String.valueOf(((TimeUnit.MILLISECONDS.toSeconds(millis) % 60) % 10)));
+        timeToDisplay.set(TimeUnit.MILLISECONDS.toMinutes(millis) / 10 +
+                ((TimeUnit.MILLISECONDS.toMinutes(millis)) % 10) + ":" +
+                ((TimeUnit.MILLISECONDS.toSeconds(millis)) % 60) / 10 +
+                (TimeUnit.MILLISECONDS.toSeconds(millis) % 60) % 10);
     }
 
     private void timeNotifySM02() {
@@ -830,7 +859,9 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //            getActivity().getBinding().titleMain.setVisibility(View.VISIBLE);
             core.sendToSM(CommandHelper.startTimer(false));
             if (timerMode.get() == TIMER_MODE_MAIN) {
-                isPassiveBtnVisible.set(true);
+                if (isPassive.get()) {
+                    isPassiveBtnVisible.set(true);
+                }
             } else {
                 timeMillisecs.set(lastTimerBeforePause == 0 ? defaultTime.get() :
                         (timerMode.get() == TIMER_MODE_MEDICINE ? lastTimerBeforePause : defaultTime.get()));
@@ -1101,6 +1132,11 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         onMenuDeviceReset();
     }
 
+    public void onMenuCyrano() {
+        core.vibr();
+        screenState.set(SCREEN_STATE_CYRANO_CONTROLS);
+    }
+
     public void reset() {
         core.sendToSM(CommandHelper.reset(defaultTime.get()));
         fightId = "";
@@ -1116,6 +1152,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         rightCard.set(CARD_STATE_NONE);
         leftName.set("");
         rightName.set("");
+        activity.getBinding().namesLay.leftFighter.setText("");
+        activity.getBinding().namesLay.rightFighter.setText("");
         leftScore.set(0);
         rightScore.set(0);
         timerMinDec.set(0);
@@ -1125,6 +1163,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         period.set(1);
         screenState.set(SCREEN_MAIN);
         priority.set(PERSON_TYPE_NONE);
+        isNamesLocked.set(false);
     }
 
     public void onMenuWeaponType() {
@@ -1193,6 +1232,12 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         int tempVideo = data.getmVideoLeft();
         data.setmVideoLeft(data.getmVideoRight());
         data.setmVideoRight(tempVideo);
+        int tempPrio = data.getmPriority();
+        if (tempPrio == PERSON_TYPE_LEFT) {
+            data.setmPriority(PERSON_TYPE_RIGHT);
+        } else if (tempPrio == PERSON_TYPE_RIGHT) {
+            data.setmPriority(PERSON_TYPE_LEFT);
+        }
         restoreFromExisted(data);
         screenState.set(SCREEN_MAIN);
     }
@@ -1213,6 +1258,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         }
         core.vibr();
         screenState.set(SCREEN_MAIN);
+        isSemiInWork = false;
         getActivity().getBinding().playerLay.seekSb.setProgress(4);
         getActivity().getBinding().playerLay.speedSb.setProgress(4);
     }
@@ -1273,12 +1319,13 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     }
 
     public void onFightFinishBegin() {
-        if (withSEMI.get()) {
-            fightFinishAskHandler.start();
-        } else {
-            fightFinish();
-            goToNewFight();
-        }
+//        if (withSEMI.get()) {
+//            fightFinishAskHandler.start();
+//        } else {
+//            fightFinish();
+//            goToNewFight();
+//        }
+        core.sendToSM(new EthernetFinishAskCommand().getBytes());
     }
 
     public void onPassiveLock() {
@@ -1381,6 +1428,9 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                                         timeToDisplay.get() + "_" + String.valueOf(period.get());
 //                        core.sendToCams(TIMER_STOP_UDP + "\0" + filename);
 //                                isVideoReady.set(false);
+                                if (isPassive.get()) {
+                                    isPassiveBtnVisible.set(true);
+                                }
                             });
                         } else if (message[7] == 1 && timerState.get() != TIMER_STATE_IN_PROGRESS) {
                             getActivity().runOnUiThread(() -> {
@@ -1396,71 +1446,90 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //                }
                 break;
             case DISP_RECEIVE_CMD:
-                Log.wtf("DISP MSG", Arrays.toString(message));
-                //TODO create and fill fight data to store it later
-                int scoreL = message[0];
-                int scoreR = message[1];
-                int per = message[2];
-                byte[] nameLBuf = new byte[message[5]];
-                System.arraycopy(message, 6, nameLBuf, 0, message[5]);
-                byte[] nameRBuf = new byte[message[6 + message[5]]];
-                System.arraycopy(message, 7 + message[5], nameRBuf, 0, message[6 + message[5]]);
-//                byte[] timeBuf = new byte[message[7 + nameLBuf.length + nameRBuf.length]];
-//                System.arraycopy(message, 8 + nameLBuf.length + nameRBuf.length, timeBuf, 0, timeBuf.length);
-                String lName = new String(nameLBuf, Charset.forName("UTF-8"));
-                String rName = new String(nameRBuf, Charset.forName("UTF-8"));
-                core.sendToSM(CommandHelper.setName(PERSON_TYPE_LEFT, lName));
-                core.sendToSM(CommandHelper.setName(PERSON_TYPE_RIGHT, rName));
-                core.sendToSM(CommandHelper.setScore(PERSON_TYPE_LEFT, scoreL));
-                core.sendToSM(CommandHelper.setScore(PERSON_TYPE_RIGHT, scoreR));
-                screenState.set(SCREEN_MAIN);
-                FightApplyDialog.show(getActivity());
-                leftScore.set(scoreL);
-                rightScore.set(scoreR);
-                period.set(per);
-                leftName.set(lName);
-                rightName.set(rName);
-                leftCard.set(message[3] + 20);
-                rightCard.set(message[4] + 20);
-//                fightData = new FightData("", new Date(), new FighterData("", leftName), new FighterData("", rightName),
-//                        "", SettingsManager.getValue(CommonConstants.LAST_USER_NAME_FIELD, ""));
-////                DataManager.instance().setCurrentFight(fightData);
-//                fightData.setmStartTime(System.currentTimeMillis());
-//                String timeStr = new String(timeBuf, Charsets.UTF_8);
-//                Log.wtf("RECEIVED TIME", timeStr);
-//                int ms = (timeStr.length() == 5 ? Integer.parseInt(String.valueOf(timeStr.charAt(0)))*10*60*1000 : 0) +
-//                        Integer.parseInt(String.valueOf(timeStr.charAt(timeStr.length() - 4)))*60*1000+
-//                        Integer.parseInt(String.valueOf(timeStr.charAt(timeStr.length() - 2)))*10*1000+
-//                        Integer.parseInt(String.valueOf(timeStr.charAt(timeStr.length() - 1)))*1000;
-//                convertMStoDigits(ms);
-//                DataManager.instance().saveFight(Helper.convertFightDataToInput(fightData), new DataManager.RequestListener<SaveFightResult>() {
-//                    @Override
-//                    public void onSuccess(SaveFightResult result) {
-//                        SettingsManager.setValue(CommonConstants.LAST_FIGHT_ID, result.fight._id);
-//                        Log.wtf("Fight ID", result.fight._id);
-//                    }
-//
-//                    @Override
-//                    public void onFailed(String error, String message) {
-//                        Log.wtf("ERR FIGHT UPL", error + "|" + message);
-//                    }
-//
-//                    @Override
-//                    public void onStateChanged(boolean inProgress) {
-//                    }
-//                });
-//                break;
+                Log.wtf("DISP INIT", Arrays.toString(message));
+                if (!isSemiInWork) {
+                    Log.wtf("DISP MSG", Arrays.toString(message));
+                    //TODO create and fill fight data to store it later
+                    byte[] dispBuf = new byte[message[0]&0xFF];
+                    System.arraycopy(message, 1, dispBuf, 0, message[0]&0xFF);
+                    String disp = new String(dispBuf, Charset.forName("UTF-8"));
+                    if (dispHandler.updateFromCommand(disp)) {
+                        dispTempData = dispHandler.getEthFightData();
+                        dispDataFirst.set(dispTempData.getLeftFighter().getName() + " - "
+                        + dispTempData.getRightFighter().getName());
+                        dispDataSecond.set(dispTempData.getLeftFighter().getScore() + " : "
+                        + dispTempData.getRightFighter().getScore());
+                    }
+                    isSemiInWork = true;
+                    screenState.set(SCREEN_STATE_WAITING);
+                }
+//                int scoreL = message[0];
+//                int scoreR = message[1];
+//                int per = message[2];
+//                byte[] nameLBuf = new byte[message[5]];
+//                System.arraycopy(message, 6, nameLBuf, 0, message[5]);
+//                byte[] nameRBuf = new byte[message[6 + message[5]]];
+//                System.arraycopy(message, 7 + message[5], nameRBuf, 0, message[6 + message[5]]);
+////                byte[] timeBuf = new byte[message[7 + nameLBuf.length + nameRBuf.length]];
+////                System.arraycopy(message, 8 + nameLBuf.length + nameRBuf.length, timeBuf, 0, timeBuf.length);
+//                String lName = new String(nameLBuf, Charset.forName("UTF-8"));
+//                String rName = new String(nameRBuf, Charset.forName("UTF-8"));
+//                core.sendToSM(CommandHelper.setName(PERSON_TYPE_LEFT, lName));
+//                core.sendToSM(CommandHelper.setName(PERSON_TYPE_RIGHT, rName));
+//                core.sendToSM(CommandHelper.setScore(PERSON_TYPE_LEFT, scoreL));
+//                core.sendToSM(CommandHelper.setScore(PERSON_TYPE_RIGHT, scoreR));
+//                screenState.set(SCREEN_MAIN);
+//                FightApplyDialog.show(getActivity());
+//                leftScore.set(scoreL);
+//                rightScore.set(scoreR);
+//                period.set(per);
+//                leftName.set(lName);
+//                rightName.set(rName);
+//                leftCard.set(message[3] + 20);
+//                rightCard.set(message[4] + 20);
+////                fightData = new FightData("", new Date(), new FighterData("", leftName), new FighterData("", rightName),
+////                        "", SettingsManager.getValue(CommonConstants.LAST_USER_NAME_FIELD, ""));
+//////                DataManager.instance().setCurrentFight(fightData);
+////                fightData.setmStartTime(System.currentTimeMillis());
+////                String timeStr = new String(timeBuf, Charsets.UTF_8);
+////                Log.wtf("RECEIVED TIME", timeStr);
+////                int ms = (timeStr.length() == 5 ? Integer.parseInt(String.valueOf(timeStr.charAt(0)))*10*60*1000 : 0) +
+////                        Integer.parseInt(String.valueOf(timeStr.charAt(timeStr.length() - 4)))*60*1000+
+////                        Integer.parseInt(String.valueOf(timeStr.charAt(timeStr.length() - 2)))*10*1000+
+////                        Integer.parseInt(String.valueOf(timeStr.charAt(timeStr.length() - 1)))*1000;
+////                convertMStoDigits(ms);
+////                DataManager.instance().saveFight(Helper.convertFightDataToInput(fightData), new DataManager.RequestListener<SaveFightResult>() {
+////                    @Override
+////                    public void onSuccess(SaveFightResult result) {
+////                        SettingsManager.setValue(CommonConstants.LAST_FIGHT_ID, result.fight._id);
+////                        Log.wtf("Fight ID", result.fight._id);
+////                    }
+////
+////                    @Override
+////                    public void onFailed(String error, String message) {
+////                        Log.wtf("ERR FIGHT UPL", error + "|" + message);
+////                    }
+////
+////                    @Override
+////                    public void onStateChanged(boolean inProgress) {
+////                    }
+////                });
+                break;
             case ETH_ACK_NAK:
-                if (message[0] == 1) {
-                    FightFinishedDialog.show(getActivity());
-                    if (fightFinishAskHandler != null) {
-                        fightFinishAskHandler.finish();
+                if (!isFightFinishInProgress) {
+                    if (message[0] == 1) {
+                        FightFinishedDialog.show(getActivity(), getActivity().getResources().getString(R.string.fight_end_accept));
+                        if (fightFinishAskHandler != null) {
+                            fightFinishAskHandler.finish();
+                        }
+                        isNamesLocked.set(false);
+                    } else if (message[0] == 0) {
+                        FightCantEndDialog.show(getActivity(), withSEMI.get());
+                        if (fightFinishAskHandler != null) {
+                            fightFinishAskHandler.finish();
+                        }
                     }
-                } else if (message[0] == 0) {
-                    FightCantEndDialog.show(getActivity(), withSEMI.get());
-                    if (fightFinishAskHandler != null) {
-                        fightFinishAskHandler.finish();
-                    }
+                    isFightFinishInProgress = true;
                 }
                 break;
             case PASSIVE_MAX:
@@ -1504,6 +1573,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             syncState.set(SYNC_STATE_SYNCING);
         } else {
             syncState.set(SYNC_STATE_NONE);
+            mCodeScanner.startPreview();
         }
     }
 
@@ -1517,17 +1587,25 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public void fightApplyOk() {
         core.vibr();
         core.sendToSM(new EthernetApplyFightCommand().getBytes());
+        screenState.set(SCREEN_MAIN);
+        restoreFromExisted(dispTempData);
+        isNamesLocked.set(true);
     }
 
+
+    //TODO SWAP 1 AND 0 in NEXTPREVCMD values
     public void fightNext() {
         core.vibr();
-        core.sendToSM(new EthNextPrevCommand(0).getBytes());
-//        screenState.set(SCREEN_STATE_WAITING);
+        core.sendToSM(new EthNextPrevCommand(1).getBytes());
+        isFightFinishInProgress = false;
+        screenState.set(SCREEN_MAIN);
     }
 
     public void fightPrev() {
         core.vibr();
-        core.sendToSM(new EthNextPrevCommand(1).getBytes());
+        core.sendToSM(new EthNextPrevCommand(0).getBytes());
+        isFightFinishInProgress = false;
+        screenState.set(SCREEN_MAIN);
     }
 
     public void fightFinish() {
@@ -1542,6 +1620,15 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         goToNewScreen = true;
         getActivity().startActivity(intent);
         SettingsManager.removeValue(UNFINISHED_FIGHT);
+    }
+
+    public void enterCyranoMode() {
+        FightFinishedDialog.show(getActivity(), getActivity().getResources().getString(R.string.fight_no_active));
+    }
+
+    public void exitCyranoMode() {
+        //TODO introduce boolean or use existed
+        isFightFinishInProgress = false;
     }
 
     public void onSyncCancel() {
