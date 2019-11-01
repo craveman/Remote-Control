@@ -5,15 +5,16 @@ public typealias EventHandler = (_ event: ConnectionEvent) -> Void
 
 
 public class Sm02 {
-  
+
   typealias Container = Singletons & NetworkServiceFactory
-  
+
   public static var isConnected: Bool {
     return client.isConnected
+    // return client.isConnected && ???
   }
-  
+
   static var container: Container = DependencyContainer()
-  
+
   private static var client: Sm02Client = Sm02DummyClient()
 
   public static func connect (to remote: RemoteServer) {
@@ -35,8 +36,9 @@ public class Sm02 {
   public static func on (event handler: @escaping EventHandler) {
     container.eventsManager.add(handler: handler)
   }
-  
+
   public static func disconnect () {
+    send(message: Outbound.disconnect)
     client.close()
   }
 }

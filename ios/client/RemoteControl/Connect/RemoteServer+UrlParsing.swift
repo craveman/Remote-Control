@@ -16,7 +16,8 @@ import struct Sm02Client.RemoteServer
 extension RemoteServer {
     
   static func parse (url: String) -> Result<RemoteServer, ParsingError> {
-    guard let components = URLComponents(string: url) else {
+    let trimmedUrl = url.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard let components = URLComponents(string: trimmedUrl) else {
       return .failure(.invalidUrl)
     }
     return parse(urlComponents: components)

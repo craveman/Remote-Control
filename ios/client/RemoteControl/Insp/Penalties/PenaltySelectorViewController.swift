@@ -128,7 +128,8 @@ class PenaltySelectorViewController: UIViewController {
 
     private func remoteAction(_ card: StatusCard) {
         print("send: \(currentPenaltyCard!) \(personType)")
-        let _ = Outbound.setCard(person: personType, status: card)
+        let cm = Outbound.setCard(person: personType, status: card)
+        Sm02.send(message: cm)
         updateView()
     }
 

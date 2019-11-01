@@ -35,6 +35,7 @@
 		85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934C23109E2D003FC5BE /* InspViewController.swift */; };
 		85A9936023113521003FC5BE /* Options.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A9935F23113521003FC5BE /* Options.storyboard */; };
 		85A9936723113C15003FC5BE /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9936623113C15003FC5BE /* OptionsViewController.swift */; };
+		8F5519C72365E7D7009787B5 /* InMemoryState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5519C62365E7D7009787B5 /* InMemoryState.swift */; };
 		8FE69D5423398B6200E3B539 /* QRCodeReader in Frameworks */ = {isa = PBXBuildFile; productRef = 8FE69D5323398B6200E3B539 /* QRCodeReader */; };
 		8FFBF9E22336BD4000736BB7 /* Sm02Client in Frameworks */ = {isa = PBXBuildFile; productRef = 8FFBF9E12336BD4000736BB7 /* Sm02Client */; };
 		8FFBF9E42336CA6F00736BB7 /* RemoteServer+UrlParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFBF9E32336CA6F00736BB7 /* RemoteServer+UrlParsing.swift */; };
@@ -107,6 +108,7 @@
 		85A9934C23109E2D003FC5BE /* InspViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspViewController.swift; sourceTree = "<group>"; };
 		85A9935F23113521003FC5BE /* Options.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Options.storyboard; sourceTree = "<group>"; };
 		85A9936623113C15003FC5BE /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
+		8F5519C62365E7D7009787B5 /* InMemoryState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryState.swift; sourceTree = "<group>"; };
 		8FFBF9E02336BC5E00736BB7 /* Sm02Client */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sm02Client; sourceTree = "<group>"; };
 		8FFBF9E32336CA6F00736BB7 /* RemoteServer+UrlParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteServer+UrlParsing.swift"; sourceTree = "<group>"; };
 		B9C8BEDA2305A2C5004DBBF8 /* RemoteControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoteControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -168,6 +170,7 @@
 				B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */,
 				B9C8BEE62305A2C7004DBBF8 /* LaunchScreen.storyboard */,
 				B9C8BEE42305A2C7004DBBF8 /* Assets.xcassets */,
+				8F5519C62365E7D7009787B5 /* InMemoryState.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -486,6 +489,7 @@
 				8558AA2F231EE8F5006C8BA3 /* CountdownViewController.swift in Sources */,
 				858C62E3232038540096FBF9 /* PenaltiesViewController.swift in Sources */,
 				850AAEDE232723F400DBFD93 /* ConnectionsViewController.swift in Sources */,
+				8F5519C72365E7D7009787B5 /* InMemoryState.swift in Sources */,
 				858C62E72320432B0096FBF9 /* PenaltySelectorViewController.swift in Sources */,
 				850AAEE3232855F600DBFD93 /* WeaponSelectViewController.swift in Sources */,
 				B9C8BEE02305A2C5004DBBF8 /* QrViewController.swift in Sources */,

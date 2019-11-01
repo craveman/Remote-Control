@@ -67,7 +67,6 @@ class QrViewController: UIViewController {
     DispatchQueue.main.async {
       self.reader.stopScanning()
     }
-
   }
 
   private func process (success remote: RemoteServer) {
@@ -76,6 +75,7 @@ class QrViewController: UIViewController {
       message: "\(remote)",
       preferredStyle: .alert
     )
+    InMemoryState.shared.remoteServer = remote
 
     alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] (action) in
       print("connecting to \(remote)")
@@ -84,7 +84,6 @@ class QrViewController: UIViewController {
     }))
 
     present(alert, animated: true, completion: nil)
-//    self.bindAlert(alert)
   }
 
   private func process (error: RemoteServer.ParsingError) {
@@ -99,7 +98,6 @@ class QrViewController: UIViewController {
     }))
 
     present(alert, animated: true, completion: nil)
-//    self.bindAlert(alert)
   }
 
   private func bindAlert(_ alert: UIAlertController?) {

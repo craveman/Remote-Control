@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Sm02Client
 
 
 enum OptionsActions {
@@ -95,7 +96,8 @@ class OptionsViewController: UITableViewController {
     }
     
     private func goToRoot() {
-        performSegue(withIdentifier: "toRoot", sender: self)
+      Sm02.disconnect()
+      performSegue(withIdentifier: "toRoot", sender: self)
     }
     
 
