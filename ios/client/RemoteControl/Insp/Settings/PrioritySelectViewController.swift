@@ -11,6 +11,8 @@ import Sm02Client
 
 class PrioritySelectViewController: UIViewController {
 
+    let rs = RemoteService.shared
+
     var currentPerson: PersonType = .none
 
     @IBOutlet weak var setPriorityButton: UIButton!
@@ -32,17 +34,12 @@ class PrioritySelectViewController: UIViewController {
 
     @objc func setPriorityAction(_ sender: UIButton) {
         switch sender {
-        case setPriorityButton: setPriority(Bool.random() ? .left : .right)
-        case resetPriorityButton: setPriority(.none)
+        case setPriorityButton: rs.setPriority(for: (Bool.random() ? .left : .right))
+        case resetPriorityButton: rs.setPriority(for: .none)
         default: break
 
         }
         performSegue(withIdentifier: "done", sender: sender)
-    }
-
-    private func setPriority(_ person: PersonType) {
-        print("Set prio: \(person)")
-        Sm02.send(message: Outbound.setPriority(person: person))
     }
 
     private func updateStyles() {

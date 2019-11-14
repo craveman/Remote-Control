@@ -1,6 +1,7 @@
 
 public enum Weapon: UInt8 {
 
+  case none = 0x00
   case foil = 0x01
   case epee = 0x02
   case sabre = 0x03

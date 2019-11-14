@@ -13,6 +13,8 @@ import Sm02Client
 
 class QrViewController: UIViewController {
 
+  let rs = RemoteService.shared
+
   @IBOutlet weak var previewView: QRCodeReaderView! {
     didSet {
       previewView.setupComponents(with: QRCodeReaderViewControllerBuilder {
@@ -79,7 +81,7 @@ class QrViewController: UIViewController {
 
     alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] (action) in
       print("connecting to \(remote)")
-      Sm02.connect(to: remote)
+      self?.rs.connect(to: remote)
       self?.performSegue(withIdentifier: "toInspiration", sender: nil)
     }))
 

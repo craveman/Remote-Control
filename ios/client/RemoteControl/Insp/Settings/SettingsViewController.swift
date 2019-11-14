@@ -6,7 +6,6 @@
 //  Copyright © 2019 Artem Labazin. All rights reserved.
 //
 import UIKit
-import Sm02Client
 
 enum SettingsActions {
     case finishFight
@@ -29,6 +28,8 @@ let settingCellId = "settingsCell"
 
 
 class SettingsViewController: UITableViewController {
+
+    let rs = RemoteService.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,7 +78,7 @@ class SettingsViewController: UITableViewController {
 
         switch action {
         case .finishFight:
-            Sm02.send(message: Outbound.reset)
+            rs.reset()
             if tabBarController != nil {
                 tabBarController!.selectedIndex = 0
             }

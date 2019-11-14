@@ -7,12 +7,14 @@
 //
 
 import UIKit
-import Sm02Client
 
 let passiveTimerDefaultValue = UInt32(60)
 let passiveTimerIsEnabled = true
 
 class PointsViewController: UIViewController {
+
+    let rs = RemoteService.shared
+
     private var score: (left: UInt8, right: UInt8) = (0, 0) {
         didSet {
             self.updateView()
@@ -31,7 +33,7 @@ class PointsViewController: UIViewController {
     @IBOutlet weak var right: UIView!
     private func setScore(left n: UInt8) {
         self.score = (n, self.score.right)
-        send(Outbound.setScore(person: .left, score: n))
+        rs.setScore(for: .left, n)
     }
     @IBOutlet weak var passiveToggleButton: UIButton! {
         didSet {
@@ -41,11 +43,7 @@ class PointsViewController: UIViewController {
 
     private func setScore(right n: UInt8) {
         self.score = (self.score.left, n)
-        send(Outbound.setScore(person: .right, score: n))
-    }
-
-    private func send(_ out: Outbound) {
-        Sm02.send(message: out)
+        rs.setScore(for: .right, n)
     }
 
     override func viewDidLoad() {
@@ -53,17 +51,17 @@ class PointsViewController: UIViewController {
         startButton?.addTarget(self, action: Selector(("startTimerAction:")), for: .touchUpInside)
 
         passiveToggleButton?.addTarget(self, action: Selector(("togglePassiveTimerAction:")), for: .touchUpInside)
-        send(Outbound.passiveTimer(shown: passiveTimerIsEnabled, locked: passiveLocked, defaultMilliseconds: passiveTimerDefaultValue))
+        rs.passiveTimer(shown: passiveTimerIsEnabled, locked: passiveLocked, defaultMilliseconds: passiveTimerDefaultValue)
         updateView()
         // Do any additional setup after loading the view.
     }
 
     @objc func startTimerAction(_ sender: UIButton) {
-        send(Outbound.startTimer(state: .running))
+        rs.startTimer(state: .running)
     }
     @objc func togglePassiveTimerAction(_ sender: UIButton) {
         passiveLocked = !passiveLocked;
-        send(Outbound.passiveTimer(shown: passiveTimerIsEnabled, locked: passiveLocked, defaultMilliseconds: passiveTimerDefaultValue))
+        rs.passiveTimer(shown: passiveTimerIsEnabled, locked: passiveLocked, defaultMilliseconds: passiveTimerDefaultValue)
         updateView()
     }
 

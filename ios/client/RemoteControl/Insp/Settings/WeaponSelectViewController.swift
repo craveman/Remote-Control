@@ -7,9 +7,10 @@
 //
 
 import UIKit
-import Sm02Client
 
 class WeaponSelectViewController: UIViewController {
+
+    let rs = RemoteService.shared
 
     @IBOutlet weak var foilButton: UIButton!
     @IBOutlet weak var epeeButton: UIButton!
@@ -25,18 +26,14 @@ class WeaponSelectViewController: UIViewController {
 
     @objc func selectWeaponAction(_ sender: UIButton) {
       switch sender {
-        case foilButton: setWeapon(.foil)
-        case epeeButton: setWeapon(.epee)
-        case sabreButton: setWeapon(.sabre)
+        case foilButton: rs.weapon = .foil
+        case epeeButton: rs.weapon = .epee
+        case sabreButton: rs.weapon = .sabre
 
         default: break
 
       }
         performSegue(withIdentifier: "done", sender: sender)
-    }
-
-    private func setWeapon(_ weapon: Weapon) {
-        Sm02.send(message: Outbound.setWeapon(weapon: weapon))
     }
 
     /*

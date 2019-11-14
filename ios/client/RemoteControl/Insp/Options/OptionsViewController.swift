@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import Sm02Client
-
 
 enum OptionsActions {
     case namesOptions
@@ -17,7 +15,7 @@ enum OptionsActions {
     case timerPassives
     case phrases
     case disconnect
-    
+
 }
 
 let optionsList: [(title: String,action: OptionsActions)] = [
@@ -32,18 +30,20 @@ let optionsList: [(title: String,action: OptionsActions)] = [
 let protoCellName = "options"
 
 class OptionsViewController: UITableViewController {
-   
+
+    let rs = RemoteService.shared
+
     var animated = true;
-    
+
     @IBAction func goBack(_ sender: Any) {
         dismiss(animated: self.animated, completion: nil)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated);
         self.animated = animated;
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -66,7 +66,7 @@ class OptionsViewController: UITableViewController {
         return optionsList.count;
     }
 
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: protoCellName, for: indexPath)
         let (name, id) = optionsList[indexPath.row]
@@ -81,10 +81,10 @@ class OptionsViewController: UITableViewController {
 
         return cell
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let (_, id) = optionsList[indexPath.row]
-        
+
         switch id {
         case .disconnect:
             print(id)
@@ -94,12 +94,12 @@ class OptionsViewController: UITableViewController {
             print("row: \(indexPath.row)")
         }
     }
-    
+
     private func goToRoot() {
-      Sm02.disconnect()
+      rs.disconnect()
       performSegue(withIdentifier: "toRoot", sender: self)
     }
-    
+
 
     /*
     // Override to support conditional editing of the table view.
@@ -117,7 +117,7 @@ class OptionsViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
     */
 

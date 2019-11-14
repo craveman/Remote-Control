@@ -10,6 +10,9 @@ import UIKit
 import Sm02Client
 
 class PenaltySelectorViewController: UIViewController {
+
+    let rs = RemoteService.shared
+
     private var maxIncreaseLevel = 0;
 
     private var currentPenaltyCard: StatusCard?
@@ -128,8 +131,7 @@ class PenaltySelectorViewController: UIViewController {
 
     private func remoteAction(_ card: StatusCard) {
         print("send: \(currentPenaltyCard!) \(personType)")
-        let cm = Outbound.setCard(person: personType, status: card)
-        Sm02.send(message: cm)
+        rs.setCard(for: personType, card)
         updateView()
     }
 

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Sm02Client
 
 enum TimersActions {
     case shortBreak
@@ -32,6 +31,8 @@ let shortBreakTimer = UInt32(60);
 let medBreakTimer = UInt32(5 * 60);
 
 class TimersTableViewController: UITableViewController {
+
+    let rs = RemoteService.shared
 
     var fightNavigationBack: (() -> Void)? = nil;
 
@@ -79,7 +80,7 @@ class TimersTableViewController: UITableViewController {
         print(action)
         switch action {
         case .shortBreak:
-            Sm02.send(message: Outbound.setTimer(time: shortBreakTimer, mode: .pause))
+            rs.setTimer(time: shortBreakTimer, mode: .pause)
             backToFight()
         case .fightTimer:
             let vc = stbrd.instantiateViewController(withIdentifier: "Picker") as? FightTimePickerViewController
@@ -98,7 +99,7 @@ class TimersTableViewController: UITableViewController {
         case .passiveTimerSettings:
             break
         case .medicineBreak:
-            Sm02.send(message: Outbound.setTimer(time: medBreakTimer, mode: .medicine))
+            rs.setTimer(time: medBreakTimer, mode: .medicine)
             backToFight()
         }
     }

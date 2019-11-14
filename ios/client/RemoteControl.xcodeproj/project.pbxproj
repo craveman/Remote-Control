@@ -36,6 +36,7 @@
 		85A9936023113521003FC5BE /* Options.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A9935F23113521003FC5BE /* Options.storyboard */; };
 		85A9936723113C15003FC5BE /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9936623113C15003FC5BE /* OptionsViewController.swift */; };
 		8F5519C72365E7D7009787B5 /* InMemoryState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5519C62365E7D7009787B5 /* InMemoryState.swift */; };
+		8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6D773C237D2C530077B65D /* RemoteService.swift */; };
 		8FE69D5423398B6200E3B539 /* QRCodeReader in Frameworks */ = {isa = PBXBuildFile; productRef = 8FE69D5323398B6200E3B539 /* QRCodeReader */; };
 		8FFBF9E22336BD4000736BB7 /* Sm02Client in Frameworks */ = {isa = PBXBuildFile; productRef = 8FFBF9E12336BD4000736BB7 /* Sm02Client */; };
 		8FFBF9E42336CA6F00736BB7 /* RemoteServer+UrlParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFBF9E32336CA6F00736BB7 /* RemoteServer+UrlParsing.swift */; };
@@ -109,6 +110,7 @@
 		85A9935F23113521003FC5BE /* Options.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Options.storyboard; sourceTree = "<group>"; };
 		85A9936623113C15003FC5BE /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
 		8F5519C62365E7D7009787B5 /* InMemoryState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryState.swift; sourceTree = "<group>"; };
+		8F6D773C237D2C530077B65D /* RemoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
 		8FFBF9E02336BC5E00736BB7 /* Sm02Client */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sm02Client; sourceTree = "<group>"; };
 		8FFBF9E32336CA6F00736BB7 /* RemoteServer+UrlParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteServer+UrlParsing.swift"; sourceTree = "<group>"; };
 		B9C8BEDA2305A2C5004DBBF8 /* RemoteControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoteControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -317,6 +319,7 @@
 				85A9933A230B4C40003FC5BE /* Insp */,
 				850AAE6E23270F0E00DBFD93 /* Intro.storyboard */,
 				850AAE7323270FC400DBFD93 /* ViewController.swift */,
+				8F6D773C237D2C530077B65D /* RemoteService.swift */,
 			);
 			path = RemoteControl;
 			sourceTree = "<group>";
@@ -505,6 +508,7 @@
 				850AAE7423270FC400DBFD93 /* ViewController.swift in Sources */,
 				850AAE5F2322CF7100DBFD93 /* UITools.swift in Sources */,
 				850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */,
+				8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */,
 				85A9934A23109CB7003FC5BE /* FightViewController.swift in Sources */,
 				850AAEEF232AFCDE00DBFD93 /* FightTimePickerViewController.swift in Sources */,
 				85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */,
