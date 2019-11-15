@@ -148,7 +148,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
       return .failure(.parsingdError("The message '\(tag)' doesn't have status"))
     }
     guard let outbound = decoder(&buffer) else {
-      return .failure(.parsingdError("The message '\(tag)' doesn't have a decoder"))
+      return .failure(.parsingdError("The message '\(tag)' couldn't be decoded"))
     }
     return .success(outbound)
   }
