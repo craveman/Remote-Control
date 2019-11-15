@@ -142,7 +142,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
       return .failure(.parsingdError("The message doesn't have a tag"))
     }
     guard let decoder = ByteBufferToInboundDecoder.decoders[tag] else {
-      return .failure(.parsingdError("The message doen't have a decoder for the tag - '\(tag)'"))
+      return .failure(.parsingdError("The message doesn't have a decoder for the tag - '\(tag)'"))
     }
     guard let _ = buffer.readUInt8() else {
       return .failure(.parsingdError("The message '\(tag)' doesn't have status"))
@@ -159,7 +159,8 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
 
   public func errorCaught (context: ChannelHandlerContext, error: Error) {
     print("ERROR: during channel handling - \(error)")
-    context.close(promise: nil)
+    // don't close the connection after error
+    // context.close(promise: nil)
   }
 }
 
