@@ -10,7 +10,7 @@ import struct Foundation.Data
 import struct Foundation.URL
 import struct Foundation.URLComponents
 import class Foundation.JSONDecoder
-import struct Sm02Client.RemoteServer
+import class Sm02Client.RemoteServer
 
 
 extension RemoteServer {

@@ -8,19 +8,25 @@
 
 import Foundation
 import Sm02Client
+import NIOConcurrencyHelpers
 
 class RemoteService {
 
   static let shared = RemoteService()
-  
-  private let innerRemoteServer: Atomic<RemoteServer?>
+
+  private let innerRemoteServer: AtomicBox<RemoteServer>
+
+  private(set) var connected: Bool = false
+  private(set) var authenticated: Bool = false
 
   var remoteServer: RemoteServer? {
     set {
-      innerRemoteServer.store(newValue)
+      innerRemoteServer.store(newValue!)
     }
     get {
-      return innerRemoteServer.load()
+      let value = innerRemoteServer.load()
+      return Optional.some(value)
+          .flatMap { $0.isEmpty() ? nil : $0 }
     }
   }
   var visibility = Visibility()
@@ -63,7 +69,22 @@ class RemoteService {
   }
 
   private init() {
-    innerRemoteServer = Atomic<RemoteServer?>(nil)
+    innerRemoteServer = AtomicBox<RemoteServer>(value: RemoteServer.empty)
+    Sm02.on(message: { [unowned self] (inbound) in
+      if case .authentication(.success) = inbound {
+        self.authenticated = true
+      }
+    })
+    Sm02.on(event: { [unowned self] (event) in
+      switch event {
+      case .connected:
+        self.connected = true
+      case .disconnected:
+        self.connected = false
+      default:
+        1 == 1
+      }
+    })
   }
 
   func setName (for person: PersonType, _ name: String) {

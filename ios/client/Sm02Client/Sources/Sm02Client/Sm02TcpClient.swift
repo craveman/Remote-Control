@@ -34,7 +34,7 @@ class Sm02TcpClient: Sm02Client {
     do {
       channel = try bootstrap.connect(host: remote.ip, port: 21074).wait()
     } catch {
-      print("ERROR: connection error - \(error)")
+      print("ERROR: connection to \(remote.ip):21074 has error - \(error)")
     }
 
     let request = Outbound.authenticate(
