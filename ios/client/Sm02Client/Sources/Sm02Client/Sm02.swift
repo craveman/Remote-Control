@@ -17,12 +17,12 @@ public class Sm02 {
 
   private static var client: Sm02Client = Sm02DummyClient()
 
-  public static func connect (to remote: RemoteServer) {
+  public static func connect (to remote: RemoteServer) -> Result<Void, Error> {
     client.close()
     if client is Sm02DummyClient {
       client = container.makeTcpClient()
     }
-    client.connect(to: remote)
+    return client.connect(to: remote)
   }
 
   public static func send (message: Outbound) {

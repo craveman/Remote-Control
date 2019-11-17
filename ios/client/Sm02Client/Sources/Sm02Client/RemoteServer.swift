@@ -6,7 +6,7 @@ public class RemoteServer: Codable {
   public let ssid: String
   public let ip: String
   public let code: [UInt8]
-
+  
   public var description: String {
     return "RemoteServer(ssid:\(ssid),ip:\(ip),code:\(code))"
   }
@@ -16,8 +16,8 @@ public class RemoteServer: Codable {
     self.ip = ip
     self.code = code
   }
-
+  
   public func isEmpty () -> Bool {
-    return ssid == "" && ip == "" && code == []
+    return self === RemoteServer.empty
   }
 }

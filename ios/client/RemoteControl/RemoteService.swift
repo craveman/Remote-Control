@@ -181,8 +181,8 @@ class RemoteService {
     Sm02.send(message: outbound)
   }
 
-  func connect (to remote: RemoteServer) {
-    Sm02.connect(to: remote)
+  func connect (to remote: RemoteServer) -> Result<Void, Error> {
+    return Sm02.connect(to: remote)
   }
 
   func disconnect () {

@@ -21,6 +21,7 @@ class Sm02TcpClient: Sm02Client {
     group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
     bootstrap = ClientBootstrap(group: group)
       .channelOption(ChannelOptions.socket(SocketOptionLevel(SOL_SOCKET), SO_REUSEADDR), value: 1)
+      .connectTimeout(.seconds(1))
       .channelInitializer({ channel in
         container.makeClientPipeline(channel)
       })
@@ -30,11 +31,15 @@ class Sm02TcpClient: Sm02Client {
     close()
   }
 
-  func connect (to remote: RemoteServer) {
+  func connect (to remote: RemoteServer) -> Result<Void, Error> {
     do {
       channel = try bootstrap.connect(host: remote.ip, port: 21074).wait()
+    } catch ChannelError.connectTimeout(let timeAmount) {
+      let timeout = (Int) (timeAmount.nanoseconds / 1000000000)
+      let error = ConnectionError.connectionTimeout(timeout)
+      return .failure(error)
     } catch {
-      print("ERROR: connection to \(remote.ip):21074 has error - \(error)")
+      return .failure(error)
     }
 
     let request = Outbound.authenticate(
@@ -44,6 +49,7 @@ class Sm02TcpClient: Sm02Client {
       version: 1
     )
     send(message: request)
+    return .success(())
   }
 
   func send (message: Outbound) {
