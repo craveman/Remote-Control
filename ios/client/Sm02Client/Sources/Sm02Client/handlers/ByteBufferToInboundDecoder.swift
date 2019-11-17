@@ -16,6 +16,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     0x1B: decodeVideoReady,
     0x1C: decodeVideoReceived,
     0x24: decodeAuthentication,
+    0x66: decodeCameraIsOnline,
     0xAA: decodeGenericResponse,
   ]
 
@@ -92,6 +93,10 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     return .passiveMax
   }
 
+  private static func decodeCameraIsOnline (buffer: inout ByteBuffer) -> Inbound? {
+    return .cameraOnline
+  }
+    
   private static func decodePauseFinished (buffer: inout ByteBuffer) -> Inbound? {
     return .pauseFinished
   }
@@ -109,6 +114,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
   }
 
   private static func decodeAuthentication (buffer: inout ByteBuffer) -> Inbound? {
+    print(buffer)
     guard let status = buffer.readAuthenticationStatus() else {
       print("ERROR: The 'authentication' message doesn't have 'status' field")
       return nil

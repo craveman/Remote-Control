@@ -12,12 +12,29 @@ import Sm02Client
 class ConnectionsViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
     
     @IBOutlet weak var qrReaderSubViewWrapper: UIView!
+    let rs = RemoteService.shared
     
     override func viewDidAppear(_ animated: Bool) {
+        
+        do {
+            print ("set success")
+            let scanner = self.getScanner()
+            scanner.onSuccess = { [weak self] in
+              print ("toInspiration")
+              self?.jumpToInspiration()
+            }
+        } catch {
+            print("next is not QrViewController", qrReaderSubViewWrapper.next!)
+        }
+        
         if isSimulationEnv() {
             skipQR()
         }
         super.viewDidAppear(animated);
+    }
+    
+    private func getScanner() -> QrViewController {
+        return qrReaderSubViewWrapper.subviews[0].next as! QrViewController
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -34,16 +51,13 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         print("dismiss")
-        
+         rs.disconnect()
         if isSimulationEnv() {
             skipQR()
             return;
         }
-        print("next", qrReaderSubViewWrapper.next)
-        if qrReaderSubViewWrapper.next is QrViewController {
-            print("is QrViewController")
-            (qrReaderSubViewWrapper.next as! QrViewController).startScanner()
-        }
+        
+        self.getScanner().startScanner()
     }
 
     /*
@@ -57,7 +71,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     */
     
     private func jumpToInspiration() {
-        print("skip")
+        print("jumpToInspiration")
         performSegue(withIdentifier: "skipQR", sender: nil)
     }
     

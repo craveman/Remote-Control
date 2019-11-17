@@ -21,7 +21,9 @@ class RemoteService {
 
   var remoteServer: RemoteServer? {
     set {
-      innerRemoteServer.store(newValue!)
+        let value = innerRemoteServer.load()
+        innerRemoteServer.compareAndExchange(expected: value, desired: newValue!)
+//      innerRemoteServer.store(newValue!)
     }
     get {
       let value = innerRemoteServer.load()

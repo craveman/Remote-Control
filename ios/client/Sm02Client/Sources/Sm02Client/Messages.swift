@@ -121,6 +121,7 @@ public enum Inbound {
   case pauseFinished
   case videoReady(name: String)
   case videoReceived
+  case cameraOnline
   case authentication(status: AuthenticationStatus)
   case genericResponse(status: UInt8 = 0x01, request: UInt8)
 }
@@ -193,6 +194,8 @@ extension Inbound: Message {
       return 0x1C
     case .authentication:
       return 0x24
+    case .cameraOnline:
+        return 0x66
     case .genericResponse:
       return 0xAA
     }

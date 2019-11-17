@@ -30,6 +30,7 @@ class QrViewController: UIViewController {
 
   lazy var reader: QRCodeReader = QRCodeReader()
   var openedAlertCallback: (() -> Void)?
+  var onSuccess: (() -> Void) = { print ("Not defined success action") }
 
   override func viewDidAppear (_ animated: Bool) {
     super.viewDidAppear(animated)
@@ -100,13 +101,18 @@ class QrViewController: UIViewController {
       print("connecting to \(remote)")
       switch self?.rs.connect(to: remote) {
       case .success(_):
-        self?.performSegue(withIdentifier: "toInspiration", sender: nil)
+        print("self?.onSuccess")
+        self?.onSuccess();
       case .failure(ConnectionError.connectionTimeout(let timeout)):
         let message = "Неудалось подключиться к \(remote.ip). Таймаут на подключение (\(timeout) сек) иссяк"
         self?.showError(text: message)
+        case .failure(_):
+        print("Another connections error")
       default:
+        print("Smth happened")
         1 == 1
       }
+      print("finished connecting")
     }))
     print("present")
     present(alert, animated: true, completion: nil)
@@ -143,7 +149,7 @@ class QrViewController: UIViewController {
       alert?.dismiss(animated: false)
     }
   }
-
+  
   private func checkScanPermissions () -> Bool {
     do {
       return try QRCodeReader.supportsMetadataObjectTypes()
