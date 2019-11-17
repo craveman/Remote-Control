@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Sm02Client
 
 final class TimerResponder: ObservableObject {
     @Published private(set) var finished: Bool = false
@@ -45,7 +46,7 @@ final class TimerResponder: ObservableObject {
 struct PointsSwiftUIView: View {
     @ObservedObject var responder = TimerResponder()
     @Binding var timer: UInt32
-    
+
     func startAction() -> Void {
         self.responder.start(timer)
     }
@@ -67,19 +68,22 @@ struct PointsSwiftUIView: View {
 }
 
 fileprivate struct FightControls: View {
+    var pType: PersonType = .none
+    @State var leftScore: Int = 0
+     @State var rightScore: Int = 0
     var body: some View {
         HStack {
             VStack {
                 HoldPassiveButton().padding(.vertical, 32)
                     .padding(.horizontal, 50)
-                PointsStepper()
+                PointsStepper(pType: .left, score: self.$leftScore)
                 
             }
             VStack {
                 VideoButton()
                 .padding(.vertical, 32)
                 .padding(.horizontal, 50)
-                PointsStepper()
+                PointsStepper(pType: .right, score: self.$rightScore)
             }
             
            

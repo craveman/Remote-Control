@@ -7,19 +7,34 @@
 //
 
 import SwiftUI
+import Sm02Client
 
 struct PointsStepper: View {
+    let rs = RemoteService.shared
+    var pType: PersonType = .none
+    @Binding var score: Int
     var body: some View {
         VStack {
             Button(action: {
                 print("- Button Pushed")
+                if (self.score == 0) {
+                    return
+                }
+                
+                self.rs.setScore(for: self.pType, UInt8(self.score - 1))
+                self.score -= 1
             }) {
                 Text("-")
             }.font(Font.custom("DIN Alternate", size: 60).bold()).accentColor(.black)
             .padding(.vertical, 32)
             .padding(.horizontal, 50)
             Button(action: {
+                if (self.score == 99) {
+                    return
+                }
                 print("+ Button Pushed")
+                self.rs.setScore(for: self.pType, UInt8(self.score + 1))
+                self.score += 1
             }) {
                 Text("+")
             }.font(Font.custom("DIN Alternate", size: 60).bold()).accentColor(.black)
@@ -30,7 +45,8 @@ struct PointsStepper: View {
 }
 
 struct PointsStepper_Previews: PreviewProvider {
+    @State static var score = 0
     static var previews: some View {
-        PointsStepper()
+        PointsStepper(pType: .none, score: $score)
     }
 }
