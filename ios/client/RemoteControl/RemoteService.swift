@@ -12,7 +12,17 @@ import Sm02Client
 class RemoteService {
 
   static let shared = RemoteService()
+  
+  private let innerRemoteServer: Atomic<RemoteServer?>
 
+  var remoteServer: RemoteServer? {
+    set {
+      innerRemoteServer.store(newValue)
+    }
+    get {
+      return innerRemoteServer.load()
+    }
+  }
   var visibility = Visibility()
   var videoCounters = VideoCounters()
   var persons = [PersonType: PersonStatus]()
@@ -53,6 +63,7 @@ class RemoteService {
   }
 
   private init() {
+    innerRemoteServer = Atomic<RemoteServer?>(nil)
   }
 
   func setName (for person: PersonType, _ name: String) {

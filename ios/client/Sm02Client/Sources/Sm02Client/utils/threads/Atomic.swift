@@ -7,17 +7,8 @@ public class Atomic<Element> : ThreadedObject<Element> {
   ///     - value: Value to store.
   ///
   ///     - type: The access type for this attomic element.
-  public override init (_ value: Element, type: ThreadingType) {
+  public override init (_ value: Element, type: ThreadingType = .concurrent) {
     super.init(value, type: type)
-  }
-
-  /// Initializes this atomic element from a normal element using a concurrent
-  /// threading type.
-  ///
-  /// - parameters:
-  ///     - value: Value to store.
-  public convenience init (_ value: Element) {
-    self.init(value, type: .concurrent)
   }
 
   /// Performs a synchronous access to the internal value and returns its

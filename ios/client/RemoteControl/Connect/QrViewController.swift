@@ -77,7 +77,7 @@ class QrViewController: UIViewController {
       message: "\(remote)",
       preferredStyle: .alert
     )
-    InMemoryState.shared.remoteServer = remote
+    rs.remoteServer = remote
 
     alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] (action) in
       print("connecting to \(remote)")
