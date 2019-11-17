@@ -7,16 +7,37 @@
 //
 
 import UIKit
+import SwiftUI
 
-class InspViewController: UIViewController {
+var inspFontName: String = "DIN Alternate"
+
+@available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
+struct ScaledFont: ViewModifier {
+    @Environment(\.sizeCategory) var sizeCategory
+    var name: String
+    var size: CGFloat
+
+    func body(content: Content) -> some View {
+       let scaledSize = UIFontMetrics.default.scaledValue(for: size)
+        return content.font(.custom(name, size: scaledSize))
+    }
+}
+
+@available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
+extension View {
+    func scaledFont(name: String = inspFontName, size: CGFloat = 24) -> some View {
+        return self.modifier(ScaledFont(name: name, size: size))
+    }
+}
+
+class InspViewController: UITabBarController {
 
     override func viewDidLoad() {
+        self.selectedIndex = 1
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
     
-
     /*
     // MARK: - Navigation
 

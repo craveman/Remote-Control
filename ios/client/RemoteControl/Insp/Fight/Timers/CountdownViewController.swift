@@ -21,7 +21,7 @@ class CountdownViewController: UIViewController {
     }
 
     @objc func handleTap(_ sender : UIView?) {
-//        NetworkManager.shared.send(message: Outbound.startTimer(state: .suspended))
+//        Sm02.send(message: Outbound.startTimer(state: .suspended))
         dismiss(animated: self.animated, completion: nil)
     }
     /*

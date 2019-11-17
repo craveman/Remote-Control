@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sQ0-z0-FbK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sQ0-z0-FbK">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -10,7 +10,7 @@
         <!--Connections View Controller-->
         <scene sceneID="W0z-Wf-cek">
             <objects>
-                <viewController id="sQ0-z0-FbK" customClass="ConnectionsViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="sQ0-z0-FbK" customClass="ConnectionsViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UTB-3o-rUT">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -22,7 +22,6 @@
                                 </connections>
                             </containerView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="G01-oJ-bgF" firstAttribute="leading" secondItem="2IZ-CK-Xpj" secondAttribute="leading" id="VfJ-iZ-h5h"/>
                             <constraint firstItem="G01-oJ-bgF" firstAttribute="top" secondItem="2IZ-CK-Xpj" secondAttribute="top" id="syB-eu-Awy"/>
@@ -31,7 +30,6 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="2IZ-CK-Xpj"/>
                     </view>
-                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="qrReaderSubViewWrapper" destination="G01-oJ-bgF" id="Mz8-CW-Aip"/>
                         <segue destination="po2-Vp-2Jh" kind="show" identifier="skipQR" id="TA0-Lc-3MV"/>
@@ -59,11 +57,11 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Connection message" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10P-Ts-tf1">
                                 <rect key="frame" x="16" y="312" width="288" height="240"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="10P-Ts-tf1" secondAttribute="bottom" constant="16" id="CbO-aS-HYF"/>
                             <constraint firstItem="10P-Ts-tf1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Drc-S3-d2W"/>
@@ -87,7 +85,9 @@
         <!--Inspiration-->
         <scene sceneID="acv-zF-Ot2">
             <objects>
-                <viewControllerPlaceholder storyboardName="Inspiration" id="po2-Vp-2Jh" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Inspiration" id="po2-Vp-2Jh" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="CTB-f4-pqN"/>
+                </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A59-1I-ld1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-701" y="-366"/>

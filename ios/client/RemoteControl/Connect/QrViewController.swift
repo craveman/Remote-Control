@@ -33,14 +33,26 @@ class QrViewController: UIViewController {
 
   override func viewDidAppear (_ animated: Bool) {
     super.viewDidAppear(animated)
-
+    print("QrViewController::viewDidAppear")
+    startScanner();
+  }
+  
+  public func stopScanner() {
+    DispatchQueue.main.async {
+      self.reader.stopScanning()
+    }
+  }
+  
+  public func startScanner() {
     guard checkScanPermissions(), !reader.isRunning else {
       return
     }
+    print("QrViewController::viewDidAppear::passedGuard")
 
     reader.didFindCode = { [weak self] (result) in
       print("Completion with result: \(result.value) of type \(result.metadataType)")
       guard let self = self else {
+        print("guard self = self")
         return
       }
       self.reader.stopScanning()
@@ -52,7 +64,7 @@ class QrViewController: UIViewController {
         self.process(error: reason)
       }
     }
-
+    
     reader.startScanning()
   }
 
@@ -77,14 +89,29 @@ class QrViewController: UIViewController {
       message: "\(remote)",
       preferredStyle: .alert
     )
+    print("remoteServer: \(remote)")
+    
     rs.remoteServer = remote
+
+    print("addAction")
 
     alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] (action) in
       print("connecting to \(remote)")
-      self?.rs.connect(to: remote)
+      
+      DispatchQueue.global(qos: .userInitiated).async {
+        print("connecting to \(remote)")
+        do {
+          self?.rs.connect(to: remote)
+        } catch {
+          print("failed to connect \(error)")
+        }
+          
+      }
+      
+      print("performSegue::toInspiration")
       self?.performSegue(withIdentifier: "toInspiration", sender: nil)
     }))
-
+    print("present")
     present(alert, animated: true, completion: nil)
   }
 

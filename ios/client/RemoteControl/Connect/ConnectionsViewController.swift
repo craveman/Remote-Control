@@ -7,19 +7,41 @@
 //
 
 import UIKit
+import Sm02Client
 
-class ConnectionsViewController: UIViewController {
+class ConnectionsViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
     
     @IBOutlet weak var qrReaderSubViewWrapper: UIView!
     
-    override func viewDidLoad() {
-        //todo beware the user to allow access and/or handle no-access
+    override func viewDidAppear(_ animated: Bool) {
         if isSimulationEnv() {
             skipQR()
         }
-        super.viewDidLoad()
+        super.viewDidAppear(animated);
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "skipQR" || segue.identifier == "toInspiration"{
+        segue.destination.presentationController?.delegate = (self as UIAdaptivePresentationControllerDelegate)
+        }
+        if isSimulationEnv() {
+            return;
+        }
+        if qrReaderSubViewWrapper.next is QrViewController {
+            (qrReaderSubViewWrapper.next as! QrViewController).stopScanner()
+        }
+    }
+    
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        Sm02.send(message: .disconnect)
+        if isSimulationEnv() {
+            skipQR()
+            return;
+        }
+        if qrReaderSubViewWrapper.next is QrViewController {
+            (qrReaderSubViewWrapper.next as! QrViewController).startScanner()
+        }
+    }
 
     /*
     // MARK: - Navigation
