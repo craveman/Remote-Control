@@ -15,8 +15,6 @@ class PenaltiesViewController: UIViewController {
 
     @IBOutlet weak var penaltiesSubView: UIView!
     
-    @IBOutlet weak var viewSelector: UISegmentedControl!
-    
     lazy var penaltiesCtrl: PenaltiesCardsViewController = {
         let stbrd = UIStoryboard(name: storyBoard, bundle: nil)
         
@@ -38,23 +36,15 @@ class PenaltiesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
-        if let segmentedControl = viewSelector as UISegmentedControl? {
-            segmentedControl.addTarget(self, action: Selector(("indexChanged:")), for: .valueChanged)
-        }
         
         updateView()
         
         // Do any additional setup after loading the view.
     }
     
-    @objc func indexChanged(_ sender: UISegmentedControl) {
-        updateView()
-    }
-    
     private func updateView() {
-        penaltiesCtrl.view.isHidden = !(viewSelector.selectedSegmentIndex == 0)
-        pCardsCtrl.view.isHidden = (viewSelector.selectedSegmentIndex == 0)
+        penaltiesCtrl.view.isHidden = false
+        pCardsCtrl.view.isHidden = true
         
         penaltiesCtrl.setType(.basic)
         pCardsCtrl.setType(.passive)

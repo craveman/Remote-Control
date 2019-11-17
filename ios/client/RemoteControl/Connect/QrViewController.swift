@@ -33,14 +33,27 @@ class QrViewController: UIViewController {
 
   override func viewDidAppear (_ animated: Bool) {
     super.viewDidAppear(animated)
+    print("QrViewController::viewDidAppear")
+    startScanner();
+  }
 
+  public func stopScanner() {
+    DispatchQueue.main.async {
+      self.reader.stopScanning()
+    }
+  }
+
+  public func startScanner() {
+    print("startScanner")
     guard checkScanPermissions(), !reader.isRunning else {
       return
     }
+    print("QrViewController::viewDidAppear::passedGuard")
 
     reader.didFindCode = { [weak self] (result) in
       print("Completion with result: \(result.value) of type \(result.metadataType)")
       guard let self = self else {
+        print("guard self = self")
         return
       }
       self.reader.stopScanning()
@@ -77,21 +90,27 @@ class QrViewController: UIViewController {
       message: "\(remote)",
       preferredStyle: .alert
     )
+    print("remoteServer: \(remote)")
+
     rs.remoteServer = remote
+
+    print("addAction")
 
     alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] (action) in
       print("connecting to \(remote)")
-      switch self?.rs.connect(to: remote) {
-      case .success(_):
-        self?.performSegue(withIdentifier: "toInspiration", sender: nil)
-      case .failure(ConnectionError.connectionTimeout(let timeout)):
-        let message = "Неудалось подключиться к \(remote.ip). Таймаут на подключение (\(timeout) сек) иссяк"
-        self?.showError(text: message)
-      default:
-        1 == 1
+      DispatchQueue.global(qos: .userInitiated).async {
+        switch self?.rs.connect(to: remote) {
+        case .success(_):
+          self?.performSegue(withIdentifier: "toInspiration", sender: nil)
+        case .failure(ConnectionError.connectionTimeout(let timeout)):
+          let message = "Неудалось подключиться к \(remote.ip). Таймаут на подключение (\(timeout) сек) иссяк"
+          self?.showError(text: message)
+        default:
+          1 == 1
+        }
       }
     }))
-
+    print("present")
     present(alert, animated: true, completion: nil)
   }
 
