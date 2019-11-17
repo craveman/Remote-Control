@@ -33,12 +33,15 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     }
     
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        Sm02.send(message: .disconnect)
+        print("dismiss")
+        
         if isSimulationEnv() {
             skipQR()
             return;
         }
+        print("next", qrReaderSubViewWrapper.next)
         if qrReaderSubViewWrapper.next is QrViewController {
+            print("is QrViewController")
             (qrReaderSubViewWrapper.next as! QrViewController).startScanner()
         }
     }

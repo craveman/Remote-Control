@@ -44,6 +44,7 @@ class QrViewController: UIViewController {
   }
   
   public func startScanner() {
+    print("startScanner")
     guard checkScanPermissions(), !reader.isRunning else {
       return
     }
