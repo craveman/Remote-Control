@@ -37,7 +37,6 @@
 		85B95704237B608C0063E32C /* FightTabsSelectorsUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B95703237B608C0063E32C /* FightTabsSelectorsUIView.swift */; };
 		85B95706237E06C50063E32C /* TimersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B95705237E06C50063E32C /* TimersSwiftUIView.swift */; };
 		85B95708237E07130063E32C /* FightSectionSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B95707237E07130063E32C /* FightSectionSwiftUIView.swift */; };
-		8F5519C72365E7D7009787B5 /* InMemoryState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5519C62365E7D7009787B5 /* InMemoryState.swift */; };
 		8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6D773C237D2C530077B65D /* RemoteService.swift */; };
 		8FE69D5423398B6200E3B539 /* QRCodeReader in Frameworks */ = {isa = PBXBuildFile; productRef = 8FE69D5323398B6200E3B539 /* QRCodeReader */; };
 		8FFBF9E22336BD4000736BB7 /* Sm02Client in Frameworks */ = {isa = PBXBuildFile; productRef = 8FFBF9E12336BD4000736BB7 /* Sm02Client */; };
@@ -113,7 +112,6 @@
 		85B95703237B608C0063E32C /* FightTabsSelectorsUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightTabsSelectorsUIView.swift; sourceTree = "<group>"; };
 		85B95705237E06C50063E32C /* TimersSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimersSwiftUIView.swift; sourceTree = "<group>"; };
 		85B95707237E07130063E32C /* FightSectionSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightSectionSwiftUIView.swift; sourceTree = "<group>"; };
-		8F5519C62365E7D7009787B5 /* InMemoryState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryState.swift; sourceTree = "<group>"; };
 		8F6D773C237D2C530077B65D /* RemoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
 		8FFBF9E02336BC5E00736BB7 /* Sm02Client */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sm02Client; sourceTree = "<group>"; };
 		8FFBF9E32336CA6F00736BB7 /* RemoteServer+UrlParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteServer+UrlParsing.swift"; sourceTree = "<group>"; };
@@ -726,7 +724,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = NB936833RX;
+				DEVELOPMENT_TEAM = 8BU6982BUJ;
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = RemoteControl/Base.lproj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
@@ -735,7 +733,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xxlabaza.RemoteControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_INCLUDE_PATHS = "";
@@ -750,7 +748,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = NB936833RX;
+				DEVELOPMENT_TEAM = 8BU6982BUJ;
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = RemoteControl/Base.lproj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
@@ -759,7 +757,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.xxlabaza.RemoteControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_INCLUDE_PATHS = "";

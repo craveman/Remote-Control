@@ -98,16 +98,14 @@ class QrViewController: UIViewController {
 
     alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] (action) in
       print("connecting to \(remote)")
-      DispatchQueue.global(qos: .userInitiated).async {
-        switch self?.rs.connect(to: remote) {
-        case .success(_):
-          self?.performSegue(withIdentifier: "toInspiration", sender: nil)
-        case .failure(ConnectionError.connectionTimeout(let timeout)):
-          let message = "Неудалось подключиться к \(remote.ip). Таймаут на подключение (\(timeout) сек) иссяк"
-          self?.showError(text: message)
-        default:
-          1 == 1
-        }
+      switch self?.rs.connect(to: remote) {
+      case .success(_):
+        self?.performSegue(withIdentifier: "toInspiration", sender: nil)
+      case .failure(ConnectionError.connectionTimeout(let timeout)):
+        let message = "Неудалось подключиться к \(remote.ip). Таймаут на подключение (\(timeout) сек) иссяк"
+        self?.showError(text: message)
+      default:
+        1 == 1
       }
     }))
     print("present")
