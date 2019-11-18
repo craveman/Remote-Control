@@ -96,7 +96,7 @@ class OptionsViewController: UITableViewController {
     }
 
     private func goToRoot() {
-      rs.disconnect()
+      rs.connection.disconnect()
       performSegue(withIdentifier: "toRoot", sender: self)
     }
 

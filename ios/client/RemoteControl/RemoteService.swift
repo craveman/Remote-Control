@@ -14,23 +14,8 @@ class RemoteService {
 
   static let shared = RemoteService()
 
-  private let innerRemoteServer: AtomicBox<RemoteServer>
+  let connection = Connection()
 
-  private(set) var connected: Bool = false
-  private(set) var authenticated: Bool = false
-
-  var remoteServer: RemoteServer? {
-    set {
-        let value = innerRemoteServer.load()
-        innerRemoteServer.compareAndExchange(expected: value, desired: newValue!)
-//      innerRemoteServer.store(newValue!)
-    }
-    get {
-      let value = innerRemoteServer.load()
-      return Optional.some(value)
-          .flatMap { $0.isEmpty() ? nil : $0 }
-    }
-  }
   var visibility = Visibility()
   var videoCounters = VideoCounters()
   var persons = [PersonType: PersonStatus]()
@@ -71,22 +56,7 @@ class RemoteService {
   }
 
   private init() {
-    innerRemoteServer = AtomicBox<RemoteServer>(value: RemoteServer.empty)
-    Sm02.on(message: { [unowned self] (inbound) in
-      if case .authentication(.success) = inbound {
-        self.authenticated = true
-      }
-    })
-    Sm02.on(event: { [unowned self] (event) in
-      switch event {
-      case .connected:
-        self.connected = true
-      case .disconnected:
-        self.connected = false
-      default:
-        1 == 1
-      }
-    })
+    // noop
   }
 
   func setName (for person: PersonType, _ name: String) {
@@ -183,12 +153,53 @@ class RemoteService {
     Sm02.send(message: outbound)
   }
 
-  func connect (to remote: RemoteServer) -> Result<Void, Error> {
-    return Sm02.connect(to: remote)
-  }
+  class Connection {
 
-  func disconnect () {
-    Sm02.disconnect()
+    private let _address = AtomicBox<RemoteAddress>(value: RemoteAddress.empty)
+    private let _isConnected = Bool.atomic_create(false)
+    private let _isAuthenticated = Bool.atomic_create(false)
+
+    var isConnected: Bool { Bool.atomic_load(_isConnected) }
+    var isAuthenticated: Bool { Bool.atomic_load(_isAuthenticated) }
+    var address: RemoteAddress? {
+      let value = _address.load()
+      return Optional.some(value)
+          .flatMap { $0.isEmpty() ? nil : $0 }
+    }
+    
+    init () {
+      Sm02.on(message: { [unowned self] (inbound) in
+        if case .authentication(.success) = inbound {
+          Bool.atomic_store(self._isAuthenticated, true)
+        }
+      })
+      Sm02.on(event: { [unowned self] (event) in
+        switch event {
+        case .connected:
+          Bool.atomic_store(self._isConnected, true)
+        case .disconnected:
+          Bool.atomic_store(self._isConnected, false)
+          Bool.atomic_store(self._isAuthenticated, false)
+        default:
+          1 == 1
+        }
+      })
+    }
+
+    func connect (to remote: RemoteAddress) -> Result<Void, Error> {
+      let result = Sm02.connect(to: remote)
+      if case .success(_) = result {
+        _address.store(remote)
+      } else {
+        _address.store(RemoteAddress.empty)
+      }
+      return result
+    }
+
+    func disconnect () {
+      Sm02.disconnect()
+      _address.store(RemoteAddress.empty)
+    }
   }
 
   struct PersonStatus {

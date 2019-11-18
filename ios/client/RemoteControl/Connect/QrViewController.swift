@@ -93,13 +93,11 @@ class QrViewController: UIViewController {
     )
     print("remoteServer: \(remote)")
 
-    rs.remoteServer = remote
-
     print("addAction")
 
     alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] (action) in
       print("connecting to \(remote)")
-      switch self?.rs.connect(to: remote) {
+      switch self?.rs.connection.connect(to: remote) {
       case .success(_):
         print("self?.onSuccess")
         self?.onSuccess();

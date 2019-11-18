@@ -40,7 +40,7 @@
 		8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6D773C237D2C530077B65D /* RemoteService.swift */; };
 		8FE69D5423398B6200E3B539 /* QRCodeReader in Frameworks */ = {isa = PBXBuildFile; productRef = 8FE69D5323398B6200E3B539 /* QRCodeReader */; };
 		8FFBF9E22336BD4000736BB7 /* Sm02Client in Frameworks */ = {isa = PBXBuildFile; productRef = 8FFBF9E12336BD4000736BB7 /* Sm02Client */; };
-		8FFBF9E42336CA6F00736BB7 /* RemoteServer+UrlParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFBF9E32336CA6F00736BB7 /* RemoteServer+UrlParsing.swift */; };
+		8FFBF9E42336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFBF9E32336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift */; };
 		B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */; };
 		B9C8BEE02305A2C5004DBBF8 /* QrViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDF2305A2C5004DBBF8 /* QrViewController.swift */; };
 		B9C8BEE32305A2C6004DBBF8 /* QRConnect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE12305A2C6004DBBF8 /* QRConnect.storyboard */; };
@@ -114,7 +114,7 @@
 		85B95707237E07130063E32C /* FightSectionSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightSectionSwiftUIView.swift; sourceTree = "<group>"; };
 		8F6D773C237D2C530077B65D /* RemoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
 		8FFBF9E02336BC5E00736BB7 /* Sm02Client */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sm02Client; sourceTree = "<group>"; };
-		8FFBF9E32336CA6F00736BB7 /* RemoteServer+UrlParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteServer+UrlParsing.swift"; sourceTree = "<group>"; };
+		8FFBF9E32336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteAddress+UrlParsing.swift"; sourceTree = "<group>"; };
 		B9C8BEDA2305A2C5004DBBF8 /* RemoteControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoteControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9C8BEDF2305A2C5004DBBF8 /* QrViewController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = QrViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -163,7 +163,7 @@
 				B9C8BEE12305A2C6004DBBF8 /* QRConnect.storyboard */,
 				B9C8BEDF2305A2C5004DBBF8 /* QrViewController.swift */,
 				850AAEDD232723F400DBFD93 /* ConnectionsViewController.swift */,
-				8FFBF9E32336CA6F00736BB7 /* RemoteServer+UrlParsing.swift */,
+				8FFBF9E32336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift */,
 			);
 			path = Connect;
 			sourceTree = "<group>";
@@ -506,7 +506,7 @@
 				850AAEE52328653200DBFD93 /* PrioritySelectViewController.swift in Sources */,
 				85B95706237E06C50063E32C /* TimersSwiftUIView.swift in Sources */,
 				8583E8AA231EAA4C0006BC43 /* ReplaysCollectionViewController.swift in Sources */,
-				8FFBF9E42336CA6F00736BB7 /* RemoteServer+UrlParsing.swift in Sources */,
+				8FFBF9E42336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift in Sources */,
 				8558AA33232017F5006C8BA3 /* SettingsViewController.swift in Sources */,
 				850AAE7423270FC400DBFD93 /* ViewController.swift in Sources */,
 				850AAE5F2322CF7100DBFD93 /* UITools.swift in Sources */,

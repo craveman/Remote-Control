@@ -50,14 +50,14 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     }
     
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        print("dismiss")
-         rs.disconnect()
-        if isSimulationEnv() {
-            skipQR()
-            return;
-        }
+      print("dismiss")
+      rs.connection.disconnect()
+      if isSimulationEnv() {
+        skipQR()
+        return;
+      }
         
-        self.getScanner().startScanner()
+      self.getScanner().startScanner()
     }
 
     /*
