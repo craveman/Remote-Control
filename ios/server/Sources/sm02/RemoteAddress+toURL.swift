@@ -1,10 +1,10 @@
 
-import struct Sm02Client.RemoteServer
+import struct Sm02Client.RemoteAddress
 import class Foundation.JSONEncoder
 import struct Foundation.Data
 
 
-extension RemoteServer {
+extension RemoteAddress {
 
   static let URL = "https://www.inspirationpoint.ru?access="
 

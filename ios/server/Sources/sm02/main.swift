@@ -1,6 +1,6 @@
 
 import Foundation
-import struct Sm02Client.RemoteServer
+import struct Sm02Client.RemoteAddress
 
 
 guard let wifi = WiFi.info else {
@@ -17,7 +17,7 @@ if !Shell.installed("qrencode") {
   print(" INFO: 'qrencode' was installed")
 }
 
-let thisServer = RemoteServer(
+let thisServer = RemoteAddress(
   ssid: wifi.ssid,
   ip: wifi.ip,
   code: [

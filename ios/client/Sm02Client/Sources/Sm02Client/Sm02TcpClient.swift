@@ -31,7 +31,7 @@ class Sm02TcpClient: Sm02Client {
     close()
   }
 
-  func connect (to remote: RemoteServer) -> Result<Void, Error> {
+  func connect (to remote: RemoteAddress) -> Result<Void, Error> {
     do {
       channel = try bootstrap.connect(host: remote.ip, port: 21074).wait()
     } catch ChannelError.connectTimeout(let timeAmount) {

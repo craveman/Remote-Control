@@ -7,26 +7,26 @@
 //
 
 import Foundation
-import struct Sm02Client.RemoteServer
+import struct Sm02Client.RemoteAddress
 import class Sm02Client.Atomic
 
 class InMemoryState {
 
   static let shared = InMemoryState()
 
-  private var innerRemoteServer: Atomic<RemoteServer?>? = nil;
+  private var innerRemoteAddress: Atomic<RemoteAddress?>? = nil;
 
   // var connected: Bool {
   //   return
   // }
 
-  var remoteServer: RemoteServer? {
+  var remoteServer: RemoteAddress? {
     set {
-        innerRemoteServer = Atomic<RemoteServer?>(newValue)
-        innerRemoteServer?.store(newValue)
+        innerRemoteAddress = Atomic<RemoteAddress?>(newValue)
+        innerRemoteAddress?.store(newValue)
     }
     get {
-        return innerRemoteServer != nil ? innerRemoteServer?.load() : nil
+        return innerRemoteAddress != nil ? innerRemoteAddress?.load() : nil
     }
   }
 

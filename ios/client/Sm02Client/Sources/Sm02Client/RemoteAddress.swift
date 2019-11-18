@@ -1,14 +1,14 @@
 
-public class RemoteServer: Codable {
+public class RemoteAddress: Codable {
 
-  public static let empty = RemoteServer(ssid: "", ip: "", code: [])
+  public static let empty = RemoteAddress(ssid: "", ip: "", code: [])
 
   public let ssid: String
   public let ip: String
   public let code: [UInt8]
-  
+
   public var description: String {
-    return "RemoteServer(ssid:\(ssid),ip:\(ip),code:\(code))"
+    return "RemoteAddress(ssid:\(ssid),ip:\(ip),code:\(code))"
   }
 
   public init (ssid: String, ip: String, code: [UInt8]) {
@@ -16,8 +16,8 @@ public class RemoteServer: Codable {
     self.ip = ip
     self.code = code
   }
-  
+
   public func isEmpty () -> Bool {
-    return self === RemoteServer.empty
+    return self === RemoteAddress.empty
   }
 }

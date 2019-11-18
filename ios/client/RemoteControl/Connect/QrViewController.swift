@@ -59,7 +59,7 @@ class QrViewController: UIViewController {
       }
       self.reader.stopScanning()
 
-      switch RemoteServer.parse(url: result.value) {
+      switch RemoteAddress.parse(url: result.value) {
       case .success(let access):
         self.process(success: access)
       case .failure(let reason):
@@ -85,7 +85,7 @@ class QrViewController: UIViewController {
     }
   }
 
-  private func process (success remote: RemoteServer) {
+  private func process (success remote: RemoteAddress) {
     let alert = UIAlertController(
       title: "QR-код распознан",
       message: "\(remote)",
@@ -130,7 +130,7 @@ class QrViewController: UIViewController {
     present(alert, animated: true, completion: nil)
   }
 
-  private func process (error: RemoteServer.ParsingError) {
+  private func process (error: RemoteAddress.ParsingError) {
     let alert = UIAlertController(
       title: "QR-код не распознан",
       message: "\(error)",
@@ -149,7 +149,7 @@ class QrViewController: UIViewController {
       alert?.dismiss(animated: false)
     }
   }
-  
+
   private func checkScanPermissions () -> Bool {
     do {
       return try QRCodeReader.supportsMetadataObjectTypes()
