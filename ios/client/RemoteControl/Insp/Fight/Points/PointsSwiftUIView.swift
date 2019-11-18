@@ -9,85 +9,28 @@
 import SwiftUI
 import Sm02Client
 
-final class TimerResponder: ObservableObject {
-    @Published private(set) var finished: Bool = false
-    @Published private(set) var tick: UInt32 = 0
-    @Published private(set) var milisecondsLeft: UInt32 = 0
-    private var emulationInterval: Timer = Timer()
-    private(set) var interval: Double = 0.01
-    private(set) var step: UInt32 = 10
-    init(milisecondsLeft: UInt32 = 1, step: UInt32 = UInt32(1000)) {
-        self.interval = Double(Int(step) / 1000);
-        self.step = step
-    }
-    
-    public func start(_ ms: UInt32) {
-        self.milisecondsLeft = ms
-        self.finished = false
-        self.emulationInterval = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(fireTimer), userInfo: nil, repeats: true)
-    }
-    
-    public func stop() {
-        self.finished.toggle()
-        emulationInterval.invalidate()
-    }
-    
-    @objc func fireTimer() -> Void {
-        self.tick += 1;
-        if (milisecondsLeft <= UInt32(interval)) {
-            milisecondsLeft = UInt32(0)
-            self.stop()
-            return
-        }
-        milisecondsLeft -= step
-    }
-}
+let rs = RemoteService.shared
 
 struct PointsSwiftUIView: View {
     @ObservedObject var responder = TimerResponder()
     @Binding var timer: UInt32
-
+    
     func startAction() -> Void {
-        self.responder.start(timer)
+        rs.startTimer(state: .running)
+        self.responder.start(from: timer)
     }
     func stopAction() -> Void {
+        rs.startTimer(state: .suspended)
         self.responder.stop()
         self.timer = responder.milisecondsLeft
     }
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             FightControls()
-            HStack {
-                MyButtonModalView(timer: responder.milisecondsLeft, action: startAction, onDismiss: stopAction)
-                    .padding(CGFloat(50))
-            }
-            
-        }.frame(minWidth: 400, idealWidth: .infinity, maxWidth: .infinity, minHeight: 400, idealHeight: .infinity, maxHeight: .infinity, alignment: .top)
-       
-    }
-}
-
-fileprivate struct FightControls: View {
-    var pType: PersonType = .none
-    @State var leftScore: Int = 0
-     @State var rightScore: Int = 0
-    var body: some View {
-        HStack {
-            VStack {
-                HoldPassiveButton().padding(.vertical, 32)
-                    .padding(.horizontal, 50)
-                PointsStepper(pType: .left, score: self.$leftScore)
-                
-            }
-            VStack {
-                VideoButton()
-                .padding(.vertical, 32)
-                .padding(.horizontal, 50)
-                PointsStepper(pType: .right, score: self.$rightScore)
-            }
-            
-           
-        }.padding(.all, 0).border(Color.gray)
+            MyButtonModalView(timer: timer, countdown: responder.milisecondsLeft, action: startAction, onDismiss: stopAction)
+                .padding(50)
+        }.frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: getSubScreenHeight(), idealHeight: height, maxHeight: .infinity, alignment: .top)
+        
     }
 }
 
@@ -105,25 +48,51 @@ func getTimeString(_ timer: UInt32) -> String {
     return "\(getMinutes(timer)) : \(getSeconds(timer))";
 }
 
+fileprivate struct FightControls: View {
+    var pType: PersonType = .none
+    @State var leftScore: Int = 0
+    @State var rightScore: Int = 0
+    var body: some View {
+        HStack(spacing: 0) {
+            VStack {
+                HoldPassiveButton().padding(.vertical, 32)
+                    .padding(.horizontal, 50)
+                PointsStepper(pType: .left, score: self.$leftScore)
+                
+            }
+            VStack {
+                VideoButton()
+                    .padding(.vertical, 32)
+                    .padding(.horizontal, 50)
+                PointsStepper(pType: .right, score: self.$rightScore)
+            }
+            
+        }
+        .border(Color.gray)
+    }
+}
+
 fileprivate struct MyModalView: View {
     @Environment(\.presentationMode) var presentationMode
-    var timer: UInt32
-        
+    var countdown: UInt32
+    
     var body: some View {
         
         VStack {
-            dinFont(Text("\(getTimeString(timer))"), 50)
-            .padding(CGFloat(50))
-            .onTapGesture(count: 1, perform: {
-                self.presentationMode.wrappedValue.dismiss()
-            })
-            }
+            dinFont(Text("\(getTimeString(countdown))"), 50)
+                .padding(CGFloat(50))
+                .onTapGesture(count: 1, perform: {
+                    self.presentationMode.wrappedValue.dismiss()
+                })
+        }
     }
 }
 
 fileprivate struct MyButtonModalView: View {
+    var size = getButtonFrame(.fullWidth)
     @State var showModal = false
     var timer: UInt32
+    var countdown: UInt32
     var action: () -> Void
     var onDismiss: () -> Void
     var body: some View {
@@ -133,12 +102,13 @@ fileprivate struct MyButtonModalView: View {
             self.showModal = true
         }) {
             dinFont(Text("\(getTimeString(timer))"), 50)
-        }.sheet(isPresented: self.$showModal, onDismiss: self.onDismiss) {
-            MyModalView(timer: self.timer)
+        }
+        .frame(width: size.idealWidth, height: size.idealHeight, alignment: size.alignment)
+        .sheet(isPresented: self.$showModal, onDismiss: self.onDismiss) {
+            MyModalView(countdown: self.countdown)
         }
     }
 }
-
 
 struct PointsSwiftUIView_Previews: PreviewProvider {
     @State static var testTimer = UInt32(1234568)

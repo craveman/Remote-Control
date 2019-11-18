@@ -13,6 +13,20 @@ struct PointsStepper: View {
     let rs = RemoteService.shared
     var pType: PersonType = .none
     @Binding var score: Int
+    @State private var isActive = false
+    @State private var width = halfSizeButton()
+    var minusHeight = CGFloat(heightOfButton())
+    var plusHeight = CGFloat(heightOfButton() * 2)
+    
+    func thenDeactivate(_ timeout: Double = 1.1) -> Void {
+        withDelay({
+            self.isActive = false
+        }, timeout)
+    }
+    
+    let pSize = getButtonFrame(.doubleHeight)
+    let mSize = getButtonFrame(.basic)
+    
     var body: some View {
         VStack {
             Button(action: {
@@ -23,11 +37,14 @@ struct PointsStepper: View {
                 
                 self.rs.setScore(for: self.pType, UInt8(self.score - 1))
                 self.score -= 1
+                self.isActive = true
+                self.thenDeactivate()
             }) {
-                Text("-")
-            }.font(Font.custom("DIN Alternate", size: 60).bold()).accentColor(.black)
-            .padding(.vertical, 32)
-            .padding(.horizontal, 50)
+                primaryColor(dinFont(Text("-"), 50))
+            }
+            .frame(width: mSize.idealWidth, height: mSize.idealHeight, alignment: mSize.alignment)
+            .disabled(isActive)
+            .background(isActive ? UIGlobals.disabledButtonBackground_SUI: nil)
             Button(action: {
                 if (self.score == 99) {
                     return
@@ -35,11 +52,15 @@ struct PointsStepper: View {
                 print("+ Button Pushed")
                 self.rs.setScore(for: self.pType, UInt8(self.score + 1))
                 self.score += 1
+                self.isActive = true
+                self.thenDeactivate()
+                
             }) {
-                Text("+")
-            }.font(Font.custom("DIN Alternate", size: 60).bold()).accentColor(.black)
-            .padding(.vertical, 50)
-            .padding(.horizontal, 50)
+                primaryColor(dinFont(Text("+"), 50))
+            }
+            .frame(width: pSize.idealWidth, height: pSize.idealHeight, alignment: pSize.alignment)
+            .disabled(isActive)
+            .background(isActive ? UIGlobals.disabledButtonBackground_SUI: nil)
         }
     }
 }
@@ -48,5 +69,11 @@ struct PointsStepper_Previews: PreviewProvider {
     @State static var score = 0
     static var previews: some View {
         PointsStepper(pType: .none, score: $score)
+    }
+}
+
+func withDelay(_ callback: @escaping () -> Void, _ timeout: TimeInterval = 1) {
+    Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) {_ in
+        callback();
     }
 }

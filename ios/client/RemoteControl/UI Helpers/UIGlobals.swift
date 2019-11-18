@@ -7,12 +7,16 @@
 //
 import Foundation
 import UIKit
+import SwiftUI
 
 class UIGlobals {
-    static let buttonCornerRadius = CGFloat(5)
-    static let cardCornerRadius = CGFloat(10)
+    static let buttonCornerRadius = CGFloat(0)
+    static let cardCornerRadius = CGFloat(0)
     static let activeCardBorder = (color: CGColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)),  width: CGFloat(2))
     static let activeButtonBorder = (color: CGColor(#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)),  width: CGFloat(4))
+    
+    static let activeButtonBackground_SUI = Color(#colorLiteral(red: 0, green: 0.5049814582, blue: 1, alpha: 1))
+    static let disabledButtonBackground_SUI = Color(#colorLiteral(red: 0, green: 0.5049814582, blue: 1, alpha: 0.5))
 }
 
 class UIState: NSObject {

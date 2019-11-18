@@ -8,22 +8,38 @@
 
 import UIKit
 import SwiftUI
+import Sm02Client
 
 class FightViewController: UIViewController {
 
     @IBOutlet weak var fightSubView: UIView!
-    
-    
+    internal var fight: FightSectionSwiftUIView?
+    internal var game = FightSettings()
     lazy var fightSwiftUIHost: UIViewController = {
-
-        var vc = UIHostingController(rootView: FightSectionSwiftUIView())
+        
+        var view = FightSectionSwiftUIView()
+        self.fight = view
+        self.updateViewState()
+        var vc = UIHostingController(rootView: view.environmentObject(game))
         self.addViewControllerAsChildViewController(childViewController: vc)
        
         return vc
     }()
     
+    func updateViewState() -> Void {
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        Sm02.on(message: { [unowned self] (inbound) in
+          guard case let .broadcast(weapon, left, right, timer, timerState) = inbound else {
+            return
+          }
+          print("weapon=\(weapon),left=\(left),right=\(right),timer=\(timer),timerState=\(timerState)")
+            self.game.isRunning = timerState == .running
+            self.game.time = timer
+        })
         updateView()
         // Do any additional setup after loading the view.
     }
@@ -32,6 +48,12 @@ class FightViewController: UIViewController {
         print("update view")
         
         fightSwiftUIHost.view.isHidden = false;
+        updateGame()
+    }
+    
+    private func updateGame() {
+        self.game.isRunning = false
+        self.game.time = 500000
     }
     
     private func addViewControllerAsChildViewController(childViewController: UIViewController) {
@@ -56,4 +78,11 @@ class FightViewController: UIViewController {
     }
     */
 
+}
+
+class FightSettings: ObservableObject {
+    @Published var leftScore = 0
+    @Published var rightScore = 0
+    @Published var time: UInt32 = 500000
+    @Published var isRunning = false
 }
