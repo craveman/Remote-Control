@@ -11,14 +11,21 @@ import SwiftUI
 struct FightSectionSwiftUIView: View {
     @State var selectedTab = 0
     @State var timer = UInt32(181000)
-    private var responder = TimerResponder()
+    @State var isRunning = false {
+        willSet {
+            if self.isRunning {
+                self.selectedTab = 0
+            }
+        }
+    }
+    @EnvironmentObject var settings: FightSettings
     
     var body: some View {
         VStack {
             FightTabsSelectorsUIView(selectedTab: $selectedTab)
             if $selectedTab.wrappedValue == 0 {
-                PointsSwiftUIView(timer: $timer)
-            } else {
+                PointsSwiftUIView(timer: $settings.time)
+            } else if $selectedTab.wrappedValue == 1 {
                 TimersSwiftUIView()
             }
         }
@@ -34,4 +41,8 @@ struct FightSectionSwiftUIView_Previews: PreviewProvider {
 
 func dinFont(_ view: Text, _ size: CGFloat = 20) -> Text {
     return view.font(Font.custom("DIN Alternate", size: size).bold())
+}
+
+func primaryColor(_ view: Text) -> Text {
+    return view.foregroundColor(.black)
 }

@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct FightTabsSelectorsUIView: View {
-    @State private var tabs = ["Main", "Timers"]
+    private(set) var tabs = ["Main", "Timers"]
     @Binding var selectedTab: Int
 
     func doSelect(_ index: Int) {
@@ -26,11 +26,11 @@ struct FightTabsSelectorsUIView: View {
     }
     
     var body: some View {
-        HStack {
+        HStack(spacing: 0) {
             ForEach(0..<tabs.count) { (i: Int) in
                 InspTabSelector(title: self.getTitle(i), action: { self.doSelect(i) }, isSelected: self.isSelected(i))
             }
-        }.frame(minWidth: CGFloat(tabs.count * 100), idealWidth: .infinity, maxWidth: .infinity, minHeight: 20, idealHeight: 48, maxHeight: 48, alignment: .center)
+        }
     }
 }
 
@@ -39,15 +39,17 @@ struct InspTabSelector: View {
     var title: String = "Button"
     var action: () -> Void
     var isSelected: Bool = false
-    
+    var size = getButtonFrame(.basic)
     var body: some View {
         Button(action: self.action) {
             if !self.isSelected {
                 Text(title).accentColor(.black).scaledFont()
             } else {
-                Text(title).accentColor(.white).background(Color(#colorLiteral(red: 0, green: 0.5049814582, blue: 1, alpha: 1))).scaledFont()
+                Text(title).accentColor(.white).scaledFont()
             }
          }
+        .frame(width: self.size.idealWidth, height: self.size.idealHeight, alignment: self.size.alignment)
+        .background(self.isSelected ? UIGlobals.activeButtonBackground_SUI : nil)
     }
 }
 
