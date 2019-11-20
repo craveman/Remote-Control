@@ -15,10 +15,10 @@ final class RemoteService {
   static let shared = RemoteService()
 
   let connection = ConnectionManagement()
+  let person = PersonsManagement()
 
   var visibility = Visibility()
   var videoCounters = VideoCounters()
-  var persons = [PersonType: PersonStatus]()
   var period: UInt8 = 0 {
     willSet {
       Sm02.send(message: .setPeriod(period: newValue))
@@ -57,50 +57,6 @@ final class RemoteService {
 
   private init() {
     // noop
-  }
-
-  func setName (for person: PersonType, _ name: String) {
-    let outbound = Outbound.setName(person: person, name: name)
-    Sm02.send(message: outbound)
-    if var personStatus = persons[person] {
-      personStatus.name = name
-    } else {
-      let personStatus = PersonStatus(name: name)
-      persons[person] = personStatus
-    }
-  }
-
-  func setScore (for person: PersonType, _ score: UInt8) {
-    let outbound = Outbound.setScore(person: person, score: score)
-    Sm02.send(message: outbound)
-    if var personStatus = persons[person] {
-      personStatus.score = score
-    } else {
-      let personStatus = PersonStatus(score: score)
-      persons[person] = personStatus
-    }
-  }
-
-  func setCard (for person: PersonType, _ card: StatusCard) {
-    let outbound = Outbound.setCard(person: person, status: card)
-    Sm02.send(message: outbound)
-    if var personStatus = persons[person] {
-      personStatus.card = card
-    } else {
-      let personStatus = PersonStatus(card: card)
-      persons[person] = personStatus
-    }
-  }
-
-  func setPriority (for person: PersonType) {
-    let outbound = Outbound.setPriority(person: person)
-    Sm02.send(message: outbound)
-    if var personStatus = persons[person] {
-      personStatus.priority = true
-    } else {
-      let personStatus = PersonStatus(priority: true)
-      persons[person] = personStatus
-    }
   }
 
   func setTimer (time: UInt32, mode: TimerMode) {
@@ -154,7 +110,7 @@ final class RemoteService {
   }
 
   class ConnectionManagement {
-    
+
     var addressProperty = ObjectProperty<RemoteAddress>(RemoteAddress.empty)
     var isConnectedProperty = PrimitiveProperty<Bool>(false)
     var isAuthenticatedProperty = PrimitiveProperty<Bool>(false)
@@ -196,6 +152,47 @@ final class RemoteService {
 
     func disconnect () {
       Sm02.disconnect()
+    }
+  }
+
+  final class PersonsManagement {
+
+    let left = Person(type: .left)
+    let right = Person(type: .right)
+    let referee = Person(type: .referee)
+
+    final class Person {
+
+      fileprivate let type: PersonType
+
+      var name: String = "" {
+        willSet {
+          let outbound = Outbound.setName(person: type, name: newValue)
+          Sm02.send(message: outbound)
+        }
+      }
+      var score: UInt8 = 0 {
+        willSet {
+          let outbound = Outbound.setScore(person: type, score: newValue)
+          Sm02.send(message: outbound)
+        }
+      }
+      var card: StatusCard = .none {
+        willSet {
+          let outbound = Outbound.setCard(person: type, status: newValue)
+          Sm02.send(message: outbound)
+        }
+      }
+      var priority: Bool = false {
+        willSet {
+          let outbound = Outbound.setPriority(person: type)
+          Sm02.send(message: outbound)
+        }
+      }
+
+      fileprivate init (type: PersonType) {
+        self.type = type
+      }
     }
   }
 
