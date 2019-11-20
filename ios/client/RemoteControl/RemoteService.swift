@@ -471,6 +471,7 @@ final class RemoteService {
 
       let leftCounterProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
       let rightCounterProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
+      let isReadyProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
 
       var leftCounter: UInt8 {
         set {
@@ -492,9 +493,15 @@ final class RemoteService {
           (rightCounterProperty as! PrimitiveProperty<UInt8>).get()
         }
       }
+      var isReady: Bool { (isReadyProperty as! PrimitiveProperty<Bool>).get() }
 
       fileprivate init () {
-        // noop
+        Sm02.on(message: { [unowned self] (inbound) in
+          guard case .videoReady(_) = inbound else {
+            return
+          }
+          (isReadyProperty as! PrimitiveProperty<Bool>).set(true)
+        })
       }
     }
   }
