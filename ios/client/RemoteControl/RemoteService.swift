@@ -175,6 +175,7 @@ final class RemoteService {
     let weaponProperty: ObserversManager<Weapon> = FirableObserversManager<Weapon>()
     let periodProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
     let periodTimeProperty: ObservableProperty<UInt32> = PrimitiveProperty<UInt32>(0)
+    let fightStatusProperty: ObserversManager<Decision> = FirableObserversManager<Decision>()
 
     var name: String = "" {
       willSet {
@@ -214,6 +215,11 @@ final class RemoteService {
         (periodTimeProperty as! PrimitiveProperty<UInt32>).get()
       }
     }
+    var fightStatus: Decision = .continueFight {
+      didSet {
+        (fightStatusProperty as! FirableObserversManager<Decision>).fire(with: fightStatus)
+      }
+    }
 
     fileprivate init () {
       Sm02.on(message: { [unowned self] (inbound) in
@@ -221,6 +227,12 @@ final class RemoteService {
           return
         }
         self.weapon = weapon
+      })
+      Sm02.on(message: { [unowned self] (inbound) in
+        guard case let .fightResult(result) = inbound else {
+          return
+        }
+        self.fightStatus = result
       })
     }
 

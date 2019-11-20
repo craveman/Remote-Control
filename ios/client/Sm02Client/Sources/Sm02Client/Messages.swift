@@ -43,8 +43,8 @@ public enum StatusCard: UInt8 {
 
 public enum Decision: UInt8 {
 
-  case notAcknowledge = 0x00
-  case acknowledge = 0x01
+  case continueFight = 0x00
+  case stopFight = 0x01
 }
 
 public enum RecordMode: UInt8 {
