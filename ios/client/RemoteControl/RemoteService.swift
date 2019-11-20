@@ -18,24 +18,8 @@ final class RemoteService {
   let persons = PersonsManagement()
   let competition = CompetitionManagement()
   let timer = TimerManagement()
-
-  var visibility = Visibility()
-  var videoCounters = VideoCounters()
-  var videoRoutes: [Camera] = [] {
-    willSet {
-      Sm02.send(message: .videoRoutes(cameras: newValue))
-    }
-  }
-  var loadFileName: String = "" {
-    willSet {
-      Sm02.send(message: .loadFile(name: newValue))
-    }
-  }
-  var recordMode: RecordMode = .stop {
-    willSet {
-      Sm02.send(message: .record(recordMode: newValue))
-    }
-  }
+  let video = VideoManagement()
+  let display = DisplayManagement()
 
   private init() {
     // noop
@@ -43,11 +27,6 @@ final class RemoteService {
 
   func passiveTimer (shown: Bool, locked: Bool, defaultMilliseconds: UInt32) {
     let outbound = Outbound.passiveTimer(shown: shown, locked: locked, defaultMilliseconds: defaultMilliseconds)
-    Sm02.send(message: outbound)
-  }
-
-  func player (speed: UInt8, recordMode: RecordMode, timestamp: UInt32) {
-    let outbound = Outbound.player(speed: speed, recordMode: recordMode, timestamp: timestamp)
     Sm02.send(message: outbound)
   }
 
@@ -73,9 +52,9 @@ final class RemoteService {
 
   class ConnectionManagement {
 
-    var addressProperty: ObservableProperty<RemoteAddress> = ObjectProperty<RemoteAddress>(RemoteAddress.empty)
-    var isConnectedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
-    var isAuthenticatedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
+    let addressProperty: ObservableProperty<RemoteAddress> = ObjectProperty<RemoteAddress>(RemoteAddress.empty)
+    let isConnectedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
+    let isAuthenticatedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
 
     var isConnected: Bool { (isConnectedProperty as! PrimitiveProperty<Bool>).get() }
     var isAuthenticated: Bool { (isAuthenticatedProperty as! PrimitiveProperty<Bool>).get() }
@@ -310,46 +289,161 @@ final class RemoteService {
     }
   }
 
-  struct Visibility {
+  final class VideoManagement {
 
-    var video: Bool = false {
+    let replay = VideoReplayManagement()
+    let player = VideoPlayerManagement()
+
+    let recordModeProperty: ObserversManager<RecordMode> = FirableObserversManager<RecordMode>()
+
+    var recordMode: RecordMode = .stop {
       willSet {
-        let outbound = Outbound.visibility(video: newValue, photo: photo, passive: passive, country: country)
+        let outbound = Outbound.record(recordMode: newValue)
+        Sm02.send(message: outbound)
+      }
+      didSet {
+        (recordModeProperty as! FirableObserversManager<RecordMode>).fire(with: recordMode)
+      }
+    }
+    var routes: [Camera] = [] {
+      willSet {
+        let outbound = Outbound.videoRoutes(cameras: newValue)
         Sm02.send(message: outbound)
       }
     }
-    var photo: Bool = false {
-      willSet {
-        let outbound = Outbound.visibility(video: video, photo: newValue, passive: passive, country: country)
+
+    fileprivate init () {
+      // noop
+    }
+
+    func upload (to fileName: String) {
+      let outbound = Outbound.loadFile(name: fileName)
+      Sm02.send(message: outbound)
+    }
+
+    final class VideoPlayerManagement {
+
+      let speedProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
+      let modeProperty: ObserversManager<RecordMode> = FirableObserversManager<RecordMode>()
+      let timestampProperty: ObservableProperty<UInt32> = PrimitiveProperty<UInt32>(0)
+
+      var speed: UInt8 {
+        set {
+          let outbound = Outbound.player(speed: newValue, recordMode: mode, timestamp: 0)
+          Sm02.send(message: outbound)
+          (speedProperty as! PrimitiveProperty<UInt8>).set(newValue)
+        }
+        get {
+          (speedProperty as! PrimitiveProperty<UInt8>).get()
+        }
+      }
+      private(set) var mode: RecordMode = .stop {
+        willSet {
+          let outbound = Outbound.player(speed: speed, recordMode: newValue, timestamp: 0)
+          Sm02.send(message: outbound)
+        }
+        didSet {
+          (modeProperty as! FirableObserversManager<RecordMode>).fire(with: mode)
+        }
+      }
+      var timestamp: UInt32 { (timestampProperty as! PrimitiveProperty<UInt32>).get() }
+
+      func goto (_ timestamp: UInt32) {
+        let outbound = Outbound.player(speed: speed, recordMode: mode, timestamp: timestamp)
         Sm02.send(message: outbound)
+        (timestampProperty as! PrimitiveProperty<UInt32>).set(timestamp)
+      }
+
+      func stop () {
+        mode = .stop
+      }
+
+      func play () {
+        mode = .play
+      }
+
+      func pause () {
+        mode = .pause
       }
     }
-    var passive: Bool = false {
-      willSet {
-        let outbound = Outbound.visibility(video: video, photo: photo, passive: newValue, country: country)
-        Sm02.send(message: outbound)
+
+    final class VideoReplayManagement {
+
+      let leftCounterProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
+      let rightCounterProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
+
+      var leftCounter: UInt8 {
+        set {
+          let outbound = Outbound.videoCounters(left: newValue, right: rightCounter)
+          Sm02.send(message: outbound)
+          (leftCounterProperty as! PrimitiveProperty<UInt8>).set(newValue)
+        }
+        get {
+          (leftCounterProperty as! PrimitiveProperty<UInt8>).get()
+        }
       }
-    }
-    var country: Bool = false {
-      willSet {
-        let outbound = Outbound.visibility(video: video, photo: photo, passive: passive, country: newValue)
-        Sm02.send(message: outbound)
+      var rightCounter: UInt8 {
+        set {
+          let outbound = Outbound.videoCounters(left: leftCounter, right: newValue)
+          Sm02.send(message: outbound)
+          (rightCounterProperty as! PrimitiveProperty<UInt8>).set(newValue)
+        }
+        get {
+          (rightCounterProperty as! PrimitiveProperty<UInt8>).get()
+        }
+      }
+
+      fileprivate init () {
+        // noop
       }
     }
   }
 
-  struct VideoCounters {
+  final class DisplayManagement {
 
-    var left: UInt8 = 0 {
-      willSet {
-        let outbound = Outbound.videoCounters(left: newValue, right: right)
+    let videoProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
+    let photoProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
+    let passiveProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
+    let countryProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
+
+    var video: Bool {
+      set {
+        let outbound = Outbound.visibility(video: newValue, photo: photo, passive: passive, country: country)
         Sm02.send(message: outbound)
+        (videoProperty as! PrimitiveProperty<Bool>).set(newValue)
+      }
+      get {
+        (videoProperty as! PrimitiveProperty<Bool>).get()
       }
     }
-    var right: UInt8 = 0 {
-      willSet {
-        let outbound = Outbound.videoCounters(left: left, right: newValue)
+    var photo: Bool {
+      set {
+        let outbound = Outbound.visibility(video: video, photo: newValue, passive: passive, country: country)
         Sm02.send(message: outbound)
+        (photoProperty as! PrimitiveProperty<Bool>).set(newValue)
+      }
+      get {
+        (photoProperty as! PrimitiveProperty<Bool>).get()
+      }
+    }
+    var passive: Bool {
+      set {
+        let outbound = Outbound.visibility(video: video, photo: photo, passive: newValue, country: country)
+        Sm02.send(message: outbound)
+        (passiveProperty as! PrimitiveProperty<Bool>).set(newValue)
+      }
+      get {
+        (passiveProperty as! PrimitiveProperty<Bool>).get()
+      }
+    }
+    var country: Bool {
+      set {
+        let outbound = Outbound.visibility(video: video, photo: photo, passive: passive, country: newValue)
+        Sm02.send(message: outbound)
+        (countryProperty as! PrimitiveProperty<Bool>).set(newValue)
+      }
+      get {
+        (countryProperty as! PrimitiveProperty<Bool>).get()
       }
     }
   }
