@@ -338,6 +338,8 @@ final class RemoteService {
       var isVisibleProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
       var isBlockedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
       var defaultMillisecondsProperty: ObservableProperty<UInt32> = PrimitiveProperty<UInt32>(60_000)
+      var isMaxTimerReachedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
+      var isPauseFinishedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
 
       var isVisible: Bool {
         set {
@@ -368,6 +370,21 @@ final class RemoteService {
         get {
           (defaultMillisecondsProperty as! PrimitiveProperty<UInt32>).get()
         }
+      }
+      var isMaxTimerReached: Bool { (isMaxTimerReachedProperty as! PrimitiveProperty<Bool>).get() }
+      var isPauseFinished: Bool { (isPauseFinishedProperty as! PrimitiveProperty<Bool>).get() }
+
+      fileprivate init () {
+        Sm02.on(message: { [unowned self] (inbound) in
+          switch inbound {
+          case .passiveMax:
+            (isMaxTimerReachedProperty as! PrimitiveProperty<Bool>).set(true)
+          case .pauseFinished:
+            (isPauseFinishedProperty as! PrimitiveProperty<Bool>).set(true)
+          default:
+            return
+          }
+        })
       }
     }
   }
