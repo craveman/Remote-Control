@@ -38,6 +38,7 @@
 		85B95706237E06C50063E32C /* TimersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B95705237E06C50063E32C /* TimersSwiftUIView.swift */; };
 		85B95708237E07130063E32C /* FightSectionSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B95707237E07130063E32C /* FightSectionSwiftUIView.swift */; };
 		8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6D773C237D2C530077B65D /* RemoteService.swift */; };
+		8FA249162384A24C006A65C6 /* ObservableProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA249152384A24C006A65C6 /* ObservableProperty.swift */; };
 		8FE69D5423398B6200E3B539 /* QRCodeReader in Frameworks */ = {isa = PBXBuildFile; productRef = 8FE69D5323398B6200E3B539 /* QRCodeReader */; };
 		8FFBF9E22336BD4000736BB7 /* Sm02Client in Frameworks */ = {isa = PBXBuildFile; productRef = 8FFBF9E12336BD4000736BB7 /* Sm02Client */; };
 		8FFBF9E42336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFBF9E32336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift */; };
@@ -113,6 +114,7 @@
 		85B95705237E06C50063E32C /* TimersSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimersSwiftUIView.swift; sourceTree = "<group>"; };
 		85B95707237E07130063E32C /* FightSectionSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightSectionSwiftUIView.swift; sourceTree = "<group>"; };
 		8F6D773C237D2C530077B65D /* RemoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
+		8FA249152384A24C006A65C6 /* ObservableProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableProperty.swift; sourceTree = "<group>"; };
 		8FFBF9E02336BC5E00736BB7 /* Sm02Client */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sm02Client; sourceTree = "<group>"; };
 		8FFBF9E32336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteAddress+UrlParsing.swift"; sourceTree = "<group>"; };
 		B9C8BEDA2305A2C5004DBBF8 /* RemoteControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoteControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -323,6 +325,7 @@
 				850AAE6E23270F0E00DBFD93 /* Intro.storyboard */,
 				850AAE7323270FC400DBFD93 /* ViewController.swift */,
 				8F6D773C237D2C530077B65D /* RemoteService.swift */,
+				8FA249152384A24C006A65C6 /* ObservableProperty.swift */,
 			);
 			path = RemoteControl;
 			sourceTree = "<group>";
@@ -512,6 +515,7 @@
 				850AAE5F2322CF7100DBFD93 /* UITools.swift in Sources */,
 				850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */,
 				8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */,
+				8FA249162384A24C006A65C6 /* ObservableProperty.swift in Sources */,
 				85B956FE237A2CA70063E32C /* HoldPassiveButton.swift in Sources */,
 				85B95704237B608C0063E32C /* FightTabsSelectorsUIView.swift in Sources */,
 				85A9934A23109CB7003FC5BE /* FightViewController.swift in Sources */,

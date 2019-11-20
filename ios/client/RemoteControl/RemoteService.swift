@@ -10,11 +10,11 @@ import Foundation
 import Sm02Client
 import NIOConcurrencyHelpers
 
-class RemoteService {
+final class RemoteService {
 
   static let shared = RemoteService()
 
-  let connection = Connection()
+  let connection = ConnectionManagement()
 
   var visibility = Visibility()
   var videoCounters = VideoCounters()
@@ -153,35 +153,35 @@ class RemoteService {
     Sm02.send(message: outbound)
   }
 
-  class Connection {
+  class ConnectionManagement {
+    
+    var addressProperty = ObjectProperty<RemoteAddress>(RemoteAddress.empty)
+    var isConnectedProperty = PrimitiveProperty<Bool>(false)
+    var isAuthenticatedProperty = PrimitiveProperty<Bool>(false)
 
-    private let _address = AtomicBox<RemoteAddress>(value: RemoteAddress.empty)
-    private let _isConnected = Bool.atomic_create(false)
-    private let _isAuthenticated = Bool.atomic_create(false)
-
-    var isConnected: Bool { Bool.atomic_load(_isConnected) }
-    var isAuthenticated: Bool { Bool.atomic_load(_isAuthenticated) }
+    var isConnected: Bool { isConnectedProperty.get() }
+    var isAuthenticated: Bool { isAuthenticatedProperty.get() }
     var address: RemoteAddress? {
-      let value = _address.load()
+      let value = addressProperty.get()
       return Optional.some(value)
           .flatMap { $0.isEmpty() ? nil : $0 }
     }
-    
+
     init () {
       Sm02.on(message: { [unowned self] (inbound) in
         if case .authentication(.success) = inbound {
-          Bool.atomic_store(self._isAuthenticated, true)
+          self.isAuthenticatedProperty.set(true)
         }
       })
       Sm02.on(event: { [unowned self] (event) in
         switch event {
         case .connected:
-          Bool.atomic_store(self._isConnected, true)
+          self.isConnectedProperty.set(true)
         case .disconnected:
-          Bool.atomic_store(self._isConnected, false)
-          Bool.atomic_store(self._isAuthenticated, false)
+          self.isConnectedProperty.set(false)
+          self.isAuthenticatedProperty.set(false)
         default:
-          1 == 1
+          break
         }
       })
     }
@@ -189,16 +189,13 @@ class RemoteService {
     func connect (to remote: RemoteAddress) -> Result<Void, Error> {
       let result = Sm02.connect(to: remote)
       if case .success(_) = result {
-        _address.store(remote)
-      } else {
-        _address.store(RemoteAddress.empty)
+        addressProperty.set(remote)
       }
       return result
     }
 
     func disconnect () {
       Sm02.disconnect()
-      _address.store(RemoteAddress.empty)
     }
   }
 

@@ -1,5 +1,5 @@
 
-public class Atomic<Element> : ThreadedObject<Element> {
+public class Atomic2<Element> : ThreadedObject<Element> {
 
   /// Initializes this atomic element from a normal element.
   ///
@@ -49,7 +49,7 @@ public class Atomic<Element> : ThreadedObject<Element> {
   }
 }
 
-extension Atomic: CustomStringConvertible
+extension Atomic2: CustomStringConvertible
     where Element: CustomStringConvertible {
 
   public var description: String {
@@ -57,7 +57,7 @@ extension Atomic: CustomStringConvertible
   }
 }
 
-extension Atomic: CustomDebugStringConvertible
+extension Atomic2: CustomDebugStringConvertible
     where Element: CustomDebugStringConvertible {
 
   public var debugDescription: String {
