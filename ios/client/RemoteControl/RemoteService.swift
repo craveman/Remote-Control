@@ -169,6 +169,8 @@ final class RemoteService {
 
   final class CompetitionManagement {
 
+    let flags = FlagsManagement()
+
     let nameProperty: ObserversManager<String> = FirableObserversManager<String>()
     let weaponProperty: ObserversManager<Weapon> = FirableObserversManager<Weapon>()
     let periodProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
@@ -214,7 +216,12 @@ final class RemoteService {
     }
 
     fileprivate init () {
-      // noop
+      Sm02.on(message: { [unowned self] (inbound) in
+        guard case let .broadcast(weapon, _, _, _, _) = inbound else {
+          return
+        }
+        self.weapon = weapon
+      })
     }
 
     func reset () {
@@ -225,6 +232,37 @@ final class RemoteService {
     func swap () {
       let outbound = Outbound.swap
       Sm02.send(message: outbound)
+    }
+
+    final class FlagsManagement {
+
+      let leftProperty: ObserversManager<FlagState> = FirableObserversManager<FlagState>()
+      let rightProperty: ObserversManager<FlagState> = FirableObserversManager<FlagState>()
+
+      private(set) var left: FlagState = .none {
+        didSet {
+          (leftProperty as! FirableObserversManager<FlagState>).fire(with: left)
+        }
+      }
+      private(set) var right: FlagState = .none {
+        didSet {
+          (rightProperty as! FirableObserversManager<FlagState>).fire(with: left)
+        }
+      }
+
+      fileprivate init () {
+        Sm02.on(message: { [unowned self] (inbound) in
+          guard case let .broadcast(_, left, right, _, _) = inbound else {
+            return
+          }
+          if self.left != left {
+            self.left = left
+          }
+          if self.right != right {
+            self.right = right
+          }
+        })
+      }
     }
   }
 
