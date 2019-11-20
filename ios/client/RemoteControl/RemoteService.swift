@@ -378,9 +378,9 @@ final class RemoteService {
         Sm02.on(message: { [unowned self] (inbound) in
           switch inbound {
           case .passiveMax:
-            (isMaxTimerReachedProperty as! PrimitiveProperty<Bool>).set(true)
+            (self.isMaxTimerReachedProperty as! PrimitiveProperty<Bool>).set(true)
           case .pauseFinished:
-            (isPauseFinishedProperty as! PrimitiveProperty<Bool>).set(true)
+            (self.isPauseFinishedProperty as! PrimitiveProperty<Bool>).set(true)
           default:
             return
           }
@@ -502,13 +502,13 @@ final class RemoteService {
           guard case .videoReady(_) = inbound else {
             return
           }
-          (isReadyProperty as! PrimitiveProperty<Bool>).set(true)
+          (self.isReadyProperty as! PrimitiveProperty<Bool>).set(true)
         })
         Sm02.on(message: { [unowned self] (inbound) in
           guard case .videoReceived = inbound else {
             return
           }
-          (isReceivedProperty as! PrimitiveProperty<Bool>).set(true)
+          (self.isReceivedProperty as! PrimitiveProperty<Bool>).set(true)
         })
       }
     }
