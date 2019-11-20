@@ -24,6 +24,17 @@ struct PointsStepper: View {
         }, timeout)
     }
     
+    func getPerson() -> RemoteService.PersonsManagement.Person {
+    switch self.pType {
+        case .left:
+            return self.rs.persons.left
+            case .right:
+            return self.rs.persons.right
+        default:
+            return self.rs.persons.none
+        }
+    }
+    
     let pSize = getButtonFrame(.doubleHeight)
     let mSize = getButtonFrame(.basic)
     
@@ -35,7 +46,7 @@ struct PointsStepper: View {
                     return
                 }
                 
-                self.rs.setScore(for: self.pType, UInt8(self.score - 1))
+                self.getPerson().score = UInt8(self.score - 1)
                 self.score -= 1
                 self.isActive = true
                 self.thenDeactivate()
@@ -50,7 +61,7 @@ struct PointsStepper: View {
                     return
                 }
                 print("+ Button Pushed")
-                self.rs.setScore(for: self.pType, UInt8(self.score + 1))
+                self.getPerson().score = UInt8(self.score + 1)
                 self.score += 1
                 self.isActive = true
                 self.thenDeactivate()

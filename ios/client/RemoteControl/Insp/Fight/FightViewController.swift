@@ -53,7 +53,7 @@ class FightViewController: UIViewController {
     
     private func updateGame() {
         self.game.isRunning = false
-        self.game.time = 500000
+        self.game.time = 180000
     }
     
     private func addViewControllerAsChildViewController(childViewController: UIViewController) {
