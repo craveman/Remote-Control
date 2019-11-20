@@ -34,8 +34,14 @@ class PrioritySelectViewController: UIViewController {
 
     @objc func setPriorityAction(_ sender: UIButton) {
         switch sender {
-        case setPriorityButton: rs.setPriority(for: (Bool.random() ? .left : .right))
-        case resetPriorityButton: rs.setPriority(for: .none)
+        case setPriorityButton:
+          if Bool.random() {
+            rs.persons.left.setPriority()
+          } else {
+            rs.persons.right.setPriority()
+          }
+        case resetPriorityButton:
+          rs.persons.resetPriority()
         default: break
 
         }

@@ -15,7 +15,7 @@ final class RemoteService {
   static let shared = RemoteService()
 
   let connection = ConnectionManagement()
-  let person = PersonsManagement()
+  let persons = PersonsManagement()
 
   var visibility = Visibility()
   var videoCounters = VideoCounters()
@@ -160,9 +160,34 @@ final class RemoteService {
     let left = Person(type: .left)
     let right = Person(type: .right)
     let referee = Person(type: .referee)
+    let none = Person(type: .none)
+
+    subscript (type: PersonType) -> Person {
+      switch type {
+      case .left:
+        return left
+      case .right:
+        return right
+      case .referee:
+        return referee
+      case .none:
+        return none
+      }
+    }
+
+    func resetPriority () {
+      let outbound = Outbound.setPriority(person: .none)
+      Sm02.send(message: outbound)
+    }
+
+    enum PersonAccessError: Error {
+
+      case unsupportedPersonType(type: PersonType)
+    }
 
     final class Person {
 
+      fileprivate static var priorityType: PersonType = .none
       fileprivate let type: PersonType
 
       var name: String = "" {
@@ -183,15 +208,18 @@ final class RemoteService {
           Sm02.send(message: outbound)
         }
       }
-      var priority: Bool = false {
-        willSet {
-          let outbound = Outbound.setPriority(person: type)
-          Sm02.send(message: outbound)
-        }
+      var priority: Bool {
+        return Person.priorityType == type
       }
 
       fileprivate init (type: PersonType) {
         self.type = type
+      }
+
+      func setPriority () {
+        let outbound = Outbound.setPriority(person: type)
+        Sm02.send(message: outbound)
+        Person.priorityType = type
       }
     }
   }

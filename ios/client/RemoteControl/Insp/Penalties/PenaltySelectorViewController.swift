@@ -130,9 +130,9 @@ class PenaltySelectorViewController: UIViewController {
     }
 
     private func remoteAction(_ card: StatusCard) {
-        print("send: \(currentPenaltyCard!) \(personType)")
-        rs.setCard(for: personType, card)
-        updateView()
+      print("send: \(currentPenaltyCard!) \(personType)")
+      rs.persons[personType].card = card
+      updateView()
     }
 
     private func isBlackActive() -> Bool {
