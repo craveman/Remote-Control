@@ -78,7 +78,7 @@ class SettingsViewController: UITableViewController {
 
         switch action {
         case .finishFight:
-            rs.reset()
+          rs.competition.reset()
             if tabBarController != nil {
                 tabBarController!.selectedIndex = 0
             }

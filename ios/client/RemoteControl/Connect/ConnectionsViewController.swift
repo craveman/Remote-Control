@@ -16,15 +16,11 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     
     override func viewDidAppear(_ animated: Bool) {
         
-        do {
-            print ("set success")
-            let scanner = self.getScanner()
-            scanner.onSuccess = { [weak self] in
-              print ("toInspiration")
-              self?.jumpToInspiration()
-            }
-        } catch {
-            print("next is not QrViewController", qrReaderSubViewWrapper.next!)
+        print ("set success")
+        let scanner = self.getScanner()
+        scanner.onSuccess = { [weak self] in
+          print ("toInspiration")
+          self?.jumpToInspiration()
         }
         
         if isSimulationEnv() {

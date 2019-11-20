@@ -17,6 +17,7 @@ final class RemoteService {
   let connection = ConnectionManagement()
   let persons = PersonsManagement()
   let competition = CompetitionManagement()
+  let timer = TimerManagement()
 
   var visibility = Visibility()
   var videoCounters = VideoCounters()
@@ -43,16 +44,6 @@ final class RemoteService {
 
   private init() {
     // noop
-  }
-
-  func setTimer (time: UInt32, mode: TimerMode) {
-    let outbound = Outbound.setTimer(time: time, mode: mode)
-    Sm02.send(message: outbound)
-  }
-
-  func startTimer (state: TimerState) {
-    let outbound = Outbound.startTimer(state: state)
-    Sm02.send(message: outbound)
   }
 
   func passiveTimer (shown: Bool, locked: Bool, defaultMilliseconds: UInt32) {
@@ -254,6 +245,62 @@ final class RemoteService {
     func swap () {
       let outbound = Outbound.swap
       Sm02.send(message: outbound)
+    }
+  }
+
+  final class TimerManagement {
+
+    let timeProperty: ObservableProperty<UInt32> = PrimitiveProperty<UInt32>(0)
+    let modeProperty: ObserversManager<TimerMode> = FirableObserversManager<TimerMode>()
+    let stateProperty: ObserversManager<TimerState> = FirableObserversManager<TimerState>()
+
+    var time: UInt32 {
+      set {
+        let outbound = Outbound.setTimer(time: newValue, mode: mode)
+        Sm02.send(message: outbound)
+        (timeProperty as! PrimitiveProperty<UInt32>).set(newValue)
+      }
+      get {
+        (timeProperty as! PrimitiveProperty<UInt32>).get()
+      }
+    }
+    var mode: TimerMode = .pause {
+      willSet {
+        let outbound = Outbound.setTimer(time: time, mode: newValue)
+        Sm02.send(message: outbound)
+      }
+      didSet {
+        (modeProperty as! FirableObserversManager<TimerMode>).fire(with: mode)
+      }
+    }
+    private(set) var state: TimerState = .suspended
+
+    fileprivate init () {
+      Sm02.on(message: { [unowned self] (inbound) in
+        guard case let .broadcast(_, _, _, timer, timerState) = inbound else {
+          return
+        }
+        if self.time != timer {
+          (self.timeProperty as! PrimitiveProperty<UInt32>).set(timer)
+        }
+        if self.state != timerState {
+          (self.stateProperty as! FirableObserversManager<TimerState>).fire(with: timerState)
+        }
+      })
+    }
+
+    func start () {
+      state = .running
+      let outbound = Outbound.startTimer(state: state)
+      Sm02.send(message: outbound)
+      (stateProperty as! FirableObserversManager<TimerState>).fire(with: state)
+    }
+
+    func stop () {
+      state = .suspended
+      let outbound = Outbound.startTimer(state: state)
+      Sm02.send(message: outbound)
+      (stateProperty as! FirableObserversManager<TimerState>).fire(with: state)
     }
   }
 

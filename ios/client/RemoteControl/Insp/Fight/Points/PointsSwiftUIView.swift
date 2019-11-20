@@ -16,13 +16,13 @@ struct PointsSwiftUIView: View {
     @Binding var timer: UInt32
     
     func startAction() -> Void {
-        rs.startTimer(state: .running)
-        self.responder.start(from: timer)
+      rs.timer.start()
+      self.responder.start(from: timer)
     }
     func stopAction() -> Void {
-        rs.startTimer(state: .suspended)
-        self.responder.stop()
-        self.timer = responder.milisecondsLeft
+      rs.timer.stop()
+      self.responder.stop()
+      self.timer = responder.milisecondsLeft
     }
     var body: some View {
         VStack(spacing: 0) {
