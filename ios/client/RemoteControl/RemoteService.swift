@@ -16,27 +16,13 @@ final class RemoteService {
 
   let connection = ConnectionManagement()
   let persons = PersonsManagement()
+  let competition = CompetitionManagement()
 
   var visibility = Visibility()
   var videoCounters = VideoCounters()
-  var period: UInt8 = 0 {
-    willSet {
-      Sm02.send(message: .setPeriod(period: newValue))
-    }
-  }
-  var weapon: Weapon = .none {
-    willSet {
-      Sm02.send(message: .setWeapon(weapon: newValue))
-    }
-  }
   var defaultTime: UInt32 = 0 {
     willSet {
       Sm02.send(message: .setDefaultTime(time: newValue))
-    }
-  }
-  var competitionName: String = "" {
-    willSet {
-      Sm02.send(message: .setCompetition(name: newValue))
     }
   }
   var videoRoutes: [Camera] = [] {
@@ -69,11 +55,6 @@ final class RemoteService {
     Sm02.send(message: outbound)
   }
 
-  func swap () {
-    let outbound = Outbound.swap
-    Sm02.send(message: outbound)
-  }
-
   func passiveTimer (shown: Bool, locked: Bool, defaultMilliseconds: UInt32) {
     let outbound = Outbound.passiveTimer(shown: shown, locked: locked, defaultMilliseconds: defaultMilliseconds)
     Sm02.send(message: outbound)
@@ -86,11 +67,6 @@ final class RemoteService {
 
   func devicesRequest () {
     let outbound = Outbound.devicesRequest
-    Sm02.send(message: outbound)
-  }
-
-  func reset () {
-    let outbound = Outbound.reset
     Sm02.send(message: outbound)
   }
 
@@ -231,12 +207,54 @@ final class RemoteService {
     }
   }
 
-  struct PersonStatus {
+  final class CompetitionManagement {
 
-    var name: String = ""
-    var score: UInt8 = 0
-    var card: StatusCard = .none
-    var priority: Bool = false
+    let nameProperty: ObserversManager<String> = FirableObserversManager<String>()
+    let weaponProperty: ObserversManager<Weapon> = FirableObserversManager<Weapon>()
+    let periodProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
+
+    var name: String = "" {
+      willSet {
+        let outbound = Outbound.setCompetition(name: newValue)
+        Sm02.send(message: outbound)
+      }
+      didSet {
+        (nameProperty as! FirableObserversManager<String>).fire(with: name)
+      }
+    }
+    var weapon: Weapon = .none {
+      willSet {
+        let outbound = Outbound.setWeapon(weapon: newValue)
+        Sm02.send(message: outbound)
+      }
+      didSet {
+        (weaponProperty as! FirableObserversManager<Weapon>).fire(with: weapon)
+      }
+    }
+    var period: UInt8 {
+      set {
+        let outbound = Outbound.setPeriod(period: newValue)
+        Sm02.send(message: outbound)
+        (periodProperty as! PrimitiveProperty<UInt8>).set(newValue)
+      }
+      get {
+        (periodProperty as! PrimitiveProperty<UInt8>).get()
+      }
+    }
+
+    fileprivate init () {
+      // noop
+    }
+
+    func reset () {
+      let outbound = Outbound.reset
+      Sm02.send(message: outbound)
+    }
+
+    func swap () {
+      let outbound = Outbound.swap
+      Sm02.send(message: outbound)
+    }
   }
 
   struct Visibility {

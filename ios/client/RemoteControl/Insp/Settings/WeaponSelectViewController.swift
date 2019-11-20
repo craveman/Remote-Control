@@ -26,12 +26,10 @@ class WeaponSelectViewController: UIViewController {
 
     @objc func selectWeaponAction(_ sender: UIButton) {
       switch sender {
-        case foilButton: rs.weapon = .foil
-        case epeeButton: rs.weapon = .epee
-        case sabreButton: rs.weapon = .sabre
-
-        default: break
-
+      case foilButton: rs.competition.weapon = .foil
+      case epeeButton: rs.competition.weapon = .epee
+      case sabreButton: rs.competition.weapon = .sabre
+      default: break
       }
         performSegue(withIdentifier: "done", sender: sender)
     }
