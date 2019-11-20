@@ -21,11 +21,6 @@ final class RemoteService {
 
   var visibility = Visibility()
   var videoCounters = VideoCounters()
-  var defaultTime: UInt32 = 0 {
-    willSet {
-      Sm02.send(message: .setDefaultTime(time: newValue))
-    }
-  }
   var videoRoutes: [Camera] = [] {
     willSet {
       Sm02.send(message: .videoRoutes(cameras: newValue))
@@ -203,6 +198,7 @@ final class RemoteService {
     let nameProperty: ObserversManager<String> = FirableObserversManager<String>()
     let weaponProperty: ObserversManager<Weapon> = FirableObserversManager<Weapon>()
     let periodProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
+    let periodTimeProperty: ObservableProperty<UInt32> = PrimitiveProperty<UInt32>(0)
 
     var name: String = "" {
       willSet {
@@ -230,6 +226,16 @@ final class RemoteService {
       }
       get {
         (periodProperty as! PrimitiveProperty<UInt8>).get()
+      }
+    }
+    var periodTime: UInt32 {
+      set {
+        let outbound = Outbound.setDefaultTime(time: newValue)
+        Sm02.send(message: outbound)
+        (periodTimeProperty as! PrimitiveProperty<UInt32>).set(newValue)
+      }
+      get {
+        (periodTimeProperty as! PrimitiveProperty<UInt32>).get()
       }
     }
 
