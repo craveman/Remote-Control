@@ -25,11 +25,6 @@ final class RemoteService {
     // noop
   }
 
-  func passiveTimer (shown: Bool, locked: Bool, defaultMilliseconds: UInt32) {
-    let outbound = Outbound.passiveTimer(shown: shown, locked: locked, defaultMilliseconds: defaultMilliseconds)
-    Sm02.send(message: outbound)
-  }
-
   func devicesRequest () {
     let outbound = Outbound.devicesRequest
     Sm02.send(message: outbound)
@@ -286,6 +281,44 @@ final class RemoteService {
       let outbound = Outbound.startTimer(state: state)
       Sm02.send(message: outbound)
       (stateProperty as! FirableObserversManager<TimerState>).fire(with: state)
+    }
+
+    final class PassiveManagement {
+
+      var isVisibleProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
+      var isBlockedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
+      var defaultMillisecondsProperty: ObservableProperty<UInt32> = PrimitiveProperty<UInt32>(60_000)
+
+      var isVisible: Bool {
+        set {
+          let outbound = Outbound.passiveTimer(shown: newValue, locked: isBlocked, defaultMilliseconds: defaultMilliseconds)
+          Sm02.send(message: outbound)
+          (isVisibleProperty as! PrimitiveProperty<Bool>).set(newValue)
+        }
+        get {
+          (isVisibleProperty as! PrimitiveProperty<Bool>).get()
+        }
+      }
+      var isBlocked: Bool {
+        set {
+          let outbound = Outbound.passiveTimer(shown: isVisible, locked: newValue, defaultMilliseconds: defaultMilliseconds)
+          Sm02.send(message: outbound)
+          (isVisibleProperty as! PrimitiveProperty<Bool>).set(newValue)
+        }
+        get {
+          (isVisibleProperty as! PrimitiveProperty<Bool>).get()
+        }
+      }
+      var defaultMilliseconds: UInt32 {
+        set {
+          let outbound = Outbound.passiveTimer(shown: isVisible, locked: isBlocked, defaultMilliseconds: newValue)
+          Sm02.send(message: outbound)
+          (defaultMillisecondsProperty as! PrimitiveProperty<UInt32>).set(newValue)
+        }
+        get {
+          (defaultMillisecondsProperty as! PrimitiveProperty<UInt32>).get()
+        }
+      }
     }
   }
 
