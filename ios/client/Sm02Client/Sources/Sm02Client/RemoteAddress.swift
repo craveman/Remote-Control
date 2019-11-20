@@ -1,5 +1,5 @@
 
-public class RemoteAddress: Codable {
+public class RemoteAddress: Codable, CustomStringConvertible {
 
   public static let empty = RemoteAddress(ssid: "", ip: "", code: [])
 

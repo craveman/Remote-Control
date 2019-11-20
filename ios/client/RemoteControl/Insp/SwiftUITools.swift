@@ -59,7 +59,7 @@ func getButtonFrame(_ size: ButtonType) -> (
     case .doubleHeight:
         h = 2 * h
     default:
-        1 == 1
+        break
     }
     
     return (minWidth: w, idealWidth: w, maxWidth: w, minHeight: h, idealHeight: h, maxHeight: h, alignment: .center)
