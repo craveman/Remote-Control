@@ -180,11 +180,6 @@ final class RemoteService {
       Sm02.send(message: outbound)
     }
 
-    enum PersonAccessError: Error {
-
-      case unsupportedPersonType(type: PersonType)
-    }
-
     final class Person {
 
       fileprivate static var priorityType: PersonType = .none
