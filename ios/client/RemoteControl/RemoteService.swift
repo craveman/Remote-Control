@@ -111,14 +111,14 @@ final class RemoteService {
 
   class ConnectionManagement {
 
-    var addressProperty = ObjectProperty<RemoteAddress>(RemoteAddress.empty)
-    var isConnectedProperty = PrimitiveProperty<Bool>(false)
-    var isAuthenticatedProperty = PrimitiveProperty<Bool>(false)
+    var addressProperty: ObservableProperty<RemoteAddress> = ObjectProperty<RemoteAddress>(RemoteAddress.empty)
+    var isConnectedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
+    var isAuthenticatedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
 
-    var isConnected: Bool { isConnectedProperty.get() }
-    var isAuthenticated: Bool { isAuthenticatedProperty.get() }
+    var isConnected: Bool { (isConnectedProperty as! PrimitiveProperty<Bool>).get() }
+    var isAuthenticated: Bool { (isAuthenticatedProperty as! PrimitiveProperty<Bool>).get() }
     var address: RemoteAddress? {
-      let value = addressProperty.get()
+      let value = (addressProperty as! ObjectProperty<RemoteAddress>).get()
       return Optional.some(value)
           .flatMap { $0.isEmpty() ? nil : $0 }
     }
@@ -126,16 +126,16 @@ final class RemoteService {
     init () {
       Sm02.on(message: { [unowned self] (inbound) in
         if case .authentication(.success) = inbound {
-          self.isAuthenticatedProperty.set(true)
+          (self.isAuthenticatedProperty as! PrimitiveProperty<Bool>).set(true)
         }
       })
       Sm02.on(event: { [unowned self] (event) in
         switch event {
         case .connected:
-          self.isConnectedProperty.set(true)
+          (self.isAuthenticatedProperty as! PrimitiveProperty<Bool>).set(true)
         case .disconnected:
-          self.isConnectedProperty.set(false)
-          self.isAuthenticatedProperty.set(false)
+          (self.isAuthenticatedProperty as! PrimitiveProperty<Bool>).set(false)
+          (self.isAuthenticatedProperty as! PrimitiveProperty<Bool>).set(false)
         default:
           break
         }
@@ -145,7 +145,7 @@ final class RemoteService {
     func connect (to remote: RemoteAddress) -> Result<Void, Error> {
       let result = Sm02.connect(to: remote)
       if case .success(_) = result {
-        addressProperty.set(remote)
+        (addressProperty as! ObjectProperty<RemoteAddress>).set(remote)
       }
       return result
     }
@@ -185,16 +185,17 @@ final class RemoteService {
       fileprivate static var priorityType: PersonType = .none
       fileprivate let type: PersonType
 
+      let nameProperty: ObserversManager<String> = FirableObserversManager<String>()
+      let cardProperty: ObserversManager<StatusCard> = FirableObserversManager<StatusCard>()
+      let scoreProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
+
       var name: String = "" {
         willSet {
           let outbound = Outbound.setName(person: type, name: newValue)
           Sm02.send(message: outbound)
         }
-      }
-      var score: UInt8 = 0 {
-        willSet {
-          let outbound = Outbound.setScore(person: type, score: newValue)
-          Sm02.send(message: outbound)
+        didSet {
+          (nameProperty as! FirableObserversManager<String>).fire(with: name)
         }
       }
       var card: StatusCard = .none {
@@ -202,10 +203,21 @@ final class RemoteService {
           let outbound = Outbound.setCard(person: type, status: newValue)
           Sm02.send(message: outbound)
         }
+        didSet {
+          (cardProperty as! FirableObserversManager<StatusCard>).fire(with: card)
+        }
       }
-      var priority: Bool {
-        return Person.priorityType == type
+      var score: UInt8 {
+        set {
+          let outbound = Outbound.setScore(person: type, score: newValue)
+          Sm02.send(message: outbound)
+          (scoreProperty as! PrimitiveProperty<UInt8>).set(newValue)
+        }
+        get {
+          (scoreProperty as! PrimitiveProperty<UInt8>).get()
+        }
       }
+      var isPriority: Bool { Person.priorityType == type }
 
       fileprivate init (type: PersonType) {
         self.type = type

@@ -11,48 +11,12 @@ import NIOConcurrencyHelpers
 
 typealias Observer<T> = (_ update: T) -> Void
 
-protocol Property {
-  
-  associatedtype PropertyType
-  
-  func get () -> PropertyType
-}
+class ObserversManager<T> {
 
-protocol ObservableProperty: Property {
-  
-  associatedtype PropertyType
-  
-  mutating func on (change observer: @escaping Observer<PropertyType>) -> UUID
-  mutating func remove (observer key: UUID)
-}
+  fileprivate let observersLock = Lock()
+  fileprivate var observers: [(uuid:UUID, value:Observer<T>)] = []
 
-class CommonObservableProperty<T> {
-  
-  fileprivate typealias SetData = (_ value: T) -> Void
-  
-  private let setData: SetData
-  private let observersLock = Lock()
-  private var observers: [(uuid:UUID, value:Observer<T>)] = []
-  
-  fileprivate init (setData: @escaping SetData) {
-    self.setData = setData
-  }
-  
-  func set (_ value: T) {
-    setData(value)
-    if observers.isEmpty {
-      return
-    }
-    
-    let observersCopy = observersLock.withLock {
-      observers.map { $0.value }
-    }
-
-    for observer in observersCopy {
-      observer(value)
-    }
-  }
-  
+  @discardableResult
   func on (change observer: @escaping Observer<T>) -> UUID {
     let key = UUID()
     let tuple = (key, observer)
@@ -61,40 +25,84 @@ class CommonObservableProperty<T> {
     }
     return key
   }
-  
-  func remove (observer key: UUID) {
-    observersLock.withLockVoid {
-      let optional = observers.firstIndex(where: { uuid, value in uuid == key})
+
+  @discardableResult
+  func remove (observer uuid: UUID) -> Bool {
+    return observersLock.withLock {
+      let optional = observers.firstIndex(where: { key, value in key == uuid})
       if let index = optional {
         observers.remove(at: index)
+        return true
+      } else {
+        return false
       }
     }
   }
 }
 
-final class PrimitiveProperty<T: AtomicPrimitive>: CommonObservableProperty<T>, ObservableProperty {
+final class FirableObserversManager<T>: ObserversManager<T> {
+
+  func fire (with value: T) {
+    if observers.isEmpty {
+      return
+    }
+
+    let observersCopy = observersLock.withLock {
+      observers.map { $0.value }
+    }
+
+    for observer in observersCopy {
+      observer(value)
+    }
+  }
+}
+
+class ObservableProperty<T> {
   
-  private let atomic: Atomic<T>
+  fileprivate let observersManager = FirableObserversManager<T>()
   
-  init (_ initial: T) {
-    atomic = Atomic(value: initial)
-    super.init(setData: atomic.store)
+  @discardableResult
+  func on (change observer: @escaping Observer<T>) -> UUID {
+    return observersManager.on(change: observer)
   }
   
+  @discardableResult
+  func remove (observer uuid: UUID) -> Bool {
+    return observersManager.remove(observer: uuid)
+  }
+}
+
+final class PrimitiveProperty<T: AtomicPrimitive>: ObservableProperty<T> {
+
+  private let atomic: Atomic<T>
+
+  init (_ initial: T) {
+    atomic = Atomic(value: initial)
+  }
+  
+  func set (_ value: T) {
+    atomic.store(value)
+    observersManager.fire(with: value)
+  }
+
   func get () -> T {
     return atomic.load()
   }
 }
 
-final class ObjectProperty<T: AnyObject>: CommonObservableProperty<T>, ObservableProperty {
-  
+final class ObjectProperty<T: AnyObject>: ObservableProperty<T> {
+
   private let atomic: AtomicBox<T>
 
   init (_ initial: T) {
     atomic = AtomicBox(value: initial)
-    super.init(setData: atomic.store)
   }
   
+  func set (_ value: T) {
+    atomic.store(value)
+    observersManager.fire(with: value)
+  }
+
   func get () -> T {
     return atomic.load()
   }

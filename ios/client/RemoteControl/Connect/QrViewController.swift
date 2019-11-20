@@ -108,7 +108,6 @@ class QrViewController: UIViewController {
         print("Another connections error")
       default:
         print("Smth happened")
-        1 == 1
       }
       print("finished connecting")
     }))
