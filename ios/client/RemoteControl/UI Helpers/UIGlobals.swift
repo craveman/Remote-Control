@@ -13,6 +13,7 @@ class UIGlobals {
     static let timerFontSize: CGFloat = 80
     static let popupContentFontSize: CGFloat = 36
     static let appDefaultFontSize: CGFloat = 22
+    static let appSmallerFontSize: CGFloat = 16
     
     static let buttonCornerRadius = CGFloat(0)
     static let cardCornerRadius = CGFloat(0)
