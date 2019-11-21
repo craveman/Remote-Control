@@ -33,15 +33,15 @@ class OptionsViewController: UITableViewController {
 
     let rs = RemoteService.shared
 
-    var animated = true;
+    var animated = true
 
     @IBAction func goBack(_ sender: Any) {
         dismiss(animated: self.animated, completion: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated);
-        self.animated = animated;
+        super.viewWillAppear(animated)
+        self.animated = animated
     }
 
     override func viewDidLoad() {
@@ -63,7 +63,7 @@ class OptionsViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return optionsList.count;
+        return optionsList.count
     }
 
 

@@ -85,6 +85,6 @@ struct PointsStepper_Previews: PreviewProvider {
 
 func withDelay(_ callback: @escaping () -> Void, _ timeout: TimeInterval = 1) {
     Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) {_ in
-        callback();
+        callback()
     }
 }

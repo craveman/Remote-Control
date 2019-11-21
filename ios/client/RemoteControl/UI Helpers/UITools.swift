@@ -13,14 +13,14 @@ class Utils {
     static func delay(_ callback: @escaping () -> Void, ms delay: Int) {
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(delay)) {
 //            print("\(delay) milliseconds later")
-            callback();
+            callback()
         }
     }
     
     static func delay(_ callback: @escaping () -> Void, seconds delay: Int) {
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(delay)) {
 //            print("\(delay) seconds later")
-            callback();
+            callback()
         }
     }
 }

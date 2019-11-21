@@ -12,7 +12,7 @@ struct HoldPassiveButton: View {
     var body: some View {
         Button(action: {
             print("Hold Passive")
-        }){ dinFont(Text("hold passive"))}.accentColor(.black)
+        }){ primaryColor(dinFont(Text("hold passive"))) }
     }
 }
 

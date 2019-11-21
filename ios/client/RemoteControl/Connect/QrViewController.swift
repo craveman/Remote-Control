@@ -35,7 +35,7 @@ class QrViewController: UIViewController {
   override func viewDidAppear (_ animated: Bool) {
     super.viewDidAppear(animated)
     print("QrViewController::viewDidAppear")
-    startScanner();
+    startScanner()
   }
 
   public func stopScanner() {
@@ -100,7 +100,7 @@ class QrViewController: UIViewController {
       switch self?.rs.connection.connect(to: remote) {
       case .success(_):
         print("self?.onSuccess")
-        self?.onSuccess();
+        self?.onSuccess()
       case .failure(ConnectionError.connectionTimeout(let timeout)):
         let message = "Неудалось подключиться к \(remote.ip). Таймаут на подключение (\(timeout) сек) иссяк"
         self?.showError(text: message)

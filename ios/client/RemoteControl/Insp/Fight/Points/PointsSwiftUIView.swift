@@ -9,8 +9,6 @@
 import SwiftUI
 import Sm02Client
 
-let rs = RemoteService.shared
-
 struct PointsSwiftUIView: View {
     @ObservedObject var responder = TimerResponder()
     @Binding var timer: UInt32
@@ -35,17 +33,17 @@ struct PointsSwiftUIView: View {
 }
 
 func getMinutes(_ timer: UInt32) -> String {
-    let m = (timer/60000) | 0;
+    let m = (timer/60000) | 0
     return "\(m > 9 ? "" : "0")\(m)"
 }
 
 func getSeconds(_ timer: UInt32) -> String {
-    let s = (timer/1000) % 60 | 0;
+    let s = (timer/1000) % 60 | 0
     return "\(s > 9 ? "" : "0")\(s)"
 }
 
 func getTimeString(_ timer: UInt32) -> String {
-    return "\(getMinutes(timer)) : \(getSeconds(timer))";
+    return "\(getMinutes(timer)):\(getSeconds(timer))"
 }
 
 fileprivate struct FightControls: View {
@@ -79,7 +77,7 @@ fileprivate struct MyModalView: View {
     var body: some View {
         
         VStack {
-            dinFont(Text("\(getTimeString(countdown))"), 50)
+            dinFont(Text("\(getTimeString(countdown))"), UIGlobals.timerFontSize)
                 .padding(CGFloat(50))
                 .onTapGesture(count: 1, perform: {
                     self.presentationMode.wrappedValue.dismiss()
@@ -101,7 +99,7 @@ fileprivate struct MyButtonModalView: View {
             self.action()
             self.showModal = true
         }) {
-            dinFont(Text("\(getTimeString(timer))"), 50)
+            dinFont(Text("\(getTimeString(timer))"), UIGlobals.timerFontSize)
         }
         .frame(width: size.idealWidth, height: size.idealHeight, alignment: size.alignment)
         .sheet(isPresented: self.$showModal, onDismiss: self.onDismiss) {
