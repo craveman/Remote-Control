@@ -12,7 +12,7 @@ struct VideoButton: View {
     var body: some View {
         Button(action: {
             print("View video")
-        }){ Text("view video")}.font(Font.custom("DIN Alternate", size: 20).bold()).accentColor(.black)
+        }){ primaryColor(dinFont(Text("view video"))) }
     }
 }
 

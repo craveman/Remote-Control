@@ -13,10 +13,10 @@ class PenaltySelectorViewController: UIViewController {
 
     let rs = RemoteService.shared
 
-    private var maxIncreaseLevel = 0;
+    private var maxIncreaseLevel = 0
 
     private var currentPenaltyCard: StatusCard?
-    private var enabledCardsList: [StatusCard] = [];
+    private var enabledCardsList: [StatusCard] = []
 
     var penaltyType: PenaltiesTypes = .basic {
         didSet(type) {
@@ -26,7 +26,7 @@ class PenaltySelectorViewController: UIViewController {
         }
     }
 
-    var personType: PersonType = .none;
+    var personType: PersonType = .none
 
     @IBOutlet weak var blackCard: UIButton! {
         didSet {
@@ -103,7 +103,7 @@ class PenaltySelectorViewController: UIViewController {
         if currentPenaltyCard != nil {
             let penaltyIndex = enabledCardsList.firstIndex(of: currentPenaltyCard!) ?? -1
             blackCard?.backgroundColor = isBlackActive() ? #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1) : #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-            increaseCard?.backgroundColor = isBlackActive() ? #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1) : penaltyIndex == 0 ? #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 1) : #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1);
+            increaseCard?.backgroundColor = isBlackActive() ? #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1) : penaltyIndex == 0 ? #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 1) : #colorLiteral(red: 1, green: 0.1491314173, blue: 0, alpha: 1)
             increaseCard?.isEnabled = !isBlackActive() && penaltyIndex <= maxIncreaseLevel
 
         }
@@ -114,7 +114,7 @@ class PenaltySelectorViewController: UIViewController {
     private func setCardsTitles() {
 
         let markedCards = [increaseCard, blackCard]
-        var title = "-", hidden = true;
+        var title = "-", hidden = true
 
         switch penaltyType {
         case .passive: title = "P"; hidden = false

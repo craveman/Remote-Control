@@ -8,8 +8,8 @@
 
 import UIKit
 
-let nextSegue = "toConnetior";
-let timeout = 1.4;
+let nextSegue = "toConnetior"
+let timeout = 1.4
 
 class ViewController: UIViewController {
 
@@ -20,11 +20,11 @@ class ViewController: UIViewController {
 
     super.viewDidLoad()
     // Do any additional setup after loading the view.
-    spinner?.startAnimating();
+    spinner?.startAnimating()
     //do stuff
     Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { timer in
-      self.spinner?.stopAnimating();
-      self.jumpToConnector();
+      self.spinner?.stopAnimating()
+      self.jumpToConnector()
     }
   }
 

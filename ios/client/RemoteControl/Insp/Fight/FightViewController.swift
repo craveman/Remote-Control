@@ -47,7 +47,7 @@ class FightViewController: UIViewController {
     private func updateView() {
         print("update view")
         
-        fightSwiftUIHost.view.isHidden = false;
+        fightSwiftUIHost.view.isHidden = false
         updateGame()
     }
     

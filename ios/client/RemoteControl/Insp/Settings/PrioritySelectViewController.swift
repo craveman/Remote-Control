@@ -49,7 +49,7 @@ class PrioritySelectViewController: UIViewController {
     }
 
     private func updateStyles() {
-        setPriorityButton.layer.cornerRadius = UIGlobals.cardCornerRadius;
+        setPriorityButton.layer.cornerRadius = UIGlobals.cardCornerRadius
     }
 
     private func updateView() {

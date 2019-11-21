@@ -10,11 +10,11 @@ import UIKit
 
 class CountdownViewController: UIViewController {
 
-    private var animated = true;
+    private var animated = true
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.animated = animated;
+        self.animated = animated
         self.view.isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector(("handleTap:")))
         self.view.addGestureRecognizer(tapGesture)

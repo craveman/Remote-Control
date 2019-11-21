@@ -38,11 +38,3 @@ struct FightSectionSwiftUIView_Previews: PreviewProvider {
         FightSectionSwiftUIView()
     }
 }
-
-func dinFont(_ view: Text, _ size: CGFloat = 20) -> Text {
-    return view.font(Font.custom("DIN Alternate", size: size).bold())
-}
-
-func primaryColor(_ view: Text) -> Text {
-    return view.foregroundColor(.black)
-}

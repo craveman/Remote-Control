@@ -10,12 +10,16 @@ import UIKit
 import SwiftUI
 
 class UIGlobals {
+    static let timerFontSize: CGFloat = 80
+    static let popupContentFontSize: CGFloat = 36
+    static let appDefaultFontSize: CGFloat = 22
+    
     static let buttonCornerRadius = CGFloat(0)
     static let cardCornerRadius = CGFloat(0)
     static let activeCardBorder = (color: CGColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)),  width: CGFloat(2))
     static let activeButtonBorder = (color: CGColor(#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)),  width: CGFloat(4))
     
-    static let activeButtonBackground_SUI = Color(#colorLiteral(red: 0, green: 0.5049814582, blue: 1, alpha: 1))
+    static let activeButtonBackground_SUI = Color(#colorLiteral(red: 0.3765910268, green: 0.3763456941, blue: 0.3850344718, alpha: 1))
     static let disabledButtonBackground_SUI = Color(#colorLiteral(red: 0, green: 0.5049814582, blue: 1, alpha: 0.5))
 }
 
@@ -34,7 +38,7 @@ class UIState: NSObject {
         let (diff, _) = timerMs.subtractingReportingOverflow(ms)
         if(diff < 0) {
             self.resetTime(0)
-            self.timerIsRunning = false;
+            self.timerIsRunning = false
         }
     }
     
@@ -49,9 +53,9 @@ fileprivate func runState(_ state: UIState) {
 //        print("\(state.timerIsRunning):\(state.timerMs)")
         if state.timerIsRunning {
             print("running")
-            state.reduceTime(step);
+            state.reduceTime(step)
         }
-        runState(state);
+        runState(state)
     }, ms: step)
 }
 
@@ -75,7 +79,7 @@ class MyObserver: NSObject {
 
 
 
-fileprivate let step = 1000;
+fileprivate let step = 1000
 fileprivate let state = UIState()
 let StateObserver = MyObserver(state)
 

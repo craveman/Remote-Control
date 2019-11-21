@@ -26,7 +26,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
         if isSimulationEnv() {
             skipQR()
         }
-        super.viewDidAppear(animated);
+        super.viewDidAppear(animated)
     }
     
     private func getScanner() -> QrViewController {
@@ -38,7 +38,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
         segue.destination.presentationController?.delegate = (self as UIAdaptivePresentationControllerDelegate)
         }
         if isSimulationEnv() {
-            return;
+            return
         }
         if qrReaderSubViewWrapper.next is QrViewController {
             (qrReaderSubViewWrapper.next as! QrViewController).stopScanner()
@@ -50,7 +50,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
       rs.connection.disconnect()
       if isSimulationEnv() {
         skipQR()
-        return;
+        return
       }
         
       self.getScanner().startScanner()
@@ -87,7 +87,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
 
     private func skipQR() {
         Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { [weak self] timer in
-            self?.jumpToInspiration();
+            self?.jumpToInspiration()
         }
     }
     
