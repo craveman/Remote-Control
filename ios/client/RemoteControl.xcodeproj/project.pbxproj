@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		850143B62382120800B63867 /* SwiftUITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850143B52382120800B63867 /* SwiftUITools.swift */; };
 		850AAE5F2322CF7100DBFD93 /* UITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAE5E2322CF7100DBFD93 /* UITools.swift */; };
 		850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAE602322D78400DBFD93 /* UIGlobals.swift */; };
 		850AAE7023270F0E00DBFD93 /* Intro.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 850AAE6E23270F0E00DBFD93 /* Intro.storyboard */; };
@@ -18,6 +17,9 @@
 		850AAEE3232855F600DBFD93 /* WeaponSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAEE2232855F600DBFD93 /* WeaponSelectViewController.swift */; };
 		850AAEE52328653200DBFD93 /* PrioritySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAEE42328653200DBFD93 /* PrioritySelectViewController.swift */; };
 		851AE9B12385F56B001BE3FB /* SwiftUITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B02385F56B001BE3FB /* SwiftUITools.swift */; };
+		851AE9B323874353001BE3FB /* ResetBoutUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B223874353001BE3FB /* ResetBoutUIView.swift */; };
+		851AE9B523874393001BE3FB /* CommonButtonsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B423874393001BE3FB /* CommonButtonsSwiftUIView.swift */; };
+		851AE9B723874465001BE3FB /* PauseSettersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */; };
 		8546BB3A231EC04900F7C86F /* FightStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */; };
 		8558AA2F231EE8F5006C8BA3 /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */; };
 		8558AA33232017F5006C8BA3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558AA32232017F5006C8BA3 /* SettingsViewController.swift */; };
@@ -96,6 +98,9 @@
 		850AAEE2232855F600DBFD93 /* WeaponSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponSelectViewController.swift; sourceTree = "<group>"; };
 		850AAEE42328653200DBFD93 /* PrioritySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrioritySelectViewController.swift; sourceTree = "<group>"; };
 		851AE9B02385F56B001BE3FB /* SwiftUITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftUITools.swift; path = "RemoteControl/UI Helpers/SwiftUITools.swift"; sourceTree = "<group>"; };
+		851AE9B223874353001BE3FB /* ResetBoutUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetBoutUIView.swift; sourceTree = "<group>"; };
+		851AE9B423874393001BE3FB /* CommonButtonsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonButtonsSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseSettersSwiftUIView.swift; sourceTree = "<group>"; };
 		8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FightStoryboard.storyboard; sourceTree = "<group>"; };
 		8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownViewController.swift; sourceTree = "<group>"; };
 		8558AA32232017F5006C8BA3 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -199,6 +204,9 @@
 			children = (
 				8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */,
 				85B95705237E06C50063E32C /* TimersSwiftUIView.swift */,
+				851AE9B223874353001BE3FB /* ResetBoutUIView.swift */,
+				851AE9B423874393001BE3FB /* CommonButtonsSwiftUIView.swift */,
+				851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */,
 			);
 			path = Timers;
 			sourceTree = "<group>";
@@ -421,7 +429,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1030;
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1120;
 				ORGANIZATIONNAME = "Sergei Andreev";
 				TargetAttributes = {
 					B9C8BED92305A2C5004DBBF8 = {
@@ -507,7 +515,9 @@
 				850AAEE3232855F600DBFD93 /* WeaponSelectViewController.swift in Sources */,
 				B9C8BEE02305A2C5004DBBF8 /* QrViewController.swift in Sources */,
 				85B95702237A363A0063E32C /* PointsStepper.swift in Sources */,
+				851AE9B523874393001BE3FB /* CommonButtonsSwiftUIView.swift in Sources */,
 				B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */,
+				851AE9B723874465001BE3FB /* PauseSettersSwiftUIView.swift in Sources */,
 				85B956FA237A0FA50063E32C /* PointsSwiftUIView.swift in Sources */,
 				85B95700237A31DF0063E32C /* VideoButton.swift in Sources */,
 				858C62E523203DA20096FBF9 /* PenaltiesCardsViewController.swift in Sources */,
@@ -518,12 +528,12 @@
 				8FFBF9E42336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift in Sources */,
 				8558AA33232017F5006C8BA3 /* SettingsViewController.swift in Sources */,
 				850AAE7423270FC400DBFD93 /* ViewController.swift in Sources */,
+				851AE9B323874353001BE3FB /* ResetBoutUIView.swift in Sources */,
 				850AAE5F2322CF7100DBFD93 /* UITools.swift in Sources */,
 				851AE9B12385F56B001BE3FB /* SwiftUITools.swift in Sources */,
 				850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */,
 				8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */,
 				8FA249162384A24C006A65C6 /* ObservableProperty.swift in Sources */,
-				850143B62382120800B63867 /* SwiftUITools.swift in Sources */,
 				85B956FE237A2CA70063E32C /* HoldPassiveButton.swift in Sources */,
 				85B95704237B608C0063E32C /* FightTabsSelectorsUIView.swift in Sources */,
 				85A9934A23109CB7003FC5BE /* FightViewController.swift in Sources */,

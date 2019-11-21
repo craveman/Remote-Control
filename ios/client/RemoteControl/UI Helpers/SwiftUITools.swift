@@ -11,6 +11,7 @@ import SwiftUI
 var bounds = UIScreen.main.bounds
 var width = bounds.size.width
 var height = bounds.size.height
+var primaryColor: Color = .black
 
 struct SwiftUITools: View {
     var body: some View {
@@ -42,14 +43,15 @@ func dinFont(_ view: Text, _ size: CGFloat = UIGlobals.appDefaultFontSize) -> Te
     return view.font(Font.custom("DIN Alternate", size: size).bold())
 }
 
-func primaryColor(_ view: Text) -> Text {
-    return view.foregroundColor(.black)
+func primaryColor(_ text: Text) -> Text {
+    return text.foregroundColor(primaryColor)
 }
 
 public enum ButtonType {
     case basic
     case withImage
     case fullWidth
+    case withImageFullWidth
     case doubleHeight
 }
 
@@ -63,12 +65,15 @@ func getButtonFrame(_ size: ButtonType) -> (
     alignment: Alignment) {
     var h = heightOfButton(), w = halfSizeButton()
     switch size {
+    case .withImageFullWidth:
+         w = fullSizeButton()
+        h = height / 6
     case .fullWidth:
         w = fullSizeButton()
     case .doubleHeight:
         h = 2 * h
     case .withImage:
-        h = height / 5
+        h = height / 6
     default:
         break
     }

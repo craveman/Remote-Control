@@ -9,10 +9,11 @@
 import SwiftUI
 
 struct HoldPassiveButton: View {
+    var frame = getButtonFrame(.basic)
     var body: some View {
         Button(action: {
             print("Hold Passive")
-        }){ primaryColor(dinFont(Text("hold passive"))) }
+        }){ primaryColor(dinFont(Text("hold passive"))) }.frame(width: frame.idealWidth, height: frame.idealHeight, alignment: .center).border(Color.gray, width: 0.5)
     }
 }
 

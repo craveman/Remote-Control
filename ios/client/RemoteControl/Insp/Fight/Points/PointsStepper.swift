@@ -56,6 +56,7 @@ struct PointsStepper: View {
             .frame(width: mSize.idealWidth, height: mSize.idealHeight, alignment: mSize.alignment)
             .disabled(isActive)
             .background(isActive ? UIGlobals.disabledButtonBackground_SUI: nil)
+            .border(Color.gray, width: 0.5)
             Button(action: {
                 if (self.score == 99) {
                     return
@@ -72,6 +73,7 @@ struct PointsStepper: View {
             .frame(width: pSize.idealWidth, height: pSize.idealHeight, alignment: pSize.alignment)
             .disabled(isActive)
             .background(isActive ? UIGlobals.disabledButtonBackground_SUI: nil)
+            .border(Color.gray, width: 0.5)
         }
     }
 }

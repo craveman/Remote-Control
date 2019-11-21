@@ -43,9 +43,9 @@ struct InspTabSelector: View {
     var body: some View {
         Button(action: self.action) {
             if !self.isSelected {
-                Text(title).accentColor(.black).scaledFont()
+                Text(title).accentColor(.black).scaledFont().fixedSize()
             } else {
-                Text(title).accentColor(.white).scaledFont()
+                Text(title).accentColor(.white).scaledFont().fixedSize()
             }
          }
         .frame(width: self.size.idealWidth, height: self.size.idealHeight, alignment: self.size.alignment)

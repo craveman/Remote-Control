@@ -21,12 +21,12 @@ struct FightSectionSwiftUIView: View {
     @EnvironmentObject var settings: FightSettings
     
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             FightTabsSelectorsUIView(selectedTab: $selectedTab)
             if $selectedTab.wrappedValue == 0 {
-                PointsSwiftUIView(timer: $settings.time)
+                PointsSwiftUIView(timer: $settings.time).alignmentGuide(VerticalAlignment.top, computeValue: {_ in 0})
             } else if $selectedTab.wrappedValue == 1 {
-                TimersSwiftUIView()
+                TimersSwiftUIView().alignmentGuide(VerticalAlignment.top, computeValue: {_ in 0})
             }
         }
         

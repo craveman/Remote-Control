@@ -9,10 +9,11 @@
 import SwiftUI
 
 struct VideoButton: View {
+    var frame = getButtonFrame(.basic)
     var body: some View {
         Button(action: {
             print("View video")
-        }){ primaryColor(dinFont(Text("view video"))) }
+        }){ primaryColor(dinFont(Text("view video"))) }.frame(width: frame.idealWidth, height: frame.idealHeight, alignment: .center).border(Color.gray, width: 0.5)
     }
 }
 

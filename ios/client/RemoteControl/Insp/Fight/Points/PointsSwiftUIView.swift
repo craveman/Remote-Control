@@ -24,7 +24,7 @@ struct PointsSwiftUIView: View {
     }
     var body: some View {
         VStack(spacing: 0) {
-            FightControls()
+            FightControls().border(Color.gray, width: 0.5)
             MyButtonModalView(timer: timer, countdown: responder.milisecondsLeft, action: startAction, onDismiss: stopAction)
                 .padding(50)
         }.frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: getSubScreenHeight(), idealHeight: height, maxHeight: .infinity, alignment: .top)
@@ -53,15 +53,12 @@ fileprivate struct FightControls: View {
     var body: some View {
         HStack(spacing: 0) {
             VStack {
-                HoldPassiveButton().padding(.vertical, 32)
-                    .padding(.horizontal, 50)
+                HoldPassiveButton()
                 PointsStepper(pType: .left, score: self.$leftScore)
                 
             }
             VStack {
                 VideoButton()
-                    .padding(.vertical, 32)
-                    .padding(.horizontal, 50)
                 PointsStepper(pType: .right, score: self.$rightScore)
             }
             
