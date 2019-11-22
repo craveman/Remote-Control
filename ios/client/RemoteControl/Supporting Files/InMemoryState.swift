@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import struct Sm02Client.RemoteAddress
+import class Sm02Client.RemoteAddress
 import class Sm02Client.Atomic
 
 class InMemoryState {

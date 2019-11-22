@@ -1,5 +1,5 @@
 
-import struct Sm02Client.RemoteAddress
+import class Sm02Client.RemoteAddress
 import class Foundation.JSONEncoder
 import struct Foundation.Data
 

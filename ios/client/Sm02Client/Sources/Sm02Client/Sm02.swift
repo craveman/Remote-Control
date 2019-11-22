@@ -10,7 +10,6 @@ public class Sm02 {
 
   public static var isConnected: Bool {
     return client.isConnected
-    // return client.isConnected && ???
   }
 
   static var container: Container = DependencyContainer()

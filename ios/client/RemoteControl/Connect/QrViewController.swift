@@ -102,12 +102,14 @@ class QrViewController: UIViewController {
         print("self?.onSuccess")
         self?.onSuccess()
       case .failure(ConnectionError.connectionTimeout(let timeout)):
-        let message = "Неудалось подключиться к \(remote.ip). Таймаут на подключение (\(timeout) сек) иссяк"
-        self?.showError(text: message)
-        case .failure(_):
-        print("Another connections error")
-      default:
-        print("Smth happened")
+        let message = "Таймаут на подключение (\(timeout) сек) иссяк."
+        self?.showError(remote, message)
+      case .failure(ConnectionError.connectionRefused):
+        let message = "Сервер недоступен."
+        self?.showError(remote, message)
+      case let .failure(error):
+        let message = "Неизвестная ошибка: \(error)."
+        self?.showError(remote, message)
       }
       print("finished connecting")
     }))
@@ -115,10 +117,10 @@ class QrViewController: UIViewController {
     present(alert, animated: true, completion: nil)
   }
 
-  private func showError (text: String) {
+  private func showError (_ remote: RemoteAddress, _ text: String) {
     let alert = UIAlertController(
       title: "Ошибка соединения",
-      message: "\(text)",
+      message: "Неудалось подключиться к \(remote.ip). \(text)",
       preferredStyle: .alert
     )
     alert.addAction(UIAlertAction(title: "Попробовать снова", style: .cancel, handler: { [weak self] (action) in

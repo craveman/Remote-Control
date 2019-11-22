@@ -1,6 +1,6 @@
 
 import Foundation
-import struct Sm02Client.RemoteAddress
+import class Sm02Client.RemoteAddress
 
 
 guard let wifi = WiFi.info else {

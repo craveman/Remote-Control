@@ -57,6 +57,8 @@ final class InboundToByteBufferEncoder: ChannelOutboundHandler {
     case let .genericResponse(status, request):
       buffer.writeInteger(status as UInt8)
       buffer.writeInteger(request as UInt8)
+    default:
+      print("unsupported inbound message")
     }
 
     let out = wrapOutboundOut(buffer)

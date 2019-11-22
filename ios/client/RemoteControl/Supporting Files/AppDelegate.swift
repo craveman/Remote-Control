@@ -36,7 +36,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     guard let remote = rs.connection.address else {
       return
     }
-    rs.connection.connect(to: remote)
+    if case .failure(_) = rs.connection.connect(to: remote) {
+      print("can't connect to the remote server with \(remote)")
+    }
   }
 
   func applicationDidBecomeActive (_ application: UIApplication) {

@@ -29,14 +29,24 @@ class Sm02TcpClient: Sm02Client {
 
   deinit {
     close()
+
+    print("terminating NIO group")
+    do {
+      try group.syncShutdownGracefully()
+    } catch {
+      print("ERROR: closing error - \(error)")
+    }
   }
 
   func connect (to remote: RemoteAddress) -> Result<Void, Error> {
     do {
       channel = try bootstrap.connect(host: remote.ip, port: 21074).wait()
     } catch ChannelError.connectTimeout(let timeAmount) {
-      let timeout = (Int) (timeAmount.nanoseconds / 1000000000)
+      let timeout = (Int) (timeAmount.nanoseconds / 1_000_000_000)
       let error = ConnectionError.connectionTimeout(timeout)
+      return .failure(error)
+    } catch is NIOConnectionError {
+      let error = ConnectionError.connectionRefused
       return .failure(error)
     } catch {
       return .failure(error)
@@ -60,12 +70,6 @@ class Sm02TcpClient: Sm02Client {
     if let channel = channel {
       let _ = channel.close()
       self.channel = nil
-    }
-
-    do {
-      try group.syncShutdownGracefully()
-    } catch {
-      print("ERROR: closing error - \(error)")
     }
   }
 }
