@@ -324,6 +324,7 @@ final class RemoteService {
         guard case let .broadcast(_, _, _, timer, timerState) = inbound else {
           return
         }
+        print("\(timer), \(timerState)")
         if self.time != timer {
           (self.timeProperty as! PrimitiveProperty<UInt32>).set(timer)
         }

@@ -30,7 +30,7 @@ struct RcSwiftUIView: View {
             }
         }
         .font(.headline)
-        .foregroundColor(.white)
+        
     }
 }
 

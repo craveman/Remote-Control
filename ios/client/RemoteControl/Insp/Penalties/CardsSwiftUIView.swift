@@ -85,11 +85,21 @@ fileprivate struct CardPath: View {
 fileprivate struct Card: View {
   var title = ""
   var color = primaryColor
+  var addAction: () -> Void = {}
+  var resetAction: () -> Void = {}
   var body: some View {
     ZStack {
       CardPath(color: self.color)
       dinFont(Text(self.title), UIGlobals.popupContentFontSize)
     }
+    .gesture(resetGesture.onEnded { _ in
+      print("Card::resetGesture:action")
+      self.resetAction()
+    }).highPriorityGesture(addCardGesture.onEnded { _ in
+      print("Card::addCardGesture:action")
+      self.addAction()
+    })
+    
     
   }
 }
@@ -98,70 +108,77 @@ fileprivate struct PlayerPenaltiesBoard: View {
   var type: PersonType = .none;
   @EnvironmentObject var settings: FightSettings
   
-  func getColor() -> Color {
-    switch self.type {
-    case .left:
-      return self.settings.leftCard == .none ? Color.yellow : Color.red
-    case .right:
-        return self.settings.rightCard == .none ? Color.yellow : Color.red
-    default:
-      return .green
-    }
+  func getColor(_ expect: StatusCard, _ test: StatusCard) -> Color {
+    return expect == test ? Color.yellow : Color.red
   }
   
-  
-  func getCard() -> StatusCard {
+  func getCurrentCard(_ isPCard: Bool) -> StatusCard {
     switch self.type {
     case .left:
-      return self.settings.leftCard == .none ? StatusCard.yellow : StatusCard.red
+      return isPCard ? self.settings.leftCardP : self.settings.leftCard
     case .right:
-        return self.settings.rightCard == .none ? StatusCard.yellow : StatusCard.red
+      return isPCard ? self.settings.rightCardP : self.settings.rightCard
     default:
       return .none
     }
   }
   
+  
+  func getCard() -> StatusCard {
+    return self.getCurrentCard(false) == .none ? StatusCard.yellow : StatusCard.red
+  }
+  
   func getPCard() -> StatusCard {
-     switch self.type {
-     case .left:
-       return self.settings.leftCard == .none ? StatusCard.passiveYellow : StatusCard.passiveRed
-     case .right:
-         return self.settings.rightCard == .none ? StatusCard.passiveYellow : StatusCard.passiveRed
-     default:
-       return .none
-     }
+    return self.getCurrentCard(true) == .passiveNone ? StatusCard.passiveYellow : StatusCard.passiveRed
    }
   
   var body: some View {
     VStack {
-      Button(action: {
+      Card(title: "P", color: .black, addAction: {
         rs.persons[self.type].card = .passiveBlack
-      }) {
-        Card(title: "P")
-      }
-      Button(action: {
+      }, resetAction: {
+         rs.persons[self.type].card = .passiveNone
+      })
+      Card(title: "P", color: self.getColor(.passiveNone, getCurrentCard(true)), addAction: {
         let nextCard = self.getPCard()
+        // todo: if red is set - add 1 point
+        if nextCard == StatusCard.passiveRed {
+          rs.persons[self.type].score = rs.persons[self.type].score + 1
+        }
         rs.persons[self.type].card = nextCard
-      }) {
-        Card(title: "P", color: self.getColor())
-      }
-      Button(action: {
+      }, resetAction: {
+         rs.persons[self.type].card = .passiveNone
+      })
+      Card(title: "", color: self.getColor(.none, getCurrentCard(false)), addAction: {
         let nextCard = self.getCard()
+        // todo: if red is set - add 1 point
+        if nextCard == StatusCard.red {
+          rs.persons[self.type].score = rs.persons[self.type].score + 1
+        }
         rs.persons[self.type].card = nextCard
-      }) {
-        Card(title: "", color: self.getColor())
-      }
+      }, resetAction: {
+        rs.persons[self.type].card = .none
+      })
     }
     
   }
 }
-
+fileprivate let holdLongPressDuration = 0.95
+fileprivate let resetGesture = LongPressGesture(minimumDuration: holdLongPressDuration)
+fileprivate let addCardGesture = TapGesture(count: 1)
 struct CardsSwiftUIView: View {
+  
+ 
   var body: some View {
-    HStack(spacing: 0) {
-      PlayerPenaltiesBoard(type: .left).frame(width: width / 2)
-      PlayerPenaltiesBoard(type: .right).frame(width: width / 2)
+    VStack {
+      HStack(spacing: 0) {
+         PlayerPenaltiesBoard(type: .left).frame(width: width / 2)
+         PlayerPenaltiesBoard(type: .right).frame(width: width / 2)
+       }
+      dinFont(Text("* hold to reset"))
+      
     }
+   
   }
 }
 

@@ -26,12 +26,8 @@
 		851AE9C323893D06001BE3FB /* CardsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9C223893D06001BE3FB /* CardsSwiftUIView.swift */; };
 		8558AA2F231EE8F5006C8BA3 /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */; };
 		8558AA33232017F5006C8BA3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558AA32232017F5006C8BA3 /* SettingsViewController.swift */; };
-		8558AA352320198A006C8BA3 /* PenaltiesStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8558AA342320198A006C8BA3 /* PenaltiesStoryboard.storyboard */; };
 		8583E8A6231EA13E0006BC43 /* ReplaysStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8583E8A5231EA13E0006BC43 /* ReplaysStoryboard.storyboard */; };
 		8583E8AA231EAA4C0006BC43 /* ReplaysCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8583E8A9231EAA4C0006BC43 /* ReplaysCollectionViewController.swift */; };
-		858C62E3232038540096FBF9 /* PenaltiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858C62E2232038540096FBF9 /* PenaltiesViewController.swift */; };
-		858C62E523203DA20096FBF9 /* PenaltiesCardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858C62E423203DA20096FBF9 /* PenaltiesCardsViewController.swift */; };
-		858C62E72320432B0096FBF9 /* PenaltySelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858C62E62320432B0096FBF9 /* PenaltySelectorViewController.swift */; };
 		85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A99338230B47A4003FC5BE /* Inspiration.storyboard */; };
 		85A9934A23109CB7003FC5BE /* RcViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934923109CB7003FC5BE /* RcViewController.swift */; };
 		85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934C23109E2D003FC5BE /* InspViewController.swift */; };
@@ -111,12 +107,8 @@
 		851AE9C223893D06001BE3FB /* CardsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsSwiftUIView.swift; sourceTree = "<group>"; };
 		8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownViewController.swift; sourceTree = "<group>"; };
 		8558AA32232017F5006C8BA3 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		8558AA342320198A006C8BA3 /* PenaltiesStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PenaltiesStoryboard.storyboard; sourceTree = "<group>"; };
 		8583E8A5231EA13E0006BC43 /* ReplaysStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ReplaysStoryboard.storyboard; sourceTree = "<group>"; };
 		8583E8A9231EAA4C0006BC43 /* ReplaysCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaysCollectionViewController.swift; sourceTree = "<group>"; };
-		858C62E2232038540096FBF9 /* PenaltiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltiesViewController.swift; sourceTree = "<group>"; };
-		858C62E423203DA20096FBF9 /* PenaltiesCardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltiesCardsViewController.swift; sourceTree = "<group>"; };
-		858C62E62320432B0096FBF9 /* PenaltySelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltySelectorViewController.swift; sourceTree = "<group>"; };
 		85A99338230B47A4003FC5BE /* Inspiration.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Inspiration.storyboard; sourceTree = "<group>"; };
 		85A9934923109CB7003FC5BE /* RcViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RcViewController.swift; sourceTree = "<group>"; };
 		85A9934C23109E2D003FC5BE /* InspViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspViewController.swift; sourceTree = "<group>"; };
@@ -273,10 +265,6 @@
 		85A9934623109C89003FC5BE /* Penalties */ = {
 			isa = PBXGroup;
 			children = (
-				8558AA342320198A006C8BA3 /* PenaltiesStoryboard.storyboard */,
-				858C62E2232038540096FBF9 /* PenaltiesViewController.swift */,
-				858C62E423203DA20096FBF9 /* PenaltiesCardsViewController.swift */,
-				858C62E62320432B0096FBF9 /* PenaltySelectorViewController.swift */,
 				851AE9C223893D06001BE3FB /* CardsSwiftUIView.swift */,
 			);
 			path = Penalties;
@@ -493,7 +481,6 @@
 				B9C8BEE82305A2C7004DBBF8 /* LaunchScreen.storyboard in Resources */,
 				85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */,
 				B9C8BEE52305A2C7004DBBF8 /* Assets.xcassets in Resources */,
-				8558AA352320198A006C8BA3 /* PenaltiesStoryboard.storyboard in Resources */,
 				B9C8BEE32305A2C6004DBBF8 /* QRConnect.storyboard in Resources */,
 				850AAEE1232855C000DBFD93 /* SettingsStoryboard.storyboard in Resources */,
 			);
@@ -521,9 +508,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8558AA2F231EE8F5006C8BA3 /* CountdownViewController.swift in Sources */,
-				858C62E3232038540096FBF9 /* PenaltiesViewController.swift in Sources */,
 				850AAEDE232723F400DBFD93 /* ConnectionsViewController.swift in Sources */,
-				858C62E72320432B0096FBF9 /* PenaltySelectorViewController.swift in Sources */,
 				850AAEE3232855F600DBFD93 /* WeaponSelectViewController.swift in Sources */,
 				851AE9BD23876424001BE3FB /* DraggableCircle.swift in Sources */,
 				B9C8BEE02305A2C5004DBBF8 /* QrViewController.swift in Sources */,
@@ -533,7 +518,6 @@
 				851AE9B723874465001BE3FB /* PauseSettersSwiftUIView.swift in Sources */,
 				85B956FA237A0FA50063E32C /* PointsSwiftUIView.swift in Sources */,
 				85B95700237A31DF0063E32C /* VideoButton.swift in Sources */,
-				858C62E523203DA20096FBF9 /* PenaltiesCardsViewController.swift in Sources */,
 				85B95708237E07130063E32C /* FightSectionSwiftUIView.swift in Sources */,
 				850AAEE52328653200DBFD93 /* PrioritySelectViewController.swift in Sources */,
 				85B95706237E06C50063E32C /* TimersSwiftUIView.swift in Sources */,
@@ -764,7 +748,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8BU6982BUJ;
+				DEVELOPMENT_TEAM = NB936833RX;
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = RemoteControl/Base.lproj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
@@ -773,7 +757,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xxlabaza.RemoteControl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_INCLUDE_PATHS = "";
@@ -788,7 +772,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8BU6982BUJ;
+				DEVELOPMENT_TEAM = NB936833RX;
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = RemoteControl/Base.lproj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
@@ -797,7 +781,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xxlabaza.RemoteControl;
+				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_INCLUDE_PATHS = "";

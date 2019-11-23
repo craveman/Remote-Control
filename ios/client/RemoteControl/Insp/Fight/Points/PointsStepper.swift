@@ -11,11 +11,15 @@ import Sm02Client
 
 struct PointsStepper: View {
     var pType: PersonType = .none
-    @Binding var score: Int
+    @EnvironmentObject var settings: FightSettings
     @State private var isActive = false
-    @State private var width = halfSizeButton()
+    var width = halfSizeButton()
     var minusHeight = CGFloat(heightOfButton())
     var plusHeight = CGFloat(heightOfButton() * 2)
+  
+  func getScore() -> UInt8 {
+    return getPerson().score
+  }
     
     func thenDeactivate(_ timeout: Double = 1.1) -> Void {
         withDelay({
@@ -41,12 +45,11 @@ struct PointsStepper: View {
         VStack {
             Button(action: {
                 print("- Button Pushed")
-                if (self.score == 0) {
+              if (self.getScore() == 0) {
                     return
                 }
                 
-                self.getPerson().score = UInt8(self.score - 1)
-                self.score -= 1
+              self.getPerson().score = UInt8(self.getScore() - 1)
                 self.isActive = true
                 self.thenDeactivate()
             }) {
@@ -57,12 +60,11 @@ struct PointsStepper: View {
             .background(isActive ? UIGlobals.disabledButtonBackground_SUI: nil)
             .border(Color.gray, width: 0.5)
             Button(action: {
-                if (self.score == 99) {
+                if (self.getScore() == 99) {
                     return
                 }
                 print("+ Button Pushed")
-                self.getPerson().score = UInt8(self.score + 1)
-                self.score += 1
+                self.getPerson().score = UInt8(self.getScore() + 1)
                 self.isActive = true
                 self.thenDeactivate()
                 
@@ -78,9 +80,8 @@ struct PointsStepper: View {
 }
 
 struct PointsStepper_Previews: PreviewProvider {
-    @State static var score = 0
     static var previews: some View {
-        PointsStepper(pType: .none, score: $score)
+        PointsStepper(pType: .none)
     }
 }
 

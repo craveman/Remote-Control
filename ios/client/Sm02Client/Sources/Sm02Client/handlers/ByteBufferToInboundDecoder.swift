@@ -197,12 +197,12 @@ extension ByteBuffer {
 
   mutating func readUInt32 () -> UInt32? {
     return readBytes(length: 4).map { array in
-      let one = UInt32(array[0])
-      let two = UInt32(array[1])
-      let three = UInt32(array[2])
-      let four = UInt32(array[3])
+      let one = UInt32(array[3])
+      let two = UInt32(array[2]) << 8
+      let three = UInt32(array[1]) << 16
+      let four = UInt32(array[0]) << 24
 
-      return (one << 24) + (two << 16) + (three << 8) + four
+      return four + three + two + one
     }
   }
 }
