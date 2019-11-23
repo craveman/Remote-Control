@@ -31,8 +31,6 @@ let protoCellName = "options"
 
 class OptionsViewController: UITableViewController {
 
-    let rs = RemoteService.shared
-
     var animated = true
 
     @IBAction func goBack(_ sender: Any) {

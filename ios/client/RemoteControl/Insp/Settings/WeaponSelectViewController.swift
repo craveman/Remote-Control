@@ -10,8 +10,6 @@ import UIKit
 
 class WeaponSelectViewController: UIViewController {
 
-    let rs = RemoteService.shared
-
     @IBOutlet weak var foilButton: UIButton!
     @IBOutlet weak var epeeButton: UIButton!
     @IBOutlet weak var sabreButton: UIButton!

@@ -29,8 +29,6 @@ let settingCellId = "settingsCell"
 
 class SettingsViewController: UITableViewController {
 
-    let rs = RemoteService.shared
-
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -10,14 +10,14 @@ import UIKit
 import SwiftUI
 import Sm02Client
 
-class FightViewController: UIViewController {
+class RcViewController: UIViewController {
 
     @IBOutlet weak var fightSubView: UIView!
-    internal var fight: FightSectionSwiftUIView?
+    internal var fight: RcSwiftUIView?
     internal var game = FightSettings()
     lazy var fightSwiftUIHost: UIViewController = {
         
-        var view = FightSectionSwiftUIView()
+        var view = RcSwiftUIView()
         self.fight = view
         self.updateViewState()
         var vc = UIHostingController(rootView: view.environmentObject(game))
@@ -32,16 +32,18 @@ class FightViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Sm02.on(message: { [unowned self] (inbound) in
-          guard case let .broadcast(weapon, left, right, timer, timerState) = inbound else {
-            return
-          }
-          print("weapon=\(weapon),left=\(left),right=\(right),timer=\(timer),timerState=\(timerState)")
-            self.game.isRunning = timerState == .running
-            self.game.time = timer
-        })
+        setSubscriptions()
         updateView()
         // Do any additional setup after loading the view.
+    }
+    
+    private func setSubscriptions() {
+        rs.timer.timeProperty.on(change: { update in
+          self.game.time = update
+        })
+        rs.timer.stateProperty.on(change: { timerState in
+          self.game.isRunning = timerState == .running
+        })
     }
     
     private func updateView() {

@@ -12,9 +12,7 @@ import Sm02Client
 
 
 class QrViewController: UIViewController {
-
-  let rs = RemoteService.shared
-
+  
   @IBOutlet weak var previewView: QRCodeReaderView! {
     didSet {
       previewView.setupComponents(with: QRCodeReaderViewControllerBuilder {
@@ -27,30 +25,30 @@ class QrViewController: UIViewController {
       })
     }
   }
-
+  
   lazy var reader: QRCodeReader = QRCodeReader()
   var openedAlertCallback: (() -> Void)?
   var onSuccess: (() -> Void) = { print ("Not defined success action") }
-
+  
   override func viewDidAppear (_ animated: Bool) {
     super.viewDidAppear(animated)
     print("QrViewController::viewDidAppear")
     startScanner()
   }
-
+  
   public func stopScanner() {
     DispatchQueue.main.async {
       self.reader.stopScanning()
     }
   }
-
+  
   public func startScanner() {
     print("startScanner")
     guard checkScanPermissions(), !reader.isRunning else {
       return
     }
     print("QrViewController::viewDidAppear::passedGuard")
-
+    
     reader.didFindCode = { [weak self] (result) in
       print("Completion with result: \(result.value) of type \(result.metadataType)")
       guard let self = self else {
@@ -58,7 +56,7 @@ class QrViewController: UIViewController {
         return
       }
       self.reader.stopScanning()
-
+      
       switch RemoteAddress.parse(url: result.value) {
       case .success(let access):
         self.process(success: access)
@@ -66,10 +64,10 @@ class QrViewController: UIViewController {
         self.process(error: reason)
       }
     }
-
+    
     reader.startScanning()
   }
-
+  
   override func viewWillDisappear (_ animated: Bool) {
     if openedAlertCallback != nil {
       openedAlertCallback!()
@@ -77,14 +75,14 @@ class QrViewController: UIViewController {
     }
     super.viewWillDisappear(animated)
   }
-
+  
   override func viewDidDisappear (_ animated: Bool) {
     super.viewDidDisappear(animated)
     DispatchQueue.main.async {
       self.reader.stopScanning()
     }
   }
-
+  
   private func process (success remote: RemoteAddress) {
     let alert = UIAlertController(
       title: "QR-код распознан",
@@ -92,12 +90,12 @@ class QrViewController: UIViewController {
       preferredStyle: .alert
     )
     print("remoteServer: \(remote)")
-
+    
     print("addAction")
-
+    
     alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] (action) in
       print("connecting to \(remote)")
-      switch self?.rs.connection.connect(to: remote) {
+      switch rs.connection.connect(to: remote) {
       case .success(_):
         print("self?.onSuccess")
         self?.onSuccess()
@@ -116,7 +114,7 @@ class QrViewController: UIViewController {
     print("present")
     present(alert, animated: true, completion: nil)
   }
-
+  
   private func showError (_ remote: RemoteAddress, _ text: String) {
     let alert = UIAlertController(
       title: "Ошибка соединения",
@@ -128,37 +126,37 @@ class QrViewController: UIViewController {
     }))
     present(alert, animated: true, completion: nil)
   }
-
+  
   private func process (error: RemoteAddress.ParsingError) {
     let alert = UIAlertController(
       title: "QR-код не распознан",
       message: "\(error)",
       preferredStyle: .alert
     )
-
+    
     alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] (action) in
       self?.reader.startScanning()
     }))
-
+    
     present(alert, animated: true, completion: nil)
   }
-
+  
   private func bindAlert(_ alert: UIAlertController?) {
     openedAlertCallback = {
       alert?.dismiss(animated: false)
     }
   }
-
+  
   private func checkScanPermissions () -> Bool {
     do {
       return try QRCodeReader.supportsMetadataObjectTypes()
     } catch let error as NSError {
       let alert: UIAlertController
-
+      
       switch error.code {
       case -11852:
         alert = UIAlertController(title: "Error", message: "This app is not authorized to use Back Camera.", preferredStyle: .alert)
-
+        
         alert.addAction(UIAlertAction(title: "Setting", style: .default, handler: { (_) in
           DispatchQueue.main.async {
             if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
@@ -166,14 +164,14 @@ class QrViewController: UIViewController {
             }
           }
         }))
-
+        
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
       default:
         alert = UIAlertController(title: "Error", message: "Reader not supported by the current device", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.bindAlert(alert)
       }
-
+      
       present(alert, animated: true, completion: nil)
       return false
     }

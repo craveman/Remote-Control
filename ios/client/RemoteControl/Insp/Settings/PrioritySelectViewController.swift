@@ -11,8 +11,6 @@ import Sm02Client
 
 class PrioritySelectViewController: UIViewController {
 
-    let rs = RemoteService.shared
-
     var currentPerson: PersonType = .none
 
     @IBOutlet weak var setPriorityButton: UIButton!

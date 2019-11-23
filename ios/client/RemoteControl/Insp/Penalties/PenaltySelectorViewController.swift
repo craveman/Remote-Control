@@ -11,8 +11,6 @@ import Sm02Client
 
 class PenaltySelectorViewController: UIViewController {
 
-    let rs = RemoteService.shared
-
     private var maxIncreaseLevel = 0
 
     private var currentPenaltyCard: StatusCard?
