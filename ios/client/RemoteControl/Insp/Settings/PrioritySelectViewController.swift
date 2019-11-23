@@ -21,6 +21,7 @@ class PrioritySelectViewController: UIViewController {
     super.viewDidLoad()
 
     updateStyles()
+
     [setPriorityButton, resetPriorityButton].forEach({ btn in
       btn?.addTarget(self, action: Selector(("setPriorityAction:")), for: .touchUpInside)
     })
