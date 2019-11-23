@@ -116,6 +116,7 @@ final class RemoteService {
     }
 
     func resetPriority () {
+      Person.priorityType = .none
       let outbound = Outbound.setPriority(person: .none)
       Sm02.send(message: outbound)
     }

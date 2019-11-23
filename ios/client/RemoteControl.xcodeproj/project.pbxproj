@@ -11,9 +11,6 @@
 		850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAE602322D78400DBFD93 /* UIGlobals.swift */; };
 		850AAEAA23271F2A00DBFD93 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 850AAEA923271F2A00DBFD93 /* AVFoundation.framework */; };
 		850AAEDE232723F400DBFD93 /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAEDD232723F400DBFD93 /* ConnectionsViewController.swift */; };
-		850AAEE1232855C000DBFD93 /* SettingsStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 850AAEE0232855C000DBFD93 /* SettingsStoryboard.storyboard */; };
-		850AAEE3232855F600DBFD93 /* WeaponSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAEE2232855F600DBFD93 /* WeaponSelectViewController.swift */; };
-		850AAEE52328653200DBFD93 /* PrioritySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAEE42328653200DBFD93 /* PrioritySelectViewController.swift */; };
 		851AE9B12385F56B001BE3FB /* SwiftUITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B02385F56B001BE3FB /* SwiftUITools.swift */; };
 		851AE9B323874353001BE3FB /* ResetBoutUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B223874353001BE3FB /* ResetBoutUIView.swift */; };
 		851AE9B523874393001BE3FB /* CommonButtonsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B423874393001BE3FB /* CommonButtonsSwiftUIView.swift */; };
@@ -24,15 +21,16 @@
 		851AE9BF23892D71001BE3FB /* CommonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9BE23892D71001BE3FB /* CommonViewController.swift */; };
 		851AE9C1238932C2001BE3FB /* RcSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9C0238932C2001BE3FB /* RcSwiftUIView.swift */; };
 		851AE9C323893D06001BE3FB /* CardsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9C223893D06001BE3FB /* CardsSwiftUIView.swift */; };
-		8558AA2F231EE8F5006C8BA3 /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */; };
-		8558AA33232017F5006C8BA3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558AA32232017F5006C8BA3 /* SettingsViewController.swift */; };
-		8583E8A6231EA13E0006BC43 /* ReplaysStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8583E8A5231EA13E0006BC43 /* ReplaysStoryboard.storyboard */; };
-		8583E8AA231EAA4C0006BC43 /* ReplaysCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8583E8A9231EAA4C0006BC43 /* ReplaysCollectionViewController.swift */; };
+		851AE9C52389D4FE001BE3FB /* PrioritySwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9C42389D4FE001BE3FB /* PrioritySwiftUIView.swift */; };
+		851AE9C72389DC7B001BE3FB /* SettingsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9C62389DC7B001BE3FB /* SettingsSwiftUIView.swift */; };
+		851AE9C92389DF3B001BE3FB /* DisconnectSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9C82389DF3B001BE3FB /* DisconnectSwiftUIView.swift */; };
+		851AE9CB2389E388001BE3FB /* VideoReplaysSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9CA2389E388001BE3FB /* VideoReplaysSwiftUIView.swift */; };
+		851AE9CD2389E452001BE3FB /* NamesSettingsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9CC2389E452001BE3FB /* NamesSettingsSwiftUIView.swift */; };
+		851AE9CF2389E4F2001BE3FB /* WeaponsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9CE2389E4F2001BE3FB /* WeaponsSwiftUIView.swift */; };
+		851AE9D12389ECE5001BE3FB /* ScoreSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9D02389ECE5001BE3FB /* ScoreSwiftUIView.swift */; };
 		85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A99338230B47A4003FC5BE /* Inspiration.storyboard */; };
 		85A9934A23109CB7003FC5BE /* RcViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934923109CB7003FC5BE /* RcViewController.swift */; };
 		85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934C23109E2D003FC5BE /* InspViewController.swift */; };
-		85A9936023113521003FC5BE /* Options.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A9935F23113521003FC5BE /* Options.storyboard */; };
-		85A9936723113C15003FC5BE /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9936623113C15003FC5BE /* OptionsViewController.swift */; };
 		85B956FA237A0FA50063E32C /* PointsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B956F9237A0FA50063E32C /* PointsSwiftUIView.swift */; };
 		85B956FE237A2CA70063E32C /* HoldPassiveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B956FD237A2CA70063E32C /* HoldPassiveButton.swift */; };
 		85B95700237A31DF0063E32C /* VideoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B956FF237A31DF0063E32C /* VideoButton.swift */; };
@@ -92,9 +90,6 @@
 		850AAEB323271FDF00DBFD93 /* CNIOLinux.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CNIOLinux.framework; path = "../../../../Library/Developer/Xcode/DerivedData/workspace-ggxzmdnwwomtqbeikrrxmfaogzqm/Build/Products/Debug-iphoneos/CNIOLinux.framework"; sourceTree = "<group>"; };
 		850AAEB423271FDF00DBFD93 /* NIOConcurrencyHelpers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NIOConcurrencyHelpers.framework; path = "../../../../Library/Developer/Xcode/DerivedData/workspace-ggxzmdnwwomtqbeikrrxmfaogzqm/Build/Products/Debug-iphoneos/NIOConcurrencyHelpers.framework"; sourceTree = "<group>"; };
 		850AAEDD232723F400DBFD93 /* ConnectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewController.swift; sourceTree = "<group>"; };
-		850AAEE0232855C000DBFD93 /* SettingsStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingsStoryboard.storyboard; sourceTree = "<group>"; };
-		850AAEE2232855F600DBFD93 /* WeaponSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponSelectViewController.swift; sourceTree = "<group>"; };
-		850AAEE42328653200DBFD93 /* PrioritySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrioritySelectViewController.swift; sourceTree = "<group>"; };
 		851AE9B02385F56B001BE3FB /* SwiftUITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftUITools.swift; path = "RemoteControl/UI Helpers/SwiftUITools.swift"; sourceTree = "<group>"; };
 		851AE9B223874353001BE3FB /* ResetBoutUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetBoutUIView.swift; sourceTree = "<group>"; };
 		851AE9B423874393001BE3FB /* CommonButtonsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonButtonsSwiftUIView.swift; sourceTree = "<group>"; };
@@ -105,15 +100,16 @@
 		851AE9BE23892D71001BE3FB /* CommonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewController.swift; sourceTree = "<group>"; };
 		851AE9C0238932C2001BE3FB /* RcSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RcSwiftUIView.swift; sourceTree = "<group>"; };
 		851AE9C223893D06001BE3FB /* CardsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsSwiftUIView.swift; sourceTree = "<group>"; };
-		8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownViewController.swift; sourceTree = "<group>"; };
-		8558AA32232017F5006C8BA3 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		8583E8A5231EA13E0006BC43 /* ReplaysStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ReplaysStoryboard.storyboard; sourceTree = "<group>"; };
-		8583E8A9231EAA4C0006BC43 /* ReplaysCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaysCollectionViewController.swift; sourceTree = "<group>"; };
+		851AE9C42389D4FE001BE3FB /* PrioritySwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrioritySwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9C62389DC7B001BE3FB /* SettingsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9C82389DF3B001BE3FB /* DisconnectSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisconnectSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9CA2389E388001BE3FB /* VideoReplaysSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoReplaysSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9CC2389E452001BE3FB /* NamesSettingsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamesSettingsSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9CE2389E4F2001BE3FB /* WeaponsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponsSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9D02389ECE5001BE3FB /* ScoreSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreSwiftUIView.swift; sourceTree = "<group>"; };
 		85A99338230B47A4003FC5BE /* Inspiration.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Inspiration.storyboard; sourceTree = "<group>"; };
 		85A9934923109CB7003FC5BE /* RcViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RcViewController.swift; sourceTree = "<group>"; };
 		85A9934C23109E2D003FC5BE /* InspViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspViewController.swift; sourceTree = "<group>"; };
-		85A9935F23113521003FC5BE /* Options.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Options.storyboard; sourceTree = "<group>"; };
-		85A9936623113C15003FC5BE /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
 		85B956F9237A0FA50063E32C /* PointsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsSwiftUIView.swift; sourceTree = "<group>"; };
 		85B956FD237A2CA70063E32C /* HoldPassiveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoldPassiveButton.swift; sourceTree = "<group>"; };
 		85B956FF237A31DF0063E32C /* VideoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoButton.swift; sourceTree = "<group>"; };
@@ -206,10 +202,8 @@
 		850AAEEC232AFC3A00DBFD93 /* Timers */ = {
 			isa = PBXGroup;
 			children = (
-				8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */,
 				85B95705237E06C50063E32C /* TimersSwiftUIView.swift */,
 				851AE9B223874353001BE3FB /* ResetBoutUIView.swift */,
-				851AE9B423874393001BE3FB /* CommonButtonsSwiftUIView.swift */,
 				851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */,
 			);
 			path = Timers;
@@ -226,20 +220,10 @@
 			path = Points;
 			sourceTree = "<group>";
 		};
-		8583E8A4231EA1170006BC43 /* Replays */ = {
-			isa = PBXGroup;
-			children = (
-				8583E8A5231EA13E0006BC43 /* ReplaysStoryboard.storyboard */,
-				8583E8A9231EAA4C0006BC43 /* ReplaysCollectionViewController.swift */,
-			);
-			path = Replays;
-			sourceTree = "<group>";
-		};
 		85A9933A230B4C40003FC5BE /* Insp */ = {
 			isa = PBXGroup;
 			children = (
-				8583E8A4231EA1170006BC43 /* Replays */,
-				85A9935E231134EA003FC5BE /* Options */,
+				851AE9B423874393001BE3FB /* CommonButtonsSwiftUIView.swift */,
 				85A9934723109C96003FC5BE /* Settings */,
 				85A9934623109C89003FC5BE /* Penalties */,
 				85A9934523109C7D003FC5BE /* Fight */,
@@ -273,21 +257,15 @@
 		85A9934723109C96003FC5BE /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				8558AA32232017F5006C8BA3 /* SettingsViewController.swift */,
-				850AAEE0232855C000DBFD93 /* SettingsStoryboard.storyboard */,
-				850AAEE2232855F600DBFD93 /* WeaponSelectViewController.swift */,
-				850AAEE42328653200DBFD93 /* PrioritySelectViewController.swift */,
+				851AE9C42389D4FE001BE3FB /* PrioritySwiftUIView.swift */,
+				851AE9C62389DC7B001BE3FB /* SettingsSwiftUIView.swift */,
+				851AE9C82389DF3B001BE3FB /* DisconnectSwiftUIView.swift */,
+				851AE9CA2389E388001BE3FB /* VideoReplaysSwiftUIView.swift */,
+				851AE9CC2389E452001BE3FB /* NamesSettingsSwiftUIView.swift */,
+				851AE9CE2389E4F2001BE3FB /* WeaponsSwiftUIView.swift */,
+				851AE9D02389ECE5001BE3FB /* ScoreSwiftUIView.swift */,
 			);
 			path = Settings;
-			sourceTree = "<group>";
-		};
-		85A9935E231134EA003FC5BE /* Options */ = {
-			isa = PBXGroup;
-			children = (
-				85A9935F23113521003FC5BE /* Options.storyboard */,
-				85A9936623113C15003FC5BE /* OptionsViewController.swift */,
-			);
-			path = Options;
 			sourceTree = "<group>";
 		};
 		B9AD54EB2305B94700F97E4B /* Frameworks */ = {
@@ -475,14 +453,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8583E8A6231EA13E0006BC43 /* ReplaysStoryboard.storyboard in Resources */,
-				85A9936023113521003FC5BE /* Options.storyboard in Resources */,
 				8F07A75123892F4800C7F783 /* Localizable.strings in Resources */,
 				B9C8BEE82305A2C7004DBBF8 /* LaunchScreen.storyboard in Resources */,
 				85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */,
 				B9C8BEE52305A2C7004DBBF8 /* Assets.xcassets in Resources */,
 				B9C8BEE32305A2C6004DBBF8 /* QRConnect.storyboard in Resources */,
-				850AAEE1232855C000DBFD93 /* SettingsStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,24 +482,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8558AA2F231EE8F5006C8BA3 /* CountdownViewController.swift in Sources */,
 				850AAEDE232723F400DBFD93 /* ConnectionsViewController.swift in Sources */,
-				850AAEE3232855F600DBFD93 /* WeaponSelectViewController.swift in Sources */,
 				851AE9BD23876424001BE3FB /* DraggableCircle.swift in Sources */,
 				B9C8BEE02305A2C5004DBBF8 /* QrViewController.swift in Sources */,
+				851AE9C72389DC7B001BE3FB /* SettingsSwiftUIView.swift in Sources */,
+				851AE9CD2389E452001BE3FB /* NamesSettingsSwiftUIView.swift in Sources */,
 				85B95702237A363A0063E32C /* PointsStepper.swift in Sources */,
 				851AE9B523874393001BE3FB /* CommonButtonsSwiftUIView.swift in Sources */,
+				851AE9C92389DF3B001BE3FB /* DisconnectSwiftUIView.swift in Sources */,
+				851AE9CB2389E388001BE3FB /* VideoReplaysSwiftUIView.swift in Sources */,
 				B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */,
 				851AE9B723874465001BE3FB /* PauseSettersSwiftUIView.swift in Sources */,
 				85B956FA237A0FA50063E32C /* PointsSwiftUIView.swift in Sources */,
 				85B95700237A31DF0063E32C /* VideoButton.swift in Sources */,
 				85B95708237E07130063E32C /* FightSectionSwiftUIView.swift in Sources */,
-				850AAEE52328653200DBFD93 /* PrioritySelectViewController.swift in Sources */,
 				85B95706237E06C50063E32C /* TimersSwiftUIView.swift in Sources */,
-				8583E8AA231EAA4C0006BC43 /* ReplaysCollectionViewController.swift in Sources */,
 				8FFBF9E42336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift in Sources */,
 				851AE9B923875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift in Sources */,
-				8558AA33232017F5006C8BA3 /* SettingsViewController.swift in Sources */,
+				851AE9D12389ECE5001BE3FB /* ScoreSwiftUIView.swift in Sources */,
 				851AE9C1238932C2001BE3FB /* RcSwiftUIView.swift in Sources */,
 				851AE9BB23875FA4001BE3FB /* SegmentedPickerElementView.swift in Sources */,
 				851AE9B323874353001BE3FB /* ResetBoutUIView.swift in Sources */,
@@ -532,14 +507,15 @@
 				851AE9B12385F56B001BE3FB /* SwiftUITools.swift in Sources */,
 				850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */,
 				851AE9C323893D06001BE3FB /* CardsSwiftUIView.swift in Sources */,
+				851AE9CF2389E4F2001BE3FB /* WeaponsSwiftUIView.swift in Sources */,
 				8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */,
+				851AE9C52389D4FE001BE3FB /* PrioritySwiftUIView.swift in Sources */,
 				8FA249162384A24C006A65C6 /* ObservableProperty.swift in Sources */,
 				85B956FE237A2CA70063E32C /* HoldPassiveButton.swift in Sources */,
 				85B95704237B608C0063E32C /* FightTabsSelectorsUIView.swift in Sources */,
 				85A9934A23109CB7003FC5BE /* RcViewController.swift in Sources */,
 				851AE9BF23892D71001BE3FB /* CommonViewController.swift in Sources */,
 				85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */,
-				85A9936723113C15003FC5BE /* OptionsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

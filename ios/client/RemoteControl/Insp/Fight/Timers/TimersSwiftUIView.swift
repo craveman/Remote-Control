@@ -12,10 +12,10 @@ import Sm02Client
 fileprivate struct TimersSetters: View {
     var body: some View {
         HStack(spacing: 0) {
-            TimerButton(action: {
+            CommonButton(action: {
                 
             }, text: "set passive", imageName: "p.square")
-            TimerButton(action: {
+            CommonButton(action: {
                 
             }, text: "set time", imageName: "clock")
         }
@@ -25,9 +25,9 @@ fileprivate struct TimersSetters: View {
 
 fileprivate struct PeriodSetter: View {
     var body: some View {
-        TimerButton(action: {
+        CommonButton(action: {
             
-        }, text: "set period", imageName: "textformat.123", frame: getButtonFrame(.withImageFullWidth))
+        }, text: "set period", imageName: "textformat.123", frame: getButtonFrame(.special))
     }
 }
 

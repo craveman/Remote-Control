@@ -9,9 +9,8 @@
 import SwiftUI
 
 struct RcSwiftUIView: View {
-    @State var selectedTab = 1
     var body: some View {
-        TabView {
+      TabView {
             CardsSwiftUIView()
                 .tabItem {
                     Image(systemName: "square.fill")
@@ -23,10 +22,10 @@ struct RcSwiftUIView: View {
                     Text("Fight")
             }.alignmentGuide(.top, computeValue: {_ in 0})
             
-            Text("The Last Tab")
+            SettingsSwiftUIView()
                 .tabItem {
                     Image(systemName: "arrowtriangle.down.fill")
-                    Text("Settings")
+                    Text("SettingsTab")
             }
         }
         .font(.headline)

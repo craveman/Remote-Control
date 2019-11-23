@@ -31,3 +31,30 @@
 "QR scanner is not supported by the current device." = "QR scanner is not supported by the current device.";
 "Settings" = "Settings";
 "Ok" = "Ok";
+
+"SettingsTab" = "Settings";
+"Cards" = "Cards";
+"Fight" = "Fight";
+"Hello, World!" = "Under construction";
+"* hold to reset" = "* hold to reset";
+"do not show" = "do not show";
+
+"tab Main" = "Main";
+"tab Timers" = "Timers";
+
+"done" = "done";
+"cancel" = "cancel";
+"disconnect" = "disconnect";
+
+"John..." = "John...";
+"names" = "names";
+
+"video replays" = "video replays";
+
+"priority" = "priority";
+
+"weapon" = "weapon";
+
+"score" = "score";
+
+"Disconnect this Remote Control?" = "Disconnect this Remote Control?";

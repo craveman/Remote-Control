@@ -85,12 +85,13 @@ fileprivate struct CardPath: View {
 fileprivate struct Card: View {
   var title = ""
   var color = primaryColor
+  var textColor = primaryColor
   var addAction: () -> Void = {}
   var resetAction: () -> Void = {}
   var body: some View {
     ZStack {
       CardPath(color: self.color)
-      dinFont(Text(self.title), UIGlobals.popupContentFontSize)
+      dinFont(Text(self.title).foregroundColor(self.textColor), UIGlobals.popupContentFontSize)
     }
     .gesture(resetGesture.onEnded { _ in
       print("Card::resetGesture:action")
@@ -134,7 +135,7 @@ fileprivate struct PlayerPenaltiesBoard: View {
   
   var body: some View {
     VStack {
-      Card(title: "P", color: .black, addAction: {
+      Card(title: "P", color: .black, textColor: .white, addAction: {
         rs.persons[self.type].card = .passiveBlack
       }, resetAction: {
          rs.persons[self.type].card = .passiveNone

@@ -37,7 +37,7 @@ struct PauseSetters: View {
   }
   var body: some View {
     HStack(spacing: 0) {
-      TimerModalButton(imageName: "plus", imageColor: .red, text: "medical", action: {
+      CommonModalButton(imageName: "plus", imageColor: .red, text: "medical", action: {
         self.start(.medicine, INSPIRATION_MED_TIMOUT)
       }, onDismiss: {
         let ms = self.savedTime ?? INSPIRATION_DEF_TIMOUT
@@ -54,7 +54,7 @@ struct PauseSetters: View {
         MedicalPauseModalContentUIView(time: self.$settings.time)
         
       })
-      TimerModalButton(imageName: "timer", imageColor: .yellow, text: "1' pause", action: {
+      CommonModalButton(imageName: "timer", imageColor: .yellow, text: "1' pause", action: {
         self.start(.pause, INSPIRATION_SHORT_TIMOUT)
       }, onDismiss: {
         print("PauseSetters::1_min_pause:onDismiss")

@@ -43,7 +43,6 @@ class PrioritySelectViewController: UIViewController {
     default:
       break
     }
-    performSegue(withIdentifier: "done", sender: sender)
   }
 
   private func updateStyles () {

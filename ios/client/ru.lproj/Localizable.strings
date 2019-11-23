@@ -31,3 +31,30 @@
 "QR scanner is not supported by the current device." = "QR сканер не поддерживается данным устройством.";
 "Settings" = "Настройки";
 "Ok" = "Ок";
+
+"SettingsTab" = "Настройки";
+"Cards" = "Карточки";
+"Fight" = "Бой";
+"Hello, World!" = "Раздел в разработке";
+"* hold to reset" = "* зажать для сброса";
+"do not show" = "скрыть";
+
+"tab Main" = "Главные";
+"tab Timers" = "Таймеры";
+
+"done" = "готово";
+"cancel" = "отмена";
+"disconnect" = "отключить";
+
+"John..." = "Иван...";
+"names" = "имена";
+
+"video replays" = "видео повторы";
+
+"priority" = "приоритет";
+
+"weapon" = "оружие";
+
+"score" = "счёт";
+
+"Disconnect this Remote Control?" = "Отключить этот пульт?";

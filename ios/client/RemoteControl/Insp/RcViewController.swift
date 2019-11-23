@@ -54,6 +54,10 @@ class RcViewController: UIViewController {
       self.onMainThread({self.game.isRunning = timerState == .running})
     })
     
+    rs.display.passiveProperty.on(change: { showPassive in
+      self.onMainThread({self.game.showPassive = showPassive})
+    })
+    
     
     //        left
     rs.persons.left.scoreProperty.on(change: { score in
@@ -131,4 +135,6 @@ class FightSettings: ObservableObject {
   @Published var rightScore: UInt8 = 0
   @Published var time: UInt32 = 500000
   @Published var isRunning = false
+  @Published var showPassive = false
+  @Published var holdPassive = false
 }

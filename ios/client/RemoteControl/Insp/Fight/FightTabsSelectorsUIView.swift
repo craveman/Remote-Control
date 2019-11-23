@@ -9,54 +9,53 @@
 import SwiftUI
 
 struct FightTabsSelectorsUIView: View {
-    private(set) var tabs = ["Main", "Timers"]
-    @Binding var selectedTab: Int
-
-    func doSelect(_ index: Int) {
-        print(index)
-        self.selectedTab = index
-    }
-    
-    func isSelected(_ index: Int) -> Bool {
-        return self.selectedTab == index
+  private(set) var tabs = ["Main", "Timers"]
+  @Binding var selectedTab: Int
+  
+  func doSelect(_ index: Int) {
+    print(index)
+    self.selectedTab = index
+  }
+  
+  func isSelected(_ index: Int) -> Bool {
+    return self.selectedTab == index
+  }
+  
+  func getTitle(_ index: Int) -> String {
+    return "\(self.tabs[index])"
+  }
+  
+  var body: some View {
+    HStack(spacing: 0) {
+      ForEach(0..<tabs.count) { (i: Int) in
+        InspTabSelector(title: self.getTitle(i), action: { self.doSelect(i) }, isSelected: self.isSelected(i))
+      }
     }
-    
-    func getTitle(_ index: Int) -> String {
-        return "\(self.tabs[index])"
-    }
-    
-    var body: some View {
-        HStack(spacing: 0) {
-            ForEach(0..<tabs.count) { (i: Int) in
-                InspTabSelector(title: self.getTitle(i), action: { self.doSelect(i) }, isSelected: self.isSelected(i))
-            }
-        }
-    }
+  }
 }
 
 
 struct InspTabSelector: View {
-    var title: String = "Button"
-    var action: () -> Void
-    var isSelected: Bool = false
-    var size = getButtonFrame(.basic)
-    var body: some View {
-        Button(action: self.action) {
-            if !self.isSelected {
-                Text(title).foregroundColor(primaryColor).scaledFont().fixedSize()
-            } else {
-                Text(title).foregroundColor(.white).scaledFont().fixedSize()
-            }
-         }
-        .frame(width: self.size.idealWidth, height: self.size.idealHeight, alignment: self.size.alignment)
-        .background(self.isSelected ? UIGlobals.activeButtonBackground_SUI : nil)
+  var title: String = "Button"
+  var action: () -> Void
+  var isSelected: Bool = false
+  var size = getButtonFrame(.basic)
+  var body: some View {
+    Button(action: self.action) {
+      if !self.isSelected { Text(NSLocalizedString("tab \(title)", comment: "")).foregroundColor(primaryColor).scaledFont().fixedSize()
+      } else { Text(NSLocalizedString("tab \(title)", comment: "")).foregroundColor(.white).scaledFont().fixedSize()
+      }
     }
+    .frame(width: self.size.idealWidth, height: self.size.idealHeight, alignment: self.size.alignment)
+    .foregroundColor(!self.isSelected ? primaryColor: .white)
+    .background(self.isSelected ? UIGlobals.activeButtonBackground_SUI : nil)
+  }
 }
 
 
 struct FightTabsSelectorsUIView_Previews: PreviewProvider {
-    @State static var selectedTab = 0
-    static var previews: some View {
-        FightTabsSelectorsUIView(selectedTab: $selectedTab)
-    }
+  @State static var selectedTab = 0
+  static var previews: some View {
+    FightTabsSelectorsUIView(selectedTab: $selectedTab)
+  }
 }

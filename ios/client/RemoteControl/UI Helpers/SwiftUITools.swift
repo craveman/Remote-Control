@@ -30,6 +30,11 @@ func heightOfButton() -> CGFloat {
   return height / 10
 }
 
+
+func mediumHeightOfButton() -> CGFloat {
+  return height / 5.6
+}
+
 func halfSizeButton() -> CGFloat {
   return width / 2
 }
@@ -51,6 +56,8 @@ public enum ButtonType {
   case basic
   case withImage
   case fullWidth
+  case disconnect
+  case special
   case withImageFullWidth
   case doubleHeight
 }
@@ -67,13 +74,16 @@ func getButtonFrame(_ size: ButtonType) -> (
     switch size {
     case .withImageFullWidth:
       w = fullSizeButton()
-      h = height / 6
+      h = mediumHeightOfButton()
     case .fullWidth:
       w = fullSizeButton()
     case .doubleHeight:
       h = 2 * h
     case .withImage:
-      h = height / 6
+      h = mediumHeightOfButton()
+    case .disconnect, .special:
+      w = fullSizeButton()
+      h = height / 6.2
     default:
       break
     }

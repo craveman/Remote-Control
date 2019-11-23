@@ -11,7 +11,7 @@ import SwiftUI
 
 struct ResetBoutButton: View {
     var body: some View {
-        TimerModalButton(imageName: "arrow.2.circlepath", imageColor: nil, buttonType: .withImageFullWidth, text: "reset bout", action: {
+        CommonModalButton(imageName: "arrow.2.circlepath", imageColor: nil, buttonType: .special, text: "reset bout", action: {
             print("ResetBoutButton:action")
         }, onDismiss: {
             print("ResetBoutButton:onDismiss")
