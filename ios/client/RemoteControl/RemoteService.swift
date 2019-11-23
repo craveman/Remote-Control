@@ -123,6 +123,7 @@ final class RemoteService {
 
       let nameProperty: ObserversManager<String> = FirableObserversManager<String>()
       let cardProperty: ObserversManager<StatusCard> = FirableObserversManager<StatusCard>()
+      let passiveCardProperty: ObserversManager<StatusCard> = FirableObserversManager<StatusCard>()
       let scoreProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
 
       var name: String = "" {
@@ -135,6 +136,15 @@ final class RemoteService {
         }
       }
       var card: StatusCard = .none {
+        willSet {
+          let outbound = Outbound.setCard(person: type, status: newValue)
+          Sm02.send(message: outbound)
+        }
+        didSet {
+          (cardProperty as! FirableObserversManager<StatusCard>).fire(with: card)
+        }
+      }
+      var passiveCard: StatusCard = .none {
         willSet {
           let outbound = Outbound.setCard(person: type, status: newValue)
           Sm02.send(message: outbound)
