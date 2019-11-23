@@ -11,6 +11,8 @@ import QRCodeReader
 import Sm02Client
 
 class QrViewController: UIViewController {
+  
+  let rs = RemoteService.shared
 
   @IBOutlet weak var previewView: QRCodeReaderView! {
     didSet {
