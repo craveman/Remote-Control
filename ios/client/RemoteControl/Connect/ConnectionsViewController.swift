@@ -11,83 +11,60 @@ import Sm02Client
 
 class ConnectionsViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
     
-    @IBOutlet weak var qrReaderSubViewWrapper: UIView!
+  @IBOutlet weak var qrReaderSubViewWrapper: UIView!
     
-    override func viewDidAppear(_ animated: Bool) {
-        
-        print ("set success")
-        let scanner = self.getScanner()
-        scanner.onSuccess = { [weak self] in
-          print ("toInspiration")
-          self?.jumpToInspiration()
-        }
-        
-        if isSimulationEnv() {
-            skipQR()
-        }
-        super.viewDidAppear(animated)
+  override func viewDidAppear (_ animated: Bool) {
+    let scanner = getScanner()
+    scanner.onSuccess = { [weak self] in
+      self?.jumpToInspiration()
     }
     
-    private func getScanner() -> QrViewController {
-        return qrReaderSubViewWrapper.subviews[0].next as! QrViewController
+    if isSimulationEnv() {
+      skipQR()
     }
+    super.viewDidAppear(animated)
+  }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "skipQR" {
-        segue.destination.presentationController?.delegate = (self as UIAdaptivePresentationControllerDelegate)
-        }
-        if isSimulationEnv() {
-            return
-        }
-        if qrReaderSubViewWrapper.next is QrViewController {
-            (qrReaderSubViewWrapper.next as! QrViewController).stopScanner()
-        }
+  private func getScanner () -> QrViewController {
+    return qrReaderSubViewWrapper.subviews[0].next as! QrViewController
+  }
+    
+  override func prepare (for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "skipQR" {
+      segue.destination.presentationController?.delegate = (self as UIAdaptivePresentationControllerDelegate)
     }
-    
-    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-      print("dismiss")
-      rs.connection.disconnect()
-      if isSimulationEnv() {
-        skipQR()
-        return
-      }
-        
-      self.getScanner().startScanner()
+    if isSimulationEnv() {
+      return
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    if let qrReader = qrReaderSubViewWrapper.next as? QrViewController {
+      qrReader.stopScanner()
     }
-    */
+  }
     
-    private func jumpToInspiration() {
-        print("jumpToInspiration")
-        performSegue(withIdentifier: "skipQR", sender: nil)
+  func presentationControllerDidDismiss (_ presentationController: UIPresentationController) {
+    rs.connection.disconnect()
+    if isSimulationEnv() {
+      skipQR()
+      return
     }
+    getScanner().startScanner()
+  }
+  
+  private func jumpToInspiration () {
+    performSegue(withIdentifier: "skipQR", sender: nil)
+  }
     
-    private func isSimulationEnv() -> Bool {
-    
+  private func isSimulationEnv () -> Bool {
     #if targetEnvironment(simulator)
-    //        print("simulator")
       return true
-    
-    // your simulator code
     #else
       return false
-    //        print("real")
-    // your real device code
     #endif
-    }
+  }
 
-    private func skipQR() {
-        Utils.delay({
-            self.jumpToInspiration()
-        }, seconds: 1)
-    }
-    
+  private func skipQR () {
+    Utils.delay({
+      self.jumpToInspiration()
+    }, seconds: 1)
+  }
 }
