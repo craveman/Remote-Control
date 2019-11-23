@@ -11,91 +11,91 @@ import SwiftUI
 import Sm02Client
 
 class RcViewController: UIViewController {
-
-    @IBOutlet weak var fightSubView: UIView!
-    internal var fight: RcSwiftUIView?
-    internal var game = FightSettings()
-    lazy var fightSwiftUIHost: UIViewController = {
-        
-        var view = RcSwiftUIView()
-        self.fight = view
-        self.updateViewState()
-        var vc = UIHostingController(rootView: view.environmentObject(game))
-        self.addViewControllerAsChildViewController(childViewController: vc)
-       
-        return vc
-    }()
+  
+  @IBOutlet weak var fightSubView: UIView!
+  internal var fight: RcSwiftUIView?
+  internal var game = FightSettings()
+  lazy var fightSwiftUIHost: UIViewController = {
     
-    func updateViewState() -> Void {
-        
-    }
+    var view = RcSwiftUIView()
+    self.fight = view
+    self.updateViewState()
+    var vc = UIHostingController(rootView: view.environmentObject(game))
+    self.addViewControllerAsChildViewController(childViewController: vc)
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setSubscriptions()
-        updateView()
-        // Do any additional setup after loading the view.
-    }
+    return vc
+  }()
+  
+  func updateViewState() -> Void {
     
-    private func setSubscriptions() {
-        rs.timer.timeProperty.on(change: { update in
-          self.game.time = update
-        })
-        rs.timer.stateProperty.on(change: { timerState in
-          self.game.isRunning = timerState == .running
-        })
-        
-        
-//        left
-        rs.persons.left.scoreProperty.on(change: { score in
-          self.game.leftScore = score
-        })
-        
-//        right
-        rs.persons.right.scoreProperty.on(change: { score in
-                 self.game.rightScore = score
-        })
-    }
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    setSubscriptions()
+    updateView()
+    // Do any additional setup after loading the view.
+  }
+  
+  private func setSubscriptions() {
+    rs.timer.timeProperty.on(change: { update in
+      self.game.time = update
+    })
+    rs.timer.stateProperty.on(change: { timerState in
+      self.game.isRunning = timerState == .running
+    })
     
-    private func updateView() {
-        print("update view")
-        
-        fightSwiftUIHost.view.isHidden = false
-        updateGame()
-    }
     
-    private func updateGame() {
-        self.game.isRunning = false
-        self.game.time = 180000
-    }
+    //        left
+    rs.persons.left.scoreProperty.on(change: { score in
+      self.game.leftScore = score
+    })
+    rs.persons.left.cardProperty.on(change: { card in
+         self.game.leftCard = card
+       })
     
-    private func addViewControllerAsChildViewController(childViewController: UIViewController) {
-        
-        addChild(childViewController)
-        
-        fightSubView.addSubview(childViewController.view)
-        childViewController.view.frame = fightSubView.bounds
-        childViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
-        childViewController.didMove(toParent: self)
-        
-    }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    //        right
+    rs.persons.right.scoreProperty.on(change: { score in
+      self.game.rightScore = score
+    })
+    rs.persons.right.cardProperty.on(change: { card in
+      self.game.rightCard = card
+    })
+  }
+  
+  private func updateView() {
+    print("update view")
+    
+    fightSwiftUIHost.view.isHidden = false
+    updateGame()
+  }
+  
+  private func updateGame() {
+    self.game.isRunning = false
+    self.game.time = 180000
+  }
+  
+  private func addViewControllerAsChildViewController(childViewController: UIViewController) {
+    
+    addChild(childViewController)
+    
+    fightSubView.addSubview(childViewController.view)
+    childViewController.view.frame = fightSubView.bounds
+    childViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    
+    childViewController.didMove(toParent: self)
+    
+  }
+  
 }
 
 class FightSettings: ObservableObject {
-    @Published var leftScore: UInt8 = 0
-    @Published var rightScore: UInt8 = 0
-    @Published var time: UInt32 = 500000
-    @Published var isRunning = false
+  @Published var leftCardP: StatusCard = .none
+  @Published var rightCardP: StatusCard = .none
+  @Published var leftCard: StatusCard = .none
+  @Published var rightCard: StatusCard = .none
+  @Published var leftScore: UInt8 = 0
+  @Published var rightScore: UInt8 = 0
+  @Published var time: UInt32 = 500000
+  @Published var isRunning = false
 }
