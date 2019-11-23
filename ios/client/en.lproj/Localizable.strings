@@ -6,6 +6,7 @@
   Copyright © 2019 Sergei Andreev. All rights reserved.
 */
 
+
 // QrViewController
 
 "QR scanner" = "QR scanner";
@@ -14,6 +15,8 @@
 "The code is unrecognized" = "The code is unrecognized";
 "Connect" = "Connect";
 
+"Wrong authentication code." = "Wrong authentication code.";
+"Another remote control is already registered on the server." = "Another remote control is already registered on the server.";
 "Connection timeout. Check that you are connected to the '%@' Wi-Fi network." = "Connection timeout. Check that you are connected to the '%@' Wi-Fi network.";
 "A remote server is not reachable." = "A remote server is not reachable.";
 "Unknown connection error: %@" = "Unknown connection error: %@";

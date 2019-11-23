@@ -78,9 +78,9 @@ final class RemoteService {
       })
     }
 
-    func connect (to remote: RemoteAddress) -> Result<Void, Error> {
+    func connect (to remote: RemoteAddress) -> Result<AuthenticationStatus, Error> {
       let result = Sm02.connect(to: remote)
-      if case .success(_) = result {
+      if case .success(AuthenticationStatus.success) = result {
         (addressProperty as! ObjectProperty<RemoteAddress>).set(remote)
       }
       return result

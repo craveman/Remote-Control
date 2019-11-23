@@ -11,7 +11,7 @@ import QRCodeReader
 import Sm02Client
 
 class QrViewController: UIViewController {
-  
+
   let rs = RemoteService.shared
 
   @IBOutlet weak var previewView: QRCodeReaderView! {
@@ -135,8 +135,16 @@ class QrViewController: UIViewController {
       let result = controller.rs.connection.connect(to: remote)
 
       switch result {
-      case .success(_):
+      case .success(AuthenticationStatus.success):
         controller.onSuccess()
+      case .success(AuthenticationStatus.wrongAuthenticationCode):
+        let message = NSLocalizedString("Wrong authentication code.", comment: "")
+        showError(remote, message)
+      case .success(AuthenticationStatus.alreadyRegistered):
+        let message = NSLocalizedString("Another remote control is already registered on the server.", comment: "")
+        showError(remote, message)
+      case .failure(ConnectionError.responseTimeout(_)):
+        fallthrough
       case .failure(ConnectionError.connectionTimeout(_)):
         let message = String(
           format: NSLocalizedString("Connection timeout. Check that you are connected to the '%@' Wi-Fi network.", comment: ""),

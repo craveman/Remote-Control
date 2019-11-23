@@ -38,28 +38,18 @@ class Sm02TcpClient: Sm02Client {
     }
   }
 
-  func connect (to remote: RemoteAddress) -> Result<Void, Error> {
+  func connect (to remote: RemoteAddress) -> Error? {
     do {
       channel = try bootstrap.connect(host: remote.ip, port: 21074).wait()
     } catch ChannelError.connectTimeout(let timeAmount) {
       let timeout = (Int) (timeAmount.nanoseconds / 1_000_000_000)
-      let error = ConnectionError.connectionTimeout(timeout)
-      return .failure(error)
+      return ConnectionError.connectionTimeout(timeout)
     } catch is NIOConnectionError {
-      let error = ConnectionError.connectionRefused
-      return .failure(error)
+      return ConnectionError.connectionRefused
     } catch {
-      return .failure(error)
+      return error
     }
-
-    let request = Outbound.authenticate(
-      device: .remoteControl,
-      code: remote.code,
-      name: "popa",
-      version: 1
-    )
-    send(message: request)
-    return .success(())
+    return nil
   }
 
   func send (message: Outbound) {

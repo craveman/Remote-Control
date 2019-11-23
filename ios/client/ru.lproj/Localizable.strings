@@ -15,6 +15,8 @@
 "The code is unrecognized" = "Код не распознан";
 "Connect" = "Подключиться";
 
+"Wrong authentication code." = "Неверный код авторизации.";
+"Another remote control is already registered on the server." = "Другой пульт уже зарегестрирован на стороне сервера.";
 "Connection timeout. Check that you are connected to the '%@' Wi-Fi network." = "Connection timeout. Проверьте, что вы подключены к Wi-Fi сети '%@'.";
 "A remote server is not reachable." = "Удаленный сервер недоступен.";
 "Unknown connection error: %@" = "Неизвестная ошибка: %@";
@@ -28,6 +30,3 @@
 "QR scanner is not supported by the current device." = "QR сканер не поддерживается данным устройством.";
 "Settings" = "Настройки";
 "Ok" = "Ок";
-
-
-// 
