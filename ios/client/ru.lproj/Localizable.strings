@@ -1,0 +1,27 @@
+/* 
+  Localizable.strings
+  RemoteControl
+
+  Created by Artem Labazin on 23.11.2019.
+  Copyright © 2019 Sergei Andreev. All rights reserved.
+*/
+
+"QR scanner" = "QR сканер";
+
+"The code is recognized" = "Код распознан";
+"The code is unrecognized" = "Код не распознан";
+"Connect" = "Подключиться";
+
+"Connection timeout." = "Время подключения вышло.";
+"A remote server is not reachable." = "Удаленный сервер недоступен.";
+"Unknown connection error: %@" = "Неизвестная ошибка: %@";
+
+"Connection error" = "Ошибка подключения";
+"Can't connect to %@. %@" = "Невозможно подключиться к %@. %@";
+"Try again" = "Попробовать снова";
+
+"QR scanner error" = "Ошибка QR сканера";
+"The app is not authorized to use back camera." = "Приложение не авторизовано для использования задней камеры.";
+"QR scanner is not supported by the current device." = "QR сканер не поддерживается данным устройством.";
+"Settings" = "Настройки";
+"Ok" = "Ок";

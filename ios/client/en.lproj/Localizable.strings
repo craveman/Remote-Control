@@ -1,0 +1,29 @@
+/* 
+  Localizable.strings
+  RemoteControl
+
+  Created by Artem Labazin on 23.11.2019.
+  Copyright © 2019 Sergei Andreev. All rights reserved.
+*/
+
+// QrViewController
+
+"QR scanner" = "QR scanner";
+
+"The code is recognized" = "The code is recognized";
+"The code is unrecognized" = "The code is unrecognized";
+"Connect" = "Connect";
+
+"Connection timeout." = "Connection timeout.";
+"A remote server is not reachable." = "A remote server is not reachable.";
+"Unknown connection error: %@" = "Unknown connection error: %@";
+
+"Connection error" = "Connection error";
+"Can't connect to %@. %@" = "Can't connect to %@. %@";
+"Try again" = "Try again";
+
+"QR scanner error" = "QR scanner error";
+"The app is not authorized to use back camera." = "The app is not authorized to use back camera.";
+"QR scanner is not supported by the current device." = "QR scanner is not supported by the current device.";
+"Settings" = "Settings";
+"Ok" = "Ok";

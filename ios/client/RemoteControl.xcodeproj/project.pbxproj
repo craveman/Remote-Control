@@ -41,6 +41,7 @@
 		85B95704237B608C0063E32C /* FightTabsSelectorsUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B95703237B608C0063E32C /* FightTabsSelectorsUIView.swift */; };
 		85B95706237E06C50063E32C /* TimersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B95705237E06C50063E32C /* TimersSwiftUIView.swift */; };
 		85B95708237E07130063E32C /* FightSectionSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B95707237E07130063E32C /* FightSectionSwiftUIView.swift */; };
+		8F07A75123892F4800C7F783 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F07A75323892F4800C7F783 /* Localizable.strings */; };
 		8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6D773C237D2C530077B65D /* RemoteService.swift */; };
 		8FA249162384A24C006A65C6 /* ObservableProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA249152384A24C006A65C6 /* ObservableProperty.swift */; };
 		8FE69D5423398B6200E3B539 /* QRCodeReader in Frameworks */ = {isa = PBXBuildFile; productRef = 8FE69D5323398B6200E3B539 /* QRCodeReader */; };
@@ -122,6 +123,8 @@
 		85B95703237B608C0063E32C /* FightTabsSelectorsUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightTabsSelectorsUIView.swift; sourceTree = "<group>"; };
 		85B95705237E06C50063E32C /* TimersSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimersSwiftUIView.swift; sourceTree = "<group>"; };
 		85B95707237E07130063E32C /* FightSectionSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightSectionSwiftUIView.swift; sourceTree = "<group>"; };
+		8F07A75223892F4800C7F783 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8F07A75523892FB000C7F783 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8F6D773C237D2C530077B65D /* RemoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
 		8FA249152384A24C006A65C6 /* ObservableProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableProperty.swift; sourceTree = "<group>"; };
 		8FFBF9E02336BC5E00736BB7 /* Sm02Client */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sm02Client; sourceTree = "<group>"; };
@@ -308,6 +311,7 @@
 		B9C8BED12305A2C5004DBBF8 = {
 			isa = PBXGroup;
 			children = (
+				8F07A75323892F4800C7F783 /* Localizable.strings */,
 				851AE9B02385F56B001BE3FB /* SwiftUITools.swift */,
 				8FFBF9E02336BC5E00736BB7 /* Sm02Client */,
 				B9C8BEDC2305A2C5004DBBF8 /* RemoteControl */,
@@ -476,6 +480,7 @@
 			files = (
 				8583E8A6231EA13E0006BC43 /* ReplaysStoryboard.storyboard in Resources */,
 				85A9936023113521003FC5BE /* Options.storyboard in Resources */,
+				8F07A75123892F4800C7F783 /* Localizable.strings in Resources */,
 				B9C8BEE82305A2C7004DBBF8 /* LaunchScreen.storyboard in Resources */,
 				85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */,
 				B9C8BEE52305A2C7004DBBF8 /* Assets.xcassets in Resources */,
@@ -589,6 +594,15 @@
 				850AAE812327194D00DBFD93 /* ru */,
 			);
 			name = Info.plist;
+			sourceTree = "<group>";
+		};
+		8F07A75323892F4800C7F783 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8F07A75223892F4800C7F783 /* en */,
+				8F07A75523892FB000C7F783 /* ru */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		B9C8BEE12305A2C6004DBBF8 /* QRConnect.storyboard */ = {
