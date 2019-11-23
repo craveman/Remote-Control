@@ -21,7 +21,7 @@ class Sm02TcpClient: Sm02Client {
     group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
     bootstrap = ClientBootstrap(group: group)
       .channelOption(ChannelOptions.socket(SocketOptionLevel(SOL_SOCKET), SO_REUSEADDR), value: 1)
-      .connectTimeout(.seconds(1))
+      .connectTimeout(.seconds(5))
       .channelInitializer({ channel in
         container.makeClientPipeline(channel)
       })
