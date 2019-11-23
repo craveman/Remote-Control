@@ -44,6 +44,17 @@ class RcViewController: UIViewController {
         rs.timer.stateProperty.on(change: { timerState in
           self.game.isRunning = timerState == .running
         })
+        
+        
+//        left
+        rs.persons.left.scoreProperty.on(change: { score in
+          self.game.leftScore = score
+        })
+        
+//        right
+        rs.persons.right.scoreProperty.on(change: { score in
+                 self.game.rightScore = score
+        })
     }
     
     private func updateView() {
@@ -83,8 +94,8 @@ class RcViewController: UIViewController {
 }
 
 class FightSettings: ObservableObject {
-    @Published var leftScore = 0
-    @Published var rightScore = 0
+    @Published var leftScore: UInt8 = 0
+    @Published var rightScore: UInt8 = 0
     @Published var time: UInt32 = 500000
     @Published var isRunning = false
 }

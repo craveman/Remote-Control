@@ -10,7 +10,7 @@ import UIKit
 import SwiftUI
 
 class UIGlobals {
-    static let timerFontSize: CGFloat = 80
+    static let timerFontSize: CGFloat = 64
     static let popupContentFontSize: CGFloat = 36
     static let appDefaultFontSize: CGFloat = 22
     static let appSmallerFontSize: CGFloat = 16
