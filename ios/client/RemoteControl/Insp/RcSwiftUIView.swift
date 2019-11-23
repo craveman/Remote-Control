@@ -21,7 +21,7 @@ struct RcSwiftUIView: View {
                 .tabItem {
                     Image(systemName: "circle.fill")
                     Text("Fight")
-            }
+            }.alignmentGuide(.top, computeValue: {_ in 0})
             
             Text("The Last Tab")
                 .tabItem {
@@ -30,6 +30,7 @@ struct RcSwiftUIView: View {
             }
         }
         .font(.headline)
+        .foregroundColor(.white)
     }
 }
 

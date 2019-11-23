@@ -96,7 +96,7 @@ fileprivate struct MyButtonModalView: View {
             self.action()
             self.showModal = true
         }) {
-            dinFont(Text("\(getTimeString(timer))"), UIGlobals.timerFontSize)
+            primaryColor(dinFont(Text("\(getTimeString(timer))"), UIGlobals.timerFontSize))
         }
         .frame(width: size.idealWidth, height: size.idealHeight, alignment: size.alignment)
         .sheet(isPresented: self.$showModal, onDismiss: self.onDismiss) {

@@ -38,7 +38,7 @@
                             <constraint firstItem="FKU-uV-XQd" firstAttribute="leading" secondItem="ayx-Ov-SmN" secondAttribute="leading" id="AlM-0A-TWL"/>
                             <constraint firstItem="FKU-uV-XQd" firstAttribute="centerX" secondItem="MnF-4x-xZz" secondAttribute="centerX" id="LcA-Ob-aq2"/>
                             <constraint firstItem="R9Y-Nj-D4R" firstAttribute="leading" secondItem="FKU-uV-XQd" secondAttribute="leading" id="bhO-Wi-FO5"/>
-                            <constraint firstItem="R9Y-Nj-D4R" firstAttribute="top" secondItem="FKU-uV-XQd" secondAttribute="bottom" id="wDT-xX-1Ia"/>
+                            <constraint firstItem="R9Y-Nj-D4R" firstAttribute="top" secondItem="ayx-Ov-SmN" secondAttribute="top" constant="48" id="wDT-xX-1Ia"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ayx-Ov-SmN"/>
                     </view>
@@ -65,7 +65,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="wor-JY-ZqO">
                                         <rect key="frame" x="125" y="4" width="164" height="40"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="inspiration" translatesAutoresizingMaskIntoConstraints="NO" id="W3W-g4-jDg">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="inspiration" highlightedImage="inspiration" translatesAutoresizingMaskIntoConstraints="NO" id="W3W-g4-jDg">
                                                 <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
                                                 <accessibility key="accessibilityConfiguration">
                                                     <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>

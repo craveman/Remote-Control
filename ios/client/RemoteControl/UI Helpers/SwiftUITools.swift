@@ -82,7 +82,7 @@ func getButtonFrame(_ size: ButtonType) -> (
 }
 
 func getSubScreenHeight() -> CGFloat {
-    return 400
+    return 320
 }
 
 final class TimerResponder: ObservableObject {
