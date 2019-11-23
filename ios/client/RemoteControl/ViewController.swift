@@ -10,26 +10,26 @@ import UIKit
 
 class ViewController: CommonViewController {
     
-    let nextSegue = "toConnetior"
-    let timeout = 0.5
+  let nextSegue = "toConnetior"
+  let timeout = 0.5
     
-    @IBOutlet weak var spinner: UIActivityIndicatorView!
+  @IBOutlet weak var spinner: UIActivityIndicatorView!
     
-    override func viewDidLoad() {
-        stateRunner()
-        
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        spinner?.startAnimating()
-        //do stuff
-        Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { timer in
-            self.spinner?.stopAnimating()
-            self.jumpToConnector()
-        }
+  override func viewDidLoad () {
+    stateRunner()
+    
+    super.viewDidLoad()
+    // Do any additional setup after loading the view.
+    spinner?.startAnimating()
+    //do stuff
+    Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { timer in
+      self.spinner?.stopAnimating()
+      self.jumpToConnector()
     }
+  }
     
-    private func jumpToConnector() {
-        performSegue(withIdentifier: nextSegue, sender: self)
-    }
+  private func jumpToConnector () {
+    performSegue(withIdentifier: nextSegue, sender: self)
+  }
 }
 
