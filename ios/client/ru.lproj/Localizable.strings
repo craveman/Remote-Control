@@ -6,6 +6,9 @@
   Copyright © 2019 Sergei Andreev. All rights reserved.
 */
 
+
+// QR code scanner
+
 "QR scanner" = "QR сканер";
 
 "The code is recognized" = "Код распознан";
@@ -25,3 +28,6 @@
 "QR scanner is not supported by the current device." = "QR сканер не поддерживается данным устройством.";
 "Settings" = "Настройки";
 "Ok" = "Ок";
+
+
+// 
