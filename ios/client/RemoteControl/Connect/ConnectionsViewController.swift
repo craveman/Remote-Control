@@ -42,6 +42,29 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
   }
     
   func presentationControllerDidDismiss (_ presentationController: UIPresentationController) {
+    start()
+  }
+
+  func warning (_ remote: RemoteAddress) {
+    let titleString = NSLocalizedString("Connection error", comment: "")
+    let bodyString = String(
+      format: NSLocalizedString("Connection to the server in Wi-Fi network '%@' was lost.", comment: ""),
+      remote.ssid
+    )
+    let tryAgainButtonString = NSLocalizedString("Try again", comment: "")
+
+    let alert = UIAlertController(
+      title: titleString,
+      message: bodyString,
+      preferredStyle: .alert
+    )
+    alert.addAction(UIAlertAction(title: tryAgainButtonString, style: .cancel, handler: { [weak self] (action) in
+      self?.start()
+    }))
+    present(alert, animated: true, completion: nil)
+  }
+
+  func start () {
     rs.connection.disconnect()
     if isSimulationEnv() {
       skipQR()

@@ -89,6 +89,10 @@ final class RemoteService {
     func disconnect () {
       Sm02.disconnect()
     }
+
+    func forget () {
+      (addressProperty as! ObjectProperty<RemoteAddress>).set(RemoteAddress.empty)
+    }
   }
 
   final class PersonsManagement {

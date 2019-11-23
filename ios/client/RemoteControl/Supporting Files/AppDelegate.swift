@@ -36,7 +36,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       return
     }
     if case .failure(_) = rs.connection.connect(to: remote) {
-      print("can't connect to the remote server with \(remote)")
+      rs.connection.forget()
+      guard let controller = self.window?.rootViewController as? ConnectionsViewController else {
+        return
+      }
+      controller.dismiss(animated: true)
+      controller.warning(remote)
     }
   }
 

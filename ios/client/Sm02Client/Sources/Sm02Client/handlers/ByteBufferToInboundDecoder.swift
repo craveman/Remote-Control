@@ -202,7 +202,7 @@ extension ByteBuffer {
       let three = UInt32(array[2])
       let four = UInt32(array[3])
 
-      return (four << 24) + (three << 16) + (two << 8) + one
+      return (one << 24) + (two << 16) + (three << 8) + four
     }
   }
 }

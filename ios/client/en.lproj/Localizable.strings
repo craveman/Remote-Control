@@ -20,6 +20,7 @@
 "Connection timeout. Check that you are connected to the '%@' Wi-Fi network." = "Connection timeout. Check that you are connected to the '%@' Wi-Fi network.";
 "A remote server is not reachable." = "A remote server is not reachable.";
 "Unknown connection error: %@" = "Unknown connection error: %@";
+"Connection to the server in Wi-Fi network '%@' was lost." = "Connection to the server in Wi-Fi network '%@' was lost.";
 
 "Connection error" = "Connection error";
 "Can't connect to %@. %@" = "Can't connect to %@. %@";
