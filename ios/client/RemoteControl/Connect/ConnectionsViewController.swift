@@ -12,7 +12,6 @@ import Sm02Client
 class ConnectionsViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
     
     @IBOutlet weak var qrReaderSubViewWrapper: UIView!
-    let rs = RemoteService.shared
     
     override func viewDidAppear(_ animated: Bool) {
         
@@ -34,7 +33,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "skipQR" || segue.identifier == "toInspiration"{
+        if segue.identifier == "skipQR" {
         segue.destination.presentationController?.delegate = (self as UIAdaptivePresentationControllerDelegate)
         }
         if isSimulationEnv() {
@@ -86,9 +85,9 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     }
 
     private func skipQR() {
-        Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) { [weak self] timer in
-            self?.jumpToInspiration()
-        }
+        Utils.delay({
+            self.jumpToInspiration()
+        }, seconds: 1)
     }
     
 }

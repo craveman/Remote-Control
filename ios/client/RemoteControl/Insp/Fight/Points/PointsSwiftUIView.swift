@@ -75,7 +75,7 @@ fileprivate struct MyModalView: View {
         
         VStack {
             dinFont(Text("\(getTimeString(countdown))"), UIGlobals.timerFontSize)
-                .padding(CGFloat(50))
+                .padding(CGFloat(20))
                 .onTapGesture(count: 1, perform: {
                     self.presentationMode.wrappedValue.dismiss()
                 })

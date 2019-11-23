@@ -9,8 +9,6 @@
 import SwiftUI
 import Sm02Client
 
-let rs = RemoteService.shared
-
 fileprivate struct TimersSetters: View {
     var body: some View {
         HStack(spacing: 0) {

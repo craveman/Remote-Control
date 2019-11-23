@@ -10,7 +10,6 @@ import SwiftUI
 import Sm02Client
 
 struct PointsStepper: View {
-    let rs = RemoteService.shared
     var pType: PersonType = .none
     @Binding var score: Int
     @State private var isActive = false
@@ -27,11 +26,11 @@ struct PointsStepper: View {
     func getPerson() -> RemoteService.PersonsManagement.Person {
     switch self.pType {
         case .left:
-            return self.rs.persons.left
+            return rs.persons.left
             case .right:
-            return self.rs.persons.right
+            return rs.persons.right
         default:
-            return self.rs.persons.none
+            return rs.persons.none
         }
     }
     

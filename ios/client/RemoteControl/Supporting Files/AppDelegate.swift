@@ -8,10 +8,9 @@
 
 import UIKit
 
+let rs = RemoteService.shared
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-  let rs = RemoteService.shared
 
   var window: UIWindow?
 
