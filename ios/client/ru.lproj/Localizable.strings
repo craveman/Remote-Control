@@ -15,7 +15,7 @@
 "The code is unrecognized" = "Код не распознан";
 "Connect" = "Подключиться";
 
-"Connection timeout." = "Время подключения вышло.";
+"Connection timeout. Check that you are connected to the '%@' Wi-Fi network." = "Connection timeout. Проверьте, что вы подключены к Wi-Fi сети '%@'.";
 "A remote server is not reachable." = "Удаленный сервер недоступен.";
 "Unknown connection error: %@" = "Неизвестная ошибка: %@";
 

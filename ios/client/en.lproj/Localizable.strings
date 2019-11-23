@@ -14,7 +14,7 @@
 "The code is unrecognized" = "The code is unrecognized";
 "Connect" = "Connect";
 
-"Connection timeout." = "Connection timeout.";
+"Connection timeout. Check that you are connected to the '%@' Wi-Fi network." = "Connection timeout. Check that you are connected to the '%@' Wi-Fi network.";
 "A remote server is not reachable." = "A remote server is not reachable.";
 "Unknown connection error: %@" = "Unknown connection error: %@";
 

@@ -138,7 +138,10 @@ class QrViewController: UIViewController {
       case .success(_):
         controller.onSuccess()
       case .failure(ConnectionError.connectionTimeout(_)):
-        let message = NSLocalizedString("Connection timeout.", comment: "")
+        let message = String(
+          format: NSLocalizedString("Connection timeout. Check that you are connected to the '%@' Wi-Fi network.", comment: ""),
+          remote.ssid
+        )
         showError(remote, message)
       case .failure(ConnectionError.connectionRefused):
         let message = NSLocalizedString("A remote server is not reachable.", comment: "")
