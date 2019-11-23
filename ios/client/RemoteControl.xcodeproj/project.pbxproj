@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		850AAE5F2322CF7100DBFD93 /* UITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAE5E2322CF7100DBFD93 /* UITools.swift */; };
 		850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAE602322D78400DBFD93 /* UIGlobals.swift */; };
-		850AAE7023270F0E00DBFD93 /* Intro.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 850AAE6E23270F0E00DBFD93 /* Intro.storyboard */; };
-		850AAE7423270FC400DBFD93 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAE7323270FC400DBFD93 /* ViewController.swift */; };
 		850AAEAA23271F2A00DBFD93 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 850AAEA923271F2A00DBFD93 /* AVFoundation.framework */; };
 		850AAEDE232723F400DBFD93 /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAEDD232723F400DBFD93 /* ConnectionsViewController.swift */; };
 		850AAEE1232855C000DBFD93 /* SettingsStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 850AAEE0232855C000DBFD93 /* SettingsStoryboard.storyboard */; };
@@ -86,8 +84,6 @@
 		850AAE6923270CBC00DBFD93 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/QRConnect.strings; sourceTree = "<group>"; };
 		850AAE6A23270CBC00DBFD93 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		850AAE6C23270DC900DBFD93 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		850AAE6F23270F0E00DBFD93 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Intro.storyboard; sourceTree = "<group>"; };
-		850AAE7323270FC400DBFD93 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		850AAE7F2327194800DBFD93 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
 		850AAE812327194D00DBFD93 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = ru; path = ru.lproj/Info.plist; sourceTree = "<group>"; };
 		850AAEA923271F2A00DBFD93 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -354,8 +350,6 @@
 				850AAE7123270F1B00DBFD93 /* Supporting Files */,
 				850AAE6D23270DE500DBFD93 /* Connect */,
 				85A9933A230B4C40003FC5BE /* Insp */,
-				850AAE6E23270F0E00DBFD93 /* Intro.storyboard */,
-				850AAE7323270FC400DBFD93 /* ViewController.swift */,
 				8F6D773C237D2C530077B65D /* RemoteService.swift */,
 				8FA249152384A24C006A65C6 /* ObservableProperty.swift */,
 				851AE9BE23892D71001BE3FB /* CommonViewController.swift */,
@@ -500,7 +494,6 @@
 				85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */,
 				B9C8BEE52305A2C7004DBBF8 /* Assets.xcassets in Resources */,
 				8558AA352320198A006C8BA3 /* PenaltiesStoryboard.storyboard in Resources */,
-				850AAE7023270F0E00DBFD93 /* Intro.storyboard in Resources */,
 				B9C8BEE32305A2C6004DBBF8 /* QRConnect.storyboard in Resources */,
 				850AAEE1232855C000DBFD93 /* SettingsStoryboard.storyboard in Resources */,
 			);
@@ -549,7 +542,6 @@
 				851AE9B923875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift in Sources */,
 				8558AA33232017F5006C8BA3 /* SettingsViewController.swift in Sources */,
 				851AE9C1238932C2001BE3FB /* RcSwiftUIView.swift in Sources */,
-				850AAE7423270FC400DBFD93 /* ViewController.swift in Sources */,
 				851AE9BB23875FA4001BE3FB /* SegmentedPickerElementView.swift in Sources */,
 				851AE9B323874353001BE3FB /* ResetBoutUIView.swift in Sources */,
 				850AAE5F2322CF7100DBFD93 /* UITools.swift in Sources */,
@@ -599,14 +591,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		850AAE6E23270F0E00DBFD93 /* Intro.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				850AAE6F23270F0E00DBFD93 /* Base */,
-			);
-			name = Intro.storyboard;
-			sourceTree = "<group>";
-		};
 		850AAE802327194800DBFD93 /* Info.plist */ = {
 			isa = PBXVariantGroup;
 			children = (

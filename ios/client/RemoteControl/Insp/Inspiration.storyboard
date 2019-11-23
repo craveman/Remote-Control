@@ -67,6 +67,9 @@
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="inspiration" translatesAutoresizingMaskIntoConstraints="NO" id="W3W-g4-jDg">
                                                 <rect key="frame" x="0.0" y="0.0" width="40" height="40"/>
+                                                <accessibility key="accessibilityConfiguration">
+                                                    <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
+                                                </accessibility>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="40" id="7AE-6V-urk"/>
                                                     <constraint firstAttribute="height" constant="40" id="q6v-xJ-CkE"/>
@@ -88,7 +91,6 @@
                                 <constraints>
                                     <constraint firstItem="wor-JY-ZqO" firstAttribute="centerY" secondItem="iZV-7H-RNx" secondAttribute="centerY" id="aFg-Dh-ld8"/>
                                     <constraint firstItem="wor-JY-ZqO" firstAttribute="centerX" secondItem="iZV-7H-RNx" secondAttribute="centerX" id="oOd-pJ-0bx"/>
-                                    <constraint firstAttribute="width" constant="414" id="vEu-8o-ubf"/>
                                 </constraints>
                             </view>
                         </subviews>
