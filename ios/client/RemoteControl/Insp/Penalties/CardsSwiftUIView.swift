@@ -22,27 +22,21 @@ struct HexagonParameters {
     static let points = [
         Segment(
             useWidth:  (1.00, 1.00, 1.00),
-            xFactors:  (0.60, 0.40, 0.50),
+            xFactors:  (0.90, 0.90, 0.90),
             useHeight: (1.00, 1.00, 0.00),
             yFactors:  (0.05, 0.05, 0.00)
         ),
         Segment(
-            useWidth:  (1.00, 1.00, 0.00),
-            xFactors:  (0.05, 0.00, 0.00),
+            useWidth:  (1.00, 1.00, 0.10),
+            xFactors:  (0.50, 0.50, 0.10),
             useHeight: (1.00, 1.00, 1.00),
-            yFactors:  (0.20 + adjustment, 0.30 + adjustment, 0.25 + adjustment)
-        ),
-        Segment(
-            useWidth:  (1.00, 1.00, 0.00),
-            xFactors:  (0.00, 0.05, 0.00),
-            useHeight: (1.00, 1.00, 1.00),
-            yFactors:  (0.70 - adjustment, 0.80 - adjustment, 0.75 - adjustment)
+            yFactors:  (0.95, 0.95, 1.00)
         ),
         Segment(
             useWidth:  (1.00, 1.00, 1.00),
-            xFactors:  (0.40, 0.60, 0.50),
+            xFactors:  (0.10, 0.10, 0.10),
             useHeight: (1.00, 1.00, 1.00),
-            yFactors:  (0.95, 0.95, 1.00)
+            yFactors:  (0.9, 0.9, 1.00)
         )
     ]
 }
@@ -58,8 +52,8 @@ fileprivate struct CardPath: View {
                 width *= xScale
                 path.move(
                     to: CGPoint(
-                        x: xOffset + width * 0.95,
-                        y: height * (0.20 + HexagonParameters.adjustment)
+                        x: xOffset + width * 0.1,
+                        y: height * (0.10 + HexagonParameters.adjustment)
                     )
                 )
                 
