@@ -11,58 +11,46 @@ import Sm02Client
 
 class PrioritySelectViewController: UIViewController {
 
-    var currentPerson: PersonType = .none
+  var currentPerson: PersonType = .none
 
-    @IBOutlet weak var setPriorityButton: UIButton!
+  @IBOutlet weak var setPriorityButton: UIButton!
 
-    @IBOutlet weak var resetPriorityButton: UIButton!
+  @IBOutlet weak var resetPriorityButton: UIButton!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+  override func viewDidLoad () {
+    super.viewDidLoad()
 
-        updateStyles()
-        [setPriorityButton, resetPriorityButton].forEach({ btn in
-            btn?.addTarget(self, action: Selector(("setPriorityAction:")), for: .touchUpInside)
-        })
+    updateStyles()
+    [setPriorityButton, resetPriorityButton].forEach({ btn in
+      btn?.addTarget(self, action: Selector(("setPriorityAction:")), for: .touchUpInside)
+    })
 
-        updateView()
-        // Do any additional setup after loading the view.
+    updateView()
+    // Do any additional setup after loading the view.
+  }
+
+  @objc func setPriorityAction (_ sender: UIButton) {
+    switch sender {
+    case setPriorityButton:
+      if Bool.random() {
+        rs.persons.left.setPriority()
+      } else {
+        rs.persons.right.setPriority()
+      }
+    case resetPriorityButton:
+      rs.persons.resetPriority()
+    default:
+      break
     }
+    performSegue(withIdentifier: "done", sender: sender)
+  }
 
+  private func updateStyles () {
+    setPriorityButton.layer.cornerRadius = UIGlobals.cardCornerRadius
+  }
 
-    @objc func setPriorityAction(_ sender: UIButton) {
-        switch sender {
-        case setPriorityButton:
-          if Bool.random() {
-            rs.persons.left.setPriority()
-          } else {
-            rs.persons.right.setPriority()
-          }
-        case resetPriorityButton:
-          rs.persons.resetPriority()
-        default: break
-
-        }
-        performSegue(withIdentifier: "done", sender: sender)
-    }
-
-    private func updateStyles() {
-        setPriorityButton.layer.cornerRadius = UIGlobals.cardCornerRadius
-    }
-
-    private func updateView() {
-        setPriorityButton.isEnabled = currentPerson == .none
-        resetPriorityButton.isEnabled = !(currentPerson == .none)
-    }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+  private func updateView () {
+    setPriorityButton.isEnabled = currentPerson == .none
+    resetPriorityButton.isEnabled = !(currentPerson == .none)
+  }
 }
