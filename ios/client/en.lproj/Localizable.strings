@@ -25,6 +25,7 @@
 "Connection error" = "Connection error";
 "Can't connect to %@. %@" = "Can't connect to %@. %@";
 "Try again" = "Try again";
+"Reconnect" = "Reconnect";
 
 "QR scanner error" = "QR scanner error";
 "The app is not authorized to use back camera." = "The app is not authorized to use back camera.";

@@ -25,6 +25,7 @@
 "Connection error" = "Ошибка подключения";
 "Can't connect to %@. %@" = "Невозможно подключиться к %@. %@";
 "Try again" = "Попробовать снова";
+"Reconnect" = "Переподключиться";
 
 "QR scanner error" = "Ошибка QR сканера";
 "The app is not authorized to use back camera." = "Приложение не авторизовано для использования задней камеры.";

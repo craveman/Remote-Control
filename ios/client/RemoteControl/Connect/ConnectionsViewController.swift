@@ -50,7 +50,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
       format: NSLocalizedString("Connection to the server in Wi-Fi network '%@' was lost.", comment: ""),
       remote.ssid
     )
-    let tryAgainButtonString = NSLocalizedString("Try again", comment: "")
+    let tryAgainButtonString = NSLocalizedString("Reconnect", comment: "")
 
     let alert = UIAlertController(
       title: titleString,
