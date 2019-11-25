@@ -1,6 +1,6 @@
 
 import NIO
-
+import class NIOConcurrencyHelpers.Atomic
 
 class Sm02TcpClient: Sm02Client {
 
@@ -9,14 +9,17 @@ class Sm02TcpClient: Sm02Client {
   let container: Container
   let group: MultiThreadedEventLoopGroup
   let bootstrap: ClientBootstrap
+  let events: HandlersManager<ConnectionEvent>
 
   var channel: Channel?
   var isConnected: Bool {
     return channel?.isWritable ?? false
   }
+  private let isNormalDisconnect = Atomic(value: false)
 
   init (container: Container) {
     self.container = container
+    events = container.eventsManager
 
     group = MultiThreadedEventLoopGroup(numberOfThreads: 1)
     bootstrap = ClientBootstrap(group: group)
@@ -49,6 +52,14 @@ class Sm02TcpClient: Sm02Client {
     } catch {
       return error
     }
+
+    isNormalDisconnect.store(false)
+    let _ = channel?.closeFuture.always { [weak self] (result) in
+      self?.events.fire(it: .disconnected)
+      if self?.isNormalDisconnect.load() == false {
+        self?.events.fire(it: .serverDown)
+      }
+    }
     return nil
   }
 
@@ -57,6 +68,7 @@ class Sm02TcpClient: Sm02Client {
   }
 
   func close () {
+    isNormalDisconnect.store(true)
     if let channel = channel {
       let _ = channel.close()
       self.channel = nil

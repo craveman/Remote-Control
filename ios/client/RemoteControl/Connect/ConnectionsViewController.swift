@@ -7,28 +7,27 @@
 //
 
 import UIKit
-import Sm02Client
 
 class ConnectionsViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
-    
+
   @IBOutlet weak var qrReaderSubViewWrapper: UIView!
-    
+
   override func viewDidAppear (_ animated: Bool) {
     let scanner = getScanner()
     scanner.onSuccess = { [weak self] in
       self?.jumpToInspiration()
     }
-    
+
     if isSimulationEnv() {
       skipQR()
     }
     super.viewDidAppear(animated)
   }
-    
+
   private func getScanner () -> QrViewController {
     return qrReaderSubViewWrapper.subviews[0].next as! QrViewController
   }
-    
+
   override func prepare (for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == "skipQR" {
       segue.destination.presentationController?.delegate = (self as UIAdaptivePresentationControllerDelegate)
@@ -40,7 +39,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
       qrReader.stopScanner()
     }
   }
-    
+
   func presentationControllerDidDismiss (_ presentationController: UIPresentationController) {
     start()
   }
@@ -72,11 +71,11 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     }
     getScanner().startScanner()
   }
-  
+
   private func jumpToInspiration () {
     performSegue(withIdentifier: "skipQR", sender: nil)
   }
-    
+
   private func isSimulationEnv () -> Bool {
     #if targetEnvironment(simulator)
       return true

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Sm02Client
 
 class PenaltySelectorViewController: UIViewController {
 

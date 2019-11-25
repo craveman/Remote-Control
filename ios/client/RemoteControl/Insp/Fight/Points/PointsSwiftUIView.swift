@@ -7,10 +7,9 @@
 //
 
 import SwiftUI
-import Sm02Client
 
 struct PointsSwiftUIView: View {
-  
+
   func startAction() -> Void {
     rs.timer.start()
   }
@@ -23,7 +22,7 @@ struct PointsSwiftUIView: View {
       MyButtonModalView(action: startAction, onDismiss: stopAction)
         .padding(50)
     }.frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: getSubScreenHeight(), idealHeight: height, maxHeight: .infinity, alignment: .top)
-    
+
   }
 }
 
@@ -34,13 +33,13 @@ fileprivate struct FightControls: View {
       VStack {
         HoldPassiveButton()
         PointsStepper(pType: .left)
-        
+
       }
       VStack {
         VideoButton()
         PointsStepper(pType: .right)
       }
-      
+
     }
     .border(Color.gray)
   }
@@ -49,9 +48,9 @@ fileprivate struct FightControls: View {
 fileprivate struct MyModalView: View {
   @Environment(\.presentationMode) var presentationMode
   var countdown: UInt32
-  
+
   var body: some View {
-    
+
     VStack {
       dinFont(Text("\(getTimeString(countdown))"), UIGlobals.timerFontSize)
         .padding(CGFloat(20))

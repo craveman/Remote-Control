@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import Sm02Client
 
 struct HexagonParameters {
   struct Segment {
@@ -16,16 +15,16 @@ struct HexagonParameters {
     let useHeight: (CGFloat)
     let yFactors: (CGFloat)
   }
-  
+
   static let adjustment: CGFloat = 0.085
-  
+
   static let startPoint = Segment(
     useWidth:  (1.00),
     xFactors:  (0.30),
     useHeight: (1.00),
     yFactors:  (0.20)
   )
-  
+
   static let points = [
     Segment(
       useWidth:  (1.00),
@@ -64,7 +63,7 @@ fileprivate struct CardPath: View {
             y: height * HexagonParameters.startPoint.useHeight * HexagonParameters.startPoint.yFactors
           )
         )
-        
+
         HexagonParameters.points.forEach {
           path.addLine(
             to: .init(
@@ -100,19 +99,19 @@ fileprivate struct Card: View {
       print("Card::addCardGesture:action")
       self.addAction()
     })
-    
-    
+
+
   }
 }
 
 fileprivate struct PlayerPenaltiesBoard: View {
   var type: PersonType = .none;
   @EnvironmentObject var settings: FightSettings
-  
+
   func getColor(_ expect: StatusCard, _ test: StatusCard) -> Color {
     return expect == test ? Color.yellow : Color.red
   }
-  
+
   func getCurrentCard(_ isPCard: Bool) -> StatusCard {
     switch self.type {
     case .left:
@@ -123,16 +122,16 @@ fileprivate struct PlayerPenaltiesBoard: View {
       return .none
     }
   }
-  
-  
+
+
   func getCard() -> StatusCard {
     return self.getCurrentCard(false) == .none ? StatusCard.yellow : StatusCard.red
   }
-  
+
   func getPCard() -> StatusCard {
     return self.getCurrentCard(true) == .passiveNone ? StatusCard.passiveYellow : StatusCard.passiveRed
    }
-  
+
   var body: some View {
     VStack {
       Card(title: "P", color: .black, textColor: .white, addAction: {
@@ -161,15 +160,15 @@ fileprivate struct PlayerPenaltiesBoard: View {
         rs.persons[self.type].card = .none
       })
     }
-    
+
   }
 }
 fileprivate let holdLongPressDuration = 0.95
 fileprivate let resetGesture = LongPressGesture(minimumDuration: holdLongPressDuration)
 fileprivate let addCardGesture = TapGesture(count: 1)
 struct CardsSwiftUIView: View {
-  
- 
+
+
   var body: some View {
     VStack {
       HStack(spacing: 0) {
@@ -177,9 +176,9 @@ struct CardsSwiftUIView: View {
          PlayerPenaltiesBoard(type: .right).frame(width: width / 2)
        }
       dinFont(Text("* hold to reset"))
-      
+
     }
-   
+
   }
 }
 

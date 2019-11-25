@@ -68,7 +68,6 @@ extension DependencyContainer: ChannelHandlerFactory {
       let handlers = [
         ByteToMessageHandler(LengthFieldBasedFrameDecoder(lengthFieldLength: .two), maximumBufferSize: Int(UInt16.max)),
         LengthFieldPrepender(lengthFieldLength: .two),
-        IdleStateHandler(readTimeout: .seconds(6)),
         TickTockHandler(container: self!),
         self!.decoderChanneHandler,
         self!.encoderChanneHandler,

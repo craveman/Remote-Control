@@ -8,11 +8,8 @@
 
 import UIKit
 import QRCodeReader
-import Sm02Client
 
 class QrViewController: UIViewController {
-
-  let rs = RemoteService.shared
 
   @IBOutlet weak var previewView: QRCodeReaderView! {
     didSet {
@@ -132,7 +129,7 @@ class QrViewController: UIViewController {
     let controller: QrViewController
 
     func connect (to remote: RemoteAddress) {
-      let result = controller.rs.connection.connect(to: remote)
+      let result = rs.connection.connect(to: remote)
 
       switch result {
       case .success(AuthenticationStatus.success):

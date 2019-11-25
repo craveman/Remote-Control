@@ -7,16 +7,15 @@
 //
 
 import SwiftUI
-import Sm02Client
 
 fileprivate struct TimersSetters: View {
     var body: some View {
         HStack(spacing: 0) {
             CommonButton(action: {
-                
+
             }, text: "set passive", imageName: "p.square")
             CommonButton(action: {
-                
+
             }, text: "set time", imageName: "clock")
         }
     }
@@ -26,7 +25,7 @@ fileprivate struct TimersSetters: View {
 fileprivate struct PeriodSetter: View {
     var body: some View {
         CommonButton(action: {
-            
+
         }, text: "set period", imageName: "textformat.123", frame: getButtonFrame(.special))
     }
 }
@@ -40,7 +39,7 @@ struct TimersSwiftUIView: View {
             PeriodSetter()
         }
         .frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: getSubScreenHeight(), idealHeight: height, maxHeight: .infinity, alignment: .top)
-        
+
     }
 }
 

@@ -6,9 +6,26 @@
 //  Copyright © 2019 Sergei Andreev. All rights reserved.
 //
 
-import Foundation
+import struct Foundation.UUID
 import Sm02Client
-import NIOConcurrencyHelpers
+
+@_exported import class Sm02Client.RemoteAddress
+
+@_exported import enum Sm02Client.ConnectionEvent
+@_exported import enum Sm02Client.ConnectionError
+
+@_exported import enum Sm02Client.Weapon
+@_exported import enum Sm02Client.FlagState
+@_exported import enum Sm02Client.TimerState
+@_exported import enum Sm02Client.DeviceType
+@_exported import enum Sm02Client.StatusCard
+@_exported import enum Sm02Client.Decision
+@_exported import enum Sm02Client.RecordMode
+@_exported import enum Sm02Client.PersonType
+@_exported import enum Sm02Client.TimerMode
+@_exported import enum Sm02Client.AuthenticationStatus
+@_exported import enum Sm02Client.Inbound
+@_exported import enum Sm02Client.Outbound
 
 final class RemoteService {
 
@@ -43,6 +60,16 @@ final class RemoteService {
   func ethernetFinishAsk () {
     let outbound = Outbound.ethernetFinishAsk
     Sm02.send(message: outbound)
+  }
+
+  @discardableResult
+  func on (event handler: @escaping EventHandler) -> UUID {
+    return Sm02.on(event: handler)
+  }
+
+  @discardableResult
+  func remove (event uuid: UUID) -> Bool {
+    return Sm02.remove(eventHandler: uuid)
   }
 
   class ConnectionManagement {

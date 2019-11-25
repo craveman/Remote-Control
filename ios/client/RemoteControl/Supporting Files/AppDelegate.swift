@@ -9,6 +9,7 @@
 import UIKit
 
 let rs = RemoteService.shared
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -16,6 +17,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application (_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
+    rs.on(event: { [weak self] (event) in
+      guard case .serverDown = event else {
+        return
+      }
+      guard let remote = rs.connection.address else {
+        return
+      }
+      self?.invalidate(connection: remote)
+    })
     return true
   }
 
@@ -36,12 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       return
     }
     if case .failure(_) = rs.connection.connect(to: remote) {
-      rs.connection.forget()
-      guard let controller = self.window?.rootViewController as? ConnectionsViewController else {
-        return
-      }
-      controller.dismiss(animated: true)
-      controller.warning(remote)
+      invalidate(connection: remote)
     }
   }
 
@@ -51,5 +56,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func applicationWillTerminate (_ application: UIApplication) {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+  }
+
+  private func invalidate (connection remote: RemoteAddress) {
+    DispatchQueue.main.async {
+      rs.connection.forget()
+      guard let controller = self.window?.rootViewController as? ConnectionsViewController else {
+        return
+      }
+      controller.dismiss(animated: true)
+      controller.warning(remote)
+    }
   }
 }

@@ -7,86 +7,87 @@
 //
 
 import SwiftUI
-import Sm02Client
 
 struct PointsStepper: View {
-    var pType: PersonType = .none
-    @EnvironmentObject var settings: FightSettings
-    @State private var isActive = false
-    var width = halfSizeButton()
-    var minusHeight = CGFloat(heightOfButton())
-    var plusHeight = CGFloat(heightOfButton() * 2)
-  
-  func getScore() -> UInt8 {
+
+  var pType: PersonType = .none
+  @EnvironmentObject var settings: FightSettings
+  @State private var isActive = false
+  var width = halfSizeButton()
+  var minusHeight = CGFloat(heightOfButton())
+  var plusHeight = CGFloat(heightOfButton() * 2)
+
+  let pSize = getButtonFrame(.doubleHeight)
+  let mSize = getButtonFrame(.basic)
+
+  func getScore () -> UInt8 {
     return getPerson().score
   }
-    
-    func thenDeactivate(_ timeout: Double = 1.1) -> Void {
-        withDelay({
-            self.isActive = false
-        }, timeout)
-    }
-    
-    func getPerson() -> RemoteService.PersonsManagement.Person {
+
+  func thenDeactivate (_ timeout: Double = 1.1) -> Void {
+    withDelay({
+      self.isActive = false
+    }, timeout)
+  }
+
+  func getPerson () -> RemoteService.PersonsManagement.Person {
     switch self.pType {
-        case .left:
-            return rs.persons.left
-            case .right:
-            return rs.persons.right
-        default:
-            return rs.persons.none
-        }
+    case .left:
+      return rs.persons.left
+    case .right:
+      return rs.persons.right
+    default:
+      return rs.persons.none
     }
-    
-    let pSize = getButtonFrame(.doubleHeight)
-    let mSize = getButtonFrame(.basic)
-    
-    var body: some View {
-        VStack {
-            Button(action: {
-                print("- Button Pushed")
-              if (self.getScore() == 0) {
-                    return
-                }
-                
-              self.getPerson().score = UInt8(self.getScore() - 1)
-                self.isActive = true
-                self.thenDeactivate()
-            }) {
-                primaryColor(dinFont(Text("-"), 50))
+  }
+
+  var body: some View {
+    VStack {
+        Button(action: {
+            print("- Button Pushed")
+          if (self.getScore() == 0) {
+                return
             }
-            .frame(width: mSize.idealWidth, height: mSize.idealHeight, alignment: mSize.alignment)
-            .disabled(isActive)
-            .background(isActive ? UIGlobals.disabledButtonBackground_SUI: nil)
-            .border(Color.gray, width: 0.5)
-            Button(action: {
-                if (self.getScore() == 99) {
-                    return
-                }
-                print("+ Button Pushed")
-                self.getPerson().score = UInt8(self.getScore() + 1)
-                self.isActive = true
-                self.thenDeactivate()
-                
-            }) {
-                primaryColor(dinFont(Text("+"), 50))
-            }
-            .frame(width: pSize.idealWidth, height: pSize.idealHeight, alignment: pSize.alignment)
-            .disabled(isActive)
-            .background(isActive ? UIGlobals.disabledButtonBackground_SUI: nil)
-            .border(Color.gray, width: 0.5)
+
+          self.getPerson().score = UInt8(self.getScore() - 1)
+            self.isActive = true
+            self.thenDeactivate()
+        }) {
+            primaryColor(dinFont(Text("-"), 50))
         }
+        .frame(width: mSize.idealWidth, height: mSize.idealHeight, alignment: mSize.alignment)
+        .disabled(isActive)
+        .background(isActive ? UIGlobals.disabledButtonBackground_SUI: nil)
+        .border(Color.gray, width: 0.5)
+        Button(action: {
+            if (self.getScore() == 99) {
+                return
+            }
+            print("+ Button Pushed")
+            self.getPerson().score = UInt8(self.getScore() + 1)
+            self.isActive = true
+            self.thenDeactivate()
+
+        }) {
+            primaryColor(dinFont(Text("+"), 50))
+        }
+        .frame(width: pSize.idealWidth, height: pSize.idealHeight, alignment: pSize.alignment)
+        .disabled(isActive)
+        .background(isActive ? UIGlobals.disabledButtonBackground_SUI: nil)
+        .border(Color.gray, width: 0.5)
     }
+  }
 }
 
 struct PointsStepper_Previews: PreviewProvider {
-    static var previews: some View {
-        PointsStepper(pType: .none)
-    }
+
+  static var previews: some View {
+    PointsStepper(pType: .none)
+  }
 }
 
-func withDelay(_ callback: @escaping () -> Void, _ timeout: TimeInterval = 1) {
-    Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) {_ in
-        callback()
-    }
+func withDelay (_ callback: @escaping () -> Void, _ timeout: TimeInterval = 1) {
+  Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) {_ in
+    callback()
+  }
 }

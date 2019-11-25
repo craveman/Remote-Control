@@ -8,42 +8,41 @@
 
 import UIKit
 import SwiftUI
-import Sm02Client
 
 class RcViewController: UIViewController {
-  
+
   @IBOutlet weak var fightSubView: UIView!
   internal var fight: RcSwiftUIView?
   internal var game = FightSettings()
   lazy var fightSwiftUIHost: UIViewController = {
-    
+
     var view = RcSwiftUIView()
     self.fight = view
     self.updateViewState()
     var vc = UIHostingController(rootView: view.environmentObject(game))
     self.addViewControllerAsChildViewController(childViewController: vc)
-    
+
     return vc
   }()
-  
+
   func updateViewState() -> Void {
-    
+
   }
-  
+
   override func viewDidLoad() {
     super.viewDidLoad()
     setSubscriptions()
     updateView()
     // Do any additional setup after loading the view.
   }
-  
+
   private func onMainThread(_ callback:  @escaping () -> Void) {
     DispatchQueue.main.asyncAfter(deadline: .now()) {
       //            print("\(delay) milliseconds later")
       callback()
     }
   }
-  
+
   private func setSubscriptions() {
     rs.timer.timeProperty.on(change: { update in
       print(update)
@@ -53,12 +52,12 @@ class RcViewController: UIViewController {
     rs.timer.stateProperty.on(change: { timerState in
       self.onMainThread({self.game.isRunning = timerState == .running})
     })
-    
+
     rs.display.passiveProperty.on(change: { showPassive in
       self.onMainThread({self.game.showPassive = showPassive})
     })
-    
-    
+
+
     //        left
     rs.persons.left.scoreProperty.on(change: { score in
       self.onMainThread({self.game.leftScore = score})
@@ -66,7 +65,7 @@ class RcViewController: UIViewController {
     rs.persons.left.cardProperty.on(change: { card in
       self.onMainThread({self.setCard(card, .left)})
     })
-    
+
     //        right
     rs.persons.right.scoreProperty.on(change: { score in
       self.onMainThread({self.game.rightScore = score})
@@ -75,7 +74,7 @@ class RcViewController: UIViewController {
       self.onMainThread({self.setCard(card, .right)})
     })
   }
-  
+
   private func setCard(_ card: StatusCard, _ pType: PersonType) {
     switch card {
     case .none, .yellow, .red, .black:
@@ -97,33 +96,33 @@ class RcViewController: UIViewController {
         return
       }
     }
-    
+
   }
-  
+
   private func updateView() {
     print("update view")
-    
+
     fightSwiftUIHost.view.isHidden = false
     updateGame()
   }
-  
+
   private func updateGame() {
     self.game.isRunning = false
     self.game.time = 180000
   }
-  
+
   private func addViewControllerAsChildViewController(childViewController: UIViewController) {
-    
+
     addChild(childViewController)
-    
+
     fightSubView.addSubview(childViewController.view)
     childViewController.view.frame = fightSubView.bounds
     childViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    
+
     childViewController.didMove(toParent: self)
-    
+
   }
-  
+
 }
 
 class FightSettings: ObservableObject {

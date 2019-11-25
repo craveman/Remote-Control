@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import Sm02Client
 
 let INSPIRATION_MED_TIMOUT = UInt32(5 * 60 * 1000)
 let INSPIRATION_SHORT_TIMOUT = UInt32(1 * 60 * 1000)
@@ -16,13 +15,13 @@ let INSPIRATION_DEF_TIMOUT = UInt32(3 * 60 * 1000)
 struct PauseSetters: View {
   @EnvironmentObject var settings: FightSettings
   @State var savedTime: UInt32? = nil
-  
+
   func dismiss() -> Void {
     rs.timer.stop()
     self.savedTime = nil
   }
-  
-  
+
+
   func start(_ mode: TimerMode, _ ms: UInt32) -> Void {
     if rs.timer.mode == .main {
       self.savedTime = rs.timer.time
@@ -43,7 +42,7 @@ struct PauseSetters: View {
         let ms = self.savedTime ?? INSPIRATION_DEF_TIMOUT
         print("PauseSetters::medical:onDismiss")
         self.dismiss()
-        
+
         withDelay({
           rs.timer.mode = .main
           withDelay({
@@ -52,14 +51,14 @@ struct PauseSetters: View {
         })
       } ,content: {
         MedicalPauseModalContentUIView(time: self.$settings.time)
-        
+
       })
       CommonModalButton(imageName: "timer", imageColor: .yellow, text: "1' pause", action: {
         self.start(.pause, INSPIRATION_SHORT_TIMOUT)
       }, onDismiss: {
         print("PauseSetters::1_min_pause:onDismiss")
         self.dismiss()
-        
+
         withDelay({
           rs.timer.mode = .main
           rs.competition.period = rs.competition.period + 1
@@ -67,7 +66,7 @@ struct PauseSetters: View {
         })
       } ,content: {
         PauseModalContentUIView(time: self.$settings.time)
-        
+
       })
     }
   }
@@ -127,7 +126,7 @@ struct PauseModalContentUIView: View {
 struct PauseSettersSwiftUIView: View {
   var body: some View {
     Text("Hello, World!")
-    
+
   }
 }
 
