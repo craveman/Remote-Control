@@ -38,14 +38,14 @@ struct ResetBoutModalContentUIView: View {
                 }, text: "cancel",
                    color: primaryColor, imageName: "multiply")
                     .frame(width: width/2)
-                    .padding(.top).padding(.bottom)
+                    .padding([.vertical])
                     .border(Color.gray, width: 0.5)
                 ConfirmModalButton(action: {
                     rs.competition.reset()
                     self.presentationMode.wrappedValue.dismiss()
                 }, text: "confirm", color: .green)
                     .frame(width: width/2)
-                    .padding(.top).padding(.bottom)
+                    .padding([.vertical])
                     .border(Color.gray, width: 0.5)
             }.border(Color.gray, width: 0.5)
         }

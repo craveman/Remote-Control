@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct SettingsSwiftUIView: View {
+  @EnvironmentObject var settings: FightSettings
     var body: some View {
       VStack(spacing: 0) {
         DisconnectButtonSwiftUIView()
@@ -18,7 +19,7 @@ struct SettingsSwiftUIView: View {
         }
         HStack(spacing: 0) {
           NamesSettingsButtonSwiftUIView()
-          WeaponsButtonSwiftUIView()
+          WeaponsButtonSwiftUIView().environmentObject(self.settings)
         }
         ScoreButtonSwiftUIView()
       }.frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: getSubScreenHeight(), idealHeight: height, maxHeight: .infinity, alignment: .top)

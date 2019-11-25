@@ -48,7 +48,7 @@ struct DisconnectSwiftUIView: View {
           rs.connection.disconnect()
           self.presentationMode.wrappedValue.dismiss()
         }, text: "disconnect", color: .red)
-      }.frame(width: width).padding(.top).padding(.bottom)
+      }.frame(width: width).padding([.vertical])
         .border(Color.gray, width: 0.5)
     }
   }

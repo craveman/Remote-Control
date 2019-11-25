@@ -56,6 +56,10 @@ class RcViewController: UIViewController {
     rs.display.passiveProperty.on(change: { showPassive in
       self.onMainThread({self.game.showPassive = showPassive})
     })
+    
+    rs.competition.weaponProperty.on(change: { weapon in
+      self.onMainThread({self.game.weapon = weapon})
+    })
 
 
     //        left
@@ -136,4 +140,5 @@ class FightSettings: ObservableObject {
   @Published var isRunning = false
   @Published var showPassive = false
   @Published var holdPassive = false
+  @Published var weapon: Weapon = .sabre
 }

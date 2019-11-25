@@ -15,19 +15,12 @@ struct PriorityButtonSwiftUIView: View {
       self.showModal.toggle()
     }) {
       VStack {
-        ZStack {
-          Image(systemName: "square").resizable()
-          Image(systemName: "circle.fill").offset(x: 15, y: -15).scaleEffect(0.5)
-          Image(systemName: "circle.fill").scaleEffect(0.5)
-          Image(systemName: "circle.fill").offset(x: -15, y: 15).scaleEffect(0.5)
-        }.frame(width: 48, height: 48)
+        SmallDice().frame(width: 48, height: 48)
         primaryColor(dinFont(Text("priority")))
       }
-      
-      
     }.foregroundColor(primaryColor)
       .frame(width: width / 2, height: mediumHeightOfButton())
-    .border(Color.gray, width: 0.5)
+      .border(Color.gray, width: 0.5)
       .sheet(isPresented: self.$showModal) {
         PrioritySwiftUIView()
     }
@@ -55,53 +48,69 @@ struct PrioritySwiftUIView: View {
     self.hasPriority = rs.persons.left.isPriority || rs.persons.right.isPriority
   }
   @Environment(\.presentationMode) var presentationMode
-    var body: some View {
-      VStack(spacing: 0) {
-        Spacer()
-        Button(action: {
-          print("set priority")
-          self.setPriorityAction()
-        }) {
-          ZStack {
-            Image(systemName: "square").resizable()
-            Image(systemName: "circle.fill").offset(x: 20, y: -20)
-            Image(systemName: "circle.fill")
-            Image(systemName: "circle.fill").offset(x: -20, y: 20)
-          }
-          
-        }.frame(width: 128, height: 128).foregroundColor(primaryColor)
-        
-        Spacer()
-        Button(action: {
-          print("reset priority")
-          self.clear()
-        }) {
-          primaryColor(dinFont(Text("do not show")))
-        }
-        .frame(width: width).padding(.top).padding(.bottom)
-        .border(Color.gray, width: 0.5)
-        .opacity(self.hasPriority ? 1.0 : 0.0)
-        
-        HStack {
-          ConfirmModalButton(action: {
-            self.presentationMode.wrappedValue.dismiss()
-          }, color: .green)
-        }.frame(width: width).padding(.top).padding(.bottom)
-          .border(Color.gray, width: 0.5)
+  var body: some View {
+    VStack(spacing: 0) {
+      Spacer()
+      Button(action: {
+        print("set priority")
+        self.setPriorityAction()
+      }) {
+        Dice().frame(width: 128, height: 128)
+      }.padding().foregroundColor(primaryColor)
+      
+      Spacer()
+      Button(action: {
+        print("reset priority")
+        self.clear()
+      }) {
+        primaryColor(dinFont(Text("do not show")))
       }
-        
+      .frame(width: width).padding([.vertical])
+      .border(Color.gray, width: 0.5)
+      .opacity(self.hasPriority ? 1.0 : 0.0)
+      
+      HStack {
+        ConfirmModalButton(action: {
+          self.presentationMode.wrappedValue.dismiss()
+        }, color: .green)
+      }.frame(width: width).padding([.vertical])
+        .border(Color.gray, width: 0.5)
     }
+    
+  }
 }
 
-struct PrioritySwiftUIView_Previews: PreviewProvider {
-    static var previews: some View {
-        PrioritySwiftUIView()
+fileprivate struct Dice: View {
+  var dotsPadding: CGFloat = 20
+  var scaleFactor: CGFloat = 1
+  var body: some View {
+    ZStack {
+      Image(systemName: "square").resizable()
+      Image(systemName: "circle.fill").offset(x: dotsPadding, y: -dotsPadding).scaleEffect(scaleFactor)
+      Image(systemName: "circle.fill").scaleEffect(scaleFactor)
+      Image(systemName: "circle.fill").offset(x: -dotsPadding, y: dotsPadding).scaleEffect(scaleFactor)
     }
+  }
+}
+
+fileprivate struct SmallDice: View {
+  private var dotsPadding: CGFloat = 20
+  private var scaleFactor: CGFloat = 0.33
+  var body: some View {
+    Dice(dotsPadding: dotsPadding, scaleFactor: scaleFactor)
+  }
+}
+
+
+struct PrioritySwiftUIView_Previews: PreviewProvider {
+  static var previews: some View {
+    PrioritySwiftUIView()
+  }
 }
 
 
 struct PriorityButtonSwiftUIView_Previews: PreviewProvider {
-    static var previews: some View {
-        PriorityButtonSwiftUIView()
-    }
+  static var previews: some View {
+    PriorityButtonSwiftUIView()
+  }
 }

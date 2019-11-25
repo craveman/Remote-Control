@@ -8,18 +8,19 @@
 
 import SwiftUI
 
+struct CommonModalHeader: View {
+  var title = ""
+  var body: some View {
+    dinFont(Text(NSLocalizedString("title \(self.title)", comment: ""))).foregroundColor(.white).padding([.vertical]).fixedSize().frame(width: width).background(UIGlobals.headerBackground_SUI)
+  }
+}
 
-
-struct TimerButton: View {
+struct CommonButton: View {
     var action: () -> Void
     var text = "Button"
     var imageName = ""
     var imageColor = primaryColor
     var frame = getButtonFrame(.withImage)
-    
-    func getScale() {
-        
-    }
     
     var body: some View {
         Button(action: {
@@ -30,14 +31,14 @@ struct TimerButton: View {
                     Image(systemName: imageName).resizable().scaledToFit()
                         .frame(width: 32, height: 32).foregroundColor(self.imageColor)
                 }
-                primaryColor(dinFont(Text(self.text))).fixedSize()
+              primaryColor(dinFont(Text(NSLocalizedString("\(self.text)", comment: "")))).fixedSize()
             }
         }.frame(width: frame.idealWidth, height: frame.idealHeight, alignment: frame.alignment)
             .border(Color.gray, width: 0.5)
     }
 }
 
-struct TimerModalButton<Content>: View where Content: View {
+struct CommonModalButton<Content>: View where Content: View {
     @State var showModal = false
     let content: () -> Content
     var text = "Button"
@@ -67,7 +68,7 @@ struct TimerModalButton<Content>: View where Content: View {
     }
     
     var body: some View {
-        TimerButton(action: {
+        CommonButton(action: {
             self.showModal.toggle()
             self.action()
             
@@ -93,7 +94,9 @@ struct ConfirmModalButton: View {
                     Image(systemName: self.imageName).resizable().scaledToFit()
                         .frame(width: 36, height: 36).foregroundColor(self.color)
                 }
-                primaryColor(dinFont(Text(self.text), UIGlobals.appSmallerFontSize))
+                primaryColor(dinFont(
+                  Text(NSLocalizedString("\(self.text)", comment: "")),
+                  UIGlobals.appSmallerFontSize))
             }.padding(.all, 24)
         }
         
@@ -109,8 +112,8 @@ struct CommonButtonsSwiftUIView: View {
                 
             }, text: "cancel",
                color: primaryColor, imageName: "multiply")
-            TimerButton(action: { })
-            TimerModalButton(imageName: "plus", imageColor: .blue, text: "arrow.clockwise.icloud", content: {
+            CommonButton(action: { })
+            CommonModalButton(imageName: "arrow.clockwise.icloud", imageColor: .blue, text: "plus", content: {
                 Text("Hello, Modal!")
             })
         }

@@ -55,6 +55,10 @@
 "priority" = "priority";
 
 "weapon" = "weapon";
+"title Weapon" = "Weapon";
+"Epee" = "Epee";
+"Sabre" = "Sabre";
+"Foil" = "Foil";
 
 "score" = "score";
 

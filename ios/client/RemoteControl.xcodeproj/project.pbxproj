@@ -13,7 +13,7 @@
 		850AAEDE232723F400DBFD93 /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAEDD232723F400DBFD93 /* ConnectionsViewController.swift */; };
 		851AE9B12385F56B001BE3FB /* SwiftUITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B02385F56B001BE3FB /* SwiftUITools.swift */; };
 		851AE9B323874353001BE3FB /* ResetBoutUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B223874353001BE3FB /* ResetBoutUIView.swift */; };
-		851AE9B523874393001BE3FB /* CommonButtonsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B423874393001BE3FB /* CommonButtonsSwiftUIView.swift */; };
+		851AE9B523874393001BE3FB /* CommonComponentsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B423874393001BE3FB /* CommonComponentsSwiftUIView.swift */; };
 		851AE9B723874465001BE3FB /* PauseSettersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */; };
 		851AE9B923875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B823875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift */; };
 		851AE9BB23875FA4001BE3FB /* SegmentedPickerElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9BA23875FA4001BE3FB /* SegmentedPickerElementView.swift */; };
@@ -92,7 +92,7 @@
 		850AAEDD232723F400DBFD93 /* ConnectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewController.swift; sourceTree = "<group>"; };
 		851AE9B02385F56B001BE3FB /* SwiftUITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftUITools.swift; path = "RemoteControl/UI Helpers/SwiftUITools.swift"; sourceTree = "<group>"; };
 		851AE9B223874353001BE3FB /* ResetBoutUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetBoutUIView.swift; sourceTree = "<group>"; };
-		851AE9B423874393001BE3FB /* CommonButtonsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonButtonsSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9B423874393001BE3FB /* CommonComponentsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonComponentsSwiftUIView.swift; sourceTree = "<group>"; };
 		851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseSettersSwiftUIView.swift; sourceTree = "<group>"; };
 		851AE9B823875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalSeletorSwiftUIView.swift; sourceTree = "<group>"; };
 		851AE9BA23875FA4001BE3FB /* SegmentedPickerElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedPickerElementView.swift; sourceTree = "<group>"; };
@@ -223,7 +223,7 @@
 		85A9933A230B4C40003FC5BE /* Insp */ = {
 			isa = PBXGroup;
 			children = (
-				851AE9B423874393001BE3FB /* CommonButtonsSwiftUIView.swift */,
+				851AE9B423874393001BE3FB /* CommonComponentsSwiftUIView.swift */,
 				85A9934723109C96003FC5BE /* Settings */,
 				85A9934623109C89003FC5BE /* Penalties */,
 				85A9934523109C7D003FC5BE /* Fight */,
@@ -257,8 +257,8 @@
 		85A9934723109C96003FC5BE /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				851AE9C42389D4FE001BE3FB /* PrioritySwiftUIView.swift */,
 				851AE9C62389DC7B001BE3FB /* SettingsSwiftUIView.swift */,
+				851AE9C42389D4FE001BE3FB /* PrioritySwiftUIView.swift */,
 				851AE9C82389DF3B001BE3FB /* DisconnectSwiftUIView.swift */,
 				851AE9CA2389E388001BE3FB /* VideoReplaysSwiftUIView.swift */,
 				851AE9CC2389E452001BE3FB /* NamesSettingsSwiftUIView.swift */,
@@ -488,7 +488,7 @@
 				851AE9C72389DC7B001BE3FB /* SettingsSwiftUIView.swift in Sources */,
 				851AE9CD2389E452001BE3FB /* NamesSettingsSwiftUIView.swift in Sources */,
 				85B95702237A363A0063E32C /* PointsStepper.swift in Sources */,
-				851AE9B523874393001BE3FB /* CommonButtonsSwiftUIView.swift in Sources */,
+				851AE9B523874393001BE3FB /* CommonComponentsSwiftUIView.swift in Sources */,
 				851AE9C92389DF3B001BE3FB /* DisconnectSwiftUIView.swift in Sources */,
 				851AE9CB2389E388001BE3FB /* VideoReplaysSwiftUIView.swift in Sources */,
 				B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */,
