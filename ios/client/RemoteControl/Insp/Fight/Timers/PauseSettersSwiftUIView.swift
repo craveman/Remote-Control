@@ -12,27 +12,35 @@ let INSPIRATION_MED_TIMOUT = UInt32(5 * 60 * 1000)
 let INSPIRATION_SHORT_TIMOUT = UInt32(1 * 60 * 1000)
 let INSPIRATION_DEF_TIMOUT = UInt32(3 * 60 * 1000)
 
+var PAUSE_DISSMISED_DEFERED_ACTION_TIMER: Timer? = nil
+
 struct PauseSetters: View {
   @EnvironmentObject var settings: FightSettings
   @State var savedTime: UInt32? = nil
   
   func dismiss() -> Void {
+    PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
     rs.timer.stop()
     self.savedTime = nil
   }
   
   
   func start(_ mode: TimerMode, _ ms: UInt32) -> Void {
+    PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
+    if rs.timer.state == .running {
+      rs.timer.stop()
+    }
     if rs.timer.mode == .main {
       self.savedTime = rs.timer.time
     }
+    
+    // todo: update for startTimer(time, mode) when rs will support
     rs.timer.mode = mode
-    withDelay({
-      rs.timer.time = ms
-      withDelay({
-        rs.timer.start()
-      })
-    })
+    rs.timer.time = ms
+    
+    PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
+      rs.timer.start()
+    }, 0.25)
   }
   var body: some View {
     HStack(spacing: 0) {
@@ -43,15 +51,12 @@ struct PauseSetters: View {
         print("PauseSetters::medical:onDismiss")
         self.dismiss()
         
-        withDelay({
+        PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
+          rs.timer.time = ms
           rs.timer.mode = .main
-          withDelay({
-            rs.timer.time = ms
-          })
-        })
+        }, 0.25)
       } ,content: {
         MedicalPauseModalContentUIView(time: self.$settings.time)
-        
       })
       CommonModalButton(imageName: "timer", imageColor: .yellow, text: "1' pause", action: {
         self.start(.pause, INSPIRATION_SHORT_TIMOUT)
@@ -59,11 +64,11 @@ struct PauseSetters: View {
         print("PauseSetters::1_min_pause:onDismiss")
         self.dismiss()
         
-        withDelay({
+        PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
           rs.timer.mode = .main
           rs.competition.period = rs.competition.period + 1
           rs.timer.time = INSPIRATION_DEF_TIMOUT
-        })
+        }, 0.25)
       } ,content: {
         PauseModalContentUIView(time: self.$settings.time)
         

@@ -140,5 +140,5 @@ class FightSettings: ObservableObject {
   @Published var isRunning = false
   @Published var showPassive = false
   @Published var holdPassive = false
-  @Published var weapon: Weapon = .sabre
+  @Published var weapon: Weapon = .none
 }

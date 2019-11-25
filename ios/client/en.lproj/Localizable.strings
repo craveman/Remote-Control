@@ -47,12 +47,15 @@
 "cancel" = "cancel";
 "disconnect" = "disconnect";
 
+"title Disconnect" = "Disconnect";
+
 "John..." = "John...";
 "names" = "names";
 
 "video replays" = "video replays";
 
 "priority" = "priority";
+"title Priority" = "Priority";
 
 "weapon" = "weapon";
 "title Weapon" = "Weapon";

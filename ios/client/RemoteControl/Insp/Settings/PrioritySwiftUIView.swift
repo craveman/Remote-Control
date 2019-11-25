@@ -50,6 +50,7 @@ struct PrioritySwiftUIView: View {
   @Environment(\.presentationMode) var presentationMode
   var body: some View {
     VStack(spacing: 0) {
+      CommonModalHeader(title: "Priority")
       Spacer()
       Button(action: {
         print("set priority")

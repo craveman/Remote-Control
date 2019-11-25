@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SettingsSwiftUIView: View {
-  @EnvironmentObject var settings: FightSettings
+  @Binding var tabsSelectedControl: Int
     var body: some View {
       VStack(spacing: 0) {
         DisconnectButtonSwiftUIView()
@@ -19,7 +19,7 @@ struct SettingsSwiftUIView: View {
         }
         HStack(spacing: 0) {
           NamesSettingsButtonSwiftUIView()
-          WeaponsButtonSwiftUIView().environmentObject(self.settings)
+          WeaponsButtonSwiftUIView()
         }
         ScoreButtonSwiftUIView()
       }.frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: getSubScreenHeight(), idealHeight: height, maxHeight: .infinity, alignment: .top)
@@ -27,7 +27,8 @@ struct SettingsSwiftUIView: View {
 }
 
 struct SettingsSwiftUIView_Previews: PreviewProvider {
+    @State static var tab = 1
     static var previews: some View {
-        SettingsSwiftUIView()
+        SettingsSwiftUIView(tabsSelectedControl: $tab)
     }
 }

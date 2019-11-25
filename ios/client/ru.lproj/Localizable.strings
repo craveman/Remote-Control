@@ -47,12 +47,15 @@
 "cancel" = "отмена";
 "disconnect" = "отключить";
 
+"title Disconnect" = "Отключить";
+
 "John..." = "Иван...";
 "names" = "имена";
 
 "video replays" = "видео повторы";
 
 "priority" = "приоритет";
+"title Priority" = "Приоритет";
 
 "weapon" = "оружие";
 "title Weapon" = "Оружие";

@@ -27,6 +27,7 @@ struct DisconnectSwiftUIView: View {
   @Environment(\.presentationMode) var presentationMode
   var body: some View {
     VStack{
+      CommonModalHeader(title: "Disconnect")
       Spacer()
       VStack {
         ZStack{
@@ -43,11 +44,11 @@ struct DisconnectSwiftUIView: View {
       HStack {
         ConfirmModalButton(action: {
           self.presentationMode.wrappedValue.dismiss()
-        }, text: "cancel", color: primaryColor, imageName: "multiply")
+        }, text: "cancel", color: primaryColor, imageName: "chevron.left")
         ConfirmModalButton(action: {
           rs.connection.disconnect()
           self.presentationMode.wrappedValue.dismiss()
-        }, text: "disconnect", color: .red)
+        }, text: "disconnect", color: .red, imageName: "multiply")
       }.frame(width: width).padding([.vertical])
         .border(Color.gray, width: 0.5)
     }

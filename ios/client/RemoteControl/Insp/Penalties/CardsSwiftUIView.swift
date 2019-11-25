@@ -8,23 +8,23 @@
 
 import SwiftUI
 
-struct HexagonParameters {
+struct CardPathParameters {
   struct Segment {
     let useWidth: (CGFloat)
     let xFactors: (CGFloat)
     let useHeight: (CGFloat)
     let yFactors: (CGFloat)
   }
-
+  
   static let adjustment: CGFloat = 0.085
-
+  
   static let startPoint = Segment(
     useWidth:  (1.00),
     xFactors:  (0.30),
     useHeight: (1.00),
     yFactors:  (0.20)
   )
-
+  
   static let points = [
     Segment(
       useWidth:  (1.00),
@@ -54,17 +54,17 @@ fileprivate struct CardPath: View {
       Path { path in
         var width: CGFloat = min(geometry.size.width, geometry.size.height)
         let height = width
-        let xScale: CGFloat = 0.832
+        let xScale: CGFloat = 0.85
         let xOffset = (width * (1.0 - xScale)) / 2.0
         width *= xScale
         path.move(
           to:  CGPoint(
-            x: xOffset + width * HexagonParameters.startPoint.useWidth * HexagonParameters.startPoint.xFactors,
-            y: height * HexagonParameters.startPoint.useHeight * HexagonParameters.startPoint.yFactors
+            x: xOffset + width * CardPathParameters.startPoint.useWidth * CardPathParameters.startPoint.xFactors,
+            y: height * CardPathParameters.startPoint.useHeight * CardPathParameters.startPoint.yFactors
           )
         )
-
-        HexagonParameters.points.forEach {
+        
+        CardPathParameters.points.forEach {
           path.addLine(
             to: .init(
               x: xOffset + width * $0.useWidth * $0.xFactors,
@@ -90,7 +90,7 @@ fileprivate struct Card: View {
   var body: some View {
     ZStack {
       CardPath(color: self.color)
-      dinFont(Text(self.title).foregroundColor(self.textColor), UIGlobals.popupContentFontSize)
+      dinFont(Text(self.title).foregroundColor(self.textColor), UIGlobals.popupContentFontSize).offset(x: -9, y: -18)
     }
     .gesture(resetGesture.onEnded { _ in
       print("Card::resetGesture:action")
@@ -99,19 +99,17 @@ fileprivate struct Card: View {
       print("Card::addCardGesture:action")
       self.addAction()
     })
-
-
   }
 }
 
 fileprivate struct PlayerPenaltiesBoard: View {
   var type: PersonType = .none;
   @EnvironmentObject var settings: FightSettings
-
+  
   func getColor(_ expect: StatusCard, _ test: StatusCard) -> Color {
     return expect == test ? Color.yellow : Color.red
   }
-
+  
   func getCurrentCard(_ isPCard: Bool) -> StatusCard {
     switch self.type {
     case .left:
@@ -122,22 +120,22 @@ fileprivate struct PlayerPenaltiesBoard: View {
       return .none
     }
   }
-
-
+  
+  
   func getCard() -> StatusCard {
     return self.getCurrentCard(false) == .none ? StatusCard.yellow : StatusCard.red
   }
-
+  
   func getPCard() -> StatusCard {
     return self.getCurrentCard(true) == .passiveNone ? StatusCard.passiveYellow : StatusCard.passiveRed
-   }
-
+  }
+  
   var body: some View {
     VStack {
       Card(title: "P", color: .black, textColor: .white, addAction: {
         rs.persons[self.type].card = .passiveBlack
       }, resetAction: {
-         rs.persons[self.type].card = .passiveNone
+        rs.persons[self.type].card = .passiveNone
       })
       Card(title: "P", color: self.getColor(.passiveNone, getCurrentCard(true)), addAction: {
         let nextCard = self.getPCard()
@@ -147,7 +145,7 @@ fileprivate struct PlayerPenaltiesBoard: View {
         }
         rs.persons[self.type].card = nextCard
       }, resetAction: {
-         rs.persons[self.type].card = .passiveNone
+        rs.persons[self.type].card = .passiveNone
       })
       Card(title: "", color: self.getColor(.none, getCurrentCard(false)), addAction: {
         let nextCard = self.getCard()
@@ -160,25 +158,29 @@ fileprivate struct PlayerPenaltiesBoard: View {
         rs.persons[self.type].card = .none
       })
     }
-
+    
   }
 }
 fileprivate let holdLongPressDuration = 0.95
 fileprivate let resetGesture = LongPressGesture(minimumDuration: holdLongPressDuration)
 fileprivate let addCardGesture = TapGesture(count: 1)
 struct CardsSwiftUIView: View {
-
-
+  
+  
   var body: some View {
     VStack {
       HStack(spacing: 0) {
-         PlayerPenaltiesBoard(type: .left).frame(width: width / 2)
-         PlayerPenaltiesBoard(type: .right).frame(width: width / 2)
-       }
-      dinFont(Text("* hold to reset"))
-
+        PlayerPenaltiesBoard(type: .left).frame(width: width / 2)
+        PlayerPenaltiesBoard(type: .right).frame(width: width / 2)
+      }
+      dinFont(Text("* hold to reset"), UIGlobals.appSmallerFontSize)
+        .padding([.vertical], 5)
+        .frame(width: width)
+        .foregroundColor(.white)
+        .background(UIGlobals.headerBackground_SUI)
+      
     }
-
+    
   }
 }
 
