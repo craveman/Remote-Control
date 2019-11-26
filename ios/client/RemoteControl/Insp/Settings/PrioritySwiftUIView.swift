@@ -28,6 +28,7 @@ struct PriorityButtonSwiftUIView: View {
 }
 
 struct PrioritySwiftUIView: View {
+  @Environment(\.presentationMode) var presentationMode
   @State var hasPriority: Bool = rs.persons.left.isPriority || rs.persons.right.isPriority
   
   func setPriorityAction () {
@@ -47,7 +48,7 @@ struct PrioritySwiftUIView: View {
   func updateState() {
     self.hasPriority = rs.persons.left.isPriority || rs.persons.right.isPriority
   }
-  @Environment(\.presentationMode) var presentationMode
+  
   var body: some View {
     VStack(spacing: 0) {
       CommonModalHeader(title: "Priority")

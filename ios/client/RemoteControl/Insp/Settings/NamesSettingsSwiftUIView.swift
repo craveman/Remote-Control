@@ -31,8 +31,21 @@ struct NamesSettingsButtonSwiftUIView: View {
 
 
 struct NamesSettingsSwiftUIView: View {
+  @Environment(\.presentationMode) var presentationMode
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 0) {
+          CommonModalHeader(title: "Set names")
+          Spacer()
+          Text("Hello, World!")
+          Spacer()
+          
+          HStack {
+            ConfirmModalButton(action: {
+              self.presentationMode.wrappedValue.dismiss()
+            }, color: .green)
+          }.frame(width: width).padding([.vertical])
+            .border(Color.gray, width: 0.5)
+        }
     }
 }
 

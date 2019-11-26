@@ -51,8 +51,10 @@
 
 "John..." = "John...";
 "names" = "names";
+"title Set names" = "Names";
 
 "video replays" = "video replays";
+"title Video replays" = "Video replays";
 
 "priority" = "priority";
 "title Priority" = "Priority";
@@ -64,5 +66,7 @@
 "Foil" = "Foil";
 
 "score" = "score";
+"title Set score" = "Set score";
+
 
 "Disconnect this Remote Control?" = "Disconnect this Remote Control?";

@@ -51,8 +51,10 @@
 
 "John..." = "Иван...";
 "names" = "имена";
+"title Set names" = "Имена";
 
 "video replays" = "видео повторы";
+"title Video replays" = "Видео повторы";
 
 "priority" = "приоритет";
 "title Priority" = "Приоритет";
@@ -64,5 +66,6 @@
 "Foil" = "Рапира";
 
 "score" = "счёт";
+"title Set score" = "Установить счёт";
 
 "Disconnect this Remote Control?" = "Отключить этот пульт?";
