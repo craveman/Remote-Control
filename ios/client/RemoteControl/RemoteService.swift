@@ -327,7 +327,8 @@ final class RemoteService {
     let timeProperty: ObservableProperty<UInt32> = PrimitiveProperty<UInt32>(0)
     let modeProperty: ObserversManager<TimerMode> = FirableObserversManager<TimerMode>()
     let stateProperty: ObserversManager<TimerState> = FirableObserversManager<TimerState>()
-
+    let passive = PassiveManagement()
+    
     var time: UInt32 {
       return (timeProperty as! PrimitiveProperty<UInt32>).get()
     }

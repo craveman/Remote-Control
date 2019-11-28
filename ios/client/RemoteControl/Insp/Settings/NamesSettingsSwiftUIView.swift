@@ -32,11 +32,32 @@ struct NamesSettingsButtonSwiftUIView: View {
 
 struct NamesSettingsSwiftUIView: View {
   @Environment(\.presentationMode) var presentationMode
+  @State var leftName = rs.persons.left.name {
+    didSet {
+      print(leftName, rs.persons.left.name)
+      rs.persons.left.name = "\(leftName)"
+    }
+  }
+  @State var rightName = rs.persons.left.name {
+    didSet {
+      rs.persons.left.name = "\(rightName)"
+    }
+  }
     var body: some View {
         VStack(spacing: 0) {
           CommonModalHeader(title: "Set names")
           Spacer()
-          Text("Hello, World!")
+          VStack {
+            dinFont(Text("Left player"))
+            TextField("", text: $leftName)
+          }
+          
+          Spacer()
+          VStack {
+            dinFont(Text("Right player"))
+            TextField("", text: $rightName)
+          }
+          
           Spacer()
           
           HStack {

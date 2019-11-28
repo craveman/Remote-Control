@@ -83,7 +83,7 @@ extension UIView {
 }
 
 func getMinutes(_ timer: UInt32) -> String {
-  let m = Int(floor(Double(timer)/60000.0))
+  let m = Int(floor(ceil(100*Double(timer)/60000.0)/100))
   return "\(m > 9 ? "" : "0")\(m)"
 }
 
@@ -92,6 +92,12 @@ func getSeconds(_ timer: UInt32) -> String {
   return "\(s > 9 ? "" : "0")\(s)"
 }
 
-func getTimeString(_ timer: UInt32) -> String {
+func getTimeString(_ timer: UInt32, _ showMs: Bool = false) -> String {
+  if (showMs && timer < 10000) {
+    let sec = timer / 1000
+    let formatted = String(format: "%.1f", sec)
+    return "0:0\(formatted)"
+  }
+  
   return "\(getMinutes(timer)):\(getSeconds(timer))"
 }

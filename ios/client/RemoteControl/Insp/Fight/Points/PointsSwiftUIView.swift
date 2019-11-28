@@ -14,14 +14,18 @@ struct PointsSwiftUIView: View {
     rs.timer.start()
   }
   func stopAction() -> Void {
-    rs.timer.stop()
+    if rs.timer.state == .running {
+      rs.timer.stop()
+    }
   }
   var body: some View {
     VStack(spacing: 0) {
       FightControls().border(Color.gray, width: 0.5)
-      MyButtonModalView(action: startAction, onDismiss: stopAction)
+      StartTimerButtonWithModalView(action: startAction, onDismiss: stopAction)
         .padding(50)
-    }.frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: getSubScreenHeight(), idealHeight: height, maxHeight: .infinity, alignment: .top)
+      Spacer()
+    }
+//    .frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: getSubScreenHeight(), idealHeight: height, maxHeight: height, alignment: .top)
 
   }
 }
@@ -33,35 +37,16 @@ fileprivate struct FightControls: View {
       VStack {
         HoldPassiveButton()
         PointsStepper(pType: .left)
-
       }
       VStack {
         VideoButton()
         PointsStepper(pType: .right)
       }
-
-    }
-    .border(Color.gray)
+    }.border(Color.gray)
   }
 }
 
-fileprivate struct MyModalView: View {
-  @Environment(\.presentationMode) var presentationMode
-  var countdown: UInt32
-
-  var body: some View {
-
-    VStack {
-      dinFont(Text("\(getTimeString(countdown))"), UIGlobals.timerFontSize)
-        .padding(CGFloat(20))
-        .onTapGesture(count: 1, perform: {
-          self.presentationMode.wrappedValue.dismiss()
-        })
-    }
-  }
-}
-
-fileprivate struct MyButtonModalView: View {
+fileprivate struct StartTimerButtonWithModalView: View {
   var size = getButtonFrame(.fullWidth)
   @State var showModal = false
   @EnvironmentObject var settings: FightSettings
@@ -77,7 +62,23 @@ fileprivate struct MyButtonModalView: View {
     }
     .frame(width: size.idealWidth, height: size.idealHeight, alignment: size.alignment)
     .sheet(isPresented: self.$showModal, onDismiss: self.onDismiss) {
-      MyModalView(countdown: self.settings.time)
+      TimerModalView(countdown: self.settings.time)
+    }
+  }
+}
+
+fileprivate struct TimerModalView: View {
+  @Environment(\.presentationMode) var presentationMode
+  var countdown: UInt32
+
+  var body: some View {
+
+    VStack {
+      dinFont(Text("\(getTimeString(countdown, true))"), UIGlobals.timerFontSize)
+        .padding(CGFloat(20))
+        .onTapGesture(count: 1, perform: {
+          self.presentationMode.wrappedValue.dismiss()
+        })
     }
   }
 }

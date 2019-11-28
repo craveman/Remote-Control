@@ -9,23 +9,23 @@
 import SwiftUI
 
 struct FightSectionSwiftUIView: View {
-    @State var selectedTab = 0
-    
-    var body: some View {
-        VStack(spacing: 0) {
-            FightTabsSelectorsUIView(selectedTab: $selectedTab)
-            if $selectedTab.wrappedValue == 0 {
-                PointsSwiftUIView().alignmentGuide(VerticalAlignment.top, computeValue: {_ in 0})
-            } else if $selectedTab.wrappedValue == 1 {
-                TimersSwiftUIView().alignmentGuide(VerticalAlignment.top, computeValue: {_ in 0})
-            }
-        }
-        
+  @EnvironmentObject var settings: FightSettings
+  
+  var body: some View {
+    VStack(spacing: 0) {
+      FightTabsSelectorsUIView(selectedTab: $settings.fightSwitchActiveTab)
+      if settings.fightSwitchActiveTab == 0 {
+        PointsSwiftUIView()
+      } else if settings.fightSwitchActiveTab == 1 {
+        TimersSwiftUIView()
+      }
     }
+    
+  }
 }
 
 struct FightSectionSwiftUIView_Previews: PreviewProvider {
-    static var previews: some View {
-        FightSectionSwiftUIView()
-    }
+  static var previews: some View {
+    FightSectionSwiftUIView()
+  }
 }

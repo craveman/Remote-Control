@@ -38,6 +38,9 @@
 		85B95704237B608C0063E32C /* FightTabsSelectorsUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B95703237B608C0063E32C /* FightTabsSelectorsUIView.swift */; };
 		85B95706237E06C50063E32C /* TimersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B95705237E06C50063E32C /* TimersSwiftUIView.swift */; };
 		85B95708237E07130063E32C /* FightSectionSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B95707237E07130063E32C /* FightSectionSwiftUIView.swift */; };
+		85D6E91D2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E91C2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift */; };
+		85D6E91F23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E91E23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift */; };
+		85D6E9212390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */; };
 		8F07A75123892F4800C7F783 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F07A75323892F4800C7F783 /* Localizable.strings */; };
 		8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6D773C237D2C530077B65D /* RemoteService.swift */; };
 		8FA249162384A24C006A65C6 /* ObservableProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA249152384A24C006A65C6 /* ObservableProperty.swift */; };
@@ -117,6 +120,9 @@
 		85B95703237B608C0063E32C /* FightTabsSelectorsUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightTabsSelectorsUIView.swift; sourceTree = "<group>"; };
 		85B95705237E06C50063E32C /* TimersSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimersSwiftUIView.swift; sourceTree = "<group>"; };
 		85B95707237E07130063E32C /* FightSectionSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightSectionSwiftUIView.swift; sourceTree = "<group>"; };
+		85D6E91C2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPeriodButtonSwiftUIView.swift; sourceTree = "<group>"; };
+		85D6E91E23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimeButtonSwiftUIView.swift; sourceTree = "<group>"; };
+		85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPassiveButtonSwiftUIView.swift; sourceTree = "<group>"; };
 		8F07A75223892F4800C7F783 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8F07A75523892FB000C7F783 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8F6D773C237D2C530077B65D /* RemoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
@@ -205,6 +211,9 @@
 				85B95705237E06C50063E32C /* TimersSwiftUIView.swift */,
 				851AE9B223874353001BE3FB /* ResetBoutUIView.swift */,
 				851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */,
+				85D6E91C2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift */,
+				85D6E91E23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift */,
+				85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */,
 			);
 			path = Timers;
 			sourceTree = "<group>";
@@ -482,6 +491,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85D6E91D2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift in Sources */,
 				850AAEDE232723F400DBFD93 /* ConnectionsViewController.swift in Sources */,
 				851AE9BD23876424001BE3FB /* DraggableCircle.swift in Sources */,
 				B9C8BEE02305A2C5004DBBF8 /* QrViewController.swift in Sources */,
@@ -507,6 +517,7 @@
 				851AE9B12385F56B001BE3FB /* SwiftUITools.swift in Sources */,
 				850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */,
 				851AE9C323893D06001BE3FB /* CardsSwiftUIView.swift in Sources */,
+				85D6E91F23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift in Sources */,
 				851AE9CF2389E4F2001BE3FB /* WeaponsSwiftUIView.swift in Sources */,
 				8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */,
 				851AE9C52389D4FE001BE3FB /* PrioritySwiftUIView.swift in Sources */,
@@ -515,6 +526,7 @@
 				85B95704237B608C0063E32C /* FightTabsSelectorsUIView.swift in Sources */,
 				85A9934A23109CB7003FC5BE /* RcViewController.swift in Sources */,
 				851AE9BF23892D71001BE3FB /* CommonViewController.swift in Sources */,
+				85D6E9212390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift in Sources */,
 				85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

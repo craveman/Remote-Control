@@ -48,7 +48,7 @@ struct DisconnectSwiftUIView: View {
         ConfirmModalButton(action: {
           rs.connection.disconnect()
           self.presentationMode.wrappedValue.dismiss()
-        }, text: "disconnect", color: .red, imageName: "multiply")
+        }, text: "disconnect", color: .red, imageName: "power")
       }.frame(width: width).padding([.vertical])
         .border(Color.gray, width: 0.5)
     }

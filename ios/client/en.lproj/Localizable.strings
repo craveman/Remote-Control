@@ -68,5 +68,19 @@
 "score" = "score";
 "title Set score" = "Set score";
 
+"title Period" = "Set period";
+"next period" = "next";
+
+"title Passive" = "Passive timer";
+
+"title Time" = "Set time";
+
+"button medical" = "medical";
+"medical pause 1" = "medical";
+"medical pause 2" = "pause";
+
+"button 1' pause" = "1' pause";
+"1' pause 1" = "pause";
+"1' pause 2" = "1 min";
 
 "Disconnect this Remote Control?" = "Disconnect this Remote Control?";

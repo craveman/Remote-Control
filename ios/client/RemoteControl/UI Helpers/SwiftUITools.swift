@@ -11,6 +11,8 @@ import SwiftUI
 var bounds = UIScreen.main.bounds
 var width = bounds.size.width
 var height = bounds.size.height
+var fontName = "DIN Alternate"
+var primaryFont = Font.custom(fontName, size: 20)
 var primaryColor: Color = UITraitCollection.current.userInterfaceStyle == .light ? .black : .white
 
 struct SwiftUITools: View {
@@ -32,7 +34,7 @@ func heightOfButton() -> CGFloat {
 
 
 func mediumHeightOfButton() -> CGFloat {
-  return height / 5.6
+  return height / 5
 }
 
 func halfSizeButton() -> CGFloat {
@@ -45,7 +47,7 @@ func fullSizeButton() -> CGFloat {
 }
 
 func dinFont(_ view: Text, _ size: CGFloat = UIGlobals.appDefaultFontSize) -> Text {
-  return view.font(Font.custom("DIN Alternate", size: size).bold())
+  return view.font(Font.custom(fontName, size: size).bold())
 }
 
 func primaryColor(_ text: Text) -> Text {
@@ -80,10 +82,13 @@ func getButtonFrame(_ size: ButtonType) -> (
     case .doubleHeight:
       h = 2 * h
     case .withImage:
-      h = mediumHeightOfButton()
-    case .disconnect, .special:
+      h = height / 5.8
+    case .disconnect:
       w = fullSizeButton()
-      h = height / 6.2
+      h = height / 6
+    case .special:
+      w = fullSizeButton()
+      h = height / 6.4
     default:
       break
     }
@@ -153,3 +158,49 @@ struct Passthrough<Content>: View where Content: View {
   
 }
 
+struct EdgeBorder: Shape {
+
+    var width: CGFloat
+    var edge: Edge
+
+    func path(in rect: CGRect) -> Path {
+        var x: CGFloat {
+            switch edge {
+            case .top, .bottom, .leading: return rect.minX
+            case .trailing: return rect.maxX - width
+            }
+        }
+
+        var y: CGFloat {
+            switch edge {
+            case .top, .leading, .trailing: return rect.minY
+            case .bottom: return rect.maxY - width
+            }
+        }
+
+        var w: CGFloat {
+            switch edge {
+            case .top, .bottom: return rect.width
+            case .leading, .trailing: return self.width
+            }
+        }
+
+        var h: CGFloat {
+            switch edge {
+            case .top, .bottom: return self.width
+            case .leading, .trailing: return rect.height
+            }
+        }
+
+        return Path( CGRect(x: x, y: y, width: w, height: h) )
+    }
+}
+
+extension View {
+    func border(width: CGFloat, edge: Edge, color: Color) -> some View {
+      ZStack {
+            self
+            EdgeBorder(width: width, edge: edge).foregroundColor(color)
+        }
+    }
+}

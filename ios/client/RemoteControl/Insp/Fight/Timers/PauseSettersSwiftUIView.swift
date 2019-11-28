@@ -47,7 +47,7 @@ struct PauseSetters: View {
 
   var body: some View {
     HStack(spacing: 0) {
-      CommonModalButton(imageName: "plus", imageColor: .red, text: "medical", action: {
+      CommonModalButton(imageName: "plus", imageColor: .red, text: "button medical", action: {
         self.start(INSPIRATION_MED_TIMOUT, .medicine)
       }, onDismiss: {
         let time = self.savedTime ?? INSPIRATION_DEF_TIMOUT
@@ -60,7 +60,7 @@ struct PauseSetters: View {
       } ,content: {
         MedicalPauseModalContentUIView(time: self.$settings.time)
       })
-      CommonModalButton(imageName: "timer", imageColor: .yellow, text: "1' pause", action: {
+      CommonModalButton(imageName: "timer", imageColor: .yellow, text: "button 1' pause", action: {
         self.start(INSPIRATION_SHORT_TIMOUT, .pause)
       }, onDismiss: {
         print("PauseSetters::1_min_pause:onDismiss")
@@ -90,9 +90,9 @@ struct MedicalPauseModalContentUIView: View {
         .onTapGesture(count: 1, perform: {
           self.presentationMode.wrappedValue.dismiss()
         })
-      primaryColor(dinFont(Text("medical"), UIGlobals.popupContentFontSize))
+      primaryColor(dinFont(Text("medical pause 1"), UIGlobals.popupContentFontSize))
         .padding(.top).fixedSize()
-      primaryColor(dinFont(Text("pause"), UIGlobals.popupContentFontSize)).fixedSize()
+      primaryColor(dinFont(Text("medical pause 2"), UIGlobals.popupContentFontSize)).fixedSize()
       Spacer()
       HStack {
         ConfirmModalButton(action: {
@@ -117,9 +117,9 @@ struct PauseModalContentUIView: View {
         .onTapGesture(count: 1, perform: {
           self.presentationMode.wrappedValue.dismiss()
         })
-      primaryColor(dinFont(Text("pause"), UIGlobals.popupContentFontSize))
+      primaryColor(dinFont(Text("1' pause 1"), UIGlobals.popupContentFontSize))
         .padding(.top).fixedSize()
-      primaryColor(dinFont(Text("1 min"), UIGlobals.popupContentFontSize)).fixedSize()
+      primaryColor(dinFont(Text("1' pause 2"), UIGlobals.popupContentFontSize)).fixedSize()
       Spacer()
       HStack {
         ConfirmModalButton(action: {

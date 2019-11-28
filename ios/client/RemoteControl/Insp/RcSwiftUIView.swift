@@ -9,9 +9,10 @@
 import SwiftUI
 
 struct RcSwiftUIView: View {
-  @State private var currentTab = 1
+  @EnvironmentObject var settings: FightSettings
+  
   var body: some View {
-    TabView(selection: $currentTab) {
+    TabView(selection: $settings.tab) {
       CardsSwiftUIView()
         .tabItem {
           Image(systemName: "square.fill")
@@ -24,7 +25,7 @@ struct RcSwiftUIView: View {
           Text("Fight")
       }.tag(1)
       
-      SettingsSwiftUIView(tabsSelectedControl: $currentTab)
+      SettingsSwiftUIView()
         .tabItem {
           Image(systemName: "arrowtriangle.down.fill")
           Text("SettingsTab")

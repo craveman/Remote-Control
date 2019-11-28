@@ -136,12 +136,135 @@ struct CommonButtonsSwiftUIView: View {
   }
 }
 
+struct CommonFloatSlider: View {
+  @Binding var sliderValue: Double
+  var minimumValue: Double = 0.0
+  var maximumvalue = 100.0
+  var formatter: (_ value: Double) -> String = {value in
+    return "\(Int(value))"
+  }
+  var body: some View {
+    VStack {
+      HStack {
+        primaryColor(dinFont(Text("\(formatter(minimumValue))")))
+        Slider(value: $sliderValue, in: minimumValue...maximumvalue)
+        primaryColor(dinFont(Text("\(formatter(maximumvalue))")))
+      }.padding()
+      primaryColor(dinFont(Text("\(formatter(sliderValue))")))
+    }
+  }
+}
+
+func getPickerOptions(_ count: Int) -> [[String]] {
+  guard count > 0 else {
+    return []
+  }
+  return Array(0...(count-1)).map({_ in Array(0...9).map({"\($0)"})})
+}
+
+struct CommonPicker: View {
+  @Binding var selected: Int
+  var options: [String] = getPickerOptions(1)[0]
+  var label = ""
+  var body: some View {
+    
+    GeometryReader { geometry in
+      
+      HStack {
+        Picker(selection: self.$selected, label: Text("\(self.label)")) {
+          ForEach(0 ..< self.options.count) {
+            Text(self.options[$0]).tag($0)
+          }
+        }.frame(width: geometry.size.width, height: geometry.size.height)
+        .clipped()
+      }
+    }
+  }
+  
+}
+
+
+struct CommonBundlePicker: View {
+  @Binding var selected: [Int]
+  var options: [[String]] = []
+  var label = ""
+  var body: some View {
+    GeometryReader { geometry in
+      
+      HStack
+        {
+          ForEach(0 ..< self.options.count) { pos in
+            
+            Picker(selection: self.$selected[pos], label: Text("\(self.label)")) {
+              ForEach(0 ..< self.options[pos].count) {
+                Text(self.options[pos][$0]).tag($0)
+              }
+            }.pickerStyle(WheelPickerStyle())
+              .frame(width: geometry.size.width / CGFloat(self.options.count), height: geometry.size.height)
+              .clipped()
+            
+          }
+          //             Picker(selection: self.$selection, label: Text(""))
+          //             {
+          //                  ForEach(0 ..< self.data1.count)
+          //                  {
+          //                      Text(self.data1[$0])
+          //                         .color(Color.white)
+          //                         .tag($0)
+          //                  }
+          //              }
+          //              .pickerStyle(.wheel)
+          //              .fixedSize(horizontal: true, vertical: true)
+          //              .frame(width: geometry.size.width / 2, height: geometry.size.height, alignment: .center)
+          //
+          //
+          //              Picker(selection: self.$selection2, label: Text(""))
+          //              {
+          //                   ForEach(0 ..< self.data2.count)
+          //                   {
+          //                       Text(self.data2[$0])
+          //                           .color(Color.white)
+          //                           .tag($0)
+          //                   }
+          //              }
+          //              .pickerStyle(.wheel)
+          //              .fixedSize(horizontal: true, vertical: true)
+          //              .frame(width: geometry.size.width / 2, height: geometry.size.height, alignment: .center)
+          
+      }
+    }
+    
+    
+  }
+  
+}
+
+struct PickerHolderView: View {
+  @State var testSelect = 1
+  @State var testBundleSelect = [1, 1]
+  var body: some View {
+    VStack {
+      CommonPicker(selected: $testSelect, options: ["2","3", "4"], label: "Select")
+      CommonBundlePicker(
+        selected: $testBundleSelect, options: [["2","3", "4"], ["5", "6", "7"]], label: "Bundle Select"
+      )
+    }
+    
+  }
+}
+
 struct CommonButtonsSwiftUIView_Previews: PreviewProvider {
   static var previews: some View {
     CommonButtonsSwiftUIView()
   }
 }
 
+
+struct CommonButtonsSwiftUIView2_Previews: PreviewProvider {
+  static var previews: some View {
+    PickerHolderView()
+  }
+}
 
 // .actionSheet(isPresented: self.$showModal) {
 //          ActionSheet(title: "Action")

@@ -30,12 +30,30 @@ struct VideoButton: View {
 
 fileprivate struct VideoRC: View {
   @Environment(\.presentationMode) var presentationMode
+  @State var position: Double = 0//rs.video.player.timestamp
+  @State var speed: Double = 10 {
+    didSet {
+       print("Old value is \(speed), new value is \(oldValue)")
+      guard Int(speed * 10) == Int(speed) * 10 else {
+         self.speed = Double(Int(speed))
+        return
+      }
+    }
+  }
   var body: some View {
     VStack(spacing: 0) {
       CommonModalHeader(title: "Video replays")
       Spacer()
-      Text("Hello, World!")
-      //        Text("Position")
+//      Text("Hello, World!")
+      VStack {
+        CommonFloatSlider(sliderValue: $position, minimumValue: 0, maximumvalue: 100, formatter: { _ in "" })
+        primaryColor(dinFont(Text("position")))
+      }
+      VStack {
+        CommonFloatSlider(sliderValue: $speed, minimumValue: 0, maximumvalue: 10, formatter: { _ in "" })
+        primaryColor(dinFont(Text("speed")))
+      }
+      
       //        Text("Speed")
       Spacer()
       

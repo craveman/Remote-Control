@@ -45,7 +45,7 @@ class RcViewController: UIViewController {
 
   private func setSubscriptions() {
     rs.timer.timeProperty.on(change: { update in
-      print(update)
+      print("update timeProperty: \(update)")
       print(getTimeString(update))
       self.onMainThread({self.game.time = update})
     })
@@ -138,7 +138,9 @@ class FightSettings: ObservableObject {
   @Published var rightScore: UInt8 = 0
   @Published var time: UInt32 = 500000
   @Published var isRunning = false
-  @Published var showPassive = false
+  @Published var showPassive = true
   @Published var holdPassive = false
   @Published var weapon: Weapon = .none
+  @Published var tab: Int = 1
+  @Published var fightSwitchActiveTab: Int = 0
 }

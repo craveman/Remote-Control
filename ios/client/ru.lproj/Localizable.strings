@@ -43,6 +43,7 @@
 "tab Main" = "Главные";
 "tab Timers" = "Таймеры";
 
+"confirm" = "да";
 "done" = "готово";
 "cancel" = "отмена";
 "disconnect" = "отключить";
@@ -54,7 +55,7 @@
 "title Set names" = "Имена";
 
 "video replays" = "видео повторы";
-"title Video replays" = "Видео повторы";
+"title Video replays" = "Видеоповтор";
 
 "priority" = "приоритет";
 "title Priority" = "Приоритет";
@@ -67,5 +68,31 @@
 
 "score" = "счёт";
 "title Set score" = "Установить счёт";
+
+"title Period" = "Установить период";
+"next period" = "следующий";
+
+"title Passive" = "Таймер пассива";
+"do not show passive" = "скрыть счётчик";
+"show passive" = "показать счётчик";
+"hold passive" = "удерж. пассив";
+
+"view video" = "видеоповтор";
+
+"title Time" = "Время";
+
+"button medical" = "мед. пауза";
+"medical pause 1" = "медицинская";
+"medical pause 2" = "пауза";
+
+"button 1' pause" = "1' пауза";
+"1' pause 1" = "пауза";
+"1' pause 2" = "1 минута";
+
+
+"set passive" = "пассив";
+"set time" = "время";
+"set period" = "период";
+"reset bout" = "сброс раунда";
 
 "Disconnect this Remote Control?" = "Отключить этот пульт?";
