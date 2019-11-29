@@ -101,3 +101,9 @@ func getTimeString(_ timer: UInt32, _ showMs: Bool = false) -> String {
   
   return "\(getMinutes(timer)):\(getSeconds(timer))"
 }
+
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
