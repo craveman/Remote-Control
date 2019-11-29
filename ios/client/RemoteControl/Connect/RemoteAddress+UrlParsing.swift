@@ -15,8 +15,8 @@ import class Sm02Client.RemoteAddress
 
 extension RemoteAddress {
 
-  static func parse (url: String) -> Result<RemoteAddress, ParsingError> {
-    let trimmedUrl = url.trimmingCharacters(in: .whitespacesAndNewlines)
+  static func parse (urlString: String) -> Result<RemoteAddress, ParsingError> {
+    let trimmedUrl = urlString.trimmingCharacters(in: .whitespacesAndNewlines)
     guard let components = URLComponents(string: trimmedUrl) else {
       return .failure(.invalidUrl)
     }
