@@ -94,7 +94,7 @@ func getSeconds(_ timer: UInt32) -> String {
 
 func getTimeString(_ timer: UInt32, _ showMs: Bool = false) -> String {
   if (showMs && timer < 10000) {
-    let sec = timer / 1000
+    let sec = Double(timer) / 1000
     let formatted = String(format: "%.1f", sec)
     return "0:0\(formatted)"
   }

@@ -9,6 +9,8 @@
 import UIKit
 import SwiftUI
 
+let GAME_DEFAULT_TIME: UInt32 = 180000
+
 class RcViewController: UIViewController {
 
   @IBOutlet weak var fightSubView: UIView!
@@ -37,33 +39,55 @@ class RcViewController: UIViewController {
   }
 
   private func onMainThread(_ callback:  @escaping () -> Void) {
-    DispatchQueue.main.asyncAfter(deadline: .now()) {
+    DispatchQueue.main.async {
       //            print("\(delay) milliseconds later")
       callback()
     }
   }
 
   private func setSubscriptions() {
+    rs.connection.isAuthenticatedProperty.on(change: { isAuth in
+      guard !isAuth else {
+        
+        return
+      }
+      self.presentingViewController?.dismiss(animated: true, completion: {})
+    })
+    
     rs.timer.timeProperty.on(change: { update in
-      print("update timeProperty: \(update)")
-      print(getTimeString(update))
+      guard self.game.time != update else {
+        return
+      }
       self.onMainThread({self.game.time = update})
     })
     rs.timer.stateProperty.on(change: { timerState in
-      self.onMainThread({self.game.isRunning = timerState == .running})
+      let isRun = timerState == .running;
+      guard self.game.isRunning != isRun else {
+        return
+      }
+      self.onMainThread({self.game.isRunning = isRun})
     })
 
     rs.display.passiveProperty.on(change: { showPassive in
+      guard self.game.showPassive != showPassive else {
+        return
+      }
       self.onMainThread({self.game.showPassive = showPassive})
     })
     
     rs.competition.weaponProperty.on(change: { weapon in
+      guard self.game.weapon != weapon else {
+        return
+      }
       self.onMainThread({self.game.weapon = weapon})
     })
 
 
     //        left
     rs.persons.left.scoreProperty.on(change: { score in
+      guard self.game.leftScore != score else {
+        return
+      }
       self.onMainThread({self.game.leftScore = score})
     })
     rs.persons.left.cardProperty.on(change: { card in
@@ -72,6 +96,9 @@ class RcViewController: UIViewController {
 
     //        right
     rs.persons.right.scoreProperty.on(change: { score in
+      guard self.game.rightScore != score else {
+        return
+      }
       self.onMainThread({self.game.rightScore = score})
     })
     rs.persons.right.cardProperty.on(change: { card in
@@ -112,7 +139,7 @@ class RcViewController: UIViewController {
 
   private func updateGame() {
     self.game.isRunning = false
-    self.game.time = 180000
+    self.game.time = GAME_DEFAULT_TIME
   }
 
   private func addViewControllerAsChildViewController(childViewController: UIViewController) {
@@ -136,11 +163,24 @@ class FightSettings: ObservableObject {
   @Published var rightCard: StatusCard = .none
   @Published var leftScore: UInt8 = 0
   @Published var rightScore: UInt8 = 0
-  @Published var time: UInt32 = 500000
+  @Published var time: UInt32 = GAME_DEFAULT_TIME
   @Published var isRunning = false
   @Published var showPassive = true
   @Published var holdPassive = false
   @Published var weapon: Weapon = .none
   @Published var tab: Int = 1
   @Published var fightSwitchActiveTab: Int = 0
+  
+  func resetBout() {
+    self.leftScore = 0
+    self.rightScore = 0
+    self.time = GAME_DEFAULT_TIME
+    self.tab = 1
+    self.fightSwitchActiveTab = 0
+    self.isRunning = false
+    self.leftCard = .none
+    self.rightCard = .none
+    self.leftCardP = .passiveNone
+    self.rightCardP = .passiveNone
+  }
 }
