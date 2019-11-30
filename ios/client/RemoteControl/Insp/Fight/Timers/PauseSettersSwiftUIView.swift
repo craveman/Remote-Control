@@ -70,10 +70,10 @@ struct PauseSetters: View {
   }
   
   func unsubscribeFinish() -> Void {
-    guard PAUSE_FINISHED_LISTENER_ID != nil else {
+    guard let uuid = PAUSE_FINISHED_LISTENER_ID else {
       return
     }
-    rs.timer.passive.isPauseFinishedProperty.remove(observer: PAUSE_FINISHED_LISTENER_ID)
+    rs.timer.passive.isPauseFinishedProperty.remove(observer: uuid)
   }
 
   
@@ -84,6 +84,7 @@ struct PauseSetters: View {
         PAUSE_FINISHED_LISTENER_ID = rs.timer.passive.isPauseFinishedProperty.on(change: { isFinished in
           if (isFinished) {
             self.medicalDismissAction()
+            Vibration.on()
           }
         })
       }, onDismiss: {
@@ -96,6 +97,7 @@ struct PauseSetters: View {
         PAUSE_FINISHED_LISTENER_ID = rs.timer.passive.isPauseFinishedProperty.on(change: { isFinished in
           if (isFinished) {
             self.pauseDismissAction()
+            Vibration.on()
           }
         })
       }, onDismiss: {

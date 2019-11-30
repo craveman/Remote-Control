@@ -1,6 +1,7 @@
 
-import AVFoundation
-import UIKit
+import func AVFoundation.AudioServicesPlaySystemSound
+import typealias AVFoundation.SystemSoundID
+import var AVFoundation.kSystemSoundID_Vibrate
 
 enum Vibration {
 
