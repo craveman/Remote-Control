@@ -64,6 +64,9 @@ class QrViewController: UIViewController {
         return
       }
       self.reader.stopScanning()
+
+      Vibration.on()
+
       switch RemoteAddress.parse(urlString: result.value) {
       case .success(let remote):
         self.qrCodeProcessor!.on(success: remote)
@@ -87,7 +90,7 @@ class QrViewController: UIViewController {
     
     func on (success remote: RemoteAddress) {
       print("parsed \(remote)")
-      
+
       let titleString = NSLocalizedString("QR scanner", comment: "")
       let bodyString = NSLocalizedString("The code is recognized", comment: "")
       let okString = NSLocalizedString("Connect", comment: "")
