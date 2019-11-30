@@ -14,6 +14,7 @@ var height = bounds.size.height
 var fontName = "DIN Alternate"
 var primaryFont = Font.custom(fontName, size: 20)
 var primaryColor: Color = UITraitCollection.current.userInterfaceStyle == .light ? .black : .white
+var secondaryColor: Color = UITraitCollection.current.userInterfaceStyle == .light ?  .white : .black
 
 struct SwiftUITools: View {
   var body: some View {

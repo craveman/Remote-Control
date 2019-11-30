@@ -41,6 +41,7 @@
 		85D6E91D2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E91C2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift */; };
 		85D6E91F23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E91E23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift */; };
 		85D6E9212390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */; };
+		85D6E9252393049500CBE74D /* TestTimersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */; };
 		8F07A75123892F4800C7F783 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F07A75323892F4800C7F783 /* Localizable.strings */; };
 		8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6D773C237D2C530077B65D /* RemoteService.swift */; };
 		8FA249162384A24C006A65C6 /* ObservableProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA249152384A24C006A65C6 /* ObservableProperty.swift */; };
@@ -124,6 +125,7 @@
 		85D6E91C2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPeriodButtonSwiftUIView.swift; sourceTree = "<group>"; };
 		85D6E91E23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimeButtonSwiftUIView.swift; sourceTree = "<group>"; };
 		85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPassiveButtonSwiftUIView.swift; sourceTree = "<group>"; };
+		85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTimersSwiftUIView.swift; sourceTree = "<group>"; };
 		8F07A75223892F4800C7F783 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8F07A75523892FB000C7F783 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8F6D773C237D2C530077B65D /* RemoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				851AE9B823875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift */,
 				851AE9BA23875FA4001BE3FB /* SegmentedPickerElementView.swift */,
 				851AE9BC23876424001BE3FB /* DraggableCircle.swift */,
+				85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */,
 			);
 			path = "UI Helpers";
 			sourceTree = "<group>";
@@ -528,6 +531,7 @@
 				8FA249162384A24C006A65C6 /* ObservableProperty.swift in Sources */,
 				85B956FE237A2CA70063E32C /* HoldPassiveButton.swift in Sources */,
 				85B95704237B608C0063E32C /* FightTabsSelectorsUIView.swift in Sources */,
+				85D6E9252393049500CBE74D /* TestTimersSwiftUIView.swift in Sources */,
 				85A9934A23109CB7003FC5BE /* RcViewController.swift in Sources */,
 				851AE9BF23892D71001BE3FB /* CommonViewController.swift in Sources */,
 				85D6E9212390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift in Sources */,
@@ -741,7 +745,7 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = NB936833RX;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -752,7 +756,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.0.11;
+				MARKETING_VERSION = 1.0.14;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -769,7 +773,7 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = NB936833RX;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -780,7 +784,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.0.11;
+				MARKETING_VERSION = 1.0.14;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
