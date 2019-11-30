@@ -13,8 +13,10 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
   @IBOutlet weak var qrReaderSubViewWrapper: UIView!
 
   override func viewDidAppear (_ animated: Bool) {
-    let scanner = getScanner()
-    scanner.onSuccess = { [weak self] in
+    getScanner()?.onSuccess = { [weak self] in
+      guard self == self else {
+        return
+      }
       self?.jumpToInspiration()
     }
 
@@ -24,18 +26,24 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     super.viewDidAppear(animated)
   }
 
-  private func getScanner () -> QrViewController {
-    return qrReaderSubViewWrapper.subviews[0].next as! QrViewController
+  private func getScanner () -> QrViewController? {
+    guard qrReaderSubViewWrapper.subviews.count > 0 else {
+      return nil
+    }
+    return qrReaderSubViewWrapper.subviews[0].next as? QrViewController
   }
 
   override func prepare (for segue: UIStoryboardSegue, sender: Any?) {
+    guard qrReaderSubViewWrapper.subviews.count > 0 else {
+      return
+    }
     if segue.identifier == "skipQR" {
       segue.destination.presentationController?.delegate = (self as UIAdaptivePresentationControllerDelegate)
     }
     if isSimulationEnv() {
       return
     }
-    if let qrReader = qrReaderSubViewWrapper.next as? QrViewController {
+    if let qrReader = qrReaderSubViewWrapper.subviews[0].next as? QrViewController {
       qrReader.stopScanner()
     }
   }
@@ -69,7 +77,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
       skipQR()
       return
     }
-    getScanner().startScanner()
+    getScanner()?.startScanner()
   }
 
   private func jumpToInspiration () {

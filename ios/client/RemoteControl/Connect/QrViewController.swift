@@ -30,6 +30,7 @@ class QrViewController: UIViewController {
   var onSuccess: (() -> Void) = { print ("Not defined success action") }
   
   override func viewDidAppear (_ animated: Bool) {
+    self.qrCodeProcessor = QrCodeProcessor(controller: self)
     super.viewDidAppear(animated)
     startScanner()
   }
@@ -54,7 +55,7 @@ class QrViewController: UIViewController {
     guard scanPermissionsChecker.check(), !reader.isRunning else {
       return
     }
-    self.qrCodeProcessor = QrCodeProcessor(controller: self)
+
     reader.didFindCode = { [weak self] (result) in
       guard let self = self else {
         return
@@ -63,12 +64,12 @@ class QrViewController: UIViewController {
         return
       }
       self.reader.stopScanning()
-      let result = RemoteAddress.parse(urlString: result.value)
-      switch result {
+      let proc = self.qrCodeProcessor!
+      switch RemoteAddress.parse(urlString: result.value) {
       case .success(let remote):
-        self.qrCodeProcessor!.on(success: remote)
+        proc.on(success: remote)
       case .failure(let error):
-        self.qrCodeProcessor!.on(failure: error)
+        proc.on(failure: error)
       }
     }
     
