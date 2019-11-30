@@ -16,7 +16,7 @@ struct SetPeriodButtonSwiftUIView: View {
 
 
 fileprivate struct PeriodSetter: View {
-  @State var period = 0
+  @State var period = Int(rs.competition.period)
   var body: some View {
     CommonModalButton(imageName: "textformat.123", imageColor: primaryColor , buttonType: .special, text: "set period", onDismiss: {
       rs.competition.period = UInt8(self.period + 1)
@@ -38,6 +38,7 @@ fileprivate struct PeriodModalContent: View {
       Spacer()
       CommonButton(action: {
         self.period += 1
+        rs.competition.period = UInt8(self.period + 1)
       }, text: "next period", frame: getButtonFrame(.special))
         .opacity(period < maxPeriod - 1 ? 1 : 0)
         .disabled(period >= maxPeriod - 1)

@@ -37,13 +37,10 @@ fileprivate struct PassiveModalContent: View {
   
   init(selectedTime time: Binding<UInt32>) {
     self._selectedTime = time
-    print("time.wrappedValue:")
-    print(time.wrappedValue)
 
     self._secCent = State(wrappedValue: getSelectedTime(time.wrappedValue, divideBy: multiplication[0]*1000))
     self._secDeci = State(wrappedValue: getSelectedTime(time.wrappedValue, divideBy: multiplication[1]*1000))
     self._secUnit = State(wrappedValue: getSelectedTime(time.wrappedValue, divideBy: multiplication[2]*1000))
-    print(self.secCent, self.secDeci, self.secUnit)
   }
   
   func getSecCount() -> Int64 {
@@ -99,14 +96,8 @@ fileprivate struct ShowPassiveToggleButtonSwiftUIView: View {
   var body: some View {
       Button(action: {
         self.settings.showPassive.toggle()
-        
-        if (!self.settings.showPassive) {
-          print("start holding passive because !self.settings.showPassive")
-          self.settings.holdPassive = true
-          rs.timer.passive.isBlocked = true
-        }
         rs.timer.passive.isVisible = self.settings.showPassive
-        print("toggle passive visibility")
+        
       }) {
         primaryColor(dinFont(Text(NSLocalizedString(getShowToggleText(), comment: ""))))
       }
