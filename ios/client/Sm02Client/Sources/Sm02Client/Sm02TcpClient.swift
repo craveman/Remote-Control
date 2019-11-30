@@ -64,6 +64,9 @@ class Sm02TcpClient: Sm02Client {
   }
 
   func send (message: Outbound) {
+    if isConnected == false {
+      return
+    }
     channel?.writeAndFlush(message, promise: nil)
   }
 
