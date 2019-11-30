@@ -17,7 +17,7 @@ struct ResetBoutButton: View {
     }, onDismiss: {
       print("ResetBoutButton:onDismiss")
     }, content: {
-      ResetBoutModalContentUIView().environmentObject(settings)
+      ResetBoutModalContentUIView().environmentObject(self.settings)
     })
   }
 }
@@ -44,7 +44,7 @@ struct ResetBoutModalContentUIView: View {
           .border(Color.gray, width: 0.5)
         ConfirmModalButton(action: {
           rs.competition.reset()
-          settings.resetBout()
+          self.settings.resetBout()
           self.presentationMode.wrappedValue.dismiss()
         }, text: "confirm", color: .green)
           .frame(width: width/2)
