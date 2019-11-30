@@ -57,8 +57,8 @@ fileprivate struct WeaponButton: View {
         }
         .padding([.vertical])
         .frame(width: width)
-        .background(isSelected() ? UIGlobals.activeButtonBackground_SUI : .white)
-        .foregroundColor(isSelected() ? .white :primaryColor)
+        .background(isSelected() ? UIGlobals.activeButtonBackground_SUI : Color.clear)
+        .foregroundColor(isSelected() ? secondaryColor : primaryColor)
       } else {
         Text("Invalid Button id")
       }
