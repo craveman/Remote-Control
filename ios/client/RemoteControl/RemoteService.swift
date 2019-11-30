@@ -115,8 +115,11 @@ final class RemoteService {
       return result
     }
 
-    func disconnect () {
+    func disconnect (temporary: Bool = false) {
       Sm02.disconnect()
+      if temporary == false {
+        forget()
+      }
     }
 
     func forget () {
