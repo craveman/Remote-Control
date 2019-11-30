@@ -175,6 +175,7 @@ class FightSettings: ObservableObject {
   @Published var holdPassive = false
   @Published var weapon: Weapon = .none
   @Published var tab: Int = 1
+  @Published var presentedModal: UUID?
   @Published var period: Int = 0 {
     didSet {
       print("settings.period updated to \(period)")
