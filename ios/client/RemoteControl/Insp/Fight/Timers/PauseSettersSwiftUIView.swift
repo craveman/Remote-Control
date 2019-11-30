@@ -14,11 +14,12 @@ let INSPIRATION_SHORT_TIMOUT = TimeAmount.minutes(1)
 let INSPIRATION_DEF_TIMOUT = TimeAmount.minutes(3)
 
 var PAUSE_DISSMISED_DEFERED_ACTION_TIMER: Timer? = nil
-
+var PAUSE_FINISHED_LISTENER_ID: UUID? = nil
 struct PauseSetters: View {
 
   @EnvironmentObject var settings: FightSettings
   @State var savedTime: TimeAmount? = nil
+  
 
   func dismiss () -> Void {
     PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
@@ -34,7 +35,7 @@ struct PauseSetters: View {
     }
     if rs.timer.mode == .main {
       let time = rs.timer.time
-      self.savedTime = .microseconds(Int64(time))
+      self.savedTime = .milliseconds(Int64(time))
     }
 
     // todo: update for startTimer(time, mode) when rs will support
@@ -44,32 +45,61 @@ struct PauseSetters: View {
       rs.timer.start()
     }, 0.25)
   }
+  
+  func pauseDismissAction() -> Void {
+    unsubscribeFinish()
+    print("PauseSetters::1_min_pause:onDismiss")
+    self.dismiss()
 
+    PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
+      rs.competition.period = rs.competition.period + 1
+      rs.timer.set(time: INSPIRATION_DEF_TIMOUT, mode: .main)
+    }, 0.25)
+  }
+
+  
+  func medicalDismissAction() -> Void {
+    unsubscribeFinish()
+    let time = self.savedTime ?? INSPIRATION_DEF_TIMOUT
+    print("PauseSetters::medical:onDismiss")
+    self.dismiss()
+
+    PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
+      rs.timer.set(time: time, mode: .main)
+    }, 0.25)
+  }
+  
+  func unsubscribeFinish() -> Void {
+    guard PAUSE_FINISHED_LISTENER_ID != nil else {
+      return
+    }
+    rs.timer.passive.isPauseFinishedProperty.remove(observer: PAUSE_FINISHED_LISTENER_ID)
+  }
+
+  
   var body: some View {
     HStack(spacing: 0) {
       CommonModalButton(imageName: "plus", imageColor: .red, text: "button medical", action: {
         self.start(INSPIRATION_MED_TIMOUT, .medicine)
+        PAUSE_FINISHED_LISTENER_ID = rs.timer.passive.isPauseFinishedProperty.on(change: { isFinished in
+          if (isFinished) {
+            self.medicalDismissAction()
+          }
+        })
       }, onDismiss: {
-        let time = self.savedTime ?? INSPIRATION_DEF_TIMOUT
-        print("PauseSetters::medical:onDismiss")
-        self.dismiss()
-
-        PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
-          rs.timer.set(time: time, mode: .main)
-        }, 0.25)
+        self.medicalDismissAction()
       } ,content: {
         MedicalPauseModalContentUIView(time: self.$settings.time)
       })
       CommonModalButton(imageName: "timer", imageColor: .yellow, text: "button 1' pause", action: {
         self.start(INSPIRATION_SHORT_TIMOUT, .pause)
+        PAUSE_FINISHED_LISTENER_ID = rs.timer.passive.isPauseFinishedProperty.on(change: { isFinished in
+          if (isFinished) {
+            self.pauseDismissAction()
+          }
+        })
       }, onDismiss: {
-        print("PauseSetters::1_min_pause:onDismiss")
-        self.dismiss()
-
-        PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
-          rs.competition.period = rs.competition.period + 1
-          rs.timer.set(time: INSPIRATION_DEF_TIMOUT, mode: .main)
-        }, 0.25)
+        self.pauseDismissAction()
       } ,content: {
         PauseModalContentUIView(time: self.$settings.time)
 
