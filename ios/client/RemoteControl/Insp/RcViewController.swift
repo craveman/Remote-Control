@@ -47,8 +47,7 @@ class RcViewController: UIViewController {
 
   private func setSubscriptions() {
     rs.connection.isAuthenticatedProperty.on(change: { isAuth in
-      guard !isAuth else {
-        
+      guard isAuth == false else {
         return
       }
       guard let presenter = self.presentingViewController as? ConnectionsViewController else {

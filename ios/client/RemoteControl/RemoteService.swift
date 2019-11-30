@@ -97,12 +97,16 @@ final class RemoteService {
       Sm02.on(event: { [unowned self] (event) in
         switch event {
         case .connected:
-          (self.isAuthenticatedProperty as! PrimitiveProperty<Bool>).set(true)
+          (self.isConnectedProperty as! PrimitiveProperty<Bool>).set(true)
         case .disconnected:
-          (self.isAuthenticatedProperty as! PrimitiveProperty<Bool>).set(false)
-          (self.isAuthenticatedProperty as! PrimitiveProperty<Bool>).set(false)
+          (self.isConnectedProperty as! PrimitiveProperty<Bool>).set(false)
         default:
           break
+        }
+      })
+      addressProperty.on(change: { [unowned self] (update) in
+        if update === RemoteAddress.empty {
+          (self.isAuthenticatedProperty as! PrimitiveProperty<Bool>).set(false)
         }
       })
     }
@@ -331,7 +335,7 @@ final class RemoteService {
     let modeProperty: ObserversManager<TimerMode> = FirableObserversManager<TimerMode>()
     let stateProperty: ObserversManager<TimerState> = FirableObserversManager<TimerState>()
     let passive = PassiveManagement()
-    
+
     var time: UInt32 {
       return (timeProperty as! PrimitiveProperty<UInt32>).get()
     }

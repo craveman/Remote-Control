@@ -60,6 +60,8 @@ class Sm02TcpClient: Sm02Client {
         self?.events.fire(it: .serverDown)
       }
     }
+
+    events.fire(it: .connected)
     return nil
   }
 
