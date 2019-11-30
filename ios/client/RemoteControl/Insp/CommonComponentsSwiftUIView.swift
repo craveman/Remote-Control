@@ -65,7 +65,6 @@ struct CommonModalButton<Content>: View where Content: View {
   var action: () -> Void
   var onDismiss: () -> Void
   
-  
   init(imageName: String?, imageColor: Color?, buttonType: ButtonType = .withImage, text: String, action: @escaping () -> Void = {}, onDismiss: @escaping () -> Void = {}, @ViewBuilder content: @escaping () -> Content) {
     self.buttonType = buttonType
     self.frame = getButtonFrame(buttonType)

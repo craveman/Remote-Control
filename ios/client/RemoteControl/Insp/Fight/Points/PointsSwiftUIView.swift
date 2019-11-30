@@ -50,6 +50,10 @@ fileprivate struct StartTimerButtonWithModalView: View {
   var size = getButtonFrame(.fullWidth)
   @State var showModal = false
   @EnvironmentObject var settings: FightSettings
+  func getStartTimerString() -> String {
+    return "\(getTimeString(self.settings.time))"
+  }
+  
   var action: () -> Void
   var onDismiss: () -> Void
   var body: some View {
@@ -58,23 +62,25 @@ fileprivate struct StartTimerButtonWithModalView: View {
       self.action()
       self.showModal = true
     }) {
-      primaryColor(dinFont(Text("\(getTimeString(self.settings.time))"), UIGlobals.timerFontSize))
+      primaryColor(dinFont(Text(getStartTimerString()), UIGlobals.timerFontSize))
     }
     .frame(width: size.idealWidth, height: size.idealHeight, alignment: size.alignment)
     .sheet(isPresented: self.$showModal, onDismiss: self.onDismiss) {
-      TimerModalView(countdown: self.settings.time)
+      TimerModalView().environmentObject(self.settings)
     }
   }
 }
 
 fileprivate struct TimerModalView: View {
   @Environment(\.presentationMode) var presentationMode
-  var countdown: UInt32
-
+  @EnvironmentObject var settings: FightSettings
+  func getCountdownTimerString() -> String {
+    return "\(getTimeString(self.settings.time, true))"
+  }
   var body: some View {
 
     VStack {
-      dinFont(Text("\(getTimeString(countdown, true))"), UIGlobals.timerFontSize)
+      dinFont(Text(getCountdownTimerString()), UIGlobals.timerFontSize)
         .padding(CGFloat(20))
         .onTapGesture(count: 1, perform: {
           self.presentationMode.wrappedValue.dismiss()

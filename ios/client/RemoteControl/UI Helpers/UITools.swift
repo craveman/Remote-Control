@@ -88,7 +88,7 @@ func getMinutes(_ timer: UInt32) -> String {
 }
 
 func getSeconds(_ timer: UInt32) -> String {
-  let s = Int(ceil(Double(timer)/1000.0)) % 60
+  let s = Int(floor(Double(timer)/1000.0)) % 60
   return "\(s > 9 ? "" : "0")\(s)"
 }
 

@@ -112,7 +112,13 @@ struct PauseSetters: View {
 
 
 struct MedicalPauseModalContentUIView: View {
-  @Binding var time: UInt32
+  @Binding var time: UInt32 {
+    didSet {
+      if time == 0 {
+        self.presentationMode.wrappedValue.dismiss()
+      }
+    }
+  }
   @Environment(\.presentationMode) var presentationMode
   var body: some View {
     VStack{
@@ -139,7 +145,13 @@ struct MedicalPauseModalContentUIView: View {
 }
 
 struct PauseModalContentUIView: View {
-  @Binding var time: UInt32
+  @Binding var time: UInt32 {
+    didSet {
+      if time == 0 {
+        self.presentationMode.wrappedValue.dismiss()
+      }
+    }
+  }
   @Environment(\.presentationMode) var presentationMode
   var body: some View {
     VStack{

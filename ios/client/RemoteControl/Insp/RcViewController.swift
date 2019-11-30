@@ -173,6 +173,7 @@ class FightSettings: ObservableObject {
   @Published var holdPassive = false
   @Published var weapon: Weapon = .none
   @Published var tab: Int = 1
+  @Published var period: Int = 1
   @Published var fightSwitchActiveTab: Int = 0
   
   func resetBout() {
