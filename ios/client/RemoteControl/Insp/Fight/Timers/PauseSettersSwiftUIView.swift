@@ -11,7 +11,6 @@ import struct NIO.TimeAmount
 
 let INSPIRATION_MED_TIMOUT = TimeAmount.minutes(5)
 let INSPIRATION_SHORT_TIMOUT = TimeAmount.minutes(1)
-let INSPIRATION_DEF_TIMOUT = TimeAmount.minutes(3)
 
 var PAUSE_DISSMISED_DEFERED_ACTION_TIMER: Timer? = nil
 var PAUSE_FINISHED_LISTENER_ID: UUID? = nil
@@ -52,15 +51,14 @@ struct PauseSetters: View {
     self.dismiss()
 
     PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
-      rs.competition.period = rs.competition.period + 1
-      rs.timer.set(time: INSPIRATION_DEF_TIMOUT, mode: .main)
+      self.settings.period += 1
     }, 0.25)
   }
 
   
   func medicalDismissAction() -> Void {
     unsubscribeFinish()
-    let time = self.savedTime ?? INSPIRATION_DEF_TIMOUT
+    let time = self.savedTime ?? TimeAmount.minutes(3)
     print("PauseSetters::medical:onDismiss")
     self.dismiss()
 
@@ -112,13 +110,7 @@ struct PauseSetters: View {
 
 
 struct MedicalPauseModalContentUIView: View {
-  @Binding var time: UInt32 {
-    didSet {
-      if time == 0 {
-        self.presentationMode.wrappedValue.dismiss()
-      }
-    }
-  }
+  @Binding var time: UInt32
   @Environment(\.presentationMode) var presentationMode
   var body: some View {
     VStack{
@@ -145,13 +137,7 @@ struct MedicalPauseModalContentUIView: View {
 }
 
 struct PauseModalContentUIView: View {
-  @Binding var time: UInt32 {
-    didSet {
-      if time == 0 {
-        self.presentationMode.wrappedValue.dismiss()
-      }
-    }
-  }
+  @Binding var time: UInt32
   @Environment(\.presentationMode) var presentationMode
   var body: some View {
     VStack{

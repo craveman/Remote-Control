@@ -8,8 +8,10 @@
 
 import UIKit
 import SwiftUI
+import struct NIO.TimeAmount
 
-let GAME_DEFAULT_TIME: UInt32 = 180000
+let INSPIRATION_DEF_TIMOUT = TimeAmount.minutes(3)
+let GAME_DEFAULT_TIME: UInt32 = UInt32(INSPIRATION_DEF_TIMOUT.nanoseconds/1_000_000)
 
 class RcViewController: UIViewController {
 
@@ -173,7 +175,13 @@ class FightSettings: ObservableObject {
   @Published var holdPassive = false
   @Published var weapon: Weapon = .none
   @Published var tab: Int = 1
-  @Published var period: Int = 1
+  @Published var period: Int = 0 {
+    didSet {
+      print("settings.period updated to \(period)")
+      rs.competition.period = UInt8(period + 1)
+      rs.timer.set(time: INSPIRATION_DEF_TIMOUT, mode: .main)
+    }
+  }
   @Published var fightSwitchActiveTab: Int = 0
   
   func resetBout() {

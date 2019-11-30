@@ -17,12 +17,10 @@ struct SetPeriodButtonSwiftUIView: View {
 
 fileprivate struct PeriodSetter: View {
   @EnvironmentObject var settings: FightSettings
-  @State var period = Int(rs.competition.period)
   var body: some View {
     CommonModalButton(imageName: "textformat.123", imageColor: primaryColor , buttonType: .special, text: "set period", onDismiss: {
-      rs.competition.period = UInt8(self.period + 1)
     }) {
-      PeriodModalContent(period: self.$period).environmentObject(self.settings)
+      PeriodModalContent().environmentObject(self.settings)
     }
   }
 }
@@ -30,7 +28,6 @@ fileprivate struct PeriodSetter: View {
 fileprivate struct PeriodModalContent: View {
   @EnvironmentObject var settings: FightSettings
   @Environment(\.presentationMode) var presentationMode
-  @Binding var period: Int
   private let maxPeriod: Int = 9
   var body: some View {
     VStack(spacing: 0) {
@@ -40,10 +37,9 @@ fileprivate struct PeriodModalContent: View {
       Spacer()
       CommonButton(action: {
         self.settings.period += 1
-        rs.competition.period = UInt8(self.settings.period)
       }, text: "next period", frame: getButtonFrame(.special))
-        .opacity(period < maxPeriod - 1 ? 1 : 0)
-        .disabled(period >= maxPeriod - 1)
+        .opacity(self.settings.period < maxPeriod - 1 ? 1 : 0)
+        .disabled(self.settings.period >= maxPeriod - 1)
       HStack(spacing: 0) {
         ConfirmModalButton(action: {
           self.presentationMode.wrappedValue.dismiss()
