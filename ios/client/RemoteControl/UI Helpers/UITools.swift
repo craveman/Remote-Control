@@ -88,14 +88,14 @@ func getMinutes(_ timer: UInt32) -> String {
 }
 
 func getSeconds(_ timer: UInt32) -> String {
-  let s = Int(ceil(floor(10 * Double(timer)/1000.0)/10)) % 60
+  let s = Int(floor(floor(10 * Double(timer)/1000.0)/10)) % 60
   return "\(s > 9 ? "" : "0")\(s)"
 }
 
 func getTimeString(_ timer: UInt32, _ showMs: Bool = false) -> String {
   if (showMs && timer < 10000) {
     let sec = Double(timer) / 1000
-    let formatted = String(format: "%.1f", sec)
+    let formatted = String(format: "%.2f", sec)
     return "0:0\(formatted)"
   }
   

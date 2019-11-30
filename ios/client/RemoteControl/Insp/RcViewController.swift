@@ -170,6 +170,11 @@ class FightSettings: ObservableObject {
   @Published var leftScore: UInt8 = 0
   @Published var rightScore: UInt8 = 0
   @Published var time: UInt32 = GAME_DEFAULT_TIME
+  @Published var passiveDefaultTimeMs: UInt32 = rs.timer.passive.defaultMilliseconds {
+    didSet {
+      rs.timer.passive.defaultMilliseconds = passiveDefaultTimeMs
+    }
+  }
   @Published var isRunning = false
   @Published var showPassive = true
   @Published var holdPassive = false

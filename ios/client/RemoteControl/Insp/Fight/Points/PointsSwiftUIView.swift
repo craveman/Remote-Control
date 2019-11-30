@@ -51,7 +51,7 @@ fileprivate struct StartTimerButtonWithModalView: View {
   @State var showModal = false
   @EnvironmentObject var settings: FightSettings
   func getStartTimerString() -> String {
-    return "\(getTimeString(self.settings.time))"
+    return "\(getTimeString(self.settings.time, true))"
   }
   
   var action: () -> Void

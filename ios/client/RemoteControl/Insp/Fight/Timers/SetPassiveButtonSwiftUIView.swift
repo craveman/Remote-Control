@@ -10,7 +10,6 @@ import SwiftUI
 
 struct SetPassiveButtonSwiftUIView: View {
   var onDismiss: () -> Void = {}
-    @State var selectedTime: UInt32 = rs.timer.passive.defaultMilliseconds
     @EnvironmentObject var settings: FightSettings
   
       var body: some View {
@@ -19,7 +18,7 @@ struct SetPassiveButtonSwiftUIView: View {
           self.onDismiss()
 
         }) {
-          PassiveModalContent(selectedTime: self.$settings.time).environmentObject(self.settings)
+          PassiveModalContent(selectedTime: self.$settings.passiveDefaultTimeMs).environmentObject(self.settings)
         }
       }
 }
@@ -27,7 +26,7 @@ struct SetPassiveButtonSwiftUIView: View {
 fileprivate struct PassiveModalContent: View {
   @EnvironmentObject var settings: FightSettings
   @Environment(\.presentationMode) var presentationMode
-  @Binding var selectedTime: UInt32
+  @Binding var passiveDefaulTimeMs: UInt32
   @State var secCent = 0
   @State var secDeci = 0
   @State var secUnit = 0
@@ -36,7 +35,7 @@ fileprivate struct PassiveModalContent: View {
   private let multiplication: [Double] = [100, 10, 1]
   
   init(selectedTime time: Binding<UInt32>) {
-    self._selectedTime = time
+    self._passiveDefaulTimeMs = time
 
     self._secCent = State(wrappedValue: getSelectedTime(time.wrappedValue, divideBy: multiplication[0]*1000))
     self._secDeci = State(wrappedValue: getSelectedTime(time.wrappedValue, divideBy: multiplication[1]*1000))
@@ -76,8 +75,7 @@ fileprivate struct PassiveModalContent: View {
         ConfirmModalButton(action: {
           let s = self.getSecCount()
           print("getSecCount: \(s)")
-          self.selectedTime = UInt32(s * 1000)
-          rs.timer.passive.defaultMilliseconds = self.selectedTime
+          self.passiveDefaulTimeMs = UInt32(s * 1000)
           self.presentationMode.wrappedValue.dismiss()
         }, text: "done", color: .green)
       }
