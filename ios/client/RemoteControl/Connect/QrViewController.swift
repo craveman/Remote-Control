@@ -64,13 +64,11 @@ class QrViewController: UIViewController {
       }
       self.reader.stopScanning()
       let result = RemoteAddress.parse(urlString: result.value)
-      DispatchQueue.main.async {
-        switch result {
-        case .success(let remote):
-          self.qrCodeProcessor!.on(success: remote)
-        case .failure(let error):
-          self.qrCodeProcessor!.on(failure: error)
-        }
+      switch result {
+      case .success(let remote):
+        self.qrCodeProcessor!.on(success: remote)
+      case .failure(let error):
+        self.qrCodeProcessor!.on(failure: error)
       }
     }
     
