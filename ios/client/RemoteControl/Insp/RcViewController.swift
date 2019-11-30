@@ -51,7 +51,12 @@ class RcViewController: UIViewController {
         
         return
       }
-      self.presentingViewController?.dismiss(animated: true, completion: {})
+      guard let presenter = self.presentingViewController as? ConnectionsViewController else {
+        return
+      }
+      presenter.dismiss(animated: true, completion: {
+        presenter.start()
+      })
     })
     
     rs.timer.timeProperty.on(change: { update in

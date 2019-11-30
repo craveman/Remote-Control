@@ -21,7 +21,12 @@ struct PointsStepper: View {
   let mSize = getButtonFrame(.basic)
 
   func getScore () -> UInt8 {
-    return getPerson().score
+    switch pType {
+    case .left:
+      return settings.leftScore
+    case .right:
+      return settings.rightScore
+    }
   }
 
   func thenDeactivate (_ timeout: Double = 1.1) -> Void {

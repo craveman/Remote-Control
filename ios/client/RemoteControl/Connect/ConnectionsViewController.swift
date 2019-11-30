@@ -72,7 +72,10 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
   }
 
   func start () {
-    rs.connection.disconnect()
+    if (rs.connection.isConnected) {
+      rs.connection.disconnect()
+    }
+    
     if isSimulationEnv() {
       skipQR()
       return
