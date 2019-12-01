@@ -35,18 +35,20 @@ fileprivate struct PeriodModalContent: View {
       Spacer()
       CommonPicker(selected: self.$settings.period, options: Array(1...maxPeriod).map({"\($0)"})).frame(width: width/100*80)
       Spacer()
-      CommonButton(action: {
-        self.settings.period += 1
-      }, text: "next period", frame: getButtonFrame(.special))
-        .opacity(self.settings.period < maxPeriod - 1 ? 1 : 0)
-        .disabled(self.settings.period >= maxPeriod - 1)
+      VStack(spacing: 0) {
+        Divider()
+        CommonButton(action: {
+          self.settings.period += 1
+        }, text: "next period", frame: getButtonFrame(.special))
+          .disabled(self.settings.period >= maxPeriod - 1)
+      }.opacity(self.settings.period < maxPeriod - 1 ? 1 : 0)
+      Divider()
       HStack(spacing: 0) {
         ConfirmModalButton(action: {
           self.presentationMode.wrappedValue.dismiss()
         }, text: "done", color: .green)
       }
       .padding([.vertical]).frame(width: width)
-      .border(Color.gray, width: 0.5)
     }
   }
 }

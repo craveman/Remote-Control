@@ -80,6 +80,7 @@ fileprivate struct TimeModalContent: View {
       }
       
       Spacer()
+      Divider()
       HStack(spacing: 0) {
         ConfirmModalButton(action: {
           let s = self.getSecCount()
@@ -90,7 +91,6 @@ fileprivate struct TimeModalContent: View {
         }, text: "done", color: .green)
       }
       .padding([.vertical]).frame(width: width)
-      .border(Color.gray, width: 0.5)
     }
   }
 }

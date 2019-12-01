@@ -52,40 +52,38 @@ struct NamesSettingsSwiftUIView: View {
       ScrollView {
         Background {
           VStack(spacing: 0) {
-            VStack(spacing: 0) {
-              dinFont(Text("Left player")).alignmentGuide(.leading, computeValue: {_ in 0})
-              TextField("", text: self.$leftName) {
+            VStack(alignment: .leading, spacing: 0) {
+              dinFont(Text("Left player"),  UIGlobals.appDefaultFontSize)
+              TextField(" ", text: self.$leftName) {
                 self.endEditing()
                 
-              }
-                .background(Color.init(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.05))
-                .padding()
-                
-            }
-            
-            VStack(spacing: 0) {
-              dinFont(Text("Right player")).alignmentGuide(.leading, computeValue: {_ in 0})
-              TextField("", text: self.$rightName) {
+              }.font(.largeTitle)
+                .background(primaryColor.opacity(0.05))
+                .accessibility(label: Text("Left player"))
+            }.padding()
+            Divider()
+            VStack(alignment: .leading, spacing: 0) {
+              dinFont(Text("Right player"), UIGlobals.appDefaultFontSize)
+              TextField(" ", text: self.$rightName) {
                 self.endEditing()
-              }
-                .background(Color.init(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.05))
-                .padding()
-                
-            }
+              }.font(.largeTitle)
+                .background(primaryColor.opacity(0.05))
+                .accessibility(label: Text("Right player"))
+              }.padding()
             Spacer()
-          }.padding(.top)
-        
-          }.onTapGesture {
-              self.endEditing()
           }
+          
+        }.onTapGesture {
+          self.endEditing()
+        }
       }
-      
+      Divider()
       HStack {
         ConfirmModalButton(action: {
           self.presentationMode.wrappedValue.dismiss()
         }, color: .green)
-      }.frame(width: width).padding([.vertical])
-        .border(Color.gray, width: 0.5)
+      }.padding([.vertical]).frame(width: width)
+       
     }
   }
 }

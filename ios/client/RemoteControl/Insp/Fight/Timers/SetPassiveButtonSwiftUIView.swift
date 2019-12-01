@@ -71,6 +71,7 @@ fileprivate struct PassiveModalContent: View {
       
       Spacer()
       ShowPassiveToggleButtonSwiftUIView()
+      Divider()
       HStack(spacing: 0) {
         ConfirmModalButton(action: {
           let s = self.getSecCount()
@@ -80,7 +81,6 @@ fileprivate struct PassiveModalContent: View {
         }, text: "done", color: .green)
       }
       .padding([.vertical]).frame(width: width)
-      .border(Color.gray, width: 0.5)
     }
   }
 }
@@ -92,6 +92,8 @@ fileprivate struct ShowPassiveToggleButtonSwiftUIView: View {
     return self.settings.showPassive ? "do not show passive" : "show passive"
   }
   var body: some View {
+    VStack(spacing: 0){
+      Divider()
       Button(action: {
         self.settings.showPassive.toggle()
         rs.timer.passive.isVisible = self.settings.showPassive
@@ -99,8 +101,10 @@ fileprivate struct ShowPassiveToggleButtonSwiftUIView: View {
       }) {
         primaryColor(dinFont(Text(NSLocalizedString(getShowToggleText(), comment: ""))))
       }
-      .frame(width: width).padding([.vertical])
-      .border(Color.gray, width: 0.5)
+        .padding([.vertical])
+      .frame(width: width)
+    }
+      
   }
 }
 

@@ -31,21 +31,22 @@ struct PointsStepper: View {
     }
   }
   
+  
+  func setScore (_ next: UInt8) -> Void {
+    switch pType {
+    case .left:
+      return settings.leftScore = next
+    case .right:
+      return settings.rightScore = next
+    default:
+      return
+    }
+  }
+  
   func thenDeactivate (_ timeout: Double = 1.1) -> Void {
     withDelay({
       self.isActive = false
     }, timeout)
-  }
-  
-  func getPerson () -> RemoteService.PersonsManagement.Person {
-    switch self.pType {
-    case .left:
-      return rs.persons.left
-    case .right:
-      return rs.persons.right
-    default:
-      return rs.persons.none
-    }
   }
   
   var body: some View {
@@ -55,8 +56,7 @@ struct PointsStepper: View {
         if (self.getScore() == 0) {
           return
         }
-        
-        self.getPerson().score = UInt8(self.getScore() - 1)
+        self.setScore(self.getScore() - 1)
         self.isActive = true
         self.thenDeactivate()
       }) {
@@ -71,7 +71,7 @@ struct PointsStepper: View {
           return
         }
         print("+ Button Pushed")
-        self.getPerson().score = UInt8(self.getScore() + 1)
+        self.setScore(self.getScore() + 1)
         self.isActive = true
         self.thenDeactivate()
         

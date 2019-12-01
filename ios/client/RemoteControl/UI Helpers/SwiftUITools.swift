@@ -214,7 +214,7 @@ struct Background<Content: View>: View {
     }
 
     var body: some View {
-        Color.clear
+      Color.black.opacity(0.00001)
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         .overlay(content)
     }

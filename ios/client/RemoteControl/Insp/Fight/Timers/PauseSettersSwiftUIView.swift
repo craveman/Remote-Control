@@ -124,14 +124,14 @@ struct MedicalPauseModalContentUIView: View {
         .padding(.top).fixedSize()
       primaryColor(dinFont(Text("medical pause 2"), UIGlobals.popupContentFontSize)).fixedSize()
       Spacer()
+      Divider()
       HStack {
         ConfirmModalButton(action: {
           self.presentationMode.wrappedValue.dismiss()
         }, color: .green)
       }
+        .padding([.vertical])
       .frame(width: width)
-      .padding([.vertical])
-      .border(Color.gray, width: 0.5)
     }
   }
 }
@@ -151,12 +151,12 @@ struct PauseModalContentUIView: View {
         .padding(.top).fixedSize()
       primaryColor(dinFont(Text("1' pause 2"), UIGlobals.popupContentFontSize)).fixedSize()
       Spacer()
+      Divider()
       HStack {
         ConfirmModalButton(action: {
           self.presentationMode.wrappedValue.dismiss()
         }, color: .green)
-      }.frame(width: width).padding([.vertical])
-        .border(Color.gray, width: 0.5)
+      }.padding([.vertical]).frame(width: width)
     }
   }
 }

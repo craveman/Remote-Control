@@ -167,8 +167,16 @@ class FightSettings: ObservableObject {
   @Published var rightCardP: StatusCard = .passiveNone
   @Published var leftCard: StatusCard = .none
   @Published var rightCard: StatusCard = .none
-  @Published var leftScore: UInt8 = 0
-  @Published var rightScore: UInt8 = 0
+  @Published var leftScore: UInt8 = 0 {
+    didSet {
+      rs.persons.left.score = leftScore
+    }
+  }
+  @Published var rightScore: UInt8 = 0 {
+    didSet {
+      rs.persons.right.score = rightScore
+    }
+  }
   @Published var time: UInt32 = GAME_DEFAULT_TIME
   @Published var passiveDefaultTimeMs: UInt32 = rs.timer.passive.defaultMilliseconds {
     didSet {

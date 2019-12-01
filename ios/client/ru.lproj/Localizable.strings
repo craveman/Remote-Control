@@ -95,4 +95,7 @@
 "set period" = "период";
 "reset bout" = "сброс раунда";
 
+"Left player" = "Левая сторона";
+"Right player" = "Правая сторона";
+
 "Disconnect this Remote Control?" = "Отключить этот пульт?";

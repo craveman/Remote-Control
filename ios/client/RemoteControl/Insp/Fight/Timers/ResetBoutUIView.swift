@@ -34,23 +34,24 @@ struct ResetBoutModalContentUIView: View {
       primaryColor(dinFont(Text("reset bout"), UIGlobals.popupContentFontSize))
         .padding(.top)
       Spacer()
+      Divider()
       HStack(spacing: 0) {
         ConfirmModalButton(action: {
           self.presentationMode.wrappedValue.dismiss()
         }, text: "cancel",
            color: primaryColor, imageName: "multiply")
-          .frame(width: width/2)
           .padding([.vertical])
-          .border(Color.gray, width: 0.5)
+          .frame(width: width/2)
         ConfirmModalButton(action: {
           rs.competition.reset()
           self.settings.resetBout()
           self.presentationMode.wrappedValue.dismiss()
         }, text: "confirm", color: .green)
-          .frame(width: width/2)
           .padding([.vertical])
-          .border(Color.gray, width: 0.5)
-      }.border(Color.gray, width: 0.5)
+          .frame(width: width/2)
+          
+          
+      }
     }
   }
 }

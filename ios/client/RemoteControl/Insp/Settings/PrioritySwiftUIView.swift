@@ -63,24 +63,26 @@ struct PrioritySwiftUIView: View {
       }.padding().foregroundColor(primaryColor)
       
       Spacer()
-      Button(action: {
-        print("reset priority")
-        self.clear()
-      }) {
-        primaryColor(dinFont(Text("do not show")))
+      VStack(spacing: 0) {
+        Divider()
+        Button(action: {
+          print("reset priority")
+          self.clear()
+        }) {
+          primaryColor(dinFont(Text("do not show")))
+        }
+          .padding([.vertical])
+        .frame(width: width)
       }
-      .frame(width: width).padding([.vertical])
-      .border(Color.gray, width: 0.5)
       .opacity(self.hasPriority ? 1.0 : 0.0)
-      
+       Divider()
       HStack {
         ConfirmModalButton(action: {
           self.settings.fightSwitchActiveTab = 0
           self.settings.tab = 1
           self.presentationMode.wrappedValue.dismiss()
         }, color: .green)
-      }.frame(width: width).padding([.vertical])
-        .border(Color.gray, width: 0.5)
+      }.padding([.vertical]).frame(width: width)
     }
     
   }

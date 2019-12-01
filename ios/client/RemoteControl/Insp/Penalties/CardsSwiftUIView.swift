@@ -121,7 +121,6 @@ fileprivate struct PlayerPenaltiesBoard: View {
     }
   }
   
-  
   func getCard() -> StatusCard {
     return self.getCurrentCard(false) == .none ? StatusCard.yellow : StatusCard.red
   }

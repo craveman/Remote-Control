@@ -41,6 +41,7 @@ struct DisconnectSwiftUIView: View {
         rs.connection.disconnect()
       })
       Spacer()
+      Divider()
       HStack {
         ConfirmModalButton(action: {
           self.presentationMode.wrappedValue.dismiss()
@@ -49,8 +50,7 @@ struct DisconnectSwiftUIView: View {
           rs.connection.disconnect()
           self.presentationMode.wrappedValue.dismiss()
         }, text: "disconnect", color: .red, imageName: "power")
-      }.frame(width: width).padding([.vertical])
-        .border(Color.gray, width: 0.5)
+      }.padding([.vertical]).frame(width: width)
     }
   }
 }

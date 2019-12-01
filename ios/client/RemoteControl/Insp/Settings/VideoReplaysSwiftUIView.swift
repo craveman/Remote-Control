@@ -40,13 +40,13 @@ struct VideoReplaysSwiftUIView: View {
           Spacer()
           Text("Hello, World!")
           Spacer()
-          
+          Divider()
           HStack {
             ConfirmModalButton(action: {
               self.presentationMode.wrappedValue.dismiss()
             }, color: .green)
-          }.frame(width: width).padding([.vertical])
-            .border(Color.gray, width: 0.5)
+          }.padding([.vertical]).frame(width: width)
+            
         }
     }
 }

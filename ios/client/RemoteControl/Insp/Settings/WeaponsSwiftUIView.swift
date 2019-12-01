@@ -80,13 +80,13 @@ struct WeaponsSwiftUIView: View {
         }
       }
       Spacer()
+      Divider()
       HStack(spacing: 0) {
         ConfirmModalButton(action: {
           self.presentationMode.wrappedValue.dismiss()
         }, text: "done", color: .green)
       }
       .padding([.vertical]).frame(width: width)
-      .border(Color.gray, width: 0.5)
     }
     
   }
