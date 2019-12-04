@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ConnectionsViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
 
@@ -21,6 +22,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     }
 
     if isSimulationEnv() {
+      AVCaptureDevice.requestAccess(for: AVMediaType.video) {_ in}
       skipQR()
     }
     super.viewDidAppear(animated)
