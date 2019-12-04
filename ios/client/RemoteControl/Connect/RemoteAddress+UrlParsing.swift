@@ -15,9 +15,11 @@ import class Sm02Client.RemoteAddress
 
 extension RemoteAddress {
 
+  static var invalidCharacters: Set<Character> { ["\n"] }
+
   static func parse (urlString: String) -> Result<RemoteAddress, ParsingError> {
-    let trimmedUrl = urlString.trimmingCharacters(in: .whitespacesAndNewlines)
-    guard let components = URLComponents(string: trimmedUrl) else {
+    let url = urlString.filter { invalidCharacters.contains($0) == false }
+    guard let components = URLComponents(string: url) else {
       return .failure(.invalidUrl)
     }
     return parse(urlComponents: components)
