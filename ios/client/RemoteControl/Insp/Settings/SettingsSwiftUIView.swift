@@ -11,7 +11,15 @@ import SwiftUI
 struct SettingsSwiftUIView: View {
   var body: some View {
     VStack(spacing: 0) {
-      DisconnectButtonSwiftUIView()
+      HStack(spacing: 0) {
+        if (rs.connection.isConnected) {
+          DisconnectButtonSwiftUIView()
+        }
+        if (!rs.connection.isConnected) {
+          ConnectButton()
+        }
+      }
+      
       HStack(spacing: 0) {
         PriorityButtonSwiftUIView()
         VideoReplaysButtonSwiftUIView()

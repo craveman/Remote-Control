@@ -187,7 +187,7 @@ class FightSettings: ObservableObject {
   @Published var showPassive = true
   @Published var holdPassive = false
   @Published var weapon: Weapon = .none
-  @Published var tab: Int = 1
+  @Published var tab: Int = !rs.connection.isConnected ? 2 : 1
   @Published var presentedModal: UUID?
   @Published var period: Int = 0 {
     didSet {

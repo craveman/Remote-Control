@@ -8,6 +8,22 @@
 
 import SwiftUI
 
+struct ConnectButton: View {
+  @Environment(\.presentationMode) var presentationMode
+  var body: some View {
+    Button(action: {
+      rs.connection.disconnect()
+    }) {
+      VStack(spacing: 0){
+        Image(systemName: "link").resizable().scaledToFit()
+          .frame(width: 32, height: 32).foregroundColor(.green)
+        primaryColor(dinFont(Text(NSLocalizedString("Connect", comment: "")))).fixedSize()
+          
+      }.padding().frame(width: width)
+    }
+  }
+}
+
 struct DisconnectButtonSwiftUIView: View {
   var body: some View {
     CommonModalButton(imageName: "multiply", imageColor: primaryColor, buttonType: .disconnect, text: "disconnect",  action: {

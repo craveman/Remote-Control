@@ -10,17 +10,23 @@ import UIKit
 import AVFoundation
 
 class ConnectionsViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
-
+  var performed = false
   @IBOutlet weak var qrReaderSubViewWrapper: UIView!
 
+  @IBAction func skipButton(_ sender: UIButton) {
+//    print("Skip clicked")
+    skipQR()
+  }
+  
   override func viewDidAppear (_ animated: Bool) {
-//    skipQR()
+    
     getScanner()?.onSuccess = { [weak self] in
       guard self == self else {
         return
       }
       self?.jumpToInspiration()
     }
+//    skipQR()
 
     if isSimulationEnv() {
       AVCaptureDevice.requestAccess(for: AVMediaType.video) {_ in}
@@ -75,6 +81,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
   }
 
   func start () {
+    performed = false
     if (rs.connection.isConnected) {
       rs.connection.disconnect()
     }
@@ -87,8 +94,12 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
   }
 
   private func jumpToInspiration () {
-//    getScanner()?.stopScanner()
+    getScanner()?.stopScanner()
+    if (performed) {
+      return
+    }
     performSegue(withIdentifier: "skipQR", sender: nil)
+    performed = true
   }
 
   private func isSimulationEnv () -> Bool {
