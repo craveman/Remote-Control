@@ -13,12 +13,13 @@ struct ResetBoutButton: View {
   @EnvironmentObject var settings: FightSettings
   var body: some View {
     CommonModalButton(imageName: "arrow.2.circlepath", imageColor: nil, buttonType: .special, text: "reset bout", action: {
+      Vibration.on()
       print("ResetBoutButton:action")
     }, onDismiss: {
       print("ResetBoutButton:onDismiss")
-    }, content: {
+    }, border: Color.clear) {
       ResetBoutModalContentUIView().environmentObject(self.settings)
-    })
+    }
   }
 }
 

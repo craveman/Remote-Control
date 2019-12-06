@@ -37,7 +37,7 @@ struct CommonButton: View {
   var imageName = ""
   var imageColor = primaryColor
   var frame = getButtonFrame(.withImage)
-  
+  var border = Color.gray
   var body: some View {
     Button(action: {
       self.action()
@@ -48,26 +48,29 @@ struct CommonButton: View {
             .frame(width: 32, height: 32).foregroundColor(self.imageColor)
         }
         primaryColor(dinFont(Text(NSLocalizedString("\(self.text)", comment: "")))).fixedSize()
-      }
+      }.frame(width: frame.idealWidth)
     }.frame(width: frame.idealWidth, height: frame.idealHeight, alignment: frame.alignment)
-      .border(Color.gray, width: 0.5)
+      .border(self.border, width: 0.5)
   }
 }
 
 struct CommonModalButton<Content>: View where Content: View {
   @EnvironmentObject var settings: FightSettings
-  private let uuid = UUID()
   @State var showModal = false
+  private let uuid = UUID()
+  
   let content: () -> Content
   var text = "Button"
   var imageName = ""
   var imageColor: Color = primaryColor
   var buttonType: ButtonType
   var frame = getButtonFrame(.withImage)
+  
   var action: () -> Void
   var onDismiss: () -> Void
+  var border: Color
   
-  init(imageName: String?, imageColor: Color?, buttonType: ButtonType = .withImage, text: String, action: @escaping () -> Void = {}, onDismiss: @escaping () -> Void = {}, @ViewBuilder content: @escaping () -> Content) {
+  init(imageName: String?, imageColor: Color?, buttonType: ButtonType = .withImage, text: String, action: @escaping () -> Void = {}, onDismiss: @escaping () -> Void = {}, border: Color = Color.gray, @ViewBuilder content: @escaping () -> Content) {
     self.buttonType = buttonType
     self.frame = getButtonFrame(buttonType)
     self.text = text
@@ -81,7 +84,7 @@ struct CommonModalButton<Content>: View where Content: View {
     if ((imageColor) != nil) {
       self.imageColor = imageColor!
     }
-    
+    self.border = border
   }
   
   var body: some View {
@@ -89,7 +92,7 @@ struct CommonModalButton<Content>: View where Content: View {
       self.settings.presentedModal = self.uuid
       self.showModal.toggle()
       self.action()
-    }, text: self.text, imageName: self.imageName, imageColor: self.imageColor, frame: self.frame)
+    }, text: self.text, imageName: self.imageName, imageColor: self.imageColor, frame: self.frame, border: self.border)
       .sheet(isPresented: self.$showModal, onDismiss: self.onDismiss) {
         self.content()
     }
@@ -105,6 +108,7 @@ struct ConfirmModalButton: View {
   var body: some View {
     Button(action: {
       self.action()
+      Vibration.on()
     }) {
       VStack{
         if self.imageName.count > 0 {

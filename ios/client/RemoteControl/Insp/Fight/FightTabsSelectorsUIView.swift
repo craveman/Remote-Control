@@ -14,6 +14,7 @@ struct FightTabsSelectorsUIView: View {
   
   func doSelect(_ index: Int) {
     print(index)
+//    Vibration.on()
     self.selectedTab = index
   }
   

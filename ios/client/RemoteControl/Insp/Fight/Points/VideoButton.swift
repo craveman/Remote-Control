@@ -19,6 +19,7 @@ struct VideoButton: View {
     Button(action: {
       print("View video")
       self.showModal = !self.showModal;
+      Vibration.on()
     }){ primaryColor(dinFont(Text("view video"))) }
       .frame(width: frame.idealWidth, height: frame.idealHeight, alignment: .center)
       .border(Color.gray, width: 0.5)
@@ -56,7 +57,7 @@ fileprivate struct VideoRC: View {
       
       //        Text("Speed")
       Spacer()
-      
+      Divider()
       HStack {
         ConfirmModalButton(action: {
           self.presentationMode.wrappedValue.dismiss()
@@ -71,7 +72,7 @@ fileprivate struct VideoRC: View {
         }, text: "", imageName: "play").frame(width: width / 3)
         
       }.frame(width: width).padding([.vertical])
-        .border(Color.gray, width: 0.5)
+        
       
     }
   }

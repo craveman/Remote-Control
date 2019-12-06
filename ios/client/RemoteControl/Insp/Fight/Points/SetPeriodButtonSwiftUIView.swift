@@ -14,21 +14,47 @@ struct SetPeriodButtonSwiftUIView: View {
     }
 }
 
+fileprivate let maxPeriod: Int = 9
 
 fileprivate struct PeriodSetter: View {
   @EnvironmentObject var settings: FightSettings
+  @State var showModal = false
+  let frame = getButtonFrame(.special)
+  func getPeriodString() -> String {
+    let period = self.settings.period;
+    guard period + 1 > 1 else {
+      return "1..."
+    }
+    
+    guard period + 1 < maxPeriod else {
+      return "...\(maxPeriod)"
+    }
+    
+    return "..\(period + 1).."
+  }
   var body: some View {
-    CommonModalButton(imageName: "textformat.123", imageColor: primaryColor , buttonType: .special, text: "set period", onDismiss: {
-    }) {
+    Button(action: {self.showModal.toggle()}) {
+      VStack {
+        primaryColor(dinFont(Text(self.getPeriodString()), 36))
+        primaryColor(dinFont(Text("set period")))
+        }.padding().frame(width: width)
+        
+    }
+    .frame(width: width)
+    .sheet(isPresented: self.$showModal, onDismiss: {}) {
       PeriodModalContent().environmentObject(self.settings)
     }
+//    CommonModalButton(imageName: "textformat.123", imageColor: primaryColor , buttonType: .special, text: "set period", onDismiss: {
+//    }) {
+//      PeriodModalContent().environmentObject(self.settings)
+//    }
   }
 }
 
 fileprivate struct PeriodModalContent: View {
   @EnvironmentObject var settings: FightSettings
   @Environment(\.presentationMode) var presentationMode
-  private let maxPeriod: Int = 9
+  
   var body: some View {
     VStack(spacing: 0) {
       CommonModalHeader(title: "Period")
@@ -37,9 +63,13 @@ fileprivate struct PeriodModalContent: View {
       Spacer()
       VStack(spacing: 0) {
         Divider()
-        CommonButton(action: {
+        Button(action: {
           self.settings.period += 1
-        }, text: "next period", frame: getButtonFrame(.special))
+          Vibration.on()
+        }) {
+          primaryColor(dinFont(Text("next period"))).padding()
+        }
+          .frame(width: width)
           .disabled(self.settings.period >= maxPeriod - 1)
       }.opacity(self.settings.period < maxPeriod - 1 ? 1 : 0)
       Divider()
@@ -56,6 +86,6 @@ fileprivate struct PeriodModalContent: View {
 
 struct SetPeriodButtonSwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        SetPeriodButtonSwiftUIView()
+        SetPeriodButtonSwiftUIView().environmentObject(FightSettings())
     }
 }

@@ -60,6 +60,7 @@ fileprivate struct PassiveModalContent: View {
   var body: some View {
     VStack(spacing: 0) {
       CommonModalHeader(title: "Passive")
+      HoldPassiveButton()
       Spacer()
       HStack(spacing: 0){
         Spacer()
@@ -97,7 +98,7 @@ fileprivate struct ShowPassiveToggleButtonSwiftUIView: View {
       Button(action: {
         self.settings.showPassive.toggle()
         rs.timer.passive.isVisible = self.settings.showPassive
-        
+        Vibration.on()
       }) {
         primaryColor(dinFont(Text(NSLocalizedString(getShowToggleText(), comment: ""))))
       }

@@ -83,4 +83,8 @@
 "1' pause 1" = "pause";
 "1' pause 2" = "1 min";
 
+"Start" = "START";
+"Stop" = "STOP";
+"Close" = "CLOSE";
+
 "Disconnect this Remote Control?" = "Disconnect this Remote Control?";

@@ -14,6 +14,7 @@ let INSPIRATION_SHORT_TIMOUT = TimeAmount.minutes(1)
 
 var PAUSE_DISSMISED_DEFERED_ACTION_TIMER: Timer? = nil
 var PAUSE_FINISHED_LISTENER_ID: UUID? = nil
+let SYNC_SM02_DELAY = 0.25
 struct PauseSetters: View {
 
   @EnvironmentObject var settings: FightSettings
@@ -24,6 +25,7 @@ struct PauseSetters: View {
     PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
     rs.timer.stop()
     self.savedTime = nil
+    Vibration.on()
   }
 
 
@@ -42,7 +44,8 @@ struct PauseSetters: View {
 
     PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
       rs.timer.start()
-    }, 0.25)
+    }, SYNC_SM02_DELAY)
+    Vibration.on()
   }
   
   func pauseDismissAction() -> Void {
@@ -52,7 +55,7 @@ struct PauseSetters: View {
 
     PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
       self.settings.period += 1
-    }, 0.25)
+    }, SYNC_SM02_DELAY)
   }
 
   
@@ -64,7 +67,7 @@ struct PauseSetters: View {
 
     PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
       rs.timer.set(time: time, mode: .main)
-    }, 0.25)
+    }, SYNC_SM02_DELAY)
   }
   
   func unsubscribeFinish() -> Void {
@@ -112,10 +115,16 @@ struct PauseSetters: View {
 struct MedicalPauseModalContentUIView: View {
   @Binding var time: UInt32
   @Environment(\.presentationMode) var presentationMode
+  
+  func getLabel() -> String {
+    let label = self.time > 0 ? "Stop": "Close"
+    return NSLocalizedString(label, comment: "")
+  }
+  
   var body: some View {
     VStack{
       Spacer()
-      dinFont(Text("\(getTimeString(self.time))"), UIGlobals.timerFontSize)
+      dinFont(Text(getLabel()), UIGlobals.timerFontSize)
         .foregroundColor(Color.red)
         .onTapGesture(count: 1, perform: {
           self.presentationMode.wrappedValue.dismiss()
@@ -139,10 +148,16 @@ struct MedicalPauseModalContentUIView: View {
 struct PauseModalContentUIView: View {
   @Binding var time: UInt32
   @Environment(\.presentationMode) var presentationMode
+  
+  func getLabel() -> String {
+    let label = self.time > 0 ? "Stop": "Close"
+    return NSLocalizedString(label, comment: "")
+  }
+  
   var body: some View {
     VStack{
       Spacer()
-      dinFont(Text("\(getTimeString(self.time))"), UIGlobals.timerFontSize)
+      dinFont(Text(getLabel()), UIGlobals.timerFontSize)
         .foregroundColor(Color.yellow)
         .onTapGesture(count: 1, perform: {
           self.presentationMode.wrappedValue.dismiss()

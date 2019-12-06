@@ -58,6 +58,7 @@ struct PrioritySwiftUIView: View {
       Button(action: {
         print("set priority")
         self.setPriorityAction()
+        Vibration.on()
       }) {
         Dice().frame(width: 128, height: 128)
       }.padding().foregroundColor(primaryColor)
@@ -68,6 +69,7 @@ struct PrioritySwiftUIView: View {
         Button(action: {
           print("reset priority")
           self.clear()
+          Vibration.on()
         }) {
           primaryColor(dinFont(Text("do not show")))
         }

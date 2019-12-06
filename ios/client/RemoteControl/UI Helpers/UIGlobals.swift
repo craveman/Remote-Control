@@ -90,5 +90,9 @@ func stateRunner () -> Void {
   Utils.delay({state.toggleTimer()}, ms: 15*1000)
 }
 
-
+@discardableResult func withDelay (_ callback: @escaping () -> Void, _ timeout: TimeInterval = 1) -> Timer {
+  return Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) {_ in
+    callback()
+  }
+}
 

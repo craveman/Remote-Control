@@ -9,40 +9,43 @@
 import SwiftUI
 
 struct PointsSwiftUIView: View {
-
+  
   func startAction() -> Void {
     rs.timer.start()
+    Vibration.on()
   }
   func stopAction() -> Void {
+    
     if rs.timer.state == .running {
       rs.timer.stop()
     }
+    Vibration.on()
   }
   var body: some View {
     VStack(spacing: 0) {
-      FightControls().border(Color.gray, width: 0.5)
+      FightControls()
       StartTimerButtonWithModalView(action: startAction, onDismiss: stopAction)
-        .padding(50)
+        
       Spacer()
     }
-//    .frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: getSubScreenHeight(), idealHeight: height, maxHeight: height, alignment: .top)
-
+    //    .frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: getSubScreenHeight(), idealHeight: height, maxHeight: height, alignment: .top)
+    
   }
 }
 
 fileprivate struct FightControls: View {
   var pType: PersonType = .none
   var body: some View {
-    HStack(spacing: 0) {
-      VStack {
-        HoldPassiveButton()
+    VStack(spacing: 0) {
+      Divider()
+      SetPeriodButtonSwiftUIView()
+      Divider()
+      HStack(spacing: 0) {
         PointsStepper(pType: .left)
-      }
-      VStack {
-        VideoButton()
         PointsStepper(pType: .right)
       }
-    }.border(Color.gray)
+    }
+    
   }
 }
 
@@ -51,7 +54,8 @@ fileprivate struct StartTimerButtonWithModalView: View {
   @State var showModal = false
   @EnvironmentObject var settings: FightSettings
   func getStartTimerString() -> String {
-    return "\(getTimeString(self.settings.time, true))"
+    return NSLocalizedString("Start", comment: "")
+    //    return "\(getTimeString(self.settings.time, true))"
   }
   
   var action: () -> Void
@@ -63,8 +67,9 @@ fileprivate struct StartTimerButtonWithModalView: View {
       self.showModal = true
     }) {
       primaryColor(dinFont(Text(getStartTimerString()), UIGlobals.timerFontSize))
-    }
-    .frame(width: size.idealWidth, height: size.idealHeight, alignment: size.alignment)
+      .padding(20)
+      .frame(width: width)
+    }.frame(width: width)
     .sheet(isPresented: self.$showModal, onDismiss: self.onDismiss) {
       TimerModalView().environmentObject(self.settings)
     }
@@ -75,13 +80,15 @@ fileprivate struct TimerModalView: View {
   @Environment(\.presentationMode) var presentationMode
   @EnvironmentObject var settings: FightSettings
   func getCountdownTimerString() -> String {
-    return "\(getTimeString(self.settings.time, true))"
+    //    return "\(getTimeString(self.settings.time, true))"
+    let label = self.settings.time > 0 ? "Stop" : "Close"
+    return NSLocalizedString(label, comment: "")
   }
   var body: some View {
-
+    
     VStack {
       dinFont(Text(getCountdownTimerString()), UIGlobals.timerFontSize)
-        .padding(CGFloat(20))
+        .padding(20)
         .onTapGesture(count: 1, perform: {
           self.presentationMode.wrappedValue.dismiss()
         })
@@ -91,6 +98,6 @@ fileprivate struct TimerModalView: View {
 
 struct PointsSwiftUIView_Previews: PreviewProvider {
   static var previews: some View {
-    PointsSwiftUIView()
+    PointsSwiftUIView().environmentObject(FightSettings())
   }
 }

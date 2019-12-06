@@ -50,6 +50,7 @@ fileprivate struct WeaponButton: View {
       if (id >= 0 && weaponsList.count > id) {
         Button(action: {
           rs.competition.weapon = weaponsList[self.id].0
+          Vibration.on()
         }) {
           dinFont(
             Text(NSLocalizedString("\(weaponsList[id].1)", comment: "")),

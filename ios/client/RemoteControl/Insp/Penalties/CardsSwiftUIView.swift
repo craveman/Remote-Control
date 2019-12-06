@@ -87,17 +87,36 @@ fileprivate struct Card: View {
   var textColor = primaryColor
   var addAction: () -> Void = {}
   var resetAction: () -> Void = {}
+  @State var isActive = false
+  
+  func thenDeactivate (_ timeout: Double = 1.1) -> Void {
+    withDelay({
+      self.isActive = false
+    }, timeout)
+  }
   var body: some View {
     ZStack {
       CardPath(color: self.color)
       dinFont(Text(self.title).foregroundColor(self.textColor), UIGlobals.popupContentFontSize).offset(x: -9, y: -18)
     }
     .gesture(resetGesture.onEnded { _ in
+      guard !self.isActive else {
+        return
+      }
       print("Card::resetGesture:action")
       self.resetAction()
+      Vibration.impact()
+      self.isActive = true
+      self.thenDeactivate()
     }).highPriorityGesture(addCardGesture.onEnded { _ in
+      guard !self.isActive else {
+        return
+      }
       print("Card::addCardGesture:action")
       self.addAction()
+      Vibration.on()
+      self.isActive = true
+      self.thenDeactivate()
     })
   }
 }
@@ -129,32 +148,58 @@ fileprivate struct PlayerPenaltiesBoard: View {
     return self.getCurrentCard(true) == .passiveNone ? StatusCard.passiveYellow : StatusCard.passiveRed
   }
   
+  func setCard(_ card: StatusCard) -> Void {
+    rs.persons[self.type].card = card
+  }
+  
+  func getOponentType() -> PersonType {
+    switch self.type {
+    case .left:
+      return .right
+    case .right:
+      return .left
+    default:
+      return .none
+    }
+  }
+  
+  func oponentGetsPoint() {
+    switch self.getOponentType() {
+    case .left:
+      rs.persons.left.score += 1
+    case .right:
+      rs.persons.right.score += 1
+    default:
+      break;
+    }
+  }
+  
   var body: some View {
     VStack {
       Card(title: "P", color: .black, textColor: .white, addAction: {
-        rs.persons[self.type].card = .passiveBlack
+        self.setCard(.passiveBlack)
       }, resetAction: {
-        rs.persons[self.type].card = .passiveNone
+        self.setCard(.passiveNone)
       })
       Card(title: "P", color: self.getColor(.passiveNone, getCurrentCard(true)), addAction: {
         let nextCard = self.getPCard()
         // todo: if red is set - add 1 point
         if nextCard == StatusCard.passiveRed {
-          rs.persons[self.type].score = rs.persons[self.type].score + 1
+          self.oponentGetsPoint()
         }
-        rs.persons[self.type].card = nextCard
+        self.setCard(nextCard)
       }, resetAction: {
-        rs.persons[self.type].card = .passiveNone
+        self.setCard(.passiveNone)
       })
       Card(title: "", color: self.getColor(.none, getCurrentCard(false)), addAction: {
         let nextCard = self.getCard()
         // todo: if red is set - add 1 point
         if nextCard == StatusCard.red {
-          rs.persons[self.type].score = rs.persons[self.type].score + 1
+          self.oponentGetsPoint()
         }
-        rs.persons[self.type].card = nextCard
+        self.setCard(nextCard)
       }, resetAction: {
-        rs.persons[self.type].card = .none
+        self.setCard(.none)
       })
     }
     

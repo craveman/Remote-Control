@@ -14,6 +14,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
   @IBOutlet weak var qrReaderSubViewWrapper: UIView!
 
   override func viewDidAppear (_ animated: Bool) {
+//    skipQR()
     getScanner()?.onSuccess = { [weak self] in
       guard self == self else {
         return
@@ -86,6 +87,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
   }
 
   private func jumpToInspiration () {
+//    getScanner()?.stopScanner()
     performSegue(withIdentifier: "skipQR", sender: nil)
   }
 

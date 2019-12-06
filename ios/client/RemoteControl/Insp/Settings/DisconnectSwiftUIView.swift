@@ -17,7 +17,7 @@ struct DisconnectButtonSwiftUIView: View {
       print("DisconnectButtonSwiftUIView:onDismiss")
       
       
-    } ) {
+    }, border: Color.clear ) {
       DisconnectSwiftUIView()
     }
   }
@@ -37,9 +37,7 @@ struct DisconnectSwiftUIView: View {
         .foregroundColor(primaryColor)
         
         primaryColor(dinFont(Text("Disconnect this Remote Control?"))).padding(.top).fixedSize()
-      }.onTapGesture(count: 1, perform: {
-        rs.connection.disconnect()
-      })
+      }
       Spacer()
       Divider()
       HStack {

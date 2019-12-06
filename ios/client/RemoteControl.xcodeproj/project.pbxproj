@@ -222,7 +222,6 @@
 				85B95705237E06C50063E32C /* TimersSwiftUIView.swift */,
 				851AE9B223874353001BE3FB /* ResetBoutUIView.swift */,
 				851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */,
-				85D6E91C2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift */,
 				85D6E91E23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift */,
 				85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */,
 			);
@@ -233,6 +232,7 @@
 			isa = PBXGroup;
 			children = (
 				85B956F9237A0FA50063E32C /* PointsSwiftUIView.swift */,
+				85D6E91C2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift */,
 				85B956FD237A2CA70063E32C /* HoldPassiveButton.swift */,
 				85B956FF237A31DF0063E32C /* VideoButton.swift */,
 				85B95701237A363A0063E32C /* PointsStepper.swift */,
@@ -764,7 +764,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.0.17;
+				MARKETING_VERSION = 1.0.18;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -792,7 +792,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.0.17;
+				MARKETING_VERSION = 1.0.18;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

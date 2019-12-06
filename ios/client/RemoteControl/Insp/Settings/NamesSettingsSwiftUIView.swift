@@ -15,7 +15,7 @@ struct NamesSettingsButtonSwiftUIView: View {
       self.showModal.toggle()
     }) {
       VStack {
-        primaryColor(dinFont(Text("John..."), 48)).fixedSize()
+        primaryColor(dinFont(Text("John..."), 36)).fixedSize()
         primaryColor(dinFont(Text("names")))
       }
       
@@ -37,11 +37,17 @@ struct NamesSettingsSwiftUIView: View {
   
   private func endEditing() {
     UIApplication.shared.endEditing()
+    var wasChanged = false
     if (rs.persons.left.name != self.leftName) {
       rs.persons.left.name = self.leftName
+      wasChanged = true
     }
     if (rs.persons.right.name != self.rightName) {
       rs.persons.right.name = self.rightName
+      wasChanged = true
+    }
+    if (wasChanged) {
+      Vibration.impact()
     }
   }
   var body: some View {

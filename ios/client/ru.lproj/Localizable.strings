@@ -75,7 +75,7 @@
 "title Passive" = "Таймер пассива";
 "do not show passive" = "скрыть счётчик";
 "show passive" = "показать счётчик";
-"hold passive" = "удерж. пассив";
+"hold passive" = "удерживать пассив";
 
 "view video" = "видеоповтор";
 
@@ -93,9 +93,13 @@
 "set passive" = "пассив";
 "set time" = "время";
 "set period" = "период";
-"reset bout" = "сброс раунда";
+"reset bout" = "сброс";
 
 "Left player" = "Левая сторона";
 "Right player" = "Правая сторона";
+
+"Start" = "СТАРТ";
+"Stop" = "СТОП";
+"Close" = "ЗАКРЫТЬ";
 
 "Disconnect this Remote Control?" = "Отключить этот пульт?";

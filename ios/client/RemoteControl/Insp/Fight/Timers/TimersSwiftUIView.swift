@@ -28,10 +28,10 @@ struct TimersSwiftUIView: View {
   
   var body: some View {
     VStack(spacing: 0){
+      Divider()
       ResetBoutButton()
       PauseSetters()
       TimersSetters()
-      SetPeriodButtonSwiftUIView()
     }
     .frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: getSubScreenHeight(), idealHeight: height, maxHeight: .infinity, alignment: .top)
     
