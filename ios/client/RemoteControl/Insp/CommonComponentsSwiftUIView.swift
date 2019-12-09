@@ -56,7 +56,8 @@ struct CommonButton: View {
 
 struct CommonModalButton<Content>: View where Content: View {
   @EnvironmentObject var settings: FightSettings
-  @State var showModal = false
+  @Binding var showModal: Bool
+  
   private let uuid = UUID()
   
   let content: () -> Content
@@ -70,7 +71,7 @@ struct CommonModalButton<Content>: View where Content: View {
   var onDismiss: () -> Void
   var border: Color
   
-  init(imageName: String?, imageColor: Color?, buttonType: ButtonType = .withImage, text: String, action: @escaping () -> Void = {}, onDismiss: @escaping () -> Void = {}, border: Color = Color.gray, @ViewBuilder content: @escaping () -> Content) {
+  init(imageName: String?, imageColor: Color?, buttonType: ButtonType = .withImage, text: String, action: @escaping () -> Void = {}, onDismiss: @escaping () -> Void = {}, border: Color = Color.gray, showModal: Binding<Bool> = State(initialValue: false).projectedValue, @ViewBuilder content: @escaping () -> Content) {
     self.buttonType = buttonType
     self.frame = getButtonFrame(buttonType)
     self.text = text
@@ -85,6 +86,7 @@ struct CommonModalButton<Content>: View where Content: View {
       self.imageColor = imageColor!
     }
     self.border = border
+    self._showModal = showModal
   }
   
   var body: some View {
@@ -242,6 +244,23 @@ struct CommonBundlePicker: View {
     
   }
   
+}
+
+struct InspTabSelector: View {
+  var title: String = "Button"
+  var action: () -> Void
+  var isSelected: Bool = false
+  var size = getButtonFrame(.basic)
+  var body: some View {
+    Button(action: self.action) {
+      dinFont(Text(NSLocalizedString("tab \(title)", comment: ""))
+        .foregroundColor(!self.isSelected ? primaryColor : .white)
+      ).fixedSize()
+    }
+    .frame(width: self.size.idealWidth, height: self.size.idealHeight, alignment: self.size.alignment)
+    .foregroundColor(!self.isSelected ? primaryColor: .white)
+    .background(self.isSelected ? UIGlobals.activeButtonBackground_SUI : nil)
+  }
 }
 
 struct PickerHolderView: View {

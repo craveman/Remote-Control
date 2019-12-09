@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 import SwiftUI
 
+var inspFontName: String = "DIN Alternate"
+
 class UIGlobals {
   static let timerFontSize: CGFloat = 64
   static let popupContentFontSize: CGFloat = 36
@@ -79,8 +81,6 @@ class MyObserver: NSObject {
   
 }
 
-
-
 fileprivate let step = 1000
 fileprivate let state = UIState()
 let StateObserver = MyObserver(state)
@@ -95,4 +95,24 @@ func stateRunner () -> Void {
     callback()
   }
 }
+
+@available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
+struct ScaledFont: ViewModifier {
+    @Environment(\.sizeCategory) var sizeCategory
+    var name: String
+    var size: CGFloat
+
+    func body(content: Content) -> some View {
+       let scaledSize = UIFontMetrics.default.scaledValue(for: size)
+        return content.font(.custom(name, size: scaledSize))
+    }
+}
+
+@available(iOS 13, macCatalyst 13, tvOS 13, watchOS 6, *)
+extension View {
+    func scaledFont(name: String = inspFontName, size: CGFloat = 24) -> some View {
+        return self.modifier(ScaledFont(name: name, size: size))
+    }
+}
+
 

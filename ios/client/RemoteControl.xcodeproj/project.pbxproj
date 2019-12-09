@@ -28,9 +28,9 @@
 		851AE9CD2389E452001BE3FB /* NamesSettingsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9CC2389E452001BE3FB /* NamesSettingsSwiftUIView.swift */; };
 		851AE9CF2389E4F2001BE3FB /* WeaponsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9CE2389E4F2001BE3FB /* WeaponsSwiftUIView.swift */; };
 		851AE9D12389ECE5001BE3FB /* ScoreSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9D02389ECE5001BE3FB /* ScoreSwiftUIView.swift */; };
+		85584AE3239ED5A2006EC133 /* RcViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85584AE2239ED5A2006EC133 /* RcViewModels.swift */; };
 		85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A99338230B47A4003FC5BE /* Inspiration.storyboard */; };
 		85A9934A23109CB7003FC5BE /* RcViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934923109CB7003FC5BE /* RcViewController.swift */; };
-		85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934C23109E2D003FC5BE /* InspViewController.swift */; };
 		85B661F7239327920016CE4F /* KeyboardGuardianSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B661F6239327920016CE4F /* KeyboardGuardianSwiftUI.swift */; };
 		85B661F9239327F10016CE4F /* TestKeabordGuardianSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B661F8239327F10016CE4F /* TestKeabordGuardianSwiftUIView.swift */; };
 		85B956FA237A0FA50063E32C /* PointsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B956F9237A0FA50063E32C /* PointsSwiftUIView.swift */; };
@@ -81,8 +81,6 @@
 		850143B52382120800B63867 /* SwiftUITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUITools.swift; sourceTree = "<group>"; };
 		850AAE5E2322CF7100DBFD93 /* UITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITools.swift; sourceTree = "<group>"; };
 		850AAE602322D78400DBFD93 /* UIGlobals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIGlobals.swift; sourceTree = "<group>"; };
-		850AAE6823270B2B00DBFD93 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/QRConnect.strings; sourceTree = "<group>"; };
-		850AAE6923270CBC00DBFD93 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/QRConnect.strings; sourceTree = "<group>"; };
 		850AAE6A23270CBC00DBFD93 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		850AAE6C23270DC900DBFD93 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		850AAE7F2327194800DBFD93 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
@@ -114,9 +112,11 @@
 		851AE9CC2389E452001BE3FB /* NamesSettingsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamesSettingsSwiftUIView.swift; sourceTree = "<group>"; };
 		851AE9CE2389E4F2001BE3FB /* WeaponsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponsSwiftUIView.swift; sourceTree = "<group>"; };
 		851AE9D02389ECE5001BE3FB /* ScoreSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreSwiftUIView.swift; sourceTree = "<group>"; };
+		85584ADD239C491A006EC133 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/QRConnect.strings; sourceTree = "<group>"; };
+		85584ADF239C4944006EC133 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/QRConnect.strings; sourceTree = "<group>"; };
+		85584AE2239ED5A2006EC133 /* RcViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RcViewModels.swift; sourceTree = "<group>"; };
 		85A99338230B47A4003FC5BE /* Inspiration.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Inspiration.storyboard; sourceTree = "<group>"; };
 		85A9934923109CB7003FC5BE /* RcViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RcViewController.swift; sourceTree = "<group>"; };
-		85A9934C23109E2D003FC5BE /* InspViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspViewController.swift; sourceTree = "<group>"; };
 		85B661F6239327920016CE4F /* KeyboardGuardianSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardGuardianSwiftUI.swift; sourceTree = "<group>"; };
 		85B661F8239327F10016CE4F /* TestKeabordGuardianSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestKeabordGuardianSwiftUIView.swift; sourceTree = "<group>"; };
 		85B956F9237A0FA50063E32C /* PointsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsSwiftUIView.swift; sourceTree = "<group>"; };
@@ -224,6 +224,7 @@
 				851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */,
 				85D6E91E23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift */,
 				85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */,
+				85D6E91C2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift */,
 			);
 			path = Timers;
 			sourceTree = "<group>";
@@ -232,7 +233,6 @@
 			isa = PBXGroup;
 			children = (
 				85B956F9237A0FA50063E32C /* PointsSwiftUIView.swift */,
-				85D6E91C2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift */,
 				85B956FD237A2CA70063E32C /* HoldPassiveButton.swift */,
 				85B956FF237A31DF0063E32C /* VideoButton.swift */,
 				85B95701237A363A0063E32C /* PointsStepper.swift */,
@@ -248,9 +248,9 @@
 				85A9934623109C89003FC5BE /* Penalties */,
 				85A9934523109C7D003FC5BE /* Fight */,
 				85A99338230B47A4003FC5BE /* Inspiration.storyboard */,
-				85A9934C23109E2D003FC5BE /* InspViewController.swift */,
 				85A9934923109CB7003FC5BE /* RcViewController.swift */,
 				851AE9C0238932C2001BE3FB /* RcSwiftUIView.swift */,
+				85584AE2239ED5A2006EC133 /* RcViewModels.swift */,
 			);
 			path = Insp;
 			sourceTree = "<group>";
@@ -540,10 +540,10 @@
 				85B956FE237A2CA70063E32C /* HoldPassiveButton.swift in Sources */,
 				85B95704237B608C0063E32C /* FightTabsSelectorsUIView.swift in Sources */,
 				85D6E9252393049500CBE74D /* TestTimersSwiftUIView.swift in Sources */,
+				85584AE3239ED5A2006EC133 /* RcViewModels.swift in Sources */,
 				85A9934A23109CB7003FC5BE /* RcViewController.swift in Sources */,
 				851AE9BF23892D71001BE3FB /* CommonViewController.swift in Sources */,
 				85D6E9212390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift in Sources */,
-				85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,8 +601,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				B9C8BEE22305A2C6004DBBF8 /* Base */,
-				850AAE6823270B2B00DBFD93 /* en */,
-				850AAE6923270CBC00DBFD93 /* ru */,
+				85584ADD239C491A006EC133 /* en */,
+				85584ADF239C4944006EC133 /* ru */,
 			);
 			name = QRConnect.storyboard;
 			sourceTree = "<group>";
@@ -764,7 +764,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.0.18;
+				MARKETING_VERSION = 1.0.20;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -792,7 +792,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.0.18;
+				MARKETING_VERSION = 1.0.20;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -9,13 +9,14 @@
 import SwiftUI
 
 struct SettingsSwiftUIView: View {
+  @EnvironmentObject var insp: InspSettings
   var body: some View {
     VStack(spacing: 0) {
       HStack(spacing: 0) {
-        if (rs.connection.isConnected) {
+        if (insp.isConnected) {
           DisconnectButtonSwiftUIView()
         }
-        if (!rs.connection.isConnected) {
+        if (!insp.isConnected) {
           ConnectButton()
         }
       }

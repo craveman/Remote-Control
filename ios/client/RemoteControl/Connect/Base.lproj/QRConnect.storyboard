@@ -32,7 +32,7 @@
                     </view>
                     <connections>
                         <outlet property="qrReaderSubViewWrapper" destination="G01-oJ-bgF" id="Mz8-CW-Aip"/>
-                        <segue destination="po2-Vp-2Jh" kind="show" identifier="skipQR" id="TA0-Lc-3MV"/>
+                        <segue destination="po2-Vp-2Jh" kind="show" identifier="jumpToInspiration" id="TA0-Lc-3MV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Cc-N1-SWR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -60,6 +60,14 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uoc-8G-Nt4">
+                                <rect key="frame" x="170.5" y="618" width="34" height="33"/>
+                                <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="18"/>
+                                <state key="normal" title="Skip"/>
+                                <connections>
+                                    <action selector="skipButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SLI-NY-ZQc"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -69,7 +77,9 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ROG-L6-Gnz" secondAttribute="trailing" constant="16" id="KCK-Ol-dWq"/>
                             <constraint firstItem="10P-Ts-tf1" firstAttribute="top" secondItem="ROG-L6-Gnz" secondAttribute="bottom" constant="8" symbolic="YES" id="Rwo-FJ-9Gi"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="10P-Ts-tf1" secondAttribute="trailing" constant="16" id="S2S-pJ-gBK"/>
+                            <constraint firstItem="uoc-8G-Nt4" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="baT-Zj-akp"/>
                             <constraint firstItem="ROG-L6-Gnz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="ha4-jd-dUn"/>
+                            <constraint firstItem="uoc-8G-Nt4" firstAttribute="bottom" secondItem="10P-Ts-tf1" secondAttribute="bottom" id="zKa-8R-6ti"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

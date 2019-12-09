@@ -14,6 +14,8 @@
 "The code is recognized" = "The code is recognized";
 "The code is unrecognized" = "The code is unrecognized";
 "Connect" = "Connect";
+"Skip" = "Skip";
+"disconnected" = "disconnected from Sm02";
 
 "Wrong authentication code." = "Wrong authentication code.";
 "Another remote control is already registered on the server." = "Another remote control is already registered on the server.";
@@ -43,6 +45,9 @@
 "tab Main" = "Main";
 "tab Timers" = "Timers";
 
+"tab Left" = "Left";
+"tab Right" = "Right";
+
 "done" = "done";
 "cancel" = "cancel";
 "disconnect" = "disconnect";
@@ -52,6 +57,11 @@
 "John..." = "John...";
 "names" = "names";
 "title Set names" = "Names";
+
+"view video" = "play";
+"position" = "position";
+"speed" = "speed";
+"No saved replays found" = "No saved replays found";
 
 "video replays" = "video replays";
 "title Video replays" = "Video replays";

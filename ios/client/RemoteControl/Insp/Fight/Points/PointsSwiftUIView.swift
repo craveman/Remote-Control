@@ -7,10 +7,14 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct PointsSwiftUIView: View {
   
+  @EnvironmentObject var insp: InspSettings
+  
   func startAction() -> Void {
+    self.insp.shouldShowTimerView = true
     rs.timer.start()
     Vibration.on()
   }
@@ -19,13 +23,15 @@ struct PointsSwiftUIView: View {
     if rs.timer.state == .running {
       rs.timer.stop()
     }
+    self.insp.shouldShowTimerView = false
     Vibration.on()
   }
   var body: some View {
     VStack(spacing: 0) {
+      Divider()
+      Spacer()
       FightControls()
-      StartTimerButtonWithModalView(action: startAction, onDismiss: stopAction)
-        
+      StartTimerButtonWithModalView(showModal: $insp.shouldShowTimerView ,action: startAction, onDismiss: stopAction)
       Spacer()
     }
     //    .frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: getSubScreenHeight(), idealHeight: height, maxHeight: height, alignment: .top)
@@ -37,9 +43,6 @@ fileprivate struct FightControls: View {
   var pType: PersonType = .none
   var body: some View {
     VStack(spacing: 0) {
-      Divider()
-      SetPeriodButtonSwiftUIView()
-      Divider()
       HStack(spacing: 0) {
         PointsStepper(pType: .left)
         PointsStepper(pType: .right)
@@ -51,13 +54,14 @@ fileprivate struct FightControls: View {
 
 fileprivate struct StartTimerButtonWithModalView: View {
   var size = getButtonFrame(.fullWidth)
-  @State var showModal = false
+  @Binding var showModal: Bool
   @EnvironmentObject var settings: FightSettings
+ 
   func getStartTimerString() -> String {
     return NSLocalizedString("Start", comment: "")
     //    return "\(getTimeString(self.settings.time, true))"
   }
-  
+    
   var action: () -> Void
   var onDismiss: () -> Void
   var body: some View {
@@ -67,11 +71,11 @@ fileprivate struct StartTimerButtonWithModalView: View {
       self.showModal = true
     }) {
       primaryColor(dinFont(Text(getStartTimerString()), UIGlobals.timerFontSize))
-      .padding(20)
-      .frame(width: width)
+        .padding(20)
+        .frame(width: width)
     }.frame(width: width)
-    .sheet(isPresented: self.$showModal, onDismiss: self.onDismiss) {
-      TimerModalView().environmentObject(self.settings)
+      .sheet(isPresented: self.$showModal, onDismiss: self.onDismiss) {
+        TimerModalView().environmentObject(self.settings)
     }
   }
 }
@@ -98,6 +102,8 @@ fileprivate struct TimerModalView: View {
 
 struct PointsSwiftUIView_Previews: PreviewProvider {
   static var previews: some View {
-    PointsSwiftUIView().environmentObject(FightSettings())
+    PointsSwiftUIView()
+      .environmentObject(FightSettings())
+    .environmentObject(InspSettings())
   }
 }

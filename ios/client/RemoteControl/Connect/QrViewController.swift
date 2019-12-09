@@ -24,6 +24,10 @@ class QrViewController: UIViewController {
     }
   }
   
+  @IBAction func skipButtonClicked(_ sender: UIButton) {
+    self.onSuccess()
+  }
+  
   lazy var reader: QRCodeReader = QRCodeReader()
   private var qrCodeProcessor: QrCodeProcessor? = nil
   var openedAlertCallback: (() -> Void)?

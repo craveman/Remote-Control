@@ -35,25 +35,6 @@ struct FightTabsSelectorsUIView: View {
   }
 }
 
-
-struct InspTabSelector: View {
-  var title: String = "Button"
-  var action: () -> Void
-  var isSelected: Bool = false
-  var size = getButtonFrame(.basic)
-  var body: some View {
-    Button(action: self.action) {
-      if !self.isSelected { Text(NSLocalizedString("tab \(title)", comment: "")).foregroundColor(primaryColor).scaledFont().fixedSize()
-      } else { Text(NSLocalizedString("tab \(title)", comment: "")).foregroundColor(.white).scaledFont().fixedSize()
-      }
-    }
-    .frame(width: self.size.idealWidth, height: self.size.idealHeight, alignment: self.size.alignment)
-    .foregroundColor(!self.isSelected ? primaryColor: .white)
-    .background(self.isSelected ? UIGlobals.activeButtonBackground_SUI : nil)
-  }
-}
-
-
 struct FightTabsSelectorsUIView_Previews: PreviewProvider {
   @State static var selectedTab = 0
   static var previews: some View {

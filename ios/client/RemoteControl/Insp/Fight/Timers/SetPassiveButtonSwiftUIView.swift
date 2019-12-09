@@ -11,13 +11,13 @@ import SwiftUI
 struct SetPassiveButtonSwiftUIView: View {
   var onDismiss: () -> Void = {}
     @EnvironmentObject var settings: FightSettings
-  
+    @State var showModal = false
       var body: some View {
         CommonModalButton(imageName: "p.square", imageColor: primaryColor , buttonType: .withImage, text: "set passive", onDismiss: {
           print("setPassive dismiss")
           self.onDismiss()
 
-        }) {
+        }, showModal: $showModal) {
           PassiveModalContent(selectedTime: self.$settings.passiveDefaultTimeMs).environmentObject(self.settings)
         }
       }

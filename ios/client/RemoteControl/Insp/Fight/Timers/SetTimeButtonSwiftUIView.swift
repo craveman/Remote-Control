@@ -14,12 +14,13 @@ struct SetTimeButtonSwiftUIView: View {
   @State var selectedTime: UInt32 = rs.timer.time
   @EnvironmentObject var settings: FightSettings
   @State var amount = TimeAmount.milliseconds(Int64(rs.timer.time))
+  @State var showModal = false
     var body: some View {
       CommonModalButton(imageName: "clock", imageColor: primaryColor , buttonType: .withImage, text: "set time", onDismiss: {
         print("setTime dismiss")
         self.onDismiss()
 //        rs.timer.set(time: self.amount, mode: .main)
-      }) {
+      }, showModal: $showModal) {
         TimeModalContent(selectedTime: self.$settings.time)
       }
     }

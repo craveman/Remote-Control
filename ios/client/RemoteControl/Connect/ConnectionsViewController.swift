@@ -11,12 +11,8 @@ import AVFoundation
 
 class ConnectionsViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
   var performed = false
+  let segueName = "jumpToInspiration"
   @IBOutlet weak var qrReaderSubViewWrapper: UIView!
-
-  @IBAction func skipButton(_ sender: UIButton) {
-//    print("Skip clicked")
-    skipQR()
-  }
   
   override func viewDidAppear (_ animated: Bool) {
     
@@ -26,7 +22,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
       }
       self?.jumpToInspiration()
     }
-//    skipQR()
+    self.jumpToInspiration()
 
     if isSimulationEnv() {
       AVCaptureDevice.requestAccess(for: AVMediaType.video) {_ in}
@@ -46,7 +42,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     guard qrReaderSubViewWrapper.subviews.count > 0 else {
       return
     }
-    if segue.identifier == "skipQR" {
+    if segue.identifier == segueName {
       segue.destination.presentationController?.delegate = (self as UIAdaptivePresentationControllerDelegate)
     }
     if isSimulationEnv() {
@@ -98,7 +94,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     if (performed) {
       return
     }
-    performSegue(withIdentifier: "skipQR", sender: nil)
+    performSegue(withIdentifier: segueName, sender: nil)
     performed = true
   }
 

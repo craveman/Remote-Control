@@ -18,16 +18,15 @@ let SYNC_SM02_DELAY = 0.25
 struct PauseSetters: View {
 
   @EnvironmentObject var settings: FightSettings
+  @EnvironmentObject var insp: InspSettings
   @State var savedTime: TimeAmount? = nil
-  
-
+ 
   func dismiss () -> Void {
     PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
     rs.timer.stop()
     self.savedTime = nil
     Vibration.on()
   }
-
 
   func start (_ time: TimeAmount, _ mode: TimerMode) -> Void {
     PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
@@ -74,39 +73,41 @@ struct PauseSetters: View {
     guard let uuid = PAUSE_FINISHED_LISTENER_ID else {
       return
     }
-    rs.timer.passive.isPauseFinishedProperty.remove(observer: uuid)
+    rs.timer.isPauseFinishedProperty.remove(observer: uuid)
   }
 
+  func medicalAction() {
+    self.start(INSPIRATION_MED_TIMOUT, .medicine)
+    self.insp.shouldShowMedicalView = true
+    PAUSE_FINISHED_LISTENER_ID = rs.timer.isPauseFinishedProperty.on(change: { isFinished in
+      print("Medical pause isFinished: \(isFinished)")
+      if (isFinished) {
+        self.insp.shouldShowMedicalView = false
+        Vibration.on()
+      }
+    })
+  }
+  
+  func pauseAction() {
+    self.start(INSPIRATION_SHORT_TIMOUT, .pause)
+    self.insp.shouldShowPauseView = true
+    PAUSE_FINISHED_LISTENER_ID = rs.timer.isPauseFinishedProperty.on(change: { isFinished in
+      print("1' pause isFinished: \(isFinished)")
+      if (isFinished) {
+        self.insp.shouldShowPauseView = false
+        Vibration.on()
+      }
+    })
+  }
   
   var body: some View {
     HStack(spacing: 0) {
-      CommonModalButton(imageName: "plus", imageColor: .red, text: "button medical", action: {
-        self.start(INSPIRATION_MED_TIMOUT, .medicine)
-        PAUSE_FINISHED_LISTENER_ID = rs.timer.passive.isPauseFinishedProperty.on(change: { isFinished in
-          if (isFinished) {
-            self.medicalDismissAction()
-            Vibration.on()
-          }
-        })
-      }, onDismiss: {
-        self.medicalDismissAction()
-      } ,content: {
+      CommonModalButton(imageName: "plus", imageColor: .red, text: "button medical", action: self.medicalAction, onDismiss: self.medicalDismissAction, showModal: self.$insp.shouldShowMedicalView){
         MedicalPauseModalContentUIView(time: self.$settings.time)
-      })
-      CommonModalButton(imageName: "timer", imageColor: .yellow, text: "button 1' pause", action: {
-        self.start(INSPIRATION_SHORT_TIMOUT, .pause)
-        PAUSE_FINISHED_LISTENER_ID = rs.timer.passive.isPauseFinishedProperty.on(change: { isFinished in
-          if (isFinished) {
-            self.pauseDismissAction()
-            Vibration.on()
-          }
-        })
-      }, onDismiss: {
-        self.pauseDismissAction()
-      } ,content: {
+      }
+      CommonModalButton(imageName: "timer", imageColor: .yellow, text: "button 1' pause", action: self.pauseAction, onDismiss: self.pauseDismissAction, showModal: self.$insp.shouldShowPauseView){
         PauseModalContentUIView(time: self.$settings.time)
-
-      })
+      }
     }
   }
 }
