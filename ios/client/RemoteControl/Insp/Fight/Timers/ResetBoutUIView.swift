@@ -11,13 +11,14 @@ import SwiftUI
 
 struct ResetBoutButton: View {
   @EnvironmentObject var settings: FightSettings
+  @State var showModal = false
   var body: some View {
     CommonModalButton(imageName: "arrow.2.circlepath", imageColor: nil, buttonType: .special, text: "reset bout", action: {
       Vibration.on()
       print("ResetBoutButton:action")
     }, onDismiss: {
       print("ResetBoutButton:onDismiss")
-    }, border: Color.clear) {
+    }, border: Color.clear, showModal: $showModal) {
       ResetBoutModalContentUIView().environmentObject(self.settings)
     }
   }
