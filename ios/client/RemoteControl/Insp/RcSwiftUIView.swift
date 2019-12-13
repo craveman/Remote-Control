@@ -20,9 +20,8 @@ struct RcSwiftUIView: View {
             .frame(width: width)
             .background(Color.red)
         }
-        
       }
-      TabView(selection: $settings.tab) {
+      TabView(selection: $insp.tab) {
         CardsSwiftUIView()
           .tabItem {
             Image(systemName: "square.fill")

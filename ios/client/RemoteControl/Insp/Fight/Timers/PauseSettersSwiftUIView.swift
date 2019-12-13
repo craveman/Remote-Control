@@ -9,95 +9,92 @@
 import SwiftUI
 import struct NIO.TimeAmount
 
-let INSPIRATION_MED_TIMOUT = TimeAmount.minutes(5)
-let INSPIRATION_SHORT_TIMOUT = TimeAmount.minutes(1)
-
-var PAUSE_DISSMISED_DEFERED_ACTION_TIMER: Timer? = nil
-var PAUSE_FINISHED_LISTENER_ID: UUID? = nil
 let SYNC_SM02_DELAY = 0.25
 struct PauseSetters: View {
-
+  
   @EnvironmentObject var settings: FightSettings
   @EnvironmentObject var insp: InspSettings
   @State var savedTime: TimeAmount? = nil
- 
-  func dismiss () -> Void {
-    PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
+  
+  private func dismiss () -> Void {
+    self.settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
     rs.timer.stop()
     self.savedTime = nil
     Vibration.on()
   }
-
-  func start (_ time: TimeAmount, _ mode: TimerMode) -> Void {
-    PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
-    if rs.timer.state == .running {
-      rs.timer.stop()
-    }
+  
+  private func start (_ time: TimeAmount, _ mode: TimerMode) -> Void {
+    self.settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
     if rs.timer.mode == .main {
       let time = rs.timer.time
       self.savedTime = .milliseconds(Int64(time))
     }
-
+    
     // todo: update for startTimer(time, mode) when rs will support
     rs.timer.set(time: time, mode: mode)
-
-    PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
+    
+    self.settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
       rs.timer.start()
     }, SYNC_SM02_DELAY)
-    Vibration.on()
   }
   
   func pauseDismissAction() -> Void {
     unsubscribeFinish()
-    print("PauseSetters::1_min_pause:onDismiss")
     self.dismiss()
-
-    PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
+    
+    self.settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
       self.settings.period += 1
     }, SYNC_SM02_DELAY)
   }
-
+  
   
   func medicalDismissAction() -> Void {
     unsubscribeFinish()
-    let time = self.savedTime ?? TimeAmount.minutes(3)
-    print("PauseSetters::medical:onDismiss")
+    let time = self.savedTime ?? INSPIRATION_DEF_TIMOUT
     self.dismiss()
-
-    PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
+    
+    self.settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
       rs.timer.set(time: time, mode: .main)
     }, SYNC_SM02_DELAY)
   }
   
   func unsubscribeFinish() -> Void {
-    guard let uuid = PAUSE_FINISHED_LISTENER_ID else {
+    guard let uuid = self.settings.PAUSE_FINISHED_LISTENER_ID else {
       return
     }
     rs.timer.isPauseFinishedProperty.remove(observer: uuid)
   }
-
-  func medicalAction() {
-    self.start(INSPIRATION_MED_TIMOUT, .medicine)
-    self.insp.shouldShowMedicalView = true
-    PAUSE_FINISHED_LISTENER_ID = rs.timer.isPauseFinishedProperty.on(change: { isFinished in
-      print("Medical pause isFinished: \(isFinished)")
+  
+  func subscribeFinished() {
+    self.unsubscribeFinish()
+    self.settings.PAUSE_FINISHED_LISTENER_ID = rs.timer.isPauseFinishedProperty.on(change: { isFinished in
       if (isFinished) {
-        self.insp.shouldShowMedicalView = false
+        DispatchQueue.main.async {
+          self.insp.shouldShowPauseView = false
+          self.insp.shouldShowMedicalView = false
+        }
         Vibration.on()
       }
     })
   }
   
+  func medicalAction() {
+    DispatchQueue.main.async {
+      self.start(INSPIRATION_MED_TIMOUT, .medicine)
+      self.insp.shouldShowMedicalView = true
+      self.subscribeFinished()
+    }
+    Vibration.on()
+  }
+  
+  
   func pauseAction() {
-    self.start(INSPIRATION_SHORT_TIMOUT, .pause)
-    self.insp.shouldShowPauseView = true
-    PAUSE_FINISHED_LISTENER_ID = rs.timer.isPauseFinishedProperty.on(change: { isFinished in
-      print("1' pause isFinished: \(isFinished)")
-      if (isFinished) {
-        self.insp.shouldShowPauseView = false
-        Vibration.on()
-      }
-    })
+    DispatchQueue.main.async {
+      self.start(INSPIRATION_SHORT_TIMOUT, .pause)
+      self.insp.shouldShowPauseView = true
+      self.subscribeFinished()
+    }
+    Vibration.on()
   }
   
   var body: some View {
@@ -140,7 +137,7 @@ struct MedicalPauseModalContentUIView: View {
           self.presentationMode.wrappedValue.dismiss()
         }, color: .green)
       }
-        .padding([.vertical])
+      .padding([.vertical])
       .frame(width: width)
     }
   }
@@ -180,7 +177,7 @@ struct PauseModalContentUIView: View {
 struct PauseSettersSwiftUIView: View {
   var body: some View {
     Text("Hello, World!")
-
+    
   }
 }
 

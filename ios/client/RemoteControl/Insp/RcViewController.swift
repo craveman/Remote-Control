@@ -3,50 +3,45 @@
 //  RemoteControl
 //
 //  Created by Sergei Andreev on 24/08/2019.
-//  Copyright © 2019 Artem Labazin. All rights reserved.
+//  Copyright © 2019 Artem Labazin, Sergei Andreev. All rights reserved.
 //
 
 import UIKit
 import SwiftUI
-import struct NIO.TimeAmount
-
-let INSPIRATION_DEF_TIMOUT = TimeAmount.minutes(3)
-let GAME_DEFAULT_TIME: UInt32 = UInt32(INSPIRATION_DEF_TIMOUT.nanoseconds/1_000_000)
 
 class RcViewController: UIViewController {
   
   @IBOutlet weak var fightSubView: UIView!
   internal var fight: RcSwiftUIView?
   internal var game = FightSettings()
-  internal var remoteModel = InspSettings()
+  internal var rcModel = InspSettings()
   internal var playbackController = PlaybackControls()
-  lazy var fightSwiftUIHost: UIViewController = {
+  
+//  todo: save subscribe tokens
+  internal var subUuids: [UUID] = []
+  
+  lazy var fightSwiftUIHostVC: UIViewController = {
     
     var view = RcSwiftUIView()
+      
     self.fight = view
-    self.updateViewState()
-    var vc = UIHostingController(rootView: view.environmentObject(game).environmentObject(remoteModel)
-      .environmentObject(playbackController)
-    )
-    self.addViewControllerAsChildViewController(childViewController: vc)
     
+    var vc = UIHostingController(rootView: view.environmentObject(game).environmentObject(rcModel).environmentObject(playbackController))
+    self.addViewControllerAsChildViewController(childViewController: vc)
     return vc
   }()
-  
-  func updateViewState() -> Void {
-    
-  }
-  
   override func viewDidLoad() {
     super.viewDidLoad()
     setSubscriptions()
     updateView()
-    // Do any additional setup after loading the view.
+  }
+  
+  private func updateView() {
+    fightSwiftUIHostVC.view.isHidden = false
   }
   
   private func onMainThread(_ callback:  @escaping () -> Void) {
     DispatchQueue.main.async {
-      //            print("\(delay) milliseconds later")
       callback()
     }
   }
@@ -54,9 +49,9 @@ class RcViewController: UIViewController {
   private func setSubscriptions() {
     rs.connection.isAuthenticatedProperty.on(change: { isAuth in
       guard isAuth == false else {
-        if !self.remoteModel.isConnected {
+        if !self.rcModel.isConnected {
           self.onMainThread({
-            self.remoteModel.isConnected = isAuth && rs.connection.isConnected
+            self.rcModel.isConnected = isAuth && rs.connection.isConnected
           })          
         }
         return
@@ -71,17 +66,17 @@ class RcViewController: UIViewController {
     
     rs.connection.isConnectedProperty.on(change: { isConnected in
       guard isConnected == false else {
-        if !self.remoteModel.isConnected {
+        if !self.rcModel.isConnected {
           self.onMainThread({
-            self.remoteModel.isConnected = rs.connection.isAuthenticated && isConnected
-            self.game.tab = 1
+            self.rcModel.isConnected = rs.connection.isAuthenticated && isConnected
+            self.rcModel.tab = 1
           })
         }
         return
       }
       self.onMainThread({
-        self.remoteModel.isConnected = rs.connection.isAuthenticated && isConnected
-        self.game.tab = 2
+        self.rcModel.isConnected = rs.connection.isAuthenticated && isConnected
+        self.rcModel.tab = 2
         
       })
     })
@@ -92,14 +87,18 @@ class RcViewController: UIViewController {
       }
       self.onMainThread({self.game.time = update})
     })
+    
     rs.timer.stateProperty.on(change: { timerState in
       let isRun = timerState == .running
       guard self.game.isRunning != isRun else {
         return
       }
       self.onMainThread({
+        self.rcModel.shouldShowTimerView = rs.timer.mode == .main && isRun
+        self.rcModel.shouldShowPauseView = rs.timer.mode == .pause && isRun
+        self.rcModel.shouldShowMedicalView = rs.timer.mode == .medicine && isRun
+        
         self.game.isRunning = isRun
-        self.remoteModel.shouldShowTimerView = isRun
       })
     })
     
@@ -126,7 +125,7 @@ class RcViewController: UIViewController {
       self.onMainThread({self.game.leftScore = score})
     })
     rs.persons.left.cardProperty.on(change: { card in
-      self.onMainThread({self.setCard(card, .left)})
+      self.onMainThread({self.game.setCard(card, .left)})
     })
     
     //        right
@@ -137,56 +136,17 @@ class RcViewController: UIViewController {
       self.onMainThread({self.game.rightScore = score})
     })
     rs.persons.right.cardProperty.on(change: { card in
-      self.onMainThread({self.setCard(card, .right)})
+      self.onMainThread({self.game.setCard(card, .right)})
     })
   }
   
-  private func setCard(_ card: StatusCard, _ pType: PersonType) {
-    switch card {
-    case .none, .yellow, .red, .black:
-      switch pType {
-      case .left:
-        self.game.leftCard = card
-      case .right:
-        self.game.rightCard = card
-      default:
-        return
-      }
-    case .passiveNone, .passiveYellow, .passiveRed, .passiveBlack:
-      switch pType {
-      case .left:
-        self.game.leftCardP = card
-      case .right:
-        self.game.rightCardP = card
-      default:
-        return
-      }
-    }
-    
-  }
-  
-  private func updateView() {
-    print("update view")
-    
-    fightSwiftUIHost.view.isHidden = false
-    updateGame()
-  }
-  
-  private func updateGame() {
-    self.game.isRunning = false
-    self.game.time = GAME_DEFAULT_TIME
-  }
-  
   private func addViewControllerAsChildViewController(childViewController: UIViewController) {
-    
     addChild(childViewController)
     
     fightSubView.addSubview(childViewController.view)
     childViewController.view.frame = fightSubView.bounds
     childViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-    
     childViewController.didMove(toParent: self)
-    
   }
   
 }

@@ -18,7 +18,12 @@ struct ScoreButtonSwiftUIView: View {
       self.showModal.toggle()
     }) {
       VStack {
-        primaryColor(dinFont(Text("\(self.settings.leftScore):\(self.settings.rightScore)"), 48))
+        HStack {
+          primaryColor(dinFont(Text("\(self.settings.leftScore)"), 48)).frame(width: 80, alignment: .trailing)
+          primaryColor(dinFont(Text(":"), 48))
+          primaryColor(dinFont(Text("\(self.settings.rightScore)"), 48)).frame(width: 80, alignment: .leading)
+        }
+        
         primaryColor(dinFont(Text("score")))
       }
       

@@ -19,7 +19,6 @@ struct PointsStepper: View {
   var plusHeight = CGFloat(heightOfButton() * 2)
   
   let pSize = getButtonFrame(.doubleHeight)
-  let mSize = getButtonFrame(.basic)
   
   func getScore () -> UInt8 {
     switch pType {
@@ -69,9 +68,8 @@ struct PointsStepper: View {
         Vibration.on()
         self.thenDeactivateMinus()
       }) {
-        primaryColor(dinFont(Text("-"), 50)).padding().frame(width: pSize.idealWidth, height: pSize.idealHeight, alignment: pSize.alignment)
+        primaryColor(dinFont(Text("-"), 50)).padding().frame(width: pSize.idealWidth, height: pSize.idealHeight * 0.75, alignment: pSize.alignment)
       }
-      .frame(width: mSize.idealWidth, height: mSize.idealHeight, alignment: mSize.alignment)
       .disabled(minusIsActive)
       .background(minusIsActive ? UIGlobals.disabledButtonBackground_SUI: nil)
       .border(Color.gray, width: 0.5)
@@ -86,9 +84,8 @@ struct PointsStepper: View {
         self.thenDeactivatePlus()
         
       }) {
-        primaryColor(dinFont(Text("+"), 50)).frame(width: pSize.idealWidth, height: pSize.idealHeight, alignment: pSize.alignment)
+        primaryColor(dinFont(Text("+"), 50)).frame(width: pSize.idealWidth, height: pSize.idealHeight * 1.25, alignment: pSize.alignment)
       }
-      .frame(width: pSize.idealWidth, height: pSize.idealHeight, alignment: pSize.alignment)
       .disabled(plusIsActive)
       .background(plusIsActive ? UIGlobals.disabledButtonBackground_SUI: nil)
       .border(Color.gray, width: 0.5)

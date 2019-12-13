@@ -7,12 +7,51 @@
 //
 
 import Foundation
+import struct NIO.TimeAmount
+
+let INSPIRATION_DEF_TIMOUT = TimeAmount.minutes(3)
+let GAME_DEFAULT_TIME: UInt32 = UInt32(INSPIRATION_DEF_TIMOUT.nanoseconds/1_000_000)
+let INSPIRATION_MED_TIMOUT = TimeAmount.minutes(5)
+let INSPIRATION_SHORT_TIMOUT = TimeAmount.minutes(1)
 
 class InspSettings: ObservableObject {
   @Published var isConnected: Bool = rs.connection.isAuthenticated && rs.connection.isConnected
-  @Published var shouldShowTimerView: Bool = rs.timer.mode == .main && rs.timer.state == .running
-  @Published var shouldShowPauseView: Bool = rs.timer.mode == .pause && rs.timer.state == .running
-  @Published var shouldShowMedicalView: Bool = rs.timer.mode == .medicine && rs.timer.state == .running
+  
+  @Published var tab: Int = !rs.connection.isConnected ? 2 : 1
+  @Published var fightSwitchActiveTab: Int = rs.timer.mode == .main ? 0 : 1
+  
+  @Published var shouldShowTimerView: Bool = rs.timer.mode == .main && rs.timer.state == .running {
+    willSet(next) {
+      if (!next) {
+        return;
+      }
+      self.tab = 1
+      self.fightSwitchActiveTab = 0
+    }
+  }
+  @Published var shouldShowPauseView: Bool = rs.timer.mode == .pause && rs.timer.state == .running {
+    willSet(next) {
+      if (!next) {
+        return;
+      }
+      self.tab = 1
+      self.fightSwitchActiveTab = 1
+    }
+  }
+  @Published var shouldShowMedicalView: Bool = rs.timer.mode == .medicine && rs.timer.state == .running {
+    willSet(next) {
+      if (!next) {
+        return;
+      }
+      self.tab = 1
+      self.fightSwitchActiveTab = 1
+    }
+  }
+  
+  func reset() {
+    self.tab = 1
+    self.fightSwitchActiveTab = 0
+  }
 }
 
 class PlaybackControls: ObservableObject {
@@ -40,6 +79,8 @@ class PlaybackControls: ObservableObject {
 }
 
 class FightSettings: ObservableObject {
+  var PAUSE_DISSMISED_DEFERED_ACTION_TIMER: Timer? = nil
+  var PAUSE_FINISHED_LISTENER_ID: UUID? = nil
   @Published var leftCardP: StatusCard = .passiveNone
   @Published var rightCardP: StatusCard = .passiveNone
   @Published var leftCard: StatusCard = .none
@@ -64,8 +105,7 @@ class FightSettings: ObservableObject {
   @Published var showPassive = true
   @Published var holdPassive = false
   @Published var weapon: Weapon = .none
-  @Published var tab: Int = !rs.connection.isConnected ? 2 : 1
-  @Published var presentedModal: UUID?
+  
   @Published var period: Int = 0 {
     didSet {
       print("settings.period updated to \(period)")
@@ -73,15 +113,43 @@ class FightSettings: ObservableObject {
       rs.timer.set(time: INSPIRATION_DEF_TIMOUT, mode: .main)
     }
   }
-  @Published var fightSwitchActiveTab: Int = 0
   
   func resetBout() {
+    
     self.leftScore = 0
     self.rightScore = 0
     self.time = GAME_DEFAULT_TIME
-    self.tab = 1
-    self.fightSwitchActiveTab = 0
     self.isRunning = false
+    
+    self.resetCards()
+  }
+  
+  
+  func setCard(_ card: StatusCard, _ pType: PersonType) {
+    switch card {
+    case .none, .yellow, .red, .black:
+      switch pType {
+      case .left:
+        self.leftCard = card
+      case .right:
+        self.rightCard = card
+      default:
+        return
+      }
+    case .passiveNone, .passiveYellow, .passiveRed, .passiveBlack:
+      switch pType {
+      case .left:
+        self.leftCardP = card
+      case .right:
+        self.rightCardP = card
+      default:
+        return
+      }
+    }
+    
+  }
+  
+  func resetCards() {
     self.leftCard = .none
     self.rightCard = .none
     self.leftCardP = .passiveNone

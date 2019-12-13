@@ -10,6 +10,7 @@ import SwiftUI
 
 struct PriorityButtonSwiftUIView: View {
   @EnvironmentObject var settings: FightSettings
+  @EnvironmentObject var insp: InspSettings
   @State var showModal = false
   var body: some View {
     Button(action: {
@@ -23,13 +24,14 @@ struct PriorityButtonSwiftUIView: View {
       .frame(width: width / 2, height: mediumHeightOfButton())
       .border(Color.gray, width: 0.5)
       .sheet(isPresented: self.$showModal) {
-        PrioritySwiftUIView().environmentObject(self.settings)
+        PrioritySwiftUIView().environmentObject(self.settings).environmentObject(self.insp)
     }
   }
 }
 
 struct PrioritySwiftUIView: View {
   @EnvironmentObject var settings: FightSettings
+  @EnvironmentObject var insp: InspSettings
   @Environment(\.presentationMode) var presentationMode
   @State var hasPriority: Bool = rs.persons.left.isPriority || rs.persons.right.isPriority
   
@@ -80,8 +82,8 @@ struct PrioritySwiftUIView: View {
        Divider()
       HStack {
         ConfirmModalButton(action: {
-          self.settings.fightSwitchActiveTab = 0
-          self.settings.tab = 1
+          self.insp.fightSwitchActiveTab = 0
+          self.insp.tab = 1
           self.presentationMode.wrappedValue.dismiss()
         }, color: .green)
       }.padding([.vertical]).frame(width: width)

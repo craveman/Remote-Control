@@ -91,7 +91,6 @@ struct CommonModalButton<Content>: View where Content: View {
   
   var body: some View {
     CommonButton(action: {
-      self.settings.presentedModal = self.uuid
       self.showModal.toggle()
       self.action()
     }, text: self.text, imageName: self.imageName, imageColor: self.imageColor, frame: self.frame, border: self.border)

@@ -12,17 +12,15 @@ import Foundation
 struct PointsSwiftUIView: View {
   
   @EnvironmentObject var insp: InspSettings
+  @EnvironmentObject var settings: FightSettings
   
   func startAction() -> Void {
-    self.insp.shouldShowTimerView = true
     rs.timer.start()
+    self.insp.shouldShowTimerView = true
     Vibration.on()
   }
   func stopAction() -> Void {
-    
-    if rs.timer.state == .running {
-      rs.timer.stop()
-    }
+    rs.timer.stop()
     self.insp.shouldShowTimerView = false
     Vibration.on()
   }
@@ -34,8 +32,6 @@ struct PointsSwiftUIView: View {
       StartTimerButtonWithModalView(showModal: $insp.shouldShowTimerView ,action: startAction, onDismiss: stopAction)
       Spacer()
     }
-    //    .frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: getSubScreenHeight(), idealHeight: height, maxHeight: height, alignment: .top)
-    
   }
 }
 

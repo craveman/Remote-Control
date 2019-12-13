@@ -9,15 +9,15 @@
 import SwiftUI
 
 struct FightSectionSwiftUIView: View {
+  @EnvironmentObject var insp: InspSettings
   @EnvironmentObject var settings: FightSettings
-  
   var body: some View {
     VStack(spacing: 0) {
-      FightTabsSelectorsUIView(selectedTab: $settings.fightSwitchActiveTab)
-      if settings.fightSwitchActiveTab == 0 {
+      FightTabsSelectorsUIView(selectedTab: $insp.fightSwitchActiveTab)
+      if insp.fightSwitchActiveTab == 0 {
         PointsSwiftUIView()
-      } else if settings.fightSwitchActiveTab == 1 {
-        TimersSwiftUIView()
+      } else if insp.fightSwitchActiveTab == 1 {
+        TimersSwiftUIView().environmentObject(settings)
       }
     }
     

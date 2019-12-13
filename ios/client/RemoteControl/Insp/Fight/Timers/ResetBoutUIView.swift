@@ -8,26 +8,23 @@
 
 import SwiftUI
 
-
 struct ResetBoutButton: View {
   @EnvironmentObject var settings: FightSettings
+  @EnvironmentObject var insp: InspSettings
   @State var showModal = false
   var body: some View {
-    CommonModalButton(imageName: "arrow.2.circlepath", imageColor: nil, buttonType: .special, text: "reset bout", action: {
-      Vibration.on()
-      print("ResetBoutButton:action")
-    }, onDismiss: {
-      print("ResetBoutButton:onDismiss")
-    }, border: Color.clear, showModal: $showModal) {
-      ResetBoutModalContentUIView().environmentObject(self.settings)
+    CommonModalButton(imageName: "arrow.2.circlepath", imageColor: nil, buttonType: .special, text: "reset bout",
+                      action: { Vibration.on() }, onDismiss: {},
+                      border: Color.clear, showModal: $showModal) {
+      ResetBoutModalContentUIView().environmentObject(self.settings).environmentObject(self.insp)
     }
   }
 }
 
-
 struct ResetBoutModalContentUIView: View {
   @Environment(\.presentationMode) var presentationMode
   @EnvironmentObject var settings: FightSettings
+  @EnvironmentObject var insp: InspSettings
   var body: some View {
     VStack{
       Spacer()
@@ -47,12 +44,11 @@ struct ResetBoutModalContentUIView: View {
         ConfirmModalButton(action: {
           rs.competition.reset()
           self.settings.resetBout()
+          self.insp.reset()
           self.presentationMode.wrappedValue.dismiss()
         }, text: "confirm", color: .green)
           .padding([.vertical])
           .frame(width: width/2)
-          
-          
       }
     }
   }

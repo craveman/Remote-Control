@@ -340,7 +340,7 @@ final class RemoteService {
     var time: UInt32 {
       return (timeProperty as! PrimitiveProperty<UInt32>).get()
     }
-    private(set) var mode: TimerMode = .pause {
+    private(set) var mode: TimerMode = .main {
       didSet {
         (modeProperty as! FirableObserversManager<TimerMode>).fire(with: mode)
       }
