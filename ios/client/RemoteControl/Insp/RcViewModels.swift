@@ -102,8 +102,8 @@ class FightSettings: ObservableObject {
     }
   }
   @Published var isRunning = false
-  @Published var showPassive = true
-  @Published var holdPassive = false
+  @Published var showPassive = rs.timer.passive.isVisible
+  @Published var holdPassive = rs.timer.passive.isBlocked
   @Published var weapon: Weapon = .none
   
   @Published var period: Int = 0 {

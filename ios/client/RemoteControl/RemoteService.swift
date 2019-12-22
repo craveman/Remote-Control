@@ -7,6 +7,8 @@
 //
 
 import struct Foundation.UUID
+import class Foundation.NSTimer.Timer
+
 import Sm02Client
 
 import struct NIO.TimeAmount
@@ -428,10 +430,10 @@ final class RemoteService {
         set {
           let outbound = Outbound.passiveTimer(shown: isVisible, locked: newValue, defaultMilliseconds: defaultMilliseconds)
           Sm02.send(message: outbound)
-          (isVisibleProperty as! PrimitiveProperty<Bool>).set(newValue)
+          (isBlockedProperty as! PrimitiveProperty<Bool>).set(newValue)
         }
         get {
-          (isVisibleProperty as! PrimitiveProperty<Bool>).get()
+          (isBlockedProperty as! PrimitiveProperty<Bool>).get()
         }
       }
       var defaultMilliseconds: UInt32 {
@@ -451,6 +453,9 @@ final class RemoteService {
           switch inbound {
           case .passiveMax:
             (self.isMaxTimerReachedProperty as! PrimitiveProperty<Bool>).set(true)
+            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) {_ in
+               (self.isMaxTimerReachedProperty as! PrimitiveProperty<Bool>).set(false)
+            }
           default:
             return
           }

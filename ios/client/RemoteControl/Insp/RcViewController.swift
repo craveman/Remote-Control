@@ -108,7 +108,7 @@ class RcViewController: UIViewController {
       }
       self.onMainThread({self.game.showPassive = showPassive})
     })
-    
+        
     rs.competition.weaponProperty.on(change: { weapon in
       guard self.game.weapon != weapon else {
         return
@@ -116,6 +116,11 @@ class RcViewController: UIViewController {
       self.onMainThread({self.game.weapon = weapon})
     })
     
+    rs.timer.passive.isMaxTimerReachedProperty.on(change: { reached in
+      if (reached) {
+        Vibration.on()
+      }
+    })
     
     //        left
     rs.persons.left.scoreProperty.on(change: { score in
