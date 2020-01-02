@@ -16,19 +16,6 @@ var primaryFont = Font.custom(fontName, size: 20)
 var primaryColor: Color = UITraitCollection.current.userInterfaceStyle == .light ? .black : .white
 var secondaryColor: Color = UITraitCollection.current.userInterfaceStyle == .light ?  .white : .black
 
-struct SwiftUITools: View {
-  var body: some View {
-    dinFont(Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/))
-  }
-}
-
-struct SwiftUITools_Previews: PreviewProvider {
-  static var previews: some View {
-    SwiftUITools()
-  }
-}
-
-
 func heightOfButton() -> CGFloat {
   return height / 10
 }

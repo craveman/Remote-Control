@@ -173,16 +173,3 @@ struct PauseModalContentUIView: View {
     }
   }
 }
-
-struct PauseSettersSwiftUIView: View {
-  var body: some View {
-    Text("Hello, World!")
-    
-  }
-}
-
-struct PauseSettersSwiftUIView_Previews: PreviewProvider {
-  static var previews: some View {
-    PauseSettersSwiftUIView()
-  }
-}

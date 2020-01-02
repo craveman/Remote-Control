@@ -129,14 +129,13 @@ struct ConfirmModalButton: View {
 struct CommonButtonsSwiftUIView: View {
   var body: some View {
     VStack {
-      Text("Hello, World!")
       ConfirmModalButton(action: {
         
       }, text: "cancel",
          color: primaryColor, imageName: "multiply")
       CommonButton(action: { })
       CommonModalButton(imageName: "arrow.clockwise.icloud", imageColor: .blue, text: "plus", content: {
-        Text("Hello, Modal!")
+        Text("Common modal")
       })
     }
   }

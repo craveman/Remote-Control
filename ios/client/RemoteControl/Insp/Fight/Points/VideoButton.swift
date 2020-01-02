@@ -45,7 +45,6 @@ fileprivate struct VideoRC: View {
     VStack(spacing: 0) {
       CommonModalHeader(title: "Video replays")
       Spacer()
-      //      Text("Hello, World!")
       VStack {
         CommonFloatSlider(sliderValue: $position, minimumValue: 0, maximumvalue: 100, formatter: { _ in "" })
         primaryColor(dinFont(Text("position")))
@@ -54,8 +53,6 @@ fileprivate struct VideoRC: View {
         CommonFloatSlider(sliderValue: $speed, minimumValue: 0, maximumvalue: 10, formatter: { _ in "" })
         primaryColor(dinFont(Text("speed")))
       }
-      
-      //        Text("Speed")
       Spacer()
       Divider()
       HStack {

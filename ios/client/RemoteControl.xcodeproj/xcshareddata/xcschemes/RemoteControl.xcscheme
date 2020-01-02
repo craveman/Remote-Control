@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B9C8BED92305A2C5004DBBF8"
-               BuildableName = "RemoteControl.app"
+               BuildableName = "Inspiration Point.app"
                BlueprintName = "RemoteControl"
                ReferencedContainer = "container:RemoteControl.xcodeproj">
             </BuildableReference>
@@ -31,7 +31,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B9C8BED92305A2C5004DBBF8"
-            BuildableName = "RemoteControl.app"
+            BuildableName = "Inspiration Point.app"
             BlueprintName = "RemoteControl"
             ReferencedContainer = "container:RemoteControl.xcodeproj">
          </BuildableReference>
@@ -56,7 +56,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B9C8BED92305A2C5004DBBF8"
-            BuildableName = "RemoteControl.app"
+            BuildableName = "Inspiration Point.app"
             BlueprintName = "RemoteControl"
             ReferencedContainer = "container:RemoteControl.xcodeproj">
          </BuildableReference>
@@ -73,7 +73,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B9C8BED92305A2C5004DBBF8"
-            BuildableName = "RemoteControl.app"
+            BuildableName = "Inspiration Point.app"
             BlueprintName = "RemoteControl"
             ReferencedContainer = "container:RemoteControl.xcodeproj">
          </BuildableReference>

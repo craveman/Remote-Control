@@ -15,7 +15,7 @@ struct NamesSettingsButtonSwiftUIView: View {
       self.showModal.toggle()
     }) {
       VStack {
-        primaryColor(dinFont(Text("John..."), 36)).fixedSize()
+        primaryColor(dinFont(Text("John..."), 36)).fixedSize().padding(.top, 14)
         primaryColor(dinFont(Text("names")))
       }
       

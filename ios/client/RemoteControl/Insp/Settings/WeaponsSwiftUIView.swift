@@ -17,7 +17,7 @@ struct WeaponsButtonSwiftUIView: View {
     }) {
       VStack {
         ZStack {
-          Image(systemName: "hammer.fill").resizable().rotationEffect(Angle.degrees(180.0))
+          Image("weapon").resizable()
         }.frame(width: 48, height: 48)
         primaryColor(dinFont(Text("weapon")))
       }

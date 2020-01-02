@@ -37,5 +37,7 @@ struct SettingsSwiftUIView: View {
 struct SettingsSwiftUIView_Previews: PreviewProvider {
   static var previews: some View {
     SettingsSwiftUIView()
+      .environmentObject(InspSettings())
+    .environmentObject(FightSettings())
   }
 }
