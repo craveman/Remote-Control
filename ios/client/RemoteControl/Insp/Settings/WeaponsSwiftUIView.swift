@@ -10,6 +10,7 @@ import SwiftUI
 
 struct WeaponsButtonSwiftUIView: View {
   @EnvironmentObject var settings: FightSettings
+  @EnvironmentObject var rcModel: InspSettings
   @State var showModal = false
   var body: some View {
     Button(action: {
@@ -21,13 +22,13 @@ struct WeaponsButtonSwiftUIView: View {
         }.frame(width: 48, height: 48)
         primaryColor(dinFont(Text("weapon")))
       }
-      
-      
     }.foregroundColor(primaryColor)
       .frame(width: width / 2, height: mediumHeightOfButton())
       .border(Color.gray, width: 0.5)
       .sheet(isPresented: self.$showModal) {
-        WeaponsSwiftUIView().environmentObject(self.settings)
+        WeaponsSwiftUIView()
+          .environmentObject(self.settings)
+          .environmentObject(self.rcModel)
     }
   }
 }
@@ -41,6 +42,7 @@ fileprivate let weaponsList: [(Weapon, String)] = [
 fileprivate struct WeaponButton: View {
   var id = -1;
   @EnvironmentObject var settings: FightSettings
+  @EnvironmentObject var rcModel: InspSettings
   func isSelected() -> Bool {
     return weaponsList[self.id].0 == settings.weapon
   }
@@ -50,6 +52,7 @@ fileprivate struct WeaponButton: View {
       if (id >= 0 && weaponsList.count > id) {
         Button(action: {
           rs.competition.weapon = weaponsList[self.id].0
+          self.rcModel.isLockedForRaceState = true
           Vibration.on()
         }) {
           dinFont(
@@ -71,6 +74,7 @@ fileprivate struct WeaponButton: View {
 struct WeaponsSwiftUIView: View {
   @Environment(\.presentationMode) var presentationMode
   @EnvironmentObject var settings: FightSettings
+  @EnvironmentObject var rcModel: InspSettings
   var body: some View {
     VStack(spacing: 0) {
       CommonModalHeader(title: "Weapon")
@@ -94,15 +98,22 @@ struct WeaponsSwiftUIView: View {
 }
 
 struct WeaponsSwiftUIView_Previews: PreviewProvider {
+  static var settings: FightSettings = FightSettings()
+  static var rcModel: InspSettings = InspSettings()
   static var previews: some View {
     WeaponsSwiftUIView()
+      .environmentObject(settings)
+      .environmentObject(rcModel)
   }
 }
 
 
 struct WeaponsButtonSwiftUIView_Previews: PreviewProvider {
   static var settings: FightSettings = FightSettings()
+  static var rcModel: InspSettings = InspSettings()
   static var previews: some View {
-    WeaponsButtonSwiftUIView().environmentObject(settings)
+    WeaponsButtonSwiftUIView()
+      .environmentObject(settings)
+      .environmentObject(rcModel)
   }
 }

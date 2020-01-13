@@ -17,11 +17,13 @@ struct PointsSwiftUIView: View {
   func startAction() -> Void {
     rs.timer.start()
     self.insp.shouldShowTimerView = true
+    self.insp.isLockedForRaceState = true
     Vibration.on()
   }
   func stopAction() -> Void {
     rs.timer.stop()
     self.insp.shouldShowTimerView = false
+    self.insp.isLockedForRaceState = true
     Vibration.on()
   }
   var body: some View {

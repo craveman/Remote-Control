@@ -10,6 +10,10 @@ import UIKit
 import AVFoundation
 
 class ConnectionsViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
+  public static let RECONNECT = "Reconnect"
+  public static let CONNECTION_LOST = "Connection to the server in Wi-Fi network '%@' was lost."
+  public static let CONNECTION_ERROR = "Connection error"
+  
   var performed = false
   let segueName = "jumpToInspiration"
   @IBOutlet weak var qrReaderSubViewWrapper: UIView!
@@ -58,12 +62,12 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
   }
 
   func warning (_ remote: RemoteAddress) {
-    let titleString = NSLocalizedString("Connection error", comment: "")
+    let titleString = NSLocalizedString(ConnectionsViewController.CONNECTION_ERROR, comment: "")
     let bodyString = String(
-      format: NSLocalizedString("Connection to the server in Wi-Fi network '%@' was lost.", comment: ""),
+      format: NSLocalizedString(ConnectionsViewController.CONNECTION_LOST, comment: ""),
       remote.ssid
     )
-    let tryAgainButtonString = NSLocalizedString("Reconnect", comment: "")
+    let tryAgainButtonString = NSLocalizedString(ConnectionsViewController.RECONNECT, comment: "")
 
     let alert = UIAlertController(
       title: titleString,

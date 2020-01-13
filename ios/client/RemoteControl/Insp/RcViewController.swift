@@ -17,13 +17,13 @@ class RcViewController: UIViewController {
   internal var rcModel = InspSettings()
   internal var playbackController = PlaybackControls()
   
-//  todo: save subscribe tokens
-  internal var subUuids: [UUID] = []
+  //  todo: use saved subscribtions tokens
+  internal var subUuids: [UUID] = [];
   
   lazy var fightSwiftUIHostVC: UIViewController = {
     
     var view = RcSwiftUIView()
-      
+    
     self.fight = view
     
     var vc = UIHostingController(rootView: view.environmentObject(game).environmentObject(rcModel).environmentObject(playbackController))
@@ -47,7 +47,7 @@ class RcViewController: UIViewController {
   }
   
   private func setSubscriptions() {
-    rs.connection.isAuthenticatedProperty.on(change: { isAuth in
+    let auth$ = rs.connection.isAuthenticatedProperty.on(change: { isAuth in
       guard isAuth == false else {
         if !self.rcModel.isConnected {
           self.onMainThread({
@@ -64,7 +64,9 @@ class RcViewController: UIViewController {
       })
     })
     
-    rs.connection.isConnectedProperty.on(change: { isConnected in
+    subUuids.append(auth$)
+    
+    let connected$ = rs.connection.isConnectedProperty.on(change: { isConnected in
       guard isConnected == false else {
         if !self.rcModel.isConnected {
           self.onMainThread({
@@ -81,19 +83,26 @@ class RcViewController: UIViewController {
       })
     })
     
-    rs.timer.timeProperty.on(change: { update in
+    subUuids.append(connected$)
+    
+    let time$ = rs.timer.timeProperty.on(change: { update in
       guard self.game.time != update else {
         return
       }
       self.onMainThread({self.game.time = update})
     })
     
-    rs.timer.stateProperty.on(change: { timerState in
+    subUuids.append(time$)
+    
+    let state$ = rs.timer.stateProperty.on(change: { timerState in
       let isRun = timerState == .running
       guard self.game.isRunning != isRun else {
         return
       }
       self.onMainThread({
+        if(self.rcModel.isLockedForRaceState) {
+          return
+        }
         self.rcModel.shouldShowTimerView = rs.timer.mode == .main && isRun
         self.rcModel.shouldShowPauseView = rs.timer.mode == .pause && isRun
         self.rcModel.shouldShowMedicalView = rs.timer.mode == .medicine && isRun
@@ -102,47 +111,66 @@ class RcViewController: UIViewController {
       })
     })
     
-    rs.display.passiveProperty.on(change: { showPassive in
+    subUuids.append(state$)
+    
+    let passive$ = rs.display.passiveProperty.on(change: { showPassive in
       guard self.game.showPassive != showPassive else {
         return
       }
       self.onMainThread({self.game.showPassive = showPassive})
     })
-        
-    rs.competition.weaponProperty.on(change: { weapon in
+    
+    subUuids.append(passive$)
+    
+    let weapon$ = rs.competition.weaponProperty.on(change: { weapon in
       guard self.game.weapon != weapon else {
         return
       }
-      self.onMainThread({self.game.weapon = weapon})
+      self.onMainThread({
+        if(self.rcModel.isLockedForRaceState) {
+          return
+        }
+        self.game.weapon = weapon
+      })
     })
     
-    rs.timer.passive.isMaxTimerReachedProperty.on(change: { reached in
+    subUuids.append(weapon$)
+    
+    let timerMax$ = rs.timer.passive.isMaxTimerReachedProperty.on(change: { reached in
       if (reached) {
         Vibration.on()
       }
     })
     
+    subUuids.append(timerMax$)
+    
     //        left
-    rs.persons.left.scoreProperty.on(change: { score in
+    let lScore$ = rs.persons.left.scoreProperty.on(change: { score in
       guard self.game.leftScore != score else {
         return
       }
       self.onMainThread({self.game.leftScore = score})
     })
-    rs.persons.left.cardProperty.on(change: { card in
+    let lCard$ = rs.persons.left.cardProperty.on(change: { card in
       self.onMainThread({self.game.setCard(card, .left)})
     })
     
+    subUuids.append(lScore$)
+    subUuids.append(lCard$)
+    
     //        right
-    rs.persons.right.scoreProperty.on(change: { score in
+    let rScore$ = rs.persons.right.scoreProperty.on(change: { score in
       guard self.game.rightScore != score else {
         return
       }
       self.onMainThread({self.game.rightScore = score})
     })
-    rs.persons.right.cardProperty.on(change: { card in
+    let rCard$ = rs.persons.right.cardProperty.on(change: { card in
       self.onMainThread({self.game.setCard(card, .right)})
     })
+    
+    subUuids.append(rScore$)
+    subUuids.append(rCard$)
   }
   
   private func addViewControllerAsChildViewController(childViewController: UIViewController) {

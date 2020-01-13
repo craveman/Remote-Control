@@ -11,6 +11,13 @@ import QRCodeReader
 
 class QrViewController: UIViewController {
   
+  public static let SCANNER = "QR scanner"
+  public static let SCAN_SUCCESS = "The code is recognized"
+  public static let SCAN_FAIL = "The code is unrecognized"
+  public static let CONNECT = "Connect"
+  public static let RECONNECT = "Try again"
+  public static let ERROR = "Connection error"
+  
   @IBOutlet weak var previewView: QRCodeReaderView! {
     didSet {
       previewView.setupComponents(with: QRCodeReaderViewControllerBuilder {
@@ -59,7 +66,7 @@ class QrViewController: UIViewController {
     guard scanPermissionsChecker.check(), !reader.isRunning else {
       return
     }
-
+    
     reader.didFindCode = { [weak self] (result) in
       guard let self = self else {
         return
@@ -68,9 +75,9 @@ class QrViewController: UIViewController {
         return
       }
       self.reader.stopScanning()
-
+      
       Vibration.on()
-
+      
       switch RemoteAddress.parse(urlString: result.value) {
       case .success(let remote):
         self.qrCodeProcessor!.on(success: remote)
@@ -94,10 +101,10 @@ class QrViewController: UIViewController {
     
     func on (success remote: RemoteAddress) {
       print("parsed \(remote)")
-
-      let titleString = NSLocalizedString("QR scanner", comment: "")
-      let bodyString = NSLocalizedString("The code is recognized", comment: "")
-      let okString = NSLocalizedString("Connect", comment: "")
+      
+      let titleString = NSLocalizedString(SCANNER, comment: "")
+      let bodyString = NSLocalizedString(SCAN_SUCCESS, comment: "")
+      let okString = NSLocalizedString(CONNECT, comment: "")
       
       let alert = UIAlertController(
         title: titleString,
@@ -116,9 +123,9 @@ class QrViewController: UIViewController {
     func on (failure error: Error) {
       print("error \(error)")
       
-      let titleString = NSLocalizedString("QR scanner", comment: "")
-      let bodyString = NSLocalizedString("The code is unrecognized", comment: "")
-      let tryAgainButtonString = NSLocalizedString("Try again", comment: "")
+      let titleString = NSLocalizedString(SCANNER, comment: "")
+      let bodyString = NSLocalizedString(SCAN_FAIL, comment: "")
+      let tryAgainButtonString = NSLocalizedString(RECONNECT, comment: "")
       
       let alert = UIAlertController(
         title: titleString,
@@ -135,6 +142,13 @@ class QrViewController: UIViewController {
   }
   
   private struct ConnectionProcessor {
+    public static let CONNECTION_FAILED = "Can't connect to %@. %@"
+    
+    public static let WRONG_CODE = "Wrong authentication code."
+    public static let BUSY = "Another remote control is already registered on the server."
+    public static let TIMEOUT = "Connection timeout. Check that you are connected to the '%@' Wi-Fi network."
+    public static let REFUSED = "A remote server is not reachable."
+    public static let UNKNOWN = "Unknown connection error: %@"
     
     let controller: QrViewController
     
@@ -145,25 +159,25 @@ class QrViewController: UIViewController {
       case .success(AuthenticationStatus.success):
         controller.onSuccess()
       case .success(AuthenticationStatus.wrongAuthenticationCode):
-        let message = NSLocalizedString("Wrong authentication code.", comment: "")
+        let message = NSLocalizedString(ConnectionProcessor.WRONG_CODE, comment: "")
         showError(remote, message)
       case .success(AuthenticationStatus.alreadyRegistered):
-        let message = NSLocalizedString("Another remote control is already registered on the server.", comment: "")
+        let message = NSLocalizedString(ConnectionProcessor.BUSY, comment: "")
         showError(remote, message)
       case .failure(ConnectionError.responseTimeout(_)):
         fallthrough
       case .failure(ConnectionError.connectionTimeout(_)):
         let message = String(
-          format: NSLocalizedString("Connection timeout. Check that you are connected to the '%@' Wi-Fi network.", comment: ""),
+          format: NSLocalizedString(ConnectionProcessor.TIMEOUT, comment: ""),
           remote.ssid
         )
         showError(remote, message)
       case .failure(ConnectionError.connectionRefused):
-        let message = NSLocalizedString("A remote server is not reachable.", comment: "")
+        let message = NSLocalizedString(ConnectionProcessor.REFUSED, comment: "")
         showError(remote, message)
       case let .failure(error):
         let message = String(
-          format: NSLocalizedString("Unknown connection error: %@", comment: ""),
+          format: NSLocalizedString(ConnectionProcessor.UNKNOWN, comment: ""),
           "\(error)"
         )
         showError(remote, message)
@@ -171,12 +185,12 @@ class QrViewController: UIViewController {
     }
     
     private func showError (_ remote: RemoteAddress, _ text: String) {
-      let titleString = NSLocalizedString("Connection error", comment: "")
+      let titleString = NSLocalizedString(ERROR, comment: "")
       let bodyString = String(
-        format: NSLocalizedString("Can't connect to %@. %@", comment: ""),
+        format: NSLocalizedString(ConnectionProcessor.CONNECTION_FAILED, comment: ""),
         remote.ip, text
       )
-      let tryAgainButtonString = NSLocalizedString("Try again", comment: "")
+      let tryAgainButtonString = NSLocalizedString(RECONNECT, comment: "")
       
       let alert = UIAlertController(
         title: titleString,
@@ -191,6 +205,12 @@ class QrViewController: UIViewController {
   }
   
   private struct ScanPermissionsChecker {
+    public static let SCANNER_ERROR = "QR scanner error"
+    public static let TO_SETTINGS = "Settings"
+    public static let PROCEED = "Ok"
+    
+    public static let UNAUTHORIZED = "The app is not authorized to use back camera."
+    public static let UNSUPPORTED = "QR scanner is not supported by the current device."
     
     let controller: QrViewController
     
@@ -209,9 +229,9 @@ class QrViewController: UIViewController {
     }
     
     private func handleNotAuthorizedToUseBackCamera () {
-      let titleString = NSLocalizedString("QR scanner error", comment: "")
-      let bodyString = NSLocalizedString("The app is not authorized to use back camera.", comment: "")
-      let settingsButtonString = NSLocalizedString("Settings", comment: "")
+      let titleString = NSLocalizedString(ScanPermissionsChecker.SCANNER_ERROR, comment: "")
+      let bodyString = NSLocalizedString(ScanPermissionsChecker.UNAUTHORIZED, comment: "")
+      let settingsButtonString = NSLocalizedString(ScanPermissionsChecker.TO_SETTINGS, comment: "")
       
       let alert = UIAlertController(
         title: titleString,
@@ -231,9 +251,9 @@ class QrViewController: UIViewController {
     }
     
     private func handleReaderNotSupported () {
-      let titleString = NSLocalizedString("QR scanner error", comment: "")
-      let bodyString = NSLocalizedString("QR scanner is not supported by the current device.", comment: "")
-      let okButtonString = NSLocalizedString("Ok", comment: "")
+      let titleString = NSLocalizedString(ScanPermissionsChecker.SCANNER_ERROR, comment: "")
+      let bodyString = NSLocalizedString(ScanPermissionsChecker.UNSUPPORTED, comment: "")
+      let okButtonString = NSLocalizedString(ScanPermissionsChecker.PROCEED, comment: "")
       
       let alert = UIAlertController(
         title: titleString,

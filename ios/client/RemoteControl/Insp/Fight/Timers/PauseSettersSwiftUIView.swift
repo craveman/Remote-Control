@@ -72,6 +72,7 @@ struct PauseSetters: View {
         DispatchQueue.main.async {
           self.insp.shouldShowPauseView = false
           self.insp.shouldShowMedicalView = false
+          self.insp.isLockedForRaceState = true
         }
         Vibration.on()
       }
@@ -82,6 +83,7 @@ struct PauseSetters: View {
     DispatchQueue.main.async {
       self.start(INSPIRATION_MED_TIMOUT, .medicine)
       self.insp.shouldShowMedicalView = true
+      self.insp.isLockedForRaceState = true
       self.subscribeFinished()
     }
     Vibration.on()
@@ -92,6 +94,7 @@ struct PauseSetters: View {
     DispatchQueue.main.async {
       self.start(INSPIRATION_SHORT_TIMOUT, .pause)
       self.insp.shouldShowPauseView = true
+      self.insp.isLockedForRaceState = true
       self.subscribeFinished()
     }
     Vibration.on()

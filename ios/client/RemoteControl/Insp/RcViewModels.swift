@@ -15,6 +15,15 @@ let INSPIRATION_MED_TIMOUT = TimeAmount.minutes(5)
 let INSPIRATION_SHORT_TIMOUT = TimeAmount.minutes(1)
 
 class InspSettings: ObservableObject {
+  var isLockedForRaceState: Bool = false {
+    didSet {
+      if (!isLockedForRaceState) {
+        return;
+      }
+      withDelay({self.isLockedForRaceState = false}, 0.25)
+    }
+  }
+  
   @Published var isConnected: Bool = rs.connection.isAuthenticated && rs.connection.isConnected
   
   @Published var tab: Int = !rs.connection.isConnected ? 2 : 1
