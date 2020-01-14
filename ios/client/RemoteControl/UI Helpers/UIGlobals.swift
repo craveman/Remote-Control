@@ -27,69 +27,6 @@ class UIGlobals {
   static let disabledButtonBackground_SUI = Color(#colorLiteral(red: 0, green: 0.5049814582, blue: 1, alpha: 0.5))
 }
 
-class UIState: NSObject {
-  @objc dynamic var timerMs = NSInteger(3 * 60 * 1000)
-  @objc dynamic var timerIsRunning = false
-  
-  func toggleTimer() {
-    self.timerIsRunning = false
-  }
-  func timerToString() -> String {
-    return ""
-  }
-  
-  func reduceTime(_ ms: Int) {
-    let (diff, _) = timerMs.subtractingReportingOverflow(ms)
-    if(diff < 0) {
-      self.resetTime(0)
-      self.timerIsRunning = false
-    }
-  }
-  
-  func resetTime(_ ms: Int) {
-    let _ = timerMs.subtractingReportingOverflow(timerMs.distance(to: ms))
-  }
-}
-
-
-fileprivate func runState(_ state: UIState) {
-  Utils.delay({
-    //        print("\(state.timerIsRunning):\(state.timerMs)")
-    if state.timerIsRunning {
-      print("running")
-      state.reduceTime(step)
-    }
-    runState(state)
-  }, ms: step)
-}
-
-
-class MyObserver: NSObject {
-  @objc var objectToObserve: UIState
-  var observation: NSKeyValueObservation?
-  
-  init(_ state: UIState) {
-    objectToObserve = state
-    super.init()
-    
-    observation = observe(\.objectToObserve.timerMs, options: [.old, .new]
-    ) { object, change in
-      print("Timer changed from: \(change.oldValue!), updated to: \(change.newValue!); Running: \(self.objectToObserve.timerIsRunning)")
-    }
-  }
-  
-  
-}
-
-fileprivate let step = 1000
-fileprivate let state = UIState()
-let StateObserver = MyObserver(state)
-
-func stateRunner () -> Void {
-  runState(state)
-  Utils.delay({state.toggleTimer()}, ms: 15*1000)
-}
-
 @discardableResult func withDelay (_ callback: @escaping () -> Void, _ timeout: TimeInterval = 1) -> Timer {
   return Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) {_ in
     callback()

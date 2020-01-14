@@ -17,10 +17,16 @@ let INSPIRATION_SHORT_TIMOUT = TimeAmount.minutes(1)
 class InspSettings: ObservableObject {
   var isLockedForRaceState: Bool = false {
     didSet {
+      print("try lock")
       if (!isLockedForRaceState) {
         return;
       }
-      withDelay({self.isLockedForRaceState = false}, 0.25)
+      print("lock in")
+      
+      withDelay({
+        self.isLockedForRaceState = false
+        print("lock out")
+      }, 0.25)
     }
   }
   
@@ -110,7 +116,7 @@ class FightSettings: ObservableObject {
       rs.timer.passive.defaultMilliseconds = passiveDefaultTimeMs
     }
   }
-  @Published var isRunning = false
+  @Published var gameState: TimerState = .suspended
   @Published var showPassive = rs.timer.passive.isVisible
   @Published var holdPassive = rs.timer.passive.isBlocked
   @Published var weapon: Weapon = .none
@@ -128,7 +134,6 @@ class FightSettings: ObservableObject {
     self.leftScore = 0
     self.rightScore = 0
     self.time = GAME_DEFAULT_TIME
-    self.isRunning = false
     
     self.resetCards()
   }

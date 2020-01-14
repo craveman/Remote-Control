@@ -31,31 +31,22 @@ struct PauseSetters: View {
     }
     
     // todo: update for startTimer(time, mode) when rs will support
-    rs.timer.set(time: time, mode: mode)
-    
-    self.settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
-      rs.timer.start()
-    }, SYNC_SM02_DELAY)
+    rs.timer.start(time, mode: mode)
+    self.insp.isLockedForRaceState = true
   }
   
   func pauseDismissAction() -> Void {
     unsubscribeFinish()
     self.dismiss()
-    
-    self.settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
-      self.settings.period += 1
-    }, SYNC_SM02_DELAY)
+    self.settings.period += 1
   }
-  
   
   func medicalDismissAction() -> Void {
     unsubscribeFinish()
     let time = self.savedTime ?? INSPIRATION_DEF_TIMOUT
     self.dismiss()
-    
-    self.settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
-      rs.timer.set(time: time, mode: .main)
-    }, SYNC_SM02_DELAY)
+    self.insp.isLockedForRaceState = true
+    rs.timer.set(time: time, mode: .main)
   }
   
   func unsubscribeFinish() -> Void {
@@ -81,9 +72,8 @@ struct PauseSetters: View {
   
   func medicalAction() {
     DispatchQueue.main.async {
-      self.start(INSPIRATION_MED_TIMOUT, .medicine)
       self.insp.shouldShowMedicalView = true
-      self.insp.isLockedForRaceState = true
+      self.start(INSPIRATION_MED_TIMOUT, .medicine)
       self.subscribeFinished()
     }
     Vibration.on()
@@ -92,9 +82,8 @@ struct PauseSetters: View {
   
   func pauseAction() {
     DispatchQueue.main.async {
-      self.start(INSPIRATION_SHORT_TIMOUT, .pause)
       self.insp.shouldShowPauseView = true
-      self.insp.isLockedForRaceState = true
+      self.start(INSPIRATION_SHORT_TIMOUT, .pause)
       self.subscribeFinished()
     }
     Vibration.on()
