@@ -7,6 +7,9 @@
 //
 
 import SwiftUI
+import struct NIO.TimeAmount
+
+let PRIORITY_TIMER = TimeAmount.minutes(1)
 
 struct PriorityButtonSwiftUIView: View {
   @EnvironmentObject var settings: FightSettings
@@ -37,10 +40,13 @@ struct PrioritySwiftUIView: View {
   
   func setPriorityAction () {
     if Bool.random() {
+      print("set priority left")
       rs.persons.left.setPriority()
     } else {
+      print("set priority right")
       rs.persons.right.setPriority()
     }
+    rs.timer.set(time: PRIORITY_TIMER, mode: .main)
     self.updateState()
   }
   
@@ -58,7 +64,6 @@ struct PrioritySwiftUIView: View {
       CommonModalHeader(title: "Priority")
       Spacer()
       Button(action: {
-        print("set priority")
         self.setPriorityAction()
         Vibration.on()
       }) {

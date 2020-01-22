@@ -62,6 +62,7 @@ fileprivate struct TimeModalContent: View {
   
   let firstDigitOpts: [String] = Array(0...5).map({"\($0)"})
   let pickerWidth = 19 / 20 * width / 6
+  let delimWidth = width / 25
   var body: some View {
     VStack(spacing: 0) {
       CommonModalHeader(title: "Time")
@@ -74,7 +75,7 @@ fileprivate struct TimeModalContent: View {
           Spacer()
           Text(":")
           Spacer()
-        }.frame(width: width/25)
+        }.frame(width: delimWidth)
         CommonPicker(selected: self.$secDeci, options: firstDigitOpts).frame(width: pickerWidth)
         CommonPicker(selected: self.$secUnit).frame(width: pickerWidth)
         Spacer()

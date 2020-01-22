@@ -15,57 +15,33 @@ let INSPIRATION_MED_TIMOUT = TimeAmount.minutes(5)
 let INSPIRATION_SHORT_TIMOUT = TimeAmount.minutes(1)
 
 class InspSettings: ObservableObject {
-  var isLockedForRaceState: Bool = false {
-    didSet {
-      print("try lock")
-      if (!isLockedForRaceState) {
-        return;
-      }
-      print("lock in")
-      
-      withDelay({
-        self.isLockedForRaceState = false
-        print("lock out")
-      }, 0.25)
-    }
-  }
-  
   @Published var isConnected: Bool = rs.connection.isAuthenticated && rs.connection.isConnected
   
   @Published var tab: Int = !rs.connection.isConnected ? 2 : 1
   @Published var fightSwitchActiveTab: Int = rs.timer.mode == .main ? 0 : 1
   
-  @Published var shouldShowTimerView: Bool = rs.timer.mode == .main && rs.timer.state == .running {
-    willSet(next) {
-      if (!next) {
-        return;
+  @Published var shouldShowTimerView: Bool = rs.timer.mode == .main && rs.timer.state == .running
+  @Published var shouldShowPauseView: Bool = rs.timer.mode == .pause && rs.timer.state == .running
+  @Published var shouldShowMedicalView: Bool = rs.timer.mode == .medicine && rs.timer.state == .running
+  
+  func prepareView(_ mode: TimerMode) {
+    DispatchQueue.main.async { [unowned self] in
+      switch mode {
+      case .main:
+        self.tab = 1
+        self.fightSwitchActiveTab = 0
+      case .pause:
+        self.tab = 1
+        self.fightSwitchActiveTab = 1
+      case .medicine:
+        self.tab = 1
+        self.fightSwitchActiveTab = 1
       }
-      self.tab = 1
-      self.fightSwitchActiveTab = 0
-    }
-  }
-  @Published var shouldShowPauseView: Bool = rs.timer.mode == .pause && rs.timer.state == .running {
-    willSet(next) {
-      if (!next) {
-        return;
-      }
-      self.tab = 1
-      self.fightSwitchActiveTab = 1
-    }
-  }
-  @Published var shouldShowMedicalView: Bool = rs.timer.mode == .medicine && rs.timer.state == .running {
-    willSet(next) {
-      if (!next) {
-        return;
-      }
-      self.tab = 1
-      self.fightSwitchActiveTab = 1
     }
   }
   
   func reset() {
-    self.tab = 1
-    self.fightSwitchActiveTab = 0
+    prepareView(.main)
   }
 }
 
@@ -96,6 +72,7 @@ class PlaybackControls: ObservableObject {
 class FightSettings: ObservableObject {
   var PAUSE_DISSMISED_DEFERED_ACTION_TIMER: Timer? = nil
   var PAUSE_FINISHED_LISTENER_ID: UUID? = nil
+  var savedTime: TimeAmount? = nil
   @Published var leftCardP: StatusCard = .passiveNone
   @Published var rightCardP: StatusCard = .passiveNone
   @Published var leftCard: StatusCard = .none
@@ -116,7 +93,6 @@ class FightSettings: ObservableObject {
       rs.timer.passive.defaultMilliseconds = passiveDefaultTimeMs
     }
   }
-  @Published var gameState: TimerState = .suspended
   @Published var showPassive = rs.timer.passive.isVisible
   @Published var holdPassive = rs.timer.passive.isBlocked
   @Published var weapon: Weapon = .none
@@ -130,11 +106,9 @@ class FightSettings: ObservableObject {
   }
   
   func resetBout() {
-    
+    self.period = 0
     self.leftScore = 0
     self.rightScore = 0
-    self.time = GAME_DEFAULT_TIME
-    
     self.resetCards()
   }
   

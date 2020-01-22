@@ -14,12 +14,11 @@ struct PauseSetters: View {
   
   @EnvironmentObject var settings: FightSettings
   @EnvironmentObject var insp: InspSettings
-  @State var savedTime: TimeAmount? = nil
   
   private func dismiss () -> Void {
     self.settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
     rs.timer.stop()
-    self.savedTime = nil
+    self.settings.savedTime = nil
     Vibration.on()
   }
   
@@ -27,12 +26,12 @@ struct PauseSetters: View {
     self.settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
     if rs.timer.mode == .main {
       let time = rs.timer.time
-      self.savedTime = .milliseconds(Int64(time))
+      self.settings.savedTime = .milliseconds(Int64(time))
+      print("set savedTime", self.settings.savedTime!)
     }
     
     // todo: update for startTimer(time, mode) when rs will support
     rs.timer.start(time, mode: mode)
-    self.insp.isLockedForRaceState = true
   }
   
   func pauseDismissAction() -> Void {
@@ -43,9 +42,9 @@ struct PauseSetters: View {
   
   func medicalDismissAction() -> Void {
     unsubscribeFinish()
-    let time = self.savedTime ?? INSPIRATION_DEF_TIMOUT
+    let time = self.settings.savedTime ?? INSPIRATION_DEF_TIMOUT
+    print("set savedTime", time)
     self.dismiss()
-    self.insp.isLockedForRaceState = true
     rs.timer.set(time: time, mode: .main)
   }
   
@@ -63,7 +62,6 @@ struct PauseSetters: View {
         DispatchQueue.main.async {
           self.insp.shouldShowPauseView = false
           self.insp.shouldShowMedicalView = false
-          self.insp.isLockedForRaceState = true
         }
         Vibration.on()
       }

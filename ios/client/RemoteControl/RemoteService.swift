@@ -241,6 +241,9 @@ final class RemoteService {
     }
     var weapon: Weapon = .none {
       willSet {
+        guard weapon != newValue else {
+          return;
+        }
         let outbound = Outbound.setWeapon(weapon: newValue)
         Sm02.send(message: outbound)
       }
@@ -369,6 +372,7 @@ final class RemoteService {
             (self.timeProperty as! PrimitiveProperty<UInt32>).set(timer)
           }
           if self.state != timerState {
+            print("toggle state")
             self.state = timerState
             if self.state == .running && (self.mode == .medicine || self.mode == .pause) && self.isPauseFinished {
               (self.isPauseFinishedProperty as! PrimitiveProperty<Bool>).set(false)
@@ -393,19 +397,22 @@ final class RemoteService {
     
     func start (_ time: TimeAmount, mode: TimerMode) {
       set(time: time, mode: mode)
-      start()
+      Timer.scheduledTimer(withTimeInterval: 0.21, repeats: false) {[weak self] _ in
+        self?.start()
+      }
     }
     
     func start () {
       let outbound = Outbound.startTimer(state: .running)
       Sm02.send(message: outbound)
-      state = .running
+//      state = .running
+      passive.unlock()
     }
     
     func stop () {
       let outbound = Outbound.startTimer(state: .suspended)
       Sm02.send(message: outbound)
-      state = .suspended
+//      state = .suspended
     }
     
     final class PassiveManagement {
@@ -429,7 +436,11 @@ final class RemoteService {
       var isBlocked: Bool {
         set {
           let outbound = Outbound.passiveTimer(shown: isVisible, locked: newValue, defaultMilliseconds: defaultMilliseconds)
-          Sm02.send(message: outbound)
+          // send only when locked
+          if (newValue) {
+            Sm02.send(message: outbound)
+          }
+          
           (isBlockedProperty as! PrimitiveProperty<Bool>).set(newValue)
         }
         get {
@@ -447,6 +458,10 @@ final class RemoteService {
         }
       }
       var isMaxTimerReached: Bool { (isMaxTimerReachedProperty as! PrimitiveProperty<Bool>).get() }
+      
+      fileprivate func unlock() {
+        (isBlockedProperty as! PrimitiveProperty<Bool>).set(false)
+      }
       
       fileprivate init () {
         Sm02.on(message: { [unowned self] (inbound) in

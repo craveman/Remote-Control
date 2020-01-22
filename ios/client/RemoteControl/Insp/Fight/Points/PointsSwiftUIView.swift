@@ -15,15 +15,15 @@ struct PointsSwiftUIView: View {
   @EnvironmentObject var settings: FightSettings
   
   func startAction() -> Void {
-    rs.timer.start()
-    self.insp.shouldShowTimerView = true
-    self.insp.isLockedForRaceState = true
+    if(rs.timer.state == .suspended) {
+      rs.timer.start()
+    }
     Vibration.on()
   }
   func stopAction() -> Void {
-    rs.timer.stop()
-    self.insp.shouldShowTimerView = false
-    self.insp.isLockedForRaceState = true
+    if(rs.timer.state == .running) {
+      rs.timer.stop()
+    }
     Vibration.on()
   }
   var body: some View {
@@ -64,9 +64,9 @@ fileprivate struct StartTimerButtonWithModalView: View {
   var onDismiss: () -> Void
   var body: some View {
     Button(action: {
-      print("Button Pushed")
+      print("Start Button Pushed")
       self.action()
-      self.showModal = true
+//      self.showModal = true
     }) {
       primaryColor(dinFont(Text(getStartTimerString()), UIGlobals.timerFontSize))
         .padding(20)

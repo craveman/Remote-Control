@@ -16,7 +16,6 @@ struct HoldPassiveButton: View {
       Button(action: {
         print("Hold Passive")
         self.settings.holdPassive.toggle()
-        rs.timer.passive.isVisible = true
         rs.timer.passive.isBlocked = self.settings.holdPassive
         Vibration.on()
       }){ primaryColor(dinFont(Text("hold passive"))) }

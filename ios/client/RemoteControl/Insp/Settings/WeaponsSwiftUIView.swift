@@ -52,7 +52,6 @@ fileprivate struct WeaponButton: View {
       if (id >= 0 && weaponsList.count > id) {
         Button(action: {
           rs.competition.weapon = weaponsList[self.id].0
-          self.rcModel.isLockedForRaceState = true
           Vibration.on()
         }) {
           dinFont(

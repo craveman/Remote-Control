@@ -32,8 +32,32 @@ class RcViewController: UIViewController {
   }()
   override func viewDidLoad() {
     super.viewDidLoad()
+//    setSubscriptions()
+//    updateView()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    if (isBeingPresented) {
+      updateView()
+    }
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
     setSubscriptions()
-    updateView()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+      super.viewWillDisappear(animated)
+      if isBeingDismissed {
+        clearSubscriptions()
+      }
+  }
+  
+  override func viewDidDisappear(_ animated: Bool) {
+      super.viewDidDisappear(animated)
+      fightSwiftUIHostVC.view.isHidden = true
   }
   
   private func updateView() {
@@ -46,7 +70,15 @@ class RcViewController: UIViewController {
     }
   }
   
+  private func clearSubscriptions() {
+    print("clearSubscriptions", subUuids.count)
+    subUuids.forEach({ uuid in
+      rs.remove(event: uuid)
+    })
+  }
+  
   private func setSubscriptions() {
+    print("setSubscriptions", subUuids.count)
     let auth$ = rs.connection.isAuthenticatedProperty.on(change: { isAuth in
       guard isAuth == false else {
         if !self.rcModel.isConnected {
@@ -93,28 +125,26 @@ class RcViewController: UIViewController {
     })
     
     subUuids.append(time$)
-    
+    var count = 0;
     let state$ = rs.timer.stateProperty.on(change: { timerState in
-      print("stateProperty on change", timerState, self.game.gameState)
-      guard self.game.gameState != timerState else {
-        return
-      }
       self.onMainThread({
-        
-        print("onMainThread", self.rcModel.isLockedForRaceState)
-        if (self.rcModel.isLockedForRaceState) {
-          return
-        }
-        self.game.gameState = timerState
-        let isRun = rs.timer.state == .running
-        let mode = rs.timer.mode
-        self.rcModel.shouldShowTimerView = mode == .main && isRun
-        self.rcModel.shouldShowPauseView = mode == .pause && isRun
-        self.rcModel.shouldShowMedicalView = mode == .medicine && isRun
-        
-        if isRun {
-          
-        }
+      let isRun = rs.timer.state == .running
+      let mode = rs.timer.mode
+        count += 1;
+        let savedCount = count;
+        print(savedCount, "change", rs.timer.state)
+        print("state ", self.rcModel.shouldShowTimerView)
+        print("prepareView mode:", mode )
+        self.rcModel.prepareView(mode)
+        withDelay({
+          print("withDelay state ", self.rcModel.shouldShowTimerView)
+          self.onMainThread({
+            print("on Main thread showTimer:", mode == .main && isRun, "mode:", mode,"isRun:", isRun)
+            self.rcModel.shouldShowTimerView = mode == .main && isRun
+            self.rcModel.shouldShowPauseView = mode == .pause && isRun
+            self.rcModel.shouldShowMedicalView = mode == .medicine && isRun
+          })
+        }, 0.21)
       })
     })
     
@@ -134,9 +164,6 @@ class RcViewController: UIViewController {
         return
       }
       self.onMainThread({
-        if(self.rcModel.isLockedForRaceState) {
-          return
-        }
         self.game.weapon = weapon
       })
     })
