@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftUI
+import class Combine.AnyCancellable
 
 class RcViewController: UIViewController {
   
@@ -18,6 +19,7 @@ class RcViewController: UIViewController {
   internal var playbackController = PlaybackControls()
   
   //  todo: use saved subscribtions tokens
+  internal var subscriptions: [AnyCancellable] = [];
   internal var subUuids: [UUID] = [];
   
   lazy var fightSwiftUIHostVC: UIViewController = {
@@ -71,20 +73,24 @@ class RcViewController: UIViewController {
   }
   
   private func clearSubscriptions() {
-    print("clearSubscriptions", subUuids.count)
+    print("clearSubscriptions", subUuids.count, subscriptions.count)
+    subscriptions.forEach({ subscription in
+      subscription.cancel()
+    })
     subUuids.forEach({ uuid in
       rs.remove(event: uuid)
     })
   }
   
   private func setSubscriptions() {
-    print("setSubscriptions", subUuids.count)
-    let auth$ = rs.connection.isAuthenticatedProperty.on(change: { isAuth in
+    print("setSubscriptions", subscriptions.count)
+    
+    let auth$ = rs.connection.$isAuthenticated.on(change: { isAuth in
       guard isAuth == false else {
         if !self.rcModel.isConnected {
           self.onMainThread({
             self.rcModel.isConnected = isAuth && rs.connection.isConnected
-          })          
+          })
         }
         return
       }
@@ -96,9 +102,9 @@ class RcViewController: UIViewController {
       })
     })
     
-    subUuids.append(auth$)
+    subscriptions.append(auth$)
     
-    let connected$ = rs.connection.isConnectedProperty.on(change: { isConnected in
+    let connected$ = rs.connection.$isConnected.on(change: { isConnected in
       guard isConnected == false else {
         if !self.rcModel.isConnected {
           self.onMainThread({
@@ -115,7 +121,7 @@ class RcViewController: UIViewController {
       })
     })
     
-    subUuids.append(connected$)
+    subscriptions.append(connected$)
     
     let time$ = rs.timer.timeProperty.on(change: { update in
       guard self.game.time != update else {

@@ -51,6 +51,7 @@
 		8FE69D5423398B6200E3B539 /* QRCodeReader in Frameworks */ = {isa = PBXBuildFile; productRef = 8FE69D5323398B6200E3B539 /* QRCodeReader */; };
 		8FFBF9E22336BD4000736BB7 /* Sm02Client in Frameworks */ = {isa = PBXBuildFile; productRef = 8FFBF9E12336BD4000736BB7 /* Sm02Client */; };
 		8FFBF9E42336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFBF9E32336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift */; };
+		B97043C723E099C1003F4F47 /* Published.Publisher+on.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97043C623E099C1003F4F47 /* Published.Publisher+on.swift */; };
 		B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */; };
 		B9C8BEE02305A2C5004DBBF8 /* QrViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDF2305A2C5004DBBF8 /* QrViewController.swift */; };
 		B9C8BEE32305A2C6004DBBF8 /* QRConnect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE12305A2C6004DBBF8 /* QRConnect.storyboard */; };
@@ -137,6 +138,7 @@
 		8FD7CB952392C030003DF83B /* Vibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vibration.swift; sourceTree = "<group>"; };
 		8FFBF9E02336BC5E00736BB7 /* Sm02Client */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sm02Client; sourceTree = "<group>"; };
 		8FFBF9E32336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteAddress+UrlParsing.swift"; sourceTree = "<group>"; };
+		B97043C623E099C1003F4F47 /* Published.Publisher+on.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Published.Publisher+on.swift"; sourceTree = "<group>"; };
 		B9C8BEDA2305A2C5004DBBF8 /* Inspiration Point.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Inspiration Point.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9C8BEDF2305A2C5004DBBF8 /* QrViewController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = QrViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -340,6 +342,7 @@
 				8FA249152384A24C006A65C6 /* ObservableProperty.swift */,
 				851AE9BE23892D71001BE3FB /* CommonViewController.swift */,
 				8FD7CB952392C030003DF83B /* Vibration.swift */,
+				B97043C623E099C1003F4F47 /* Published.Publisher+on.swift */,
 			);
 			path = RemoteControl;
 			sourceTree = "<group>";
@@ -512,6 +515,7 @@
 				85B95702237A363A0063E32C /* PointsStepper.swift in Sources */,
 				851AE9B523874393001BE3FB /* CommonComponentsSwiftUIView.swift in Sources */,
 				851AE9C92389DF3B001BE3FB /* DisconnectSwiftUIView.swift in Sources */,
+				B97043C723E099C1003F4F47 /* Published.Publisher+on.swift in Sources */,
 				851AE9CB2389E388001BE3FB /* VideoReplaysSwiftUIView.swift in Sources */,
 				B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */,
 				851AE9B723874465001BE3FB /* PauseSettersSwiftUIView.swift in Sources */,

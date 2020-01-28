@@ -7,7 +7,9 @@
 //
 
 import struct Foundation.UUID
+import typealias Foundation.Published
 import class Foundation.NSTimer.Timer
+import class Dispatch.DispatchQueue
 
 import Sm02Client
 
@@ -78,37 +80,35 @@ final class RemoteService {
   
   class ConnectionManagement {
     
-    let addressProperty: ObservableProperty<RemoteAddress> = ObjectProperty<RemoteAddress>(RemoteAddress.empty)
-    let isConnectedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
-    let isAuthenticatedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
+    @Published
+    private(set) var isConnected: Bool = false
     
-    var isConnected: Bool { (isConnectedProperty as! PrimitiveProperty<Bool>).get() }
-    var isAuthenticated: Bool { (isAuthenticatedProperty as! PrimitiveProperty<Bool>).get() }
-    var address: RemoteAddress? {
-      let value = (addressProperty as! ObjectProperty<RemoteAddress>).get()
-      return Optional.some(value)
-        .flatMap { $0.isEmpty() ? nil : $0 }
-    }
+    @Published
+    private(set) var isAuthenticated: Bool = false
+    
+    @Published
+    private(set) var address: RemoteAddress? = nil
     
     init () {
       Sm02.on(message: { [unowned self] (inbound) in
         if case .authentication(.success) = inbound {
-          (self.isAuthenticatedProperty as! PrimitiveProperty<Bool>).set(true)
+          self.isAuthenticated = true
         }
       })
       Sm02.on(event: { [unowned self] (event) in
         switch event {
         case .connected:
-          (self.isConnectedProperty as! PrimitiveProperty<Bool>).set(true)
+          self.isConnected = true
         case .disconnected:
-          (self.isConnectedProperty as! PrimitiveProperty<Bool>).set(false)
+          self.isConnected = false
         default:
           break
         }
       })
-      addressProperty.on(change: { [unowned self] (update) in
+      
+      $address.on(change: { [unowned self] (update) in
         if update === RemoteAddress.empty {
-          (self.isAuthenticatedProperty as! PrimitiveProperty<Bool>).set(false)
+          self.isAuthenticated = false
         }
       })
     }
@@ -116,7 +116,7 @@ final class RemoteService {
     func connect (to remote: RemoteAddress) -> Result<AuthenticationStatus, Error> {
       let result = Sm02.connect(to: remote)
       if case .success(AuthenticationStatus.success) = result {
-        (addressProperty as! ObjectProperty<RemoteAddress>).set(remote)
+        address = remote
       }
       return result
     }
@@ -129,7 +129,7 @@ final class RemoteService {
     }
     
     func forget () {
-      (addressProperty as! ObjectProperty<RemoteAddress>).set(RemoteAddress.empty)
+      address = RemoteAddress.empty
     }
   }
   
