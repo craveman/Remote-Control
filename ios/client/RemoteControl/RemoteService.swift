@@ -441,26 +441,21 @@ final class RemoteService {
     let replay = VideoReplayManagement()
     let player = VideoPlayerManagement()
 
-    let recordModeProperty: ObserversManager<RecordMode> = FirableObserversManager<RecordMode>()
+    @Published
+    var recordMode: RecordMode = .stop
 
-    var recordMode: RecordMode = .stop {
-      willSet {
-        let outbound = Outbound.record(recordMode: newValue)
-        Sm02.send(message: outbound)
-      }
-      didSet {
-        (recordModeProperty as! FirableObserversManager<RecordMode>).fire(with: recordMode)
-      }
-    }
-    var routes: [Camera] = [] {
-      willSet {
-        let outbound = Outbound.videoRoutes(cameras: newValue)
-        Sm02.send(message: outbound)
-      }
-    }
+    @Published
+    var routes: [Camera] = []
 
     fileprivate init () {
-      // noop
+      $recordMode.on(change: { [unowned self] (update) in
+        let outbound = Outbound.record(recordMode: update)
+        Sm02.send(message: outbound)
+      })
+      $routes.on(change: { update in
+        let outbound = Outbound.videoRoutes(cameras: update)
+        Sm02.send(message: outbound)
+      })
     }
 
     func upload (to fileName: String) {
@@ -470,35 +465,30 @@ final class RemoteService {
 
     final class VideoPlayerManagement {
 
-      let speedProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
-      let modeProperty: ObserversManager<RecordMode> = FirableObserversManager<RecordMode>()
-      let timestampProperty: ObservableProperty<UInt32> = PrimitiveProperty<UInt32>(0)
+      @Published
+      var speed: UInt8 = 0
 
-      var speed: UInt8 {
-        set {
-          let outbound = Outbound.player(speed: newValue, recordMode: mode, timestamp: 0)
+      @Published
+      private(set) var mode: RecordMode = .stop
+
+      @Published
+      private(set) var timestamp: UInt32 = 0
+
+      fileprivate init () {
+        $speed.on(change: { [unowned self] update in
+          let outbound = Outbound.player(speed: update, recordMode: self.mode, timestamp: 0)
           Sm02.send(message: outbound)
-          (speedProperty as! PrimitiveProperty<UInt8>).set(newValue)
-        }
-        get {
-          (speedProperty as! PrimitiveProperty<UInt8>).get()
-        }
-      }
-      private(set) var mode: RecordMode = .stop {
-        willSet {
-          let outbound = Outbound.player(speed: speed, recordMode: newValue, timestamp: 0)
+        })
+        $mode.on(change: { [unowned self] update in
+          let outbound = Outbound.player(speed: self.speed, recordMode: update, timestamp: 0)
           Sm02.send(message: outbound)
-        }
-        didSet {
-          (modeProperty as! FirableObserversManager<RecordMode>).fire(with: mode)
-        }
+        })
       }
-      var timestamp: UInt32 { (timestampProperty as! PrimitiveProperty<UInt32>).get() }
 
       func goto (_ timestamp: UInt32) {
         let outbound = Outbound.player(speed: speed, recordMode: mode, timestamp: timestamp)
         Sm02.send(message: outbound)
-        (timestampProperty as! PrimitiveProperty<UInt32>).set(timestamp)
+        self.timestamp = timestamp
       }
 
       func stop () {
@@ -516,46 +506,39 @@ final class RemoteService {
 
     final class VideoReplayManagement {
 
-      let leftCounterProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
-      let rightCounterProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
-      let isReadyProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
-      let isReceivedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
+      @Published
+      var leftCounter: UInt8 = 0
 
-      var leftCounter: UInt8 {
-        set {
-          let outbound = Outbound.videoCounters(left: newValue, right: rightCounter)
-          Sm02.send(message: outbound)
-          (leftCounterProperty as! PrimitiveProperty<UInt8>).set(newValue)
-        }
-        get {
-          (leftCounterProperty as! PrimitiveProperty<UInt8>).get()
-        }
-      }
-      var rightCounter: UInt8 {
-        set {
-          let outbound = Outbound.videoCounters(left: leftCounter, right: newValue)
-          Sm02.send(message: outbound)
-          (rightCounterProperty as! PrimitiveProperty<UInt8>).set(newValue)
-        }
-        get {
-          (rightCounterProperty as! PrimitiveProperty<UInt8>).get()
-        }
-      }
-      var isReady: Bool { (isReadyProperty as! PrimitiveProperty<Bool>).get() }
-      var isReceived: Bool { (isReceivedProperty as! PrimitiveProperty<Bool>).get() }
+      @Published
+      var rightCounter: UInt8 = 0
+
+      @Published
+      private(set) var isReady = false
+
+      @Published
+      private(set) var isReceived = false
 
       fileprivate init () {
         Sm02.on(message: { [unowned self] (inbound) in
           guard case .videoReady(_) = inbound else {
             return
           }
-          (self.isReadyProperty as! PrimitiveProperty<Bool>).set(true)
+          self.isReady = true
         })
         Sm02.on(message: { [unowned self] (inbound) in
           guard case .videoReceived = inbound else {
             return
           }
-          (self.isReceivedProperty as! PrimitiveProperty<Bool>).set(true)
+          self.isReceived = true
+        })
+
+        $leftCounter.on(change: { [unowned self] (update) in
+          let outbound = Outbound.videoCounters(left: update, right: self.rightCounter)
+          Sm02.send(message: outbound)
+        })
+        $rightCounter.on(change: { [unowned self] (update) in
+          let outbound = Outbound.videoCounters(left: self.leftCounter, right: update)
+          Sm02.send(message: outbound)
         })
       }
     }
