@@ -10,9 +10,11 @@ import SwiftUI
 
 struct ConnectButton: View {
   @Environment(\.presentationMode) var presentationMode
+  @EnvironmentObject var insp: InspSettings
   var body: some View {
     Button(action: {
       rs.connection.disconnect()
+      self.insp.quit()
     }) {
       VStack(spacing: 0){
         Image(systemName: "link").resizable().scaledToFit()

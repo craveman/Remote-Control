@@ -17,21 +17,21 @@ struct PointsSwiftUIView: View {
   func startAction() -> Void {
     if(rs.timer.state == .suspended) {
       rs.timer.start()
+      Vibration.on()
     }
-    Vibration.on()
   }
   func stopAction() -> Void {
     if(rs.timer.state == .running) {
       rs.timer.stop()
+      Vibration.on()
     }
-    Vibration.on()
   }
   var body: some View {
     VStack(spacing: 0) {
       Divider()
       Spacer()
       FightControls()
-      StartTimerButtonWithModalView(showModal: $insp.shouldShowTimerView ,action: startAction, onDismiss: stopAction)
+      StartTimerButtonWithModalView(showModal: $insp.shouldShowTimerView ,start: startAction, stop: stopAction)
       Spacer()
     }
   }
@@ -60,20 +60,23 @@ fileprivate struct StartTimerButtonWithModalView: View {
     //    return "\(getTimeString(self.settings.time, true))"
   }
     
-  var action: () -> Void
-  var onDismiss: () -> Void
+  var start: () -> Void
+  var stop: () -> Void
+  
   var body: some View {
     Button(action: {
       print("Start Button Pushed")
-      self.action()
+      self.start()
 //      self.showModal = true
     }) {
       primaryColor(dinFont(Text(getStartTimerString()), UIGlobals.timerFontSize))
         .padding(20)
         .frame(width: width)
     }.frame(width: width)
-      .sheet(isPresented: self.$showModal, onDismiss: self.onDismiss) {
-        TimerModalView().environmentObject(self.settings)
+      .sheet(isPresented: self.$showModal, onDismiss: self.stop) {
+        TimerModalView(onTap: self.stop)
+          .environmentObject(self.settings)
+        .background(UIGlobals.modalSheetBackground)
     }
   }
 }
@@ -86,13 +89,15 @@ fileprivate struct TimerModalView: View {
     let label = self.settings.time > 0 ? "Stop" : "Close"
     return NSLocalizedString(label, comment: "")
   }
+  var onTap: () -> Void = {}
   var body: some View {
     
     VStack {
       dinFont(Text(getCountdownTimerString()), UIGlobals.timerFontSize)
         .padding(20)
         .onTapGesture(count: 1, perform: {
-          self.presentationMode.wrappedValue.dismiss()
+          self.onTap()
+//          self.presentationMode.wrappedValue.dismiss()
         })
     }
   }

@@ -17,7 +17,7 @@ struct SettingsSwiftUIView: View {
           DisconnectButtonSwiftUIView()
         }
         if (!insp.isConnected) {
-          ConnectButton()
+          ConnectButton().environmentObject(insp)
         }
       }
       

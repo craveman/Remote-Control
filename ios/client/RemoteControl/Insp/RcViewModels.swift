@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit.UIViewController
 import struct NIO.TimeAmount
 import class Combine.AnyCancellable
 
@@ -25,6 +26,11 @@ class InspSettings: ObservableObject {
   @Published var shouldShowTimerView: Bool = rs.timer.mode == .main && rs.timer.state == .running
   @Published var shouldShowPauseView: Bool = rs.timer.mode == .pause && rs.timer.state == .running
   @Published var shouldShowMedicalView: Bool = rs.timer.mode == .medicine && rs.timer.state == .running
+  private var vc: UIViewController?
+  
+  public func setVC (vc: UIViewController) {
+    self.vc = vc
+  }
   
   func prepareView(_ mode: TimerMode) {
     DispatchQueue.main.async { [unowned self] in
@@ -44,6 +50,12 @@ class InspSettings: ObservableObject {
   
   func reset() {
     prepareView(.main)
+  }
+  
+  public func quit() {
+    vc?.presentingViewController?.dismiss(animated: true, completion: {
+      print("quit complete")
+    })
   }
 }
 

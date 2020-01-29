@@ -42,7 +42,9 @@ fileprivate struct PeriodSetter: View {
     }
     .frame(width: width)
     .sheet(isPresented: self.$showModal, onDismiss: {}) {
-      PeriodModalContent().environmentObject(self.settings)
+      PeriodModalContent()
+        .environmentObject(self.settings)
+        .background(UIGlobals.modalSheetBackground)
     }
 //    CommonModalButton(imageName: "textformat.123", imageColor: primaryColor , buttonType: .special, text: "set period", onDismiss: {
 //    }) {

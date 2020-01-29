@@ -30,7 +30,6 @@ struct PauseSetters: View {
       print("set savedTime", self.settings.savedTime!)
     }
     
-    // todo: update for startTimer(time, mode) when rs will support
     rs.timer.start(time, mode: mode)
   }
   

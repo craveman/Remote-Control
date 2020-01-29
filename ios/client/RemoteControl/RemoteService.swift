@@ -126,6 +126,7 @@ final class RemoteService {
       if temporary == false {
         forget()
       }
+      isConnected = false;
     }
 
     func forget () {
@@ -244,6 +245,10 @@ final class RemoteService {
         Sm02.send(message: outbound)
       })
       $weapon.on(change: { update in
+        // Sm02 could sometimes reject '.none'
+        guard self.weapon != update else {
+          return;
+        }
         let outbound = Outbound.setWeapon(weapon: update)
         Sm02.send(message: outbound)
       })

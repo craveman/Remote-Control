@@ -28,6 +28,7 @@ class RcViewController: UIViewController {
     
     self.fight = view
     
+    self.rcModel.setVC(vc: self.presentationController!.presentedViewController)
     var vc = UIHostingController(rootView: view.environmentObject(game).environmentObject(rcModel).environmentObject(playbackController))
     self.addViewControllerAsChildViewController(childViewController: vc)
     return vc
