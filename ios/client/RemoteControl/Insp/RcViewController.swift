@@ -165,7 +165,7 @@ class RcViewController: UIViewController {
     
     subUuids.append(passive$)
     
-    let weapon$ = rs.competition.weaponProperty.on(change: { weapon in
+    let weapon$ = rs.competition.$weapon.on(change: { weapon in
       guard self.game.weapon != weapon else {
         return
       }
@@ -174,7 +174,7 @@ class RcViewController: UIViewController {
       })
     })
     
-    subUuids.append(weapon$)
+    subscriptions.append(weapon$)
     
     let timerMax$ = rs.timer.passive.isMaxTimerReachedProperty.on(change: { reached in
       if (reached) {

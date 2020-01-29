@@ -165,7 +165,7 @@ final class RemoteService {
       fileprivate let type: PersonType
 
       @Published
-      var name: String = ""
+      var name = ""
 
       @Published
       var card: StatusCard = .none
@@ -210,58 +210,20 @@ final class RemoteService {
 
     let flags = FlagsManagement()
 
-    let nameProperty: ObserversManager<String> = FirableObserversManager<String>()
-    let weaponProperty: ObserversManager<Weapon> = FirableObserversManager<Weapon>()
-    let periodProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
-    let periodTimeProperty: ObservableProperty<UInt32> = PrimitiveProperty<UInt32>(0)
-    let fightStatusProperty: ObserversManager<Decision> = FirableObserversManager<Decision>()
+    @Published
+    var name = ""
 
-    var name: String = "" {
-      willSet {
-        let outbound = Outbound.setCompetition(name: newValue)
-        Sm02.send(message: outbound)
-      }
-      didSet {
-        (nameProperty as! FirableObserversManager<String>).fire(with: name)
-      }
-    }
-    var weapon: Weapon = .none {
-      willSet {
-        guard weapon != newValue else {
-          return;
-        }
-        let outbound = Outbound.setWeapon(weapon: newValue)
-        Sm02.send(message: outbound)
-      }
-      didSet {
-        (weaponProperty as! FirableObserversManager<Weapon>).fire(with: weapon)
-      }
-    }
-    var period: UInt8 {
-      set {
-        let outbound = Outbound.setPeriod(period: newValue)
-        Sm02.send(message: outbound)
-        (periodProperty as! PrimitiveProperty<UInt8>).set(newValue)
-      }
-      get {
-        (periodProperty as! PrimitiveProperty<UInt8>).get()
-      }
-    }
-    var periodTime: UInt32 {
-      set {
-        let outbound = Outbound.setDefaultTime(time: newValue)
-        Sm02.send(message: outbound)
-        (periodTimeProperty as! PrimitiveProperty<UInt32>).set(newValue)
-      }
-      get {
-        (periodTimeProperty as! PrimitiveProperty<UInt32>).get()
-      }
-    }
-    var fightStatus: Decision = .continueFight {
-      didSet {
-        (fightStatusProperty as! FirableObserversManager<Decision>).fire(with: fightStatus)
-      }
-    }
+    @Published
+    var weapon: Weapon = .none
+
+    @Published
+    var period: UInt8 = 0
+
+    @Published
+    var periodTime: UInt32 = 0
+
+    @Published
+    private(set) var fightStatus: Decision = .continueFight
 
     fileprivate init () {
       Sm02.on(message: { [unowned self] (inbound) in
@@ -275,6 +237,23 @@ final class RemoteService {
           return
         }
         self.fightStatus = result
+      })
+
+      $name.on(change: { update in
+        let outbound = Outbound.setCompetition(name: update)
+        Sm02.send(message: outbound)
+      })
+      $weapon.on(change: { update in
+        let outbound = Outbound.setWeapon(weapon: update)
+        Sm02.send(message: outbound)
+      })
+      $period.on(change: { update in
+        let outbound = Outbound.setPeriod(period: update)
+        Sm02.send(message: outbound)
+      })
+      $periodTime.on(change: { update in
+        let outbound = Outbound.setDefaultTime(time: update)
+        Sm02.send(message: outbound)
       })
     }
 
@@ -290,19 +269,11 @@ final class RemoteService {
 
     final class FlagsManagement {
 
-      let leftProperty: ObserversManager<FlagState> = FirableObserversManager<FlagState>()
-      let rightProperty: ObserversManager<FlagState> = FirableObserversManager<FlagState>()
+      @Published
+      private(set) var left: FlagState = .none
 
-      private(set) var left: FlagState = .none {
-        didSet {
-          (leftProperty as! FirableObserversManager<FlagState>).fire(with: left)
-        }
-      }
-      private(set) var right: FlagState = .none {
-        didSet {
-          (rightProperty as! FirableObserversManager<FlagState>).fire(with: left)
-        }
-      }
+      @Published
+      private(set) var right: FlagState = .none
 
       fileprivate init () {
         Sm02.on(message: { [unowned self] (inbound) in
