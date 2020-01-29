@@ -156,14 +156,14 @@ class RcViewController: UIViewController {
     
     subUuids.append(state$)
     
-    let passive$ = rs.display.passiveProperty.on(change: { showPassive in
+    let passive$ = rs.display.$passive.on(change: { showPassive in
       guard self.game.showPassive != showPassive else {
         return
       }
       self.onMainThread({self.game.showPassive = showPassive})
     })
     
-    subUuids.append(passive$)
+    subscriptions.append(passive$)
     
     let weapon$ = rs.competition.$weapon.on(change: { weapon in
       guard self.game.weapon != weapon else {

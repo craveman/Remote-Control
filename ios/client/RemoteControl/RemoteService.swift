@@ -563,50 +563,55 @@ final class RemoteService {
 
   final class DisplayManagement {
 
-    let videoProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
-    let photoProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
-    let passiveProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
-    let countryProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
+    @Published
+    var video = false
 
-    var video: Bool {
-      set {
-        let outbound = Outbound.visibility(video: newValue, photo: photo, passive: passive, country: country)
+    @Published
+    var photo = false
+
+    @Published
+    var passive = false
+
+    @Published
+    var country = false
+
+    fileprivate init () {
+      $video.on(change: { [unowned self] (update) in
+        let outbound = Outbound.visibility(
+          video: update,
+          photo: self.photo,
+          passive: self.passive,
+          country: self.country
+        )
         Sm02.send(message: outbound)
-        (videoProperty as! PrimitiveProperty<Bool>).set(newValue)
-      }
-      get {
-        (videoProperty as! PrimitiveProperty<Bool>).get()
-      }
-    }
-    var photo: Bool {
-      set {
-        let outbound = Outbound.visibility(video: video, photo: newValue, passive: passive, country: country)
+      })
+      $photo.on(change: { [unowned self] (update) in
+        let outbound = Outbound.visibility(
+          video: self.video,
+          photo: update,
+          passive: self.passive,
+          country: self.country
+        )
         Sm02.send(message: outbound)
-        (photoProperty as! PrimitiveProperty<Bool>).set(newValue)
-      }
-      get {
-        (photoProperty as! PrimitiveProperty<Bool>).get()
-      }
-    }
-    var passive: Bool {
-      set {
-        let outbound = Outbound.visibility(video: video, photo: photo, passive: newValue, country: country)
+      })
+      $passive.on(change: { [unowned self] (update) in
+        let outbound = Outbound.visibility(
+          video: self.video,
+          photo: self.photo,
+          passive: update,
+          country: self.country
+        )
         Sm02.send(message: outbound)
-        (passiveProperty as! PrimitiveProperty<Bool>).set(newValue)
-      }
-      get {
-        (passiveProperty as! PrimitiveProperty<Bool>).get()
-      }
-    }
-    var country: Bool {
-      set {
-        let outbound = Outbound.visibility(video: video, photo: photo, passive: passive, country: newValue)
+      })
+      $country.on(change: { [unowned self] (update) in
+        let outbound = Outbound.visibility(
+          video: self.video,
+          photo: self.photo,
+          passive: self.passive,
+          country: update
+        )
         Sm02.send(message: outbound)
-        (countryProperty as! PrimitiveProperty<Bool>).set(newValue)
-      }
-      get {
-        (countryProperty as! PrimitiveProperty<Bool>).get()
-      }
+      })
     }
   }
 }
