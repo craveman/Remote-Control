@@ -54,12 +54,12 @@ fileprivate struct StartTimerButtonWithModalView: View {
   var size = getButtonFrame(.fullWidth)
   @Binding var showModal: Bool
   @EnvironmentObject var settings: FightSettings
- 
+  
   func getStartTimerString() -> String {
     return NSLocalizedString("Start", comment: "")
     //    return "\(getTimeString(self.settings.time, true))"
   }
-    
+  
   var start: () -> Void
   var stop: () -> Void
   
@@ -67,7 +67,7 @@ fileprivate struct StartTimerButtonWithModalView: View {
     Button(action: {
       print("Start Button Pushed")
       self.start()
-//      self.showModal = true
+      //      self.showModal = true
     }) {
       primaryColor(dinFont(Text(getStartTimerString()), UIGlobals.timerFontSize))
         .padding(20)
@@ -76,7 +76,7 @@ fileprivate struct StartTimerButtonWithModalView: View {
       .sheet(isPresented: self.$showModal, onDismiss: self.stop) {
         TimerModalView(onTap: self.stop)
           .environmentObject(self.settings)
-        .background(UIGlobals.modalSheetBackground)
+          .background(UIGlobals.modalSheetBackground)
     }
   }
 }
@@ -93,12 +93,15 @@ fileprivate struct TimerModalView: View {
   var body: some View {
     
     VStack {
+      Spacer()
       dinFont(Text(getCountdownTimerString()), UIGlobals.timerFontSize)
         .padding(20)
+        .frame(width: width)
         .onTapGesture(count: 1, perform: {
           self.onTap()
-//          self.presentationMode.wrappedValue.dismiss()
+          //          self.presentationMode.wrappedValue.dismiss()
         })
+      Spacer()
     }
   }
 }
@@ -107,6 +110,6 @@ struct PointsSwiftUIView_Previews: PreviewProvider {
   static var previews: some View {
     PointsSwiftUIView()
       .environmentObject(FightSettings())
-    .environmentObject(InspSettings())
+      .environmentObject(InspSettings())
   }
 }

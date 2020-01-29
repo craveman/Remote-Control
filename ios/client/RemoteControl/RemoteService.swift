@@ -357,8 +357,8 @@ final class RemoteService {
     func start () {
       let outbound = Outbound.startTimer(state: .running)
       Sm02.send(message: outbound)
-//      state = .running
       passive.unlock()
+//      state = .running
     }
 
     func stop () {
@@ -403,8 +403,9 @@ final class RemoteService {
           Sm02.send(message: outbound)
         })
         $isBlocked.on(change: { [unowned self] (update) in
-          if (update == false) {
-            return // send only when locked
+          // send only when locked
+          guard update == true else {
+            return
           }
 
           let outbound = Outbound.passiveTimer(
