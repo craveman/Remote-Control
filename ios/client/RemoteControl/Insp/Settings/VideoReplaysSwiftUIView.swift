@@ -28,26 +28,43 @@ struct VideoReplaysButtonSwiftUIView: View {
       .frame(width: width / 2, height: mediumHeightOfButton())
       .border(Color.gray, width: 0.5)
       .sheet(isPresented: self.$showModal) {
-        VideoReplaysSwiftUIView().environmentObject(self.playback)
+        VideoReplaysSwiftUIView()
+          .background(UIGlobals.modalSheetBackground)
     }
   }
 }
 
+final class PlayersReplaysCountStore: ObservableObject {
+    var playbacksLeftCount = Int(rs.video.replay.leftCounter) {
+      didSet {
+        rs.video.replay.leftCounter = UInt8(self.playbacksLeftCount)
+        print(self.playbacksLeftCount)
+      }
+    }
+    var playbacksRightCount =  Int(rs.video.replay.rightCounter) {
+      didSet {
+        rs.video.replay.rightCounter = UInt8(self.playbacksRightCount)
+        print(self.playbacksRightCount)
+      }
+    }
+
+    // @Published var items = ["Jane Doe", "John Doe", "Bob"]
+}
+
 struct VideoReplaysSwiftUIView: View {
+   @ObservedObject var store = PlayersReplaysCountStore()
   @Environment(\.presentationMode) var presentationMode
-  @EnvironmentObject var playback: PlaybackControls
   @State var currentView = 0 {
     didSet {
-      playback.selectedPlayer = currentView == 0 ? .left : .right
+      print("currentView", currentView)
     }
   }
-  @State var playbackSelected = 0
+  let maxLeftCount = 2
   
   func getPlaybackList() -> [String] {
-    let count = currentView == 0 ? rs.video.replay.leftCounter : rs.video.replay.rightCounter
     var opts: [String] = [];
-    for (index, _) in (0..<count).enumerated() {
-      opts.append("\(index+1)")
+    for (_, element) in (0..<maxLeftCount+1).enumerated() {
+      opts.append("\(element)")
     }
     return opts
   }
@@ -56,22 +73,12 @@ struct VideoReplaysSwiftUIView: View {
     VStack(spacing: 0) {
       CommonModalHeader(title: "Video replays")
       ReplaySelectorsUIView(selectedTab: $currentView)
-      Spacer()
-      if getPlaybackList().count > 0 {
-        HStack(spacing: 0){
-          Spacer()
-          CommonPicker(selected: $playbackSelected, options: getPlaybackList()).frame(width: pickerWidth)
-          Spacer()
-          
-        }
-        Divider()
-        VideoButton().environmentObject(self.playback)
+      HStack(spacing: 0){
+        CommonPicker(selected: $store.playbacksLeftCount, options: getPlaybackList()).frame(width: pickerWidth).foregroundColor(primaryColor).opacity(currentView == 0 ? 1 : 0.1)
+        .disabled(currentView != 0)
+        CommonPicker(selected: $store.playbacksRightCount, options: getPlaybackList()).frame(width: pickerWidth).foregroundColor(primaryColor).opacity(currentView == 1 ? 1 : 0.1)
+        .disabled(currentView != 1)
       }
-      if getPlaybackList().count == 0 {
-        primaryColor(dinFont(Text("No saved replays found")))
-      }
-      
-      Spacer()
       Divider()
       HStack {
         ConfirmModalButton(action: {
@@ -89,7 +96,6 @@ struct ReplaySelectorsUIView: View {
   @Binding var selectedTab: Int
   
   func doSelect(_ index: Int) {
-    print(index)
     //    Vibration.on()
     self.selectedTab = index
   }

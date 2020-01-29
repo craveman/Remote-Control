@@ -224,6 +224,7 @@ struct CardsSwiftUIView: View {
         .background(UIGlobals.headerBackground_SUI)
       
     }
+//    .background(UIGlobals.cardBoardBackground)
     
   }
 }

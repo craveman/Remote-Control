@@ -14,7 +14,7 @@ struct SetPeriodButtonSwiftUIView: View {
     }
 }
 
-fileprivate let maxPeriod: Int = 9
+fileprivate let maxPeriod: Int = INSPIRATION_MAX_PERIOD
 
 fileprivate struct PeriodSetter: View {
   @EnvironmentObject var settings: FightSettings

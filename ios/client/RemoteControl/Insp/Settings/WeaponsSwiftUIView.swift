@@ -29,6 +29,7 @@ struct WeaponsButtonSwiftUIView: View {
         WeaponsSwiftUIView()
           .environmentObject(self.settings)
           .environmentObject(self.rcModel)
+        .background(UIGlobals.modalSheetBackground)
     }
   }
 }

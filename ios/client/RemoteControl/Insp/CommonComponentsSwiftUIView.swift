@@ -95,7 +95,7 @@ struct CommonModalButton<Content>: View where Content: View {
       self.action()
     }, text: self.text, imageName: self.imageName, imageColor: self.imageColor, frame: self.frame, border: self.border)
       .sheet(isPresented: self.$showModal, onDismiss: self.onDismiss) {
-        self.content()
+        self.content().background(UIGlobals.modalSheetBackground)
     }
   }
 }
@@ -178,7 +178,7 @@ struct CommonPicker: View {
       HStack {
         Picker(selection: self.$selected, label: Text("\(self.label)")) {
           ForEach(0 ..< self.options.count) {
-            Text(self.options[$0]).tag($0)
+            Text(self.options[$0]).tag($0).foregroundColor(primaryColor)
           }
         }.frame(width: geometry.size.width, height: geometry.size.height)
         .clipped()

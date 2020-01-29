@@ -37,7 +37,9 @@ struct PauseSetters: View {
   func pauseDismissAction() -> Void {
     unsubscribeFinish()
     self.dismiss()
-    self.settings.period += 1
+    if (self.settings.period + 1 < INSPIRATION_MAX_PERIOD) {
+      self.settings.period += 1
+    }
   }
   
   func medicalDismissAction() -> Void {

@@ -27,7 +27,10 @@ struct PriorityButtonSwiftUIView: View {
       .frame(width: width / 2, height: mediumHeightOfButton())
       .border(Color.gray, width: 0.5)
       .sheet(isPresented: self.$showModal) {
-        PrioritySwiftUIView().environmentObject(self.settings).environmentObject(self.insp)
+        PrioritySwiftUIView()
+          .environmentObject(self.settings)
+          .environmentObject(self.insp)
+        .background(UIGlobals.modalSheetBackground)
     }
   }
 }

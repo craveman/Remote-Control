@@ -73,7 +73,7 @@ fileprivate struct TimeModalContent: View {
         CommonPicker(selected: self.$minUnit).frame(width: pickerWidth)
         VStack(spacing: 0){
           Spacer()
-          Text(":")
+          Text(":").foregroundColor(primaryColor)
           Spacer()
         }.frame(width: delimWidth)
         CommonPicker(selected: self.$secDeci, options: firstDigitOpts).frame(width: pickerWidth)

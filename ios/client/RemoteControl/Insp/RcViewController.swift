@@ -33,6 +33,7 @@ class RcViewController: UIViewController {
     return vc
   }()
   override func viewDidLoad() {
+    self.overrideUserInterfaceStyle = .light
     super.viewDidLoad()
 //    setSubscriptions()
 //    updateView()

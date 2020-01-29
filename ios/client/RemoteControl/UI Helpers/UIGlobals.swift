@@ -18,6 +18,8 @@ class UIGlobals {
   static let appSmallerFontSize: CGFloat = 16
   
   static let buttonCornerRadius = CGFloat(0)
+  static let cardBoardBackground = Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
+  static let modalSheetBackground = Color(#colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1))
   static let cardCornerRadius = CGFloat(0)
   static let activeCardBorder = (color: CGColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)),  width: CGFloat(2))
   static let activeButtonBorder = (color: CGColor(#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)),  width: CGFloat(4))
