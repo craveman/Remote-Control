@@ -46,7 +46,6 @@
 		85D6E9252393049500CBE74D /* TestTimersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */; };
 		8F07A75123892F4800C7F783 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F07A75323892F4800C7F783 /* Localizable.strings */; };
 		8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6D773C237D2C530077B65D /* RemoteService.swift */; };
-		8FA249162384A24C006A65C6 /* ObservableProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA249152384A24C006A65C6 /* ObservableProperty.swift */; };
 		8FD7CB962392C030003DF83B /* Vibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD7CB952392C030003DF83B /* Vibration.swift */; };
 		8FE69D5423398B6200E3B539 /* QRCodeReader in Frameworks */ = {isa = PBXBuildFile; productRef = 8FE69D5323398B6200E3B539 /* QRCodeReader */; };
 		8FFBF9E22336BD4000736BB7 /* Sm02Client in Frameworks */ = {isa = PBXBuildFile; productRef = 8FFBF9E12336BD4000736BB7 /* Sm02Client */; };
@@ -134,7 +133,6 @@
 		8F07A75223892F4800C7F783 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8F07A75523892FB000C7F783 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8F6D773C237D2C530077B65D /* RemoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
-		8FA249152384A24C006A65C6 /* ObservableProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableProperty.swift; sourceTree = "<group>"; };
 		8FD7CB952392C030003DF83B /* Vibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vibration.swift; sourceTree = "<group>"; };
 		8FFBF9E02336BC5E00736BB7 /* Sm02Client */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sm02Client; sourceTree = "<group>"; };
 		8FFBF9E32336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteAddress+UrlParsing.swift"; sourceTree = "<group>"; };
@@ -339,7 +337,6 @@
 				850AAE6D23270DE500DBFD93 /* Connect */,
 				85A9933A230B4C40003FC5BE /* Insp */,
 				8F6D773C237D2C530077B65D /* RemoteService.swift */,
-				8FA249152384A24C006A65C6 /* ObservableProperty.swift */,
 				851AE9BE23892D71001BE3FB /* CommonViewController.swift */,
 				8FD7CB952392C030003DF83B /* Vibration.swift */,
 				B97043C623E099C1003F4F47 /* Published.Publisher+on.swift */,
@@ -540,7 +537,6 @@
 				8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */,
 				851AE9C52389D4FE001BE3FB /* PrioritySwiftUIView.swift in Sources */,
 				8FD7CB962392C030003DF83B /* Vibration.swift in Sources */,
-				8FA249162384A24C006A65C6 /* ObservableProperty.swift in Sources */,
 				85B956FE237A2CA70063E32C /* HoldPassiveButton.swift in Sources */,
 				85B95704237B608C0063E32C /* FightTabsSelectorsUIView.swift in Sources */,
 				85D6E9252393049500CBE74D /* TestTimersSwiftUIView.swift in Sources */,
