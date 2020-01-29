@@ -34,61 +34,61 @@ import struct NIO.TimeAmount
 @_exported import enum Sm02Client.Outbound
 
 final class RemoteService {
-  
+
   static let shared = RemoteService()
-  
+
   let connection = ConnectionManagement()
   let persons = PersonsManagement()
   let competition = CompetitionManagement()
   let timer = TimerManagement()
   let video = VideoManagement()
   let display = DisplayManagement()
-  
+
   private init() {
     // noop
   }
-  
+
   func devicesRequest () {
     let outbound = Outbound.devicesRequest
     Sm02.send(message: outbound)
   }
-  
+
   func ethernetNextOrPrevious (next: Bool) {
     let outbound = Outbound.ethernetNextOrPrevious(next: next)
     Sm02.send(message: outbound)
   }
-  
+
   func ethernetApply () {
     let outbound = Outbound.ethernetApply
     Sm02.send(message: outbound)
   }
-  
+
   func ethernetFinishAsk () {
     let outbound = Outbound.ethernetFinishAsk
     Sm02.send(message: outbound)
   }
-  
+
   @discardableResult
   func on (event handler: @escaping EventHandler) -> UUID {
     return Sm02.on(event: handler)
   }
-  
+
   @discardableResult
   func remove (event uuid: UUID) -> Bool {
     return Sm02.remove(eventHandler: uuid)
   }
-  
+
   class ConnectionManagement {
-    
+
     @Published
     private(set) var isConnected: Bool = false
-    
+
     @Published
     private(set) var isAuthenticated: Bool = false
-    
+
     @Published
     private(set) var address: RemoteAddress? = nil
-    
+
     init () {
       Sm02.on(message: { [unowned self] (inbound) in
         if case .authentication(.success) = inbound {
@@ -105,14 +105,14 @@ final class RemoteService {
           break
         }
       })
-      
+
       $address.on(change: { [unowned self] (update) in
         if update === RemoteAddress.empty {
           self.isAuthenticated = false
         }
       })
     }
-    
+
     func connect (to remote: RemoteAddress) -> Result<AuthenticationStatus, Error> {
       let result = Sm02.connect(to: remote)
       if case .success(AuthenticationStatus.success) = result {
@@ -120,26 +120,26 @@ final class RemoteService {
       }
       return result
     }
-    
+
     func disconnect (temporary: Bool = false) {
       Sm02.disconnect()
       if temporary == false {
         forget()
       }
     }
-    
+
     func forget () {
       address = RemoteAddress.empty
     }
   }
-  
+
   final class PersonsManagement {
-    
+
     let left = Person(type: .left)
     let right = Person(type: .right)
     let referee = Person(type: .referee)
     let none = Person(type: .none)
-    
+
     subscript (type: PersonType) -> Person {
       switch type {
       case .left:
@@ -152,66 +152,52 @@ final class RemoteService {
         return none
       }
     }
-    
+
     func resetPriority () {
       Person.priorityType = .none
       let outbound = Outbound.setPriority(person: .none)
       Sm02.send(message: outbound)
     }
-    
+
     final class Person {
-      
+
       fileprivate static var priorityType: PersonType = .none
       fileprivate let type: PersonType
-      
-      let nameProperty: ObserversManager<String> = FirableObserversManager<String>()
-      let cardProperty: ObserversManager<StatusCard> = FirableObserversManager<StatusCard>()
-      let passiveCardProperty: ObserversManager<StatusCard> = FirableObserversManager<StatusCard>()
-      let scoreProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
-      
-      var name: String = "" {
-        willSet {
-          let outbound = Outbound.setName(person: type, name: newValue)
-          Sm02.send(message: outbound)
-        }
-        didSet {
-          (nameProperty as! FirableObserversManager<String>).fire(with: name)
-        }
-      }
-      var card: StatusCard = .none {
-        willSet {
-          let outbound = Outbound.setCard(person: type, status: newValue)
-          Sm02.send(message: outbound)
-        }
-        didSet {
-          (cardProperty as! FirableObserversManager<StatusCard>).fire(with: card)
-        }
-      }
-      var passiveCard: StatusCard = .none {
-        willSet {
-          let outbound = Outbound.setCard(person: type, status: newValue)
-          Sm02.send(message: outbound)
-        }
-        didSet {
-          (cardProperty as! FirableObserversManager<StatusCard>).fire(with: card)
-        }
-      }
-      var score: UInt8 {
-        set {
-          let outbound = Outbound.setScore(person: type, score: newValue)
-          Sm02.send(message: outbound)
-          (scoreProperty as! PrimitiveProperty<UInt8>).set(newValue)
-        }
-        get {
-          (scoreProperty as! PrimitiveProperty<UInt8>).get()
-        }
-      }
+
+      @Published
+      var name: String = ""
+
+      @Published
+      var card: StatusCard = .none
+
+      @Published
+      var passiveCard: StatusCard = .none
+
+      @Published
+      var score: UInt8 = 0
+
       var isPriority: Bool { Person.priorityType == type }
-      
+
       fileprivate init (type: PersonType) {
         self.type = type
+        $name.on(change: { update in
+          let outbound = Outbound.setName(person: type, name: update)
+          Sm02.send(message: outbound)
+        })
+        $card.on(change: { update in
+          let outbound = Outbound.setCard(person: type, status: update)
+          Sm02.send(message: outbound)
+        })
+        $passiveCard.on(change: { update in
+          let outbound = Outbound.setCard(person: type, status: update)
+          Sm02.send(message: outbound)
+        })
+        $score.on(change: { update in
+          let outbound = Outbound.setScore(person: type, score: update)
+          Sm02.send(message: outbound)
+        })
       }
-      
+
       func setPriority () {
         let outbound = Outbound.setPriority(person: type)
         Sm02.send(message: outbound)
@@ -219,17 +205,17 @@ final class RemoteService {
       }
     }
   }
-  
+
   final class CompetitionManagement {
-    
+
     let flags = FlagsManagement()
-    
+
     let nameProperty: ObserversManager<String> = FirableObserversManager<String>()
     let weaponProperty: ObserversManager<Weapon> = FirableObserversManager<Weapon>()
     let periodProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
     let periodTimeProperty: ObservableProperty<UInt32> = PrimitiveProperty<UInt32>(0)
     let fightStatusProperty: ObserversManager<Decision> = FirableObserversManager<Decision>()
-    
+
     var name: String = "" {
       willSet {
         let outbound = Outbound.setCompetition(name: newValue)
@@ -276,7 +262,7 @@ final class RemoteService {
         (fightStatusProperty as! FirableObserversManager<Decision>).fire(with: fightStatus)
       }
     }
-    
+
     fileprivate init () {
       Sm02.on(message: { [unowned self] (inbound) in
         guard case let .broadcast(weapon, _, _, _, _) = inbound else {
@@ -291,22 +277,22 @@ final class RemoteService {
         self.fightStatus = result
       })
     }
-    
+
     func reset () {
       let outbound = Outbound.reset
       Sm02.send(message: outbound)
     }
-    
+
     func swap () {
       let outbound = Outbound.swap
       Sm02.send(message: outbound)
     }
-    
+
     final class FlagsManagement {
-      
+
       let leftProperty: ObserversManager<FlagState> = FirableObserversManager<FlagState>()
       let rightProperty: ObserversManager<FlagState> = FirableObserversManager<FlagState>()
-      
+
       private(set) var left: FlagState = .none {
         didSet {
           (leftProperty as! FirableObserversManager<FlagState>).fire(with: left)
@@ -317,7 +303,7 @@ final class RemoteService {
           (rightProperty as! FirableObserversManager<FlagState>).fire(with: left)
         }
       }
-      
+
       fileprivate init () {
         Sm02.on(message: { [unowned self] (inbound) in
           guard case let .broadcast(_, left, right, _, _) = inbound else {
@@ -333,15 +319,15 @@ final class RemoteService {
       }
     }
   }
-  
+
   final class TimerManagement {
-    
+
     let timeProperty: ObservableProperty<UInt32> = PrimitiveProperty<UInt32>(0)
     let modeProperty: ObserversManager<TimerMode> = FirableObserversManager<TimerMode>()
     let stateProperty: ObserversManager<TimerState> = FirableObserversManager<TimerState>()
     var isPauseFinishedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
     let passive = PassiveManagement()
-    
+
     var time: UInt32 {
       return (timeProperty as! PrimitiveProperty<UInt32>).get()
     }
@@ -355,15 +341,15 @@ final class RemoteService {
         (stateProperty as! FirableObserversManager<TimerState>).fire(with: state)
       }
     }
-    
+
     var isPauseFinished: Bool { (isPauseFinishedProperty as! PrimitiveProperty<Bool>).get() }
-    
+
     fileprivate init () {
- 
+
       Sm02.on(message: { [unowned self] (inbound) in
         switch inbound {
         case .pauseFinished:
-          
+
           (self.isPauseFinishedProperty as! PrimitiveProperty<Bool>).set(true)
           print("pauseFinished: \(self.isPauseFinished)")
         case let .broadcast(_, _, _, timer, timerState):
@@ -384,45 +370,45 @@ final class RemoteService {
         }
       })
     }
-    
+
     func set (time: TimeAmount, mode: TimerMode) {
       let milliseconds = UInt32(time.nanoseconds / 1_000_000)
-      
+
       let outbound = Outbound.setTimer(time: milliseconds, mode: mode)
       Sm02.send(message: outbound)
-      
+
       (timeProperty as! PrimitiveProperty<UInt32>).set(milliseconds)
       self.mode = mode
     }
-    
+
     func start (_ time: TimeAmount, mode: TimerMode) {
       set(time: time, mode: mode)
       Timer.scheduledTimer(withTimeInterval: 0.21, repeats: false) {[weak self] _ in
         self?.start()
       }
     }
-    
+
     func start () {
       let outbound = Outbound.startTimer(state: .running)
       Sm02.send(message: outbound)
 //      state = .running
       passive.unlock()
     }
-    
+
     func stop () {
       let outbound = Outbound.startTimer(state: .suspended)
       Sm02.send(message: outbound)
 //      state = .suspended
     }
-    
+
     final class PassiveManagement {
-      
+
       var isVisibleProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
       var isBlockedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
       var defaultMillisecondsProperty: ObservableProperty<UInt32> = PrimitiveProperty<UInt32>(60_000)
       var isMaxTimerReachedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
-      
-      
+
+
       var isVisible: Bool {
         set {
           let outbound = Outbound.passiveTimer(shown: newValue, locked: isBlocked, defaultMilliseconds: defaultMilliseconds)
@@ -440,7 +426,7 @@ final class RemoteService {
           if (newValue) {
             Sm02.send(message: outbound)
           }
-          
+
           (isBlockedProperty as! PrimitiveProperty<Bool>).set(newValue)
         }
         get {
@@ -458,11 +444,11 @@ final class RemoteService {
         }
       }
       var isMaxTimerReached: Bool { (isMaxTimerReachedProperty as! PrimitiveProperty<Bool>).get() }
-      
+
       fileprivate func unlock() {
         (isBlockedProperty as! PrimitiveProperty<Bool>).set(false)
       }
-      
+
       fileprivate init () {
         Sm02.on(message: { [unowned self] (inbound) in
           switch inbound {
@@ -478,14 +464,14 @@ final class RemoteService {
       }
     }
   }
-  
+
   final class VideoManagement {
-    
+
     let replay = VideoReplayManagement()
     let player = VideoPlayerManagement()
-    
+
     let recordModeProperty: ObserversManager<RecordMode> = FirableObserversManager<RecordMode>()
-    
+
     var recordMode: RecordMode = .stop {
       willSet {
         let outbound = Outbound.record(recordMode: newValue)
@@ -501,22 +487,22 @@ final class RemoteService {
         Sm02.send(message: outbound)
       }
     }
-    
+
     fileprivate init () {
       // noop
     }
-    
+
     func upload (to fileName: String) {
       let outbound = Outbound.loadFile(name: fileName)
       Sm02.send(message: outbound)
     }
-    
+
     final class VideoPlayerManagement {
-      
+
       let speedProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
       let modeProperty: ObserversManager<RecordMode> = FirableObserversManager<RecordMode>()
       let timestampProperty: ObservableProperty<UInt32> = PrimitiveProperty<UInt32>(0)
-      
+
       var speed: UInt8 {
         set {
           let outbound = Outbound.player(speed: newValue, recordMode: mode, timestamp: 0)
@@ -537,33 +523,33 @@ final class RemoteService {
         }
       }
       var timestamp: UInt32 { (timestampProperty as! PrimitiveProperty<UInt32>).get() }
-      
+
       func goto (_ timestamp: UInt32) {
         let outbound = Outbound.player(speed: speed, recordMode: mode, timestamp: timestamp)
         Sm02.send(message: outbound)
         (timestampProperty as! PrimitiveProperty<UInt32>).set(timestamp)
       }
-      
+
       func stop () {
         mode = .stop
       }
-      
+
       func play () {
         mode = .play
       }
-      
+
       func pause () {
         mode = .pause
       }
     }
-    
+
     final class VideoReplayManagement {
-      
+
       let leftCounterProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
       let rightCounterProperty: ObservableProperty<UInt8> = PrimitiveProperty<UInt8>(0)
       let isReadyProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
       let isReceivedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
-      
+
       var leftCounter: UInt8 {
         set {
           let outbound = Outbound.videoCounters(left: newValue, right: rightCounter)
@@ -586,7 +572,7 @@ final class RemoteService {
       }
       var isReady: Bool { (isReadyProperty as! PrimitiveProperty<Bool>).get() }
       var isReceived: Bool { (isReceivedProperty as! PrimitiveProperty<Bool>).get() }
-      
+
       fileprivate init () {
         Sm02.on(message: { [unowned self] (inbound) in
           guard case .videoReady(_) = inbound else {
@@ -603,14 +589,14 @@ final class RemoteService {
       }
     }
   }
-  
+
   final class DisplayManagement {
-    
+
     let videoProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
     let photoProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
     let passiveProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
     let countryProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
-    
+
     var video: Bool {
       set {
         let outbound = Outbound.visibility(video: newValue, photo: photo, passive: passive, country: country)

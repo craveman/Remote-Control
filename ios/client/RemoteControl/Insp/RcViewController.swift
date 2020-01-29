@@ -185,32 +185,32 @@ class RcViewController: UIViewController {
     subUuids.append(timerMax$)
     
     //        left
-    let lScore$ = rs.persons.left.scoreProperty.on(change: { score in
+    let lScore$ = rs.persons.left.$score.on(change: { score in
       guard self.game.leftScore != score else {
         return
       }
       self.onMainThread({self.game.leftScore = score})
     })
-    let lCard$ = rs.persons.left.cardProperty.on(change: { card in
+    let lCard$ = rs.persons.left.$card.on(change: { card in
       self.onMainThread({self.game.setCard(card, .left)})
     })
     
-    subUuids.append(lScore$)
-    subUuids.append(lCard$)
+    subscriptions.append(lScore$)
+    subscriptions.append(lCard$)
     
     //        right
-    let rScore$ = rs.persons.right.scoreProperty.on(change: { score in
+    let rScore$ = rs.persons.right.$score.on(change: { score in
       guard self.game.rightScore != score else {
         return
       }
       self.onMainThread({self.game.rightScore = score})
     })
-    let rCard$ = rs.persons.right.cardProperty.on(change: { card in
+    let rCard$ = rs.persons.right.$card.on(change: { card in
       self.onMainThread({self.game.setCard(card, .right)})
     })
     
-    subUuids.append(rScore$)
-    subUuids.append(rCard$)
+    subscriptions.append(rScore$)
+    subscriptions.append(rCard$)
   }
   
   private func addViewControllerAsChildViewController(childViewController: UIViewController) {
