@@ -8,6 +8,7 @@
 
 import Foundation
 import struct NIO.TimeAmount
+import class Combine.AnyCancellable
 
 let INSPIRATION_DEF_TIMOUT = TimeAmount.minutes(3)
 let GAME_DEFAULT_TIME: UInt32 = UInt32(INSPIRATION_DEF_TIMOUT.nanoseconds/1_000_000)
@@ -71,7 +72,7 @@ class PlaybackControls: ObservableObject {
 
 class FightSettings: ObservableObject {
   var PAUSE_DISSMISED_DEFERED_ACTION_TIMER: Timer? = nil
-  var PAUSE_FINISHED_LISTENER_ID: UUID? = nil
+  var PAUSE_FINISHED_CANCELABLE: AnyCancellable? = nil
   var savedTime: TimeAmount? = nil
   @Published var leftCardP: StatusCard = .passiveNone
   @Published var rightCardP: StatusCard = .passiveNone

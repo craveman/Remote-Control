@@ -123,16 +123,16 @@ class RcViewController: UIViewController {
     
     subscriptions.append(connected$)
     
-    let time$ = rs.timer.timeProperty.on(change: { update in
+    let time$ = rs.timer.$time.on(change: { update in
       guard self.game.time != update else {
         return
       }
       self.onMainThread({self.game.time = update})
     })
     
-    subUuids.append(time$)
+    subscriptions.append(time$)
     var count = 0;
-    let state$ = rs.timer.stateProperty.on(change: { timerState in
+    let state$ = rs.timer.$state.on(change: { timerState in
       self.onMainThread({
       let isRun = rs.timer.state == .running
       let mode = rs.timer.mode
@@ -154,7 +154,7 @@ class RcViewController: UIViewController {
       })
     })
     
-    subUuids.append(state$)
+    subscriptions.append(state$)
     
     let passive$ = rs.display.$passive.on(change: { showPassive in
       guard self.game.showPassive != showPassive else {
@@ -176,13 +176,13 @@ class RcViewController: UIViewController {
     
     subscriptions.append(weapon$)
     
-    let timerMax$ = rs.timer.passive.isMaxTimerReachedProperty.on(change: { reached in
+    let timerMax$ = rs.timer.passive.$isMaxTimerReached.on(change: { reached in
       if (reached) {
         Vibration.on()
       }
     })
     
-    subUuids.append(timerMax$)
+    subscriptions.append(timerMax$)
     
     //        left
     let lScore$ = rs.persons.left.$score.on(change: { score in

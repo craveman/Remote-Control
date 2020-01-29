@@ -49,15 +49,15 @@ struct PauseSetters: View {
   }
   
   func unsubscribeFinish() -> Void {
-    guard let uuid = self.settings.PAUSE_FINISHED_LISTENER_ID else {
+    guard let cancelable = self.settings.PAUSE_FINISHED_CANCELABLE else {
       return
     }
-    rs.timer.isPauseFinishedProperty.remove(observer: uuid)
+    cancelable.cancel()
   }
   
   func subscribeFinished() {
     self.unsubscribeFinish()
-    self.settings.PAUSE_FINISHED_LISTENER_ID = rs.timer.isPauseFinishedProperty.on(change: { isFinished in
+    self.settings.PAUSE_FINISHED_CANCELABLE = rs.timer.$isPauseFinished.on(change: { isFinished in
       if (isFinished) {
         DispatchQueue.main.async {
           self.insp.shouldShowPauseView = false

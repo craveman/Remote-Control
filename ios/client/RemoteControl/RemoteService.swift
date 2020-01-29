@@ -293,46 +293,36 @@ final class RemoteService {
 
   final class TimerManagement {
 
-    let timeProperty: ObservableProperty<UInt32> = PrimitiveProperty<UInt32>(0)
-    let modeProperty: ObserversManager<TimerMode> = FirableObserversManager<TimerMode>()
-    let stateProperty: ObserversManager<TimerState> = FirableObserversManager<TimerState>()
-    var isPauseFinishedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
     let passive = PassiveManagement()
 
-    var time: UInt32 {
-      return (timeProperty as! PrimitiveProperty<UInt32>).get()
-    }
-    private(set) var mode: TimerMode = .main {
-      didSet {
-        (modeProperty as! FirableObserversManager<TimerMode>).fire(with: mode)
-      }
-    }
-    private(set) var state: TimerState = .suspended {
-      didSet {
-        (stateProperty as! FirableObserversManager<TimerState>).fire(with: state)
-      }
-    }
+    @Published
+    private(set) var time: UInt32 = 0
 
-    var isPauseFinished: Bool { (isPauseFinishedProperty as! PrimitiveProperty<Bool>).get() }
+    @Published
+    private(set) var mode: TimerMode = .main
 
+    @Published
+    private(set) var state: TimerState = .suspended
+
+    @Published
+    private(set) var isPauseFinished = false
+    
     fileprivate init () {
-
       Sm02.on(message: { [unowned self] (inbound) in
         switch inbound {
         case .pauseFinished:
-
-          (self.isPauseFinishedProperty as! PrimitiveProperty<Bool>).set(true)
+          self.isPauseFinished = true
           print("pauseFinished: \(self.isPauseFinished)")
         case let .broadcast(_, _, _, timer, timerState):
           print("\(timer), \(timerState)")
           if self.time != timer {
-            (self.timeProperty as! PrimitiveProperty<UInt32>).set(timer)
+            self.time = timer
           }
           if self.state != timerState {
             print("toggle state")
             self.state = timerState
             if self.state == .running && (self.mode == .medicine || self.mode == .pause) && self.isPauseFinished {
-              (self.isPauseFinishedProperty as! PrimitiveProperty<Bool>).set(false)
+              self.isPauseFinished = false
               print("pauseFinished set: \(self.isPauseFinished)")
             }
           }
@@ -348,7 +338,7 @@ final class RemoteService {
       let outbound = Outbound.setTimer(time: milliseconds, mode: mode)
       Sm02.send(message: outbound)
 
-      (timeProperty as! PrimitiveProperty<UInt32>).set(milliseconds)
+      self.time = milliseconds
       self.mode = mode
     }
 
@@ -374,64 +364,63 @@ final class RemoteService {
 
     final class PassiveManagement {
 
-      var isVisibleProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
-      var isBlockedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
-      var defaultMillisecondsProperty: ObservableProperty<UInt32> = PrimitiveProperty<UInt32>(60_000)
-      var isMaxTimerReachedProperty: ObservableProperty<Bool> = PrimitiveProperty<Bool>(false)
+      @Published
+      var isVisible = false
 
+      @Published
+      var isBlocked = false
 
-      var isVisible: Bool {
-        set {
-          let outbound = Outbound.passiveTimer(shown: newValue, locked: isBlocked, defaultMilliseconds: defaultMilliseconds)
-          Sm02.send(message: outbound)
-          (isVisibleProperty as! PrimitiveProperty<Bool>).set(newValue)
-        }
-        get {
-          (isVisibleProperty as! PrimitiveProperty<Bool>).get()
-        }
-      }
-      var isBlocked: Bool {
-        set {
-          let outbound = Outbound.passiveTimer(shown: isVisible, locked: newValue, defaultMilliseconds: defaultMilliseconds)
-          // send only when locked
-          if (newValue) {
-            Sm02.send(message: outbound)
-          }
+      @Published
+      var defaultMilliseconds: UInt32 = 0
 
-          (isBlockedProperty as! PrimitiveProperty<Bool>).set(newValue)
-        }
-        get {
-          (isBlockedProperty as! PrimitiveProperty<Bool>).get()
-        }
-      }
-      var defaultMilliseconds: UInt32 {
-        set {
-          let outbound = Outbound.passiveTimer(shown: isVisible, locked: isBlocked, defaultMilliseconds: newValue)
-          Sm02.send(message: outbound)
-          (defaultMillisecondsProperty as! PrimitiveProperty<UInt32>).set(newValue)
-        }
-        get {
-          (defaultMillisecondsProperty as! PrimitiveProperty<UInt32>).get()
-        }
-      }
-      var isMaxTimerReached: Bool { (isMaxTimerReachedProperty as! PrimitiveProperty<Bool>).get() }
-
-      fileprivate func unlock() {
-        (isBlockedProperty as! PrimitiveProperty<Bool>).set(false)
-      }
+      @Published
+      private(set) var isMaxTimerReached = false
 
       fileprivate init () {
         Sm02.on(message: { [unowned self] (inbound) in
           switch inbound {
           case .passiveMax:
-            (self.isMaxTimerReachedProperty as! PrimitiveProperty<Bool>).set(true)
+            self.isMaxTimerReached = true
             Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) {_ in
-               (self.isMaxTimerReachedProperty as! PrimitiveProperty<Bool>).set(false)
+              self.isMaxTimerReached = false
             }
           default:
             return
           }
         })
+
+        $isVisible.on(change: { [unowned self] (update) in
+          let outbound = Outbound.passiveTimer(
+            shown: update,
+            locked: self.isBlocked,
+            defaultMilliseconds: self.defaultMilliseconds
+          )
+          Sm02.send(message: outbound)
+        })
+        $isBlocked.on(change: { [unowned self] (update) in
+          if (update == false) {
+            return // send only when locked
+          }
+
+          let outbound = Outbound.passiveTimer(
+            shown: self.isVisible,
+            locked: update,
+            defaultMilliseconds: self.defaultMilliseconds
+          )
+          Sm02.send(message: outbound)
+        })
+        $defaultMilliseconds.on(change: { [unowned self] (update) in
+          let outbound = Outbound.passiveTimer(
+            shown: self.isVisible,
+            locked: self.isBlocked,
+            defaultMilliseconds: update
+          )
+          Sm02.send(message: outbound)
+        })
+      }
+
+      fileprivate func unlock() {
+        isBlocked = false
       }
     }
   }
