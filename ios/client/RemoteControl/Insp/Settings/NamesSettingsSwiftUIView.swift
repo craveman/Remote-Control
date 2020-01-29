@@ -25,6 +25,7 @@ struct NamesSettingsButtonSwiftUIView: View {
       .border(Color.gray, width: 0.5)
       .sheet(isPresented: self.$showModal) {
         NamesSettingsSwiftUIView()
+        .background(UIGlobals.modalSheetBackground)
     }
   }
 }

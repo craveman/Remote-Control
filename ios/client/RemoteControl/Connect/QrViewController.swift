@@ -37,20 +37,27 @@ class QrViewController: UIViewController {
   
   lazy var reader: QRCodeReader = QRCodeReader()
   private var qrCodeProcessor: QrCodeProcessor? = nil
-  var openedAlertCallback: (() -> Void)?
+  var alert: UIAlertController?
   var onSuccess: (() -> Void) = { print ("Not defined success action") }
+  
+  fileprivate func dismissAlert() {
+    print("dismiss alert")
+       guard self.alert != nil else {
+         return
+       }
+       
+    self.alert!.dismiss(animated: false)
+       self.alert = nil
+     }
   
   override func viewDidAppear (_ animated: Bool) {
     self.qrCodeProcessor = QrCodeProcessor(controller: self)
     super.viewDidAppear(animated)
-    startScanner()
   }
   
   override func viewWillDisappear (_ animated: Bool) {
-    if openedAlertCallback != nil {
-      openedAlertCallback!()
-      openedAlertCallback = nil
-    }
+    print("viewWillDisappear")
+    dismissAlert()
     super.viewWillDisappear(animated)
   }
   
@@ -247,6 +254,8 @@ class QrViewController: UIViewController {
         }
       }))
       
+      controller.dismissAlert()
+      controller.alert = alert
       controller.present(alert, animated: true, completion: nil)
     }
     
@@ -262,11 +271,9 @@ class QrViewController: UIViewController {
       )
       
       alert.addAction(UIAlertAction(title: okButtonString, style: .cancel, handler: nil))
-      
-      controller.openedAlertCallback = {
-        alert.dismiss(animated: false)
-      }
-      
+      print("handleReaderNotSupported")
+      controller.dismissAlert()
+      controller.alert = alert
       controller.present(alert, animated: true, completion: nil)
     }
   }

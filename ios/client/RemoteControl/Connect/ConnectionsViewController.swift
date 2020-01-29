@@ -13,25 +13,28 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
   public static let RECONNECT = "Reconnect"
   public static let CONNECTION_LOST = "Connection to the server in Wi-Fi network '%@' was lost."
   public static let CONNECTION_ERROR = "Connection error"
-  
+  var alert: UIAlertController?
   var performed = false
   let segueName = "jumpToInspiration"
   @IBOutlet weak var qrReaderSubViewWrapper: UIView!
   
   override func viewDidAppear (_ animated: Bool) {
-    
+    print("did appear")
     getScanner()?.onSuccess = { [weak self] in
+      print("scanner on success", self == self)
       guard self == self else {
         return
       }
       self?.jumpToInspiration()
     }
-    self.jumpToInspiration()
 
     if isSimulationEnv() {
       AVCaptureDevice.requestAccess(for: AVMediaType.video) {_ in}
-      skipQR()
+      performed = false
+    } else {
+      start()
     }
+    
     super.viewDidAppear(animated)
   }
 
@@ -62,22 +65,12 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
   }
 
   func warning (_ remote: RemoteAddress) {
-    let titleString = NSLocalizedString(ConnectionsViewController.CONNECTION_ERROR, comment: "")
     let bodyString = String(
       format: NSLocalizedString(ConnectionsViewController.CONNECTION_LOST, comment: ""),
       remote.ssid
     )
-    let tryAgainButtonString = NSLocalizedString(ConnectionsViewController.RECONNECT, comment: "")
-
-    let alert = UIAlertController(
-      title: titleString,
-      message: bodyString,
-      preferredStyle: .alert
-    )
-    alert.addAction(UIAlertAction(title: tryAgainButtonString, style: .cancel, handler: { [weak self] (action) in
-      self?.start()
-    }))
-    present(alert, animated: true, completion: nil)
+    prepareAlert(bodyString)
+    present(self.alert!, animated: true, completion: nil)
   }
 
   func start () {
@@ -86,18 +79,38 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
       rs.connection.disconnect()
     }
     
-    if isSimulationEnv() {
-      skipQR()
-      return
-    }
     getScanner()?.startScanner()
   }
+  
+  private func prepareAlert(_ bodyString: String) {
+    
+    guard self.alert != nil else {
+      let titleString = NSLocalizedString(ConnectionsViewController.CONNECTION_ERROR, comment: "")
+      
+      let tryAgainButtonString = NSLocalizedString(ConnectionsViewController.RECONNECT, comment: "")
 
-  private func jumpToInspiration () {
-    getScanner()?.stopScanner()
-    if (performed) {
-      return
+      let alert = UIAlertController(
+        title: titleString,
+        message: bodyString,
+        preferredStyle: .alert
+      )
+      alert.addAction(UIAlertAction(title: tryAgainButtonString, style: .cancel, handler: { [weak self] (action) in
+        self?.start()
+      }))
+      
+      self.alert = alert
+      return;
     }
+    
+    self.alert?.message = bodyString
+    
+  }
+
+  func jumpToInspiration () {
+    getScanner()?.stopScanner()
+//    if (performed) {
+//      return
+//    }
     performSegue(withIdentifier: segueName, sender: nil)
     performed = true
   }

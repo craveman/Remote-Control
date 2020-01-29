@@ -13,6 +13,7 @@ let INSPIRATION_DEF_TIMOUT = TimeAmount.minutes(3)
 let GAME_DEFAULT_TIME: UInt32 = UInt32(INSPIRATION_DEF_TIMOUT.nanoseconds/1_000_000)
 let INSPIRATION_MED_TIMOUT = TimeAmount.minutes(5)
 let INSPIRATION_SHORT_TIMOUT = TimeAmount.minutes(1)
+let INSPIRATION_MAX_PERIOD: Int = 9
 
 class InspSettings: ObservableObject {
   @Published var isConnected: Bool = rs.connection.isAuthenticated && rs.connection.isConnected

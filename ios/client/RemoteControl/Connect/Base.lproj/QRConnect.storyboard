@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sQ0-z0-FbK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sQ0-z0-FbK">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -10,7 +10,7 @@
         <!--Connections View Controller-->
         <scene sceneID="W0z-Wf-cek">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="sQ0-z0-FbK" customClass="ConnectionsViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="sQ0-z0-FbK" customClass="ConnectionsViewController" customModule="Inspiration_Point" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UTB-3o-rUT">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -32,7 +32,7 @@
                     </view>
                     <connections>
                         <outlet property="qrReaderSubViewWrapper" destination="G01-oJ-bgF" id="Mz8-CW-Aip"/>
-                        <segue destination="po2-Vp-2Jh" kind="show" identifier="jumpToInspiration" id="TA0-Lc-3MV"/>
+                        <segue destination="po2-Vp-2Jh" kind="presentation" identifier="jumpToInspiration" modalPresentationStyle="fullScreen" id="TA0-Lc-3MV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Cc-N1-SWR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -42,7 +42,7 @@
         <!--Qr View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="QrViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="QrViewController" customModule="Inspiration_Point" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -89,7 +89,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1901.25" y="375"/>
+            <point key="canvasLocation" x="-1901.5999999999999" y="374.66266866566718"/>
         </scene>
         <!--Inspiration-->
         <scene sceneID="acv-zF-Ot2">
