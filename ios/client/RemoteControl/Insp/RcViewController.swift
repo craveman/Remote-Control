@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftUI
+import class Combine.AnyCancellable
 
 class RcViewController: UIViewController {
   
@@ -18,6 +19,7 @@ class RcViewController: UIViewController {
   internal var playbackController = PlaybackControls()
   
   //  todo: use saved subscribtions tokens
+  internal var subscriptions: [AnyCancellable] = [];
   internal var subUuids: [UUID] = [];
   
   lazy var fightSwiftUIHostVC: UIViewController = {
@@ -26,6 +28,7 @@ class RcViewController: UIViewController {
     
     self.fight = view
     
+    self.rcModel.setVC(vc: self.presentationController!.presentedViewController)
     var vc = UIHostingController(rootView: view.environmentObject(game).environmentObject(rcModel).environmentObject(playbackController))
     self.addViewControllerAsChildViewController(childViewController: vc)
     return vc
@@ -72,20 +75,24 @@ class RcViewController: UIViewController {
   }
   
   private func clearSubscriptions() {
-    print("clearSubscriptions", subUuids.count)
+    print("clearSubscriptions", subUuids.count, subscriptions.count)
+    subscriptions.forEach({ subscription in
+      subscription.cancel()
+    })
     subUuids.forEach({ uuid in
       rs.remove(event: uuid)
     })
   }
   
   private func setSubscriptions() {
-    print("setSubscriptions", subUuids.count)
-    let auth$ = rs.connection.isAuthenticatedProperty.on(change: { isAuth in
+    print("setSubscriptions", subscriptions.count)
+    
+    let auth$ = rs.connection.$isAuthenticated.on(change: { isAuth in
       guard isAuth == false else {
         if !self.rcModel.isConnected {
           self.onMainThread({
             self.rcModel.isConnected = isAuth && rs.connection.isConnected
-          })          
+          })
         }
         return
       }
@@ -97,9 +104,9 @@ class RcViewController: UIViewController {
       })
     })
     
-    subUuids.append(auth$)
+    subscriptions.append(auth$)
     
-    let connected$ = rs.connection.isConnectedProperty.on(change: { isConnected in
+    let connected$ = rs.connection.$isConnected.on(change: { isConnected in
       guard isConnected == false else {
         if !self.rcModel.isConnected {
           self.onMainThread({
@@ -116,18 +123,18 @@ class RcViewController: UIViewController {
       })
     })
     
-    subUuids.append(connected$)
+    subscriptions.append(connected$)
     
-    let time$ = rs.timer.timeProperty.on(change: { update in
+    let time$ = rs.timer.$time.on(change: { update in
       guard self.game.time != update else {
         return
       }
       self.onMainThread({self.game.time = update})
     })
     
-    subUuids.append(time$)
+    subscriptions.append(time$)
     var count = 0;
-    let state$ = rs.timer.stateProperty.on(change: { timerState in
+    let state$ = rs.timer.$state.on(change: { timerState in
       self.onMainThread({
       let isRun = rs.timer.state == .running
       let mode = rs.timer.mode
@@ -149,18 +156,18 @@ class RcViewController: UIViewController {
       })
     })
     
-    subUuids.append(state$)
+    subscriptions.append(state$)
     
-    let passive$ = rs.display.passiveProperty.on(change: { showPassive in
+    let passive$ = rs.display.$passive.on(change: { showPassive in
       guard self.game.showPassive != showPassive else {
         return
       }
       self.onMainThread({self.game.showPassive = showPassive})
     })
     
-    subUuids.append(passive$)
+    subscriptions.append(passive$)
     
-    let weapon$ = rs.competition.weaponProperty.on(change: { weapon in
+    let weapon$ = rs.competition.$weapon.on(change: { weapon in
       guard self.game.weapon != weapon else {
         return
       }
@@ -169,43 +176,43 @@ class RcViewController: UIViewController {
       })
     })
     
-    subUuids.append(weapon$)
+    subscriptions.append(weapon$)
     
-    let timerMax$ = rs.timer.passive.isMaxTimerReachedProperty.on(change: { reached in
+    let timerMax$ = rs.timer.passive.$isMaxTimerReached.on(change: { reached in
       if (reached) {
         Vibration.on()
       }
     })
     
-    subUuids.append(timerMax$)
+    subscriptions.append(timerMax$)
     
     //        left
-    let lScore$ = rs.persons.left.scoreProperty.on(change: { score in
+    let lScore$ = rs.persons.left.$score.on(change: { score in
       guard self.game.leftScore != score else {
         return
       }
       self.onMainThread({self.game.leftScore = score})
     })
-    let lCard$ = rs.persons.left.cardProperty.on(change: { card in
+    let lCard$ = rs.persons.left.$card.on(change: { card in
       self.onMainThread({self.game.setCard(card, .left)})
     })
     
-    subUuids.append(lScore$)
-    subUuids.append(lCard$)
+    subscriptions.append(lScore$)
+    subscriptions.append(lCard$)
     
     //        right
-    let rScore$ = rs.persons.right.scoreProperty.on(change: { score in
+    let rScore$ = rs.persons.right.$score.on(change: { score in
       guard self.game.rightScore != score else {
         return
       }
       self.onMainThread({self.game.rightScore = score})
     })
-    let rCard$ = rs.persons.right.cardProperty.on(change: { card in
+    let rCard$ = rs.persons.right.$card.on(change: { card in
       self.onMainThread({self.game.setCard(card, .right)})
     })
     
-    subUuids.append(rScore$)
-    subUuids.append(rCard$)
+    subscriptions.append(rScore$)
+    subscriptions.append(rCard$)
   }
   
   private func addViewControllerAsChildViewController(childViewController: UIViewController) {

@@ -31,7 +31,9 @@ struct ScoreButtonSwiftUIView: View {
     }.foregroundColor(primaryColor)
       .frame(width: width, height: mediumHeightOfButton())
       .sheet(isPresented: self.$showModal) {
-        ScoreSwiftUIView(left: self.settings.leftScore, right: self.settings.rightScore).environmentObject(self.settings)
+        ScoreSwiftUIView(left: self.settings.leftScore, right: self.settings.rightScore)
+          .environmentObject(self.settings)
+          .background(UIGlobals.modalSheetBackground)
     }
   }
 }

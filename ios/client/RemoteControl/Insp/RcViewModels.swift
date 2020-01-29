@@ -7,7 +7,9 @@
 //
 
 import Foundation
+import UIKit.UIViewController
 import struct NIO.TimeAmount
+import class Combine.AnyCancellable
 
 let INSPIRATION_DEF_TIMOUT = TimeAmount.minutes(3)
 let GAME_DEFAULT_TIME: UInt32 = UInt32(INSPIRATION_DEF_TIMOUT.nanoseconds/1_000_000)
@@ -24,6 +26,11 @@ class InspSettings: ObservableObject {
   @Published var shouldShowTimerView: Bool = rs.timer.mode == .main && rs.timer.state == .running
   @Published var shouldShowPauseView: Bool = rs.timer.mode == .pause && rs.timer.state == .running
   @Published var shouldShowMedicalView: Bool = rs.timer.mode == .medicine && rs.timer.state == .running
+  private var vc: UIViewController?
+  
+  public func setVC (vc: UIViewController) {
+    self.vc = vc
+  }
   
   func prepareView(_ mode: TimerMode) {
     DispatchQueue.main.async { [unowned self] in
@@ -43,6 +50,12 @@ class InspSettings: ObservableObject {
   
   func reset() {
     prepareView(.main)
+  }
+  
+  public func quit() {
+    vc?.presentingViewController?.dismiss(animated: true, completion: {
+      print("quit complete")
+    })
   }
 }
 
@@ -72,7 +85,7 @@ class PlaybackControls: ObservableObject {
 
 class FightSettings: ObservableObject {
   var PAUSE_DISSMISED_DEFERED_ACTION_TIMER: Timer? = nil
-  var PAUSE_FINISHED_LISTENER_ID: UUID? = nil
+  var PAUSE_FINISHED_CANCELABLE: AnyCancellable? = nil
   var savedTime: TimeAmount? = nil
   @Published var leftCardP: StatusCard = .passiveNone
   @Published var rightCardP: StatusCard = .passiveNone
