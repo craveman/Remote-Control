@@ -11,23 +11,22 @@ import SwiftUI
 import class Combine.AnyCancellable
 
 class RcViewController: UIViewController {
-  
+
   @IBOutlet weak var fightSubView: UIView!
   internal var fight: RcSwiftUIView?
   internal var game = FightSettings()
   internal var rcModel = InspSettings()
   internal var playbackController = PlaybackControls()
-  
+
   //  todo: use saved subscribtions tokens
   internal var subscriptions: [AnyCancellable] = [];
-  internal var subUuids: [UUID] = [];
-  
+
   lazy var fightSwiftUIHostVC: UIViewController = {
-    
+
     var view = RcSwiftUIView()
-    
+
     self.fight = view
-    
+
     self.rcModel.setVC(vc: self.presentationController!.presentedViewController)
     var vc = UIHostingController(rootView: view.environmentObject(game).environmentObject(rcModel).environmentObject(playbackController))
     self.addViewControllerAsChildViewController(childViewController: vc)
@@ -39,54 +38,51 @@ class RcViewController: UIViewController {
 //    setSubscriptions()
 //    updateView()
   }
-  
+
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     if (isBeingPresented) {
       updateView()
     }
   }
-  
+
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     setSubscriptions()
   }
-  
+
   override func viewWillDisappear(_ animated: Bool) {
       super.viewWillDisappear(animated)
       if isBeingDismissed {
         clearSubscriptions()
       }
   }
-  
+
   override func viewDidDisappear(_ animated: Bool) {
       super.viewDidDisappear(animated)
       fightSwiftUIHostVC.view.isHidden = true
   }
-  
+
   private func updateView() {
     fightSwiftUIHostVC.view.isHidden = false
   }
-  
+
   private func onMainThread(_ callback:  @escaping () -> Void) {
     DispatchQueue.main.async {
       callback()
     }
   }
-  
+
   private func clearSubscriptions() {
-    print("clearSubscriptions", subUuids.count, subscriptions.count)
+    print("clearSubscriptions", subscriptions.count)
     subscriptions.forEach({ subscription in
       subscription.cancel()
     })
-    subUuids.forEach({ uuid in
-      rs.remove(event: uuid)
-    })
   }
-  
+
   private func setSubscriptions() {
     print("setSubscriptions", subscriptions.count)
-    
+
     let auth$ = rs.connection.$isAuthenticated.on(change: { isAuth in
       guard isAuth == false else {
         if !self.rcModel.isConnected {
@@ -103,9 +99,9 @@ class RcViewController: UIViewController {
         presenter.start()
       })
     })
-    
+
     subscriptions.append(auth$)
-    
+
     let connected$ = rs.connection.$isConnected.on(change: { isConnected in
       guard isConnected == false else {
         if !self.rcModel.isConnected {
@@ -119,19 +115,19 @@ class RcViewController: UIViewController {
       self.onMainThread({
         self.rcModel.isConnected = rs.connection.isAuthenticated && isConnected
         self.rcModel.tab = 2
-        
+
       })
     })
-    
+
     subscriptions.append(connected$)
-    
+
     let time$ = rs.timer.$time.on(change: { update in
       guard self.game.time != update else {
         return
       }
       self.onMainThread({self.game.time = update})
     })
-    
+
     subscriptions.append(time$)
     var count = 0;
     let state$ = rs.timer.$state.on(change: { timerState in
@@ -155,18 +151,18 @@ class RcViewController: UIViewController {
         }, 0.21)
       })
     })
-    
+
     subscriptions.append(state$)
-    
+
     let passive$ = rs.display.$passive.on(change: { showPassive in
       guard self.game.showPassive != showPassive else {
         return
       }
       self.onMainThread({self.game.showPassive = showPassive})
     })
-    
+
     subscriptions.append(passive$)
-    
+
     let weapon$ = rs.competition.$weapon.on(change: { weapon in
       guard self.game.weapon != weapon else {
         return
@@ -175,17 +171,17 @@ class RcViewController: UIViewController {
         self.game.weapon = weapon
       })
     })
-    
+
     subscriptions.append(weapon$)
-    
+
     let timerMax$ = rs.timer.passive.$isMaxTimerReached.on(change: { reached in
       if (reached) {
         Vibration.on()
       }
     })
-    
+
     subscriptions.append(timerMax$)
-    
+
     //        left
     let lScore$ = rs.persons.left.$score.on(change: { score in
       guard self.game.leftScore != score else {
@@ -196,10 +192,10 @@ class RcViewController: UIViewController {
     let lCard$ = rs.persons.left.$card.on(change: { card in
       self.onMainThread({self.game.setCard(card, .left)})
     })
-    
+
     subscriptions.append(lScore$)
     subscriptions.append(lCard$)
-    
+
     //        right
     let rScore$ = rs.persons.right.$score.on(change: { score in
       guard self.game.rightScore != score else {
@@ -210,18 +206,18 @@ class RcViewController: UIViewController {
     let rCard$ = rs.persons.right.$card.on(change: { card in
       self.onMainThread({self.game.setCard(card, .right)})
     })
-    
+
     subscriptions.append(rScore$)
     subscriptions.append(rCard$)
   }
-  
+
   private func addViewControllerAsChildViewController(childViewController: UIViewController) {
     addChild(childViewController)
-    
+
     fightSubView.addSubview(childViewController.view)
     childViewController.view.frame = fightSubView.bounds
     childViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     childViewController.didMove(toParent: self)
   }
-  
+
 }
