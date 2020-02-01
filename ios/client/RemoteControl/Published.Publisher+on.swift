@@ -9,7 +9,8 @@ extension Published.Publisher {
   @discardableResult
   func on (change action: @escaping ((Value) -> Void)) -> AnyCancellable {
     return self
-      .receive(on: DispatchQueue.global(qos: .background))
+      .receive(on: RunLoop.main)
+      .dropFirst(1)
       .sink(receiveValue: action)
   }
 }

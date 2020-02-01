@@ -84,6 +84,9 @@ class RcViewController: UIViewController {
     print("setSubscriptions", subscriptions.count)
 
     let auth$ = rs.connection.$isAuthenticated.on(change: { isAuth in
+//      guard self.rcModel.isConnected == true else {
+//        return;
+//      }
       guard isAuth == false else {
         if !self.rcModel.isConnected {
           self.onMainThread({
@@ -95,6 +98,7 @@ class RcViewController: UIViewController {
       guard let presenter = self.presentingViewController as? ConnectionsViewController else {
         return
       }
+      
       presenter.dismiss(animated: true, completion: {
         presenter.start()
       })
