@@ -11,7 +11,7 @@
 
 "QR scanner" = "QR сканер";
 
-"The code is recognized" = "Код распознан";
+"The code is recognized" = "Код распознан. Удостоверьтесь, что вы подключены к нужной Wi-Fi сети прежде чем продолжить.";
 "The code is unrecognized" = "Код не распознан";
 "Connect" = "Подключиться";
 "Skip" = "Пропустить";

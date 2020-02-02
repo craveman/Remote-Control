@@ -11,7 +11,7 @@
 
 "QR scanner" = "QR scanner";
 
-"The code is recognized" = "The code is recognized";
+"The code is recognized" = "The code is recognized. Check that you are connected to required Wi-Fi network before proceed.";
 "The code is unrecognized" = "The code is unrecognized";
 "Connect" = "Connect";
 "Skip" = "Skip";

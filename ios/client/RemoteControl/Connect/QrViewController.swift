@@ -8,6 +8,8 @@
 
 import UIKit
 import QRCodeReader
+import NetworkExtension
+import SystemConfiguration.CaptiveNetwork
 
 class QrViewController: UIViewController {
   
@@ -42,13 +44,13 @@ class QrViewController: UIViewController {
   
   fileprivate func dismissAlert() {
     print("dismiss alert")
-       guard self.alert != nil else {
-         return
-       }
-       
+    guard self.alert != nil else {
+      return
+    }
+    
     self.alert!.dismiss(animated: false)
-       self.alert = nil
-     }
+    self.alert = nil
+  }
   
   override func viewDidAppear (_ animated: Bool) {
     self.qrCodeProcessor = QrCodeProcessor(controller: self)
@@ -109,6 +111,7 @@ class QrViewController: UIViewController {
     func on (success remote: RemoteAddress) {
       print("parsed \(remote)")
       
+      
       let titleString = NSLocalizedString(SCANNER, comment: "")
       let bodyString = NSLocalizedString(SCAN_SUCCESS, comment: "")
       let okString = NSLocalizedString(CONNECT, comment: "")
@@ -120,11 +123,22 @@ class QrViewController: UIViewController {
       )
       
       let connectionProcessor = ConnectionProcessor(controller: controller)
-      alert.addAction(UIAlertAction(title: okString, style: .cancel, handler: { action in
-        connectionProcessor.connect(to: remote)
-      }))
       
-      controller.present(alert, animated: true, completion: nil)
+      
+      
+      connectionProcessor.connectHotspot(remote.ssid) { connected in
+        guard connected else {
+          alert.addAction(UIAlertAction(title: okString, style: .cancel, handler: { action in
+            connectionProcessor.connectServer(to: remote)
+          }))
+          
+          self.controller.present(alert, animated: true, completion: nil)
+          return
+        }
+        
+        connectionProcessor.connectServer(to: remote)
+      }
+      
     }
     
     func on (failure error: Error) {
@@ -149,6 +163,9 @@ class QrViewController: UIViewController {
   }
   
   private struct ConnectionProcessor {
+    //     todo: ask user for location -> WiFi list reading
+    private let hasWiFiReadingPermition = true
+    
     public static let CONNECTION_FAILED = "Can't connect to %@. %@"
     
     public static let WRONG_CODE = "Wrong authentication code."
@@ -159,7 +176,67 @@ class QrViewController: UIViewController {
     
     let controller: QrViewController
     
-    func connect (to remote: RemoteAddress) {
+    func currentSSIDs() -> [String?] {
+      guard let interfaceNames = CNCopySupportedInterfaces() as? [String] else {
+        return []
+      }
+      return interfaceNames.compactMap { name in
+        guard let info = CNCopyCurrentNetworkInfo(name as CFString) as? [String:AnyObject] else {
+          return nil
+        }
+        guard let ssid = info[kCNNetworkInfoKeySSID as String] as? String else {
+          return nil
+        }
+        return ssid
+      }
+    }
+    
+    func connectHotspot(_ ssid: String, passoword pass: String? = nil, joinOnce once: Bool = true, isWEP wep: Bool = false, completionHandler: ((Bool) -> Void)? = nil) {
+      var configuration: NEHotspotConfiguration
+      if (pass == nil) {
+        configuration = NEHotspotConfiguration.init(ssid: ssid)
+      } else {
+        configuration = NEHotspotConfiguration.init(ssid: ssid, passphrase: pass!, isWEP: wep)
+      }
+      
+      configuration.joinOnce = once
+      //      NEHotspotConfigurationManager.shared.removeConfiguration(forSSID: ssid)
+      NEHotspotConfigurationManager.shared.apply(configuration) { (error) in
+        var connected = false
+        if error != nil {
+          if (error! as NSError).code == NEHotspotConfigurationError.alreadyAssociated.rawValue {
+            print("Already Connected", error)
+            connected = true
+          }
+          else if (error! as NSError).code == NEHotspotConfigurationError.userDenied.rawValue {
+            print("User Denied", error)
+          }
+          else {
+            print("Not Connected", error)
+          }
+        }
+        else {
+          
+          if self.hasWiFiReadingPermition {
+            let list = self.currentSSIDs()
+            
+            print("currentSSIDs:", list)
+            connected = list.first == ssid;
+          } else {
+            connected = true
+          }
+          
+          print("Connected:", connected)
+        }
+        if completionHandler != nil {
+          completionHandler!(connected)
+        }
+      }
+    }
+    
+    
+    func connectServer (to remote: RemoteAddress) {
+      
       let result = rs.connection.connect(to: remote)
       
       switch result {
