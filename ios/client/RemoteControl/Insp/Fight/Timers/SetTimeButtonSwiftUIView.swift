@@ -42,13 +42,13 @@ fileprivate struct TimeModalContent: View {
   
   init(selectedTime time: Binding<UInt32>) {
     self._selectedTime = time
-    print("time.wrappedValue:")
-    print(time.wrappedValue)
+    let ms = time.wrappedValue + 1
+    print("time.wrappedValue:", time.wrappedValue, "ms: ", ms)
 
-    self._minDeci = State(wrappedValue: getSelectedTime(time.wrappedValue, divideBy: multiplication[0]*1000))
-    self._minUnit = State(wrappedValue: getSelectedTime(time.wrappedValue, divideBy: multiplication[1]*1000))
-    self._secDeci = State(wrappedValue: getSelectedTime(time.wrappedValue, divideBy: multiplication[2]*1000, mod: 6))
-    self._secUnit = State(wrappedValue: getSelectedTime(time.wrappedValue, divideBy: multiplication[3]*1000))
+    self._minDeci = State(wrappedValue: getSelectedTime(ms, divideBy: multiplication[0]*1000))
+    self._minUnit = State(wrappedValue: getSelectedTime(ms, divideBy: multiplication[1]*1000))
+    self._secDeci = State(wrappedValue: getSelectedTime(ms, divideBy: multiplication[2]*1000, mod: 6))
+    self._secUnit = State(wrappedValue: getSelectedTime(ms, divideBy: multiplication[3]*1000))
     print(self.minDeci, self.minUnit, self.secDeci, self.secUnit)
   }
   

@@ -9,7 +9,6 @@
 import SwiftUI
 import struct NIO.TimeAmount
 
-let SYNC_SM02_DELAY = 0.25
 struct PauseSetters: View {
   
   @EnvironmentObject var settings: FightSettings
@@ -25,12 +24,11 @@ struct PauseSetters: View {
   private func start (_ time: TimeAmount, _ mode: TimerMode) -> Void {
     self.settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
     if rs.timer.mode == .main {
-      let time = rs.timer.time
-      self.settings.savedTime = .milliseconds(Int64(time))
+      self.settings.savedTime = .milliseconds(Int64(rs.timer.time))
       print("set savedTime", self.settings.savedTime!)
     }
     
-    rs.timer.start(time, mode: mode)
+    rs.timer.pause(time, mode: mode)
   }
   
   func pauseDismissAction() -> Void {
@@ -43,7 +41,7 @@ struct PauseSetters: View {
   
   func medicalDismissAction() -> Void {
     unsubscribeFinish()
-    let time = self.settings.savedTime ?? INSPIRATION_DEF_TIMOUT
+    let time = self.settings.savedTime ?? INSPIRATION_DEFAULT_FIGHT_TIME
     print("set savedTime", time)
     self.dismiss()
     rs.timer.set(time: time, mode: .main)
@@ -113,14 +111,18 @@ struct MedicalPauseModalContentUIView: View {
   var body: some View {
     VStack{
       Spacer()
-      dinFont(Text(getLabel()), UIGlobals.timerFontSize)
-        .foregroundColor(Color.red)
+      VStack{
+        dinFont(Text(getLabel()), UIGlobals.timerFontSize)
+          .foregroundColor(Color.red)
+          .frame(width: 4 * width / 5)
+        primaryColor(dinFont(Text("medical pause 1"), UIGlobals.popupContentFontSize))
+          .padding(.top).fixedSize()
+        primaryColor(dinFont(Text("medical pause 2"), UIGlobals.popupContentFontSize)).fixedSize()
+      }.padding(20)
+        //        .background(Color.red)
         .onTapGesture(count: 1, perform: {
           self.presentationMode.wrappedValue.dismiss()
         })
-      primaryColor(dinFont(Text("medical pause 1"), UIGlobals.popupContentFontSize))
-        .padding(.top).fixedSize()
-      primaryColor(dinFont(Text("medical pause 2"), UIGlobals.popupContentFontSize)).fixedSize()
       Spacer()
       Divider()
       HStack {
@@ -146,14 +148,19 @@ struct PauseModalContentUIView: View {
   var body: some View {
     VStack{
       Spacer()
-      dinFont(Text(getLabel()), UIGlobals.timerFontSize)
-        .foregroundColor(Color.yellow)
+      VStack{
+        dinFont(Text(getLabel()), UIGlobals.timerFontSize)
+          .foregroundColor(Color.yellow)
+          .frame(width: 4 * width / 5)
+        
+        primaryColor(dinFont(Text("1' pause 1"), UIGlobals.popupContentFontSize))
+          .padding(.top).fixedSize()
+        primaryColor(dinFont(Text("1' pause 2"), UIGlobals.popupContentFontSize)).fixedSize()
+      }.padding(20)
+        //        .background(Color.red)
         .onTapGesture(count: 1, perform: {
           self.presentationMode.wrappedValue.dismiss()
         })
-      primaryColor(dinFont(Text("1' pause 1"), UIGlobals.popupContentFontSize))
-        .padding(.top).fixedSize()
-      primaryColor(dinFont(Text("1' pause 2"), UIGlobals.popupContentFontSize)).fixedSize()
       Spacer()
       Divider()
       HStack {

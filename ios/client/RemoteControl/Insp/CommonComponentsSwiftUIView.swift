@@ -101,6 +101,7 @@ struct CommonModalButton<Content>: View where Content: View {
 }
 
 struct ConfirmModalButton: View {
+  var vibrate = true
   var action: () -> Void = {}
   var text = "done"
   var color = primaryColor
@@ -109,7 +110,9 @@ struct ConfirmModalButton: View {
   var body: some View {
     Button(action: {
       self.action()
-      Vibration.on()
+      if self.vibrate {
+        Vibration.on()
+      }
     }) {
       VStack{
         if self.imageName.count > 0 {

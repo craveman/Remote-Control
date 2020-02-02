@@ -59,11 +59,11 @@ struct VideoReplaysSwiftUIView: View {
       print("currentView", currentView)
     }
   }
-  let maxLeftCount = 2
+  let maxCount = Int(RemoteService.VideoManagement.VideoReplayManagement.MAX_COUNTER)
   
   func getPlaybackList() -> [String] {
     var opts: [String] = [];
-    for (_, element) in (0..<maxLeftCount+1).enumerated() {
+    for (_, element) in (0..<maxCount+1).enumerated() {
       opts.append("\(element)")
     }
     return opts
@@ -84,7 +84,7 @@ struct VideoReplaysSwiftUIView: View {
       }
       Divider()
       HStack {
-        ConfirmModalButton(action: {
+        ConfirmModalButton(vibrate: false, action: {
           self.presentationMode.wrappedValue.dismiss()
         }, color: .green)
       }.padding([.vertical]).frame(width: width)

@@ -19,6 +19,7 @@ struct PointsSwiftUIView: View {
       rs.timer.start()
       Vibration.on()
     }
+    self.insp.shouldShowTimerView = true
   }
   func stopAction() -> Void {
     if(rs.timer.state == .running) {
@@ -100,14 +101,15 @@ fileprivate struct TimerModalView: View {
     VStack {
       Spacer()
       dinFont(Text(getCountdownTimerString()), UIGlobals.timerFontSize)
-        .padding(20)
-        .frame(width: width)
+        .frame(width: 4 * width / 5, height: 4 * height / 5)
+//        .background(Color.red)
+        .padding()
         .onTapGesture(count: 1, perform: {
           self.onTap()
-          //          self.presentationMode.wrappedValue.dismiss()
+          self.presentationMode.wrappedValue.dismiss()
         })
       Spacer()
-    }
+    }.frame(width: width)
   }
 }
 

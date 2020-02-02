@@ -11,11 +11,11 @@ import UIKit.UIViewController
 import struct NIO.TimeAmount
 import class Combine.AnyCancellable
 
-let INSPIRATION_DEF_TIMOUT = TimeAmount.minutes(3)
-let GAME_DEFAULT_TIME: UInt32 = UInt32(INSPIRATION_DEF_TIMOUT.nanoseconds/1_000_000)
+let INSPIRATION_DEFAULT_FIGHT_TIME = TimeAmount.minutes(3)
+let GAME_DEFAULT_TIME: UInt32 = UInt32(INSPIRATION_DEFAULT_FIGHT_TIME.nanoseconds/1_000_000)
 let INSPIRATION_MED_TIMOUT = TimeAmount.minutes(5)
 let INSPIRATION_SHORT_TIMOUT = TimeAmount.minutes(1)
-let INSPIRATION_MAX_PERIOD: Int = 9
+let INSPIRATION_MAX_PERIOD: Int = 99
 
 class InspSettings: ObservableObject {
   @Published var isConnected: Bool = rs.connection.isAuthenticated && rs.connection.isConnected
@@ -118,7 +118,7 @@ class FightSettings: ObservableObject {
     didSet {
       print("settings.period updated to \(period)")
       rs.competition.period = UInt8(period + 1)
-      rs.timer.set(time: INSPIRATION_DEF_TIMOUT, mode: .main)
+      rs.timer.set(time: INSPIRATION_DEFAULT_FIGHT_TIME, mode: .main)
     }
   }
   

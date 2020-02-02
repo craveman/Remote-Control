@@ -273,8 +273,6 @@ final class RemoteService {
           let outbound = Outbound.setWeapon(weapon: update)
           Sm02.send(message: outbound)
           
-          print(update, outbound)
-          
           Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {[unowned self] _ in
             self.raceConditionLock = false
           }
@@ -325,7 +323,7 @@ final class RemoteService {
   }
   
   final class TimerManagement {
-    
+    private var raceConditionLock = false
     let passive = PassiveManagement()
     
     @Published
@@ -352,6 +350,9 @@ final class RemoteService {
             self.time = timer
           }
           if self.state != timerState {
+            if self.raceConditionLock {
+              return
+            }
             print("toggle state")
             self.state = timerState
             if self.state == .running && (self.mode == .medicine || self.mode == .pause) && self.isPauseFinished {
@@ -366,33 +367,36 @@ final class RemoteService {
     }
     
     func set (time: TimeAmount, mode: TimerMode) {
-      let milliseconds = UInt32(time.nanoseconds / 1_000_000)
-      
+      let milliseconds = max(1, UInt32(time.nanoseconds / 1_000_000)) - 1
       let outbound = Outbound.setTimer(time: milliseconds, mode: mode)
       Sm02.send(message: outbound)
       
-      self.time = milliseconds
+      
       self.mode = mode
+      self.raceLock()
     }
     
-    func start (_ time: TimeAmount, mode: TimerMode) {
-      set(time: time, mode: mode)
-      Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {[weak self] _ in
-        self?.start()
+    private func raceLock() {
+      self.raceConditionLock = true
+      Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {[unowned self] _ in
+        self.raceConditionLock = false
       }
+    }
+    
+    func pause (_ time: TimeAmount, mode: TimerMode) {
+      set(time: time, mode: mode)
     }
     
     func start () {
       let outbound = Outbound.startTimer(state: .running)
       Sm02.send(message: outbound)
-      passive.unlock()
-      //      state = .running
+      self.raceLock()
     }
     
     func stop () {
       let outbound = Outbound.startTimer(state: .suspended)
       Sm02.send(message: outbound)
-      //      state = .suspended
+      self.raceLock()
     }
     
     final class PassiveManagement {
@@ -467,10 +471,6 @@ final class RemoteService {
           })
         ]
         self.subs = temp
-      }
-      
-      fileprivate func unlock() {
-        isBlocked = false
       }
     }
   }
@@ -555,7 +555,8 @@ final class RemoteService {
     
     final class VideoReplayManagement {
       
-      public static var DEFAULT_INIT_COUNTER: UInt8 = 2
+      public static var MAX_COUNTER: UInt8 = 2
+      public static var DEFAULT_INIT_COUNTER: UInt8 = MAX_COUNTER
       
       @Published
       var leftCounter: UInt8 = VideoReplayManagement.DEFAULT_INIT_COUNTER
