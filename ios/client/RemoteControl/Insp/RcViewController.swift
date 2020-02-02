@@ -152,7 +152,7 @@ class RcViewController: UIViewController {
             self.rcModel.shouldShowPauseView = mode == .pause && isRun
             self.rcModel.shouldShowMedicalView = mode == .medicine && isRun
           })
-        }, 0.21)
+        }, RemoteService.SYNC_INTERVAL)
       })
     })
 

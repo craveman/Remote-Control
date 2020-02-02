@@ -37,6 +37,7 @@ import struct NIO.TimeAmount
 final class RemoteService {
   
   static let shared = RemoteService()
+  static let SYNC_INTERVAL = 0.25
   
   let connection = ConnectionManagement()
   let persons = PersonsManagement()
@@ -221,7 +222,7 @@ final class RemoteService {
   }
   
   final class CompetitionManagement {
-    
+    private var raceConditionLock = false
     let flags = FlagsManagement()
     
     @Published
@@ -246,6 +247,9 @@ final class RemoteService {
         guard case let .broadcast(weapon, _, _, _, _) = inbound else {
           return
         }
+        guard self.raceConditionLock == false else {
+          return
+        }
         self.weapon = weapon
       })
       Sm02.on(message: { [unowned self] (inbound) in
@@ -261,11 +265,19 @@ final class RemoteService {
         }),
         $weapon.on(change: { update in
           // Sm02 could sometimes reject '.none'
-          guard self.weapon != update else {
+          guard self.weapon != .none else {
             return;
           }
+          self.raceConditionLock = true
+          
           let outbound = Outbound.setWeapon(weapon: update)
           Sm02.send(message: outbound)
+          
+          print(update, outbound)
+          
+          Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {[unowned self] _ in
+            self.raceConditionLock = false
+          }
         }),
         $period.on(change: { update in
           let outbound = Outbound.setPeriod(period: update)
@@ -365,7 +377,7 @@ final class RemoteService {
     
     func start (_ time: TimeAmount, mode: TimerMode) {
       set(time: time, mode: mode)
-      Timer.scheduledTimer(withTimeInterval: 0.21, repeats: false) {[weak self] _ in
+      Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {[weak self] _ in
         self?.start()
       }
     }
@@ -384,15 +396,24 @@ final class RemoteService {
     }
     
     final class PassiveManagement {
+      public static var DEFAULT_PASSIVE_TIMER: UInt32 = 60000
       
       @Published
       var isVisible = false
       
       @Published
-      var isBlocked = false
+      var isBlocked = false {
+        didSet {
+          if (isBlocked) {
+            Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {_ in
+              self.isBlocked = false
+            }
+          }
+        }
+      }
       
       @Published
-      var defaultMilliseconds: UInt32 = 0
+      var defaultMilliseconds: UInt32 = DEFAULT_PASSIVE_TIMER
       
       @Published
       private(set) var isMaxTimerReached = false
@@ -405,7 +426,7 @@ final class RemoteService {
           switch inbound {
           case .passiveMax:
             self.isMaxTimerReached = true
-            Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) {_ in
+            Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {_ in
               self.isMaxTimerReached = false
             }
           default:
@@ -534,11 +555,13 @@ final class RemoteService {
     
     final class VideoReplayManagement {
       
-      @Published
-      var leftCounter: UInt8 = 0
+      public static var DEFAULT_INIT_COUNTER: UInt8 = 2
       
       @Published
-      var rightCounter: UInt8 = 0
+      var leftCounter: UInt8 = VideoReplayManagement.DEFAULT_INIT_COUNTER
+      
+      @Published
+      var rightCounter: UInt8 = VideoReplayManagement.DEFAULT_INIT_COUNTER
       
       @Published
       private(set) var isReady = false

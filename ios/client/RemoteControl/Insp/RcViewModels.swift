@@ -48,7 +48,7 @@ class InspSettings: ObservableObject {
     }
   }
   
-  func reset() {
+  func onReset() {
     prepareView(.main)
   }
   
@@ -104,11 +104,14 @@ class FightSettings: ObservableObject {
   @Published var time: UInt32 = GAME_DEFAULT_TIME
   @Published var passiveDefaultTimeMs: UInt32 = rs.timer.passive.defaultMilliseconds {
     didSet {
+      guard rs.timer.passive.defaultMilliseconds != passiveDefaultTimeMs else {
+        return
+      }
       rs.timer.passive.defaultMilliseconds = passiveDefaultTimeMs
     }
   }
   @Published var showPassive = rs.timer.passive.isVisible
-  @Published var holdPassive = rs.timer.passive.isBlocked
+  
   @Published var weapon: Weapon = .none
   
   @Published var period: Int = 0 {
@@ -120,10 +123,13 @@ class FightSettings: ObservableObject {
   }
   
   func resetBout() {
+    self.resetPassive()
     self.period = 0
     self.leftScore = 0
     self.rightScore = 0
     self.resetCards()
+    self.resetVideo()
+    self.resetPriority()
   }
   
   
@@ -156,5 +162,23 @@ class FightSettings: ObservableObject {
     self.rightCard = .none
     self.leftCardP = .passiveNone
     self.rightCardP = .passiveNone
+  }
+  
+  func resetVideo() -> Void {
+    rs.video.replay.leftCounter = 2
+    rs.video.replay.rightCounter = 2
+  }
+  
+  func resetPriority() -> Void {
+    rs.persons.resetPriority()
+  }
+  
+  func resetPassive() -> Void {
+    rs.timer.passive.isVisible = false // todo: select state from fight defaults (mode, weapon etc.)
+    // tricky thing:
+    // as we do not have opotunity to fetch DEFAULT passive we will force user to rewrite default passive timer value on first
+    // passive timer setting update (isVisible / isBlocked) because it is send in one command with default
+    rs.timer.passive.defaultMilliseconds = RemoteService.TimerManagement.PassiveManagement.DEFAULT_PASSIVE_TIMER
+    self.passiveDefaultTimeMs = rs.timer.passive.defaultMilliseconds
   }
 }

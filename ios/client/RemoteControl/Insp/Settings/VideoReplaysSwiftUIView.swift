@@ -74,10 +74,13 @@ struct VideoReplaysSwiftUIView: View {
       CommonModalHeader(title: "Video replays")
       ReplaySelectorsUIView(selectedTab: $currentView)
       HStack(spacing: 0){
+        Spacer()
         CommonPicker(selected: $store.playbacksLeftCount, options: getPlaybackList()).frame(width: pickerWidth).foregroundColor(primaryColor).opacity(currentView == 0 ? 1 : 0.1)
         .disabled(currentView != 0)
+        Spacer()
         CommonPicker(selected: $store.playbacksRightCount, options: getPlaybackList()).frame(width: pickerWidth).foregroundColor(primaryColor).opacity(currentView == 1 ? 1 : 0.1)
         .disabled(currentView != 1)
+        Spacer()
       }
       Divider()
       HStack {

@@ -10,17 +10,18 @@ import SwiftUI
 
 struct HoldPassiveButton: View {
   @EnvironmentObject var settings: FightSettings
+  @State var isLocked = rs.timer.passive.isBlocked
   var frame = getButtonFrame(.fullWidth)
   var body: some View {
     VStack(spacing: 0) {
       Button(action: {
         print("Hold Passive")
-        self.settings.holdPassive.toggle()
-        rs.timer.passive.isBlocked = self.settings.holdPassive
+        rs.timer.passive.isBlocked.toggle()
+        self.isLocked.toggle()
         Vibration.on()
       }){ primaryColor(dinFont(Text("hold passive"))) }
         .frame(width: frame.idealWidth, height: frame.idealHeight, alignment: .center)
-        .background(self.settings.holdPassive ? Color.yellow.opacity(0.33) : Color.clear)
+        .background(isLocked ? Color.yellow.opacity(0.33) : Color.clear)
       .disabled(!self.settings.showPassive)
       Divider()
     }.opacity(self.settings.showPassive ? 1 : 0)

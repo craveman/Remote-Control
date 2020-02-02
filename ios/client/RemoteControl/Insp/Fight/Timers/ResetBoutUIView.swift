@@ -42,10 +42,10 @@ struct ResetBoutModalContentUIView: View {
           .padding([.vertical])
           .frame(width: width/2)
         ConfirmModalButton(action: {
+          self.presentationMode.wrappedValue.dismiss()
           rs.competition.reset()
           self.settings.resetBout()
-          self.insp.reset()
-          self.presentationMode.wrappedValue.dismiss()
+          self.insp.onReset()
         }, text: "confirm", color: .green)
           .padding([.vertical])
           .frame(width: width/2)

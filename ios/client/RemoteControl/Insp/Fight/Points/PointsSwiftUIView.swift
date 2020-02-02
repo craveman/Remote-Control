@@ -73,7 +73,12 @@ fileprivate struct StartTimerButtonWithModalView: View {
         .padding(20)
         .frame(width: width)
     }.frame(width: width)
-      .sheet(isPresented: self.$showModal, onDismiss: self.stop) {
+      .sheet(isPresented: self.$showModal, onDismiss: {
+        self.stop()
+        if rs.timer.time == 0 {
+          Vibration.on()
+        }
+      }) {
         TimerModalView(onTap: self.stop)
           .environmentObject(self.settings)
           .background(UIGlobals.modalSheetBackground)
