@@ -34,7 +34,7 @@ final class AuthorizationHandler: ChannelInboundHandler {
       return nil
     }
 
-    guard case let .authenticate(device, code, name, version) = request else {
+    guard case let .authenticate(_, code, name, version) = request else {
       print(" WARN: access forbidden")
       return .genericResponse(status: 0x02, request: request.tag)
     }

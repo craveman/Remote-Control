@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Sm02Client
 
 enum PenaltiesTypes {
     case basic
@@ -21,8 +20,8 @@ class PenaltiesCardsViewController: UIViewController {
     @IBOutlet weak var right: UIView!
 
     public func setType(_ type: PenaltiesTypes) {
-        self.type = type;
-        updateView();
+        self.type = type
+        updateView()
     }
 
     private func updateView() -> Void {

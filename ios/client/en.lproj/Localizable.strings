@@ -1,0 +1,100 @@
+/* 
+  Localizable.strings
+  RemoteControl
+
+  Created by Artem Labazin on 23.11.2019.
+  Copyright © 2019 Sergei Andreev. All rights reserved.
+*/
+
+
+// QrViewController
+
+"QR scanner" = "QR scanner";
+
+"The code is recognized" = "The code is recognized. Check that you are connected to required Wi-Fi network before proceed.";
+"The code is unrecognized" = "The code is unrecognized";
+"Connect" = "Connect";
+"Skip" = "Skip";
+"disconnected" = "disconnected from Sm02";
+
+"Wrong authentication code." = "Wrong authentication code.";
+"Another remote control is already registered on the server." = "Another remote control is already registered on the server.";
+"Connection timeout. Check that you are connected to the '%@' Wi-Fi network." = "Connection timeout. Check that you are connected to the '%@' Wi-Fi network.";
+"A remote server is not reachable." = "A remote server is not reachable.";
+"Unknown connection error: %@" = "Unknown connection error: %@";
+"Connection to the server in Wi-Fi network '%@' was lost." = "Connection to the server in Wi-Fi network '%@' was lost.";
+
+"Connection error" = "Connection error";
+"Can't connect to %@. %@" = "Can't connect to %@. %@";
+"Try again" = "Try again";
+"Reconnect" = "Reconnect";
+
+"QR scanner error" = "QR scanner error";
+"The app is not authorized to use back camera." = "The app is not authorized to use back camera.";
+"QR scanner is not supported by the current device." = "QR scanner is not supported by the current device.";
+"Settings" = "Settings";
+"Ok" = "Ok";
+
+"SettingsTab" = "Settings";
+"Cards" = "Cards";
+"Fight" = "Fight";
+
+"* hold to reset" = "* hold to reset";
+"do not show" = "do not show";
+
+"tab Main" = "Main";
+"tab Timers" = "Timers";
+
+"tab Left" = "Left";
+"tab Right" = "Right";
+
+"done" = "done";
+"cancel" = "cancel";
+"disconnect" = "disconnect";
+
+"title Disconnect" = "Disconnect";
+
+"John..." = "John...";
+"names" = "names";
+"title Set names" = "Names";
+
+"view video" = "play";
+"position" = "position";
+"speed" = "speed";
+"No saved replays found" = "No saved replays found";
+
+"video replays" = "video replays";
+"title Video replays" = "Video replays";
+
+"priority" = "priority";
+"title Priority" = "Priority";
+
+"weapon" = "weapon";
+"title Weapon" = "Weapon";
+"Epee" = "Epee";
+"Sabre" = "Sabre";
+"Foil" = "Foil";
+
+"score" = "score";
+"title Set score" = "Set score";
+
+"title Period" = "Set period";
+"next period" = "next";
+
+"title Passive" = "Passive timer";
+
+"title Time" = "Set time";
+
+"button medical" = "medical";
+"medical pause 1" = "medical";
+"medical pause 2" = "pause";
+
+"button 1' pause" = "1' pause";
+"1' pause 1" = "pause";
+"1' pause 2" = "1 min";
+
+"Start" = "START";
+"Stop" = "STOP";
+"Close" = "CLOSE";
+
+"Disconnect this Remote Control?" = "Disconnect this Remote Control?";

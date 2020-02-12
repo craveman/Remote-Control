@@ -1,6 +1,7 @@
 
 public enum Weapon: UInt8 {
 
+  case none = 0x00
   case foil = 0x01
   case epee = 0x02
   case sabre = 0x03
@@ -42,8 +43,8 @@ public enum StatusCard: UInt8 {
 
 public enum Decision: UInt8 {
 
-  case notAcknowledge = 0x00
-  case acknowledge = 0x01
+  case continueFight = 0x00
+  case stopFight = 0x01
 }
 
 public enum RecordMode: UInt8 {
@@ -120,6 +121,7 @@ public enum Inbound {
   case pauseFinished
   case videoReady(name: String)
   case videoReceived
+  case cameraOnline
   case authentication(status: AuthenticationStatus)
   case genericResponse(status: UInt8 = 0x01, request: UInt8)
 }
@@ -192,6 +194,8 @@ extension Inbound: Message {
       return 0x1C
     case .authentication:
       return 0x24
+    case .cameraOnline:
+        return 0x66
     case .genericResponse:
       return 0xAA
     }

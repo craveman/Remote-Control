@@ -5,7 +5,7 @@ import NIOExtras
 
 final class ByteBufferToInboundDecoder: ChannelInboundHandler {
 
-  private typealias Decoder = (inout ByteBuffer) -> Inbound?
+  private typealias Decoder = (UInt8, inout ByteBuffer) -> Inbound?
   private static let decoders: [UInt8: Decoder] = [
     0x0B: decodeBroadcast,
     0x1A: decodeDeviceList,
@@ -16,10 +16,11 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     0x1B: decodeVideoReady,
     0x1C: decodeVideoReceived,
     0x24: decodeAuthentication,
+    0x66: decodeCameraIsOnline,
     0xAA: decodeGenericResponse,
   ]
 
-  private static func decodeBroadcast (buffer: inout ByteBuffer) -> Inbound? {
+  private static func decodeBroadcast (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
     guard let weapon = buffer.readWeapon() else {
       print("ERROR: The 'broadcast' message doesn't have 'weapon' field")
       return nil
@@ -43,7 +44,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     return .broadcast(weapon: weapon, left: leftFlag, right: rightFlag, timer: timer, timerState: timerState)
   }
 
-  private static func decodeDeviceList (buffer: inout ByteBuffer) -> Inbound? {
+  private static func decodeDeviceList (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
     guard let devicesCount = buffer.readUInt8() else {
       print("ERROR: The 'decodeDeviceList' message doesn't have 'count' field")
       return nil
@@ -60,7 +61,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     return .deviceList(devices: devices)
   }
 
-  private static func decodeEthernetDisplay (buffer: inout ByteBuffer) -> Inbound? {
+  private static func decodeEthernetDisplay (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
     guard let period = buffer.readUInt8() else {
       print("ERROR: The 'ethernetDisplay' message doesn't have 'period' field")
       return nil
@@ -80,7 +81,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     return .ethernetDisplay(period: period, time: time, left: leftSide, right: rightSide)
   }
 
-  private static func decodeFightResult (buffer: inout ByteBuffer) -> Inbound? {
+  private static func decodeFightResult (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
     guard let decision = buffer.readDecision() else {
       print("ERROR: The 'fightResult' message doesn't have 'result' field")
       return nil
@@ -88,15 +89,19 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     return .fightResult(result: decision)
   }
 
-  private static func decodePassiveMax (buffer: inout ByteBuffer) -> Inbound? {
+  private static func decodePassiveMax (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
     return .passiveMax
   }
 
-  private static func decodePauseFinished (buffer: inout ByteBuffer) -> Inbound? {
+  private static func decodeCameraIsOnline (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
+    return .cameraOnline
+  }
+
+  private static func decodePauseFinished (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
     return .pauseFinished
   }
 
-  private static func decodeVideoReady (buffer: inout ByteBuffer) -> Inbound? {
+  private static func decodeVideoReady (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
     guard let name = buffer.readString() else {
       print("ERROR: The 'videoReady' message doesn't have 'name' field")
       return nil
@@ -104,24 +109,24 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     return .videoReady(name: name)
   }
 
-  private static func decodeVideoReceived (buffer: inout ByteBuffer) -> Inbound? {
+  private static func decodeVideoReceived (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
     return .videoReceived
   }
 
-  private static func decodeAuthentication (buffer: inout ByteBuffer) -> Inbound? {
-    guard let status = buffer.readAuthenticationStatus() else {
+  private static func decodeAuthentication (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
+    guard let authenticationStatus = AuthenticationStatus(rawValue: status) else {
       print("ERROR: The 'authentication' message doesn't have 'status' field")
       return nil
     }
-    return .authentication(status: status)
+    return .authentication(status: authenticationStatus)
   }
 
-  private static func decodeGenericResponse (buffer: inout ByteBuffer) -> Inbound? {
+  private static func decodeGenericResponse (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
     guard let request = buffer.readUInt8() else {
       print("ERROR: The 'genericResponse' message doesn't have 'request' field")
       return nil
     }
-    return .genericResponse(request: request)
+    return .genericResponse(status: status, request: request)
   }
 
   typealias InboundIn = ByteBuffer
@@ -142,13 +147,13 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
       return .failure(.parsingdError("The message doesn't have a tag"))
     }
     guard let decoder = ByteBufferToInboundDecoder.decoders[tag] else {
-      return .failure(.parsingdError("The message doen't have a decoder for the tag - '\(tag)'"))
+      return .failure(.parsingdError("The message doesn't have a decoder for the tag - '\(tag)'"))
     }
-    guard let _ = buffer.readUInt8() else {
+    guard let status = buffer.readUInt8() else {
       return .failure(.parsingdError("The message '\(tag)' doesn't have status"))
     }
-    guard let outbound = decoder(&buffer) else {
-      return .failure(.parsingdError("The message '\(tag)' doesn't have a decoder"))
+    guard let outbound = decoder(status, &buffer) else {
+      return .failure(.parsingdError("The message '\(tag)' couldn't be decoded"))
     }
     return .success(outbound)
   }
@@ -159,7 +164,8 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
 
   public func errorCaught (context: ChannelHandlerContext, error: Error) {
     print("ERROR: during channel handling - \(error)")
-    context.close(promise: nil)
+    // don't close the connection after error
+    // context.close(promise: nil)
   }
 }
 
@@ -191,12 +197,12 @@ extension ByteBuffer {
 
   mutating func readUInt32 () -> UInt32? {
     return readBytes(length: 4).map { array in
-      let one = UInt32(array[0])
-      let two = UInt32(array[1])
-      let three = UInt32(array[2])
-      let four = UInt32(array[3])
+      let one = UInt32(array[3])
+      let two = UInt32(array[2]) << 8
+      let three = UInt32(array[1]) << 16
+      let four = UInt32(array[0]) << 24
 
-      return (four << 24) + (three << 16) + (two << 8) + one
+      return four + three + two + one
     }
   }
 }
@@ -292,15 +298,6 @@ extension ByteBuffer {
       return nil
     }
     return Side(score: score, card: card, name: name)
-  }
-}
-
-extension ByteBuffer {
-
-  mutating func readAuthenticationStatus () -> AuthenticationStatus? {
-    return readUInt8().flatMap {
-        return AuthenticationStatus(rawValue: $0)
-    }
   }
 }
 

@@ -25,7 +25,7 @@
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSCameraUsageDescription</key>
-	<string>In order to connect we need to scan QR code</string>
+	<string>To connect to the server, we need to scan a QR code.</string>
 	<key>Access WiFi Information Entitlement</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>

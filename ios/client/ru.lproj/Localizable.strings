@@ -1,0 +1,113 @@
+/* 
+  Localizable.strings
+  RemoteControl
+
+  Created by Artem Labazin on 23.11.2019.
+  Copyright © 2019 Sergei Andreev. All rights reserved.
+*/
+
+
+// QR code scanner
+
+"QR scanner" = "QR сканер";
+
+"The code is recognized" = "Код распознан. Удостоверьтесь, что вы подключены к нужной Wi-Fi сети прежде чем продолжить.";
+"The code is unrecognized" = "Код не распознан";
+"Connect" = "Подключиться";
+"Skip" = "Пропустить";
+"disconnected" = "нет связи с Sm02";
+
+"Wrong authentication code." = "Неверный код авторизации.";
+"Another remote control is already registered on the server." = "Другой пульт уже зарегестрирован на стороне сервера.";
+"Connection timeout. Check that you are connected to the '%@' Wi-Fi network." = "Время подключения истекло. Проверьте, что вы подключены к Wi-Fi сети '%@'.";
+"A remote server is not reachable." = "Удаленный сервер недоступен.";
+"Unknown connection error: %@" = "Неизвестная ошибка: %@";
+"Connection to the server in Wi-Fi network '%@' was lost." = "Связь с сервером в сети '%@' была потеряна.";
+
+"Connection error" = "Ошибка подключения";
+"Can't connect to %@. %@" = "Невозможно подключиться к %@. %@";
+"Try again" = "Попробовать снова";
+"Reconnect" = "Переподключиться";
+
+"QR scanner error" = "Ошибка QR сканера";
+"The app is not authorized to use back camera." = "Приложение не авторизовано для использования задней камеры.";
+"QR scanner is not supported by the current device." = "QR сканер не поддерживается данным устройством.";
+"Settings" = "Настройки";
+"Ok" = "Ок";
+
+"SettingsTab" = "Настройки";
+"Cards" = "Карточки";
+"Fight" = "Бой";
+
+"* hold to reset" = "* зажать для сброса";
+"do not show" = "скрыть";
+
+"tab Main" = "Главные";
+"tab Timers" = "Таймеры";
+
+"tab Left" = "Левый";
+"tab Right" = "Правый";
+
+"confirm" = "да";
+"done" = "готово";
+"cancel" = "отмена";
+"disconnect" = "отключить";
+
+"title Disconnect" = "Отключить";
+
+"John..." = "Иван...";
+"names" = "имена";
+"title Set names" = "Имена";
+
+"video replays" = "видео повторы";
+"title Video replays" = "Видеоповтор";
+
+"priority" = "приоритет";
+"title Priority" = "Приоритет";
+
+"weapon" = "оружие";
+"title Weapon" = "Оружие";
+"Epee" = "Шпага";
+"Sabre" = "Сабля";
+"Foil" = "Рапира";
+
+"score" = "счёт";
+"title Set score" = "Установить счёт";
+
+"title Period" = "Установить период";
+"next period" = "следующий";
+
+"title Passive" = "Таймер пассива";
+"do not show passive" = "скрыть счётчик";
+"show passive" = "показать счётчик";
+"hold passive" = "удерживать пассив";
+
+"view video" = "смотреть";
+"position" = "позиция";
+"speed" = "скорость";
+"No saved replays found" = "Нет сохранённых повторов";
+
+"title Time" = "Время";
+
+"button medical" = "мед. пауза";
+"medical pause 1" = "медицинская";
+"medical pause 2" = "пауза";
+
+"button 1' pause" = "1' пауза";
+"1' pause 1" = "пауза";
+"1' pause 2" = "1 минута";
+
+
+"set passive" = "пассив";
+"set time" = "время";
+"set period" = "период";
+"reset bout" = "сброс";
+
+"Left player" = "Левая сторона";
+"Right player" = "Правая сторона";
+
+"Start" = "СТАРТ";
+"Stop" = "СТОП";
+"Close" = "ЗАКРЫТЬ";
+
+"Disconnect this Remote Control?" = "Отключить этот пульт?";

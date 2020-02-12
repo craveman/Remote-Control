@@ -1,27 +1,54 @@
 
+import struct Foundation.UUID
+import class NIOConcurrencyHelpers.Lock
+
 final class HandlersManager<Type> {
-  
+
   typealias Handler = (_ it: Type) -> Void
 
-  private var handlers = ThreadedArray<Handler>()
+  private let lock = Lock()
+  private var handlers = [(key: UUID, handler: Handler)]()
 
-  func add (handler: @escaping Handler) {
-    handlers.append(handler)
+  @discardableResult
+  func add (handler: @escaping Handler) -> UUID {
+    let key = UUID()
+    let tuple = (key, handler)
+    lock.withLockVoid {
+      handlers.append(tuple)
+    }
+    return key
+  }
+
+  @discardableResult
+  func remove (handler uuid: UUID) -> Bool {
+    return lock.withLock {
+      let optional = handlers.firstIndex(where: { key, handler in key == uuid })
+      if let index = optional {
+        handlers.remove(at: index)
+        return true
+      }
+      return false
+    }
   }
 
   @discardableResult
   func fire (it: Type) -> Bool {
-    handlers.async { collection in
-      for handler in collection {
-        handler(it)
-      }
+    if handlers.isEmpty {
+      return false
     }
-    return !handlers.isEmpty
+
+    let handlersCopy = lock.withLock {
+      handlers.map { $0.handler }
+    }
+    for handler in handlersCopy {
+      handler(it)
+    }
+    return true
   }
 
   func clear () {
-    handlers.async { collection in
-      collection.removeAll()
+    lock.withLockVoid {
+      handlers.removeAll()
     }
   }
 }

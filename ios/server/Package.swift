@@ -7,8 +7,8 @@ let package = Package(
   name: "sm02",
 
   dependencies: [
-    .package(url: "https://github.com/apple/swift-nio.git", .exact("2.8.0")),
-    .package(url: "https://github.com/apple/swift-nio-extras.git", .exact("1.2.0")),
+    .package(url: "https://github.com/apple/swift-nio.git", .exact("2.10.1")),
+    .package(url: "https://github.com/apple/swift-nio-extras.git", .exact("1.3.2")),
     .package(path: "../client/Sm02Client"),
   ],
 

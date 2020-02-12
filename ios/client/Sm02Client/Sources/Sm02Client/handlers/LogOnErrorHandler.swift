@@ -18,7 +18,7 @@ final class LogOnErrorHandler: ChannelInboundHandler {
           .map { String(describing: $0) }
           ?? "<none>"
 
-    print("ERROR: during processing request from '{}', this error occured - {}", remoteAddress, error)
+    print("ERROR: during processing request from \(remoteAddress), this error occured - \(error)")
     context.fireErrorCaught(error)
   }
 }

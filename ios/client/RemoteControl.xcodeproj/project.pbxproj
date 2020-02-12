@@ -9,35 +9,49 @@
 /* Begin PBXBuildFile section */
 		850AAE5F2322CF7100DBFD93 /* UITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAE5E2322CF7100DBFD93 /* UITools.swift */; };
 		850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAE602322D78400DBFD93 /* UIGlobals.swift */; };
-		850AAE632322E60800DBFD93 /* PointsStepperViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAE622322E60800DBFD93 /* PointsStepperViewController.swift */; };
-		850AAE7023270F0E00DBFD93 /* Intro.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 850AAE6E23270F0E00DBFD93 /* Intro.storyboard */; };
-		850AAE7423270FC400DBFD93 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAE7323270FC400DBFD93 /* ViewController.swift */; };
 		850AAEAA23271F2A00DBFD93 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 850AAEA923271F2A00DBFD93 /* AVFoundation.framework */; };
 		850AAEDE232723F400DBFD93 /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAEDD232723F400DBFD93 /* ConnectionsViewController.swift */; };
-		850AAEE1232855C000DBFD93 /* SettingsStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 850AAEE0232855C000DBFD93 /* SettingsStoryboard.storyboard */; };
-		850AAEE3232855F600DBFD93 /* WeaponSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAEE2232855F600DBFD93 /* WeaponSelectViewController.swift */; };
-		850AAEE52328653200DBFD93 /* PrioritySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAEE42328653200DBFD93 /* PrioritySelectViewController.swift */; };
-		850AAEEB232AFC2900DBFD93 /* TimersStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 850AAEEA232AFC2900DBFD93 /* TimersStoryboard.storyboard */; };
-		850AAEEF232AFCDE00DBFD93 /* FightTimePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAEEE232AFCDD00DBFD93 /* FightTimePickerViewController.swift */; };
-		8546BB3A231EC04900F7C86F /* FightStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */; };
-		8558AA2F231EE8F5006C8BA3 /* CountdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */; };
-		8558AA33232017F5006C8BA3 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558AA32232017F5006C8BA3 /* SettingsViewController.swift */; };
-		8558AA352320198A006C8BA3 /* PenaltiesStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8558AA342320198A006C8BA3 /* PenaltiesStoryboard.storyboard */; };
-		8583E89B231E21110006BC43 /* PointsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8583E89A231E21110006BC43 /* PointsViewController.swift */; };
-		8583E89D231E21280006BC43 /* TimersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8583E89C231E21280006BC43 /* TimersTableViewController.swift */; };
-		8583E8A6231EA13E0006BC43 /* ReplaysStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8583E8A5231EA13E0006BC43 /* ReplaysStoryboard.storyboard */; };
-		8583E8AA231EAA4C0006BC43 /* ReplaysCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8583E8A9231EAA4C0006BC43 /* ReplaysCollectionViewController.swift */; };
-		858C62E3232038540096FBF9 /* PenaltiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858C62E2232038540096FBF9 /* PenaltiesViewController.swift */; };
-		858C62E523203DA20096FBF9 /* PenaltiesCardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858C62E423203DA20096FBF9 /* PenaltiesCardsViewController.swift */; };
-		858C62E72320432B0096FBF9 /* PenaltySelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858C62E62320432B0096FBF9 /* PenaltySelectorViewController.swift */; };
+		851AE9B12385F56B001BE3FB /* SwiftUITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B02385F56B001BE3FB /* SwiftUITools.swift */; };
+		851AE9B323874353001BE3FB /* ResetBoutUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B223874353001BE3FB /* ResetBoutUIView.swift */; };
+		851AE9B523874393001BE3FB /* CommonComponentsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B423874393001BE3FB /* CommonComponentsSwiftUIView.swift */; };
+		851AE9B723874465001BE3FB /* PauseSettersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */; };
+		851AE9B923875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B823875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift */; };
+		851AE9BB23875FA4001BE3FB /* SegmentedPickerElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9BA23875FA4001BE3FB /* SegmentedPickerElementView.swift */; };
+		851AE9BD23876424001BE3FB /* DraggableCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9BC23876424001BE3FB /* DraggableCircle.swift */; };
+		851AE9BF23892D71001BE3FB /* CommonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9BE23892D71001BE3FB /* CommonViewController.swift */; };
+		851AE9C1238932C2001BE3FB /* RcSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9C0238932C2001BE3FB /* RcSwiftUIView.swift */; };
+		851AE9C323893D06001BE3FB /* CardsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9C223893D06001BE3FB /* CardsSwiftUIView.swift */; };
+		851AE9C52389D4FE001BE3FB /* PrioritySwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9C42389D4FE001BE3FB /* PrioritySwiftUIView.swift */; };
+		851AE9C72389DC7B001BE3FB /* SettingsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9C62389DC7B001BE3FB /* SettingsSwiftUIView.swift */; };
+		851AE9C92389DF3B001BE3FB /* DisconnectSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9C82389DF3B001BE3FB /* DisconnectSwiftUIView.swift */; };
+		851AE9CB2389E388001BE3FB /* VideoReplaysSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9CA2389E388001BE3FB /* VideoReplaysSwiftUIView.swift */; };
+		851AE9CD2389E452001BE3FB /* NamesSettingsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9CC2389E452001BE3FB /* NamesSettingsSwiftUIView.swift */; };
+		851AE9CF2389E4F2001BE3FB /* WeaponsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9CE2389E4F2001BE3FB /* WeaponsSwiftUIView.swift */; };
+		851AE9D12389ECE5001BE3FB /* ScoreSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9D02389ECE5001BE3FB /* ScoreSwiftUIView.swift */; };
+		85584AE3239ED5A2006EC133 /* RcViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85584AE2239ED5A2006EC133 /* RcViewModels.swift */; };
+		859B2C1A23E6289200699383 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 859B2C1923E6289200699383 /* NetworkExtension.framework */; };
 		85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A99338230B47A4003FC5BE /* Inspiration.storyboard */; };
-		85A9934A23109CB7003FC5BE /* FightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934923109CB7003FC5BE /* FightViewController.swift */; };
-		85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934C23109E2D003FC5BE /* InspViewController.swift */; };
-		85A9936023113521003FC5BE /* Options.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A9935F23113521003FC5BE /* Options.storyboard */; };
-		85A9936723113C15003FC5BE /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9936623113C15003FC5BE /* OptionsViewController.swift */; };
+		85A9934A23109CB7003FC5BE /* RcViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934923109CB7003FC5BE /* RcViewController.swift */; };
+		85B661F7239327920016CE4F /* KeyboardGuardianSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B661F6239327920016CE4F /* KeyboardGuardianSwiftUI.swift */; };
+		85B661F9239327F10016CE4F /* TestKeabordGuardianSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B661F8239327F10016CE4F /* TestKeabordGuardianSwiftUIView.swift */; };
+		85B956FA237A0FA50063E32C /* PointsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B956F9237A0FA50063E32C /* PointsSwiftUIView.swift */; };
+		85B956FE237A2CA70063E32C /* HoldPassiveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B956FD237A2CA70063E32C /* HoldPassiveButton.swift */; };
+		85B95700237A31DF0063E32C /* VideoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B956FF237A31DF0063E32C /* VideoButton.swift */; };
+		85B95702237A363A0063E32C /* PointsStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B95701237A363A0063E32C /* PointsStepper.swift */; };
+		85B95704237B608C0063E32C /* FightTabsSelectorsUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B95703237B608C0063E32C /* FightTabsSelectorsUIView.swift */; };
+		85B95706237E06C50063E32C /* TimersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B95705237E06C50063E32C /* TimersSwiftUIView.swift */; };
+		85B95708237E07130063E32C /* FightSectionSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B95707237E07130063E32C /* FightSectionSwiftUIView.swift */; };
+		85D6E91D2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E91C2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift */; };
+		85D6E91F23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E91E23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift */; };
+		85D6E9212390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */; };
+		85D6E9252393049500CBE74D /* TestTimersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */; };
+		8F07A75123892F4800C7F783 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F07A75323892F4800C7F783 /* Localizable.strings */; };
+		8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6D773C237D2C530077B65D /* RemoteService.swift */; };
+		8FD7CB962392C030003DF83B /* Vibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD7CB952392C030003DF83B /* Vibration.swift */; };
 		8FE69D5423398B6200E3B539 /* QRCodeReader in Frameworks */ = {isa = PBXBuildFile; productRef = 8FE69D5323398B6200E3B539 /* QRCodeReader */; };
 		8FFBF9E22336BD4000736BB7 /* Sm02Client in Frameworks */ = {isa = PBXBuildFile; productRef = 8FFBF9E12336BD4000736BB7 /* Sm02Client */; };
-		8FFBF9E42336CA6F00736BB7 /* RemoteServer+UrlParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFBF9E32336CA6F00736BB7 /* RemoteServer+UrlParsing.swift */; };
+		8FFBF9E42336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFBF9E32336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift */; };
+		B97043C723E099C1003F4F47 /* Published.Publisher+on.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97043C623E099C1003F4F47 /* Published.Publisher+on.swift */; };
 		B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */; };
 		B9C8BEE02305A2C5004DBBF8 /* QrViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDF2305A2C5004DBBF8 /* QrViewController.swift */; };
 		B9C8BEE32305A2C6004DBBF8 /* QRConnect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE12305A2C6004DBBF8 /* QRConnect.storyboard */; };
@@ -65,15 +79,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		850143B52382120800B63867 /* SwiftUITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUITools.swift; sourceTree = "<group>"; };
 		850AAE5E2322CF7100DBFD93 /* UITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITools.swift; sourceTree = "<group>"; };
 		850AAE602322D78400DBFD93 /* UIGlobals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIGlobals.swift; sourceTree = "<group>"; };
-		850AAE622322E60800DBFD93 /* PointsStepperViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsStepperViewController.swift; sourceTree = "<group>"; };
-		850AAE6823270B2B00DBFD93 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/QRConnect.strings; sourceTree = "<group>"; };
-		850AAE6923270CBC00DBFD93 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/QRConnect.strings; sourceTree = "<group>"; };
 		850AAE6A23270CBC00DBFD93 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		850AAE6C23270DC900DBFD93 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		850AAE6F23270F0E00DBFD93 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Intro.storyboard; sourceTree = "<group>"; };
-		850AAE7323270FC400DBFD93 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		850AAE7F2327194800DBFD93 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
 		850AAE812327194D00DBFD93 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = ru; path = ru.lproj/Info.plist; sourceTree = "<group>"; };
 		850AAEA923271F2A00DBFD93 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -86,30 +96,51 @@
 		850AAEB323271FDF00DBFD93 /* CNIOLinux.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CNIOLinux.framework; path = "../../../../Library/Developer/Xcode/DerivedData/workspace-ggxzmdnwwomtqbeikrrxmfaogzqm/Build/Products/Debug-iphoneos/CNIOLinux.framework"; sourceTree = "<group>"; };
 		850AAEB423271FDF00DBFD93 /* NIOConcurrencyHelpers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NIOConcurrencyHelpers.framework; path = "../../../../Library/Developer/Xcode/DerivedData/workspace-ggxzmdnwwomtqbeikrrxmfaogzqm/Build/Products/Debug-iphoneos/NIOConcurrencyHelpers.framework"; sourceTree = "<group>"; };
 		850AAEDD232723F400DBFD93 /* ConnectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewController.swift; sourceTree = "<group>"; };
-		850AAEE0232855C000DBFD93 /* SettingsStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingsStoryboard.storyboard; sourceTree = "<group>"; };
-		850AAEE2232855F600DBFD93 /* WeaponSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponSelectViewController.swift; sourceTree = "<group>"; };
-		850AAEE42328653200DBFD93 /* PrioritySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrioritySelectViewController.swift; sourceTree = "<group>"; };
-		850AAEEA232AFC2900DBFD93 /* TimersStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TimersStoryboard.storyboard; sourceTree = "<group>"; };
-		850AAEEE232AFCDD00DBFD93 /* FightTimePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightTimePickerViewController.swift; sourceTree = "<group>"; };
-		8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FightStoryboard.storyboard; sourceTree = "<group>"; };
-		8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownViewController.swift; sourceTree = "<group>"; };
-		8558AA32232017F5006C8BA3 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		8558AA342320198A006C8BA3 /* PenaltiesStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PenaltiesStoryboard.storyboard; sourceTree = "<group>"; };
-		8583E89A231E21110006BC43 /* PointsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsViewController.swift; sourceTree = "<group>"; };
-		8583E89C231E21280006BC43 /* TimersTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimersTableViewController.swift; sourceTree = "<group>"; };
-		8583E8A5231EA13E0006BC43 /* ReplaysStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ReplaysStoryboard.storyboard; sourceTree = "<group>"; };
-		8583E8A9231EAA4C0006BC43 /* ReplaysCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplaysCollectionViewController.swift; sourceTree = "<group>"; };
-		858C62E2232038540096FBF9 /* PenaltiesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltiesViewController.swift; sourceTree = "<group>"; };
-		858C62E423203DA20096FBF9 /* PenaltiesCardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltiesCardsViewController.swift; sourceTree = "<group>"; };
-		858C62E62320432B0096FBF9 /* PenaltySelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PenaltySelectorViewController.swift; sourceTree = "<group>"; };
+		851AE9B02385F56B001BE3FB /* SwiftUITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftUITools.swift; path = "RemoteControl/UI Helpers/SwiftUITools.swift"; sourceTree = "<group>"; };
+		851AE9B223874353001BE3FB /* ResetBoutUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetBoutUIView.swift; sourceTree = "<group>"; };
+		851AE9B423874393001BE3FB /* CommonComponentsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonComponentsSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseSettersSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9B823875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalSeletorSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9BA23875FA4001BE3FB /* SegmentedPickerElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedPickerElementView.swift; sourceTree = "<group>"; };
+		851AE9BC23876424001BE3FB /* DraggableCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraggableCircle.swift; sourceTree = "<group>"; };
+		851AE9BE23892D71001BE3FB /* CommonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewController.swift; sourceTree = "<group>"; };
+		851AE9C0238932C2001BE3FB /* RcSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RcSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9C223893D06001BE3FB /* CardsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9C42389D4FE001BE3FB /* PrioritySwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrioritySwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9C62389DC7B001BE3FB /* SettingsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9C82389DF3B001BE3FB /* DisconnectSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisconnectSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9CA2389E388001BE3FB /* VideoReplaysSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoReplaysSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9CC2389E452001BE3FB /* NamesSettingsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamesSettingsSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9CE2389E4F2001BE3FB /* WeaponsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponsSwiftUIView.swift; sourceTree = "<group>"; };
+		851AE9D02389ECE5001BE3FB /* ScoreSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreSwiftUIView.swift; sourceTree = "<group>"; };
+		85584ADD239C491A006EC133 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/QRConnect.strings; sourceTree = "<group>"; };
+		85584ADF239C4944006EC133 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/QRConnect.strings; sourceTree = "<group>"; };
+		85584AE2239ED5A2006EC133 /* RcViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RcViewModels.swift; sourceTree = "<group>"; };
+		859B2C1823E6289100699383 /* Inspiration Point.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Inspiration Point.entitlements"; sourceTree = "<group>"; };
+		859B2C1923E6289200699383 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		85A99338230B47A4003FC5BE /* Inspiration.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Inspiration.storyboard; sourceTree = "<group>"; };
-		85A9934923109CB7003FC5BE /* FightViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightViewController.swift; sourceTree = "<group>"; };
-		85A9934C23109E2D003FC5BE /* InspViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspViewController.swift; sourceTree = "<group>"; };
-		85A9935F23113521003FC5BE /* Options.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Options.storyboard; sourceTree = "<group>"; };
-		85A9936623113C15003FC5BE /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
+		85A9934923109CB7003FC5BE /* RcViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RcViewController.swift; sourceTree = "<group>"; };
+		85B661F6239327920016CE4F /* KeyboardGuardianSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardGuardianSwiftUI.swift; sourceTree = "<group>"; };
+		85B661F8239327F10016CE4F /* TestKeabordGuardianSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestKeabordGuardianSwiftUIView.swift; sourceTree = "<group>"; };
+		85B956F9237A0FA50063E32C /* PointsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsSwiftUIView.swift; sourceTree = "<group>"; };
+		85B956FD237A2CA70063E32C /* HoldPassiveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoldPassiveButton.swift; sourceTree = "<group>"; };
+		85B956FF237A31DF0063E32C /* VideoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoButton.swift; sourceTree = "<group>"; };
+		85B95701237A363A0063E32C /* PointsStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsStepper.swift; sourceTree = "<group>"; };
+		85B95703237B608C0063E32C /* FightTabsSelectorsUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightTabsSelectorsUIView.swift; sourceTree = "<group>"; };
+		85B95705237E06C50063E32C /* TimersSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimersSwiftUIView.swift; sourceTree = "<group>"; };
+		85B95707237E07130063E32C /* FightSectionSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FightSectionSwiftUIView.swift; sourceTree = "<group>"; };
+		85D6E91C2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPeriodButtonSwiftUIView.swift; sourceTree = "<group>"; };
+		85D6E91E23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimeButtonSwiftUIView.swift; sourceTree = "<group>"; };
+		85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPassiveButtonSwiftUIView.swift; sourceTree = "<group>"; };
+		85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTimersSwiftUIView.swift; sourceTree = "<group>"; };
+		8F07A75223892F4800C7F783 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8F07A75523892FB000C7F783 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8F6D773C237D2C530077B65D /* RemoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
+		8FD7CB952392C030003DF83B /* Vibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vibration.swift; sourceTree = "<group>"; };
 		8FFBF9E02336BC5E00736BB7 /* Sm02Client */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sm02Client; sourceTree = "<group>"; };
-		8FFBF9E32336CA6F00736BB7 /* RemoteServer+UrlParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteServer+UrlParsing.swift"; sourceTree = "<group>"; };
-		B9C8BEDA2305A2C5004DBBF8 /* RemoteControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RemoteControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FFBF9E32336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RemoteAddress+UrlParsing.swift"; sourceTree = "<group>"; };
+		B97043C623E099C1003F4F47 /* Published.Publisher+on.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Published.Publisher+on.swift"; sourceTree = "<group>"; };
+		B9C8BEDA2305A2C5004DBBF8 /* Inspiration Point.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Inspiration Point.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9C8BEDF2305A2C5004DBBF8 /* QrViewController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = QrViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
 		B9C8BEE22305A2C6004DBBF8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/QRConnect.storyboard; sourceTree = "<group>"; };
@@ -129,6 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				850AAEAA23271F2A00DBFD93 /* AVFoundation.framework in Frameworks */,
+				859B2C1A23E6289200699383 /* NetworkExtension.framework in Frameworks */,
 				8FE69D5423398B6200E3B539 /* QRCodeReader in Frameworks */,
 				8FFBF9E22336BD4000736BB7 /* Sm02Client in Frameworks */,
 			);
@@ -157,7 +189,7 @@
 				B9C8BEE12305A2C6004DBBF8 /* QRConnect.storyboard */,
 				B9C8BEDF2305A2C5004DBBF8 /* QrViewController.swift */,
 				850AAEDD232723F400DBFD93 /* ConnectionsViewController.swift */,
-				8FFBF9E32336CA6F00736BB7 /* RemoteServer+UrlParsing.swift */,
+				8FFBF9E32336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift */,
 			);
 			path = Connect;
 			sourceTree = "<group>";
@@ -175,8 +207,15 @@
 		850AAE7223270F3300DBFD93 /* UI Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				850143B52382120800B63867 /* SwiftUITools.swift */,
 				850AAE5E2322CF7100DBFD93 /* UITools.swift */,
 				850AAE602322D78400DBFD93 /* UIGlobals.swift */,
+				851AE9B823875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift */,
+				851AE9BA23875FA4001BE3FB /* SegmentedPickerElementView.swift */,
+				851AE9BC23876424001BE3FB /* DraggableCircle.swift */,
+				85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */,
+				85B661F6239327920016CE4F /* KeyboardGuardianSwiftUI.swift */,
+				85B661F8239327F10016CE4F /* TestKeabordGuardianSwiftUIView.swift */,
 			);
 			path = "UI Helpers";
 			sourceTree = "<group>";
@@ -184,9 +223,12 @@
 		850AAEEC232AFC3A00DBFD93 /* Timers */ = {
 			isa = PBXGroup;
 			children = (
-				850AAEEA232AFC2900DBFD93 /* TimersStoryboard.storyboard */,
-				8583E89C231E21280006BC43 /* TimersTableViewController.swift */,
-				850AAEEE232AFCDD00DBFD93 /* FightTimePickerViewController.swift */,
+				85B95705237E06C50063E32C /* TimersSwiftUIView.swift */,
+				851AE9B223874353001BE3FB /* ResetBoutUIView.swift */,
+				851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */,
+				85D6E91E23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift */,
+				85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */,
+				85D6E91C2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift */,
 			);
 			path = Timers;
 			sourceTree = "<group>";
@@ -194,31 +236,25 @@
 		850AAEED232AFC4200DBFD93 /* Points */ = {
 			isa = PBXGroup;
 			children = (
-				850AAE622322E60800DBFD93 /* PointsStepperViewController.swift */,
-				8583E89A231E21110006BC43 /* PointsViewController.swift */,
+				85B956F9237A0FA50063E32C /* PointsSwiftUIView.swift */,
+				85B956FD237A2CA70063E32C /* HoldPassiveButton.swift */,
+				85B956FF237A31DF0063E32C /* VideoButton.swift */,
+				85B95701237A363A0063E32C /* PointsStepper.swift */,
 			);
 			path = Points;
-			sourceTree = "<group>";
-		};
-		8583E8A4231EA1170006BC43 /* Replays */ = {
-			isa = PBXGroup;
-			children = (
-				8583E8A5231EA13E0006BC43 /* ReplaysStoryboard.storyboard */,
-				8583E8A9231EAA4C0006BC43 /* ReplaysCollectionViewController.swift */,
-			);
-			path = Replays;
 			sourceTree = "<group>";
 		};
 		85A9933A230B4C40003FC5BE /* Insp */ = {
 			isa = PBXGroup;
 			children = (
-				8583E8A4231EA1170006BC43 /* Replays */,
-				85A9935E231134EA003FC5BE /* Options */,
+				851AE9B423874393001BE3FB /* CommonComponentsSwiftUIView.swift */,
 				85A9934723109C96003FC5BE /* Settings */,
 				85A9934623109C89003FC5BE /* Penalties */,
 				85A9934523109C7D003FC5BE /* Fight */,
 				85A99338230B47A4003FC5BE /* Inspiration.storyboard */,
-				85A9934C23109E2D003FC5BE /* InspViewController.swift */,
+				85A9934923109CB7003FC5BE /* RcViewController.swift */,
+				851AE9C0238932C2001BE3FB /* RcSwiftUIView.swift */,
+				85584AE2239ED5A2006EC133 /* RcViewModels.swift */,
 			);
 			path = Insp;
 			sourceTree = "<group>";
@@ -228,9 +264,8 @@
 			children = (
 				850AAEED232AFC4200DBFD93 /* Points */,
 				850AAEEC232AFC3A00DBFD93 /* Timers */,
-				85A9934923109CB7003FC5BE /* FightViewController.swift */,
-				8558AA2E231EE8F5006C8BA3 /* CountdownViewController.swift */,
-				8546BB39231EC04900F7C86F /* FightStoryboard.storyboard */,
+				85B95703237B608C0063E32C /* FightTabsSelectorsUIView.swift */,
+				85B95707237E07130063E32C /* FightSectionSwiftUIView.swift */,
 			);
 			path = Fight;
 			sourceTree = "<group>";
@@ -238,10 +273,7 @@
 		85A9934623109C89003FC5BE /* Penalties */ = {
 			isa = PBXGroup;
 			children = (
-				8558AA342320198A006C8BA3 /* PenaltiesStoryboard.storyboard */,
-				858C62E2232038540096FBF9 /* PenaltiesViewController.swift */,
-				858C62E423203DA20096FBF9 /* PenaltiesCardsViewController.swift */,
-				858C62E62320432B0096FBF9 /* PenaltySelectorViewController.swift */,
+				851AE9C223893D06001BE3FB /* CardsSwiftUIView.swift */,
 			);
 			path = Penalties;
 			sourceTree = "<group>";
@@ -249,26 +281,21 @@
 		85A9934723109C96003FC5BE /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				8558AA32232017F5006C8BA3 /* SettingsViewController.swift */,
-				850AAEE0232855C000DBFD93 /* SettingsStoryboard.storyboard */,
-				850AAEE2232855F600DBFD93 /* WeaponSelectViewController.swift */,
-				850AAEE42328653200DBFD93 /* PrioritySelectViewController.swift */,
+				851AE9C62389DC7B001BE3FB /* SettingsSwiftUIView.swift */,
+				851AE9C42389D4FE001BE3FB /* PrioritySwiftUIView.swift */,
+				851AE9C82389DF3B001BE3FB /* DisconnectSwiftUIView.swift */,
+				851AE9CA2389E388001BE3FB /* VideoReplaysSwiftUIView.swift */,
+				851AE9CC2389E452001BE3FB /* NamesSettingsSwiftUIView.swift */,
+				851AE9CE2389E4F2001BE3FB /* WeaponsSwiftUIView.swift */,
+				851AE9D02389ECE5001BE3FB /* ScoreSwiftUIView.swift */,
 			);
 			path = Settings;
-			sourceTree = "<group>";
-		};
-		85A9935E231134EA003FC5BE /* Options */ = {
-			isa = PBXGroup;
-			children = (
-				85A9935F23113521003FC5BE /* Options.storyboard */,
-				85A9936623113C15003FC5BE /* OptionsViewController.swift */,
-			);
-			path = Options;
 			sourceTree = "<group>";
 		};
 		B9AD54EB2305B94700F97E4B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				859B2C1923E6289200699383 /* NetworkExtension.framework */,
 				850AAEB223271FDE00DBFD93 /* CNIOAtomics.framework */,
 				850AAEB123271FDE00DBFD93 /* NIOTestUtils.framework */,
 				850AAEB023271FDE00DBFD93 /* NIO.framework */,
@@ -285,6 +312,8 @@
 		B9C8BED12305A2C5004DBBF8 = {
 			isa = PBXGroup;
 			children = (
+				8F07A75323892F4800C7F783 /* Localizable.strings */,
+				851AE9B02385F56B001BE3FB /* SwiftUITools.swift */,
 				8FFBF9E02336BC5E00736BB7 /* Sm02Client */,
 				B9C8BEDC2305A2C5004DBBF8 /* RemoteControl */,
 				B9C8BEF12305A2C7004DBBF8 /* RemoteControlTests */,
@@ -297,7 +326,7 @@
 		B9C8BEDB2305A2C5004DBBF8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B9C8BEDA2305A2C5004DBBF8 /* RemoteControl.app */,
+				B9C8BEDA2305A2C5004DBBF8 /* Inspiration Point.app */,
 				B9C8BEEE2305A2C7004DBBF8 /* RemoteControlTests.xctest */,
 				B9C8BEF92305A2C7004DBBF8 /* RemoteControlUITests.xctest */,
 			);
@@ -307,13 +336,16 @@
 		B9C8BEDC2305A2C5004DBBF8 /* RemoteControl */ = {
 			isa = PBXGroup;
 			children = (
+				859B2C1823E6289100699383 /* Inspiration Point.entitlements */,
 				850AAE802327194800DBFD93 /* Info.plist */,
 				850AAE7223270F3300DBFD93 /* UI Helpers */,
 				850AAE7123270F1B00DBFD93 /* Supporting Files */,
 				850AAE6D23270DE500DBFD93 /* Connect */,
 				85A9933A230B4C40003FC5BE /* Insp */,
-				850AAE6E23270F0E00DBFD93 /* Intro.storyboard */,
-				850AAE7323270FC400DBFD93 /* ViewController.swift */,
+				8F6D773C237D2C530077B65D /* RemoteService.swift */,
+				851AE9BE23892D71001BE3FB /* CommonViewController.swift */,
+				8FD7CB952392C030003DF83B /* Vibration.swift */,
+				B97043C623E099C1003F4F47 /* Published.Publisher+on.swift */,
 			);
 			path = RemoteControl;
 			sourceTree = "<group>";
@@ -357,7 +389,7 @@
 				8FE69D5323398B6200E3B539 /* QRCodeReader */,
 			);
 			productName = RemoteControl;
-			productReference = B9C8BEDA2305A2C5004DBBF8 /* RemoteControl.app */;
+			productReference = B9C8BEDA2305A2C5004DBBF8 /* Inspiration Point.app */;
 			productType = "com.apple.product-type.application";
 		};
 		B9C8BEED2305A2C7004DBBF8 /* RemoteControlTests */ = {
@@ -403,7 +435,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1030;
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1120;
 				ORGANIZATIONNAME = "Sergei Andreev";
 				TargetAttributes = {
 					B9C8BED92305A2C5004DBBF8 = {
@@ -448,17 +480,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8583E8A6231EA13E0006BC43 /* ReplaysStoryboard.storyboard in Resources */,
-				85A9936023113521003FC5BE /* Options.storyboard in Resources */,
+				8F07A75123892F4800C7F783 /* Localizable.strings in Resources */,
 				B9C8BEE82305A2C7004DBBF8 /* LaunchScreen.storyboard in Resources */,
 				85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */,
 				B9C8BEE52305A2C7004DBBF8 /* Assets.xcassets in Resources */,
-				8558AA352320198A006C8BA3 /* PenaltiesStoryboard.storyboard in Resources */,
-				850AAE7023270F0E00DBFD93 /* Intro.storyboard in Resources */,
-				850AAEEB232AFC2900DBFD93 /* TimersStoryboard.storyboard in Resources */,
-				8546BB3A231EC04900F7C86F /* FightStoryboard.storyboard in Resources */,
 				B9C8BEE32305A2C6004DBBF8 /* QRConnect.storyboard in Resources */,
-				850AAEE1232855C000DBFD93 /* SettingsStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,28 +509,47 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8558AA2F231EE8F5006C8BA3 /* CountdownViewController.swift in Sources */,
-				858C62E3232038540096FBF9 /* PenaltiesViewController.swift in Sources */,
+				85D6E91D2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift in Sources */,
 				850AAEDE232723F400DBFD93 /* ConnectionsViewController.swift in Sources */,
-				858C62E72320432B0096FBF9 /* PenaltySelectorViewController.swift in Sources */,
-				850AAEE3232855F600DBFD93 /* WeaponSelectViewController.swift in Sources */,
+				851AE9BD23876424001BE3FB /* DraggableCircle.swift in Sources */,
 				B9C8BEE02305A2C5004DBBF8 /* QrViewController.swift in Sources */,
+				851AE9C72389DC7B001BE3FB /* SettingsSwiftUIView.swift in Sources */,
+				851AE9CD2389E452001BE3FB /* NamesSettingsSwiftUIView.swift in Sources */,
+				85B95702237A363A0063E32C /* PointsStepper.swift in Sources */,
+				851AE9B523874393001BE3FB /* CommonComponentsSwiftUIView.swift in Sources */,
+				851AE9C92389DF3B001BE3FB /* DisconnectSwiftUIView.swift in Sources */,
+				B97043C723E099C1003F4F47 /* Published.Publisher+on.swift in Sources */,
+				851AE9CB2389E388001BE3FB /* VideoReplaysSwiftUIView.swift in Sources */,
 				B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */,
-				858C62E523203DA20096FBF9 /* PenaltiesCardsViewController.swift in Sources */,
-				850AAEE52328653200DBFD93 /* PrioritySelectViewController.swift in Sources */,
-				8583E8AA231EAA4C0006BC43 /* ReplaysCollectionViewController.swift in Sources */,
-				850AAE632322E60800DBFD93 /* PointsStepperViewController.swift in Sources */,
-				8583E89D231E21280006BC43 /* TimersTableViewController.swift in Sources */,
-				8583E89B231E21110006BC43 /* PointsViewController.swift in Sources */,
-				8FFBF9E42336CA6F00736BB7 /* RemoteServer+UrlParsing.swift in Sources */,
-				8558AA33232017F5006C8BA3 /* SettingsViewController.swift in Sources */,
-				850AAE7423270FC400DBFD93 /* ViewController.swift in Sources */,
+				851AE9B723874465001BE3FB /* PauseSettersSwiftUIView.swift in Sources */,
+				85B956FA237A0FA50063E32C /* PointsSwiftUIView.swift in Sources */,
+				85B95700237A31DF0063E32C /* VideoButton.swift in Sources */,
+				85B95708237E07130063E32C /* FightSectionSwiftUIView.swift in Sources */,
+				85B95706237E06C50063E32C /* TimersSwiftUIView.swift in Sources */,
+				8FFBF9E42336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift in Sources */,
+				851AE9B923875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift in Sources */,
+				851AE9D12389ECE5001BE3FB /* ScoreSwiftUIView.swift in Sources */,
+				851AE9C1238932C2001BE3FB /* RcSwiftUIView.swift in Sources */,
+				851AE9BB23875FA4001BE3FB /* SegmentedPickerElementView.swift in Sources */,
+				85B661F7239327920016CE4F /* KeyboardGuardianSwiftUI.swift in Sources */,
+				851AE9B323874353001BE3FB /* ResetBoutUIView.swift in Sources */,
 				850AAE5F2322CF7100DBFD93 /* UITools.swift in Sources */,
+				851AE9B12385F56B001BE3FB /* SwiftUITools.swift in Sources */,
 				850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */,
-				85A9934A23109CB7003FC5BE /* FightViewController.swift in Sources */,
-				850AAEEF232AFCDE00DBFD93 /* FightTimePickerViewController.swift in Sources */,
-				85A9934D23109E2D003FC5BE /* InspViewController.swift in Sources */,
-				85A9936723113C15003FC5BE /* OptionsViewController.swift in Sources */,
+				851AE9C323893D06001BE3FB /* CardsSwiftUIView.swift in Sources */,
+				85D6E91F23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift in Sources */,
+				851AE9CF2389E4F2001BE3FB /* WeaponsSwiftUIView.swift in Sources */,
+				85B661F9239327F10016CE4F /* TestKeabordGuardianSwiftUIView.swift in Sources */,
+				8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */,
+				851AE9C52389D4FE001BE3FB /* PrioritySwiftUIView.swift in Sources */,
+				8FD7CB962392C030003DF83B /* Vibration.swift in Sources */,
+				85B956FE237A2CA70063E32C /* HoldPassiveButton.swift in Sources */,
+				85B95704237B608C0063E32C /* FightTabsSelectorsUIView.swift in Sources */,
+				85D6E9252393049500CBE74D /* TestTimersSwiftUIView.swift in Sources */,
+				85584AE3239ED5A2006EC133 /* RcViewModels.swift in Sources */,
+				85A9934A23109CB7003FC5BE /* RcViewController.swift in Sources */,
+				851AE9BF23892D71001BE3FB /* CommonViewController.swift in Sources */,
+				85D6E9212390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -540,14 +585,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		850AAE6E23270F0E00DBFD93 /* Intro.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				850AAE6F23270F0E00DBFD93 /* Base */,
-			);
-			name = Intro.storyboard;
-			sourceTree = "<group>";
-		};
 		850AAE802327194800DBFD93 /* Info.plist */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -557,12 +594,21 @@
 			name = Info.plist;
 			sourceTree = "<group>";
 		};
+		8F07A75323892F4800C7F783 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8F07A75223892F4800C7F783 /* en */,
+				8F07A75523892FB000C7F783 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		B9C8BEE12305A2C6004DBBF8 /* QRConnect.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				B9C8BEE22305A2C6004DBBF8 /* Base */,
-				850AAE6823270B2B00DBFD93 /* en */,
-				850AAE6923270CBC00DBFD93 /* ru */,
+				85584ADD239C491A006EC133 /* en */,
+				85584ADF239C4944006EC133 /* ru */,
 			);
 			name = QRConnect.storyboard;
 			sourceTree = "<group>";
@@ -634,7 +680,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -694,7 +740,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -710,9 +756,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_ENTITLEMENTS = "RemoteControl/Inspiration Point.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8BU6982BUJ;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = NB936833RX;
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = RemoteControl/Base.lproj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -721,12 +771,13 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xxlabaza.RemoteControl;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				MARKETING_VERSION = 1.0.32;
+				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
+				PRODUCT_NAME = "Inspiration Point";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -734,9 +785,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CODE_SIGN_ENTITLEMENTS = "RemoteControl/Inspiration Point.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8BU6982BUJ;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = NB936833RX;
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = RemoteControl/Base.lproj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -745,12 +800,13 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.xxlabaza.RemoteControl;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				MARKETING_VERSION = 1.0.32;
+				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
+				PRODUCT_NAME = "Inspiration Point";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -770,7 +826,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xxlabaza.RemoteControlTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RemoteControl.app/RemoteControl";
 			};
 			name = Debug;
@@ -791,7 +847,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xxlabaza.RemoteControlTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RemoteControl.app/RemoteControl";
 			};
 			name = Release;
@@ -811,7 +867,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xxlabaza.RemoteControlUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = RemoteControl;
 			};
 			name = Debug;
@@ -831,7 +887,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.xxlabaza.RemoteControlUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = RemoteControl;
 			};
 			name = Release;
