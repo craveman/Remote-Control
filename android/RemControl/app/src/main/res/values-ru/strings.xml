@@ -91,7 +91,7 @@
     <string name="save_fight_error">При сохранении результатов боя на сервере возникла ошибка: \"%s\"</string>
     <string name="save_comments_error">При сохранении комментариев возникла ошибка: \"%s\"</string>
 
-    <string name="pause">Перерыв</string>
+    <string name="pause">Пауза</string>
     <string name="other_period">Свободное время</string>
     <string name="extra_round">A</string>
 
@@ -149,7 +149,7 @@
     <string name="yes">Да</string>
     <string name="no">Нет</string>
     <string name="warning">Внимание!</string>
-    <string name="priority_title">Приоритет</string>
+    <string name="priority_title">приоритет</string>
     <string name="card_title">Карточки</string>
     <string name="time_period">Время</string>
     <string name="select_period">Выбрать период</string>
@@ -161,8 +161,8 @@
     <string name="reset_to_three_mins_confirm">Сбросить таймер на 3:00?</string>
     <string name="action_pause">Пауза (1 мин)</string>
     <string name="pause_confirmation">Установить паузу на 1 минуту?</string>
-    <string name="reset_confirm">Выполнить сброс?</string>
-    <string name="score">Счет</string>
+    <string name="reset_confirm">Сброс</string>
+    <string name="score">счет</string>
     <string name="action">Событие:</string>
     <string name="start_time">Начало боя:</string>
     <string name="full_time">Полное время:</string>
@@ -251,7 +251,7 @@
     <string name="camera">Камера</string>
     <string name="err_no_cameras">Нет доступных камер</string>
     <string name="video_replay">Видеоповтор</string>
-    <string name="video">Видео:</string>
+    <string name="video">Видео</string>
     <string name="video_speed">Скорость: %s</string>
     <string name="selected_cam">Камера: %s</string>
     <string name="disconnect_title">Отключить?</string>
@@ -273,13 +273,13 @@
     <string name="fa_sync_message">Не соединен с SM-02</string>
     <string name="fa_timers_period_score">Таймеры</string>
     <string name="fa_warnings_priority">Карточки</string>
-    <string name="fa_medical_pause">Мед. пауза</string>
+    <string name="fa_medical_pause">мед. пауза</string>
     <string name="fa_warnings">Карточки</string>
     <string name="fa_p_warnings">P-Карточки</string>
     <string name="fa_p_cards">P-Карточки</string>
-    <string name="fa_passive_title">Пассив</string>
-    <string name="fa_passive_remove">Убрать таймер пассивного боя?</string>
-    <string name="fa_passive_display">Отображать таймер пассивного боя?</string>
+    <string name="fa_passive_title">Таймер пассива</string>
+    <string name="fa_passive_remove">Таймер пассива</string>
+    <string name="fa_passive_display">Таймер пассива</string>
     <string name="fa_passive_explanation_1">Таймер пассивного боя - 1 минута с момента последнего укола, нанесенного одним из бойцов</string>
     <string name="fa_passive_explanation_2">Отображается уменьшающимся белым таймером под таймером боя.</string>
     <string name="fa_remove_priority">Убрать приоритет</string>
@@ -291,7 +291,7 @@
     <string name="fa_fight_timer">Таймер боя</string>
     <string name="fa_video_replays_display_q">Отображать количество видеоповторов?</string>
     <string name="fa_device_reset">Начать заново</string>
-    <string name="fa_weapon_type">Вид оружия</string>
+    <string name="fa_weapon_type">Оружие</string>
     <string name="fa_surnames">Фамилии</string>
     <string name="fa_pause_full">Пауза 1 минута</string>
     <string name="fa_next">Следующий</string>
@@ -301,7 +301,7 @@
     <string name="fa_accept">Принять</string>
     <string name="fa_timer_title">Таймер боя</string>
     <string name="fa_syncing_msg">Синхронизация с SM-02, пожалуйста подождите…</string>
-    <string name="next">Следующий</string>
+    <string name="next">След.</string>
     <string name="semi_mode">Cyrano 1.0</string>
     <string name="fight_received">Получен бой от сервера:</string>
     <string name="prev">Пред.</string>
@@ -309,14 +309,14 @@
     <string name="ask_next">Следующий бой</string>
     <string name="fight_waiting">Ждем ответ от сервера информационной системы соревнований</string>
     <string name="fight_start_ready">Все готово. Активировать бой?</string>
-    <string name="semi_1_0">SEMI 1.0</string>
+    <string name="semi_1_0"> </string>
     <string name="fight_end_ask">Завершить бой?</string>
-    <string name="fight_end_error">Нельзя завершить бой при равном счете</string>
+    <string name="fight_end_error">Нельзя завершить бой</string>
     <string name="fight_end_accept">Бой завершен</string>
     <string name="fight_no_active">Нет активных боев. Запросите следующий или предыдущий бой с сервера.</string>
-    <string name="semi_exit_ask">Выйти из режима SEMI 1.0</string>
+    <string name="semi_exit_ask">Выйти из режима Cyrano</string>
     <string name="options">Опции</string>
-    <string name="names">Имена</string>
+    <string name="names">имена</string>
     <string name="country">Страна</string>
     <string name="photo">Фото</string>
     <string name="competition">Турнир/Ступень</string>
@@ -330,7 +330,7 @@
     <string name="unfinished_accept">Восстановить</string>
     <string name="period_finished">Период завершен</string>
     <string name="pause_start_ask">Начать паузу перед новым периодом?</string>
-    <string name="wifi_off_error">Включите WiFi в настройках смартфона и подключитесь к точке доступа дорожки.</string>
+    <string name="wifi_off_error">Проверьте, включен ли WiFi, и подключитесь к точке доступа дорожки.</string>
     <string name="wifi_off_title">WiFi выключен!</string>
     <string name="player_title">Просмотр видео</string>
     <string name="seek_title">Позиция</string>
@@ -343,5 +343,37 @@
     <string name="disconnect">Отключить</string>
     <string name="piste">Дорожка</string>
     <string name="phrases">Фразы</string>
+    <string name="exit_app_title">Выход</string>
+    <string name="exit_app_question">Закрыть приложение?</string>
+    <string name="sync_warn_check_wifi"><![CDATA[Не удается подключиться.
+     Вы не забыли подключиться к сети, указанной на экране SM02?
+     Текущая сеть: %s ]]></string>
+    <string name="extras">Дополнительно</string>
+    <string name="bt_explain">По умолчанию видимоcть Sm02 для других bluetooth-устройств отключена. Включите, если хотите переподключить пульт для AndroidTV. В противном случае не меняйте эту настройку.</string>
+    <string name="bt_off">Невидим</string>
+    <string name="bt_on">Видимый</string>
+    <string name="protocol">Протокол</string>
+    <string name="p_rc_left">P-кр. налево</string>
+    <string name="p_rc_right">P-кр. направо</string>
+    <string name="p_yc_left">P-желт. налево</string>
+    <string name="p_yc_right">P-желт. направо</string>
+    <string name="p_bc_left">P-черн. налево</string>
+    <string name="p_bc_right">P-черн. направо</string>
+    <string name="bc_left">Черная налево</string>
+    <string name="bc_right">Черная направо</string>
+    <string name="pause_finish_ask">Прервать паузу</string>
+    <string name="pause_call_message">Установить паузу?</string>
+    <string name="cyrano_title">Режим боя</string>
+    <string name="practice">Практика</string>
+    <string name="end">Конец</string>
+    <string name="black">Черные</string>
+    <string name="hold_to_reset">* удерж. для сброса</string>
+    <string name="passive_timer">пассив</string>
+    <string name="fight_timer_lowcase">таймер боя</string>
+    <string name="remove_fight">Убрать бой</string>
+    <string name="more_btn">ещё</string>
+    <string name="default_value">начальное значение</string>
+    <string name="hold">фикс.</string>
+    <string name="play_video_from">Воспр. видео из</string>
 
 </resources>

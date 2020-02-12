@@ -57,7 +57,7 @@ public class EthernetDispHandler {
                     }
                     if (!TextUtils.isEmpty(infoParts[8])) {
                         infoMain.setRound(Integer.parseInt(infoParts[8]));
-                    }
+                    } else return false;
                     infoMain.setTime(infoParts[9]);
                     infoMain.setStopwatch(infoParts[10]);
                     infoMain.setType(infoParts[11]);
@@ -93,6 +93,11 @@ public class EthernetDispHandler {
                     infoRight.setNation(rightParts[3]);
                     if (!TextUtils.isEmpty(rightParts[4])) {
                         infoRight.setScore(Integer.parseInt(rightParts[4]));
+                    } else {
+                        return false;
+                    }
+                    if (infoRight.getName().isEmpty()) {
+                        return false;
                     }
                     infoRight.setStatus(rightParts[5]);
                     if (!TextUtils.isEmpty(rightParts[6])) {
@@ -138,6 +143,11 @@ public class EthernetDispHandler {
                     infoLeft.setNation(leftParts[3]);
                     if (!TextUtils.isEmpty(leftParts[4])) {
                         infoLeft.setScore(Integer.parseInt(leftParts[4]));
+                    } else {
+                        return false;
+                    }
+                    if (infoLeft.getName().isEmpty()) {
+                        return false;
                     }
                     infoLeft.setStatus(leftParts[5]);
                     if (!TextUtils.isEmpty(leftParts[6])) {

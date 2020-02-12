@@ -54,7 +54,6 @@ public class FightFinishedDialog extends DialogFragment {
         });
         contentView.findViewById(R.id.fight_end_prev)
                 .setOnClickListener(v -> {
-            listener.prev();
             dismiss();
         });
         contentView.findViewById(R.id.fight_end_next)

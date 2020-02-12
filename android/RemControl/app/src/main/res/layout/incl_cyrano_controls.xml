@@ -37,14 +37,14 @@
             app:layout_constraintGuide_percent=".085" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/options_names_top"
+            android:id="@+id/options_item1_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".11" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/options_names_bottom"
+            android:id="@+id/options_item1_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -58,14 +58,14 @@
             app:layout_constraintGuide_percent=".19" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/options_line_top"
+            android:id="@+id/options_item2_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".21" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/options_line_bottom"
+            android:id="@+id/options_item2_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -79,18 +79,18 @@
             app:layout_constraintGuide_percent=".29" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/options_video_top"
+            android:id="@+id/options_item3_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".21" />
+            app:layout_constraintGuide_percent=".31" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/options_video_bottom"
+            android:id="@+id/options_item3_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".27" />
+            app:layout_constraintGuide_percent=".37" />
 
         <android.support.constraint.Guideline
             android:id="@+id/options_divider_4_top"
@@ -100,18 +100,18 @@
             app:layout_constraintGuide_percent=".39" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/options_passive_top"
+            android:id="@+id/options_item4_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".31" />
+            app:layout_constraintGuide_percent=".41" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/options_passive_bottom"
+            android:id="@+id/options_item4_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".37" />
+            app:layout_constraintGuide_percent=".47" />
 
         <android.support.constraint.Guideline
             android:id="@+id/options_divider_5_top"
@@ -121,14 +121,14 @@
             app:layout_constraintGuide_percent=".49" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/options_phrases_top"
+            android:id="@+id/options_item5_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".51" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/options_phrases_bottom"
+            android:id="@+id/options_item5_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -142,14 +142,14 @@
             app:layout_constraintGuide_percent=".59" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/options_disconnect_top"
+            android:id="@+id/options_item6_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".61" />
 
         <android.support.constraint.Guideline
-            android:id="@+id/options_disconnect_bottom"
+            android:id="@+id/options_item6_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -204,6 +204,25 @@
             app:layout_constraintTop_toTopOf="@id/options_divider_1_top" />
 
         <TextView
+            android:id="@+id/cyrano_reset"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:onClick="@{() -> viewModel.onMenuDeviceReset()}"
+            android:text="@string/reset_period"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@id/options_item1_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/options_item1_top" />
+
+        <TextView
             android:id="@+id/ask_eth_next"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -217,10 +236,10 @@
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"
             app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="@id/options_names_bottom"
+            app:layout_constraintBottom_toBottomOf="@id/options_item2_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/options_names_top" />
+            app:layout_constraintTop_toTopOf="@id/options_item2_top" />
 
         <View
             android:id="@+id/options_divider_2"
@@ -256,7 +275,6 @@
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
             android:background="@color/white"
-            android:visibility="gone"
             app:layout_constraintTop_toTopOf="@id/options_divider_5_top" />
 
         <TextView
@@ -273,10 +291,10 @@
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"
             app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="@id/options_video_bottom"
+            app:layout_constraintBottom_toBottomOf="@id/options_item3_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/options_video_top" />
+            app:layout_constraintTop_toTopOf="@id/options_item3_top" />
 
         <TextView
             android:id="@+id/ask_eth_end"
@@ -292,10 +310,10 @@
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"
             app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="@id/options_passive_bottom"
+            app:layout_constraintBottom_toBottomOf="@id/options_item4_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/options_passive_top" />
+            app:layout_constraintTop_toTopOf="@id/options_item4_top" />
 
         <View
             android:id="@+id/options_divider_7"

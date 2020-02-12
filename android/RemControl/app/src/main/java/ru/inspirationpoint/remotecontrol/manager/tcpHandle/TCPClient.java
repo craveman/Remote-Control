@@ -13,8 +13,11 @@ import java.util.Arrays;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
 import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
 import ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.PingCommand;
 
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEVICE_ID_SETTING;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.AUTH_RESPONSE;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.TCP_OK;
 import static ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPHelper.PORT;
 
 public class TCPClient {
@@ -73,21 +76,23 @@ public class TCPClient {
             inputStream = new DataInputStream(socket.getInputStream());
 
                 while (mRun) {
-                    byte[] temp = new byte[CommandsContract.HEADER_LENGTH];
-                    int read = inputStream.read(temp, 0, CommandsContract.HEADER_LENGTH);
-                    if (temp[0] == CommandsContract.PROTOCOL_VERSION ) {
-                        byte[] buffer = new byte[temp[4]&0xFF - CommandsContract.HEADER_LENGTH];
+                    byte[] temp = new byte[1];
+                    int read = inputStream.read(temp);
+                    if (temp[0] != 0) {
+                        byte[] header = new byte[2];
+                        int read2 = inputStream.read(header);
+                        byte[] buffer = new byte[temp[0] & 0xFF - 2];
                         inputStream.read(buffer);
-                        if (temp[5] == CommandsContract.PING_TCP_CMD) {
-                            sendMessage(CommandHelper.hello(CommonConstants.DEV_TYPE_RC, SettingsManager.getValue(DEVICE_ID_SETTING, "")));
+                        if (header[1] == (byte) 0x00 || header[0] == AUTH_RESPONSE) {
+                            mMessageListener.messageReceived(header[0], header[1], buffer);
                         } else {
-                            mMessageListener.messageReceived(temp[5], buffer);
+                            //TODO handle strange statuses
                         }
-                    }
-                    if (read == -1) {
-                        if (mMessageListener != null) {
-                            Log.wtf("READ -1", "+");
-                            mMessageListener.connectionLost();
+                        if (read == -1) {
+                            if (mMessageListener != null) {
+                                Log.wtf("READ -1", "+");
+                                mMessageListener.connectionLost();
+                            }
                         }
                     }
                 }
@@ -102,7 +107,7 @@ public class TCPClient {
     }
 
     public interface OnMessageReceived {
-        void messageReceived(byte command, byte[] message);
+        void messageReceived(byte command, byte status, byte[] message);
         void outputStreamCreated();
         void connectionLost();
     }

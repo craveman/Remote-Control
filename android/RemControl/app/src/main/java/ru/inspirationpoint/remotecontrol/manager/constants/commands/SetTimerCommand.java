@@ -24,14 +24,13 @@ public class SetTimerCommand extends CommonTCPCommand {
         ByteArrayOutputStream b1 = new ByteArrayOutputStream();
         DataOutputStream s1 = new DataOutputStream(b1);
         try {
-            s1.writeByte(mode);
             s1.write(intToBytes((int)time));
+            s1.writeByte(mode);
         } catch (IOException e) {
             e.printStackTrace();
         }
         body = b1.toByteArray();
         cmd = CommandsContract.SETTIMER_TCP_CMD;
-        Log.wtf("IN CMD", time + "");
         return super.getBytes();
     }
 

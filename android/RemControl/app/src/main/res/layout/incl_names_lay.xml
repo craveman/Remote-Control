@@ -41,105 +41,105 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".14" />
+            app:layout_constraintGuide_percent=".11" />
 
         <android.support.constraint.Guideline
             android:id="@+id/names_title_1_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".20" />
+            app:layout_constraintGuide_percent=".17" />
 
         <android.support.constraint.Guideline
             android:id="@+id/names_name_1_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".24" />
+            app:layout_constraintGuide_percent=".21" />
 
         <android.support.constraint.Guideline
             android:id="@+id/names_name_1_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".36" />
+            app:layout_constraintGuide_percent=".33" />
 
         <android.support.constraint.Guideline
             android:id="@+id/names_title_2_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".385" />
+            app:layout_constraintGuide_percent=".315" />
 
         <android.support.constraint.Guideline
             android:id="@+id/names_title_2_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".445" />
+            app:layout_constraintGuide_percent=".375" />
 
         <android.support.constraint.Guideline
             android:id="@+id/names_name_2_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".465" />
+            app:layout_constraintGuide_percent=".395" />
 
         <android.support.constraint.Guideline
             android:id="@+id/names_name_2_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".585" />
+            app:layout_constraintGuide_percent=".515" />
 
         <android.support.constraint.Guideline
             android:id="@+id/names_btn_ok_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".56" />
+            app:layout_constraintGuide_percent=".49" />
 
         <android.support.constraint.Guideline
             android:id="@+id/names_btn_ok_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".61" />
+            app:layout_constraintGuide_percent=".54" />
 
         <android.support.constraint.Guideline
             android:id="@+id/names_divider_2_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".63" />
+            app:layout_constraintGuide_percent=".56" />
 
         <android.support.constraint.Guideline
             android:id="@+id/names_btn_swap_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".65" />
+            app:layout_constraintGuide_percent=".58" />
 
         <android.support.constraint.Guideline
             android:id="@+id/names_btn_swap_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".70" />
+            app:layout_constraintGuide_percent=".63" />
 
         <android.support.constraint.Guideline
             android:id="@+id/names_divider_3_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".72" />
+            app:layout_constraintGuide_percent=".65" />
 
         <android.support.constraint.Guideline
             android:id="@+id/names_btn_cancel_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".88" />
+            app:layout_constraintGuide_percent=".86" />
 
         <android.support.constraint.Guideline
             android:id="@+id/names_btn_cancel_bottom"
@@ -151,7 +151,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="@string/fa_surnames"
+            android:text="@string/names"
             android:textColor="@color/textColorSecondary"
             android:id="@+id/names_title"
             android:textAlignment="center"
@@ -211,6 +211,7 @@
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform"
                 android:imeOptions="flagNoExtractUi|actionSearch"
+                android:maxLength="14"
                 android:inputType="textCapSentences"
                 android:paddingRight="32dp"
                 app:configuration="@{viewModel.configLeft}"/>
@@ -260,6 +261,7 @@
                 app:autoSizeMinTextSize="12sp"
                 app:autoSizeStepGranularity="2sp"
                 app:autoSizeTextType="uniform"
+                android:maxLength="14"
                 android:imeOptions="flagNoExtractUi|actionSearch"
                 android:inputType="textCapSentences"
                 android:paddingRight="32dp"

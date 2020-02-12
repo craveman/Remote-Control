@@ -77,7 +77,9 @@ public class FightRestoreDialog extends DialogFragment {
             listener.onDecline();
             dismiss();
         });
-        return builder.setView(contentView).show();
+        AlertDialog d = builder.setView(contentView).show();
+        d.setCanceledOnTouchOutside(false);
+        return d;
     }
 
     @Override

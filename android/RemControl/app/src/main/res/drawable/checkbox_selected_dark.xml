@@ -9,10 +9,6 @@
                 android:width="4dp"
                 android:color="@color/textColorSecondary">
             </stroke>
-            <size
-                android:width="25dp"
-                android:height="25dp"
-                />
         </shape>
     </item>
 

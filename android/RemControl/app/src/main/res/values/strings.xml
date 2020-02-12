@@ -9,7 +9,7 @@
     <string name="login">Enter</string>
     <string name="registration">Registration</string>
     <string name="main">Inspiration Point</string>
-    <string name="fight">Fight</string>
+    <string name="fight">Bout</string>
     <string name="fight_result_title" formatted="false">%s %d : %d %s</string>
     <string name="new_fight">New fight</string>
     <string name="training_sessions">Sessions</string>
@@ -147,7 +147,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="warning">Warning!</string>
-    <string name="priority_title">Priority</string>
+    <string name="priority_title">priority</string>
     <string name="card_title">Warnings</string>
     <string name="time_period">Time</string>
     <string name="select_period">Select period</string>
@@ -159,8 +159,8 @@
     <string name="reset_to_three_mins_confirm">"Reset timer to 3:00? "</string>
     <string name="action_pause">Pause (1 min)</string>
     <string name="pause_confirmation">Set pause to 1 minute?</string>
-    <string name="reset_confirm">Perform reset?</string>
-    <string name="score">Score</string>
+    <string name="reset_confirm">Reset</string>
+    <string name="score">score</string>
     <string name="action">Action:</string>
     <string name="start_time">Start time:</string>
     <string name="full_time">Full time:</string>
@@ -251,7 +251,7 @@
     <string name="camera">Camera</string>
     <string name="err_no_cameras">No available cameras</string>
     <string name="video_replay">Video replay</string>
-    <string name="video">Video:</string>
+    <string name="video">Video</string>
     <string name="selected_cam">Camera: %s</string>
     <string name="video_speed">Speed: %s</string>
     <string name="disconnect_title">Disconnect?</string>
@@ -272,12 +272,12 @@
     <string name="fa_sync_message">Remote control is not connected to the device</string>
     <string name="fa_timers_period_score">Timers</string>
     <string name="fa_warnings_priority">Penalties</string>
-    <string name="fa_medical_pause">Medical pause</string>
+    <string name="fa_medical_pause">medical pause</string>
     <string name="fa_warnings">Cards</string>
     <string name="fa_p_warnings">P - Cards</string>
-    <string name="fa_passive_title">Passive</string>
-    <string name="fa_passive_remove">Remove passive fight timer?</string>
-    <string name="fa_passive_display">Display passive fight timer?</string>
+    <string name="fa_passive_title">N-C Timer</string>
+    <string name="fa_passive_remove">Non-combat timer</string>
+    <string name="fa_passive_display">Non-combat timer</string>
     <string name="fa_passive_explanation_1">The passive fight timer is 1 minute since the last hit inflicted by any fighter. </string>
     <string name="fa_passive_explanation_2">Displayed as a decreasing white counter below the fight timer.</string>
     <string name="fa_remove_priority">Remove priority</string>
@@ -289,7 +289,7 @@
     <string name="fa_fight_timer">Fight timer</string>
     <string name="fa_video_replays_display_q">Display video replays counter?</string>
     <string name="fa_device_reset">Bout reset</string>
-    <string name="fa_weapon_type">Weapon type</string>
+    <string name="fa_weapon_type">Weapon</string>
     <string name="fa_surnames">Surnames</string>
     <string name="fa_pause_full">Pause 1 minute</string>
     <string name="fa_next">Next</string>
@@ -307,14 +307,14 @@
     <string name="ask_next">Ask next</string>
     <string name="fight_waiting">Waiting data from competition info system server</string>
     <string name="fight_start_ready">All is ready. Activate fight?</string>
-    <string name="semi_1_0">SEMI 1.0</string>
+    <string name="semi_1_0"> </string>
     <string name="fight_end_ask">Finish fight?</string>
-    <string name="fight_end_error">Сant finish fight with an equal score</string>
+    <string name="fight_end_error">Сan not finish fight</string>
     <string name="fight_end_accept">Fight finished</string>
     <string name="fight_no_active">No active fights. request next or previous fight from server.</string>
-    <string name="semi_exit_ask">Exit from SEMI 1.0 mode</string>
+    <string name="semi_exit_ask">Exit from Cyrano mode</string>
     <string name="options">Options</string>
-    <string name="names">Names</string>
+    <string name="names">names</string>
     <string name="country">Country</string>
     <string name="photo">Photo</string>
     <string name="competition">Competition/Stage</string>
@@ -328,7 +328,7 @@
     <string name="unfinished_accept">Restore</string>
     <string name="period_finished">Period finished</string>
     <string name="pause_start_ask">Start pause before new period?</string>
-    <string name="wifi_off_error">Please turn on WiFi in phone settings and connect to piste WiFi network</string>
+    <string name="wifi_off_error">Please check WiFi is on and connect to piste WiFi network</string>
     <string name="wifi_off_title">WiFi is off!</string>
     <string name="player_title">Video watching</string>
     <string name="seek_title">Position</string>
@@ -342,5 +342,38 @@
     <string name="piste">Piste</string>
     <string name="phrases">Actions</string>
     <string name="fa_p_cards">P - cards</string>
+    <string name="exit_app_title">Exit</string>
+    <string name="exit_app_question">Close application?</string>
+    <string name="sync_warn_check_wifi"><![CDATA[Unable to connect.
+Do you connected to necessary network, displayed on SM02?
+ Current network: %s ]]></string>
+    <string name="extras">Extras</string>
+    <string name="bt_title" translatable="false">Bluetooth</string>
+    <string name="bt_explain">"By default, the Sm02 visibility for other bluetooth devices is disabled. Turn it on if you want to reconnect the remote for AndroidTV. Otherwise, do not change this setting. "</string>
+    <string name="bt_off">Invisible</string>
+    <string name="bt_on">Discoverable</string>
+    <string name="protocol">Protocol</string>
+    <string name="p_rc_left">P red left</string>
+    <string name="p_rc_right">P red right</string>
+    <string name="p_yc_left">P yellow left</string>
+    <string name="p_yc_right">P yellow right</string>
+    <string name="p_bc_left">P black left</string>
+    <string name="p_bc_right">P black right</string>
+    <string name="bc_left">Black left</string>
+    <string name="bc_right">Black right</string>
+    <string name="pause_finish_ask">Pause break</string>
+    <string name="pause_call_message">Perform pause?</string>
+    <string name="cyrano_title">Fight regime</string>
+    <string name="practice">Practice</string>
+    <string name="end">End</string>
+    <string name="black">Black</string>
+    <string name="hold_to_reset">* hold to reset</string>
+    <string name="passive_timer">non-combat timer</string>
+    <string name="fight_timer_lowcase">fight timer</string>
+    <string name="remove_fight">Remove fight</string>
+    <string name="more_btn">more</string>
+    <string name="default_value">default value</string>
+    <string name="hold">hold</string>
+    <string name="play_video_from">Play video from</string>
 
 </resources>

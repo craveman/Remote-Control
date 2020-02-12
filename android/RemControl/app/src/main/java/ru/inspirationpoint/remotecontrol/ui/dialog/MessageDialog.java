@@ -11,6 +11,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -57,47 +59,29 @@ public class MessageDialog extends DialogFragment {
         mMessageId = getArguments().getInt(MESSAGE_ID_PARAM);
         String title = getArguments().getString(TITLE_PARAM);
         String message = getArguments().getString(MESSAGE_PARAM);
-
+        LayoutInflater inflater = getActivity().getLayoutInflater();
         AlertDialog.Builder builder = SettingsManager.getValue(CommonConstants.IS_DARK_THEME, false) ?
                 new AlertDialog.Builder(getActivity(), R.style.AppThemeDark_AlertDialogTheme) :
                 new AlertDialog.Builder(getActivity());
 
-        Dialog d = builder.setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (mListener != null) {
-                            mListener.onMessageDialogDismissed(mMessageId);
-                        }
-                        dismiss();
-                    }
-                }).show();
+        View contentView = inflater.inflate(R.layout.dlg_message, null);
 
-        TextView tvMess = d.getWindow().findViewById(android.R.id.message);
-        Button btn1 = d.getWindow().findViewById(android.R.id.button1);
-        Button btn2 = d.getWindow().findViewById(android.R.id.button2);
-        Button btn3 = d.getWindow().findViewById(android.R.id.button3);
+        TextView messageTitle = contentView.findViewById(R.id.message_title);
+        messageTitle.setTypeface(InspirationDayApplication.getCustomFontTypeface());
+        messageTitle.setText(title);
+        TextView messageText = contentView.findViewById(R.id.message_content);
+        messageText.setTypeface(InspirationDayApplication.getCustomFontTypeface());
+        messageText.setText(message);
+        TextView btnOk = contentView.findViewById(R.id.msg_confirm);
+        btnOk.setTypeface(InspirationDayApplication.getCustomFontTypeface());
+        btnOk.setOnClickListener(view -> {
+            if (mListener != null) {
+                mListener.onMessageDialogDismissed(mMessageId);
+            }
+            dismiss();
+        });
 
-        tvMess.setTypeface(InspirationDayApplication.getCustomFontTypeface());
-        tvMess.setSingleLine(false);
-        tvMess.setLines(4);
-        btn1.setTypeface(InspirationDayApplication.getCustomFontTypeface());
-        btn1.setTextColor(getActivity().getResources().getColor(R.color.textColorSecondary));
-        btn2.setTypeface(InspirationDayApplication.getCustomFontTypeface());
-        btn3.setTypeface(InspirationDayApplication.getCustomFontTypeface());
-
-//        builder.setTitle(title)
-//                .setMessage(message)
-//                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        if (mListener != null) {
-//                            mListener.onMessageDialogDismissed(mMessageId);
-//                        }
-//                    }
-//                });
-        return d;
+        return builder.setView(contentView).show();
     }
 
     @Override

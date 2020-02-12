@@ -26,9 +26,9 @@ public class TCPHelper extends Thread {
         mTcpClient = new TCPClient(new TCPClient.OnMessageReceived() {
 
             @Override
-            public void messageReceived(byte command, byte[] message) {
+            public void messageReceived(byte command, byte status, byte[] message) {
                 if (listener != null) {
-                    listener.onReceive(command, message);
+                    listener.onReceive(command, status, message);
                 }
             }
 
@@ -81,7 +81,7 @@ public class TCPHelper extends Thread {
     }
 
     public interface TCPListener {
-        void onReceive(byte command, byte[] message);
+        void onReceive(byte command, byte status, byte[] message);
         void onStreamCreated();
         void onDisconnect();
     }

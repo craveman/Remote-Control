@@ -2,11 +2,10 @@ package ru.inspirationpoint.remotecontrol.manager.constants.commands;
 
 public interface CommandsContract {
 
-    int HEADER_LENGTH = 6;
+    int HEADER_LENGTH = 4;
     byte PROTOCOL_VERSION = (byte)0x01;
 
-    byte PING_TCP_CMD = (byte)0x01;
-    byte SETNAME_TCP_CMD = (byte) 0x02;
+    byte SETNAME_TCP_CMD = (byte) 0x01;
     byte SETSCORE_TCP_CMD = (byte) 0x03;
     byte SETCARD_TCP_CMD = (byte) 0x04;
     byte SETPRIORITY_TCP_CMD = (byte) 0x05;
@@ -41,6 +40,13 @@ public interface CommandsContract {
     byte ETH_ACK_NAK = (byte) 0x22;
     byte AUTH_TCP_CMD = (byte) 0x23;
     byte AUTH_RESPONSE = (byte) 0x24;
+    byte VIDEO_TRANSFER_ABORT = (byte) 0x25;
+    byte RESPONSE_CMD = (byte) 0xAA;
+
+    byte SET_BLUETOOTH_MODE = (byte) 0xB0;
+
+    byte PING_IN = (byte) 0xF1;
+    byte PING_OUT = (byte) 0xF2;
 
     //TODO REMOVE TEMP AND ASK FOR DEVICES
 
@@ -48,7 +54,9 @@ public interface CommandsContract {
     byte CODE_INCORRECT_AUTH = (byte) 0x81;
     byte RC_EXISTS_AUTH = (byte) 0x82;
 
-    byte CAMERA_ONLINE = (byte) 0x66;
+    byte ADD_STATE = (byte) 0x66;
+
+    byte END_USB_MODE = (byte) 0x90;
 
     int PERSON_TYPE_LEFT = 1;
     int PERSON_TYPE_RIGHT = 2;

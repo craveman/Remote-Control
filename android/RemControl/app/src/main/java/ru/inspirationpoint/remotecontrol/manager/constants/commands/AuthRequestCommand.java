@@ -33,6 +33,7 @@ public class AuthRequestCommand extends CommonTCPCommand {
             s1.writeByte(nameLen);
             byte[] buf2 = name.getBytes(StandardCharsets.UTF_8);
             s1.write(buf2);
+            s1.writeByte(0);
         } catch (IOException e) {
             e.printStackTrace();
         }

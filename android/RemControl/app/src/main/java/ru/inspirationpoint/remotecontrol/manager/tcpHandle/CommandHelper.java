@@ -107,8 +107,18 @@ public class CommandHelper {
         return command.getBytes();
     }
 
+    public static byte[] transferAbort() {
+        VideoAbortCommand command = new VideoAbortCommand();
+        return command.getBytes();
+    }
+
     public static byte[] auth(String code, String name) {
         AuthRequestCommand command = new AuthRequestCommand(code, name);
+        return command.getBytes();
+    }
+
+    public static byte[] endUsb() {
+        EndUsbCommand command = new EndUsbCommand();
         return command.getBytes();
     }
 

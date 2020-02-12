@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.os.PowerManager;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -40,18 +41,27 @@ import ru.inspirationpoint.remotecontrol.ui.dialog.FightApplyDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.FightFinishAskDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.FightFinishedDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.FightRestoreDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.MessageDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.PhraseDialog;
 
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UNFINISHED_FIGHT;
+import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.TIMER_STATE_IN_PROGRESS;
 
 
 public class FightActivity extends BindingActivity<ActivityFightBinding, FightActivityVM> implements
         FightApplyDialog.ApplyListener, FightFinishedDialog.FightFinishedListener,
         FightFinishAskDialog.FightFinisAskListener, FightRestoreDialog.RestoreListener, PhraseDialog.Listener,
-        ConfirmationDialog.Listener {
+        ConfirmationDialog.Listener, MessageDialog.Listener {
 
 
     private int currentApiVersion;
+    public static final int PAUSE_START_MESSAGE = 456;
+    public static final int PAUSE_FINISH_MESSAGE = 435;
+    public static final int RESET_MESSAGE = 424;
+    public static final int EXIT_MESSAGE = 283;
+    public static final int WIFI_MESSAGE = 7585;
+    public static final int PAUSE_CALL_MAIN_MESSAGE = 457;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -141,7 +151,7 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
     @Override
     public void onBackPressed() {
         if (getViewModel().screenState.get() != FightActivityVM.SCREEN_SYNC_LAY &&
-                getViewModel().timerState.get() != FightActivityVM.TIMER_STATE_IN_PROGRESS) {
+                getViewModel().timerState.get() != TIMER_STATE_IN_PROGRESS) {
             getViewModel().onCloseBtn();
         }
     }
@@ -211,50 +221,7 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
 
     @Override
     public void onDecline() {
-        getViewModel().fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
-        SettingsManager.setValue(UNFINISHED_FIGHT, getViewModel().fightId);
-        getViewModel().onMenuDeviceReset();
-//        if (DataManager.instance().getCurrentFight() != null) {
-//            getViewModel().fightData = DataManager.instance().getCurrentFight();
-//        } else {
-//            getViewModel().fightData = new FightData("", new Date(), new FighterData("", getViewModel().leftName),
-//                    new FighterData("", getViewModel().rightName),
-//                    "", SettingsManager.getValue(CommonConstants.LAST_USER_NAME_FIELD, ""));
-//        }
-//        DataManager.instance().saveFight(Helper.convertFightDataToInput(getViewModel().fightData), new DataManager.RequestListener<SaveFightResult>() {
-//            @Override
-//            public void onSuccess(SaveFightResult result) {
-//                SettingsManager.setValue(CommonConstants.LAST_FIGHT_ID, result.fight._id);
-//                Log.wtf("Fight ID", result.fight._id);
-//            }
-//
-//            @Override
-//            public void onFailed(String error, String message) {
-//                Log.wtf("ERR FIGHT UPL", error + "|" + message);
-//            }
-//
-//            @Override
-//            public void onStateChanged(boolean inProgress) {
-//            }
-//        });
-    }
-
-    public void showPhraseDialog(boolean left) {
-        PhraseDialog.show(this, left);
-    }
-
-    @Override
-    public void onEventSelected(int position, boolean isLeft, boolean cancelled) {
-        getViewModel().onPhraseSelected(position, isLeft);
-    }
-
-    @Override
-    public void onConfirmed(int messageId) {
-        if (messageId == 456) {
-            getViewModel().onMenuPause();
-        } else if (messageId == 424) {
-            getViewModel().core.vibr();
-            getViewModel().isFightReady.set(true);
+        getViewModel().core.vibr();
 //        DataManager.instance().saveFight(Helper.convertFightDataToInput(fightData), new DataManager.RequestListener<SaveFightResult>() {
 //            @Override
 //            public void onSuccess(SaveFightResult result) {
@@ -271,9 +238,61 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
 //            public void onStateChanged(boolean inProgress) {
 //            }
 //        });
-            getViewModel().fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
-            SettingsManager.setValue(UNFINISHED_FIGHT, getViewModel().fightId);
-            getViewModel().reset();
+        getViewModel().fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
+        SettingsManager.setValue(UNFINISHED_FIGHT, getViewModel().fightId);
+        getViewModel().reset();
+    }
+
+    public void showPhraseDialog(boolean left) {
+        PhraseDialog.show(this, left);
+    }
+
+    @Override
+    public void onEventSelected(int position, boolean isLeft, boolean cancelled) {
+        getViewModel().onPhraseSelected(position, isLeft);
+    }
+
+    @Override
+    public void onConfirmed(int messageId) {
+        switch (messageId) {
+            case PAUSE_START_MESSAGE:
+                getViewModel().performPause();
+                break;
+            case RESET_MESSAGE:
+                getViewModel().core.vibr();
+//        DataManager.instance().saveFight(Helper.convertFightDataToInput(fightData), new DataManager.RequestListener<SaveFightResult>() {
+//            @Override
+//            public void onSuccess(SaveFightResult result) {
+//                SettingsManager.setValue(CommonConstants.LAST_FIGHT_ID, result.fight._id);
+//                Log.wtf("Fight ID", result.fight._id);
+//            }
+//
+//            @Override
+//            public void onFailed(String error, String message) {
+//                Log.wtf("ERR FIGHT UPL", error + "|" + message);
+//            }
+//
+//            @Override
+//            public void onStateChanged(boolean inProgress) {
+//            }
+//        });
+                getViewModel().fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
+                SettingsManager.setValue(UNFINISHED_FIGHT, getViewModel().fightId);
+                getViewModel().reset();
+                break;
+            case EXIT_MESSAGE:
+                finishAndRemoveTask();
+                System.exit(0);
+                break;
+            case WIFI_MESSAGE:
+                startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                break;
+            case PAUSE_FINISH_MESSAGE:
+                getViewModel().pauseBreak();
+                break;
+            case PAUSE_CALL_MAIN_MESSAGE:
+                getViewModel().performPause();
+                break;
         }
     }
 
@@ -281,6 +300,38 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
     public void onConfirmDeclined(int messageId) {
         if (messageId == 424) {
             getViewModel().isSM01alive.set(true);
+        } else if (messageId == 7585) {
+            finishAndRemoveTask();
+            System.exit(0);
+        } else if (messageId == PAUSE_START_MESSAGE) {
+            getViewModel().pauseBreak();
+        }
+    }
+
+    @Override
+    public void onMessageDialogDismissed(int messageId) {
+        if (messageId == 145965) {
+            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+        }
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int action = event.getAction();
+        int keyCode = event.getKeyCode();
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                if (action == KeyEvent.ACTION_DOWN) {
+                    if (getViewModel().timerState.get() == TIMER_STATE_IN_PROGRESS) {
+                        getViewModel().onTimerStopClick();
+                    } else {
+                        getViewModel().onTimerStartClick();
+                    }
+                }
+                return true;
+            default:
+                return super.dispatchKeyEvent(event);
         }
     }
 }
