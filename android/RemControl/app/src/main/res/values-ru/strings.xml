@@ -336,7 +336,7 @@
     <string name="seek_title">Позиция</string>
     <string name="speed_title">Скорость</string>
     <string name="sm_off">SM01 отключен! Подключите устройство для продолжения</string>
-    <string name="end_bout">Завершить бой</string>
+    <string name="end_bout">Отправить бой</string>
     <string name="close">Закрыть</string>
     <string name="timer_set">Настройка времени боя</string>
     <string name="passive_timer_set">Настройка таймера пассива</string>
@@ -371,9 +371,10 @@
     <string name="passive_timer">пассив</string>
     <string name="fight_timer_lowcase">таймер боя</string>
     <string name="remove_fight">Убрать бой</string>
-    <string name="more_btn">ещё</string>
+    <string name="more_btn">Eщё</string>
     <string name="default_value">начальное значение</string>
     <string name="hold">фикс.</string>
     <string name="play_video_from">Воспр. видео из</string>
+    <string name="wait_bout">Ожидать бой</string>
 
 </resources>

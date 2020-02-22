@@ -371,9 +371,10 @@ Do you connected to necessary network, displayed on SM02?
     <string name="passive_timer">non-combat timer</string>
     <string name="fight_timer_lowcase">fight timer</string>
     <string name="remove_fight">Remove fight</string>
-    <string name="more_btn">more</string>
+    <string name="more_btn">More</string>
     <string name="default_value">default value</string>
     <string name="hold">hold</string>
     <string name="play_video_from">Play video from</string>
+    <string name="wait_bout">Wait bout</string>
 
 </resources>

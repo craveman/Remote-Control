@@ -41,6 +41,10 @@ public interface CommandsContract {
     byte AUTH_TCP_CMD = (byte) 0x23;
     byte AUTH_RESPONSE = (byte) 0x24;
     byte VIDEO_TRANSFER_ABORT = (byte) 0x25;
+
+    byte SETID_TCP_CMD = (byte) 0x26;
+
+
     byte RESPONSE_CMD = (byte) 0xAA;
 
     byte SET_BLUETOOTH_MODE = (byte) 0xB0;

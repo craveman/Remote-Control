@@ -54,6 +54,7 @@ import java.util.concurrent.TimeUnit;
 import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
 import ru.inspirationpoint.remotecontrol.R;
 import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.ListUser;
+import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.Message;
 import ru.inspirationpoint.remotecontrol.manager.FightersAutoComplConfig;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
 import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
@@ -85,10 +86,13 @@ import static android.content.Context.WIFI_SERVICE;
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.*;
 import static ru.inspirationpoint.remotecontrol.manager.constants.ISEMIContract.ETH_SM_STATE_WAITING;
 import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.*;
+import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivity.END_FIGHT_MESSAGE;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivity.EXIT_MESSAGE;
+import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivity.FIGHT_FINISHED_OK;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivity.PAUSE_CALL_MAIN_MESSAGE;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivity.PAUSE_FINISH_MESSAGE;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivity.PAUSE_START_MESSAGE;
+import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivity.REMOVE_FIGHT_MESSAGE;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivity.RESET_MESSAGE;
 
 
@@ -206,6 +210,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
     public ObservableField<String> leftName = new ObservableField<>("");
     public ObservableField<String> rightName = new ObservableField<>("");
+    private ObservableField<String> leftId= new ObservableField<>("");
+    private ObservableField<String> rightId= new ObservableField<>("");
     private boolean timerStateChanged = false;
     private String competition = "";
 
@@ -441,29 +447,29 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                     uiHandler.removeCallbacksAndMessages(null);
                 } else {
                     screenState.set(SCREEN_SYNC_LAY);
-                    //TODO notify user about no sync state
+                    //TODO resume to select network (now programmatically, not from settings)
                     if (syncState.get()==SYNC_STATE_SYNCING) {
                         uiHandler.postDelayed(() -> {
                             onSyncCancel();
-                            WifiManager wm = (WifiManager) InspirationDayApplication.getApplication().getApplicationContext().getSystemService(WIFI_SERVICE);
-                            String ssid = "No WiFi";
-                            List<WifiConfiguration> listOfConfigurations = null;
-                            if (wm != null) {
-                                listOfConfigurations = wm.getConfiguredNetworks();
-                                for (int index = 0; index < listOfConfigurations.size(); index++) {
-                                    WifiConfiguration configuration = listOfConfigurations.get(index);
-                                    if (configuration.networkId == wm.getConnectionInfo().getNetworkId()) {
-                                        ssid = configuration.SSID.replaceAll("\\p{P}","");
-                                    }
-                                }
-                            } else {
-                                ssid = "No WiFi";
-                            }
-
-                            MessageDialog.show(getActivity(),
-                                    145965, "",
-                                    getActivity().getResources().getString(R.string.sync_warn_check_wifi,
-                                            ssid));
+//                            WifiManager wm = (WifiManager) InspirationDayApplication.getApplication().getApplicationContext().getSystemService(WIFI_SERVICE);
+//                            String ssid = "No WiFi";
+//                            List<WifiConfiguration> listOfConfigurations = null;
+//                            if (wm != null) {
+//                                listOfConfigurations = wm.getConfiguredNetworks();
+//                                for (int index = 0; index < listOfConfigurations.size(); index++) {
+//                                    WifiConfiguration configuration = listOfConfigurations.get(index);
+//                                    if (configuration.networkId == wm.getConnectionInfo().getNetworkId()) {
+//                                        ssid = configuration.SSID.replaceAll("\\p{P}","");
+//                                    }
+//                                }
+//                            } else {
+//                                ssid = "No WiFi";
+//                            }
+//
+//                            MessageDialog.show(getActivity(),
+//                                    145965, "",
+//                                    getActivity().getResources().getString(R.string.sync_warn_check_wifi,
+//                                            ssid));
                         }, 15000);
                     } else {
                         uiHandler.removeCallbacksAndMessages(null);
@@ -566,6 +572,19 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 core.getFightHandler().setName(PERSON_TYPE_RIGHT, rightName.get());
+            }
+        });
+
+        leftId.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                core.getFightHandler().setId(PERSON_TYPE_LEFT, leftId.get());
+            }
+        });
+        rightId.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                core.getFightHandler().setId(PERSON_TYPE_RIGHT, rightId.get());
             }
         });
 
@@ -925,6 +944,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 priority.set(info.getmPriority());
                 videosLeft.set(info.getmVideoLeft());
                 videosRight.set(info.getmVideoRight());
+                leftId.set(info.getLeftFighter().getId());
+                rightId.set(info.getRightFighter().getId());
                 int rcl = info.getLeftFighter().getRedCardCount();
                 if (rcl != 0) {
                     for (int i = 0; i < rcl; i++) {
@@ -937,6 +958,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                         leftCard.set(CARD_STATE_YELLOW);
                     } else if (info.getLeftFighter().getmCard() == CardStatus.CardStatus_Black) {
                         leftCard.set(CARD_STATE_BLACK);
+                    } else {
+                        leftCard.set(CARD_STATE_NONE);
                     }
                 }
 
@@ -952,6 +975,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                         rightCard.set(CARD_STATE_YELLOW);
                     } else if (info.getRightFighter().getmCard() == CardStatus.CardStatus_Black) {
                         rightCard.set(CARD_STATE_BLACK);
+                    } else  {
+                        rightCard.set(CARD_STATE_NONE);
                     }
                 }
 
@@ -969,6 +994,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                         leftPCard.set(CARD_STATE_YELLOW);
                     } else if (info.getLeftFighter().getmPCard() == CardStatus.CardPStatus_Black) {
                         leftPCard.set(CARD_STATE_BLACK);
+                    } else {
+                        leftPCard.set(CARD_STATE_NONE);
                     }
                 }
 
@@ -985,11 +1012,10 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                         rightPCard.set(CARD_STATE_YELLOW);
                     } else if (info.getRightFighter().getmPCard() == CardStatus.CardPStatus_Black) {
                         rightPCard.set(CARD_STATE_BLACK);
+                    } else {
+                        rightPCard.set(CARD_STATE_NONE);
                     }
                 }
-                uiHandler.postDelayed(() -> {
-                    isSemiInWork.set(false);
-                }, 800);
             }
         }, 700);
     }
@@ -1373,6 +1399,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         rightCard.set(CARD_STATE_NONE);
         leftName.set("");
         rightName.set("");
+        leftId.set("");
+        rightId.set("");
         activity.getBinding().namesLay.leftFighter.setText("");
         activity.getBinding().namesLay.rightFighter.setText("");
         leftScore.set(0);
@@ -1552,7 +1580,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 priority.get() == PERSON_TYPE_NONE) {
             FightCantEndDialog.show(getActivity(), withSEMI.get());
         } else {
-            onFightFinishBegin();
+            ConfirmationDialog.show(getActivity(), END_FIGHT_MESSAGE, "", getActivity().getResources().getString(R.string.fight_end_ask));
         }
     }
 
@@ -1563,8 +1591,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //            fightFinish();
 //            goToNewFight();
 //        }
-        screenState.set(SCREEN_MAIN);
-        isSemiInWork.set(false);
+//        screenState.set(SCREEN_MAIN);
         core.sendToSM(new EthernetFinishAskCommand().getBytes());
     }
 
@@ -1636,28 +1663,47 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public void fightApplyOk() {
         core.vibr();
         screenState.set(SCREEN_MAIN);
+        isSemiInWork.set(false);
+        uiHandler.postDelayed(() ->
+                core.sendToSM(new EthernetApplyFightCommand(ethNecessaryInfo).getBytes()), 500);
+        dispDataFirst.set("");
+        dispDataSecond.set("");
     }
 
 
     //TODO SWAP 1 AND 0 in NEXTPREVCMD values
     public void fightNext() {
         core.vibr();
+        isSemiInWork.set(false);
         core.sendToSM(new EthNextPrevCommand(1).getBytes());
         isFightFinishInProgress = false;
         screenState.set(SCREEN_STATE_WAITING);
+        dispDataFirst.set("");
+        dispDataSecond.set("");
+
     }
 
     public void fightPrev() {
         core.vibr();
+        isSemiInWork.set(false);
         core.sendToSM(new EthNextPrevCommand(0).getBytes());
         isFightFinishInProgress = false;
         screenState.set(SCREEN_STATE_WAITING);
+        dispDataFirst.set("");
+        dispDataSecond.set("");
     }
 
     public void fightRemove() {
         core.vibr();
-        core.sendToSM(new EthNextPrevCommand(2).getBytes());
-        screenState.set(SCREEN_STATE_WAITING);
+        //TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        core.sendToSM(new EthNextPrevCommand(1).getBytes());
+//        screenState.set(SCREEN_STATE_WAITING);
+    }
+
+    public void fightRemoveStart() {
+        core.vibr();
+        ConfirmationDialog.show(getActivity(), REMOVE_FIGHT_MESSAGE, "", getActivity().getResources().getString(R.string.wait_bout) + "?");
     }
 
     public void fightFinish() {
@@ -1807,9 +1853,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //                }
                 break;
             case DISP_RECEIVE_CMD:
-                Log.wtf("DISP INIT", Arrays.toString(message));
                 if (!isSemiInWork.get()) {
-                    Log.wtf("DISP MSG", Arrays.toString(message));
                     //TODO create and fill fight data to store it later
                     byte[] dispBuf = new byte[message[0]&0xFF];
                     System.arraycopy(message, 1, dispBuf, 0, message[0]&0xFF);
@@ -1819,8 +1863,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                         dispTempData = dispHandler.getEthFightData();
                         dispDataFirst.set(dispTempData.getLeftFighter().getName() + " - "
                                 + dispTempData.getRightFighter().getName());
-                        dispDataSecond.set(dispTempData.getLeftFighter().getScore() + " : "
-                                + dispTempData.getRightFighter().getScore());
+//                        dispDataSecond.set(dispTempData.getLeftFighter().getScore() + " : "
+//                                + dispTempData.getRightFighter().getScore());
                         ethNecessaryInfo = dispHandler.getInfoMain().getPhase() + "|" +
                                 dispHandler.getInfoMain().getPoulTab() + "|" +
                                 dispHandler.getInfoMain().getMatchNumber() + "|" +
@@ -1832,21 +1876,19 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                         isSemiInWork.set(true);
                         restoreFromExisted(dispTempData);
                         isNamesLocked.set(true);
-                        uiHandler.postDelayed(() ->
-                                core.sendToSM(new EthernetApplyFightCommand(ethNecessaryInfo).getBytes()), 900);
                     }
                 }
 
                 break;
             case ETH_ACK_NAK:
                 if (!isFightFinishInProgress) {
-//                    if (message[0] == 1) {
-//                        FightFinishedDialog.show(getActivity(), getActivity().getResources().getString(R.string.fight_end_accept));
-//                        if (fightFinishAskHandler != null) {
-//                            fightFinishAskHandler.finish();
-//                        }
-//                        isNamesLocked.set(false);
-//                    } else
+                    if (message[0] == 1) {
+                        MessageDialog.show(getActivity(), FIGHT_FINISHED_OK, "", getActivity().getResources().getString(R.string.fight_end_accept));
+                        if (fightFinishAskHandler != null) {
+                            fightFinishAskHandler.finish();
+                        }
+                        isNamesLocked.set(false);
+                    } else
                         if (message[0] == 0) {
                         FightCantEndDialog.show(getActivity(), withSEMI.get());
                         if (fightFinishAskHandler != null) {

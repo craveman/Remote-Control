@@ -45,6 +45,7 @@ import ru.inspirationpoint.remotecontrol.ui.dialog.MessageDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.PhraseDialog;
 
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UNFINISHED_FIGHT;
+import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SCREEN_MAIN;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.TIMER_STATE_IN_PROGRESS;
 
 
@@ -61,6 +62,11 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
     public static final int EXIT_MESSAGE = 283;
     public static final int WIFI_MESSAGE = 7585;
     public static final int PAUSE_CALL_MAIN_MESSAGE = 457;
+
+    public static final int REMOVE_FIGHT_MESSAGE = 255;
+    public static final int END_FIGHT_MESSAGE = 232;
+
+    public static final int FIGHT_FINISHED_OK = 223;
 
 
     @Override
@@ -293,6 +299,12 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
             case PAUSE_CALL_MAIN_MESSAGE:
                 getViewModel().performPause();
                 break;
+            case REMOVE_FIGHT_MESSAGE:
+                getViewModel().fightRemove();
+                break;
+            case END_FIGHT_MESSAGE:
+                getViewModel().onFightFinishBegin();
+                break;
         }
     }
 
@@ -313,6 +325,9 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
         if (messageId == 145965) {
             startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
         }
+//        else if (messageId == FIGHT_FINISHED_OK) {
+//            getViewModel().isSemiInWork.set(false);
+//        }
     }
 
     @Override

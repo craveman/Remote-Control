@@ -25,6 +25,11 @@ public class CommandHelper {
         return command.getBytes();
     }
 
+    public static byte[] setId(int person, String id){
+        SetFighterIdCommand command = new SetFighterIdCommand(person, id);
+        return command.getBytes();
+    }
+
     public static byte[] setCompetition(String name){
         CompetitionSetCommand command = new CompetitionSetCommand(name);
         return command.getBytes();

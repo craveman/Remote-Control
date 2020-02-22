@@ -8,6 +8,8 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -131,25 +133,21 @@ public class CoreHandler implements TCPHelper.TCPListener {
 
     public void tryToConnect() {
         Log.wtf("CODE", SettingsManager.getValue(SM_CODE, "") + "|||" + SettingsManager.getValue(SM_IP, ""));
-        if (tcpHelper == null || !tcpHelper.isConnected()) {
+        if (tcpHelper == null) {
             if (!TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
-                    new Thread(() -> {
-//                        try {
-//                            if (InetAddress.getByName(SettingsManager.getValue(SM_IP, "")).isReachable(200)) {
-//                                Log.wtf("REACH", "++");
-                                tcpHelper = new TCPHelper(SettingsManager.getValue(SM_IP, ""));
-                                tcpHelper.setListener(CoreHandler.this);
-                                tcpHelper.start();
-//                            } else {
-//                                Log.wtf("REACH", "--");
-//                                SettingsManager.removeValue(SM_CODE);
-//                                SettingsManager.removeValue(SM_IP);
-//                                onDisconnect();
-//                            }
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-                    }).start();
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(() -> {
+                    tcpHelper = new TCPHelper(SettingsManager.getValue(SM_IP, ""));
+                    tcpHelper.setListener(CoreHandler.this);
+                    tcpHelper.start();
+                }, 1000);
+            } else if (!tcpHelper.isConnected()) {
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(() -> {
+                    tcpHelper = new TCPHelper(SettingsManager.getValue(SM_IP, ""));
+                    tcpHelper.setListener(CoreHandler.this);
+                    tcpHelper.start();
+                }, 1000);
             } else {
                 SettingsManager.removeValue(SM_CODE);
                 SettingsManager.removeValue(SM_IP);

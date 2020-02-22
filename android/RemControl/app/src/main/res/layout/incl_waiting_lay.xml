@@ -61,6 +61,19 @@
         app:layout_constraintGuide_percent=".21" />
 
         <android.support.constraint.Guideline
+            android:id="@+id/cyrano_item1__temp_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".175" />
+        <android.support.constraint.Guideline
+            android:id="@+id/cyrano_item1_temp_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".245" />
+
+        <android.support.constraint.Guideline
             android:id="@+id/cyrano_item2_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -177,8 +190,8 @@
             android:layout_height="0dp"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:onClick="@{() -> viewModel.fightRemove()}"
-            android:text="@string/remove_fight"
+            android:onClick="@{() -> viewModel.fightRemoveStart()}"
+            android:text="@string/more_btn"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:visibility="@{viewModel.isSemiInWork ? v.GONE : v.VISIBLE}"
@@ -191,66 +204,66 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/cyrano_item3_top" />
 
-        <View
-            android:id="@+id/cyrano_divider_2"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginEnd="40dp"
-            android:background="@color/white"
-            app:layout_constraintTop_toTopOf="@id/cyrano_divider_2_top" />
+        <!--<View-->
+            <!--android:id="@+id/cyrano_divider_2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="2dp"-->
+            <!--android:layout_marginStart="40dp"-->
+            <!--android:layout_marginEnd="40dp"-->
+            <!--android:background="@color/white"-->
+            <!--app:layout_constraintTop_toTopOf="@id/cyrano_divider_2_top" />-->
 
-        <TextView
-            android:id="@+id/cyrano_previous"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:onClick="@{() -> viewModel.fightPrev()}"
-            android:text="@string/prev"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:visibility="@{viewModel.ethState.equals(`W`) ? v.VISIBLE : v.GONE }"
-            app:autoSizeMaxTextSize="100sp"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="2sp"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="@id/cyrano_item2_bottom"
-            app:layout_constraintEnd_toEndOf="@id/cyrano_divider_2_1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/cyrano_item2_top" />
+        <!--<TextView-->
+            <!--android:id="@+id/cyrano_previous"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_marginStart="30dp"-->
+            <!--android:layout_marginEnd="30dp"-->
+            <!--android:onClick="@{() -> viewModel.fightPrev()}"-->
+            <!--android:text="@string/prev"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:visibility="@{viewModel.ethState.equals(`W`) ? v.VISIBLE : v.GONE }"-->
+            <!--app:autoSizeMaxTextSize="100sp"-->
+            <!--app:autoSizeMinTextSize="12sp"-->
+            <!--app:autoSizeStepGranularity="2sp"-->
+            <!--app:autoSizeTextType="uniform"-->
+            <!--app:layout_constraintBottom_toBottomOf="@id/cyrano_item2_bottom"-->
+            <!--app:layout_constraintEnd_toEndOf="@id/cyrano_divider_2_1"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintTop_toTopOf="@id/cyrano_item2_top" />-->
 
-        <View
-            android:id="@+id/cyrano_divider_2_1"
-            android:layout_width="2dp"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:background="@color/white"
-            android:visibility="@{viewModel.ethState.equals(`W`) ? v.VISIBLE : v.GONE }"
-            app:layout_constraintTop_toTopOf="@id/cyrano_divider_2_top"
-            app:layout_constraintBottom_toBottomOf="@id/cyrano_divider_3_top"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        <!--<View-->
+            <!--android:id="@+id/cyrano_divider_2_1"-->
+            <!--android:layout_width="2dp"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_margin="8dp"-->
+            <!--android:background="@color/white"-->
+            <!--android:visibility="@{viewModel.ethState.equals(`W`) ? v.VISIBLE : v.GONE }"-->
+            <!--app:layout_constraintTop_toTopOf="@id/cyrano_divider_2_top"-->
+            <!--app:layout_constraintBottom_toBottomOf="@id/cyrano_divider_3_top"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"/>-->
 
-        <TextView
-            android:id="@+id/cyrano_next"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:onClick="@{() -> viewModel.fightNext()}"
-            android:text="@string/next"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:visibility="@{viewModel.ethState.equals(`W`) ? v.VISIBLE : v.GONE }"
-            app:autoSizeMaxTextSize="100sp"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="2sp"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="@id/cyrano_item2_bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/cyrano_divider_2_1"
-            app:layout_constraintTop_toTopOf="@id/cyrano_item2_top" />
+        <!--<TextView-->
+            <!--android:id="@+id/cyrano_next"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_marginStart="30dp"-->
+            <!--android:layout_marginEnd="30dp"-->
+            <!--android:onClick="@{() -> viewModel.fightNext()}"-->
+            <!--android:text="@string/next"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:visibility="@{viewModel.ethState.equals(`W`) ? v.VISIBLE : v.GONE }"-->
+            <!--app:autoSizeMaxTextSize="100sp"-->
+            <!--app:autoSizeMinTextSize="12sp"-->
+            <!--app:autoSizeStepGranularity="2sp"-->
+            <!--app:autoSizeTextType="uniform"-->
+            <!--app:layout_constraintBottom_toBottomOf="@id/cyrano_item2_bottom"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintStart_toStartOf="@id/cyrano_divider_2_1"-->
+            <!--app:layout_constraintTop_toTopOf="@id/cyrano_item2_top" />-->
 
         <View
             android:id="@+id/cyrano_divider_3"
@@ -267,19 +280,29 @@
             android:layout_height="0dp"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:onClick="@{() -> viewModel.onFightEndStart()}"
+
             android:text="@string/end_bout"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:visibility="@{viewModel.isSemiInWork ? v.GONE : v.VISIBLE}"
+            android:visibility="@{viewModel.ethState.equals(`E`) ? v.GONE : v.VISIBLE }"
             app:autoSizeMaxTextSize="100sp"
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"
             app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="@id/cyrano_item1_bottom"
+            app:layout_constraintBottom_toBottomOf="@id/cyrano_item1_temp_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/cyrano_item1_top" />
+            app:layout_constraintTop_toTopOf="@id/cyrano_item1__temp_top" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:onClick="@{() -> viewModel.onFightEndStart()}"
+            android:visibility="@{viewModel.ethState.equals(`E`) ? v.GONE : v.VISIBLE }"
+            app:layout_constraintBottom_toBottomOf="@id/cyrano_item2_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cyrano_item1_top"/>
 
         <View
             android:id="@+id/cyrano_divider_4"
@@ -345,7 +368,7 @@
             android:text="@string/action_apply"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:visibility="@{viewModel.isSemiInWork ? v.VISIBLE : v.GONE}"
+            android:visibility="@{viewModel.isSemiInWork &amp;&amp; !viewModel.dispDataFirst.equals(``)? v.VISIBLE : v.GONE}"
             app:autoSizeMaxTextSize="100sp"
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"

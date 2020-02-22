@@ -59,7 +59,7 @@ public class TCPClient {
             outputStream.close();
         }
 
-        mMessageListener = null;
+//        mMessageListener = null;
         inputStream = null;
         outputStream = null;
     }
