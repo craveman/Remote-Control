@@ -80,6 +80,11 @@ public class CommandHelper {
         return command.getBytes();
     }
 
+    public static byte[] confirmNames() {
+        ConfirmNamesCommand command = new ConfirmNamesCommand();
+        return command.getBytes();
+    }
+
     public static byte[] ethStart() {
 //        EthernetStartCommand command = new EthernetStartCommand();
 //        Log.wtf("WTH START", "CALLED");

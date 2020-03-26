@@ -43,6 +43,7 @@ import ru.inspirationpoint.remotecontrol.ui.dialog.FightFinishedDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.FightRestoreDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.MessageDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.PhraseDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.WiFiPassDialog;
 
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UNFINISHED_FIGHT;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SCREEN_MAIN;
@@ -52,7 +53,7 @@ import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.TIME
 public class FightActivity extends BindingActivity<ActivityFightBinding, FightActivityVM> implements
         FightApplyDialog.ApplyListener, FightFinishedDialog.FightFinishedListener,
         FightFinishAskDialog.FightFinisAskListener, FightRestoreDialog.RestoreListener, PhraseDialog.Listener,
-        ConfirmationDialog.Listener, MessageDialog.Listener {
+        ConfirmationDialog.Listener, MessageDialog.Listener, WiFiPassDialog.WiFiPassListener {
 
 
     private int currentApiVersion;
@@ -266,6 +267,9 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
                 break;
             case RESET_MESSAGE:
                 getViewModel().core.vibr();
+                getViewModel().core.getBackupHelper().copyFight(getViewModel().leftName.get() + "_" +
+                        getViewModel().rightName.get() + "_" +
+                        new SimpleDateFormat("HH_mm", Locale.getDefault()).format(Calendar.getInstance().getTime()));
 //        DataManager.instance().saveFight(Helper.convertFightDataToInput(fightData), new DataManager.RequestListener<SaveFightResult>() {
 //            @Override
 //            public void onSuccess(SaveFightResult result) {
@@ -348,5 +352,17 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
             default:
                 return super.dispatchKeyEvent(event);
         }
+    }
+
+    @Override
+    public void onPassDlgDismiss() {
+        getViewModel().onDisconnect();
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+
+    @Override
+    public void onPassConfirmed(String pass) {
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        getViewModel().connectWPA(pass);
     }
 }

@@ -86,12 +86,13 @@ public class ConfirmationDialog extends DialogFragment {
         myMsg.setGravity(Gravity.CENTER_HORIZONTAL);
         myMsg.setTextSize(24);
         myMsg.setTextColor(Color.WHITE);
+        myMsg.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         Dialog d = builder.setCustomTitle(myMsg)
                 .setMessage(mMessageId == 2222 ? (Html.fromHtml(getResources().getString(R.string.unblock) + "<br><br>" +
                         "<font size=\"10\" color=\"#0082FC\">" + message + "</font> <br><br> "))
                         : (mMessageId == 1234 ? Html.fromHtml(getResources().getString(R.string.delete) + "<br><br>" +
                         "<font size=\"10\" color=\"#0082FC\">" + message + "</font> <br><br> "
-                        + getResources().getString(R.string.delete_user_confirm)) : "\n    " + message))
+                        + getResources().getString(R.string.delete_user_confirm)) : "\n" + message))
                 .setView(contentView)
                 .show();
         TextView tvMess = d.getWindow().findViewById(android.R.id.message);

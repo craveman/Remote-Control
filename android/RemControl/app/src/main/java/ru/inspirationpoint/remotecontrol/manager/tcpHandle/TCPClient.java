@@ -97,7 +97,7 @@ public class TCPClient {
                     }
                 }
         } catch (SocketException e1) {
-            Log.wtf("TCPClient", e1.getLocalizedMessage());
+            Log.wtf("TCPClient inner error", e1.getLocalizedMessage());
             if (mMessageListener != null) {
                 mMessageListener.connectionLost();
             }

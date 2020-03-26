@@ -376,5 +376,10 @@ Do you connected to necessary network, displayed on SM02?
     <string name="hold">hold</string>
     <string name="play_video_from">Play video from</string>
     <string name="wait_bout">Wait bout</string>
+    <string name="wifi_pass_title">Connection to WiFi %s</string>
+    <string name="wifi_dlg_message">Enter password:</string>
+    <string name="show_video_target">Show video on repeater</string>
+    <string name="gps_off_title">Location is off!</string>
+    <string name="gps_off_message">Please enable location detection to continue.</string>
 
 </resources>

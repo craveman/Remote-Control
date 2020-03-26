@@ -14,7 +14,11 @@ public class PermissionHelper {
     public static final int  RC_PERMISSION_REQUEST = 9222;
     public static boolean hasCameraPermission(Activity activity) {
         return ContextCompat.checkSelfPermission(activity,
-                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(activity,
+                        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(activity,
+                        Manifest.permission.ACCESS_WIFI_STATE) == PackageManager.PERMISSION_GRANTED;
     }
     public static boolean hasWriteStoragePermission(Activity activity) {
         return ContextCompat.checkSelfPermission(activity,

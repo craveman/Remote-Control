@@ -13,13 +13,16 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.graphics.drawable.Drawable;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -27,6 +30,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -63,6 +67,7 @@ import ru.inspirationpoint.remotecontrol.manager.constants.commands.EthNextPrevC
 import ru.inspirationpoint.remotecontrol.manager.constants.commands.EthernetApplyFightCommand;
 import ru.inspirationpoint.remotecontrol.manager.constants.commands.EthernetFinishAskCommand;
 import ru.inspirationpoint.remotecontrol.manager.constants.commands.SetBluetoothCommand;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.SetCamTargetCommand;
 import ru.inspirationpoint.remotecontrol.manager.coreObjects.Device;
 import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
 import ru.inspirationpoint.remotecontrol.manager.dataEntities.FighterData;
@@ -81,6 +86,7 @@ import ru.inspirationpoint.remotecontrol.ui.dialog.FightFinishedDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.FightRestoreDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.MessageDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.SmOffDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.WiFiPassDialog;
 
 import static android.content.Context.WIFI_SERVICE;
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.*;
@@ -163,7 +169,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public ObservableInt screenState = new ObservableInt(SCREEN_MAIN);
     public ObservableInt timerMode = new ObservableInt(TIMER_MODE_MAIN);
     public ObservableInt timerState = new ObservableInt(TIMER_STATE_NOT_STARTED);
-    public ObservableField<String> timeToDisplay = new ObservableField<>("03:00");
+    public ObservableField<String> timeToDisplay = new ObservableField<>("3:00");
     public ObservableInt defaultTime = new ObservableInt(180000);
     public ObservableInt defaultPassiveTime = new ObservableInt(60000);
     public ObservableInt timeMillisecs = new ObservableInt(defaultTime.get());
@@ -201,17 +207,18 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public ObservableField<String> dispDataFirst = new ObservableField<>();
     public ObservableField<String> dispDataSecond = new ObservableField<>();
     public ObservableBoolean isServerOnline = new ObservableBoolean(false);
+    public ObservableBoolean isRepeaters = new ObservableBoolean(false);
     public ObservableField<String> ethState = new ObservableField<>("W");
     public ObservableInt mainScreenBtnState = new ObservableInt(0);
-    private boolean isCamConnected = false;
+    public ObservableBoolean isCamConnected = new ObservableBoolean(false);
 
     public ObservableBoolean isFightFinishPassed = new ObservableBoolean(false);
 
 
     public ObservableField<String> leftName = new ObservableField<>("");
     public ObservableField<String> rightName = new ObservableField<>("");
-    private ObservableField<String> leftId= new ObservableField<>("");
-    private ObservableField<String> rightId= new ObservableField<>("");
+    private ObservableField<String> leftId = new ObservableField<>("");
+    private ObservableField<String> rightId = new ObservableField<>("");
     private boolean timerStateChanged = false;
     private String competition = "";
 
@@ -265,33 +272,17 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
     public ObservableField<String> logTextTemp = new ObservableField<>();
 
+    private String currentSSID = "";
+    private String currentSMIp = "";
+    private String requiredSSID = "";
+
     public FightActivityVM(FightActivity activity) {
         super(activity);
-//        if (DataManager.instance().getCurrentFight() != null) {
-//            fightData = DataManager.instance().getCurrentFight();
-//        } else {
-//            fightData = new FightData("", new Date(), new FighterData("", leftName), new FighterData("", rightName),
-//                    "", SettingsManager.getValue(CommonConstants.LAST_USER_NAME_FIELD, ""));
-//            fightData.setmStartTime(System.currentTimeMillis());
-//            fightData.setmCurrentTime(defaultTime.get());
-//            fightData.setmCurrentPeriod(period.get());
-//        }
-//        activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
-//                | View.SYSTEM_UI_FLAG_FULLSCREEN
-//                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE?";//                | View.SYS bTEM_UI_FLAG_IMMERSIVE_STICKY
-//                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         CodeScannerView scannerView = getActivity().getBinding().syncLay.scannerView;
         core = InspirationDayApplication.getApplication().getCoreHandler();
         core.setActivity(getActivity());
         core.setServerCallback(this);
         fightFinishAskHandler = new FightFinishAskHandler(core);
-//        withSEMI.set(getActivity().getIntent().getBooleanExtra("SEMI", false));
-//        if (!withSEMI.get()) {
-//            leftName = getActivity().getIntent().getStringExtra("LEFT");
-//            rightName = getActivity().getIntent().getStringExtra("RIGHT");
-//        }
-//        phrasesEnabled.set(getActivity().getIntent().getBooleanExtra("PHRASES", false));
         mCodeScanner = new CodeScanner(getActivity(), scannerView);
         mCodeScanner.setDecodeCallback(result -> {
             if (result.getBarcodeFormat().equals(BarcodeFormat.QR_CODE)) {
@@ -308,11 +299,22 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                     Log.wtf("RESULT SCAN", text);
                     UrlEncodeObject encodeObject = gson.fromJson(text, UrlEncodeObject.class);
                     if (!encodeObject.getIp().equals("0.0.0.0")) {
-                        SettingsManager.setValue(CommonConstants.SM_CODE, Arrays.toString(encodeObject.getCode()).replaceAll("\\[|]|,|\\s", ""));
-                        SettingsManager.setValue(SM_IP, encodeObject.getIp());
-                        core.startTCP(encodeObject.getIp());
-                    } else {
-                        onDisconnect();
+                        currentSMIp = encodeObject.getIp();
+                        requiredSSID = encodeObject.getSsid();
+                        if (checkWifiOnAndConnected()) {
+                            Log.wtf("WIFI", "ON");
+                            if (("\"" + requiredSSID + "\"").equals(currentSSID)) {
+                                SettingsManager.setValue(CommonConstants.SM_CODE, Arrays.toString(encodeObject.getCode()).replaceAll("\\[|]|,|\\s", ""));
+                                SettingsManager.setValue(SM_IP, encodeObject.getIp());
+                                core.startTCP(encodeObject.getIp());
+                            } else {
+                                Log.wtf("WIFI", "NOT CONNECTED: " + requiredSSID + "||" + currentSSID);
+                                tryToWiFiConnection(encodeObject.getSsid());
+                            }
+                        } else {
+                            Log.wtf("WIFI", "OFF");
+                            tryToWiFiConnection(encodeObject.getSsid());
+                        }
                     }
                 } else {
                     mCodeScanner.stopPreview();
@@ -448,9 +450,10 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 } else {
                     screenState.set(SCREEN_SYNC_LAY);
                     //TODO resume to select network (now programmatically, not from settings)
-                    if (syncState.get()==SYNC_STATE_SYNCING) {
-                        uiHandler.postDelayed(() -> {
-                            onSyncCancel();
+                    if (syncState.get() == SYNC_STATE_SYNCING) {
+                        if (checkWifiOnAndConnected()) {
+                            uiHandler.postDelayed(() -> {
+                                onSyncCancel();
 //                            WifiManager wm = (WifiManager) InspirationDayApplication.getApplication().getApplicationContext().getSystemService(WIFI_SERVICE);
 //                            String ssid = "No WiFi";
 //                            List<WifiConfiguration> listOfConfigurations = null;
@@ -470,7 +473,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //                                    145965, "",
 //                                    getActivity().getResources().getString(R.string.sync_warn_check_wifi,
 //                                            ssid));
-                        }, 15000);
+                            }, 15000);
+                        }
                     } else {
                         uiHandler.removeCallbacksAndMessages(null);
                     }
@@ -718,7 +722,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
             @Override
             public void onWheelItemSelected(WheelView wheelView, int position) {
-                videoSpeed.set(position+1);
+                videoSpeed.set(position + 1);
             }
         });
         configLeft.setIndicator(activity.findViewById(R.id.left_fighter_progress_bar));
@@ -787,23 +791,40 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             public void onReceive(Context context, Intent intent) {
                 final String action = intent.getAction();
 
-//                if (action != null && action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
-//                    if (checkWifiOnAndConnected()) {
-//                        uiHandler.postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                if (!TextUtils.isEmpty(SettingsManager.getValue(SM_CODE, "")) &&
-//                                        !TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
-//                                    syncState.set(SYNC_STATE_SYNCING);
-//                                    Log.wtf("RESYNCing", "+");
-//                                    core.tryToConnect();
-//                                }
-//                            }
-//                        }, 2000);
-//                    }
-//                }
+                if (action != null && action.equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
+                    NetworkInfo info = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+                    if (info != null && info.isConnected()) {
+                        Log.wtf("NET CHNG", "+");
+                        if (checkWifiOnAndConnected() && core.getConnectedSm() == null) {
+                            Log.wtf("WIFI ON", "+");
+                            if (((WifiManager) Objects.requireNonNull(getActivity()
+                                    .getApplicationContext().getSystemService(WIFI_SERVICE)))
+                                    .getConnectionInfo().getSSID()
+                                    .equals("\"" + requiredSSID + "\"")) {
+                                Log.wtf("SSID", "EQUALS");
+                                uiHandler.removeCallbacksAndMessages(null);
+                                uiHandler.postDelayed(() -> {
+                                    SettingsManager.setValue(SM_IP, currentSMIp);
+                                    syncState.set(SYNC_STATE_SYNCING);
+                                    Log.wtf("RESYNCing", "+");
+                                    core.tryToConnect();
+                                }, 1300);
+                            } else {
+                                Log.wtf("SSID", ((WifiManager) Objects.requireNonNull(getActivity()
+                                        .getApplicationContext().getSystemService(WIFI_SERVICE)))
+                                        .getConnectionInfo().getSSID() + "|||" + ("\"" + requiredSSID + "\""));
+
+                            }
+                        } else {
+                            Log.wtf("WIFI NOT READY", "+");
+                        }
+                    }
+                }
             }
         };
+        SwitchCompat camTarget = getActivity().getBinding().videoLay.videoTargetSwitch;
+        camTarget.setChecked(false);
+        camTarget.setOnCheckedChangeListener((compoundButton, b) -> core.sendToSM(new SetCamTargetCommand(b).getBytes()));
 //        core.startUSB();
     }
 
@@ -811,9 +832,9 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public void onStart() {
         super.onStart();
 //        isFightReady.set(false);
-        if (!core.isUSBMode.get()) {
-            core.startWiFiNetworking();
-        }
+//        if (!core.isUSBMode.get()) {
+//            core.startWiFiNetworking();
+//        }
         switch (screenState.get()) {
             case SCREEN_SYNC_LAY:
                 mCodeScanner.startPreview();
@@ -853,7 +874,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         });
         getActivity().getBinding().bluetoothLay.btSwitch.setChecked(false);
         getActivity().getBinding().bluetoothLay.btSwitch.addSwitchObserver
-                ((switchView, isChecked) -> core.sendToSM(new SetBluetoothCommand(isChecked?1:0).getBytes()));
+                ((switchView, isChecked) -> core.sendToSM(new SetBluetoothCommand(isChecked ? 1 : 0).getBytes()));
     }
 
     @Override
@@ -878,6 +899,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             IntentFilter wifiFilter = new IntentFilter();
             wifiFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
             getActivity().registerReceiver(wifiReceiver, wifiFilter);
+
         } else {
             screenState.set(SCREEN_SYNC_LAY);
             syncState.set(SYNC_STATE_SYNCING);
@@ -891,6 +913,9 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     @Override
     public void onPause() {
         super.onPause();
+        core.getBackupHelper().copyFight(leftName.get() + "_" +
+                rightName.get() + "_" +
+                new SimpleDateFormat("HH_mm", Locale.getDefault()).format(Calendar.getInstance().getTime()));
         try {
             getActivity().unregisterReceiver(wifiReceiver);
         } catch (IllegalArgumentException e) {
@@ -975,7 +1000,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                         rightCard.set(CARD_STATE_YELLOW);
                     } else if (info.getRightFighter().getmCard() == CardStatus.CardStatus_Black) {
                         rightCard.set(CARD_STATE_BLACK);
-                    } else  {
+                    } else {
                         rightCard.set(CARD_STATE_NONE);
                     }
                 }
@@ -1030,7 +1055,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             timerMinDec.set(minutes / 10);
         }
         int millis = milliseconds > 10000 ? milliseconds + 999 : milliseconds;
-        timeToDisplay.set(TimeUnit.MILLISECONDS.toMinutes(millis) / 10 + "" +
+        timeToDisplay.set(((TimeUnit.MILLISECONDS.toMinutes(millis) / 10) == 0 ? "" : TimeUnit.MILLISECONDS.toMinutes(millis) / 10) + "" +
                 ((TimeUnit.MILLISECONDS.toMinutes(millis)) % 10) + ":" +
                 ((TimeUnit.MILLISECONDS.toSeconds(millis)) % 60) / 10 + "" +
                 (TimeUnit.MILLISECONDS.toSeconds(millis) % 60) % 10);
@@ -1333,13 +1358,13 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     }
 
     public void onMenuPassive() {
-        if (weapon.get() != WEAPON_SABER) {
+//        if (weapon.get() != WEAPON_SABER) {
 //            if (isServerOnline.get()) {
-                onPassiveLock();
+            onPassiveLock();
 //            } else {
 //                screenState.set(SCREEN_PASSIVE_LAY);
 //            }
-        }
+//        }
     }
 
     public void onMenuPriority() {
@@ -1390,7 +1415,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         core.getFightHandler().resetFightData();
         timeMillisecs.set(defaultTime.get());
         SettingsManager.removeValue(CommonConstants.LAST_FIGHT_ID);
-        timeToDisplay.set(String.valueOf(timerDefMinDec.get()) + String.valueOf(timerDefMinUnit.get()) + ":" +
+        timeToDisplay.set(String.valueOf(timerDefMinDec.get() == 0 ? "" : timerDefMinDec.get()) + String.valueOf(timerDefMinUnit.get()) + ":" +
                 String.valueOf(timerDefSecDec.get()) + String.valueOf(timerDefSecUnit.get()));
         timerColor.set(COLOR_USUAL);
         leftPCard.set(CARD_STATE_NONE);
@@ -1412,7 +1437,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         period.set(1);
         screenState.set(SCREEN_MAIN);
         priority.set(PERSON_TYPE_NONE);
-        isNamesLocked.set(false);
         core.getFightHandler().resetFightData();
     }
 
@@ -1503,7 +1527,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     }
 
     public void onPriority() {
-        priority.set(new Random().nextInt()%2 == 0 ? PERSON_TYPE_LEFT : PERSON_TYPE_RIGHT);
+        priority.set(new Random().nextInt() % 2 == 0 ? PERSON_TYPE_LEFT : PERSON_TYPE_RIGHT);
         timeMillisecs.set(60000);
         timeNotifySM02();
         onCloseBtn();
@@ -1511,6 +1535,11 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
     public void onPriorityNone() {
         priority.set(PERSON_TYPE_NONE);
+    }
+
+    public void onNamesConfirmed() {
+        core.sendToSM(CommandHelper.confirmNames());
+        onCloseBtn();
     }
 
     public void onCloseBtn() {
@@ -1593,6 +1622,9 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //        }
 //        screenState.set(SCREEN_MAIN);
         core.sendToSM(new EthernetFinishAskCommand().getBytes());
+        core.getBackupHelper().copyFight(leftName.get() + "_" +
+                rightName.get() + "_" +
+                new SimpleDateFormat("HH_mm", Locale.getDefault()).format(Calendar.getInstance().getTime()));
     }
 
     public void onPassiveLock() {
@@ -1619,12 +1651,12 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         screenState.set(SCREEN_REPLAYS_LAY);
         //TODO fill temp
         core.sendToSM(CommandHelper.loadFile(""));
-        getActivity().getBinding().playerLay.speedSb.smoothSelectIndex(videoSpeed.get()-1);
+        getActivity().getBinding().playerLay.speedSb.smoothSelectIndex(videoSpeed.get() - 1);
         getActivity().getBinding().playerLay.speedSb.computeScroll();
         getActivity().getBinding().playerLay.seekSb.smoothSelectIndex(0);
         getActivity().getBinding().playerLay.seekSb.computeScroll();
         uiHandler.postDelayed(() -> {
-            getActivity().getBinding().playerLay.speedSb.smoothSelectIndex(videoSpeed.get()-1);
+            getActivity().getBinding().playerLay.speedSb.smoothSelectIndex(videoSpeed.get() - 1);
             getActivity().getBinding().playerLay.speedSb.computeScroll();
             getActivity().getBinding().playerLay.seekSb.smoothSelectIndex(0);
             getActivity().getBinding().playerLay.seekSb.computeScroll();
@@ -1645,6 +1677,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         SettingsManager.removeValue(SM_CODE);
         SettingsManager.removeValue(SM_IP);
         core.onDisconnect();
+        currentSMIp = "";
+        requiredSSID = "";
     }
 
     public void onVideoCloseBtn() {
@@ -1666,6 +1700,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         isSemiInWork.set(false);
         uiHandler.postDelayed(() ->
                 core.sendToSM(new EthernetApplyFightCommand(ethNecessaryInfo).getBytes()), 500);
+        uiHandler.postDelayed(() -> core.sendToSM(CommandHelper.confirmNames()), 700);
         dispDataFirst.set("");
         dispDataSecond.set("");
     }
@@ -1780,11 +1815,22 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             if (wifiMgr.isWifiEnabled()) {
 
                 WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
-
+                currentSSID = wifiInfo.getSSID();
+                Log.wtf("check wifi INFO: ", wifiInfo.toString());
                 return wifiInfo.getNetworkId() != -1;
             } else {
                 return false;
             }
+        }
+
+        return false;
+    }
+
+    private boolean checkWiFiOn() {
+        WifiManager wifiMgr = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
+        if (wifiMgr != null) {
+            return wifiMgr.isWifiEnabled();
         }
 
         return false;
@@ -1796,17 +1842,17 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public void messageReceived(byte command, byte[] message) {
         switch (command) {
             case BROADCAST_TCP_CMD:
-                    if (message[0] == 0 && isSM01alive.get()) {
-                        isSM01alive.set(false);
-                    } else {
-                        if (message[0] != 0 && !isSM01alive.get()) {
-                            isSM01alive.set(true);
-                        }
+                if (message[0] == 0 && isSM01alive.get()) {
+                    isSM01alive.set(false);
+                } else {
+                    if (message[0] != 0 && !isSM01alive.get()) {
+                        isSM01alive.set(true);
                     }
-                        weapon.set(message[0]);
-                        //TODO handle flags
-                        byte[] time = new byte[4];
-                        System.arraycopy(message, 3, time, 0, 4);
+                }
+                weapon.set(message[0]);
+                //TODO handle flags
+                byte[] time = new byte[4];
+                System.arraycopy(message, 3, time, 0, 4);
 //                if (timerState.get() == TIMER_STATE_IN_PROGRESS && message[5] == 1) {
 //                    getActivity().runOnUiThread(() -> {
 //                        onTimerStopClick();
@@ -1822,41 +1868,41 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //                    });
 //                }
 //                if (message[5] == 0) {
-                        timeMillisecs.set(ByteBuffer.wrap(time).getInt());
+                timeMillisecs.set(ByteBuffer.wrap(time).getInt());
 //                        if (!isPeriodFinished && ByteBuffer.wrap(time).getInt() < 5 && timerMode.get() == TIMER_MODE_MAIN) {
 //                            ConfirmationDialog.show(getActivity(), PAUSE_START_MESSAGE, getActivity().getResources().getString(R.string.period_finished),
 //                                    getActivity().getResources().getString(R.string.pause_start_ask));
 //                            isPeriodFinished = true;
 //                        }
-                        if (message[7] == 0 && timerState.get() == TIMER_STATE_IN_PROGRESS) {
-                            getActivity().runOnUiThread(() -> {
-                                timerState.set(TIMER_STATE_PAUSED);
-                                getActivity().getBinding().titleMain.setVisibility(View.VISIBLE);
-                                String filename = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "") + "_" +
-                                        timeToDisplay.get() + "_" + String.valueOf(period.get());
+                if (message[7] == 0 && timerState.get() == TIMER_STATE_IN_PROGRESS) {
+                    getActivity().runOnUiThread(() -> {
+                        timerState.set(TIMER_STATE_PAUSED);
+                        getActivity().getBinding().titleMain.setVisibility(View.VISIBLE);
+                        String filename = SettingsManager.getValue(CommonConstants.LAST_FIGHT_ID, "") + "_" +
+                                timeToDisplay.get() + "_" + String.valueOf(period.get());
 //                        core.sendToCams(TIMER_STOP_UDP + "\0" + filename);
 //                                isVideoReady.set(false);
-                                if (isPassive.get()) {
-                                    isPassiveBtnVisible.set(true);
-                                }
-                                if (timerMode.get() == TIMER_MODE_PAUSE) {
-                                    pauseBreak();
-                                }
-                            });
-                        } else if (message[7] == 1 && timerState.get() != TIMER_STATE_IN_PROGRESS) {
-                            getActivity().runOnUiThread(() -> {
-                                timerState.set(TIMER_STATE_IN_PROGRESS);
-                                getActivity().getBinding().titleMain.setVisibility(View.GONE);
-                                isPassiveBtnVisible.set(false);
-                            });
+                        if (isPassive.get()) {
+                            isPassiveBtnVisible.set(true);
                         }
+                        if (timerMode.get() == TIMER_MODE_PAUSE) {
+                            pauseBreak();
+                        }
+                    });
+                } else if (message[7] == 1 && timerState.get() != TIMER_STATE_IN_PROGRESS) {
+                    getActivity().runOnUiThread(() -> {
+                        timerState.set(TIMER_STATE_IN_PROGRESS);
+                        getActivity().getBinding().titleMain.setVisibility(View.GONE);
+                        isPassiveBtnVisible.set(false);
+                    });
+                }
 //                }
                 break;
             case DISP_RECEIVE_CMD:
                 if (!isSemiInWork.get()) {
                     //TODO create and fill fight data to store it later
-                    byte[] dispBuf = new byte[message[0]&0xFF];
-                    System.arraycopy(message, 1, dispBuf, 0, message[0]&0xFF);
+                    byte[] dispBuf = new byte[message[0] & 0xFF];
+                    System.arraycopy(message, 1, dispBuf, 0, message[0] & 0xFF);
                     String disp = new String(dispBuf, Charset.forName("UTF-8"));
                     if (dispHandler.updateFromCommand(disp)) {
                         screenState.set(SCREEN_STATE_WAITING);
@@ -1875,7 +1921,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                                 dispHandler.getInfoRight().getNation();
                         isSemiInWork.set(true);
                         restoreFromExisted(dispTempData);
-                        isNamesLocked.set(true);
                     }
                 }
 
@@ -1887,9 +1932,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                         if (fightFinishAskHandler != null) {
                             fightFinishAskHandler.finish();
                         }
-                        isNamesLocked.set(false);
-                    } else
-                        if (message[0] == 0) {
+                    } else if (message[0] == 0) {
                         FightCantEndDialog.show(getActivity(), withSEMI.get());
                         if (fightFinishAskHandler != null) {
                             fightFinishAskHandler.finish();
@@ -1921,7 +1964,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //                Log.wtf("VIDEO READY", "++");
 //                if (timerState.get() == TIMER_STATE_PAUSED) {
 //                    if (!core.getConnectedCameras().isEmpty()) {
-                if (isCamConnected) {
+                if (isCamConnected.get()) {
                     isVideoBtnVisible.set(true);
                 }
 //                }
@@ -1930,14 +1973,18 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 onMenuDisconnect();
                 break;
             case ADD_STATE:
-                isCamConnected = message[0] == 1;
+                isCamConnected.set(message[0] == 1);
                 if (message[0] != 1) {
                     isVideoBtnVisible.set(false);
                 }
-                isServerOnline.set(message[1]==1);
+                isServerOnline.set(message[1] == 1);
+                isNamesLocked.set(message[1] == 1);
                 byte[] stateBytes = new byte[message[2]];
                 System.arraycopy(message, 3, stateBytes, 0, message[2]);
                 ethState.set(new String(stateBytes, StandardCharsets.UTF_8));
+                if (message.length > message[2] + 3) {
+                    isRepeaters.set(message[message.length-1] == 1);
+                }
                 break;
         }
     }
@@ -1957,6 +2004,83 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     @Override
     public void devicesUpdated(ArrayList<Device> devices) {
         //TODO
+    }
+
+    private void tryToWiFiConnection(String ssid) {
+        WifiManager wifiMgr = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (wifiMgr != null) {
+            wifiMgr.setWifiEnabled(true);
+            boolean wifiConfigurated = false;
+            int netId = -1;
+            try {
+                for (WifiConfiguration wifiConfiguration : wifiMgr.getConfiguredNetworks()) {
+                    Log.wtf("SSID COMPARE", wifiConfiguration.SSID + "||" + ssid);
+                    if (wifiConfiguration.SSID.equals("\"" + ssid + "\"")) {
+                        wifiMgr.enableNetwork(wifiConfiguration.networkId, true);
+                        wifiConfigurated = true;
+                        Log.wtf("EXISTS", "CONN");
+                    }
+                }
+            } finally {
+                if (!wifiConfigurated) {
+                    Log.wtf("NOT CONFIGED", "+");
+                    wifiMgr.startScan();
+                    uiHandler.postDelayed(() -> initNewWiFi(wifiMgr, ssid), 1000);
+
+                }
+            }
+        } else Log.wtf("WIFI MGR", "NULL");
+    }
+
+    private void initNewWiFi(WifiManager wifiManager, String ssid) {
+        List<ScanResult> networkList = wifiManager.getScanResults();
+        if (networkList.isEmpty()) {
+            uiHandler.removeCallbacksAndMessages(null);
+            uiHandler.postDelayed(() -> initNewWiFi(wifiManager, ssid), 1000);
+            Log.wtf("INIT", "LIST EMPTY");
+        } else {
+
+            for (ScanResult network : networkList) {
+                if (network.SSID.equals(ssid)) {
+                    String capabilities = network.capabilities;
+                    if (capabilities.contains("WPA") || capabilities.contains("WEP")) {
+                        Log.wtf("INIT", capabilities);
+                        WiFiPassDialog.show(getActivity(),
+                                getActivity().getResources().getString(R.string.wifi_pass_title, requiredSSID),
+                                getActivity().getResources().getString(R.string.wifi_dlg_message));
+                    } else {
+                        WifiConfiguration wc = new WifiConfiguration();
+                        wc.SSID = "\"" + ssid + "\"";
+                        wc.hiddenSSID = true;
+                        wc.priority = 0xBADBAD;
+                        wc.status = WifiConfiguration.Status.ENABLED;
+                        wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+                        int id = wifiManager.addNetwork(wc);
+                        wifiManager.disconnect();
+                        wifiManager.enableNetwork(id, true);
+                        wifiManager.reconnect();
+                        uiHandler.removeCallbacksAndMessages(null);
+                        Log.wtf("OPENED", capabilities);
+                    }
+
+                }
+            }
+        }
+    }
+
+    public void connectWPA(String networkPass) {
+        WifiManager wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiConfiguration wc = new WifiConfiguration();
+        wc.SSID = "\"" + requiredSSID + "\"";
+        wc.preSharedKey = "\"" + networkPass + "\"";
+        wc.status = WifiConfiguration.Status.ENABLED;
+        int id = 0;
+        if (wifiManager != null) {
+            id = wifiManager.addNetwork(wc);
+            wifiManager.disconnect();
+            wifiManager.enableNetwork(id, true);
+            wifiManager.reconnect();
+        }
     }
 
     //Binders section

@@ -2,15 +2,22 @@ package ru.inspirationpoint.remotecontrol.manager.helpers;
 
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 import ru.inspirationpoint.remotecontrol.internalServer.schemas.requests.FightInput;
 import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.FightOutput;
@@ -205,6 +212,42 @@ public class JSONHelper {
         }
 
         return null;
+    }
+
+    public static void copyFightToStorage(String filename, Context context) {
+        String newPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
+                new SimpleDateFormat("dd_MM_yyyy", Locale.getDefault()).format(Calendar.getInstance().getTime()) + "/";
+        File dir = new File(newPath);
+        if (!dir.exists())
+            dir.mkdirs();
+        File newFight = new File(newPath + filename + ".json");
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            in = context.openFileInput(FILE_NAME_CACHED_FIGHT);
+            try {
+                out = new FileOutputStream(newFight);
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+            } finally {
+                if (out != null) {
+                    out.close();
+                }
+            }
+        } catch (IOException e) {
+            Log.wtf("copy error", e.getLocalizedMessage());
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static FullFightInfo importLastFightFromJSON (Context context, String appendix) {

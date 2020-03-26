@@ -63,6 +63,10 @@ public class BackupHelper {
         return JSONHelper.importFightFromJSON(context);
     }
 
+    public void copyFight(String filename) {
+        JSONHelper.copyFightToStorage(filename, context);
+    }
+
     public void cleanBackup() {
         SettingsManager.removeValue(CommonConstants.LAST_FIGHT_ID);
         context.deleteFile("cached_fight.json");

@@ -88,7 +88,7 @@ public class InputDialog extends DialogFragment {
 //                });
 
         Dialog d = builder.setView(contentView)
-                .setPositiveButton(getString(R.string.reset_password), new DialogInterface.OnClickListener() {
+                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if (mListener != null) {
                             mListener.onInputSet(mMessageId, mInputTextView.getText().toString());

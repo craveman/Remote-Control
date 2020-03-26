@@ -1,21 +1,30 @@
 package ru.inspirationpoint.remotecontrol.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.stfalcon.androidmvvmhelper.mvvm.activities.ActivityViewModel;
 
+import ru.inspirationpoint.remotecontrol.R;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
 import ru.inspirationpoint.remotecontrol.manager.cloudManager.CloudRequestManager;
 import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
 import ru.inspirationpoint.remotecontrol.manager.helpers.LocaleHelper;
 import ru.inspirationpoint.remotecontrol.manager.helpers.PermissionHelper;
+import ru.inspirationpoint.remotecontrol.ui.dialog.MessageDialog;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class StartActivityVM extends ActivityViewModel<StartActivity> {
 
     private static final long PROCEED_DELAY_MILLIS = 2000;
+
+    public static final int LOCATION_REQUEST = 22;
 
     private Handler mHandler = new Handler();
     private boolean mTimeIsOut = false;
@@ -75,7 +84,6 @@ public class StartActivityVM extends ActivityViewModel<StartActivity> {
     @Override
     public void onResume() {
         super.onResume();
-
         mHandler.postDelayed(mProceedRunnable, PROCEED_DELAY_MILLIS);
     }
 
@@ -87,9 +95,26 @@ public class StartActivityVM extends ActivityViewModel<StartActivity> {
     }
 
     private synchronized void checkReadyToLaunch() {
+        final LocationManager manager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         if (mTimeIsOut) {
             if (!PermissionHelper.hasCameraPermission(getActivity()) || !PermissionHelper.hasWriteStoragePermission(getActivity())) {
                 PermissionHelper.requestCameraPermission(getActivity(), true);
+            } else if (manager != null && !manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                MessageDialog.show(getActivity(), LOCATION_REQUEST, activity.getResources().getString(R.string.gps_off_title),
+                        activity.getResources().getString(R.string.gps_off_message));
+            } else {
+                goToMainActivity();
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            final LocationManager manager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+            if (manager != null && !manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                MessageDialog.show(getActivity(), LOCATION_REQUEST, activity.getResources().getString(R.string.gps_off_title),
+                        activity.getResources().getString(R.string.gps_off_message));
             } else {
                 goToMainActivity();
             }

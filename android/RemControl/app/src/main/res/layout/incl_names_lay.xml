@@ -286,7 +286,7 @@
             android:textAlignment="center"
             android:layout_marginStart="90dp"
             android:layout_marginEnd="90dp"
-            android:onClick="@{() -> viewModel.onCloseBtn()}"
+            android:onClick="@{() -> viewModel.onNamesConfirmed()}"
             app:autoSizeMaxTextSize="100sp"
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"

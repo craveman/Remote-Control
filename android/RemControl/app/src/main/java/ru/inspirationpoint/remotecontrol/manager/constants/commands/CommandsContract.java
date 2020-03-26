@@ -41,8 +41,10 @@ public interface CommandsContract {
     byte AUTH_TCP_CMD = (byte) 0x23;
     byte AUTH_RESPONSE = (byte) 0x24;
     byte VIDEO_TRANSFER_ABORT = (byte) 0x25;
+    byte SET_CAM_TARGET_CMD = (byte) 0x28;
 
     byte SETID_TCP_CMD = (byte) 0x26;
+    byte CONFIRM_NAMES_CMD = (byte) 0x27;
 
 
     byte RESPONSE_CMD = (byte) 0xAA;

@@ -376,5 +376,10 @@
     <string name="hold">фикс.</string>
     <string name="play_video_from">Воспр. видео из</string>
     <string name="wait_bout">Ожидать бой</string>
+    <string name="wifi_dlg_message">Введите пароль:</string>
+    <string name="wifi_pass_title">Подключение к сети %s</string>
+    <string name="show_video_target">Показывать видео на повторителе</string>
+    <string name="gps_off_title">Определение местоположения выключено!</string>
+    <string name="gps_off_message">Включите определение местоположения в настройках для продолжения работы</string>
 
 </resources>

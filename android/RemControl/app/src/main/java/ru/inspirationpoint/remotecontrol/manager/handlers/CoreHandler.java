@@ -133,26 +133,21 @@ public class CoreHandler implements TCPHelper.TCPListener {
 
     public void tryToConnect() {
         Log.wtf("CODE", SettingsManager.getValue(SM_CODE, "") + "|||" + SettingsManager.getValue(SM_IP, ""));
-        if (tcpHelper == null) {
+        if (tcpHelper == null || !tcpHelper.isConnected()) {
             if (!TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
                 Handler handler = new Handler(Looper.getMainLooper());
                 handler.postDelayed(() -> {
                     tcpHelper = new TCPHelper(SettingsManager.getValue(SM_IP, ""));
                     tcpHelper.setListener(CoreHandler.this);
                     tcpHelper.start();
-                }, 1000);
-            } else if (!tcpHelper.isConnected()) {
-                Handler handler = new Handler(Looper.getMainLooper());
-                handler.postDelayed(() -> {
-                    tcpHelper = new TCPHelper(SettingsManager.getValue(SM_IP, ""));
-                    tcpHelper.setListener(CoreHandler.this);
-                    tcpHelper.start();
-                }, 1000);
+                }, 1500);
             } else {
                 SettingsManager.removeValue(SM_CODE);
                 SettingsManager.removeValue(SM_IP);
                 onDisconnect();
             }
+        } else {
+            Log.wtf("TCP NOT NULL", " ");
         }
     }
 
@@ -166,8 +161,8 @@ public class CoreHandler implements TCPHelper.TCPListener {
                 }
 
             } else {
-                ConfirmationDialog.show(activity, WIFI_MESSAGE, "",
-                        context.getResources().getString(R.string.wifi_off_error));
+//                ConfirmationDialog.show(activity, WIFI_MESSAGE, "",
+//                        context.getResources().getString(R.string.wifi_off_error));
             }
         }
     }
@@ -291,7 +286,6 @@ public class CoreHandler implements TCPHelper.TCPListener {
     @Override
     public void onReceive(byte command, byte status, byte[] message) {
         smMainAliveHandler.start();
-        Log.wtf("RECEIVE", command + " ");
         if (command == AUTH_RESPONSE) {
             switch (status) {
                 case TCP_OK:
@@ -337,18 +331,14 @@ public class CoreHandler implements TCPHelper.TCPListener {
         scheduler.finish();
         if (!isUSBMode.get()) {
             if (checkWifiOnAndConnected()) {
-                new Timer().schedule(new TimerTask() {
+                Handler h = new Handler(Looper.getMainLooper());
+                h.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         if (!TextUtils.isEmpty(SettingsManager.getValue(SM_CODE, "")) &&
                                 !TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
                             ((FightActivity) activity).getViewModel().syncState.set(SYNC_STATE_SYNCING);
                             Log.wtf("RESYNCing", "+");
-                            try {
-                                Log.wtf("ITNITIAL CHECK: reach", String.valueOf(InetAddress.getByName(SettingsManager.getValue(SM_IP, "")).isReachable(200)));
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
                             tryToConnect();
                         }
                     }
