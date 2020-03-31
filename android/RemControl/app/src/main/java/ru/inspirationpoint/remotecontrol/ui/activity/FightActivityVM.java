@@ -42,6 +42,9 @@ import com.lantouzi.wheelview.WheelView;
 import com.shawnlin.numberpicker.NumberPicker;
 import com.stfalcon.androidmvvmhelper.mvvm.activities.ActivityViewModel;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -66,6 +69,7 @@ import ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsCont
 import ru.inspirationpoint.remotecontrol.manager.constants.commands.EthNextPrevCommand;
 import ru.inspirationpoint.remotecontrol.manager.constants.commands.EthernetApplyFightCommand;
 import ru.inspirationpoint.remotecontrol.manager.constants.commands.EthernetFinishAskCommand;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.GetVideosCommand;
 import ru.inspirationpoint.remotecontrol.manager.constants.commands.SetBluetoothCommand;
 import ru.inspirationpoint.remotecontrol.manager.constants.commands.SetCamTargetCommand;
 import ru.inspirationpoint.remotecontrol.manager.coreObjects.Device;
@@ -75,6 +79,7 @@ import ru.inspirationpoint.remotecontrol.manager.dataEntities.UrlEncodeObject;
 import ru.inspirationpoint.remotecontrol.manager.handlers.CoreHandler;
 import ru.inspirationpoint.remotecontrol.manager.handlers.EthernetCommandsHelpers.EthernetDispHandler;
 import ru.inspirationpoint.remotecontrol.manager.handlers.EthernetCommandsHelpers.FightFinishAskHandler;
+import ru.inspirationpoint.remotecontrol.manager.helpers.WiFiHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.CommandHelper;
 import ru.inspirationpoint.remotecontrol.ui.DividerItemDecoration;
 import ru.inspirationpoint.remotecontrol.ui.adapter.FightActionsAdapter;
@@ -276,6 +281,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     private String currentSMIp = "";
     private String requiredSSID = "";
 
+    private WiFiHelper wiFiHelper;
+
     public FightActivityVM(FightActivity activity) {
         super(activity);
         CodeScannerView scannerView = getActivity().getBinding().syncLay.scannerView;
@@ -301,6 +308,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                     if (!encodeObject.getIp().equals("0.0.0.0")) {
                         currentSMIp = encodeObject.getIp();
                         requiredSSID = encodeObject.getSsid();
+                        wiFiHelper.setRequiredSSID(requiredSSID);
                         if (checkWifiOnAndConnected()) {
                             Log.wtf("WIFI", "ON");
                             if (("\"" + requiredSSID + "\"").equals(currentSSID)) {
@@ -309,11 +317,11 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                                 core.startTCP(encodeObject.getIp());
                             } else {
                                 Log.wtf("WIFI", "NOT CONNECTED: " + requiredSSID + "||" + currentSSID);
-                                tryToWiFiConnection(encodeObject.getSsid());
+                                wiFiHelper.tryToWiFiConnection(encodeObject.getSsid());
                             }
                         } else {
                             Log.wtf("WIFI", "OFF");
-                            tryToWiFiConnection(encodeObject.getSsid());
+                            wiFiHelper.tryToWiFiConnection(encodeObject.getSsid());
                         }
                     }
                 } else {
@@ -436,6 +444,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                         FightRestoreDialog.show(getActivity(), tempFightCache, false);
 //                        uiHandler.postDelayed(() -> restoreFromExisted(tempFightCache), 1000);
                     } else {
+                        uiHandler.removeCallbacksAndMessages(null);
                         uiHandler.postDelayed(() -> {
                             fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
                             SettingsManager.setValue(UNFINISHED_FIGHT, fightId);
@@ -446,7 +455,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                     SettingsManager.setValue(UNFINISHED_FIGHT, fightId);
                     saveFightData();
 //                    }
-                    uiHandler.removeCallbacksAndMessages(null);
                 } else {
                     screenState.set(SCREEN_SYNC_LAY);
                     //TODO resume to select network (now programmatically, not from settings)
@@ -786,6 +794,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         adapter = new FightActionsAdapter(getActivity(), false);
 //        adapter.setOnItemClickListener(this);
         getActivity().getBinding().protocolLay.fightResultRecycler.setAdapter(adapter);
+        wiFiHelper = new WiFiHelper(getActivity());
         wifiReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -802,13 +811,14 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                                     .getConnectionInfo().getSSID()
                                     .equals("\"" + requiredSSID + "\"")) {
                                 Log.wtf("SSID", "EQUALS");
+                                wiFiHelper.routeNetworkRequestsThroughWifi("\"" + requiredSSID + "\"");
                                 uiHandler.removeCallbacksAndMessages(null);
                                 uiHandler.postDelayed(() -> {
                                     SettingsManager.setValue(SM_IP, currentSMIp);
                                     syncState.set(SYNC_STATE_SYNCING);
                                     Log.wtf("RESYNCing", "+");
                                     core.tryToConnect();
-                                }, 1300);
+                                }, 700);
                             } else {
                                 Log.wtf("SSID", ((WifiManager) Objects.requireNonNull(getActivity()
                                         .getApplicationContext().getSystemService(WIFI_SERVICE)))
@@ -1360,7 +1370,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public void onMenuPassive() {
 //        if (weapon.get() != WEAPON_SABER) {
 //            if (isServerOnline.get()) {
-            onPassiveLock();
+        onPassiveLock();
 //            } else {
 //                screenState.set(SCREEN_PASSIVE_LAY);
 //            }
@@ -1648,19 +1658,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     }
 
     public void onVideoBtn() {
-        screenState.set(SCREEN_REPLAYS_LAY);
-        //TODO fill temp
-        core.sendToSM(CommandHelper.loadFile(""));
-        getActivity().getBinding().playerLay.speedSb.smoothSelectIndex(videoSpeed.get() - 1);
-        getActivity().getBinding().playerLay.speedSb.computeScroll();
-        getActivity().getBinding().playerLay.seekSb.smoothSelectIndex(0);
-        getActivity().getBinding().playerLay.seekSb.computeScroll();
-        uiHandler.postDelayed(() -> {
-            getActivity().getBinding().playerLay.speedSb.smoothSelectIndex(videoSpeed.get() - 1);
-            getActivity().getBinding().playerLay.speedSb.computeScroll();
-            getActivity().getBinding().playerLay.seekSb.smoothSelectIndex(0);
-            getActivity().getBinding().playerLay.seekSb.computeScroll();
-        }, 100);
+        core.sendToSM(new GetVideosCommand().getBytes());
     }
 
     public void onPlayBtn() {
@@ -1679,6 +1677,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         core.onDisconnect();
         currentSMIp = "";
         requiredSSID = "";
+        wiFiHelper.setRequiredSSID(requiredSSID);
     }
 
     public void onVideoCloseBtn() {
@@ -1983,7 +1982,18 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 System.arraycopy(message, 3, stateBytes, 0, message[2]);
                 ethState.set(new String(stateBytes, StandardCharsets.UTF_8));
                 if (message.length > message[2] + 3) {
-                    isRepeaters.set(message[message.length-1] == 1);
+                    isRepeaters.set(message[message.length - 1] == 1);
+                }
+                break;
+            case LIST_VIDEOS_CMD:
+                byte[] listBytes = new byte[message.length];
+                System.arraycopy(message, 0, listBytes, 0, message.length);
+                String listString = new String(listBytes, StandardCharsets.UTF_8);
+                try {
+                    JSONArray filesArray = new JSONArray(listString);
+                    Log.wtf("VIDEOS", filesArray.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
                 break;
         }
@@ -2006,81 +2016,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         //TODO
     }
 
-    private void tryToWiFiConnection(String ssid) {
-        WifiManager wifiMgr = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (wifiMgr != null) {
-            wifiMgr.setWifiEnabled(true);
-            boolean wifiConfigurated = false;
-            int netId = -1;
-            try {
-                for (WifiConfiguration wifiConfiguration : wifiMgr.getConfiguredNetworks()) {
-                    Log.wtf("SSID COMPARE", wifiConfiguration.SSID + "||" + ssid);
-                    if (wifiConfiguration.SSID.equals("\"" + ssid + "\"")) {
-                        wifiMgr.enableNetwork(wifiConfiguration.networkId, true);
-                        wifiConfigurated = true;
-                        Log.wtf("EXISTS", "CONN");
-                    }
-                }
-            } finally {
-                if (!wifiConfigurated) {
-                    Log.wtf("NOT CONFIGED", "+");
-                    wifiMgr.startScan();
-                    uiHandler.postDelayed(() -> initNewWiFi(wifiMgr, ssid), 1000);
-
-                }
-            }
-        } else Log.wtf("WIFI MGR", "NULL");
-    }
-
-    private void initNewWiFi(WifiManager wifiManager, String ssid) {
-        List<ScanResult> networkList = wifiManager.getScanResults();
-        if (networkList.isEmpty()) {
-            uiHandler.removeCallbacksAndMessages(null);
-            uiHandler.postDelayed(() -> initNewWiFi(wifiManager, ssid), 1000);
-            Log.wtf("INIT", "LIST EMPTY");
-        } else {
-
-            for (ScanResult network : networkList) {
-                if (network.SSID.equals(ssid)) {
-                    String capabilities = network.capabilities;
-                    if (capabilities.contains("WPA") || capabilities.contains("WEP")) {
-                        Log.wtf("INIT", capabilities);
-                        WiFiPassDialog.show(getActivity(),
-                                getActivity().getResources().getString(R.string.wifi_pass_title, requiredSSID),
-                                getActivity().getResources().getString(R.string.wifi_dlg_message));
-                    } else {
-                        WifiConfiguration wc = new WifiConfiguration();
-                        wc.SSID = "\"" + ssid + "\"";
-                        wc.hiddenSSID = true;
-                        wc.priority = 0xBADBAD;
-                        wc.status = WifiConfiguration.Status.ENABLED;
-                        wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-                        int id = wifiManager.addNetwork(wc);
-                        wifiManager.disconnect();
-                        wifiManager.enableNetwork(id, true);
-                        wifiManager.reconnect();
-                        uiHandler.removeCallbacksAndMessages(null);
-                        Log.wtf("OPENED", capabilities);
-                    }
-
-                }
-            }
-        }
-    }
-
-    public void connectWPA(String networkPass) {
-        WifiManager wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        WifiConfiguration wc = new WifiConfiguration();
-        wc.SSID = "\"" + requiredSSID + "\"";
-        wc.preSharedKey = "\"" + networkPass + "\"";
-        wc.status = WifiConfiguration.Status.ENABLED;
-        int id = 0;
-        if (wifiManager != null) {
-            id = wifiManager.addNetwork(wc);
-            wifiManager.disconnect();
-            wifiManager.enableNetwork(id, true);
-            wifiManager.reconnect();
-        }
+    public void connectWPA(String pass) {
+        wiFiHelper.connectWPA(pass);
     }
 
     //Binders section

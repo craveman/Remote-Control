@@ -3,7 +3,10 @@ package ru.inspirationpoint.remotecontrol.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
@@ -128,19 +131,27 @@ public class StartActivityVM extends ActivityViewModel<StartActivity> {
     }
 
     private void goToMainActivity() {
-        finish();
-//        LocaleHelper.setLocale(getActivity(), "en");
-        SettingsManager.setValue(CommonConstants.LOCALE_CHANGED_FIELD, true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Settings.System.canWrite(getActivity().getApplicationContext())) {
+                finish();
+    //        LocaleHelper.setLocale(getActivity(), "en");
+                SettingsManager.setValue(CommonConstants.LOCALE_CHANGED_FIELD, true);
 
-//        if (DataManager.instance().isLoggedIn()) {
-            Intent intent = new Intent(getActivity(), FightActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            getActivity().startActivity(intent);
-//        } else {
-//            Intent intent = new Intent(getActivity(), LoginActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//            getActivity().startActivity(intent);
-//        }
+    //        if (DataManager.instance().isLoggedIn()) {
+                Intent intent = new Intent(getActivity(), FightActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getActivity().startActivity(intent);
+    //        } else {
+    //            Intent intent = new Intent(getActivity(), LoginActivity.class);
+    //            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+    //            getActivity().startActivity(intent);
+    //        }
+            } else {
+                Intent goToSettings = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                goToSettings.setData(Uri.parse("package:" + getActivity().getApplicationContext().getPackageName()));
+                getActivity().startActivityForResult(goToSettings, 1);
+            }
+        }
     }
 
 }

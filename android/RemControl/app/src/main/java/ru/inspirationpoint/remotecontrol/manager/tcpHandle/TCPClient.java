@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
@@ -75,13 +76,15 @@ public class TCPClient {
             mMessageListener.outputStreamCreated();
             inputStream = new DataInputStream(socket.getInputStream());
 
-                while (mRun) {
-                    byte[] temp = new byte[1];
-                    int read = inputStream.read(temp);
-                    if (temp[0] != 0) {
+            while (mRun) {
+                byte[] temp = new byte[2];
+                int read = inputStream.read(temp);
+                if (temp[1] != 0) {
+                    int length =((temp[0] & 0xff) << 8 | (temp[1] & 0xff));
+                    if (length != 0) {
                         byte[] header = new byte[2];
                         int read2 = inputStream.read(header);
-                        byte[] buffer = new byte[temp[0] & 0xFF - 2];
+                        byte[] buffer = new byte[length - 2];
                         inputStream.read(buffer);
                         if (header[1] == (byte) 0x00 || header[0] == AUTH_RESPONSE) {
                             mMessageListener.messageReceived(header[0], header[1], buffer);
@@ -96,19 +99,22 @@ public class TCPClient {
                         }
                     }
                 }
+            }
         } catch (SocketException e1) {
             Log.wtf("TCPClient inner error", e1.getLocalizedMessage());
             if (mMessageListener != null) {
                 mMessageListener.connectionLost();
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public interface OnMessageReceived {
         void messageReceived(byte command, byte status, byte[] message);
+
         void outputStreamCreated();
+
         void connectionLost();
     }
 

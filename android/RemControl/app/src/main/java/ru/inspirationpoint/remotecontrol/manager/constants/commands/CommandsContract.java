@@ -46,6 +46,8 @@ public interface CommandsContract {
     byte SETID_TCP_CMD = (byte) 0x26;
     byte CONFIRM_NAMES_CMD = (byte) 0x27;
 
+    byte GET_VIDEOS_CMD = (byte) 0x29;
+    byte LIST_VIDEOS_CMD = (byte) 0x2A;
 
     byte RESPONSE_CMD = (byte) 0xAA;
 
