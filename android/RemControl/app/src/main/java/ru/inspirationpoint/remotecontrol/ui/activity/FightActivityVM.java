@@ -15,11 +15,8 @@ import android.databinding.ObservableInt;
 import android.graphics.drawable.Drawable;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.net.wifi.ScanResult;
-import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SwitchCompat;
@@ -30,7 +27,6 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -61,7 +57,6 @@ import java.util.concurrent.TimeUnit;
 import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
 import ru.inspirationpoint.remotecontrol.R;
 import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.ListUser;
-import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.Message;
 import ru.inspirationpoint.remotecontrol.manager.FightersAutoComplConfig;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
 import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
@@ -86,12 +81,11 @@ import ru.inspirationpoint.remotecontrol.ui.adapter.FightActionsAdapter;
 import ru.inspirationpoint.remotecontrol.ui.adapter.FightersAutoCompleteAdapter;
 import ru.inspirationpoint.remotecontrol.ui.dialog.ConfirmationDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.FightCantEndDialog;
-import ru.inspirationpoint.remotecontrol.ui.dialog.FightFinishAskDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.FightFinishedDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.FightRestoreDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.MessageDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.ReplaysDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.SmOffDialog;
-import ru.inspirationpoint.remotecontrol.ui.dialog.WiFiPassDialog;
 
 import static android.content.Context.WIFI_SERVICE;
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.*;
@@ -1991,12 +1985,27 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 String listString = new String(listBytes, StandardCharsets.UTF_8);
                 try {
                     JSONArray filesArray = new JSONArray(listString);
-                    Log.wtf("VIDEOS", filesArray.toString());
+                    ReplaysDialog.show(getActivity(), filesArray);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 break;
         }
+    }
+
+    void onReplaySelected(String replay) {
+        screenState.set(SCREEN_REPLAYS_LAY);
+        core.sendToSM(CommandHelper.loadFile(replay));
+        getActivity().getBinding().playerLay.speedSb.smoothSelectIndex(videoSpeed.get() - 1);
+        getActivity().getBinding().playerLay.speedSb.computeScroll();
+        getActivity().getBinding().playerLay.seekSb.smoothSelectIndex(0);
+        getActivity().getBinding().playerLay.seekSb.computeScroll();
+        uiHandler.postDelayed(() -> {
+            getActivity().getBinding().playerLay.speedSb.smoothSelectIndex(videoSpeed.get() - 1);
+            getActivity().getBinding().playerLay.speedSb.computeScroll();
+            getActivity().getBinding().playerLay.seekSb.smoothSelectIndex(0);
+            getActivity().getBinding().playerLay.seekSb.computeScroll();
+        }, 100);
     }
 
     @Override
@@ -2016,7 +2025,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         //TODO
     }
 
-    public void connectWPA(String pass) {
+    void connectWPA(String pass) {
         wiFiHelper.connectWPA(pass);
     }
 

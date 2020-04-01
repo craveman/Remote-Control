@@ -43,6 +43,7 @@ import ru.inspirationpoint.remotecontrol.ui.dialog.FightFinishedDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.FightRestoreDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.MessageDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.PhraseDialog;
+import ru.inspirationpoint.remotecontrol.ui.dialog.ReplaysDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.WiFiPassDialog;
 
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UNFINISHED_FIGHT;
@@ -53,7 +54,8 @@ import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.TIME
 public class FightActivity extends BindingActivity<ActivityFightBinding, FightActivityVM> implements
         FightApplyDialog.ApplyListener, FightFinishedDialog.FightFinishedListener,
         FightFinishAskDialog.FightFinisAskListener, FightRestoreDialog.RestoreListener, PhraseDialog.Listener,
-        ConfirmationDialog.Listener, MessageDialog.Listener, WiFiPassDialog.WiFiPassListener {
+        ConfirmationDialog.Listener, MessageDialog.Listener, WiFiPassDialog.WiFiPassListener,
+        ReplaysDialog.ReplaysListener {
 
 
     private int currentApiVersion;
@@ -364,5 +366,10 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
     public void onPassConfirmed(String pass) {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         getViewModel().connectWPA(pass);
+    }
+
+    @Override
+    public void onReplaySelected(String name) {
+        getViewModel().onReplaySelected(name);
     }
 }
