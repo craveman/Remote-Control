@@ -352,6 +352,7 @@ public class CoreHandler implements TCPHelper.TCPListener {
     public void updateSMAlive(int remain) {
         if (!isUSBMode.get()) {
             if (remain == 0) {
+                Log.wtf("DISCONNECT", "UPD SM ALIVE");
                 onDisconnect();
             }
         }

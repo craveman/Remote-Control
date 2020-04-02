@@ -52,7 +52,6 @@ public class WiFiHelper {
                     wifiMgr.updateNetwork(wifiConfiguration);
                     wifiMgr.saveConfiguration();
                     wifiMgr.enableNetwork(wifiConfiguration.networkId, true);
-                    wifiMgr.reassociate();
                     wifiConfigurated = true;
                     Log.wtf("EXISTS", "CONN");
                 }
@@ -91,7 +90,6 @@ public class WiFiHelper {
                         wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
                         int id = wifiMgr.addNetwork(wc);
                         wifiMgr.enableNetwork(id, true);
-                        wifiMgr.reassociate();
                         handler.removeCallbacksAndMessages(null);
                         Log.wtf("OPENED", capabilities);
                     }
@@ -109,12 +107,10 @@ public class WiFiHelper {
         wc.preSharedKey = "\"" + networkPass + "\"";
         wc.status = WifiConfiguration.Status.ENABLED;
         wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
-        wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
         int id = 0;
         if (wifiMgr != null) {
             id = wifiMgr.addNetwork(wc);
             wifiMgr.enableNetwork(id, true);
-            wifiMgr.reassociate();
         }
     }
 

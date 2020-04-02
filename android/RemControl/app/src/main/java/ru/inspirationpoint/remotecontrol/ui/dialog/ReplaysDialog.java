@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -54,23 +55,25 @@ public class ReplaysDialog extends DialogFragment implements VideoReplaysAdapter
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-            LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
-            AlertDialog.Builder builder = SettingsManager.getValue(CommonConstants.IS_DARK_THEME, false) ?
-                    new AlertDialog.Builder(getActivity(), R.style.AppThemeDark_AlertDialogTheme) :
-                    new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
+        AlertDialog.Builder builder = SettingsManager.getValue(CommonConstants.IS_DARK_THEME, false) ?
+                new AlertDialog.Builder(getActivity(), R.style.AppThemeDark_AlertDialogTheme) :
+                new AlertDialog.Builder(getActivity());
 
-            View contentView = inflater.inflate(R.layout.dlg_title_layout, null);
-            ArrayList<String> items = Objects.requireNonNull(getArguments()).getStringArrayList(ITEMS);
-            VideoReplaysAdapter adapter = new VideoReplaysAdapter();
-            adapter.setClickListener(this);
-            adapter.setItems(items);
-            DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL);
-            decoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(getActivity(), R.color.white)));
-            RecyclerView recyclerView = contentView.findViewById(R.id.videos_recycler);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-            recyclerView.setAdapter(adapter);
-            TextView btnClose = contentView.findViewById(R.id.videos_cancel);
-            btnClose.setOnClickListener(view -> dismiss());
+        View contentView = inflater.inflate(R.layout.dlg_videos, null);
+        ArrayList<String> items = Objects.requireNonNull(getArguments()).getStringArrayList(ITEMS);
+        VideoReplaysAdapter adapter = new VideoReplaysAdapter();
+        DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL);
+        decoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(getActivity(), R.color.white)));
+        RecyclerView recyclerView = contentView.findViewById(R.id.videos_recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true));
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(decoration);
+        adapter.setClickListener(this);
+        adapter.setItems(items);
+        Log.wtf("ADAPTER", adapter.getItemCount() + "");
+        TextView btnClose = contentView.findViewById(R.id.videos_cancel);
+        btnClose.setOnClickListener(view -> dismiss());
         return builder.setView(contentView).show();
     }
 
@@ -79,7 +82,7 @@ public class ReplaysDialog extends DialogFragment implements VideoReplaysAdapter
         super.onAttach(context);
 
         if (context instanceof ReplaysListener) {
-            listener= (ReplaysListener) context;
+            listener = (ReplaysListener) context;
         }
     }
 
@@ -94,10 +97,11 @@ public class ReplaysDialog extends DialogFragment implements VideoReplaysAdapter
     public void onReplayClick(String itemName) {
         if (listener != null) {
             listener.onReplaySelected(itemName);
+            dismiss();
         }
     }
 
     public interface ReplaysListener {
-        void onReplaySelected (String name);
+        void onReplaySelected(String name);
     }
 }

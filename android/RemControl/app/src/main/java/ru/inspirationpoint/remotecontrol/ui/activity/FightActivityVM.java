@@ -437,6 +437,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                     if (tempFightCache != null) {
                         FightRestoreDialog.show(getActivity(), tempFightCache, false);
 //                        uiHandler.postDelayed(() -> restoreFromExisted(tempFightCache), 1000);
+                        uiHandler.removeCallbacksAndMessages(null);
                     } else {
                         uiHandler.removeCallbacksAndMessages(null);
                         uiHandler.postDelayed(() -> {
@@ -805,7 +806,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                                     .getConnectionInfo().getSSID()
                                     .equals("\"" + requiredSSID + "\"")) {
                                 Log.wtf("SSID", "EQUALS");
-                                wiFiHelper.routeNetworkRequestsThroughWifi("\"" + requiredSSID + "\"");
+//                                wiFiHelper.routeNetworkRequestsThroughWifi("\"" + requiredSSID + "\"");
                                 uiHandler.removeCallbacksAndMessages(null);
                                 uiHandler.postDelayed(() -> {
                                     SettingsManager.setValue(SM_IP, currentSMIp);
@@ -1765,6 +1766,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public void onSyncCancel() {
         core.vibr();
         syncState.set(SYNC_STATE_NONE);
+        Log.wtf("DISCONNECT", "ON SYNC CANCEL");
         core.onDisconnect();
         mCodeScanner.startPreview();
         SettingsManager.removeValue(SM_CODE);
