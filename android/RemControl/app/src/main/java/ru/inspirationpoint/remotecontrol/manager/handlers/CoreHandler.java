@@ -1,20 +1,29 @@
 package ru.inspirationpoint.remotecontrol.manager.handlers;
 
 import android.content.Context;
+import android.databinding.Observable;
+import android.databinding.ObservableBoolean;
 import android.hardware.usb.UsbDevice;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ru.inspirationpoint.remotecontrol.R;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
@@ -23,6 +32,7 @@ import ru.inspirationpoint.remotecontrol.manager.helpers.BackupHelper;
 import ru.inspirationpoint.remotecontrol.manager.helpers.UDPHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.CommandHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPHelper;
+import ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPScheduler;
 import ru.inspirationpoint.remotecontrol.ui.activity.FightActivity;
 import ru.inspirationpoint.remotecontrol.ui.dialog.ConfirmationDialog;
 
@@ -37,7 +47,10 @@ import static ru.inspirationpoint.remotecontrol.manager.constants.commands.Comma
 import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.DEV_TYPE_CAM;
 import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.RC_EXISTS_AUTH;
 import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.TCP_OK;
+import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivity.WIFI_MESSAGE;
+import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SYNC_STATE_NONE;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SYNC_STATE_SYNCED;
+import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SYNC_STATE_SYNCING;
 
 
 public class CoreHandler implements TCPHelper.TCPListener {
@@ -56,13 +69,20 @@ public class CoreHandler implements TCPHelper.TCPListener {
     private FightValuesHandler fightHandler;
     private BackupHelper backupHelper;
 
+    private SMMainAliveHandler smMainAliveHandler;
+
+    private TCPScheduler scheduler;
+
     public boolean camExists = false;
+
+    public ObservableBoolean isUSBMode = new ObservableBoolean(false);
 
     public CoreHandler(Context context, int mode) {
         this.context = context;
         this.mode = mode;
         vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         udpHelper = new UDPHelper(context);
+        scheduler = new TCPScheduler(this);
         udpHelper.setListener(new UDPHelper.BroadcastListener() {
             @Override
             public void onReceive(String[] msg, String ip) {
@@ -76,29 +96,9 @@ public class CoreHandler implements TCPHelper.TCPListener {
 //                        ((FightActivity) activity).getViewModel().syncState.set(SYNC_STATE_NONE);
 //                    }
 //                }
-                if (msg[0].equals(PING_UDP)) {
-                    if (tcpHelper == null || !tcpHelper.isConnected()) {
-                        if (!TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
-                            try {
-                                if (InetAddress.getByName(SettingsManager.getValue(SM_IP, "")).isReachable(100)) {
-                                    tcpHelper = new TCPHelper(SettingsManager.getValue(SM_IP, ""));
-                                    tcpHelper.setListener(CoreHandler.this);
-                                    tcpHelper.start();
-                                } else {
-                                    SettingsManager.removeValue(SM_CODE);
-                                    SettingsManager.removeValue(SM_IP);
-                                    onDisconnect();
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            SettingsManager.removeValue(SM_CODE);
-                            SettingsManager.removeValue(SM_IP);
-                            onDisconnect();
-                        }
-                    }
-                }
+//                if (msg[0].equals(PING_UDP)) {
+//                    tryToConnect();
+//                }
             }
 
             @Override
@@ -106,19 +106,64 @@ public class CoreHandler implements TCPHelper.TCPListener {
 
             }
         });
+        smMainAliveHandler = new SMMainAliveHandler(this);
+        startUSB();
+        isUSBMode.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
+            @Override
+            public void onPropertyChanged(Observable sender, int propertyId) {
+                onDisconnect();
+                if (isUSBMode.get()) {
+//                    if (activity instanceof FightActivity) {
+//                        ((FightActivity)activity).getViewModel().syncState.set(SYNC_STATE_SYNCED);
+//                    }
+                } else {
+//                    Handler handler = new Handler();
+//                    handler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            activity.finishAndRemoveTask();
+//                            System.exit(0);
+//                        }
+//                    }, 1000);
+
+                }
+            }
+        });
+    }
+
+    public void tryToConnect() {
+        Log.wtf("CODE", SettingsManager.getValue(SM_CODE, "") + "|||" + SettingsManager.getValue(SM_IP, ""));
+        if (tcpHelper == null || !tcpHelper.isConnected()) {
+            if (!TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(() -> {
+                    tcpHelper = new TCPHelper(SettingsManager.getValue(SM_IP, ""));
+                    tcpHelper.setListener(CoreHandler.this);
+                    tcpHelper.start();
+                }, 1500);
+            } else {
+                SettingsManager.removeValue(SM_CODE);
+                SettingsManager.removeValue(SM_IP);
+                onDisconnect();
+            }
+        } else {
+            Log.wtf("TCP NOT NULL", " ");
+        }
     }
 
     public void startWiFiNetworking() {
-        if (checkWifiOnAndConnected()) {
-            if (!udpHelper.isAlive()) {
-                if (!udpHelper.isUDPAlive()) {
-                    udpHelper.start();
+        if (!isUSBMode.get()) {
+            if (checkWifiOnAndConnected()) {
+                if (!udpHelper.isAlive()) {
+                    if (!udpHelper.isUDPAlive()) {
+                        udpHelper.start();
+                    }
                 }
-            }
 
-        } else {
-            ConfirmationDialog.show(activity, 7585, context.getResources().getString(R.string.wifi_off_title),
-                    context.getResources().getString(R.string.wifi_off_error));
+            } else {
+//                ConfirmationDialog.show(activity, WIFI_MESSAGE, "",
+//                        context.getResources().getString(R.string.wifi_off_error));
+            }
         }
     }
 
@@ -226,6 +271,10 @@ public class CoreHandler implements TCPHelper.TCPListener {
         }
     }
 
+    public void startUSB() {
+        usbHandler = new UsbConnectionHandler(context, this);
+    }
+
     public BackupHelper getBackupHelper() {
         return backupHelper;
     }
@@ -235,11 +284,15 @@ public class CoreHandler implements TCPHelper.TCPListener {
     }
 
     @Override
-    public void onReceive(byte command, byte[] message) {
+    public void onReceive(byte command, byte status, byte[] message) {
+        smMainAliveHandler.start();
         if (command == AUTH_RESPONSE) {
-            switch (message[0]) {
+            switch (status) {
                 case TCP_OK:
                     ((FightActivity)activity).getViewModel().syncState.set(SYNC_STATE_SYNCED);
+                    if (!isUSBMode.get()) {
+                        connectedDevices.add(new Device(tcpHelper.getServerIp(), DEV_TYPE_SM, SettingsManager.getValue(SM_CODE, "")));
+                    }
                     break;
                 case CODE_INCORRECT_AUTH:
                 case RC_EXISTS_AUTH:
@@ -261,6 +314,8 @@ public class CoreHandler implements TCPHelper.TCPListener {
 //        Log.wtf("STREAM", "+");
         sendToSM(CommandHelper.auth(SettingsManager.getValue(SM_CODE, ""),
                 SettingsManager.getValue(DEVICE_ID_SETTING, "")));
+        smMainAliveHandler.start();
+        scheduler.start();
     }
 
     @Override
@@ -272,12 +327,42 @@ public class CoreHandler implements TCPHelper.TCPListener {
         if (serverCallback != null)
             serverCallback.connectionLost();
         connectedDevices.clear();
+        smMainAliveHandler.finish();
+        scheduler.finish();
+        if (!isUSBMode.get()) {
+            if (checkWifiOnAndConnected()) {
+                Handler h = new Handler(Looper.getMainLooper());
+                h.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!TextUtils.isEmpty(SettingsManager.getValue(SM_CODE, "")) &&
+                                !TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
+                            ((FightActivity) activity).getViewModel().syncState.set(SYNC_STATE_SYNCING);
+                            Log.wtf("RESYNCing", "+");
+                            tryToConnect();
+                        }
+                    }
+                }, 2000);
+            } else {
+                startWiFiNetworking();
+            }
+        }
+    }
+
+    public void updateSMAlive(int remain) {
+        if (!isUSBMode.get()) {
+            if (remain == 0) {
+                Log.wtf("DISCONNECT", "UPD SM ALIVE");
+                onDisconnect();
+            }
+        }
     }
 
     public void sendToSM(byte[] message) {
-        if (tcpHelper != null) {
+        if (isUSBMode.get()) {
+            usbHandler.writeSMUsb(message);
+        } else if (tcpHelper != null) {
             tcpHelper.send(message);
-            Log.wtf("SENT", Arrays.toString(message));
         } else {
             Log.wtf("TCP NULL", "++++");
         }
@@ -299,11 +384,6 @@ public class CoreHandler implements TCPHelper.TCPListener {
         sendToSM(CommandHelper.videoCounters(left, right));
     }
 
-
-    public void setUsbHandler(UsbConnectionHandler usbHandler) {
-        this.usbHandler = usbHandler;
-    }
-
     public void receiveUsbMessage(byte[] message) {
 
     }
@@ -313,9 +393,30 @@ public class CoreHandler implements TCPHelper.TCPListener {
     }
 
     public void onUsbConnected(UsbDevice device) {
+        Log.wtf("USB", device.getVendorId() + "|" + device.getProductId() + "|" + device.getDeviceName());
     }
 
     public FightValuesHandler getFightHandler() {
         return fightHandler;
+    }
+
+    public void showInLog ( String text) {
+        if (activity != null) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((FightActivity)activity).getBinding().syncLay.tvLog.setMovementMethod(new ScrollingMovementMethod());
+                    final Layout layout = ((FightActivity)activity).getBinding().syncLay.tvLog.getLayout();
+                    if (layout != null) {
+                        int scrollDelta = layout.getLineBottom(((FightActivity)activity).getBinding().syncLay.tvLog.getLineCount() - 1)
+                                - ((FightActivity)activity).getBinding().syncLay.tvLog.getScrollY() - ((FightActivity)activity).getBinding().syncLay.tvLog.getHeight();
+                        if (scrollDelta > 0)
+                            ((FightActivity)activity).getBinding().syncLay.tvLog.scrollBy(0, scrollDelta);
+                    }
+//                Log.wtf("LOG", activity.get().getViewModel().logTextTemp.get());
+                }
+            });
+            ((FightActivity)activity).getViewModel().logTextTemp.set(((FightActivity)activity).getViewModel().logTextTemp.get() + "\n " + text);
+        }
     }
 }

@@ -9,7 +9,8 @@
         android:orientation="horizontal"
         android:layout_marginTop="9dp"
         android:layout_marginBottom="9dp"
-        android:weightSum="16">
+        android:weightSum="16"
+        android:background="@color/colorPrimaryThemeDark">
 
         <TextView
             android:id="@+id/fight_result_time"
@@ -19,6 +20,7 @@
             android:paddingLeft="4dp"
             android:text="@string/time"
             android:lines="1"
+            android:textColor="@color/white"
             android:textAlignment="viewStart" />
 
         <TextView
@@ -29,6 +31,7 @@
             android:id="@+id/fight_result_score"
             android:textAlignment="viewStart"
             android:lines="1"
+            android:textColor="@color/white"
             android:paddingLeft="4dp"/>
 
         <ImageView
@@ -44,23 +47,24 @@
             android:id="@+id/fight_result_action"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="5"
+            android:layout_weight="6"
             android:paddingLeft="5dp"
             android:text="@string/action"
             android:ellipsize="end"
             android:lines="1"
+            android:textColor="@color/white"
             android:textAlignment="viewStart" />
 
         <ImageView
             android:id="@+id/fight_result_video"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:paddingLeft="5dp"
             android:paddingTop="-7dp"
             android:paddingBottom="-7dp"
             android:scaleType="centerInside"
-            android:src="@drawable/video_button"/>
+            android:src="@drawable/vid_dark_icon"/>
 
     </LinearLayout>
 

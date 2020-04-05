@@ -9,32 +9,23 @@ import java.nio.ByteBuffer;
 
 public class TCPHeader {
 
-    private int dummy;
     private int len;
     private byte cmd;
+    private int status;
 
-    public TCPHeader(int dummy, int len, byte cmd) {
-        this.dummy = dummy;
+    public TCPHeader(int len, byte cmd, int status) {
         this.len = len;
         this.cmd = cmd;
-    }
-
-    public TCPHeader(byte data[]) throws IOException {
-        DataInputStream s = new DataInputStream(new ByteArrayInputStream(data));
-        this.dummy = s.readInt();
-        this.len = s.readByte();
-        this.cmd = s.readByte();
+        this.status = status;
     }
 
     public byte[] getBytes() throws IOException {
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         DataOutputStream s = new DataOutputStream(b);
-        s.write(dummy);
-        s.write(0);
-        s.write(0);
-        s.write(0);
+        s.writeByte(0);
         s.writeByte(this.len);
         s.writeByte(this.cmd);
+        s.writeByte(this.status);
         return b.toByteArray();
     }
 

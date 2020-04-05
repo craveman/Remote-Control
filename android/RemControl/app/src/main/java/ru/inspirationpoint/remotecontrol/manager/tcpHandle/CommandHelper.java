@@ -25,6 +25,11 @@ public class CommandHelper {
         return command.getBytes();
     }
 
+    public static byte[] setId(int person, String id){
+        SetFighterIdCommand command = new SetFighterIdCommand(person, id);
+        return command.getBytes();
+    }
+
     public static byte[] setCompetition(String name){
         CompetitionSetCommand command = new CompetitionSetCommand(name);
         return command.getBytes();
@@ -75,6 +80,11 @@ public class CommandHelper {
         return command.getBytes();
     }
 
+    public static byte[] confirmNames() {
+        ConfirmNamesCommand command = new ConfirmNamesCommand();
+        return command.getBytes();
+    }
+
     public static byte[] ethStart() {
 //        EthernetStartCommand command = new EthernetStartCommand();
 //        Log.wtf("WTH START", "CALLED");
@@ -107,8 +117,18 @@ public class CommandHelper {
         return command.getBytes();
     }
 
+    public static byte[] transferAbort() {
+        VideoAbortCommand command = new VideoAbortCommand();
+        return command.getBytes();
+    }
+
     public static byte[] auth(String code, String name) {
         AuthRequestCommand command = new AuthRequestCommand(code, name);
+        return command.getBytes();
+    }
+
+    public static byte[] endUsb() {
+        EndUsbCommand command = new EndUsbCommand();
         return command.getBytes();
     }
 

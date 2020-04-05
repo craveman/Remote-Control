@@ -125,6 +125,10 @@ public class FighterData implements Cloneable, Serializable {
         mName = name;
     }
 
+    public void setmId(String mId) {
+        this.mId = mId;
+    }
+
     public int getYellowCardCount() {
         return yellowCardCount;
     }

@@ -8,13 +8,17 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
 import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
 import ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract;
+import ru.inspirationpoint.remotecontrol.manager.constants.commands.PingCommand;
 
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEVICE_ID_SETTING;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.AUTH_RESPONSE;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.TCP_OK;
 import static ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPHelper.PORT;
 
 public class TCPClient {
@@ -35,7 +39,11 @@ public class TCPClient {
         new Thread(() -> {
             if (outputStream != null) {
                 try {
-                    outputStream.write(message);
+                    if (message != null) {
+                        if (message.length != 0) {
+                            outputStream.write(message);
+                        }
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -52,7 +60,7 @@ public class TCPClient {
             outputStream.close();
         }
 
-        mMessageListener = null;
+//        mMessageListener = null;
         inputStream = null;
         outputStream = null;
     }
@@ -68,38 +76,45 @@ public class TCPClient {
             mMessageListener.outputStreamCreated();
             inputStream = new DataInputStream(socket.getInputStream());
 
-                while (mRun) {
-                    byte[] temp = new byte[CommandsContract.HEADER_LENGTH];
-                    int read = inputStream.read(temp, 0, CommandsContract.HEADER_LENGTH);
-                    if (temp[0] == CommandsContract.PROTOCOL_VERSION ) {
-                        byte[] buffer = new byte[temp[4] - CommandsContract.HEADER_LENGTH];
+            while (mRun) {
+                byte[] temp = new byte[2];
+                int read = inputStream.read(temp);
+                if (temp[1] != 0) {
+                    int length =((temp[0] & 0xff) << 8 | (temp[1] & 0xff));
+                    if (length != 0) {
+                        byte[] header = new byte[2];
+                        int read2 = inputStream.read(header);
+                        byte[] buffer = new byte[length - 2];
                         inputStream.read(buffer);
-                        if (temp[5] == CommandsContract.PING_TCP_CMD) {
-                            sendMessage(CommandHelper.hello(CommonConstants.DEV_TYPE_RC, SettingsManager.getValue(DEVICE_ID_SETTING, "")));
+                        if (header[1] == (byte) 0x00 || header[0] == AUTH_RESPONSE) {
+                            mMessageListener.messageReceived(header[0], header[1], buffer);
                         } else {
-                            mMessageListener.messageReceived(temp[5], buffer);
+                            //TODO handle strange statuses
                         }
-                    }
-                    if (read == -1) {
-                        if (mMessageListener != null) {
-                            Log.wtf("READ -1", "+");
-                            mMessageListener.connectionLost();
+                        if (read == -1) {
+                            if (mMessageListener != null) {
+                                Log.wtf("READ -1", "+");
+                                mMessageListener.connectionLost();
+                            }
                         }
                     }
                 }
+            }
         } catch (SocketException e1) {
-            Log.wtf("TCPClient", e1.getLocalizedMessage());
+            Log.wtf("TCPClient inner error", e1.getLocalizedMessage());
             if (mMessageListener != null) {
                 mMessageListener.connectionLost();
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public interface OnMessageReceived {
-        void messageReceived(byte command, byte[] message);
+        void messageReceived(byte command, byte status, byte[] message);
+
         void outputStreamCreated();
+
         void connectionLost();
     }
 

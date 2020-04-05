@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import ru.inspirationpoint.remotecontrol.R;
 import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.Profile;
 import ru.inspirationpoint.remotecontrol.ui.adapter.ClubSpinnerAdapter;
-import ru.inspirationpoint.remotecontrol.ui.dialog.WeaponChooseDialog;
 
 
 public class ProfileMainActivity extends LocalAppCompatActivity
@@ -87,7 +86,7 @@ public class ProfileMainActivity extends LocalAppCompatActivity
         mWeaponEdit.setFocusable(false);
         mFriendsIsEmty = findViewById(R.id.empty_fighters_list_text);
         mWeaponEdit.setInputType(InputType.TYPE_NULL);
-        mWeaponEdit.setOnClickListener(view -> WeaponChooseDialog.show(ProfileMainActivity.this));
+//        mWeaponEdit.setOnClickListener(view -> WeaponChooseDialog.Companion.show(ProfileMainActivity.this));
 
 //        initFriendList();
 //

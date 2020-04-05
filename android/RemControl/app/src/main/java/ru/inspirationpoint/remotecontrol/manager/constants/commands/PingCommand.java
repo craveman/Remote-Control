@@ -4,7 +4,7 @@ public class PingCommand extends CommonTCPCommand {
 
     @Override
     public byte[] getBytes() {
-        cmd = CommandsContract.PING_TCP_CMD;
+        cmd = CommandsContract.PING_IN;
         return super.getBytes();
     }
 }

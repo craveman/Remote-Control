@@ -29,19 +29,10 @@
         <include
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            layout="@layout/incl_p_cards_lay"
+            layout="@layout/incl_b_cards_lay"
             android:id="@+id/p_cards_lay"
             app:viewModel="@{viewModel}"
-            android:visibility="@{viewModel.screenState == viewModel.SCREEN_P_CARDS_LAY ? v.VISIBLE:v.GONE }"
-            />
-
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            layout="@layout/incl_cards_lay"
-            android:id="@+id/cards_lay"
-            app:viewModel="@{viewModel}"
-            android:visibility="@{viewModel.screenState == viewModel.SCREEN_CARDS_LAY ? v.VISIBLE:v.GONE }"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_B_CARDS_LAY ? v.VISIBLE:v.GONE }"
             />
 
         <include
@@ -86,7 +77,7 @@
             layout="@layout/incl_menu_cards_priority_lay"
             android:id="@+id/menu_cards_priority_lay"
             app:viewModel="@{viewModel}"
-            android:visibility="@{viewModel.screenState == viewModel.SCREEN_MENU_CARDS_PRIO ? v.VISIBLE:v.GONE }"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_MENU_PENALTIES ? v.VISIBLE:v.GONE }"
             />
 
         <include
@@ -132,6 +123,15 @@
             android:id="@+id/def_time_lay"
             app:viewModel="@{viewModel}"
             android:visibility="@{viewModel.screenState == viewModel.SCREEN_DEF_TIME_LAY ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_cyrano_controls"
+            android:id="@+id/cyrano_controls"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_STATE_CYRANO_CONTROLS ? v.VISIBLE:v.GONE }"
             />
 
         <include
@@ -195,6 +195,24 @@
             android:id="@+id/player_lay"
             app:viewModel="@{viewModel}"
             android:visibility="@{viewModel.screenState == viewModel.SCREEN_REPLAYS_LAY ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_bluetooth_lay"
+            android:id="@+id/bluetooth_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_STATE_BLUETOOTH ? v.VISIBLE:v.GONE }"
+            />
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_protocol_lay"
+            android:id="@+id/protocol_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_STATE_PROTOCOL ? v.VISIBLE:v.GONE }"
             />
 
         <android.support.constraint.ConstraintLayout

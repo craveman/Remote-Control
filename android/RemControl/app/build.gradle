@@ -6,13 +6,13 @@ configurations {
 }
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 29
     defaultConfig {
         applicationId "ru.inspirationpoint.inspirationrc"
         minSdkVersion 21
-        targetSdkVersion 27
-        versionCode 36
-        versionName "1.22"
+        targetSdkVersion 29
+        versionCode 83
+        versionName "1.35005"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -22,9 +22,8 @@ android {
             applicationVariants.all { variant ->
                 variant.outputs.all { output ->
                     def date = new Date()
-                    def version = "_v1_19"
-                    def formattedDate = date.format('yyyyMMdd')
-                    def newName = "IP_RC-release" + formattedDate + version + ".apk"
+                    def formattedDate = date.format('dd_MM_yyyy_')
+                    def newName = "RC_" + formattedDate + versionName + ".apk"
                     outputFileName = newName
                 }
             }
@@ -35,9 +34,8 @@ android {
             applicationVariants.all { variant ->
                 variant.outputs.all { output ->
                     def date = new Date()
-                    def version = "_v1_19"
-                    def formattedDate = date.format('yyyyMMdd')
-                    def newName = "IP_RC-debug" + formattedDate + version + ".apk"
+                    def formattedDate = date.format('dd_MM_yyyy_')
+                    def newName = "RC_" + formattedDate + versionName + ".apk"
                     outputFileName = newName
                 }
             }
@@ -81,4 +79,9 @@ dependencies {
     implementation 'com.github.rtoshiro.fullscreenvideoview:fullscreenvideoview:1.1.2'
     implementation 'com.budiyev.android:code-scanner:2.1.0'
     implementation 'com.github.felHR85:UsbSerial:6.0.3'
+    implementation 'com.lantouzi.wheelview:library:1.1.2'
+    implementation 'com.rm:rmswitch:1.2.2'
+}
+repositories {
+    mavenCentral()
 }

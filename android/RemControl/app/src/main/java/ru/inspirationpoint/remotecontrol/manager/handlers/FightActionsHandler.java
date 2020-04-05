@@ -34,6 +34,14 @@ public class FightActionsHandler {
         fightData.getRightFighter().setName(name);
     }
 
+    public void setLeftId(String id) {
+        fightData.getLeftFighter().setmId(id);
+    }
+
+    public void setRightId(String id) {
+        fightData.getRightFighter().setmId(id);
+    }
+
     public void setPriorityNone() {
         fightData.setmPriority(PERSON_TYPE_NONE);
     }

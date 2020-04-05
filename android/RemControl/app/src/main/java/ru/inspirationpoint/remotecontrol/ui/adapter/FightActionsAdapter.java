@@ -52,6 +52,7 @@ public class FightActionsAdapter extends RecyclerView.Adapter<FightActionsAdapte
                     data0.getPhrase() != 10) {
                 data.add(data0);
             }
+            Log.wtf("DATA CAPACITY", data.size() + "");
         }
         score = new Pair[data.size()];
         int i = 0;
@@ -60,10 +61,12 @@ public class FightActionsAdapter extends RecyclerView.Adapter<FightActionsAdapte
         for (FightActionData data1 : data) {
             Log.wtf("DATA", data1.getStringActionType() + "|" + data1.getScore());
             if (data1.getActionType() == FightActionData.ActionType.SetScoreLeft ||
-                    data1.getActionType() == FightActionData.ActionType.RedCardRight) {
+                    data1.getActionType() == FightActionData.ActionType.RedCardRight ||
+                    data1.getActionType() == FightActionData.ActionType.PCardRedRight) {
                 left = data1.getScore();
             } else if (data1.getActionType() == FightActionData.ActionType.SetScoreRight ||
-                    data1.getActionType() == FightActionData.ActionType.RedCardLeft) {
+                    data1.getActionType() == FightActionData.ActionType.RedCardLeft ||
+                    data1.getActionType() == FightActionData.ActionType.PCardRedLeft) {
                 right = data1.getScore();
             }
             score[i] = new Pair(left, right);
@@ -230,6 +233,38 @@ public class FightActionsAdapter extends RecyclerView.Adapter<FightActionsAdapte
                     break;
                 case SetPriorityRight:
                     mAction.setText(mContext.getResources().getString(R.string.priority_right));
+                    break;
+                case PCardRedLeft:
+                    mAction.setText(mContext.getResources().getString(R.string.p_rc_left));
+                    actionIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.red));
+                    break;
+                case PCardRedRight:
+                    mAction.setText(mContext.getResources().getString(R.string.p_rc_right));
+                    actionIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.red));
+                    break;
+                case PCardYellowLeft:
+                    mAction.setText(mContext.getResources().getString(R.string.p_yc_left));
+                    actionIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.yellow));
+                    break;
+                case PCardYellowRight:
+                    mAction.setText(mContext.getResources().getString(R.string.p_yc_right));
+                    actionIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.yellow));
+                    break;
+                case PCardBlackLeft:
+                    mAction.setText(mContext.getResources().getString(R.string.p_bc_left));
+                    actionIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.p_card_black));
+                    break;
+                case PCardBlackRight:
+                    mAction.setText(mContext.getResources().getString(R.string.p_bc_right));
+                    actionIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.p_card_black));
+                    break;
+                case BlackCardLeft:
+                    mAction.setText(mContext.getResources().getString(R.string.bc_left));
+                    actionIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.p_card_black));
+                    break;
+                case BlackCardRight:
+                    mAction.setText(mContext.getResources().getString(R.string.bc_right));
+                    actionIcon.setImageDrawable(mContext.getResources().getDrawable(R.drawable.p_card_black));
                     break;
             }
         }

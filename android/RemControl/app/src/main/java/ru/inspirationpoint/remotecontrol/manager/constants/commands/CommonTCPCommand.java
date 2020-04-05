@@ -8,22 +8,23 @@ import java.nio.ByteBuffer;
 public abstract class CommonTCPCommand {
 
     byte[] body;
-    DataOutputStream s;
+    private DataOutputStream s;
     byte cmd;
+    byte status = (byte) 0x00;
 
     public byte[] getBytes(){
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         s = new DataOutputStream(b);
         if (body != null) {
             try {
-                s.write(new TCPHeader(1, body.length + 6, cmd).getBytes());
+                s.write(new TCPHeader(body.length + 2, cmd, status).getBytes());
                 s.write(body);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
             try {
-                s.write(new TCPHeader(1, 6, cmd).getBytes());
+                s.write(new TCPHeader(2, cmd, status).getBytes());
             } catch (IOException e) {
                 e.printStackTrace();
             }

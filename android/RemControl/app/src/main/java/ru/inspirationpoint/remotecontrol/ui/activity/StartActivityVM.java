@@ -1,21 +1,33 @@
 package ru.inspirationpoint.remotecontrol.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
+import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.stfalcon.androidmvvmhelper.mvvm.activities.ActivityViewModel;
 
+import ru.inspirationpoint.remotecontrol.R;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
 import ru.inspirationpoint.remotecontrol.manager.cloudManager.CloudRequestManager;
 import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
 import ru.inspirationpoint.remotecontrol.manager.helpers.LocaleHelper;
 import ru.inspirationpoint.remotecontrol.manager.helpers.PermissionHelper;
+import ru.inspirationpoint.remotecontrol.ui.dialog.MessageDialog;
+
+import static android.app.Activity.RESULT_OK;
 
 
 public class StartActivityVM extends ActivityViewModel<StartActivity> {
 
     private static final long PROCEED_DELAY_MILLIS = 2000;
+
+    public static final int LOCATION_REQUEST = 22;
 
     private Handler mHandler = new Handler();
     private boolean mTimeIsOut = false;
@@ -30,7 +42,7 @@ public class StartActivityVM extends ActivityViewModel<StartActivity> {
     public StartActivityVM(StartActivity activity) {
         super(activity);
         CloudRequestManager.login();
-        LocaleHelper.setLocale(getActivity(), "en");
+//        LocaleHelper.setLocale(getActivity(), "en");
         SettingsManager.setValue(CommonConstants.LOCALE_CHANGED_FIELD, true);
         activity.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -75,7 +87,6 @@ public class StartActivityVM extends ActivityViewModel<StartActivity> {
     @Override
     public void onResume() {
         super.onResume();
-
         mHandler.postDelayed(mProceedRunnable, PROCEED_DELAY_MILLIS);
     }
 
@@ -87,9 +98,26 @@ public class StartActivityVM extends ActivityViewModel<StartActivity> {
     }
 
     private synchronized void checkReadyToLaunch() {
+        final LocationManager manager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
         if (mTimeIsOut) {
             if (!PermissionHelper.hasCameraPermission(getActivity()) || !PermissionHelper.hasWriteStoragePermission(getActivity())) {
                 PermissionHelper.requestCameraPermission(getActivity(), true);
+            } else if (manager != null && !manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                MessageDialog.show(getActivity(), LOCATION_REQUEST, activity.getResources().getString(R.string.gps_off_title),
+                        activity.getResources().getString(R.string.gps_off_message));
+            } else {
+                goToMainActivity();
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            final LocationManager manager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+            if (manager != null && !manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                MessageDialog.show(getActivity(), LOCATION_REQUEST, activity.getResources().getString(R.string.gps_off_title),
+                        activity.getResources().getString(R.string.gps_off_message));
             } else {
                 goToMainActivity();
             }
@@ -103,19 +131,27 @@ public class StartActivityVM extends ActivityViewModel<StartActivity> {
     }
 
     private void goToMainActivity() {
-        finish();
-        LocaleHelper.setLocale(getActivity(), "en");
-        SettingsManager.setValue(CommonConstants.LOCALE_CHANGED_FIELD, true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Settings.System.canWrite(getActivity().getApplicationContext())) {
+                finish();
+    //        LocaleHelper.setLocale(getActivity(), "en");
+                SettingsManager.setValue(CommonConstants.LOCALE_CHANGED_FIELD, true);
 
-//        if (DataManager.instance().isLoggedIn()) {
-            Intent intent = new Intent(getActivity(), FightActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            getActivity().startActivity(intent);
-//        } else {
-//            Intent intent = new Intent(getActivity(), LoginActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//            getActivity().startActivity(intent);
-//        }
+    //        if (DataManager.instance().isLoggedIn()) {
+                Intent intent = new Intent(getActivity(), FightActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getActivity().startActivity(intent);
+    //        } else {
+    //            Intent intent = new Intent(getActivity(), LoginActivity.class);
+    //            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+    //            getActivity().startActivity(intent);
+    //        }
+            } else {
+                Intent goToSettings = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                goToSettings.setData(Uri.parse("package:" + getActivity().getApplicationContext().getPackageName()));
+                getActivity().startActivityForResult(goToSettings, 1);
+            }
+        }
     }
 
 }

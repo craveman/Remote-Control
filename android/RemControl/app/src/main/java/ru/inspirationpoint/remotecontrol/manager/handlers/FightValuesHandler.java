@@ -72,6 +72,18 @@ public class FightValuesHandler implements ActionUploadCallback {
         core.getBackupHelper().backupFight(handler.getFightData());
     }
 
+    public void setId(int person, String id) {
+        if (!id.isEmpty()) {
+            if (person == PERSON_TYPE_LEFT) {
+                handler.setLeftId(id);
+            } else if (person == PERSON_TYPE_RIGHT) {
+                handler.setRightId(id);
+            }
+            core.sendToSM(CommandHelper.setId(person, id));
+            core.getBackupHelper().backupFight(handler.getFightData());
+        }
+    }
+
     public void setScore(long time, int person, int score) {
         core.sendToSM(CommandHelper.setScore(person, score));
         if (person == PERSON_TYPE_LEFT) {

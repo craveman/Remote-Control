@@ -4,11 +4,17 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 
+import ru.inspirationpoint.remotecontrol.manager.handlers.CoreHandler;
+
 public class TCPScheduler {
 
-    private static final long DELAY = 60000L;
+    private static final long DELAY = 2000L;
     private Handler h = null;
-    private TCPHelper tcp;
+    private CoreHandler core;
+
+    public TCPScheduler(CoreHandler core) {
+        this.core = core;
+    }
 
     public void start() {
         synchronized (this) {
@@ -34,7 +40,6 @@ public class TCPScheduler {
     private Runnable callback = new Runnable() {
         @Override
         public void run() {
-            Log.wtf("SENDER CALLBACK", "RUN");
             method();
             synchronized (TCPScheduler.this) {
                 if (h != null) {
@@ -44,7 +49,7 @@ public class TCPScheduler {
         }
 
         void method() {
-            tcp.send(CommandHelper.setTimer(180000, 0));
+            core.sendToSM(CommandHelper.ping());
         }
     };
 }

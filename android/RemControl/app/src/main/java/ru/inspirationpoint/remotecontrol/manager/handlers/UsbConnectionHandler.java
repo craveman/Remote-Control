@@ -1,149 +1,193 @@
 package ru.inspirationpoint.remotecontrol.manager.handlers;
 
-import android.content.ComponentName;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
+import android.hardware.usb.UsbAccessory;
+import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDevice;
-import android.os.Build;
-import android.os.Bundle;
+import android.hardware.usb.UsbDeviceConnection;
+import android.hardware.usb.UsbEndpoint;
+import android.hardware.usb.UsbInterface;
+import android.hardware.usb.UsbManager;
+import android.hardware.usb.UsbRequest;
 import android.os.Handler;
-import android.os.IBinder;
+import android.os.ParcelFileDescriptor;
 import android.util.Log;
 
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
-import java.util.Set;
 
+import ru.inspirationpoint.remotecontrol.manager.tcpHandle.CommandHelper;
 import ru.inspirationpoint.remotecontrol.manager.usb.UsbBroadcastReceiver;
-import ru.inspirationpoint.remotecontrol.manager.usb.UsbService;
 
-public class UsbConnectionHandler implements UsbBroadcastReceiver.OnUSBEventListener, UsbService.ConnectionListener {
+import static android.hardware.usb.UsbManager.ACTION_USB_ACCESSORY_ATTACHED;
+import static android.hardware.usb.UsbManager.ACTION_USB_ACCESSORY_DETACHED;
+import static android.hardware.usb.UsbManager.ACTION_USB_DEVICE_ATTACHED;
+import static android.hardware.usb.UsbManager.ACTION_USB_DEVICE_DETACHED;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.AUTH_RESPONSE;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.CARD_STATUS_RED;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.PERSON_TYPE_LEFT;
+import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.PING_OUT;
+import static ru.inspirationpoint.remotecontrol.manager.usb.UsbBroadcastReceiver.ACTION_USB_PERMISSION;
+
+public class UsbConnectionHandler implements UsbBroadcastReceiver.OnUSBEventListener, Runnable{
 
     private Context context;
-    private UsbService usbService;
     private CoreHandler core;
     private UsbBroadcastReceiver receiver;
     private IntentFilter mIntentFilter;
-    private Handler handler;
-    private final ServiceConnection usbConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName arg0, IBinder arg1) {
-            usbService = ((UsbService.UsbBinder) arg1).getService();
-            usbService.setConnectionListener(UsbConnectionHandler.this);
-        }
+    private UsbManager mUsbManager;
+    private boolean mRun = false;
+    UsbEndpoint mOutEndpoint = null;
+    UsbEndpoint mInEndpoint = null;
+    UsbDeviceConnection connection2 = null;
+    Thread usbRcThread;
+    ParcelFileDescriptor fileDescriptor;
+    FileInputStream inputStream;
+    FileOutputStream outputStream;
+    private static final int BUFSIZ = 4096;
+    private final ByteBuffer mReadBuffer = ByteBuffer.allocate(BUFSIZ);
 
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-            usbService = null;
-        }
-    };
 
     public UsbConnectionHandler(Context context, CoreHandler core) {
         this.context = context;
         this.core = core;
+        mUsbManager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
         receiver = new UsbBroadcastReceiver(this);
         mIntentFilter = new IntentFilter();
-        mIntentFilter.addAction(UsbService.ACTION_USB_PERMISSION_GRANTED);
-        mIntentFilter.addAction(UsbService.ACTION_NO_USB);
-        mIntentFilter.addAction(UsbService.ACTION_USB_NOT_SUPPORTED);
-        mIntentFilter.addAction(UsbService.ACTION_USB_PERMISSION_NOT_GRANTED);
-        mIntentFilter.addAction(UsbService.ACTION_USB_READY);
+        mIntentFilter.addAction(ACTION_USB_PERMISSION);
+        mIntentFilter.addAction(ACTION_USB_DEVICE_DETACHED);
+        mIntentFilter.addAction(ACTION_USB_ACCESSORY_ATTACHED);
+        mIntentFilter.addAction(ACTION_USB_DEVICE_ATTACHED);
+        mIntentFilter.addAction(ACTION_USB_ACCESSORY_DETACHED);
         context.registerReceiver(receiver, mIntentFilter);
         Log.wtf("HANDLER CREATED", "+");
-        core.setUsbHandler(this);
-        startService(UsbService.class, usbConnection, null);
-        handler = new Handler();
-    }
-
-    private void startService(Class<?> service, ServiceConnection serviceConnection, Bundle extras) {
-        if (!UsbService.SERVICE_CONNECTED) {
-            Intent startService = new Intent(context, service);
-            if (extras != null && !extras.isEmpty()) {
-                Set<String> keys = extras.keySet();
-                for (String key : keys) {
-                    String extra = extras.getString(key);
-                    startService.putExtra(key, extra);
-                }
+        if (mUsbManager.getAccessoryList() != null ) {
+            if (mUsbManager.getAccessoryList().length != 0) {
+                openAccessoryConnection(mUsbManager.getAccessoryList()[0]);
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(startService);
-            } else {
-                context.startService(startService);
-            }
-        }
-        Intent bindingIntent = new Intent(context, service);
-        context.bindService(bindingIntent, serviceConnection, Context.BIND_AUTO_CREATE);
-    }
-
-    public void writeUSB(byte[] data) {
-        if (usbService != null) {
-            usbService.write(data);
-            Log.wtf("USB WRITE", Arrays.toString(data));
         }
     }
 
     @Override
-    public void onUsbPermission(boolean granted) {
-        if (granted) {
-            Log.wtf("USB GRANTED", "IN CONN HANDLER");
-//            startService(UsbService.class, usbConnection, null);
+    public void onUsbPermission(UsbDevice device) {
+        core.showInLog("USB DETECTED");
+        if (!mUsbManager.hasPermission(device)) {
+            core.showInLog("NO PERM");
+            mUsbManager.requestPermission(device, PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0));
+        } else {
+            core.showInLog("HAS PERM");
+            onUsbReady(device);
         }
     }
 
     @Override
-    public void onUsbDisconnected() {
-        stopPing();
-        context.stopService(new Intent(context, UsbService.class));
+    public void onUsbAccessoryPermission(UsbAccessory accessory) {
+        if (!mUsbManager.hasPermission(accessory)) {
+            core.showInLog("NO PERM");
+            mUsbManager.requestPermission(accessory, PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0));
+        } else {
+            core.showInLog("HAS PERM");
+            onAccessory(accessory);
+        }
     }
 
     @Override
     public void onUsbDetached() {
         stopPing();
-        usbService.onUSBDetached();
+        core.isUSBMode.set(false);
+    }
+
+    public void openAccessoryConnection(UsbAccessory accessory) {
+        mUsbManager.requestPermission(accessory, PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0));
     }
 
     @Override
-    public void onUsbReady() {
-        writeUSB(new byte[]{0x02, 0x03, 0x04});
+    public void onUsbReady(UsbDevice device) {
+        core.showInLog("USB READY");
+    }
+
+    @Override
+    public void onAccessory(UsbAccessory accessory) {
+        core.showInLog("ACCESSORY");
+        fileDescriptor = mUsbManager.openAccessory(accessory);
+        core.showInLog((fileDescriptor != null) + "||");
+        if (fileDescriptor != null) {
+            FileDescriptor fd = fileDescriptor.getFileDescriptor();
+            inputStream = new FileInputStream(fd);
+            outputStream = new FileOutputStream(fd);
+            startPing();
+            core.isUSBMode.set(true);
+        }
     }
 
     public void stopPing(){
-        handler.removeCallbacksAndMessages(null);
+        mRun = false;
+        try {
+            inputStream.close();
+            outputStream.close();
+            fileDescriptor.close();
+        } catch (IOException e) {
+            Log.wtf("CLOSING EXCEPTION", e.getLocalizedMessage());
+        }
+        usbRcThread.interrupt();
     }
 
-//    public void startPingUsb() {
-//        Log.wtf("START PING", "+");
-//        Runnable runnableCode = new Runnable() {
-//            @Override
-//            public void run() {
-//                if (usbService != null) {
-//                    usbService.write(new SyncUSBCmd(core.getGoAddress() != null).getBytes());
-//                }
-//                handler.postDelayed(this, 100);
-//            }
-//        };
-//        handler.post(runnableCode);
-//    }
+    public void startPing() {
+        mRun = true;
+        usbRcThread = new Thread(this);
+        usbRcThread.start();
+    }
+
+    public void writeSMUsb(final byte[] message) {
+            if (outputStream != null) {
+                try {
+                    if (message != null) {
+                        if (message.length != 0) {
+                            outputStream.write(message);
+                            Log.wtf("WRITE ", Arrays.toString(message));
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+    }
 
     @Override
-    public void onConnectionEstablished(UsbDevice device) {
-        core.onUsbConnected(device);
+    public void run() {
+        mRun = true;
+
+        while (mRun) {
+            if (inputStream!= null) {
+                try {
+                    int readed = inputStream.read(mReadBuffer.array());
+                    if (readed > 3) {
+                        byte[] header = new byte[4];
+                        mReadBuffer.get(header);
+                        byte command = header[2];
+                        byte status = header[3];
+                        byte length = header[1];
+                        if (readed > 4) {
+                            byte[] cmdBody = new byte[readed - 4];
+                            mReadBuffer.get(cmdBody);
+                            Log.wtf("REC USB", command + "   " + Arrays.toString(cmdBody));
+                            core.onReceive(command, status, cmdBody);
+                        } else {
+                            core.onReceive(command, status, null);
+                        }
+                        mReadBuffer.clear();
+                    }
+                } catch (IOException e) {
+                    Log.wtf("USB handler", e.getLocalizedMessage());
+                }
+            }
+        }
     }
-
-    @Override
-    public void onUsbMessageReceived(byte[] message) {
-        core.receiveUsbMessage(message);
-    }
-
-    @Override
-    public void onConnectionLost(UsbDevice device) {
-
-    }
-
-    @Override
-    public void onServiceStopped() {
-        core.refreshUSBData();
-    }
-
 }

@@ -287,6 +287,11 @@ public class NewFightActivity extends BindingActivity<ActivityNewFightBinding, N
         }
     }
 
+    @Override
+    public void onConfirmDeclined(int messageId) {
+
+    }
+
     public void changeSelectedWeapon(int weapon) {
         SpannableString s1 = new SpannableString(getResources().getString(R.string.type_rapier));
         SpannableString s2 = new SpannableString(getResources().getString(R.string.type_epee));

@@ -12,9 +12,11 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.USB_PERMISSION" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 
-    <uses-feature android:name="android.hardware.usb.host" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature android:name="android.hardware.usb.host" />
+    <uses-feature android:name="android.hardware.usb.accessory"/>
 
     <application
         android:name=".InspirationDayApplication"
@@ -89,6 +91,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
+                android:resource="@xml/device_filter" />
         </activity>
         <activity
             android:name=".ui.activity.LoginActivity"
@@ -105,14 +114,8 @@
             android:name=".ui.activity.FightActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
-            </intent-filter>
+            android:windowSoftInputMode="stateHidden|adjustResize">
 
-            <meta-data
-                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
-                android:resource="@xml/device_filter" />
         </activity>
         <activity android:name=".ui.activity.ListFightActivity"
             android:screenOrientation="portrait"
@@ -127,9 +130,6 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden"/>
 
-        <service
-            android:name=".manager.usb.UsbService"
-            android:enabled="true"></service>
     </application>
 
 </manifest>
