@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+let NAME_LENGTH_LIMIT = 30
+
 struct NamesSettingsButtonSwiftUIView: View {
   @State var showModal = false
   var body: some View {
@@ -25,32 +27,41 @@ struct NamesSettingsButtonSwiftUIView: View {
       .border(Color.gray, width: 0.5)
       .sheet(isPresented: self.$showModal) {
         NamesSettingsSwiftUIView()
-        .background(UIGlobals.modalSheetBackground)
+          .background(UIGlobals.modalSheetBackground)
     }
   }
 }
 
+class NameBindingManager: ObservableObject {
+  init(_ initialValue: String, updater setter: @escaping (String) -> Void) {
+    self.setter = setter
+    self.text = initialValue
+  }
+  var setter: (String) -> Void
+  @Published var text = "" {
+    didSet {
+      if text.count > characterLimit && oldValue.count <= characterLimit {
+        text = oldValue
+      }
+      setter(text)
+      if(text != oldValue) {
+        Vibration.impact()
+      }
+      
+    }
+  }
+  let characterLimit = NAME_LENGTH_LIMIT
+}
 
 struct NamesSettingsSwiftUIView: View {
   @Environment(\.presentationMode) var presentationMode
-  @State var leftName = rs.persons.left.name
-  @State var rightName = rs.persons.right.name
+  @ObservedObject var leftName = NameBindingManager(rs.persons.left.name, updater: { name in rs.persons.left.name = name})
+  @ObservedObject var rightName = NameBindingManager(rs.persons.right.name, updater: { name in rs.persons.right.name = name})
   
   private func endEditing() {
     UIApplication.shared.endEditing()
-    var wasChanged = false
-    if (rs.persons.left.name != self.leftName) {
-      rs.persons.left.name = self.leftName
-      wasChanged = true
-    }
-    if (rs.persons.right.name != self.rightName) {
-      rs.persons.right.name = self.rightName
-      wasChanged = true
-    }
-    if (wasChanged) {
-      Vibration.impact()
-    }
   }
+  
   var body: some View {
     
     VStack(spacing: 0) {
@@ -60,8 +71,15 @@ struct NamesSettingsSwiftUIView: View {
         Background {
           VStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
-              dinFont(Text("Left player"),  UIGlobals.appDefaultFontSize)
-              TextField(" ", text: self.$leftName) {
+              HStack(spacing: 0) {
+                dinFont(Text("Left player"),  UIGlobals.appDefaultFontSize)
+                Spacer()
+                if self.leftName.text.count * 2 > NAME_LENGTH_LIMIT {
+                  dinFont(Text("\(self.leftName.text.count) / \(NAME_LENGTH_LIMIT)"),  UIGlobals.appDefaultFontSize)
+                }
+              }
+              
+              TextField(" ", text: self.$leftName.text) {
                 self.endEditing()
                 
               }.font(.largeTitle)
@@ -70,13 +88,19 @@ struct NamesSettingsSwiftUIView: View {
             }.padding()
             Divider()
             VStack(alignment: .leading, spacing: 0) {
-              dinFont(Text("Right player"), UIGlobals.appDefaultFontSize)
-              TextField(" ", text: self.$rightName) {
+              HStack(spacing: 0) {
+                dinFont(Text("Right player"), UIGlobals.appDefaultFontSize)
+                Spacer()
+                if self.rightName.text.count * 2 > NAME_LENGTH_LIMIT {
+                  dinFont(Text("\(self.rightName.text.count) / \(NAME_LENGTH_LIMIT)"),  UIGlobals.appDefaultFontSize)
+                }
+              }
+              TextField(" ", text: self.$rightName.text) {
                 self.endEditing()
               }.font(.largeTitle)
                 .background(primaryColor.opacity(0.05))
                 .accessibility(label: Text("Right player"))
-              }.padding()
+            }.padding()
             Spacer()
           }
           
@@ -90,7 +114,7 @@ struct NamesSettingsSwiftUIView: View {
           self.presentationMode.wrappedValue.dismiss()
         }, color: .green)
       }.padding([.vertical]).frame(width: width)
-       
+      
     }
   }
 }
