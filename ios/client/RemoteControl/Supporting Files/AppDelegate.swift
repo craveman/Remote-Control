@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import BackgroundTasks
 import class Combine.AnyCancellable
 
 
@@ -15,13 +16,14 @@ fileprivate func log(_ items: Any...) {
 }
 
 let rs = RemoteService.shared
-
+fileprivate let standByTaskId = "com.inspirationApp.RemoteControl.Sm02BgConnection"
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
   
   var window: UIWindow?
   var app: UIApplication?
   private var wasInvalidated = false
+  private var hasRegisteredBgTask = false
   private var pingMissed = false
   private var messageListener: AnyCancellable?
   private var eventListenerUUID: UUID?
@@ -30,36 +32,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application (_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     self.app = application;
-    self.eventListenerUUID = rs.on(event: { [weak self] (event) in
-      guard case .serverDown = event else {
-        return
-      }
-      guard let remote = rs.connection.address else {
-        return
-      }
-      log("eventListenerUUID invalidate")
-      self?.invalidate(connection: remote)
-    })
     
-    self.messageListener = rs.connection.$lastMessageAt.on(change: {[unowned self] _ in
-      if (rs.connection.isConnected && self.pingMissed) {
-        self.pingMissed = false
-      }
-    })
-    
-    self.pingTimer = Timer.scheduledTimer(withTimeInterval: RemoteService.PING_INTERVAL, repeats: true) {[unowned self] _ in
-      guard rs.connection.isConnected else {
-        self.pingMissed = false
-        return
-      }
-      log("ping check")
-      if (!self.pingMissed) {
-        self.pingMissed = true
-        return
-      }
-      log("Ping disconnect")
-      rs.connection.disconnect(temporary: true)
-    }
+    setSmEventsListerers()
+    setPingTimer()
+    //    TODO: if needed; N.B.! add task id to Info.plist
+    //    registerBgTask()
     
     return true
   }
@@ -91,36 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
   }
   
-  func runInBackground() {
-    
-    var timer: Timer?
-    
-    if (self.backgroundTask != .invalid) {
-      self.app?.endBackgroundTask(self.backgroundTask)
-    }
-    
-    self.backgroundTask = self.app?.beginBackgroundTask(expirationHandler: {
-      log("expirationHandler")
-      timer?.invalidate()
-      if rs.connection.isConnected {
-        rs.connection.disconnect(temporary: true)
-      }
-      self.app?.endBackgroundTask(self.backgroundTask)
-      self.backgroundTask = .invalid
-    }) ?? .invalid
-    
-    timer = Timer.scheduledTimer(withTimeInterval: RemoteService.PING_INTERVAL, repeats: false) {[unowned self] _ in
-      if (self.backgroundTask != .invalid) {
-        log("Background")
-        self.runInBackground()
-      }
-    }
-    
-    
-    
-  }
-  
   func applicationWillEnterForeground (_ application: UIApplication) {
+    
     log("applicationWillEnterForeground")
     guard rs.connection.isAuthenticated else {
       return
@@ -142,11 +91,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   func applicationDidBecomeActive (_ application: UIApplication) {
-    if (self.backgroundTask != .invalid) {
-      application.endBackgroundTask(self.backgroundTask)
-      self.backgroundTask = .invalid
-    }
     log("applicationDidBecomeActive")
+    stopBgTasks()
+    
     guard let controller = self.window?.rootViewController as? ConnectionsViewController else {
       return
     }
@@ -188,6 +135,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     if let tmr = self.pingTimer {
       tmr.invalidate()
     }
+    if rs.connection.isConnected {
+      rs.connection.disconnect()
+      stopBgTasks()
+    }
     
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
@@ -209,6 +160,100 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
       }
       
+    }
+  }
+  
+  private func stopBgTasks() {
+    if (self.backgroundTask != .invalid) {
+      self.app?.endBackgroundTask(self.backgroundTask)
+      self.backgroundTask = .invalid
+    }
+    if (hasRegisteredBgTask) {
+      BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: standByTaskId)
+    }
+  }
+  
+  private func runInBackground() {
+    log("runInBackground")
+    stopBgTasks()
+    self.backgroundTask = self.app?.beginBackgroundTask(withName: "runInBackground", expirationHandler: taskExpirationHandler) ?? .invalid
+    //    self.scheduleAppSm02BgConnection()
+  }
+  
+  private func taskExpirationHandler () -> Void {
+    log("expirationHandler")
+    if rs.connection.isConnected {
+      rs.connection.disconnect(temporary: true)
+    }
+    if (self.backgroundTask != .invalid) {
+      self.app?.endBackgroundTask(self.backgroundTask)
+      self.backgroundTask = .invalid
+    }
+  }
+  
+  private func setSmEventsListerers() {
+    self.eventListenerUUID = rs.on(event: { [weak self] (event) in
+      guard case .serverDown = event else {
+        return
+      }
+      guard let remote = rs.connection.address else {
+        return
+      }
+      log("eventListenerUUID invalidate")
+      self?.invalidate(connection: remote)
+    })
+    
+  }
+  
+  private func setPingTimer() {
+    
+    self.messageListener = rs.connection.$lastMessageAt.on(change: {[unowned self] _ in
+      if (rs.connection.isConnected && self.pingMissed) {
+        self.pingMissed = false
+      }
+    })
+    
+    self.pingTimer = Timer.scheduledTimer(withTimeInterval: RemoteService.PING_INTERVAL, repeats: true) {[unowned self] _ in
+      guard rs.connection.isConnected else {
+        self.pingMissed = false
+        return
+      }
+      log("ping check")
+      if (!self.pingMissed) {
+        self.pingMissed = true
+        return
+      }
+      log("Ping disconnect")
+      
+      rs.connection.disconnect(temporary: true)
+      self.stopBgTasks()
+    }
+  }
+  
+  private func registerBgTask() {
+    
+    let regesterResult = BGTaskScheduler.shared.register(forTaskWithIdentifier: standByTaskId, using: .global()) {task in
+      log("BGTaskScheduler Task \(standByTaskId) run")
+      self.runInBackground()
+      task.setTaskCompleted(success: true)
+    }
+    
+    hasRegisteredBgTask = regesterResult
+    
+    log("BGTaskScheduler task \(standByTaskId) register result", regesterResult)
+  }
+  
+  private func scheduleAppSm02BgConnection() {
+    BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: standByTaskId)
+    let request = BGProcessingTaskRequest(identifier: standByTaskId)
+    
+    request.requiresNetworkConnectivity = true
+    //    request.earliestBeginDate = Date(timeIntervalSinceNow: 20)
+    do {
+      log("scheduleAppSm02BgConnection submit")
+      try BGTaskScheduler.shared.submit(request)
+    } catch {
+      log("Could not schedule app refresh: \(error)")
     }
   }
 }
