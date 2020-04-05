@@ -47,11 +47,13 @@ struct ScoreSwiftUIView: View {
   @State var rightDeci = 0
   @State var rightUnit = 0
   let pickerWidth = 19 / 20 * width / 6
-  
+  let deciMax = 5
+  let deciOptions: [String]
+  let zeroOptions: [String] = ["0"]
   
   func getScore() -> (left: UInt8, right: UInt8) {
-    var selectionLeft = [leftDeci, leftUnit]
-    var selectionRight = [rightDeci, rightUnit]
+    let selectionLeft = leftDeci < deciMax ? [leftDeci, leftUnit] : [deciMax, 0]
+    let selectionRight = rightDeci < deciMax ? [rightDeci, rightUnit] : [deciMax, 0]
     let mults = [10, 1]
     func calc(_ arr: [Int]) -> UInt8 {
       var res = 0;
@@ -61,15 +63,25 @@ struct ScoreSwiftUIView: View {
       return UInt8(res)
     }
     
+    print(calc(selectionLeft), " : ", calc(selectionRight))
+    
     return (calc(selectionLeft), calc(selectionRight))
   }
   
   
   init(left: UInt8, right: UInt8) {
-    self._leftDeci = State(wrappedValue: Int(left / 10))
-    self._leftUnit = State(wrappedValue: Int(left % 10))
-    self._rightDeci = State(wrappedValue: Int(right / 10))
-    self._rightUnit = State(wrappedValue: Int(right % 10))
+    
+    let lScore = min(left, UInt8(MAX_SCORE))
+    let rScore = min(right, UInt8(MAX_SCORE))
+    self._leftDeci = State(wrappedValue: Int(lScore / 10))
+    self._leftUnit = State(wrappedValue: Int(lScore % 10))
+    self._rightDeci = State(wrappedValue: Int(rScore / 10))
+    self._rightUnit = State(wrappedValue: Int(rScore % 10))
+    
+    self.deciOptions  = Array(0...self.deciMax).map({"\($0)"})
+    
+    assert(MAX_SCORE / self.deciMax == 10)
+    assert(MAX_SCORE % 10 == 0)
   }
   
   var body: some View {
@@ -78,15 +90,26 @@ struct ScoreSwiftUIView: View {
       Spacer()
       HStack(spacing: 0){
         Spacer()
-        CommonPicker(selected: self.$leftDeci).frame(width: pickerWidth)
-        CommonPicker(selected: self.$leftUnit).frame(width: pickerWidth)
+        CommonPicker(selected: self.$leftDeci, options: deciOptions).frame(width: pickerWidth)
+        if leftDeci < deciMax {
+          CommonPicker(selected: self.$leftUnit).frame(width: pickerWidth)
+        }
+        if leftDeci == deciMax {
+          CommonPicker(selected: self.$leftUnit, options: zeroOptions).frame(width: pickerWidth)
+        }
         VStack(spacing: 0){
           Spacer()
           Text(" ")
           Spacer()
         }.frame(width: 3*width/20)
-        CommonPicker(selected: self.$rightDeci).frame(width: pickerWidth)
-        CommonPicker(selected: self.$rightUnit).frame(width: pickerWidth)
+        CommonPicker(selected: self.$rightDeci, options: deciOptions).frame(width: pickerWidth)
+        if rightDeci < deciMax {
+          CommonPicker(selected: self.$rightUnit).frame(width: pickerWidth)
+        }
+        if rightDeci == deciMax {
+          CommonPicker(selected: self.$rightUnit, options: zeroOptions).frame(width: pickerWidth)
+        }
+        
         Spacer()
       }
       Spacer()
