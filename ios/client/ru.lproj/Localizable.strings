@@ -11,9 +11,14 @@
 
 "QR scanner" = "QR сканер";
 
-"The code is recognized" = "Код распознан. Удостоверьтесь, что вы подключены к нужной Wi-Fi сети прежде чем продолжить.";
+"The code is recognized" = "Код распознан. Удостоверьтесь, что вы подключены к нужной Wi-Fi сети прежде чем продолжить. Выберите тип Wi-Fi сети для автоматического одноразового подключения";
 "The code is unrecognized" = "Код не распознан";
-"Connect" = "Подключиться";
+"Connect Sm02" = "Подключиться к Sm02";
+"Connect Open WiFi first" = "Открытая сеть";
+"Connect Protected WiFi first" = "Защищённая сеть";
+"Please provide password" = "Введите пароль";
+"We never save or share your data" = "Мы никогда не сохраняем и не передаем ваши данные";
+"Proceed" = "Продолжить";
 "Skip" = "Пропустить";
 "disconnected" = "нет связи с Sm02";
 

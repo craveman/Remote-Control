@@ -11,14 +11,38 @@ import QRCodeReader
 import NetworkExtension
 import SystemConfiguration.CaptiveNetwork
 
+fileprivate func log(_ items: Any...) {
+  print("QrViewController:log: ", items)
+}
+
 class QrViewController: UIViewController {
   
   public static let SCANNER = "QR scanner"
   public static let SCAN_SUCCESS = "The code is recognized"
   public static let SCAN_FAIL = "The code is unrecognized"
-  public static let CONNECT = "Connect"
+  public static let CONNECT = "Connect Sm02"
+  public static let CONNECT_OPEN_WIFI = "Connect Open WiFi first"
+  public static let CONNECT_PROTECTED_WIFI = "Connect Protected WiFi first"
   public static let RECONNECT = "Try again"
   public static let ERROR = "Connection error"
+  public var isOnWiFiLookup = false {
+    didSet {
+      if isOnWiFiLookup {
+        spinner.isHidden = false
+        spinner.startAnimating()
+      } else {
+        spinner.stopAnimating()
+        spinner.isHidden = true
+      }
+    }
+  }
+  
+  @IBOutlet weak var spinner: UIActivityIndicatorView! {
+    didSet {
+      spinner.stopAnimating()
+      spinner.isHidden = true
+    }
+  }
   
   @IBOutlet weak var previewView: QRCodeReaderView! {
     didSet {
@@ -40,17 +64,8 @@ class QrViewController: UIViewController {
   lazy var reader: QRCodeReader = QRCodeReader()
   private var qrCodeProcessor: QrCodeProcessor? = nil
   var alert: UIAlertController?
-  var onSuccess: (() -> Void) = { print ("Not defined success action") }
+  var onSuccess: (() -> Void) = { log ("Not defined success action") }
   
-  fileprivate func dismissAlert() {
-    print("dismiss alert")
-    guard self.alert != nil else {
-      return
-    }
-    
-    self.alert!.dismiss(animated: false)
-    self.alert = nil
-  }
   
   override func viewDidAppear (_ animated: Bool) {
     self.qrCodeProcessor = QrCodeProcessor(controller: self)
@@ -58,7 +73,7 @@ class QrViewController: UIViewController {
   }
   
   override func viewWillDisappear (_ animated: Bool) {
-    print("viewWillDisappear")
+    log("viewWillDisappear")
     dismissAlert()
     super.viewWillDisappear(animated)
   }
@@ -95,6 +110,10 @@ class QrViewController: UIViewController {
       }
     }
     
+    if (self.isOnWiFiLookup) {
+      return
+    }
+    
     reader.startScanning()
   }
   
@@ -104,45 +123,90 @@ class QrViewController: UIViewController {
     }
   }
   
+  fileprivate func showAlert(_ alert: UIAlertController) {
+    dismissAlert()
+    self.alert = alert
+    present(alert, animated: true, completion: {
+      log("alert present completed: " + (alert.message ?? "empty alert"))
+    })
+  }
+  
+  private func dismissAlert() {
+    log("try dismiss alert")
+    guard self.alert != nil else {
+      return
+    }
+    log("dismissing: " + ( alert!.message ?? "-empty-" ) )
+    self.alert!.dismiss(animated: false)
+    self.alert = nil
+    log("alert dismissed")
+  }
+  
   private struct QrCodeProcessor {
     
     let controller: QrViewController
     
     func on (success remote: RemoteAddress) {
-      print("parsed \(remote)")
+      log("parsed \(remote)")
+      let connectionProcessor = ConnectionProcessor(controller: controller)
       
+      func complete() {
+        connectionProcessor.connectServer(to: remote)
+      }
       
-      let titleString = NSLocalizedString(SCANNER, comment: "")
+      func protectedNetworkTry() {
+        connectionProcessor.askForWiFiPass(completionHandler: { (pass) in
+          let password = pass.count > 0 ? pass : nil
+          connectionProcessor.connectHotspot(remote.ssid, passoword: password) { connected in
+            guard connected else {
+              self.controller.present(alert, animated: true, completion: nil)
+              return
+            }
+            
+            complete()
+          }
+        })
+      }
+      
+      func openNetworkTry() {
+        connectionProcessor.connectHotspot(remote.ssid) { connected in
+          guard connected else {
+            self.controller.present(alert, animated: true, completion: nil)
+            return
+          }
+          
+          complete()
+        }
+      }
+      let titleString = remote.ssid  // NSLocalizedString(SCANNER, comment: "")
       let bodyString = NSLocalizedString(SCAN_SUCCESS, comment: "")
       let okString = NSLocalizedString(CONNECT, comment: "")
+      let open = NSLocalizedString(CONNECT_OPEN_WIFI, comment: "")
+      let secured = NSLocalizedString(CONNECT_PROTECTED_WIFI, comment: "")
       
       let alert = UIAlertController(
         title: titleString,
         message: bodyString,
-        preferredStyle: .alert
+        preferredStyle: .actionSheet
       )
       
-      let connectionProcessor = ConnectionProcessor(controller: controller)
+      alert.addAction(UIAlertAction(title: okString, style: .cancel, handler: { action in
+        complete()
+      }))
       
+      alert.addAction(UIAlertAction(title: open, style: .default, handler: { action in
+        openNetworkTry()
+      }))
       
+      alert.addAction(UIAlertAction(title: secured, style: .default, handler: { action in
+        protectedNetworkTry()
+      }))
       
-      connectionProcessor.connectHotspot(remote.ssid) { connected in
-        guard connected else {
-          alert.addAction(UIAlertAction(title: okString, style: .cancel, handler: { action in
-            connectionProcessor.connectServer(to: remote)
-          }))
-          
-          self.controller.present(alert, animated: true, completion: nil)
-          return
-        }
-        
-        connectionProcessor.connectServer(to: remote)
-      }
-      
+      controller.present(alert, animated: true)
     }
     
     func on (failure error: Error) {
-      print("error \(error)")
+      log("error \(error)")
       
       let titleString = NSLocalizedString(SCANNER, comment: "")
       let bodyString = NSLocalizedString(SCAN_FAIL, comment: "")
@@ -164,7 +228,7 @@ class QrViewController: UIViewController {
   
   private struct ConnectionProcessor {
     //     todo: ask user for location -> WiFi list reading
-    private let hasWiFiReadingPermition = true
+    private let hasWiFiReadingPermition = false
     
     public static let CONNECTION_FAILED = "Can't connect to %@. %@"
     
@@ -173,6 +237,9 @@ class QrViewController: UIViewController {
     public static let TIMEOUT = "Connection timeout. Check that you are connected to the '%@' Wi-Fi network."
     public static let REFUSED = "A remote server is not reachable."
     public static let UNKNOWN = "Unknown connection error: %@"
+    public static let PROVIDE_PASSWORD = "Please provide password"
+    public static let PASSWORD_PRIVACY = "We never save or share your data"
+    public static let PROCEED = "Proceed"
     
     let controller: QrViewController
     
@@ -191,7 +258,41 @@ class QrViewController: UIViewController {
       }
     }
     
+    func askForWiFiPass(completionHandler: ((String) -> Void)? = nil) {
+      let title = NSLocalizedString(ConnectionProcessor.PROVIDE_PASSWORD, comment: "")
+      let message = NSLocalizedString(ConnectionProcessor.PASSWORD_PRIVACY, comment: "")
+      let joinButtonText = NSLocalizedString(ConnectionProcessor.PROCEED, comment: "")
+      let alert = UIAlertController(
+        title: title,
+        message: message,
+        preferredStyle: .alert
+      )
+      var passInput: UITextField? = nil
+      
+      alert.addTextField { (field) in
+        log(field)
+        field.isSecureTextEntry = true
+        field.passwordRules = UITextInputPasswordRules(descriptor: "allowed: upper, lower, digit, [-().&@?’#,/&quot;+]; minlength: 8;")
+        field.autocorrectionType = .no
+        field.autocapitalizationType = .none
+        field.keyboardType = .namePhonePad
+        
+        field.returnKeyType = .join
+        passInput = field
+      }
+            
+      alert.addAction(UIAlertAction(title: joinButtonText, style: .default, handler: { action in
+        log("Proceed", passInput?.text ?? "<empty>")
+        if completionHandler != nil{
+          completionHandler!(passInput?.text ?? "")
+        }
+      }))
+      
+      controller.present(alert, animated: true, completion: nil)
+    }
+    
     func connectHotspot(_ ssid: String, passoword pass: String? = nil, joinOnce once: Bool = true, isWEP wep: Bool = false, completionHandler: ((Bool) -> Void)? = nil) {
+      
       var configuration: NEHotspotConfiguration
       if (pass == nil) {
         configuration = NEHotspotConfiguration.init(ssid: ssid)
@@ -199,41 +300,44 @@ class QrViewController: UIViewController {
         configuration = NEHotspotConfiguration.init(ssid: ssid, passphrase: pass!, isWEP: wep)
       }
       
+      controller.isOnWiFiLookup = true
+      
       configuration.joinOnce = once
       //      NEHotspotConfigurationManager.shared.removeConfiguration(forSSID: ssid)
       NEHotspotConfigurationManager.shared.apply(configuration) { (error) in
+        
+        self.controller.isOnWiFiLookup = false
+        
         var connected = false
         if error != nil {
           if (error! as NSError).code == NEHotspotConfigurationError.alreadyAssociated.rawValue {
-            print("Already Connected", error)
+            log("Already Connected", error ?? "NO_ERROR")
             connected = true
           }
           else if (error! as NSError).code == NEHotspotConfigurationError.userDenied.rawValue {
-            print("User Denied", error)
+            log("User Denied", error ?? "NO_ERROR")
           }
           else {
-            print("Not Connected", error)
+            log("Not Connected", error ?? "NO_ERROR")
           }
         }
         else {
-          
           if self.hasWiFiReadingPermition {
             let list = self.currentSSIDs()
             
-            print("currentSSIDs:", list)
+            log("currentSSIDs:", list)
             connected = list.first == ssid;
           } else {
             connected = true
           }
           
-          print("Connected:", connected)
+          log("Connected:", connected)
         }
         if completionHandler != nil {
           completionHandler!(connected)
         }
       }
     }
-    
     
     func connectServer (to remote: RemoteAddress) {
       
@@ -284,7 +388,7 @@ class QrViewController: UIViewController {
       alert.addAction(UIAlertAction(title: tryAgainButtonString, style: .cancel, handler: { action in
         self.controller.reader.startScanning()
       }))
-      controller.present(alert, animated: true, completion: nil)
+      controller.showAlert(alert)
     }
   }
   
@@ -330,10 +434,7 @@ class QrViewController: UIViewController {
           }
         }
       }))
-      
-      controller.dismissAlert()
-      controller.alert = alert
-      controller.present(alert, animated: true, completion: nil)
+      controller.showAlert(alert)
     }
     
     private func handleReaderNotSupported () {
@@ -348,10 +449,9 @@ class QrViewController: UIViewController {
       )
       
       alert.addAction(UIAlertAction(title: okButtonString, style: .cancel, handler: nil))
-      print("handleReaderNotSupported")
-      controller.dismissAlert()
-      controller.alert = alert
-      controller.present(alert, animated: true, completion: nil)
+      log("handleReaderNotSupported")
+      controller.showAlert(alert)
+      
     }
   }
 }

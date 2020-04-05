@@ -69,7 +69,7 @@ fileprivate struct TimeModalContent: View {
       Spacer()
       HStack(spacing: 0){
         Spacer()
-        CommonPicker(selected: self.$minDeci).frame(width: pickerWidth)
+        CommonPicker(selected: self.$minDeci, options: firstDigitOpts).frame(width: pickerWidth)
         CommonPicker(selected: self.$minUnit).frame(width: pickerWidth)
         VStack(spacing: 0){
           Spacer()

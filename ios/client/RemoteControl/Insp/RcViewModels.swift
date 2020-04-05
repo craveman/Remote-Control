@@ -54,7 +54,7 @@ class InspSettings: ObservableObject {
   
   public func quit() {
     vc?.presentingViewController?.dismiss(animated: true, completion: {
-      print("quit complete")
+      print("InspSettings::quit quit complete")
     })
   }
 }
