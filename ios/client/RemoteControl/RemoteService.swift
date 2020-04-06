@@ -530,11 +530,11 @@ final class RemoteService {
       fileprivate init () {
         let temp = [
           $speed.on(change: { [unowned self] update in
-            let outbound = Outbound.player(speed: update, recordMode: self.mode, timestamp: 0)
+            let outbound = Outbound.player(speed: update, recordMode: self.mode, timestamp: self.timestamp)
             Sm02.send(message: outbound)
           }),
           $mode.on(change: { [unowned self] update in
-            let outbound = Outbound.player(speed: self.speed, recordMode: update, timestamp: 0)
+            let outbound = Outbound.player(speed: self.speed, recordMode: update, timestamp: self.timestamp)
             Sm02.send(message: outbound)
           })
         ]

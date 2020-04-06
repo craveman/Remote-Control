@@ -60,14 +60,6 @@ class InspSettings: ObservableObject {
 }
 
 class PlaybackControls: ObservableObject {
-  @Published var selectedPlayer: PersonType = .left {
-    didSet {
-      self.isActive = false
-      self.selectedReplay = 0
-      self.currentPosition = 0
-      self.selectedSpeed = 10
-    }
-  }
   @Published var selectedReplay: UInt8 = 0
   @Published var isActive: Bool = false {
     didSet {
@@ -79,7 +71,7 @@ class PlaybackControls: ObservableObject {
     }
   }
   @Published var selectedSpeed: UInt8 = 10
-  @Published var currentPosition: UInt8 = 0
+  @Published var currentPosition: UInt32 = 0
   @Published var replayLength: UInt32 = 0
 }
 

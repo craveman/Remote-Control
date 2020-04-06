@@ -64,8 +64,12 @@
 "names" = "имена";
 "title Set names" = "Имена";
 
-"video replays" = "видео повторы";
-"title Video replays" = "Видеоповтор";
+"video replays" = "видеоповторы";
+"title Video replays" = "Видеоповторы";
+"title Replay RC" = "Пульт повтора";
+"tab Counters" = "Счётчики";
+"tab Records" = "Записи";
+"No records found" = "Нет записей";
 
 "priority" = "приоритет";
 "title Priority" = "Приоритет";

@@ -70,6 +70,10 @@
 
 "video replays" = "video replays";
 "title Video replays" = "Video replays";
+"title Replay RC" = "Replay Remote";
+"tab Counters" = "Counters";
+"tab Records" = "Records";
+"No records found" = "No records found";
 
 "priority" = "priority";
 "title Priority" = "Priority";
