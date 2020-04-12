@@ -141,6 +141,7 @@ final class RemoteService {
         forget()
       }
       isConnected = false
+      RemoteService.shared.video.replay.clear()
     }
     
     func forget () {
@@ -490,6 +491,15 @@ final class RemoteService {
     @Published
     var recordMode: RecordMode = .stop
     
+    func cut() -> Void {
+      let outbound = Outbound.record(recordMode: .pause)
+      Sm02.send(message: outbound)
+//
+//      withDelay({
+//        self.replay.doVideoReady()
+//      })
+    }
+    
     @Published
     var routes: [Camera] = []
     
@@ -558,6 +568,12 @@ final class RemoteService {
       func pause () {
         mode = .pause
       }
+      
+      func standBy() {
+        mode = .pause
+        speed = 10
+        goto(0)
+      }
     }
     
     final class VideoReplayManagement {
@@ -574,17 +590,21 @@ final class RemoteService {
       @Published
       private(set) var isReady = false
       
+//      @Published
+      private(set) var recordsList: [String] = []
+      
       @Published
       private(set) var isReceived = false
       
       fileprivate var subs: [AnyCancellable] = []
-      
+      private var counter = 0
       fileprivate init () {
         Sm02.on(message: { [unowned self] (inbound) in
-          guard case .videoReady(_) = inbound else {
+          guard case let .videoReady(name) = inbound else {
             return
           }
           self.isReady = true
+          self.recordsList.append(name)
         })
         Sm02.on(message: { [unowned self] (inbound) in
           guard case .videoReceived = inbound else {
@@ -604,6 +624,30 @@ final class RemoteService {
         ]
         self.subs = temp
       }
+      
+      fileprivate func doVideoReady() {
+        self.counter += 1
+        self.isReady = true
+        self.recordsList.append("\(self.counter)")
+      }
+      
+      func clear() -> Void {
+        self.recordsList.removeAll()
+      }
+      
+      func refresh() -> Void {
+        self.recordsList.removeAll()
+        Sm02.on(message: { [unowned self] (inbound) in
+          guard case let .videoList(list) = inbound else {
+            return
+          }
+          self.isReady = list.count > 0
+          self.recordsList.append(contentsOf: list)
+        })
+        
+      }
+      
+      // TODO: add refresh of recordsList
     }
   }
   

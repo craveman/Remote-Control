@@ -26,6 +26,7 @@ class InspSettings: ObservableObject {
   @Published var shouldShowTimerView: Bool = rs.timer.mode == .main && rs.timer.state == .running
   @Published var shouldShowPauseView: Bool = rs.timer.mode == .pause && rs.timer.state == .running
   @Published var shouldShowMedicalView: Bool = rs.timer.mode == .medicine && rs.timer.state == .running
+  @Published var shouldShowVideoRCView: Bool = false
   private var vc: UIViewController?
   
   public func setVC (vc: UIViewController) {
@@ -60,19 +61,91 @@ class InspSettings: ObservableObject {
 }
 
 class PlaybackControls: ObservableObject {
-  @Published var selectedReplay: UInt8 = 0
-  @Published var isActive: Bool = false {
+  @Published var selectedReplay: String? = nil
+  @Published var replaysList: [String] = []
+  @Published var isRecordActive: Bool = false {
     didSet {
-      if (isActive) {
+      if (isRecordActive) {
+        rs.video.recordMode = .play
+      } else {
+        rs.video.recordMode = .stop
+      }
+      print("Record mode mow is \(isRecordActive)")
+    }
+  }
+  @Published var canPlay: Bool = false
+  @Published var isPlayActive: Bool = false {
+    didSet {
+      if (isPlayActive) {
         rs.video.player.play()
       } else {
         rs.video.player.pause()
       }
+      print("active \(isPlayActive)")
     }
   }
-  @Published var selectedSpeed: UInt8 = 10
-  @Published var currentPosition: UInt32 = 0
+  
+  @Published var selectedSpeed: Double = 0 {
+    didSet {
+      if(selectedSpeed.rounded() != oldValue.rounded()) {
+        Vibration.impact()
+      }
+      rs.video.player.speed = UInt8(selectedSpeed.rounded())
+      print("speed \(selectedSpeed)")
+      if (selectedSpeed.remainder(dividingBy: 1) != 0) {
+        DispatchQueue.main.async {
+                    self.selectedSpeed = self.selectedSpeed.rounded()
+        }
+      }
+      
+    }
+  }
+  @Published var currentPosition: Double = 0 {
+    didSet {
+      print("goto \(currentPosition)")
+      rs.video.player.goto(UInt32(currentPosition.rounded()))
+    }
+  }
   @Published var replayLength: UInt32 = 0
+  
+  func refreshVideoList() -> Void {
+    self.replaysList.removeAll()
+    self.replaysList.append(contentsOf: rs.video.replay.recordsList)
+//    self.replaysList = rs.video.replay.recordsList
+  }
+  
+  func loaded() -> Void {
+    guard selectedReplay != nil else {
+      // ejected before loaded
+      return
+    }
+    
+    canPlay = true
+    rs.video.player.standBy()
+    selectedSpeed = Double(rs.video.player.speed)
+    currentPosition = 0
+  }
+  
+  func eject() -> Void {
+    rs.video.player.stop()
+    choose(name: nil)
+    canPlay = false
+  }
+  
+  func choose(name: String?) -> Void {
+    selectedReplay = name
+    guard name != nil else {
+      canPlay = false
+      print("choosen filename is nil")
+      return
+    }
+    guard replaysList.contains(name!) else {
+      print("choosen filename '\(name!)' is not presented in list")
+      return
+    }
+    
+    rs.video.upload(to: name!)
+  }
 }
 
 class FightSettings: ObservableObject {

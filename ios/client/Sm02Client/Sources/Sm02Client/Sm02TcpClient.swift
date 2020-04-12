@@ -1,6 +1,7 @@
 
 import NIO
 import class NIOConcurrencyHelpers.Atomic
+import class NIO.EventLoopFuture
 
 class Sm02TcpClient: Sm02Client {
 
@@ -65,11 +66,11 @@ class Sm02TcpClient: Sm02Client {
     return nil
   }
 
-  func send (message: Outbound) {
+  func send (message: Outbound) -> EventLoopFuture<Void>? {
     if isConnected == false {
-      return
+      return nil
     }
-    channel?.writeAndFlush(message, promise: nil)
+    return channel?.writeAndFlush(message)
   }
 
   func close () {

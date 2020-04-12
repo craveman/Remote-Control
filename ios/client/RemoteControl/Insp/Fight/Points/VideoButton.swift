@@ -42,50 +42,35 @@ class SliderBindingManager: ObservableObject {
     self.setter = setter
     self.value = initialValue
   }
-  var setter: (Double, Double) -> Void
+  private var setter: (Double, Double) -> Void = {(_, _) in}
   @Published var value: Double = 0 {
     didSet {
-      setter(value, oldValue)
+      self.setter(value, oldValue)
     }
   }
-  let characterLimit = NAME_LENGTH_LIMIT
+  
+  func onChange(updater setter: @escaping (Double, Double) -> Void) -> Void {
+    self.setter = setter
+  }
 }
 
-
 public struct VideoRC: View {
-  @Environment(\.presentationMode) var presentationMode
   @EnvironmentObject var playback: PlaybackControls
-  @ObservedObject var position: SliderBindingManager
-  @ObservedObject var speed : SliderBindingManager
   
   var ejectAction: () -> Void
   
   init(_ ejectAction: @escaping () -> Void) {
-    self.position = SliderBindingManager(0, updater: {(val, old) in
-      print("position: \(val)")
-      
-      rs.video.player.goto(UInt32(val.rounded()))
-      //      self.playback.currentPosition = rs.video.player.timestamp
-    })
-    self.speed = SliderBindingManager(10, updater: {(val, old) in
-      print("speed: \(val)")
-      if(val.rounded() != old.rounded()) {
-        Vibration.impact()
-      }
-      rs.video.player.speed = UInt8(val)
-      //      self.playback.selectedSpeed = rs.video.player.speed
-    })
     self.ejectAction = ejectAction
   }
   //rs.video.player.timestamp
   var sliders: some View {
     Group() {
       VStack {
-        CommonFloatSlider(sliderValue: $position.value, minimumValue: 0, maximumvalue: 100, formatter: { _ in "" })
+        CommonFloatSlider(sliderValue: $playback.currentPosition, minimumValue: 0, maximumvalue: 100, formatter: { _ in "" }).disabled(playback.isPlayActive)
         primaryColor(dinFont(Text("position")))
       }
       VStack {
-        CommonFloatSlider(sliderValue: $speed.value, minimumValue: 0, maximumvalue: 10, formatter: { _ in "" })
+        CommonFloatSlider(sliderValue: $playback.selectedSpeed, minimumValue: 0, maximumvalue: 10, formatter: { _ in "" })
         primaryColor(dinFont(Text("speed")))
       }
     }
@@ -93,15 +78,15 @@ public struct VideoRC: View {
   
   var playPauseButton: some View {
     Group() {
-      if self.playback.isActive {
+      if self.playback.isPlayActive {
         ConfirmModalButton(action: {
-          self.playback.isActive = false
+          self.playback.isPlayActive = false
           
         }, text: "", imageName: "pause").frame(width: width / 2)
       }
-      if !self.playback.isActive {
+      if !self.playback.isPlayActive {
         ConfirmModalButton(action: {
-          self.playback.isActive = true
+          self.playback.isPlayActive = true
           
         }, text: "", imageName: "play").frame(width: width / 2)
       }

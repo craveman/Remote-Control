@@ -11,6 +11,7 @@ import SwiftUI
 struct RcSwiftUIView: View {
   @EnvironmentObject var settings: FightSettings
   @EnvironmentObject var insp: InspSettings
+  @EnvironmentObject var playback: PlaybackControls
   
   var body: some View {
     VStack(spacing: 0){
@@ -34,7 +35,7 @@ struct RcSwiftUIView: View {
             Text("Fight")
         }.tag(1)
         
-        SettingsSwiftUIView()
+        SettingsSwiftUIView().environmentObject(playback)
           .tabItem {
             Image(systemName: "arrowtriangle.down.fill")
             Text("SettingsTab")

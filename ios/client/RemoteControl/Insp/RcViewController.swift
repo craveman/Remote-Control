@@ -213,6 +213,18 @@ class RcViewController: UIViewController {
     
     subscriptions.append(rScore$)
     subscriptions.append(rCard$)
+    
+    let videoRecordReady$ = rs.video.replay.$isReady.on(change: { v in
+      self.onMainThread({self.playbackController.refreshVideoList()})
+    })
+    
+    
+    let videoRecordLoaded$ = rs.video.replay.$isReceived.on(change: { _ in
+      self.onMainThread({self.playbackController.loaded()})
+    })
+    
+    subscriptions.append(videoRecordReady$)
+    subscriptions.append(videoRecordLoaded$)
   }
   
   private func addViewControllerAsChildViewController(childViewController: UIViewController) {

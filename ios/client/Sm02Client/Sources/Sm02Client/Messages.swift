@@ -119,6 +119,7 @@ public enum Inbound {
   case fightResult(result: Decision)
   case passiveMax
   case pauseFinished
+  case videoList(names: [String])
   case videoReady(name: String)
   case videoReceived
   case cameraOnline
@@ -148,6 +149,7 @@ public enum Outbound {
   case player(speed: UInt8, recordMode: RecordMode, timestamp: UInt32)
   case record(recordMode: RecordMode)
   case devicesRequest
+  case videoListRequest
   case reset
   case ethernetNextOrPrevious(next: Bool)
   case ethernetApply
@@ -188,6 +190,9 @@ extension Inbound: Message {
       return 0x11
     case .pauseFinished:
       return 0x12
+    case .videoList:
+      // TODO: add code
+      return 0xAA
     case .videoReady:
       return 0x1B
     case .videoReceived:
@@ -246,6 +251,9 @@ extension Outbound: Message {
       return 0x18
     case .devicesRequest:
       return 0x19
+    case .videoListRequest:
+      // TODO: add code
+      return 0xAA
     case .reset:
       return 0x1D
     case .ethernetNextOrPrevious:

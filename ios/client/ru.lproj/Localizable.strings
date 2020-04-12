@@ -65,6 +65,8 @@
 "title Set names" = "Имена";
 
 "video replays" = "видеоповторы";
+"recording is active" = "запись включена";
+"recording turned off" = "запись выключена";
 "title Video replays" = "Видеоповторы";
 "title Replay RC" = "Пульт повтора";
 "tab Counters" = "Счётчики";

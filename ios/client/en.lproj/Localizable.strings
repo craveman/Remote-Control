@@ -69,6 +69,8 @@
 "No saved replays found" = "No saved replays found";
 
 "video replays" = "video replays";
+"recording is active" = "recording is active";
+"recording turned off" = "recording turned off";
 "title Video replays" = "Video replays";
 "title Replay RC" = "Replay Remote";
 "tab Counters" = "Counters";

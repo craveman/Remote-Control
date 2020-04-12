@@ -10,6 +10,7 @@ import SwiftUI
 
 struct SettingsSwiftUIView: View {
   @EnvironmentObject var insp: InspSettings
+  @EnvironmentObject var playback: PlaybackControls
   var body: some View {
     VStack(spacing: 0) {
       HStack(spacing: 0) {
@@ -23,7 +24,9 @@ struct SettingsSwiftUIView: View {
       
       HStack(spacing: 0) {
         PriorityButtonSwiftUIView()
-        VideoReplaysButtonSwiftUIView()
+        VideoReplaysButtonSwiftUIView(showModal: $insp.shouldShowVideoRCView)
+          .environmentObject(playback)
+          .environmentObject(insp)
       }
       HStack(spacing: 0) {
         NamesSettingsButtonSwiftUIView()
