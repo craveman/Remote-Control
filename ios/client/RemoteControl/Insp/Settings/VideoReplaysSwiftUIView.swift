@@ -59,8 +59,6 @@ final class PlayersReplaysCountStore: ObservableObject {
       print(self.playbacksRightCount)
     }
   }
-  
-  // @Published var items = ["Jane Doe", "John Doe", "Bob"]
 }
 
 struct VideoReplaysSwiftUIView: View {
@@ -151,7 +149,7 @@ struct ReplaysListUIView: View {
   @EnvironmentObject var playback: PlaybackControls
   @State var selectedReplay: Int?
   
-  func startLoadingItem() -> Void {
+  private func simulateLoadingItem() -> Void {
     // do staff
     withDelay({
       self.playback.loaded()
@@ -164,7 +162,7 @@ struct ReplaysListUIView: View {
     
     self.selectedReplay = index
     self.playback.choose(name: self.getTitle(index))
-    self.startLoadingItem()
+//    self.simulateLoadingItem()
     Vibration.impact()
   }
   
@@ -280,9 +278,7 @@ fileprivate struct RecordModeToggleButtonSwiftUIView: View {
             }){
               ZStack {
                 Image(systemName: "scissors").resizable()
-//                Image(systemName: "play.fill")
               }.frame(width: 32, height: 24).foregroundColor(primaryColor)
-//              primaryColor(dinFont(Text(NSLocalizedString("cut", comment: ""))))
             }.frame(width: width * 0.20)
           }.transition(AnyTransition.move(edge: .trailing))
         }
