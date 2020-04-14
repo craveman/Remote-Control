@@ -15,7 +15,7 @@ fileprivate func log(_ items: Any...) {
   print("ConnectionProcessor:log: ", items)
 }
 
-struct ConnectionProcessor {
+class ConnectionProcessor {
   public static let RECONNECT = "Try again"
   public static let ERROR = "Connection error"
   //     todo: ask user for location -> WiFi list reading
@@ -33,6 +33,10 @@ struct ConnectionProcessor {
   public static let PROCEED = "Proceed"
   
   let controller: QrViewController
+  
+  init(controller: QrViewController) {
+    self.controller = controller
+  }
   
   func currentSSIDs() -> [String?] {
     guard let interfaceNames = CNCopySupportedInterfaces() as? [String] else {

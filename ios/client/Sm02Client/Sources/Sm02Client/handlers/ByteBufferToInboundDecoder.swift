@@ -1,4 +1,5 @@
 
+import Foundation
 import NIO
 import NIOExtras
 
@@ -74,12 +75,17 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
       return nil
     }
     
-    guard let json = try? JSONSerialization.jsonObject(with: jsonString, options: [])
-    do {
-      names.append(json as [String])
-    } catch {
-      print("ERROR: The 'decodeVideoReplaysList' message failed to parse json - \(error) -  from \(jsonString)")
+    guard let json = try? JSONSerialization.jsonObject(with: jsonString.data(using: .utf8)!, options: []) else {
+      print("ERROR: The 'decodeVideoReplaysList' message failed to parse json  from \(jsonString)")
+      return nil
     }
+    
+    guard let list = json as? [String] else {
+      print("ERROR: The 'decodeVideoReplaysList' message failed to parse json as list of strings from \(jsonString)")
+      return nil
+    }
+    names.append(contentsOf: list)
+    
     return .videoList(names: names)
   }
 
