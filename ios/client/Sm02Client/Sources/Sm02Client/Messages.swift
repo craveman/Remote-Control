@@ -191,8 +191,7 @@ extension Inbound: Message {
     case .pauseFinished:
       return 0x12
     case .videoList:
-      // TODO: add code
-      return 0xAA
+      return 0x2A
     case .videoReady:
       return 0x1B
     case .videoReceived:
@@ -252,8 +251,7 @@ extension Outbound: Message {
     case .devicesRequest:
       return 0x19
     case .videoListRequest:
-      // TODO: add code
-      return 0xAA
+      return 0x29
     case .reset:
       return 0x1D
     case .ethernetNextOrPrevious:

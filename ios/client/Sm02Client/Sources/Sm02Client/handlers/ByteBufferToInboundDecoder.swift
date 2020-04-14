@@ -9,6 +9,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
   private static let decoders: [UInt8: Decoder] = [
     0x0B: decodeBroadcast,
     0x1A: decodeDeviceList,
+    0x2A: decodeVideoReplaysList,
     0x21: decodeEthernetDisplay,
     0x22: decodeFightResult,
     0x11: decodePassiveMax,
@@ -59,6 +60,27 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
       devices.append(device)
     }
     return .deviceList(devices: devices)
+  }
+  
+  private static func decodeVideoReplaysList (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
+//    guard let jsonLength = buffer.readUInt8() else {
+//      print("ERROR: The 'decodeVideoReplaysList' message doesn't have 'count' field")
+//      return nil
+//    }
+
+    var names: [String] = []
+    guard let jsonString = buffer.readString() else {
+      print("ERROR: The 'decodeVideoReplaysList' message doesn't have 'json[\"\"]' field", index)
+      return nil
+    }
+    
+    guard let json = try? JSONSerialization.jsonObject(with: jsonString, options: [])
+    do {
+      names.append(json as [String])
+    } catch {
+      print("ERROR: The 'decodeVideoReplaysList' message failed to parse json - \(error) -  from \(jsonString)")
+    }
+    return .videoList(names: names)
   }
 
   private static func decodeEthernetDisplay (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {

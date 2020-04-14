@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application (_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     self.app = application;
-    
+//    setNetworkEventsListerers()
     setSmEventsListerers()
     setPingTimer()
     //    TODO: if needed; N.B.! add task id to Info.plist
@@ -163,16 +163,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
   }
   
-  private func stopBgTasks() {
-    if (self.backgroundTask != .invalid) {
-      self.app?.endBackgroundTask(self.backgroundTask)
-      self.backgroundTask = .invalid
-    }
-    if (hasRegisteredBgTask) {
-      BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: standByTaskId)
-    }
-  }
-  
   private func runInBackground() {
     log("runInBackground")
     stopBgTasks()
@@ -203,6 +193,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       self?.invalidate(connection: remote)
     })
     
+  }
+  
+  private func setNetworkEventsListerers() {
+    let networkHandler = NetworkReachability();
+    networkHandler.start()
   }
   
   private func setPingTimer() {
@@ -256,4 +251,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       log("Could not schedule app refresh: \(error)")
     }
   }
+  
+  private func stopBgTasks() {
+    if (self.backgroundTask != .invalid) {
+      self.app?.endBackgroundTask(self.backgroundTask)
+      self.backgroundTask = .invalid
+    }
+    if (hasRegisteredBgTask) {
+      BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: standByTaskId)
+    }
+  }
+  
 }

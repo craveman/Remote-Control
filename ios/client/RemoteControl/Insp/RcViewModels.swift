@@ -67,8 +67,10 @@ class PlaybackControls: ObservableObject {
     didSet {
       if (isRecordActive) {
         rs.video.recordMode = .play
+        UIApplication.shared.isIdleTimerDisabled = true
       } else {
         rs.video.recordMode = .stop
+        UIApplication.shared.isIdleTimerDisabled = false
       }
       print("Record mode mow is \(isRecordActive)")
     }
