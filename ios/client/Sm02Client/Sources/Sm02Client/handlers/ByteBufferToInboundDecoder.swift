@@ -72,7 +72,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     
     var names: [String] = []
     guard let json = buffer.readJsonBody() else {
-      print("ERROR: The 'decodeVideoReplaysList' message doesn't have 'json' body in buffer: \(desc)",)
+      print("ERROR: The 'decodeVideoReplaysList' message doesn't have 'json' body in buffer: \(desc)")
       return nil
     }
     
