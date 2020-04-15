@@ -68,6 +68,7 @@
 "speed" = "speed";
 "No saved replays found" = "No saved replays found";
 
+"loading video" = "Loading";
 "video replays" = "video replays";
 "recording is active" = "recording is active";
 "recording turned off" = "recording turned off";

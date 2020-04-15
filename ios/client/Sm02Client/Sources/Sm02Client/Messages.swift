@@ -119,7 +119,7 @@ public enum Inbound {
   case fightResult(result: Decision)
   case passiveMax
   case pauseFinished
-  case videoList(names: [String])
+  case videoList(names: [String]?)
   case videoReady(name: String)
   case videoReceived
   case cameraOnline

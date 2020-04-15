@@ -68,20 +68,16 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
 //      print("ERROR: The 'decodeVideoReplaysList' message doesn't have 'count' field")
 //      return nil
 //    }
-
-    var names: [String] = []
-    guard let jsonString = buffer.readString() else {
-      print("ERROR: The 'decodeVideoReplaysList' message doesn't have 'json[\"\"]' field", index)
-      return nil
-    }
+    let desc = buffer.description
     
-    guard let json = try? JSONSerialization.jsonObject(with: jsonString.data(using: .utf8)!, options: []) else {
-      print("ERROR: The 'decodeVideoReplaysList' message failed to parse json  from \(jsonString)")
+    var names: [String] = []
+    guard let json = buffer.readJsonBody() else {
+      print("ERROR: The 'decodeVideoReplaysList' message doesn't have 'json' body in buffer: \(desc)",)
       return nil
     }
     
     guard let list = json as? [String] else {
-      print("ERROR: The 'decodeVideoReplaysList' message failed to parse json as list of strings from \(jsonString)")
+      print("ERROR: The 'decodeVideoReplaysList' message failed to parse json data as list of strings from json object: \(json)")
       return nil
     }
     names.append(contentsOf: list)
@@ -244,6 +240,22 @@ extension ByteBuffer {
             return self.readString(length: $0)
         }
   }
+}
+
+extension ByteBuffer {
+  
+  mutating func readJsonBody (_ size: Int? = nil) -> Any? {
+    let length = size ?? readableBytes
+    guard let jsonString = self.readString(length: length) else {
+      return nil
+    }
+    guard let json = try? JSONSerialization.jsonObject(with: jsonString.data(using: .utf8)!, options: []) else {
+      print("ERROR: The 'readJsonBody' method failed to parse json  from \(jsonString)")
+      return nil
+    }
+    return json
+  }
+  
 }
 
 extension ByteBuffer {

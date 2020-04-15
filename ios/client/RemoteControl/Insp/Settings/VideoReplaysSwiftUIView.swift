@@ -206,7 +206,7 @@ struct ReplaysListUIView: View {
   
   var rcView: some View {
     VStack(spacing: 0) {
-      primaryColor(dinFont(Text(getTitle(self.selectedReplay!)))).fixedSize()
+      primaryColor(dinFont(Text(getTitle(self.selectedReplay!)))).fixedSize().padding()
       VideoRC({
         self.selectedReplay = nil
         self.playback.eject()
@@ -219,11 +219,8 @@ struct ReplaysListUIView: View {
       Group() {
         if !self.playback.canPlay {
           Group() {
-            primaryColor(dinFont(Text("Loading"))).fixedSize()
+            primaryColor(dinFont(Text("loading video"))).fixedSize().padding()
             primaryColor(dinFont(Text("\(getTitle(selectedReplay!))"))).fixedSize()
-            //          Divider()
-            //          VideoButton().environmentObject(playback)
-            //          Divider()
           }
         }
         if self.playback.canPlay {
@@ -275,6 +272,7 @@ fileprivate struct RecordModeToggleButtonSwiftUIView: View {
             
             Button(action: {
               rs.video.cut()
+              Vibration.on()
             }){
               ZStack {
                 Image(systemName: "scissors").resizable()

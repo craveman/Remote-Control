@@ -36,6 +36,11 @@ import struct NIO.TimeAmount
 @_exported import enum Sm02Client.Inbound
 @_exported import enum Sm02Client.Outbound
 
+
+fileprivate func log(_ items: Any...) {
+  print("RemoteService:log: ", items)
+}
+
 final class RemoteService {
   
   static let shared = RemoteService()
@@ -351,9 +356,9 @@ final class RemoteService {
         switch inbound {
         case .pauseFinished:
           self.isPauseFinished = true
-          print("pauseFinished: \(self.isPauseFinished)")
+          log("pauseFinished: \(self.isPauseFinished)")
         case let .broadcast(_, _, _, timer, timerState):
-          print("\(timer), \(timerState)")
+          log("\(timer), \(timerState)")
           if self.time != timer {
             self.time = timer
           }
@@ -361,11 +366,11 @@ final class RemoteService {
             if self.raceConditionLock {
               return
             }
-            print("toggle state")
+            log("toggle state")
             self.state = timerState
             if self.state == .running && (self.mode == .medicine || self.mode == .pause) && self.isPauseFinished {
               self.isPauseFinished = false
-              print("pauseFinished set: \(self.isPauseFinished)")
+              log("pauseFinished set: \(self.isPauseFinished)")
             }
           }
         default:
@@ -641,8 +646,15 @@ final class RemoteService {
           guard case let .videoList(list) = inbound else {
             return
           }
-          self.isReady = list.count > 0
-          self.recordsList.append(contentsOf: list)
+          guard let names = list else {
+            log("Failed to parse list name Inbound (.videoList)")
+            self.isReady = false
+            self.recordsList = []
+            return
+          }
+          
+          self.isReady = names.count > 0
+          self.recordsList.append(contentsOf: names)
         })
         
       }
