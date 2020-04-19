@@ -28,6 +28,7 @@
 		851AE9CD2389E452001BE3FB /* NamesSettingsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9CC2389E452001BE3FB /* NamesSettingsSwiftUIView.swift */; };
 		851AE9CF2389E4F2001BE3FB /* WeaponsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9CE2389E4F2001BE3FB /* WeaponsSwiftUIView.swift */; };
 		851AE9D12389ECE5001BE3FB /* ScoreSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9D02389ECE5001BE3FB /* ScoreSwiftUIView.swift */; };
+		85371938244B672700B14418 /* VideoRC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85371937244B672700B14418 /* VideoRC.swift */; };
 		85584AE3239ED5A2006EC133 /* RcViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85584AE2239ED5A2006EC133 /* RcViewModels.swift */; };
 		859B2C1A23E6289200699383 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 859B2C1923E6289200699383 /* NetworkExtension.framework */; };
 		85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A99338230B47A4003FC5BE /* Inspiration.storyboard */; };
@@ -115,6 +116,7 @@
 		851AE9CC2389E452001BE3FB /* NamesSettingsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamesSettingsSwiftUIView.swift; sourceTree = "<group>"; };
 		851AE9CE2389E4F2001BE3FB /* WeaponsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponsSwiftUIView.swift; sourceTree = "<group>"; };
 		851AE9D02389ECE5001BE3FB /* ScoreSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreSwiftUIView.swift; sourceTree = "<group>"; };
+		85371937244B672700B14418 /* VideoRC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRC.swift; sourceTree = "<group>"; };
 		85584ADD239C491A006EC133 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/QRConnect.strings; sourceTree = "<group>"; };
 		85584ADF239C4944006EC133 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/QRConnect.strings; sourceTree = "<group>"; };
 		85584AE2239ED5A2006EC133 /* RcViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RcViewModels.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				85A9934923109CB7003FC5BE /* RcViewController.swift */,
 				851AE9C0238932C2001BE3FB /* RcSwiftUIView.swift */,
 				85584AE2239ED5A2006EC133 /* RcViewModels.swift */,
+				85371937244B672700B14418 /* VideoRC.swift */,
 			);
 			path = Insp;
 			sourceTree = "<group>";
@@ -535,6 +538,7 @@
 				8FFBF9E42336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift in Sources */,
 				851AE9B923875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift in Sources */,
 				851AE9D12389ECE5001BE3FB /* ScoreSwiftUIView.swift in Sources */,
+				85371938244B672700B14418 /* VideoRC.swift in Sources */,
 				851AE9C1238932C2001BE3FB /* RcSwiftUIView.swift in Sources */,
 				851AE9BB23875FA4001BE3FB /* SegmentedPickerElementView.swift in Sources */,
 				85B661F7239327920016CE4F /* KeyboardGuardianSwiftUI.swift in Sources */,
@@ -768,7 +772,7 @@
 				CODE_SIGN_ENTITLEMENTS = "RemoteControl/Inspiration Point.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = NB936833RX;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -779,7 +783,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "Inspiration Point";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -797,7 +801,7 @@
 				CODE_SIGN_ENTITLEMENTS = "RemoteControl/Inspiration Point.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = NB936833RX;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -808,7 +812,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "Inspiration Point";
 				PROVISIONING_PROFILE_SPECIFIER = "";

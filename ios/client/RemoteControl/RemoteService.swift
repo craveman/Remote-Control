@@ -527,6 +527,10 @@ final class RemoteService {
     func upload (to fileName: String) {
       let outbound = Outbound.loadFile(name: fileName)
       Sm02.send(message: outbound)
+//      
+//      withDelay({
+//        self.replay.doReceived()
+//      })
     }
     
     final class VideoPlayerManagement {
@@ -541,14 +545,21 @@ final class RemoteService {
       private(set) var timestamp: UInt32 = 0
       
       fileprivate var subs: [AnyCancellable] = []
+      private var comboLock = false
       
       fileprivate init () {
         let temp = [
           $speed.on(change: { [unowned self] update in
+            guard !self.comboLock else {
+              return
+            }
             let outbound = Outbound.player(speed: update, recordMode: self.mode, timestamp: self.timestamp)
             Sm02.send(message: outbound)
           }),
           $mode.on(change: { [unowned self] update in
+            guard !self.comboLock else {
+              return
+            }
             let outbound = Outbound.player(speed: self.speed, recordMode: update, timestamp: self.timestamp)
             Sm02.send(message: outbound)
           })
@@ -571,17 +582,24 @@ final class RemoteService {
       }
       
       func pause () {
+        timestamp = 101
         mode = .pause
       }
       
       func standBy() {
+        comboLock = true
         mode = .pause
         speed = 10
+        comboLock = false
         goto(0)
       }
     }
     
     final class VideoReplayManagement {
+      
+      fileprivate func doReceived() {
+        isReceived = true
+      }
       
       public static var MAX_COUNTER: UInt8 = 2
       public static var DEFAULT_INIT_COUNTER: UInt8 = MAX_COUNTER

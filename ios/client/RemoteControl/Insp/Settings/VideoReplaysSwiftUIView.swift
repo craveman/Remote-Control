@@ -8,21 +8,21 @@
 
 import SwiftUI
 
+fileprivate let recordModeFeatureEnabled = false
+
 struct VideoReplaysButtonSwiftUIView: View {
-  
-  
-  @Binding var showModal: Bool;
+  @EnvironmentObject var insp: InspSettings
   @EnvironmentObject var playback: PlaybackControls
   
-  static var modal: some View {
-    VideoReplaysSwiftUIView()
+  var modal: some View {
+    VideoReplaysSwiftUIView(currentView: $insp.videoModalSelectedTab)
     .background(UIGlobals.modalSheetBackground)
     
   }
   
   var body: some View {
     Button(action: {
-      self.showModal.toggle()
+      self.insp.shouldShowVideoSelectView = true
     }) {
       VStack {
         ZStack {
@@ -36,12 +36,10 @@ struct VideoReplaysButtonSwiftUIView: View {
     }.foregroundColor(primaryColor)
       .frame(width: width / 2, height: mediumHeightOfButton())
       .border(Color.gray, width: 0.5)
-      .sheet(isPresented: self.$showModal, onDismiss: {
-        if (self.playback.selectedReplay != nil) {
-          self.playback.eject()
-        }
+      .sheet(isPresented: $insp.shouldShowVideoSelectView, onDismiss: {
+        print("sheet(isPresented: self.$showModal, onDismiss")
       }) {
-        VideoReplaysButtonSwiftUIView.modal.environmentObject(self.playback)
+        self.modal.environmentObject(self.playback)
     }
   }
 }
@@ -65,11 +63,8 @@ struct VideoReplaysSwiftUIView: View {
   @ObservedObject var store = PlayersReplaysCountStore()
   @EnvironmentObject var playback: PlaybackControls
   @Environment(\.presentationMode) var presentationMode
-  @State var currentView = 0 {
-    didSet {
-      print("currentView", currentView)
-    }
-  }
+  @Binding var currentView: Int
+  
   let maxCount = Int(RemoteService.VideoManagement.VideoReplayManagement.MAX_COUNTER)
   
   func getPlaybackList() -> [String] {
@@ -112,7 +107,6 @@ struct VideoReplaysSwiftUIView: View {
         }
       }
       
-      
       Group() {
         if currentView == 0 {
           Group() {
@@ -127,15 +121,15 @@ struct VideoReplaysSwiftUIView: View {
       Spacer()
       if !playback.canPlay {
         Group() {
-          if currentView == 0 {
+          if currentView == 0 || !recordModeFeatureEnabled {
             Divider()
           }
-          if currentView == 1 {
+          if recordModeFeatureEnabled && currentView == 1 {
             recordsToggle
-            
           }
           HStack {
             ConfirmModalButton(vibrate: false, action: {
+              self.playback.eject()
               self.presentationMode.wrappedValue.dismiss()
             }, color: .green)
           }.padding([.vertical]).frame(width: width)
@@ -146,33 +140,24 @@ struct VideoReplaysSwiftUIView: View {
 }
 
 struct ReplaysListUIView: View {
+  @Environment(\.presentationMode) var presentationMode
   @EnvironmentObject var playback: PlaybackControls
-  @State var selectedReplay: Int?
-  
-  private func simulateLoadingItem() -> Void {
-    // do staff
-    withDelay({
-      self.playback.loaded()
-    }, 2)
-  }
+//  @State var selectedReplay: Int?
   
   func doSelect(_ index: Int) {
     //    Vibration.on()
     
-    
-    self.selectedReplay = index
     self.playback.choose(name: self.getTitle(index))
-//    self.simulateLoadingItem()
     Vibration.impact()
   }
   
   func getReversedIndex(_ index: Int) -> Int {
     return self.playback.replaysList.count - index - 1
   }
-  
-  func isSelected(_ index: Int) -> Bool {
-    return self.selectedReplay == index
-  }
+//
+//  func isSelected(_ index: Int) -> Bool {
+//    return self.selectedReplay == index
+//  }
   
   func getTitle(_ index: Int) -> String {
     return "\(self.playback.replaysList[index])"
@@ -190,27 +175,25 @@ struct ReplaysListUIView: View {
             Divider()
             ForEach(0..<playback.replaysList.count, id: \.self) { (i: Int) in
               Group() {
-                Button(action: { self.doSelect(self.getReversedIndex(i)) }) {
-                  primaryColor(dinFont(Text(self.getTitle(self.getReversedIndex(i))))).fixedSize()
+                Group() {
+                  primaryColor(dinFont(Text(self.getTitle(self.getReversedIndex(i)))))
                     .frame(width: width - 16, alignment: .leading)
-                }.padding().frame(width: width)
+                    
+                }.padding().frame(width: width).fixedSize()
                 Divider()
-              }
+              }.background(UIGlobals.activeBackground_SUI)
+              .accessibilityElement()
+                .highPriorityGesture(
+                  TapGesture().onEnded({ _ in
+                    print("tap")
+                    self.doSelect(self.getReversedIndex(i))
+                  })
+              )
               
             }
           }.frame(width: width, alignment: .leading)
         }
       }
-    }
-  }
-  
-  var rcView: some View {
-    VStack(spacing: 0) {
-      primaryColor(dinFont(Text(getTitle(self.selectedReplay!)))).fixedSize().padding()
-      VideoRC({
-        self.selectedReplay = nil
-        self.playback.eject()
-      }).environmentObject(playback)
     }
   }
   
@@ -220,11 +203,13 @@ struct ReplaysListUIView: View {
         if !self.playback.canPlay {
           Group() {
             primaryColor(dinFont(Text("loading video"))).fixedSize().padding()
-            primaryColor(dinFont(Text("\(getTitle(selectedReplay!))"))).fixedSize()
+            primaryColor(dinFont(Text("\(self.playback.selectedReplay!)"))).fixedSize()
           }
         }
         if self.playback.canPlay {
-          rcView
+          Spacer().onAppear(perform: {
+            print("self.playback.canPlay Spacer onAppear")
+          })
         }
       }
     }
@@ -232,18 +217,19 @@ struct ReplaysListUIView: View {
   
   var body: some View {
     Group() {
-      if selectedReplay != nil {
+      if self.playback.selectedReplay != nil {
         selectedView
       }
-      if selectedReplay == nil {
+      if self.playback.selectedReplay == nil {
         itemSelectorView
       }
+      
     }
   }
 }
 
 
-fileprivate struct RecordModeToggleButtonSwiftUIView: View {
+struct RecordModeToggleButtonSwiftUIView: View {
   @EnvironmentObject var playback: PlaybackControls
   
   func getText () -> String {
@@ -269,7 +255,6 @@ fileprivate struct RecordModeToggleButtonSwiftUIView: View {
       if playback.isRecordActive {
         withAnimation{
           Group() {
-            
             Button(action: {
               rs.video.cut()
               Vibration.on()
@@ -313,16 +298,28 @@ struct ReplaySelectorsUIView: View {
   }
 }
 
-struct VideoReplaysSwiftUIView_Previews: PreviewProvider {
+struct VideoReplaysSwiftUIView_counters_Previews: PreviewProvider {
   static var previews: some View {
-    VideoReplaysSwiftUIView().environmentObject(PlaybackControls())
+    VideoReplaysSwiftUIView(currentView: .constant(0)).environmentObject(PlaybackControls())
   }
 }
 
 
-struct VideoReplaysButtonSwiftUIView_Previews: PreviewProvider {
-  @State static var showModal = false
+struct VideoReplaysSwiftUIView_list_Previews: PreviewProvider {
+  static var pbCtrl = PlaybackControls();
+  
   static var previews: some View {
-    VideoReplaysButtonSwiftUIView(showModal: VideoReplaysButtonSwiftUIView_Previews.$showModal).environmentObject(PlaybackControls())
+    VideoReplaysSwiftUIView(currentView: .constant(1)).environmentObject(pbCtrl)
+      .onAppear(perform: {
+        pbCtrl.replaysList.append("\(pbCtrl.replaysList.count + 1)")
+      })
+  }
+}
+
+struct VideoReplaysButtonSwiftUIView_Previews: PreviewProvider {
+  static var previews: some View {
+    VideoReplaysButtonSwiftUIView()
+      .environmentObject(InspSettings())
+      .environmentObject(PlaybackControls())
   }
 }

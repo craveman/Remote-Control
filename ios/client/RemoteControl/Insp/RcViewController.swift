@@ -107,6 +107,10 @@ class RcViewController: UIViewController {
     subscriptions.append(auth$)
     
     let connected$ = rs.connection.$isConnected.on(change: { isConnected in
+      self.onMainThread({
+        self.playbackController.eject()
+        self.rcModel.switchRCType(.Basic)
+      })
       guard isConnected == false else {
         if !self.rcModel.isConnected {
           self.onMainThread({
@@ -220,7 +224,19 @@ class RcViewController: UIViewController {
     
     
     let videoRecordLoaded$ = rs.video.replay.$isReceived.on(change: { _ in
-      self.onMainThread({self.playbackController.loaded()})
+      self.onMainThread({
+        
+        let ok = self.playbackController.loaded()
+        
+        if ok {
+          self.rcModel.shouldShowVideoSelectView = false
+          
+          withDelay({
+            self.rcModel.switchRCType(.Video)
+          }, 0.125)
+          
+        }
+      })
     })
     
     subscriptions.append(videoRecordReady$)

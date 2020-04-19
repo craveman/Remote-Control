@@ -17,6 +17,11 @@ let INSPIRATION_MED_TIMOUT = TimeAmount.minutes(5)
 let INSPIRATION_SHORT_TIMOUT = TimeAmount.minutes(1)
 let INSPIRATION_MAX_PERIOD: Int = 99
 
+public enum InspirationRCTypes {
+  case Basic
+  case Video
+}
+
 class InspSettings: ObservableObject {
   @Published var isConnected: Bool = rs.connection.isAuthenticated && rs.connection.isConnected
   
@@ -27,10 +32,23 @@ class InspSettings: ObservableObject {
   @Published var shouldShowPauseView: Bool = rs.timer.mode == .pause && rs.timer.state == .running
   @Published var shouldShowMedicalView: Bool = rs.timer.mode == .medicine && rs.timer.state == .running
   @Published var shouldShowVideoRCView: Bool = false
+  @Published var shouldShowVideoSelectView: Bool = false
+  @Published var videoModalSelectedTab: Int = 0
   private var vc: UIViewController?
   
   public func setVC (vc: UIViewController) {
     self.vc = vc
+  }
+  
+  
+  func switchRCType (_ type: InspirationRCTypes) {
+    switch type {
+    case .Video:
+      self.shouldShowVideoRCView = true
+      
+    case .Basic:
+      self.shouldShowVideoRCView = false
+    }
   }
   
   func prepareView(_ mode: TimerMode) {
@@ -69,7 +87,7 @@ class PlaybackControls: ObservableObject {
         rs.video.recordMode = .play
         UIApplication.shared.isIdleTimerDisabled = true
       } else {
-        rs.video.recordMode = .stop
+        rs.video.recordMode = .pause
         UIApplication.shared.isIdleTimerDisabled = false
       }
       print("Record mode mow is \(isRecordActive)")
@@ -86,7 +104,7 @@ class PlaybackControls: ObservableObject {
       print("active \(isPlayActive)")
     }
   }
-  
+ 
   @Published var selectedSpeed: Double = 0 {
     didSet {
       if(selectedSpeed.rounded() != oldValue.rounded()) {
@@ -94,12 +112,6 @@ class PlaybackControls: ObservableObject {
       }
       rs.video.player.speed = UInt8(selectedSpeed.rounded())
       print("speed \(selectedSpeed)")
-      if (selectedSpeed.remainder(dividingBy: 1) != 0) {
-        DispatchQueue.main.async {
-                    self.selectedSpeed = self.selectedSpeed.rounded()
-        }
-      }
-      
     }
   }
   @Published var currentPosition: Double = 0 {
@@ -116,16 +128,18 @@ class PlaybackControls: ObservableObject {
 //    self.replaysList = rs.video.replay.recordsList
   }
   
-  func loaded() -> Void {
+  func loaded() -> Bool {
+    print("loaded \(selectedReplay ?? "nil")")
     guard selectedReplay != nil else {
       // ejected before loaded
-      return
+      return false
     }
     
     canPlay = true
     rs.video.player.standBy()
     selectedSpeed = Double(rs.video.player.speed)
     currentPosition = 0
+    return true
   }
   
   func eject() -> Void {
