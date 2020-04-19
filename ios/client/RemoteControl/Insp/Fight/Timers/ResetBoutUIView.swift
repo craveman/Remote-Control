@@ -35,7 +35,7 @@ struct ResetBoutModalContentUIView: View {
       Spacer()
       Divider()
       HStack(spacing: 0) {
-        ConfirmModalButton(action: {
+        ConfirmModalButton(vibrate: false, action: {
           self.presentationMode.wrappedValue.dismiss()
         }, text: "cancel",
            color: primaryColor, imageName: "multiply")

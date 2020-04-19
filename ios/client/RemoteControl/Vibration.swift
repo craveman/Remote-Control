@@ -40,31 +40,22 @@ enum Vibration {
     })
   }
   
-  private static func makeImpact(_ style: UIImpactFeedbackGenerator.FeedbackStyle = .medium) {
+  private static func makeImpact(_ style: UINotificationFeedbackGenerator.FeedbackType = .success) {
     isVibrationOn = true
-    let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: style)
+    let impactFeedbackgenerator = UINotificationFeedbackGenerator()
     impactFeedbackgenerator.prepare()
-    impactFeedbackgenerator.impactOccurred()
+    impactFeedbackgenerator.notificationOccurred(style)
     isVibrationOn = false
   }
   
   
   private static func makeWarning() {
     isVibrationOn = true
-    let list: [UIImpactFeedbackGenerator.FeedbackStyle] = [.soft, .soft, .medium, .heavy, .medium]
-    var counter = 5
-    
-    Timer.scheduledTimer(withTimeInterval: 0.225, repeats: true, block: {timer in
-      if (counter == 0) {
-        isVibrationOn = false
-        timer.invalidate()
-        return;
-      }
-      let style = list[counter % list.count]
-      let gen = UIImpactFeedbackGenerator(style: style)
-      gen.prepare()
-      gen.impactOccurred()
-      counter -= 1
+    let impactFeedbackgenerator = UINotificationFeedbackGenerator()
+    impactFeedbackgenerator.prepare()
+    impactFeedbackgenerator.notificationOccurred(.warning)
+    Timer.scheduledTimer(withTimeInterval: 0.9, repeats: false, block: {_ in
+      isVibrationOn = false
     })
     
   }
