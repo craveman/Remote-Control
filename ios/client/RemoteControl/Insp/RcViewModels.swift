@@ -79,6 +79,7 @@ class InspSettings: ObservableObject {
 }
 
 class PlaybackControls: ObservableObject {
+  @Published var isEnabled = false
   @Published var selectedReplay: String? = nil
   @Published var replaysList: [String] = []
   @Published var isRecordActive: Bool = false {

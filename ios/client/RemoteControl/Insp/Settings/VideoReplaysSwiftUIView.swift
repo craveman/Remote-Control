@@ -165,6 +165,13 @@ struct ReplaysListUIView: View {
   
   var itemSelectorView: some View {
     Group() {
+      if !playback.isEnabled {
+        ZStack() {
+          primaryColor(dinFont(Text("no camera"), UIGlobals.appSmallerFontSize))
+            .frame(width: width)
+            .background(Color.red)
+        }
+      }
       if playback.replaysList.count == 0 {
         Spacer()
         primaryColor(dinFont(Text("No records found"))).fixedSize()

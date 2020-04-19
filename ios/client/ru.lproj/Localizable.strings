@@ -73,6 +73,7 @@
 "tab Counters" = "Счётчики";
 "tab Records" = "Записи";
 "No records found" = "Нет записей";
+"no camera" = "нет камеры подключенной к Sm02";
 
 "priority" = "приоритет";
 "title Priority" = "Приоритет";

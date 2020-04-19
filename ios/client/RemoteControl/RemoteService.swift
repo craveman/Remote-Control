@@ -241,6 +241,12 @@ final class RemoteService {
     var name = ""
     
     @Published
+    var cyranoWorks = false
+    
+    @Published
+    var cameraIsOnline = false
+    
+    @Published
     var weapon: Weapon = .none
     
     @Published
@@ -263,6 +269,13 @@ final class RemoteService {
           return
         }
         self.weapon = weapon
+      })
+      Sm02.on(message: { [unowned self] (inbound) in
+        guard case let .additionalState(camera, cyrano) = inbound else {
+          return
+        }
+        self.cameraIsOnline = camera
+        self.cyranoWorks = cyrano
       })
       Sm02.on(message: { [unowned self] (inbound) in
         guard case let .fightResult(result) = inbound else {

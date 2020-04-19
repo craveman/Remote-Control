@@ -18,7 +18,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     0x1B: decodeVideoReady,
     0x1C: decodeVideoReceived,
     0x24: decodeAuthentication,
-    0x66: decodeCameraIsOnline,
+    0x66: decodeAdditionalInfo,
     0xAA: decodeGenericResponse,
   ]
 
@@ -117,8 +117,18 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     return .passiveMax
   }
 
-  private static func decodeCameraIsOnline (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
-    return .cameraOnline
+  private static func decodeAdditionalInfo (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
+    guard let cam = buffer.readUInt8() else {
+      print("ERROR: The 'additionalState' message doesn't have 'camera' field")
+      return nil
+    }
+    
+    guard let cyrano = buffer.readUInt8() else {
+      print("ERROR: The 'additionalState' message doesn't have 'cyrano' field")
+      return nil
+    }
+
+    return .additionalState(isCamConnected: cam == 0x01, isEthernetEnabled: cyrano == 0x01)
   }
 
   private static func decodePauseFinished (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {

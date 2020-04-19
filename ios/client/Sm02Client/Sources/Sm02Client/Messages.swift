@@ -114,6 +114,7 @@ public struct Camera {
 public enum Inbound {
 
   case broadcast(weapon: Weapon, left: FlagState, right: FlagState, timer: UInt32, timerState: TimerState)
+  case additionalState(isCamConnected: Bool, isEthernetEnabled: Bool)
   case deviceList(devices: [Device])
   case ethernetDisplay(period: UInt8, time: UInt32, left: Side, right: Side)
   case fightResult(result: Decision)
@@ -122,7 +123,6 @@ public enum Inbound {
   case videoList(names: [String]?)
   case videoReady(name: String)
   case videoReceived
-  case cameraOnline
   case authentication(status: AuthenticationStatus)
   case genericResponse(status: UInt8 = 0x01, request: UInt8)
 }
@@ -198,7 +198,7 @@ extension Inbound: Message {
       return 0x1C
     case .authentication:
       return 0x24
-    case .cameraOnline:
+    case .additionalState:
         return 0x66
     case .genericResponse:
       return 0xAA

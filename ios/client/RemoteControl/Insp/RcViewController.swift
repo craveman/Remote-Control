@@ -217,6 +217,24 @@ class RcViewController: UIViewController {
     
     subscriptions.append(rScore$)
     subscriptions.append(rCard$)
+
+    let cameraIsOnline$ = rs.competition.$cameraIsOnline.on(change: { v in
+      guard self.playbackController.isEnabled != v else {
+        return
+      }
+      print("changed")
+      self.onMainThread({
+
+        self.playbackController.isEnabled = v
+        
+        if (!self.playbackController.isEnabled) {
+          print("clean up list")
+          self.playbackController.replaysList = []
+        } else {
+          
+        }
+      })
+    })
     
     let videoRecordReady$ = rs.video.replay.$isReady.on(change: { v in
       self.onMainThread({self.playbackController.refreshVideoList()})
@@ -239,6 +257,7 @@ class RcViewController: UIViewController {
       })
     })
     
+    subscriptions.append(cameraIsOnline$)
     subscriptions.append(videoRecordReady$)
     subscriptions.append(videoRecordLoaded$)
   }
