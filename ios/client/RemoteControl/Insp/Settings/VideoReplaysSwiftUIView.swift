@@ -17,11 +17,11 @@ struct VideoReplaysButtonSwiftUIView: View {
   var modal: some View {
     VideoReplaysSwiftUIView(currentView: $insp.videoModalSelectedTab)
     .background(UIGlobals.modalSheetBackground)
-    
   }
   
   var body: some View {
     Button(action: {
+      rs.video.replay.refresh()
       self.insp.shouldShowVideoSelectView = true
     }) {
       VStack {

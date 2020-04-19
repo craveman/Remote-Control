@@ -634,6 +634,21 @@ final class RemoteService {
           }
           self.isReceived = true
         })
+        Sm02.on(message: { [unowned self] (inbound) in
+          guard case let .videoList(list) = inbound else {
+            return
+          }
+          self.recordsList.removeAll()
+          guard let names = list else {
+            log("Failed to parse list name Inbound (.videoList)")
+            self.isReady = false
+            self.recordsList = []
+            return
+          }
+          
+          self.isReady = names.count > 0
+          self.recordsList.append(contentsOf: names)
+        })
         let temp = [
           $leftCounter.on(change: { [unowned self] (update) in
             let outbound = Outbound.videoCounters(left: update, right: self.rightCounter)
@@ -658,22 +673,7 @@ final class RemoteService {
       }
       
       func refresh() -> Void {
-        self.recordsList.removeAll()
-        Sm02.on(message: { [unowned self] (inbound) in
-          guard case let .videoList(list) = inbound else {
-            return
-          }
-          guard let names = list else {
-            log("Failed to parse list name Inbound (.videoList)")
-            self.isReady = false
-            self.recordsList = []
-            return
-          }
-          
-          self.isReady = names.count > 0
-          self.recordsList.append(contentsOf: names)
-        })
-        
+        Sm02.send(message: .videoListRequest)
       }
       
       // TODO: add refresh of recordsList
