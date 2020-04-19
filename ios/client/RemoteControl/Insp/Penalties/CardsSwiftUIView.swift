@@ -122,7 +122,7 @@ fileprivate struct Card: View {
 }
 
 fileprivate struct PlayerPenaltiesBoard: View {
-  var type: PersonType = .none;
+  var type: PersonType = .none
   @EnvironmentObject var settings: FightSettings
   
   func getColor(_ expect: StatusCard, _ test: StatusCard) -> Color {
@@ -163,15 +163,42 @@ fileprivate struct PlayerPenaltiesBoard: View {
     }
   }
   
-  func oponentGetsPoint() {
+  func getOponent() -> RemoteService.PersonsManagement.Person? {
+    var op: RemoteService.PersonsManagement.Person? = nil
     switch self.getOponentType() {
     case .left:
-      rs.persons.left.score += 1
+      op = rs.persons.left
     case .right:
-      rs.persons.right.score += 1
+      op = rs.persons.right
     default:
-      break;
+      break
     }
+    return op
+  }
+  
+  func oponentScoreMaxReached() -> Bool {
+    let op = getOponentType()
+    switch op {
+    case .left:
+      return settings.leftScore >= MAX_SCORE
+    case .right:
+      return settings.rightScore >= MAX_SCORE
+    default:
+      return false
+    }
+  }
+  
+  func oponentGetsPoint() {
+    let op = getOponent()
+    guard op != nil else {
+      return
+    }
+    if (op!.score < MAX_SCORE) {
+      op!.score += 1
+    } else {
+      Vibration.warning()
+    }
+    
   }
   
   var body: some View {
@@ -183,7 +210,7 @@ fileprivate struct PlayerPenaltiesBoard: View {
       })
       Card(title: "P", color: self.getColor(.passiveNone, getCurrentCard(true)), addAction: {
         let nextCard = self.getPCard()
-        // todo: if red is set - add 1 point
+        
         if nextCard == StatusCard.passiveRed {
           self.oponentGetsPoint()
         }
@@ -193,7 +220,7 @@ fileprivate struct PlayerPenaltiesBoard: View {
       })
       Card(title: "", color: self.getColor(.none, getCurrentCard(false)), addAction: {
         let nextCard = self.getCard()
-        // todo: if red is set - add 1 point
+        
         if nextCard == StatusCard.red {
           self.oponentGetsPoint()
         }
@@ -210,6 +237,7 @@ fileprivate let resetGesture = LongPressGesture(minimumDuration: holdLongPressDu
 fileprivate let addCardGesture = TapGesture(count: 1)
 struct CardsSwiftUIView: View {
   
+  @EnvironmentObject var settings: FightSettings
   
   var body: some View {
     VStack {
@@ -224,13 +252,17 @@ struct CardsSwiftUIView: View {
         .background(UIGlobals.headerBackground_SUI)
       
     }
-//    .background(UIGlobals.cardBoardBackground)
+    //    .background(UIGlobals.cardBoardBackground)
     
   }
 }
 
 struct CardsSwiftUIView_Previews: PreviewProvider {
+  static let settings = FightSettings()
   static var previews: some View {
-    CardsSwiftUIView()
+    CardsSwiftUIView().onAppear(perform: {
+      CardsSwiftUIView_Previews.settings.leftScore = 50
+    }
+    ).environmentObject(CardsSwiftUIView_Previews.settings)
   }
 }

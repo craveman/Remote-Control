@@ -248,6 +248,7 @@ class FightSettings: ObservableObject {
   func resetVideo() -> Void {
     rs.video.replay.leftCounter = 2
     rs.video.replay.rightCounter = 2
+    rs.video.replay.clear()
   }
   
   func resetPriority() -> Void {

@@ -180,3 +180,15 @@ struct PauseModalContentUIView: View {
     }
   }
 }
+
+struct PauseSettersSwiftUIView_Previews: PreviewProvider {
+  static var previews: some View {
+    PauseModalContentUIView(time: .constant(UInt32(180)))
+  }
+}
+
+struct MedPauseSettersSwiftUIView_Previews: PreviewProvider {
+  static var previews: some View {
+    MedicalPauseModalContentUIView(time: .constant(UInt32(180)))
+  }
+}

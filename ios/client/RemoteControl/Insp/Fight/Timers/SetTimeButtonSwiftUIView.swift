@@ -15,15 +15,12 @@ fileprivate func log(_ items: Any...) {
 
 struct SetTimeButtonSwiftUIView: View {
   var onDismiss: () -> Void = {}
-  @State var selectedTime: UInt32 = rs.timer.time
   @EnvironmentObject var settings: FightSettings
-  @State var amount = TimeAmount.milliseconds(Int64(rs.timer.time))
   @State var showModal = false
     var body: some View {
       CommonModalButton(imageName: "clock", imageColor: primaryColor , buttonType: .withImage, text: "set time", onDismiss: {
         log("setTime dismiss")
         self.onDismiss()
-//        rs.timer.set(time: self.amount, mode: .main)
       }, showModal: $showModal) {
         TimeModalContent(selectedTime: self.$settings.time)
       }
@@ -118,8 +115,11 @@ fileprivate struct TimeModalContent: View {
         ConfirmModalButton(action: {
           let s = self.getSecCount()
           log("getSecCount: \(s)")
-          self.selectedTime = UInt32(s * 1000)
+          
           rs.timer.set(time: TimeAmount.seconds(s), mode: .main)
+          withDelay({
+            self.selectedTime = UInt32(s * 1000)
+          }, RemoteService.SYNC_INTERVAL)
           self.presentationMode.wrappedValue.dismiss()
         }, text: "done", color: .green)
       }

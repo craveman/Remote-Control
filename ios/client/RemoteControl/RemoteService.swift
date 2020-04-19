@@ -146,7 +146,6 @@ final class RemoteService {
         forget()
       }
       isConnected = false
-      RemoteService.shared.video.replay.clear()
     }
     
     func forget () {

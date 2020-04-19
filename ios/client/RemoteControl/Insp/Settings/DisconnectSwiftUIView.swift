@@ -59,7 +59,7 @@ struct DisconnectSwiftUIView: View {
       Spacer()
       Divider()
       HStack {
-        ConfirmModalButton(action: {
+        ConfirmModalButton(vibrate: false, action: {
           self.presentationMode.wrappedValue.dismiss()
         }, text: "cancel", color: primaryColor, imageName: "chevron.left")
         ConfirmModalButton(action: {

@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+// NOT USED
 struct VideoButton: View {
   @EnvironmentObject var settings: FightSettings
   @EnvironmentObject var playback: PlaybackControls

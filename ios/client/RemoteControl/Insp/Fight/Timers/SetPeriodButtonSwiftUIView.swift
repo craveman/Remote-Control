@@ -76,7 +76,7 @@ fileprivate struct PeriodModalContent: View {
       }.opacity(self.settings.period < maxPeriod - 1 ? 1 : 0)
       Divider()
       HStack(spacing: 0) {
-        ConfirmModalButton(action: {
+        ConfirmModalButton(vibrate: false, action: {
           self.presentationMode.wrappedValue.dismiss()
         }, text: "done", color: .green)
       }
