@@ -107,10 +107,13 @@ class RcViewController: UIViewController {
     subscriptions.append(auth$)
     
     let connected$ = rs.connection.$isConnected.on(change: { isConnected in
-      self.onMainThread({
-        self.playbackController.eject()
-        self.rcModel.switchRCType(.Basic)
-      })
+      if self.playbackController.selectedReplay != nil {
+        self.onMainThread({
+          self.playbackController.eject()
+          self.rcModel.switchRCType(.Basic)
+        })
+      }
+      
       guard isConnected == false else {
         if !self.rcModel.isConnected {
           self.onMainThread({
