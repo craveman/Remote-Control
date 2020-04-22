@@ -160,7 +160,7 @@ struct ReplaysListUIView: View {
 //  }
   
   func getTitle(_ index: Int) -> String {
-    return "\(self.playback.replaysList[index])"
+    return FileNameConverter.getTitle(self.playback.replaysList[index])
   }
   
   var itemSelectorView: some View {
@@ -328,5 +328,66 @@ struct VideoReplaysButtonSwiftUIView_Previews: PreviewProvider {
     VideoReplaysButtonSwiftUIView()
       .environmentObject(InspSettings())
       .environmentObject(PlaybackControls())
+  }
+}
+
+
+public class FileNameConverter {
+ 
+
+  private static func getKnownFileNameFormatRegex() -> NSRegularExpression? {
+    let scorePattern = "(?<left>\\d+)_(?<right>\\d+)"
+    let timePattern = "(?<time>\\d+_\\d+_\\d+)"
+    let pattern = "^\(scorePattern)[^\\d]\(timePattern)"
+    do {
+      let regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
+      return regex
+    } catch {
+      return nil
+    }
+    
+  }
+  
+  private static func getFileExtRegex() -> NSRegularExpression? {
+    let pattern = "[.][\\w\\d]{2,5}$"
+    do {
+      let regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
+      return regex
+    } catch {
+      return nil
+    }
+    
+  }
+  
+  static func getTitle(_ fileName: String) -> String {
+    
+    let rng = NSRange(location: 0, length: fileName.count)
+    if let regex = getKnownFileNameFormatRegex() {
+      if let matches = regex.firstMatch(in: fileName, options: [], range: rng) {
+        var leftScore: Substring?
+        var rightScore: Substring?
+        var time: String?
+
+        if let leftScoreRange = Range(matches.range(withName: "left"), in: fileName) {
+          leftScore = fileName[leftScoreRange]
+        }
+        
+        if let rightScoreRange = Range(matches.range(withName: "right"), in: fileName) {
+          rightScore = fileName[rightScoreRange]
+        }
+
+        if let timeRange = Range(matches.range(withName: "time"), in: fileName) {
+          time = "\(fileName[timeRange])".replacingOccurrences(of: "_", with: ":")
+        }
+        if let l = leftScore, let r = rightScore, let t = time {
+          return "\(l) - \(r)  \(t)"
+        }
+      }
+    }
+    
+    let firstSpace = fileName.firstIndex(of: ".") ?? fileName.endIndex
+    let name = fileName[..<firstSpace]
+    
+    return "\(name)"
   }
 }
