@@ -114,7 +114,7 @@ struct ConfirmModalButton: View {
       if self.vibrate {
         Vibration.on()
       } else if self.haptic {
-        Vibration.impact()
+        Vibration.notification()
       }
     }) {
       VStack{

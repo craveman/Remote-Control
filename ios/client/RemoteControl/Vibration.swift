@@ -11,8 +11,17 @@ enum Vibration {
   }
   
   
-  static func impact() {
-    withGuard({makeImpact()})
+  static func notification(_ style: UINotificationFeedbackGenerator.FeedbackType = .success) {
+    withGuard({makeNotificationImpact(style)})
+  }
+  
+  
+  static func impact(_ weight: UIImpactFeedbackGenerator.FeedbackStyle = .medium, insureDone separatedOnly: Bool = false) {
+    if (!separatedOnly) {
+      withGuard({makeFeedbackImpact(weight)})
+      return
+    }
+    withGuard({makeFeedbackImpact(weight)}, {impact(weight, insureDone: true)})
   }
   
   static func warning() {
@@ -40,11 +49,20 @@ enum Vibration {
     })
   }
   
-  private static func makeImpact(_ style: UINotificationFeedbackGenerator.FeedbackType = .success) {
+  private static func makeNotificationImpact(_ style: UINotificationFeedbackGenerator.FeedbackType = .success) {
     isVibrationOn = true
     let impactFeedbackgenerator = UINotificationFeedbackGenerator()
     impactFeedbackgenerator.prepare()
     impactFeedbackgenerator.notificationOccurred(style)
+    isVibrationOn = false
+  }
+  
+  
+  private static func makeFeedbackImpact(_  style: UIImpactFeedbackGenerator.FeedbackStyle = .medium) {
+    isVibrationOn = true
+    let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: style)
+    impactFeedbackgenerator.prepare()
+    impactFeedbackgenerator.impactOccurred()
     isVibrationOn = false
   }
   

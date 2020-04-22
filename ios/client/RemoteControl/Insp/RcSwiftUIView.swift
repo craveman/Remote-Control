@@ -74,7 +74,7 @@ struct RcSwiftUIView: View {
           self.ofc = 0
         }
         withDelay({
-          Vibration.impact()
+          Vibration.impact(.heavy)
         }, self.animationTime)
       })
       .onDisappear(perform: {

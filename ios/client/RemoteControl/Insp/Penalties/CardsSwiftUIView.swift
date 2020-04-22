@@ -105,7 +105,7 @@ fileprivate struct Card: View {
       }
       print("Card::resetGesture:action")
       self.resetAction()
-      Vibration.impact()
+      Vibration.notification()
       self.isActive = true
       self.thenDeactivate()
     }).highPriorityGesture(addCardGesture.onEnded { _ in

@@ -42,10 +42,11 @@ class NameBindingManager: ObservableObject {
     didSet {
       if text.count > characterLimit && oldValue.count <= characterLimit {
         text = oldValue
+        Vibration.warning()
       }
       setter(text)
       if(text != oldValue) {
-        Vibration.impact()
+        Vibration.notification()
       }
       
     }

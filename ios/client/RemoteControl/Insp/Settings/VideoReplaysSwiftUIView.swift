@@ -148,7 +148,7 @@ struct ReplaysListUIView: View {
     //    Vibration.on()
     
     self.playback.choose(name: self.getTitle(index))
-    Vibration.impact()
+    Vibration.notification()
   }
   
   func getReversedIndex(_ index: Int) -> Int {
