@@ -439,7 +439,7 @@ final class RemoteService {
       var isBlocked = false {
         didSet {
           if (isBlocked) {
-            Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {_ in
+            Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {[unowned self] _ in
               self.isBlocked = false
             }
           }
@@ -460,7 +460,7 @@ final class RemoteService {
           switch inbound {
           case .passiveMax:
             self.isMaxTimerReached = true
-            Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {_ in
+            Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {[unowned self] _ in
               self.isMaxTimerReached = false
             }
           default:

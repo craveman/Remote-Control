@@ -196,17 +196,20 @@ class FightSettings: ObservableObject {
   
   @Published var weapon: Weapon = .none
   
-  @Published var period: Int = 0 {
-    didSet {
-      print("settings.period updated to \(period)")
-      rs.competition.period = UInt8(period + 1)
-      rs.timer.set(time: INSPIRATION_DEFAULT_FIGHT_TIME, mode: .main)
-    }
+  @Published var period: Int = 0
+  
+  func setPeriod(_ next: Int) -> Void {
+    
+    rs.competition.period = UInt8(next + 1)
+    period = next
+    rs.timer.set(time: INSPIRATION_DEFAULT_FIGHT_TIME, mode: .main)
+    
+    print("settings.period updated to \(rs.competition.period) with Int \(next)")
   }
   
   func resetBout() {
     self.resetPassive()
-    self.period = 0
+    self.setPeriod(0)
     self.leftScore = 0
     self.rightScore = 0
     self.resetCards()
