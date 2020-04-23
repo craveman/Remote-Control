@@ -130,6 +130,7 @@ public enum Inbound {
 public enum Outbound {
 
   case setName(person: PersonType, name: String)
+  case confirmNames
   case setScore(person: PersonType, score: UInt8)
   case setCard(person: PersonType, status: StatusCard)
   case setPriority(person: PersonType)
@@ -212,6 +213,8 @@ extension Outbound: Message {
     switch self {
     case .setName:
       return 0x01
+    case .confirmNames:
+      return 0x27
     case .setScore:
       return 0x03
     case .setCard:

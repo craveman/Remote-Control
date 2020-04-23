@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-let NAME_LENGTH_LIMIT = 30
+let NAME_LENGTH_LIMIT = 160
 
 struct NamesSettingsButtonSwiftUIView: View {
   @State var showModal = false
@@ -17,7 +17,12 @@ struct NamesSettingsButtonSwiftUIView: View {
       self.showModal.toggle()
     }) {
       VStack {
-        primaryColor(dinFont(Text("John..."), 36)).fixedSize().padding(.top, 14)
+        ZStack {
+          Image(systemName: "person").resizable().offset(x: -16, y: 0)
+          Image(systemName: "person.fill").resizable().offset(x: 16, y: 0)
+          //                Image(systemName: "play.fill")
+        }.frame(width: 36, height: 36).foregroundColor(primaryColor).padding(.top, 14)
+        //        primaryColor(dinFont(Text("John..."), 36)).fixedSize().padding(.top, 14)
         primaryColor(dinFont(Text("names")))
       }
       
@@ -25,7 +30,9 @@ struct NamesSettingsButtonSwiftUIView: View {
     }.foregroundColor(primaryColor)
       .frame(width: width / 2, height: mediumHeightOfButton())
       .border(Color.gray, width: 0.5)
-      .sheet(isPresented: self.$showModal) {
+      .sheet(isPresented: self.$showModal, onDismiss: {
+        
+      }) {
         NamesSettingsSwiftUIView()
           .background(UIGlobals.modalSheetBackground)
     }
@@ -113,6 +120,8 @@ struct NamesSettingsSwiftUIView: View {
       HStack {
         ConfirmModalButton(action: {
           self.presentationMode.wrappedValue.dismiss()
+          rs.persons.confirmNames()
+          rs.video.replay.clear()
         }, color: .green)
       }.padding([.vertical]).frame(width: width)
       

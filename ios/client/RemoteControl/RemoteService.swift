@@ -179,6 +179,11 @@ final class RemoteService {
       Sm02.send(message: outbound)
     }
     
+    func confirmNames () {
+      let outbound = Outbound.confirmNames
+      Sm02.send(message: outbound)
+    }
+    
     final class Person {
       
       fileprivate static var priorityType: PersonType = .none
