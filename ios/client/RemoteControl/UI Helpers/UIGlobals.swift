@@ -31,7 +31,8 @@ class UIGlobals {
 }
 
 @discardableResult func withDelay (_ callback: @escaping () -> Void, _ timeout: TimeInterval = 1) -> Timer {
-  return Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) {_ in
+  return Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) {timer in
+    timer.invalidate()
     callback()
   }
 }

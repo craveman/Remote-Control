@@ -1,18 +1,31 @@
-
-import func AVFoundation.AudioServicesPlaySystemSoundWithCompletion
-import typealias AVFoundation.SystemSoundID
-import var AVFoundation.kSystemSoundID_Vibrate
+import Foundation
+import Dispatch
+import AVFoundation
+import CoreHaptics
 import UIKit.UIImpactFeedbackGenerator
+
 enum Vibration {
-  static private var isVibrationOn = false;
   
-  static func on () {
-    withGuard({makeVibration()}, {on()})
+  static private var isVibrationOn = false
+  static private func  isHapticOn() -> Bool {
+      return CHHapticEngine.capabilitiesForHardware().supportsHaptics ||
+        UIDevice.current.value(forKey: "_feedbackSupportLevel") as! Int == 2
+  }
+  
+  static func on (_ separatedOnly: Bool = false) {
+    if (!separatedOnly) {
+      vibration()
+      return
+    }
+    withGuard({makeVibration()}, {on(true)})
   }
   
   
   static func notification(_ style: UINotificationFeedbackGenerator.FeedbackType = .success) {
-    withGuard({makeNotificationImpact(style)})
+    withDelay({
+      withGuard({makeNotificationImpact(style)})
+    }, 0.1)
+    
   }
   
   
@@ -26,15 +39,14 @@ enum Vibration {
   
   static func warning() {
     withGuard({makeWarning()}, {warning()})
-    
   }
   
-  private static func withGuard(_ callback: () -> Void, _ retry: (() -> Void)? = nil) {
+  private static func withGuard(_ callback: @escaping () -> Void, _ retry: (() -> Void)? = nil) {
     guard !isVibrationOn else {
       if retry != nil {
-         Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false, block: { _ in
-           retry!()
-         })
+        withDelay({
+          retry!()
+        }, 0.1)
       }
       
       return
@@ -49,7 +61,18 @@ enum Vibration {
     })
   }
   
+  
+  private static func vibration() {
+    AudioServicesPlaySystemSoundWithCompletion(SystemSoundID(kSystemSoundID_Vibrate), {})
+  }
+  
   private static func makeNotificationImpact(_ style: UINotificationFeedbackGenerator.FeedbackType = .success) {
+    guard isHapticOn() else {
+      makeVibration()
+      return
+    }
+    
+    
     isVibrationOn = true
     let impactFeedbackgenerator = UINotificationFeedbackGenerator()
     impactFeedbackgenerator.prepare()
@@ -59,6 +82,11 @@ enum Vibration {
   
   
   private static func makeFeedbackImpact(_  style: UIImpactFeedbackGenerator.FeedbackStyle = .medium) {
+    guard isHapticOn() else {
+      makeVibration()
+      return
+    }
+    
     isVibrationOn = true
     let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: style)
     impactFeedbackgenerator.prepare()
@@ -68,14 +96,18 @@ enum Vibration {
   
   
   private static func makeWarning() {
+    guard isHapticOn() else {
+      makeVibration()
+      return
+    }
+    
     isVibrationOn = true
     let impactFeedbackgenerator = UINotificationFeedbackGenerator()
     impactFeedbackgenerator.prepare()
     impactFeedbackgenerator.notificationOccurred(.warning)
-    Timer.scheduledTimer(withTimeInterval: 0.9, repeats: false, block: {_ in
+    withDelay({
       isVibrationOn = false
-    })
-    
+    }, 0.5)
   }
   
 }
