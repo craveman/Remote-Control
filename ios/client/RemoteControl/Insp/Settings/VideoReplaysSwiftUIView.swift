@@ -16,7 +16,7 @@ struct VideoReplaysButtonSwiftUIView: View {
   
   var modal: some View {
     VideoReplaysSwiftUIView(currentView: $insp.videoModalSelectedTab)
-    .background(UIGlobals.modalSheetBackground)
+      .background(UIGlobals.modalSheetBackground)
   }
   
   var body: some View {
@@ -142,7 +142,7 @@ struct VideoReplaysSwiftUIView: View {
 struct ReplaysListUIView: View {
   @Environment(\.presentationMode) var presentationMode
   @EnvironmentObject var playback: PlaybackControls
-//  @State var selectedReplay: Int?
+  //  @State var selectedReplay: Int?
   
   func doSelect(_ index: Int) {
     //    Vibration.on()
@@ -154,10 +154,10 @@ struct ReplaysListUIView: View {
   func getReversedIndex(_ index: Int) -> Int {
     return self.playback.replaysList.count - index - 1
   }
-//
-//  func isSelected(_ index: Int) -> Bool {
-//    return self.selectedReplay == index
-//  }
+  //
+  //  func isSelected(_ index: Int) -> Bool {
+  //    return self.selectedReplay == index
+  //  }
   
   func getTitle(_ index: Int) -> String {
     return FileNameConverter.getTitle(self.playback.replaysList[index])
@@ -185,11 +185,11 @@ struct ReplaysListUIView: View {
                 Group() {
                   primaryColor(dinFont(Text(self.getTitle(self.getReversedIndex(i)))))
                     .frame(width: width - 16, alignment: .leading)
-                    
+                  
                 }.padding().frame(width: width).fixedSize()
                 Divider()
               }.background(UIGlobals.activeBackground_SUI)
-              .accessibilityElement()
+                .accessibilityElement()
                 .highPriorityGesture(
                   TapGesture().onEnded({ _ in
                     print("tap")
@@ -256,7 +256,7 @@ struct RecordModeToggleButtonSwiftUIView: View {
       }) {
         primaryColor(dinFont(Text(NSLocalizedString(getText(), comment: ""))))
       }
-        .padding([.vertical])
+      .padding([.vertical])
       .frame(width: !playback.isRecordActive ? width : width * 0.80)
       .background(getColor())
       if playback.isRecordActive {
@@ -333,12 +333,12 @@ struct VideoReplaysButtonSwiftUIView_Previews: PreviewProvider {
 
 
 public class FileNameConverter {
- 
-
+  private static let scorePattern = "(?<left>\\d+)_(?<right>\\d+)"
+  private static let timePattern = "(?<time>\\d+_\\d+_\\d+)"
+  
   private static func getKnownFileNameFormatRegex() -> NSRegularExpression? {
-    let scorePattern = "(?<left>\\d+)_(?<right>\\d+)"
-    let timePattern = "(?<time>\\d+_\\d+_\\d+)"
-    let pattern = "^\(scorePattern)[^\\d]\(timePattern)"
+    
+    let pattern = "^\(scorePattern)[^\\d]{1,3}\(timePattern)"
     do {
       let regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
       return regex
@@ -349,14 +349,37 @@ public class FileNameConverter {
   }
   
   private static func getFileExtRegex() -> NSRegularExpression? {
-    let pattern = "[.][\\w\\d]{2,5}$"
     do {
-      let regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
+      let regex = try NSRegularExpression(pattern: "[.][\\w\\d]{2,5}$", options: NSRegularExpression.Options.caseInsensitive)
       return regex
     } catch {
       return nil
     }
     
+  }
+  
+  static func sortByTimeAsc(_ a: String, _ b: String) -> Bool {
+    let regex = getKnownFileNameFormatRegex()
+    var aTime: String?
+    var bTime: String?
+    if regex != nil {
+      let aMatches = regex!.firstMatch(in: a, options: [], range: NSRange(location: 0, length: a.count))
+      let bMatches = regex!.firstMatch(in: b, options: [], range: NSRange(location: 0, length: b.count))
+      
+      if aMatches != nil, let aTimeRange = Range(aMatches!.range(withName: "time"), in: a) {
+          aTime = "\(a[aTimeRange])"
+      }
+      
+      if bMatches != nil, let bTimeRange = Range(bMatches!.range(withName: "time"), in: b) {
+          bTime = "\(b[bTimeRange])"
+      }
+    }
+    
+    if aTime != nil, bTime != nil {
+      return aTime! < bTime!
+    }
+    
+    return true
   }
   
   static func getTitle(_ fileName: String) -> String {
@@ -367,7 +390,7 @@ public class FileNameConverter {
         var leftScore: Substring?
         var rightScore: Substring?
         var time: String?
-
+        
         if let leftScoreRange = Range(matches.range(withName: "left"), in: fileName) {
           leftScore = fileName[leftScoreRange]
         }
@@ -375,7 +398,7 @@ public class FileNameConverter {
         if let rightScoreRange = Range(matches.range(withName: "right"), in: fileName) {
           rightScore = fileName[rightScoreRange]
         }
-
+        
         if let timeRange = Range(matches.range(withName: "time"), in: fileName) {
           time = "\(fileName[timeRange])".replacingOccurrences(of: "_", with: ":")
         }

@@ -659,13 +659,13 @@ final class RemoteService {
           self.recordsList.removeAll()
           guard let names = list else {
             log("Failed to parse list name Inbound (.videoList)")
-            self.isReady = false
             self.recordsList = []
+            self.isReady = false
             return
           }
           
-          self.isReady = names.count > 0
           self.recordsList.append(contentsOf: names)
+          self.isReady = names.count > 0
         })
         let temp = [
           $leftCounter.on(change: { [unowned self] (update) in

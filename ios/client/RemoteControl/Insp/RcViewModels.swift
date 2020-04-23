@@ -125,6 +125,8 @@ class PlaybackControls: ObservableObject {
   
   func refreshVideoList() -> Void {
     self.replaysList.removeAll()
+    var list = rs.video.replay.recordsList
+    list.sort(by: FileNameConverter.sortByTimeAsc)
     self.replaysList.append(contentsOf: rs.video.replay.recordsList)
 //    self.replaysList = rs.video.replay.recordsList
   }

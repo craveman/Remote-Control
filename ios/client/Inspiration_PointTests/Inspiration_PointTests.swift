@@ -39,6 +39,15 @@ class Inspiration_PointTests: XCTestCase {
   }
   
   
+  func testFileNameSorter() throws {
+    
+    let list = ["11_10#12_13_13.mp4", "11_10#12_13_12.mp4", "11_10#12_13_14.mp4", "11_10#11_13_15.mp4"]
+    let result = ["11_10#11_13_15.mp4", "11_10#12_13_12.mp4", "11_10#12_13_13.mp4", "11_10#12_13_14.mp4"]
+    XCTAssertEqual(list.sorted(by: FileNameConverter.sortByTimeAsc), result)
+    print(list.sorted(by: FileNameConverter.sortByTimeAsc))
+  }
+  
+  
   func testPerformanceExample() throws {
     // This is an example of a performance test case.
     measure {
