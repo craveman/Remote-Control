@@ -37,6 +37,9 @@ struct VideoReplaysButtonSwiftUIView: View {
       .frame(width: width / 2, height: mediumHeightOfButton())
       .border(Color.gray, width: 0.5)
       .sheet(isPresented: $insp.shouldShowVideoSelectView, onDismiss: {
+        if self.playback.selectedReplay != nil && !self.playback.canPlay {
+          rs.video.replay.stopLoading()
+        }
         print("sheet(isPresented: self.$showModal, onDismiss")
       }) {
         self.modal.environmentObject(self.playback)
@@ -147,17 +150,13 @@ struct ReplaysListUIView: View {
   func doSelect(_ index: Int) {
     //    Vibration.on()
     
-    self.playback.choose(name: self.getTitle(index))
+    self.playback.choose(filename: self.playback.replaysList[index])
     Vibration.notification()
   }
   
   func getReversedIndex(_ index: Int) -> Int {
     return self.playback.replaysList.count - index - 1
   }
-  //
-  //  func isSelected(_ index: Int) -> Bool {
-  //    return self.selectedReplay == index
-  //  }
   
   func getTitle(_ index: Int) -> String {
     return FileNameConverter.getTitle(self.playback.replaysList[index])
@@ -210,7 +209,7 @@ struct ReplaysListUIView: View {
         if !self.playback.canPlay {
           Group() {
             primaryColor(dinFont(Text("loading video"))).fixedSize().padding()
-            primaryColor(dinFont(Text("\(self.playback.selectedReplay!)"))).fixedSize()
+            primaryColor(dinFont(Text("\(self.playback.selectedReplay?.title ?? "-")"))).fixedSize()
           }
         }
         if self.playback.canPlay {

@@ -54,7 +54,7 @@ struct RcSwiftUIView: View {
   
   var playbackRC: some View {
     VStack(spacing: 0) {
-      primaryColor(dinFont(Text(playback.selectedReplay ?? ""))).fixedSize().padding()
+      primaryColor(dinFont(Text(playback.selectedReplay?.title ?? "-"))).fixedSize().padding()
       Divider()
       Spacer()
       VideoRC({

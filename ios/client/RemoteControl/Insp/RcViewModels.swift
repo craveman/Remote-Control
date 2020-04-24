@@ -80,7 +80,7 @@ class InspSettings: ObservableObject {
 
 class PlaybackControls: ObservableObject {
   @Published var isEnabled = false
-  @Published var selectedReplay: String? = nil
+  @Published var selectedReplay: (_: String, title: String)? = nil
   @Published var replaysList: [String] = []
   @Published var isRecordActive: Bool = false {
     didSet {
@@ -124,15 +124,14 @@ class PlaybackControls: ObservableObject {
   @Published var replayLength: UInt32 = 0
   
   func refreshVideoList() -> Void {
-    self.replaysList.removeAll()
     var list = rs.video.replay.recordsList
     list.sort(by: FileNameConverter.sortByTimeAsc)
-    self.replaysList.append(contentsOf: rs.video.replay.recordsList)
-//    self.replaysList = rs.video.replay.recordsList
+    self.replaysList.removeAll()
+    self.replaysList.append(contentsOf: list)
   }
   
   func loaded() -> Bool {
-    print("loaded \(selectedReplay ?? "nil")")
+    print("loaded")
     guard selectedReplay != nil else {
       // ejected before loaded
       return false
@@ -147,23 +146,25 @@ class PlaybackControls: ObservableObject {
   
   func eject() -> Void {
     rs.video.player.stop()
-    choose(name: nil)
+    choose(filename: nil)
     canPlay = false
   }
   
-  func choose(name: String?) -> Void {
-    selectedReplay = name
-    guard name != nil else {
+  func choose(filename: String?) -> Void {
+    selectedReplay = nil
+    guard filename != nil else {
       canPlay = false
       print("choosen filename is nil")
       return
     }
-    guard replaysList.contains(name!) else {
-      print("choosen filename '\(name!)' is not presented in list")
+    let name = filename!
+    guard replaysList.contains(name) else {
+      print("choosen filename '\(name)' is not presented in list")
+      Vibration.notification(.error)
       return
     }
-    
-    rs.video.upload(to: name!)
+    selectedReplay = (name, FileNameConverter.getTitle(name))
+    rs.video.upload(to: filename!)
   }
 }
 

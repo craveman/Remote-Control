@@ -80,7 +80,7 @@ struct NamesSettingsSwiftUIView: View {
           VStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
               HStack(spacing: 0) {
-                dinFont(Text("Left player"),  UIGlobals.appDefaultFontSize)
+                dinFont(Text("Left fencer"),  UIGlobals.appDefaultFontSize)
                 Spacer()
                 if self.leftName.text.count * 2 > NAME_LENGTH_LIMIT {
                   dinFont(Text("\(self.leftName.text.count) / \(NAME_LENGTH_LIMIT)"),  UIGlobals.appDefaultFontSize)
@@ -92,12 +92,12 @@ struct NamesSettingsSwiftUIView: View {
                 
               }.font(.largeTitle)
                 .background(primaryColor.opacity(0.05))
-                .accessibility(label: Text("Left player"))
+                .accessibility(label: Text("Left fencer"))
             }.padding()
             Divider()
             VStack(alignment: .leading, spacing: 0) {
               HStack(spacing: 0) {
-                dinFont(Text("Right player"), UIGlobals.appDefaultFontSize)
+                dinFont(Text("Right fencer"), UIGlobals.appDefaultFontSize)
                 Spacer()
                 if self.rightName.text.count * 2 > NAME_LENGTH_LIMIT {
                   dinFont(Text("\(self.rightName.text.count) / \(NAME_LENGTH_LIMIT)"),  UIGlobals.appDefaultFontSize)
@@ -107,7 +107,7 @@ struct NamesSettingsSwiftUIView: View {
                 self.endEditing()
               }.font(.largeTitle)
                 .background(primaryColor.opacity(0.05))
-                .accessibility(label: Text("Right player"))
+                .accessibility(label: Text("Right fencer"))
             }.padding()
             Spacer()
           }

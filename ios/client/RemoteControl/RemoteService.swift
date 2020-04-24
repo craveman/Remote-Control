@@ -651,6 +651,10 @@ final class RemoteService {
             return
           }
           self.isReceived = true
+          
+          Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {[unowned self] _ in
+            self.isReceived = false
+          }
         })
         Sm02.on(message: { [unowned self] (inbound) in
           guard case let .videoList(list) = inbound else {
@@ -659,7 +663,6 @@ final class RemoteService {
           self.recordsList.removeAll()
           guard let names = list else {
             log("Failed to parse list name Inbound (.videoList)")
-            self.recordsList = []
             self.isReady = false
             return
           }
@@ -684,6 +687,12 @@ final class RemoteService {
         self.counter += 1
         self.isReady = true
         self.recordsList.append("\(self.counter)")
+      }
+      
+      func stopLoading() -> Void {
+        if (!isReceived) {
+          Sm02.send(message: .stopReplayLoading)
+        }
       }
       
       func clear() -> Void {

@@ -151,6 +151,7 @@ public enum Outbound {
   case record(recordMode: RecordMode)
   case devicesRequest
   case videoListRequest
+  case stopReplayLoading
   case reset
   case ethernetNextOrPrevious(next: Bool)
   case ethernetApply
@@ -247,6 +248,8 @@ extension Outbound: Message {
       return 0x15
     case .loadFile:
       return 0x16
+    case .stopReplayLoading:
+      return 0x25
     case .player:
       return 0x17
     case .record:

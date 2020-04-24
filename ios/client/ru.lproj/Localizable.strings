@@ -116,8 +116,8 @@
 "set period" = "период";
 "reset bout" = "сброс";
 
-"Left player" = "Левая сторона";
-"Right player" = "Правая сторона";
+"Left fencer" = "Боец слева";
+"Right fencer" = "Боец справа";
 
 "Start" = "СТАРТ";
 "Stop" = "СТОП";
