@@ -7,7 +7,7 @@ import UIKit.UIImpactFeedbackGenerator
 enum Vibration {
   
   static private var isVibrationOn = false
-  static private func  isHapticOn() -> Bool {
+  static func  isHapticOn() -> Bool {
       return CHHapticEngine.capabilitiesForHardware().supportsHaptics ||
         UIDevice.current.value(forKey: "_feedbackSupportLevel") as! Int == 2
   }
@@ -26,6 +26,12 @@ enum Vibration {
       withGuard({makeNotificationImpact(style)})
     }, 0.1)
     
+  }
+  
+  static func selection() {
+    withDelay({
+      withGuard({makeSelection()})
+    }, 0.1)
   }
   
   
@@ -52,6 +58,14 @@ enum Vibration {
       return
     }
     callback()
+  }
+  
+  private static func makeSelection() {
+    isVibrationOn = true
+    let impactFeedbackgenerator = UISelectionFeedbackGenerator()
+    impactFeedbackgenerator.prepare()
+    impactFeedbackgenerator.selectionChanged()
+    isVibrationOn = false
   }
   
   private static func makeVibration() {

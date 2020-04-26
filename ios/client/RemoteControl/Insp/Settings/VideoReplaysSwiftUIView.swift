@@ -21,6 +21,7 @@ struct VideoReplaysButtonSwiftUIView: View {
   
   var body: some View {
     Button(action: {
+//      self.playback.refreshVideoList()
       rs.video.replay.refresh()
       self.insp.shouldShowVideoSelectView = true
     }) {
@@ -40,7 +41,7 @@ struct VideoReplaysButtonSwiftUIView: View {
         if self.playback.selectedReplay != nil && !self.playback.canPlay {
           rs.video.replay.stopLoading()
         }
-        print("sheet(isPresented: self.$showModal, onDismiss")
+        print("sheet: $insp.shouldShowVideoSelectView -> onDismiss")
       }) {
         self.modal.environmentObject(self.playback)
     }

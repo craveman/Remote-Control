@@ -99,7 +99,7 @@ class PlaybackControls: ObservableObject {
     didSet {
       if (isPlayActive) {
         rs.video.player.play()
-      } else {
+      } else if canPlay {
         rs.video.player.pause()
       }
       print("active \(isPlayActive)")
@@ -109,16 +109,22 @@ class PlaybackControls: ObservableObject {
   @Published var selectedSpeed: Double = 0 {
     didSet {
       if(selectedSpeed.rounded() != oldValue.rounded()) {
-        Vibration.impact()
+        Vibration.selection()
       }
-      rs.video.player.speed = UInt8(selectedSpeed.rounded())
+      let val = UInt8(selectedSpeed.rounded())
+      if val != rs.video.player.speed {
+        rs.video.player.speed = val
+      }
       print("speed \(selectedSpeed)")
     }
   }
   @Published var currentPosition: Double = 0 {
     didSet {
+      let val = UInt32(currentPosition.rounded())
       print("goto \(currentPosition)")
-      rs.video.player.goto(UInt32(currentPosition.rounded()))
+      if (rs.video.player.timestamp != val) {
+        rs.video.player.goto(val)
+      }
     }
   }
   @Published var replayLength: UInt32 = 0
@@ -145,9 +151,10 @@ class PlaybackControls: ObservableObject {
   }
   
   func eject() -> Void {
-    rs.video.player.stop()
-    choose(filename: nil)
     canPlay = false
+    isPlayActive = false
+    selectedReplay = nil
+    rs.video.player.stop()
   }
   
   func choose(filename: String?) -> Void {

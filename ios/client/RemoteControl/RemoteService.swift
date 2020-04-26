@@ -3,7 +3,7 @@
 //  RemoteControl
 //
 //  Created by Artem Labazin on 14.11.2019.
-//  Copyright © 2019 Sergei Andreev. All rights reserved.
+//  Copyright © 2019 Artem Labazin, Sergei Andreev. All rights reserved.
 //
 
 import struct Foundation.UUID
@@ -599,8 +599,12 @@ final class RemoteService {
       }
       
       func pause () {
+        let temp = timestamp
         timestamp = 101
         mode = .pause
+        Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {[unowned self] _ in
+          self.timestamp = temp
+        }
       }
       
       func standBy() {

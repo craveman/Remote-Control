@@ -46,6 +46,7 @@ struct VideoRC: View {
         primaryColor(dinFont(Text("speed")))
         CommonFloatSlider(sliderValue: $playback.selectedSpeed, minimumValue: 0, maximumvalue: 10, formatter: { _ in "" }, onComplete: {
           self.playback.selectedSpeed = self.$playback.selectedSpeed.wrappedValue.rounded()
+          Vibration.on()
         })
       }
     }.frame(height: 240)
@@ -76,7 +77,6 @@ struct VideoRC: View {
       Divider()
       HStack {
         ConfirmModalButton(vibrate: false, action: {
-          self.playback.isPlayActive = false
           self.playback.eject()
           self.ejectAction()
         }, text: "", imageName: "eject").frame(width: width / 2)
