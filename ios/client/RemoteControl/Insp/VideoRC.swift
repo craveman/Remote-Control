@@ -44,7 +44,7 @@ struct VideoRC: View {
       Spacer()
       VStack(spacing: 0) {
         primaryColor(dinFont(Text("speed")))
-        CommonFloatSlider(sliderValue: $playback.selectedSpeed, minimumValue: 0, maximumvalue: 10, formatter: { _ in "" }, onComplete: {
+        CommonFloatSlider(sliderValue: $playback.selectedSpeed, minimumValue: 1, maximumvalue: 10, formatter: { _ in "" }, onComplete: {
           self.playback.selectedSpeed = self.$playback.selectedSpeed.wrappedValue.rounded()
           Vibration.on()
         })

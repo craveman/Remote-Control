@@ -553,7 +553,7 @@ final class RemoteService {
     final class VideoPlayerManagement {
       
       @Published
-      var speed: UInt8 = 0
+      var speed: UInt8 = 10
       
       @Published
       private(set) var mode: RecordMode = .stop
