@@ -38,7 +38,10 @@ struct VideoRC: View {
     VStack() {
       VStack(spacing: 0) {
         primaryColor(dinFont(Text("position")))
-        CommonFloatSlider(sliderValue: $playback.currentPosition, minimumValue: 0, maximumvalue: 100, formatter: { _ in "" })
+        CommonFloatSlider(sliderValue: $playback.currentPosition, minimumValue: 0, maximumvalue: 100, formatter: { _ in "" }, onComplete: {
+          self.playback.currentPosition = self.$playback.currentPosition.wrappedValue.rounded()
+          Vibration.on()
+        })
         
       }.disabled(playback.isPlayActive)
       Spacer()

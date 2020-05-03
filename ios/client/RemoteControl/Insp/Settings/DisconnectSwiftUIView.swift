@@ -29,7 +29,7 @@ struct DisconnectButtonSwiftUIView: View {
   var body: some View {
     CommonModalButton(imageName: "multiply", imageColor: primaryColor, buttonType: .disconnect, text: "disconnect",  action: {
       print("DisconnectButtonSwiftUIView:action")
-      rs.connection.disconnect()
+      Vibration.impact()
     }, onDismiss: {
       
       print("DisconnectButtonSwiftUIView:onDismiss")

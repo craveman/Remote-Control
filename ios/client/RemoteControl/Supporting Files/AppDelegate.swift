@@ -256,11 +256,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       }
     })
     
-    self.pingTimer = Timer.scheduledTimer(withTimeInterval: RemoteService.PING_INTERVAL, repeats: true) {[unowned self] _ in
+    var videoRcModeOn = false
+    
+    rs.video.player.$mode.on(change: { v in
+      guard v != .stop else {
+        videoRcModeOn = false
+        return
+      }
+      videoRcModeOn = true
+    })
+    
+    self.pingTimer = Timer.scheduledTimer(withTimeInterval: 3 * RemoteService.PING_INTERVAL, repeats: true) {[unowned self] _ in
       guard rs.connection.isConnected else {
         self.pingMissed = false
         return
       }
+      
+      guard !videoRcModeOn else {
+        return
+      }
+      
       log("ping check")
       if (!self.pingMissed) {
         self.pingMissed = true
@@ -270,6 +285,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       
       rs.connection.disconnect(temporary: true)
       self.stopBgTasks()
+      self.stopEventsAndTimers()
+      self.reconnect()
     }
   }
   

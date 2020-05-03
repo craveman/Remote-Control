@@ -611,8 +611,10 @@ final class RemoteService {
         comboLock = true
         mode = .pause
         speed = 10
-        comboLock = false
         goto(0)
+        Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {[unowned self] _ in
+          self.comboLock = false
+        }
       }
     }
     
