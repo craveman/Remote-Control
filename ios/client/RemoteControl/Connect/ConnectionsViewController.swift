@@ -9,19 +9,24 @@
 import UIKit
 import AVFoundation
 
+
+fileprivate func log(_ items: Any...) {
+  print("ConnectionsViewController:log: ", items)
+}
+
 class ConnectionsViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
   public static let RECONNECT = "Reconnect"
   public static let CONNECTION_LOST = "Connection to the server in Wi-Fi network '%@' was lost."
   public static let CONNECTION_ERROR = "Connection error"
   var alert: UIAlertController?
-  var performed = false
+  
   let segueName = "jumpToInspiration"
   @IBOutlet weak var qrReaderSubViewWrapper: UIView!
   
   override func viewDidAppear (_ animated: Bool) {
-    print("did appear")
+    log("did appear")
     getScanner()?.onSuccess = { [weak self] in
-      print("scanner on success", self == self)
+      log("scanner on success", self == self)
       guard self == self else {
         return
       }
@@ -30,7 +35,6 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
 
     if isSimulationEnv() {
       AVCaptureDevice.requestAccess(for: AVMediaType.video) {_ in}
-      performed = false
     } else {
       start()
     }
@@ -61,7 +65,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
   }
 
   func presentationControllerDidDismiss (_ presentationController: UIPresentationController) {
-    start()
+    start(true)
   }
 
   func warning (_ remote: RemoteAddress) {
@@ -73,13 +77,20 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     present(self.alert!, animated: true, completion: nil)
   }
 
-  func start () {
-    performed = false
-    if (rs.connection.isConnected) {
+  func start (_ disconnect: Bool = false) {
+    if (disconnect && rs.connection.isConnected) {
+      log("startScanner with disconnect")
       rs.connection.disconnect()
     }
     
     getScanner()?.startScanner()
+  }
+  
+  func stop () {
+    getScanner()?.stopScanner()
+    self.alert?.dismiss(animated: false, completion: {
+      log(":stop alert::dismissed")
+    })
   }
   
   private func prepareAlert(_ bodyString: String) {
@@ -107,12 +118,9 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
   }
 
   func jumpToInspiration () {
-    getScanner()?.stopScanner()
-//    if (performed) {
-//      return
-//    }
+    stop()
+
     performSegue(withIdentifier: segueName, sender: nil)
-    performed = true
   }
 
   private func isSimulationEnv () -> Bool {

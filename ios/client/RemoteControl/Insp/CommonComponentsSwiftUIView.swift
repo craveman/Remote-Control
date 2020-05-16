@@ -183,7 +183,7 @@ struct CommonPicker: View {
           ForEach(0 ..< self.options.count) {
             Text(self.options[$0]).tag($0).foregroundColor(primaryColor)
           }
-        }.frame(width: geometry.size.width, height: geometry.size.height)
+          }.frame(width: geometry.size.width, height: geometry.size.height)
         .clipped()
       }
     }

@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+let MAX_SCORE = 50
+
 struct PointsStepper: View {
   
   var pType: PersonType = .none
@@ -74,7 +76,7 @@ struct PointsStepper: View {
       .background(minusIsActive ? UIGlobals.disabledButtonBackground_SUI: nil)
       .border(Color.gray, width: 0.5)
       Button(action: {
-        if (self.getScore() == 99) {
+        if (self.getScore() == MAX_SCORE) {
           return
         }
         print("+ Button Pushed")

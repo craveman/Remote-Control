@@ -11,10 +11,15 @@
 
 "QR scanner" = "QR scanner";
 
-"The code is recognized" = "The code is recognized. Check that you are connected to required Wi-Fi network before proceed.";
+"The code is recognized" = "The code is recognized. Check that you are connected to required Wi-Fi network before proceed. Or choose Wi-Fi network type to create automatic disposable connection";
 "The code is unrecognized" = "The code is unrecognized";
-"Connect" = "Connect";
+"Connect Sm02" = "Connect to Sm02";
+"Connect Open WiFi first" = "Open Wi-Fi";
+"Connect Protected WiFi first" = "Secured Wi-Fi";
+"Please provide password" = "Please provide password";
+"We never save or share your data" = "We never save or share your data";
 "Skip" = "Skip";
+"Proceed" = "Proceed";
 "disconnected" = "disconnected from Sm02";
 
 "Wrong authentication code." = "Wrong authentication code.";
@@ -97,4 +102,5 @@
 "Stop" = "STOP";
 "Close" = "CLOSE";
 
+"Connect" = "сonnect";
 "Disconnect this Remote Control?" = "Disconnect this Remote Control?";

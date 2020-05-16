@@ -9,12 +9,18 @@
 import SwiftUI
 import struct NIO.TimeAmount
 
+fileprivate func log(_ items: Any...) {
+  print("PauseSetters:log: ", items)
+}
+
 struct PauseSetters: View {
   
   @EnvironmentObject var settings: FightSettings
   @EnvironmentObject var insp: InspSettings
   
   private func dismiss () -> Void {
+    log("dismiss")
+    UIApplication.shared.isIdleTimerDisabled = false
     self.settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
     rs.timer.stop()
     self.settings.savedTime = nil
@@ -22,10 +28,12 @@ struct PauseSetters: View {
   }
   
   private func start (_ time: TimeAmount, _ mode: TimerMode) -> Void {
+    log("start", time, mode)
+    UIApplication.shared.isIdleTimerDisabled = true
     self.settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
     if rs.timer.mode == .main {
       self.settings.savedTime = .milliseconds(Int64(rs.timer.time))
-      print("set savedTime", self.settings.savedTime!)
+      log("set savedTime", self.settings.savedTime!)
     }
     
     rs.timer.pause(time, mode: mode)
@@ -61,6 +69,7 @@ struct PauseSetters: View {
         DispatchQueue.main.async {
           self.insp.shouldShowPauseView = false
           self.insp.shouldShowMedicalView = false
+          UIApplication.shared.isIdleTimerDisabled = false
         }
         Vibration.on()
       }

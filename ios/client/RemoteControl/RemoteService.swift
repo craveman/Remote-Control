@@ -7,7 +7,9 @@
 //
 
 import struct Foundation.UUID
+import struct Foundation.NSCalendar.Calendar
 import typealias Foundation.Published
+
 import class Foundation.NSTimer.Timer
 import class Dispatch.DispatchQueue
 import class Combine.AnyCancellable
@@ -38,6 +40,7 @@ final class RemoteService {
   
   static let shared = RemoteService()
   static let SYNC_INTERVAL = 0.25
+  static let PING_INTERVAL = 2.01
   
   let connection = ConnectionManagement()
   let persons = PersonsManagement()
@@ -91,10 +94,14 @@ final class RemoteService {
     @Published
     private(set) var address: RemoteAddress? = nil
     
+    @Published
+    private(set) var lastMessageAt: Calendar?
+    
     fileprivate var subs: [AnyCancellable] = []
     
     init () {
       Sm02.on(message: { [unowned self] (inbound) in
+        self.lastMessageAt = Calendar.current
         if case .authentication(.success) = inbound {
           self.isAuthenticated = true
         }
@@ -117,7 +124,7 @@ final class RemoteService {
         })
       ]
       
-      self.subs = temp;
+      self.subs = temp
     }
     
     func connect (to remote: RemoteAddress) -> Result<AuthenticationStatus, Error> {
@@ -133,7 +140,7 @@ final class RemoteService {
       if temporary == false {
         forget()
       }
-      isConnected = false;
+      isConnected = false
     }
     
     func forget () {
@@ -266,7 +273,7 @@ final class RemoteService {
         $weapon.on(change: { update in
           // Sm02 could sometimes reject '.none'
           guard self.weapon != .none else {
-            return;
+            return
           }
           self.raceConditionLock = true
           

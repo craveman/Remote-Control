@@ -51,7 +51,7 @@ public class Sm02 {
     let request = Outbound.authenticate(
       device: .remoteControl,
       code: remote.code,
-      name: "popa",
+      name: "com.inspirationApp.RemoteControl",
       version: 1
     )
     send(message: request)

@@ -67,6 +67,7 @@ fileprivate struct StartTimerButtonWithModalView: View {
   var body: some View {
     Button(action: {
       print("Start Button Pushed")
+      UIApplication.shared.isIdleTimerDisabled = true
       self.start()
       //      self.showModal = true
     }) {
@@ -75,6 +76,7 @@ fileprivate struct StartTimerButtonWithModalView: View {
         .frame(width: width)
     }.frame(width: width)
       .sheet(isPresented: self.$showModal, onDismiss: {
+        UIApplication.shared.isIdleTimerDisabled = false
         self.stop()
         if rs.timer.time == 0 {
           Vibration.on()

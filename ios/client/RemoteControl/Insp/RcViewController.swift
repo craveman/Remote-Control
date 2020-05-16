@@ -19,7 +19,7 @@ class RcViewController: UIViewController {
   internal var playbackController = PlaybackControls()
   
   //  todo: use saved subscribtions tokens
-  internal var subscriptions: [AnyCancellable] = [];
+  internal var subscriptions: [AnyCancellable] = []
   
   lazy var fightSwiftUIHostVC: UIViewController = {
     
@@ -85,7 +85,7 @@ class RcViewController: UIViewController {
     
     let auth$ = rs.connection.$isAuthenticated.on(change: { isAuth in
       //      guard self.rcModel.isConnected == true else {
-      //        return;
+      //        return
       //      }
       guard isAuth == false else {
         if !self.rcModel.isConnected {
@@ -100,7 +100,7 @@ class RcViewController: UIViewController {
       }
       
       presenter.dismiss(animated: true, completion: {
-        presenter.start()
+        presenter.start(true)
       })
     })
     
