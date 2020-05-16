@@ -41,7 +41,6 @@ public final class InspirationDayApplication extends Application {
     private static InspirationDayApplication mApplicationInstance = null;
     private static Typeface customFontTypeface;
     private TCPHelper helper;
-    private UDPHelper udpHelper;
     private LinkedHashSet<Camera> cameras = new LinkedHashSet<>();
     private LinkedHashSet<Repeater> repeaters = new LinkedHashSet<>();
     private int camId;
@@ -94,15 +93,6 @@ public final class InspirationDayApplication extends Application {
     public void endTcp() {
         helper.end();
         helper = null;
-    }
-
-    @Contract(pure = true)
-    public UDPHelper getUdpHelper() {
-        return udpHelper;
-    }
-
-    public void setUdpHelper(UDPHelper udpHelper) {
-        this.udpHelper = udpHelper;
     }
 
     @Contract(pure = true)
@@ -160,7 +150,6 @@ public final class InspirationDayApplication extends Application {
     @Override
     public void onTerminate() {
         mApplicationInstance = null;
-        udpHelper.end();
         super.onTerminate();
     }
 

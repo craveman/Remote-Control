@@ -9,6 +9,7 @@
         <variable
             name="viewModel"
             type="ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM" />
+        <import type="android.view.View" alias="v"/>
     </data>
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -190,7 +191,8 @@
             app:layout_constraintTop_toTopOf="@id/names_title_1_top"
             app:layout_constraintBottom_toBottomOf="@id/names_title_1_bottom"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="@{viewModel.isNamesLocked ? v.GONE : v.VISIBLE}"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -198,7 +200,9 @@
             app:layout_constraintTop_toTopOf="@id/names_name_1_top"
             app:layout_constraintBottom_toBottomOf="@id/names_name_1_bottom"
             android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp">
+            android:layout_marginEnd="30dp"
+            android:id="@+id/names_left_lay"
+            android:visibility="@{viewModel.isNamesLocked ? v.GONE : v.VISIBLE}">
 
             <ru.inspirationpoint.remotecontrol.ui.view.FightersAutoCompleteTextView
                 android:id="@+id/left_fighter"
@@ -241,7 +245,8 @@
             app:layout_constraintTop_toTopOf="@id/names_title_2_top"
             app:layout_constraintBottom_toBottomOf="@id/names_title_2_bottom"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="@{viewModel.isNamesLocked ? v.GONE : v.VISIBLE}"/>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -249,7 +254,9 @@
             app:layout_constraintTop_toTopOf="@id/names_name_2_top"
             app:layout_constraintBottom_toBottomOf="@id/names_name_2_bottom"
             android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp">
+            android:layout_marginEnd="30dp"
+            android:id="@+id/names_right_lay"
+            android:visibility="@{viewModel.isNamesLocked ? v.GONE : v.VISIBLE}">
 
             <ru.inspirationpoint.remotecontrol.ui.view.FightersAutoCompleteTextView
                 android:id="@+id/right_fighter"

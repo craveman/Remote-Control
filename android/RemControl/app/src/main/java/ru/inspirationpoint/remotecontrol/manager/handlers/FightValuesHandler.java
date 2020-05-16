@@ -26,6 +26,10 @@ public class FightValuesHandler implements ActionUploadCallback {
 
     private FightActionsHandler handler;
     private CoreHandler core;
+    private int leftYPCache = 0;
+    private int leftRPCache = 0;
+    private int rightYPCache = 0;
+    private int rightRPCache = 0;
 
     public FightValuesHandler(FightData fightData, CoreHandler core) {
         FightData fightData1;
@@ -154,6 +158,17 @@ public class FightValuesHandler implements ActionUploadCallback {
 //        core.sendToSM(CommandHelper.setTimer(defTime, 0));
         handler.addAction(FightActionData.createSetPeriod(time, period), this, null);
         core.getBackupHelper().backupFight(handler.getFightData());
+    }
+
+    public void backupPCards() {
+        leftYPCache = getFightData().getLeftFighter().getYellowPCardCount();
+        leftRPCache = getFightData().getLeftFighter().getRedPCardCount();
+        rightYPCache = getFightData().getRightFighter().getYellowPCardCount();
+        rightRPCache = getFightData().getRightFighter().getRedPCardCount();
+    }
+
+    public void restorePCards() {
+        core.restorePCards(leftYPCache, leftRPCache, rightYPCache, rightRPCache);
     }
 
     @Override

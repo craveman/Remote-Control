@@ -2,6 +2,7 @@ package ru.inspirationpoint.remotecontrol.ui.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -63,8 +64,7 @@ public class ReplaysDialog extends DialogFragment implements VideoReplaysAdapter
         View contentView = inflater.inflate(R.layout.dlg_videos, null);
         ArrayList<String> items = Objects.requireNonNull(getArguments()).getStringArrayList(ITEMS);
         VideoReplaysAdapter adapter = new VideoReplaysAdapter();
-        DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL);
-        decoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(getActivity(), R.color.white)));
+        DividerItemDecoration decoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
         RecyclerView recyclerView = contentView.findViewById(R.id.videos_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true));
         recyclerView.setAdapter(adapter);
@@ -72,9 +72,8 @@ public class ReplaysDialog extends DialogFragment implements VideoReplaysAdapter
         adapter.setClickListener(this);
         adapter.setItems(items);
         Log.wtf("ADAPTER", adapter.getItemCount() + "");
-        TextView btnClose = contentView.findViewById(R.id.videos_cancel);
-        btnClose.setOnClickListener(view -> dismiss());
-        return builder.setView(contentView).show();
+        return builder.setView(contentView).setNeutralButton(getResources().getString(R.string.cancel),
+                (dialogInterface, i) -> dismiss()).show();
     }
 
     @Override

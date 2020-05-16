@@ -18,6 +18,8 @@ import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 
+import com.stfalcon.androidmvvmhelper.mvvm.activities.ActivityViewModel;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ import java.util.TimerTask;
 
 import ru.inspirationpoint.remotecontrol.R;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
+import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
 import ru.inspirationpoint.remotecontrol.manager.coreObjects.Device;
 import ru.inspirationpoint.remotecontrol.manager.helpers.BackupHelper;
 import ru.inspirationpoint.remotecontrol.manager.helpers.UDPHelper;
@@ -34,6 +37,7 @@ import ru.inspirationpoint.remotecontrol.manager.tcpHandle.CommandHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPScheduler;
 import ru.inspirationpoint.remotecontrol.ui.activity.FightActivity;
+import ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM;
 import ru.inspirationpoint.remotecontrol.ui.dialog.ConfirmationDialog;
 
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEVICE_ID_SETTING;
@@ -48,6 +52,9 @@ import static ru.inspirationpoint.remotecontrol.manager.constants.commands.Comma
 import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.RC_EXISTS_AUTH;
 import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.TCP_OK;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivity.WIFI_MESSAGE;
+import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.CARD_STATE_NONE;
+import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.CARD_STATE_RED;
+import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.CARD_STATE_YELLOW;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SYNC_STATE_NONE;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SYNC_STATE_SYNCED;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SYNC_STATE_SYNCING;
@@ -335,7 +342,8 @@ public class CoreHandler implements TCPHelper.TCPListener {
                 h.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (!TextUtils.isEmpty(SettingsManager.getValue(SM_CODE, "")) &&
+                        if (
+//                                !TextUtils.isEmpty(SettingsManager.getValue(SM_CODE, "")) &&
                                 !TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
                             ((FightActivity) activity).getViewModel().syncState.set(SYNC_STATE_SYNCING);
                             Log.wtf("RESYNCing", "+");
@@ -351,6 +359,7 @@ public class CoreHandler implements TCPHelper.TCPListener {
 
     public void updateSMAlive(int remain) {
         if (!isUSBMode.get()) {
+            Log.wtf("REMAIN", remain + "");
             if (remain == 0) {
                 Log.wtf("DISCONNECT", "UPD SM ALIVE");
                 onDisconnect();
@@ -398,6 +407,35 @@ public class CoreHandler implements TCPHelper.TCPListener {
 
     public FightValuesHandler getFightHandler() {
         return fightHandler;
+    }
+
+    public void restorePCards(int ly, int lr, int ry, int rr) {
+        FightActivityVM model = ((FightActivity)activity).getViewModel();
+        if (lr != 0) {
+            for (int i = 0; i < lr; i++) {
+                model.leftPCard.set(CARD_STATE_RED);
+                model.leftPCard.set(CARD_STATE_YELLOW);
+            }
+        } else {
+            if (ly != 0) {
+                model.leftPCard.set(CARD_STATE_YELLOW);
+            } else {
+                model.leftPCard.set(CARD_STATE_NONE);
+            }
+        }
+
+        if (rr != 0) {
+            for (int i = 0; i < rr; i++) {
+                model.rightPCard.set(CARD_STATE_RED);
+                model.rightPCard.set(CARD_STATE_YELLOW);
+            }
+        } else {
+            if (ry != 0) {
+                model.rightPCard.set(CARD_STATE_YELLOW);
+            } else {
+                model.rightPCard.set(CARD_STATE_NONE);
+            }
+        }
     }
 
     public void showInLog ( String text) {

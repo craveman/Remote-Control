@@ -117,6 +117,10 @@ public interface CommonConstants {
         Usual, Pause, Medical
     }
 
+    enum CyranoState {
+        Off, JustEnabled, FightQueried, FightReceived, FightActive, FightEnded, FightConfirmed
+    }
+
     String[] CHARS = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N",
             "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 

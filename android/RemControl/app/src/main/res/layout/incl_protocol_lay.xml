@@ -10,6 +10,8 @@
             type="ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM" />
         <import type="android.view.View"
             alias="v"/>
+        <import type="ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.CyranoState"
+            alias="state"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -235,7 +237,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:onClick="@{() -> viewModel.onMenuDeviceReset()}"
-            android:visibility="@{viewModel.isServerOnline ? v.GONE : v.VISIBLE}"
+            android:visibility="@{viewModel.cyranoState == state.Off ? v.VISIBLE : v.GONE}"
             app:autoSizeMaxTextSize="100sp"
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"

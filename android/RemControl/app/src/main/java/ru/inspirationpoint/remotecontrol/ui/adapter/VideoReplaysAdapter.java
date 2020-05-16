@@ -2,6 +2,7 @@ package ru.inspirationpoint.remotecontrol.ui.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,8 @@ public class VideoReplaysAdapter extends RecyclerView.Adapter<VideoReplaysAdapte
     public void setItems (ArrayList<String> list) {
         items = list;
         Collections.sort(items, (s, t1) -> {
-            String param1 = s.split("\\|\\|")[1];
-            String param2 = t1.split("\\|\\|")[1];
+            String param1 = s.split("#")[1];
+            String param2 = t1.split("#")[1];
             SimpleDateFormat sdf = new SimpleDateFormat("HH_mm_ss", Locale.getDefault());
             Long val1 = 0L;
             Long val2 = 0L;
@@ -70,8 +71,8 @@ public class VideoReplaysAdapter extends RecyclerView.Adapter<VideoReplaysAdapte
 
         public void setItem (String item) {
             this.item = item;
-            scoreText.setText(item.split("\\|\\|")[0]);
-            timeText.setText(item.split("\\|\\|")[1].replace("_", ":").replace(".mp4", ""));
+            scoreText.setText(item.split("#")[0]);
+            timeText.setText(item.split("#")[1].replace("_", ":").replace(".mp4", ""));
         }
 
         VideoReplayHolder(View itemView) {
