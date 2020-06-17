@@ -22,8 +22,9 @@ public class TCPHeader {
     public byte[] getBytes() throws IOException {
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         DataOutputStream s = new DataOutputStream(b);
-        s.writeByte(0);
-        s.writeByte(this.len);
+        byte[] length = new byte[] {(byte) (len >> 8), (byte) len};
+        s.writeByte(length[0]);
+        s.writeByte(length[1]);
         s.writeByte(this.cmd);
         s.writeByte(this.status);
         return b.toByteArray();

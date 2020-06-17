@@ -1,6 +1,7 @@
 package ru.inspirationpoint.remotecontrol.manager.helpers;
 
 import android.content.Context;
+import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.text.format.Formatter;
@@ -12,6 +13,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
@@ -111,18 +114,40 @@ public class UDPHelper extends Thread {
         DatagramPacket sendPacket = new DatagramPacket(
                 sendData, sendData.length, InetAddress.getByName(ip), PORT);
         Log.wtf("PACKET ADDR", "||"
-         + sendPacket.getAddress().isLoopbackAddress());
+                + sendPacket.getAddress().isLoopbackAddress());
         socket.send(sendPacket);
     }
 
     @Override
     public void run() {
+        WifiManager wifi = (WifiManager) ctx.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        DhcpInfo dhcp = null;
+        if (wifi != null) {
+            dhcp = wifi.getDhcpInfo();
+        }
         Log.wtf("UDPThread", "RUN");
         try {
             if (socket == null || socket.isClosed()) {
-                socket = new DatagramSocket(null);
-                socket.setReuseAddress(true);
-                socket.bind(new InetSocketAddress(PORT));
+//                if (dhcp != null) {
+//                    try {
+//                        ByteBuffer tmp = ByteBuffer.allocate(4);
+//                        tmp.putInt(dhcp.ipAddress);
+//                        InetAddress local = InetAddress.getByAddress(tmp.array());
+//                        socket = new DatagramSocket(PORT, local);
+//                        socket.setReuseAddress(true);
+//                    } catch (UnknownHostException e) {
+//                        e.printStackTrace();
+//                        socket = new DatagramSocket(null);
+//                        socket.setReuseAddress(true);
+//                        socket.bind(new InetSocketAddress(PORT));
+//                    }
+//                }
+//                else {
+                    socket = new DatagramSocket(null);
+                    socket.setReuseAddress(true);
+                    socket.bind(new InetSocketAddress(PORT));
+//                }
+
 //                socket.setBroadcast(false);
             }
         } catch (SocketException e) {
@@ -151,10 +176,10 @@ public class UDPHelper extends Thread {
 //                                            + SettingsManager.getValue(SM_CODE, ""),
 //                                    packet.getAddress().getHostName());
 //                        }else {
-                            String[] messageArray = text.split("\0");
-                            if ((messageArray.length >= 1)) {
-                                listener.onReceive(messageArray, packet.getAddress().getHostAddress());
-                            }
+                        String[] messageArray = text.split("\0");
+                        if ((messageArray.length >= 1)) {
+                            listener.onReceive(messageArray, packet.getAddress().getHostAddress());
+                        }
 //                        }
                     }
                 } catch (IOException e) {
@@ -173,22 +198,18 @@ public class UDPHelper extends Thread {
     }
 
     public boolean isUDPAlive() {
-        return (socket!=null)&&(!socket.isClosed());
+        return (socket != null) && (!socket.isClosed());
     }
 
     public interface BroadcastListener {
         void onReceive(String[] msg, String ip);
+
         void onCreated();
     }
 
     private InetAddress getBroadcastAddress() throws IOException {
-//        WifiManager wifi = (WifiManager) ctx.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-//        DhcpInfo dhcp = null;
-//        if (wifi != null) {
-//            dhcp = wifi.getDhcpInfo();
-//        }
 //        if(dhcp == null)
-            return InetAddress.getByName("255.255.255.255");
+        return InetAddress.getByName("255.255.255.255");
 //        int broadcast = (dhcp.ipAddress & dhcp.netmask) | ~dhcp.netmask;
 //        byte[] quads = new byte[4];
 //        for (int k = 0; k < 4; k++)

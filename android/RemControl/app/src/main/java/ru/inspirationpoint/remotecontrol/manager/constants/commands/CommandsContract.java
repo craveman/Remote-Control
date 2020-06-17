@@ -49,6 +49,8 @@ public interface CommandsContract {
     byte GET_VIDEOS_CMD = (byte) 0x29;
     byte LIST_VIDEOS_CMD = (byte) 0x2A;
 
+    byte RESTORE_FIGHT_CMD = (byte) 0x2B;
+
     byte RESPONSE_CMD = (byte) 0xAA;
 
     byte SET_BLUETOOTH_MODE = (byte) 0xB0;

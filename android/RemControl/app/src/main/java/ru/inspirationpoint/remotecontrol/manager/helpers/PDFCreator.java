@@ -429,70 +429,70 @@ public class PDFCreator {
 
     }
     private void setupGraph(GraphView graphView, FightData data) {
-        DataPoint[] pointArray = data.getPointArray(ContextCompat.getColor(InspirationDayApplication.getApplication().getApplicationContext(), R.color.colorPrimaryDark),
-                ContextCompat.getColor(InspirationDayApplication.getApplication().getApplicationContext(), R.color.leftFighter),
-                ContextCompat.getColor(InspirationDayApplication.getApplication().getApplicationContext(), R.color.rightFighter));
-
-        double maxX = Double.MIN_VALUE;
-        double maxY = Double.MIN_VALUE;
-        double minY = 0.0;
-        for (DataPoint aPointArray : pointArray) {
-            double x = aPointArray.getX();
-            if (x > maxX) {
-                maxX = x;
-            }
-
-            double y = aPointArray.getY();
-            if (y > maxY) {
-                maxY = y;
-            }
-            if (y < minY) {
-                minY = y;
-            }
-        }
-        for (int i = 1; i < 9; i++) {
-            mCurrentTime.setTime((data.getmEndTime() - data.getmStartTime()) /8*i*11/10);
-            labels.add(mTimerFormat.format(mCurrentTime));
-        }
-        maxX = maxX*1.1;
-        maxY++;
-        minY--;
-
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(pointArray);
-        series.setDrawDataPoints(true);
-        series.setDataPointsRadius(3f);
-        series.setThickness(2);
-        graphView.addSeries(series);
-
-        Viewport viewport = graphView.getViewport();
-        viewport.setXAxisBoundsManual(true);
-        viewport.setMinX(0);
-        viewport.setMaxX(maxX);
-
-        viewport.setYAxisBoundsManual(true);
-        viewport.setMinY(minY);
-        viewport.setMaxY(maxY);
-        viewport.setDrawBorder(true);
-
-        viewport.setScrollable(false);
-        viewport.setScalable(false);
-        graphView.getGridLabelRenderer().setTextSize(12f);
-        graphView.getGridLabelRenderer().setNumVerticalLabels(maxY - minY > 8 ? (int) (maxY - minY + 2) / 2 : (int)((maxY - minY + 1)));
-        graphView.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
-        graphView.getGridLabelRenderer().setLabelsSpace(20);
-
-        graphView.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
-
-            @Override
-            public String formatLabel(double value, boolean isValueX) {
-                if (isValueX) {
-                    mCurrentTime.setTime((long) value);
-                    return mTimerFormat.format(mCurrentTime);
-                }
-                return super.formatLabel(Math.abs(value), isValueX);
-            }
-        });
-
-        graphView.layout(0, 0, 550, 180);
+//        DataPoint[] pointArray = data.getPointArray(ContextCompat.getColor(InspirationDayApplication.getApplication().getApplicationContext(), R.color.colorPrimaryDark),
+//                ContextCompat.getColor(InspirationDayApplication.getApplication().getApplicationContext(), R.color.leftFighter),
+//                ContextCompat.getColor(InspirationDayApplication.getApplication().getApplicationContext(), R.color.rightFighter));
+//
+//        double maxX = Double.MIN_VALUE;
+//        double maxY = Double.MIN_VALUE;
+//        double minY = 0.0;
+//        for (DataPoint aPointArray : pointArray) {
+//            double x = aPointArray.getX();
+//            if (x > maxX) {
+//                maxX = x;
+//            }
+//
+//            double y = aPointArray.getY();
+//            if (y > maxY) {
+//                maxY = y;
+//            }
+//            if (y < minY) {
+//                minY = y;
+//            }
+//        }
+//        for (int i = 1; i < 9; i++) {
+//            mCurrentTime.setTime((data.getmEndTime() - data.getmStartTime()) /8*i*11/10);
+//            labels.add(mTimerFormat.format(mCurrentTime));
+//        }
+//        maxX = maxX*1.1;
+//        maxY++;
+//        minY--;
+//
+//        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(pointArray);
+//        series.setDrawDataPoints(true);
+//        series.setDataPointsRadius(3f);
+//        series.setThickness(2);
+//        graphView.addSeries(series);
+//
+//        Viewport viewport = graphView.getViewport();
+//        viewport.setXAxisBoundsManual(true);
+//        viewport.setMinX(0);
+//        viewport.setMaxX(maxX);
+//
+//        viewport.setYAxisBoundsManual(true);
+//        viewport.setMinY(minY);
+//        viewport.setMaxY(maxY);
+//        viewport.setDrawBorder(true);
+//
+//        viewport.setScrollable(false);
+//        viewport.setScalable(false);
+//        graphView.getGridLabelRenderer().setTextSize(12f);
+//        graphView.getGridLabelRenderer().setNumVerticalLabels(maxY - minY > 8 ? (int) (maxY - minY + 2) / 2 : (int)((maxY - minY + 1)));
+//        graphView.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
+//        graphView.getGridLabelRenderer().setLabelsSpace(20);
+//
+//        graphView.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+//
+//            @Override
+//            public String formatLabel(double value, boolean isValueX) {
+//                if (isValueX) {
+//                    mCurrentTime.setTime((long) value);
+//                    return mTimerFormat.format(mCurrentTime);
+//                }
+//                return super.formatLabel(Math.abs(value), isValueX);
+//            }
+//        });
+//
+//        graphView.layout(0, 0, 550, 180);
     }
 }

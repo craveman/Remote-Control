@@ -109,6 +109,20 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".80" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_log"
+            android:text="@{viewModel.logTextTemp}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:maxLines="4"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="14dp"
+            android:background="@color/transparent"
+            android:textColor="@color/yellowCard"
+            android:textSize="16sp"/>
+
         <ImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -136,22 +150,43 @@
             app:layout_constraintTop_toTopOf="@id/msg_1_top" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:text="@string/fa_sync_explain"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
+        app:autoSizeMaxTextSize="100sp"
+        app:autoSizeMinTextSize="12sp"
+        app:autoSizeStepGranularity="2sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toBottomOf="@id/msg_2_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/msg_2_top" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="30dp"
             android:layout_marginStart="30dp"
-            android:text="@string/fa_sync_explain"
+            android:paddingStart="40dp"
+            android:paddingEnd="40dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:background="@drawable/btn_border"
+            android:id="@+id/btn_settings"
+            android:text="@string/settings"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
-            app:autoSizeMaxTextSize="100sp"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="2sp"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="@id/msg_2_bottom"
+            android:textSize="30sp"
+            app:layout_constraintTop_toBottomOf="@id/msg_2_bottom"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/msg_2_top" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <!--<com.budiyev.android.codescanner.CodeScannerView-->
             <!--android:id="@+id/scanner_view"-->
@@ -224,21 +259,6 @@
             android:layout_marginBottom="28dp"
             android:id="@+id/exit_app"
             android:onClick="@{() -> viewModel.onExitApp()}"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:id="@+id/tv_log"
-            android:text="@{viewModel.logTextTemp}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:gravity="bottom"
-            android:maxLines="10"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="14dp"
-            android:background="@color/transparent"
-            android:textColor="@color/yellowCard"
-            android:textSize="16sp"/>
 
         <!--<TextView-->
             <!--android:layout_width="match_parent"-->

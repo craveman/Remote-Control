@@ -83,6 +83,7 @@ public class CoreHandler implements TCPHelper.TCPListener {
     public boolean camExists = false;
 
     public ObservableBoolean isUSBMode = new ObservableBoolean(false);
+    public Boolean isInRestore = false;
 
     public CoreHandler(Context context, int mode) {
         this.context = context;
@@ -90,9 +91,9 @@ public class CoreHandler implements TCPHelper.TCPListener {
         vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         udpHelper = new UDPHelper(context);
         scheduler = new TCPScheduler(this);
-        udpHelper.setListener(new UDPHelper.BroadcastListener() {
-            @Override
-            public void onReceive(String[] msg, String ip) {
+//        udpHelper.setListener(new UDPHelper.BroadcastListener() {
+//            @Override
+//            public void onReceive(String[] msg, String ip) {
 //                if (msg[0].equals(OK_UDP) && tcpHelper == null) {
 //                    tcpHelper = new TCPHelper(ip);
 //                    tcpHelper.setListener(CoreHandler.this);
@@ -106,13 +107,13 @@ public class CoreHandler implements TCPHelper.TCPListener {
 //                if (msg[0].equals(PING_UDP)) {
 //                    tryToConnect();
 //                }
-            }
-
-            @Override
-            public void onCreated() {
-
-            }
-        });
+//            }
+//
+//            @Override
+//            public void onCreated() {
+//
+//            }
+//        });
         smMainAliveHandler = new SMMainAliveHandler(this);
         startUSB();
         isUSBMode.addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
@@ -141,14 +142,20 @@ public class CoreHandler implements TCPHelper.TCPListener {
     public void tryToConnect() {
         Log.wtf("CODE", SettingsManager.getValue(SM_CODE, "") + "|||" + SettingsManager.getValue(SM_IP, ""));
         if (tcpHelper == null || !tcpHelper.isConnected()) {
+            showInLog("CONN TRY");
+            if (tcpHelper!= null) {
+                tcpHelper.end();
+            }
             if (!TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
                 Handler handler = new Handler(Looper.getMainLooper());
                 handler.postDelayed(() -> {
                     tcpHelper = new TCPHelper(SettingsManager.getValue(SM_IP, ""));
                     tcpHelper.setListener(CoreHandler.this);
                     tcpHelper.start();
-                }, 1500);
+                    showInLog("TCP START TRY");
+                }, 100);
             } else {
+                showInLog("IP EMPTY");
                 SettingsManager.removeValue(SM_CODE);
                 SettingsManager.removeValue(SM_IP);
                 onDisconnect();
@@ -292,11 +299,12 @@ public class CoreHandler implements TCPHelper.TCPListener {
 
     @Override
     public void onReceive(byte command, byte status, byte[] message) {
+        showInLog("RCV" + command);
         smMainAliveHandler.start();
         if (command == AUTH_RESPONSE) {
             switch (status) {
                 case TCP_OK:
-                    ((FightActivity)activity).getViewModel().syncState.set(SYNC_STATE_SYNCED);
+                    ((FightActivity) activity).getViewModel().syncState.set(SYNC_STATE_SYNCED);
                     if (!isUSBMode.get()) {
                         connectedDevices.add(new Device(tcpHelper.getServerIp(), DEV_TYPE_SM, SettingsManager.getValue(SM_CODE, "")));
                     }
@@ -309,8 +317,7 @@ public class CoreHandler implements TCPHelper.TCPListener {
                     break;
 
             }
-        } else
-        if (serverCallback != null) {
+        } else if (serverCallback != null) {
             serverCallback.messageReceived(command, message);
         }
     }
@@ -323,10 +330,12 @@ public class CoreHandler implements TCPHelper.TCPListener {
                 SettingsManager.getValue(DEVICE_ID_SETTING, "")));
         smMainAliveHandler.start();
         scheduler.start();
+        showInLog("STREAM +");
     }
 
     @Override
     public void onDisconnect() {
+        showInLog("DISCONN +");
         if (tcpHelper != null) {
             tcpHelper.end();
         }
@@ -338,19 +347,15 @@ public class CoreHandler implements TCPHelper.TCPListener {
         scheduler.finish();
         if (!isUSBMode.get()) {
             if (checkWifiOnAndConnected()) {
-                Handler h = new Handler(Looper.getMainLooper());
-                h.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (
+                if (
 //                                !TextUtils.isEmpty(SettingsManager.getValue(SM_CODE, "")) &&
-                                !TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
-                            ((FightActivity) activity).getViewModel().syncState.set(SYNC_STATE_SYNCING);
-                            Log.wtf("RESYNCing", "+");
-                            tryToConnect();
-                        }
-                    }
-                }, 2000);
+                        !TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
+                    ((FightActivity) activity).getViewModel().syncState.set(SYNC_STATE_SYNCING);
+                    tryToConnect();
+                }
+//                else {
+//                    ((FightActivity) activity).getViewModel().startListen();
+//                }
             } else {
                 startWiFiNetworking();
             }
@@ -374,6 +379,7 @@ public class CoreHandler implements TCPHelper.TCPListener {
             tcpHelper.send(message);
         } else {
             Log.wtf("TCP NULL", "++++");
+            onDisconnect();
         }
     }
 
@@ -410,7 +416,7 @@ public class CoreHandler implements TCPHelper.TCPListener {
     }
 
     public void restorePCards(int ly, int lr, int ry, int rr) {
-        FightActivityVM model = ((FightActivity)activity).getViewModel();
+        FightActivityVM model = ((FightActivity) activity).getViewModel();
         if (lr != 0) {
             for (int i = 0; i < lr; i++) {
                 model.leftPCard.set(CARD_STATE_RED);
@@ -438,23 +444,23 @@ public class CoreHandler implements TCPHelper.TCPListener {
         }
     }
 
-    public void showInLog ( String text) {
+    public void showInLog(String text) {
         if (activity != null) {
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    ((FightActivity)activity).getBinding().syncLay.tvLog.setMovementMethod(new ScrollingMovementMethod());
-                    final Layout layout = ((FightActivity)activity).getBinding().syncLay.tvLog.getLayout();
+                    ((FightActivity) activity).getBinding().syncLay.tvLog.setMovementMethod(new ScrollingMovementMethod());
+                    final Layout layout = ((FightActivity) activity).getBinding().syncLay.tvLog.getLayout();
                     if (layout != null) {
-                        int scrollDelta = layout.getLineBottom(((FightActivity)activity).getBinding().syncLay.tvLog.getLineCount() - 1)
-                                - ((FightActivity)activity).getBinding().syncLay.tvLog.getScrollY() - ((FightActivity)activity).getBinding().syncLay.tvLog.getHeight();
+                        int scrollDelta = layout.getLineBottom(((FightActivity) activity).getBinding().syncLay.tvLog.getLineCount() - 1)
+                                - ((FightActivity) activity).getBinding().syncLay.tvLog.getScrollY() - ((FightActivity) activity).getBinding().syncLay.tvLog.getHeight();
                         if (scrollDelta > 0)
-                            ((FightActivity)activity).getBinding().syncLay.tvLog.scrollBy(0, scrollDelta);
+                            ((FightActivity) activity).getBinding().syncLay.tvLog.scrollBy(0, scrollDelta);
                     }
 //                Log.wtf("LOG", activity.get().getViewModel().logTextTemp.get());
                 }
             });
-            ((FightActivity)activity).getViewModel().logTextTemp.set(((FightActivity)activity).getViewModel().logTextTemp.get() + "\n " + text);
+            ((FightActivity) activity).getViewModel().logTextTemp.set(((FightActivity) activity).getViewModel().logTextTemp.get() + "\n " + text);
         }
     }
 }

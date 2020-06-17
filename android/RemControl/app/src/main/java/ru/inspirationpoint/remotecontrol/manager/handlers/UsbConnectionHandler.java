@@ -77,12 +77,12 @@ public class UsbConnectionHandler implements UsbBroadcastReceiver.OnUSBEventList
 
     @Override
     public void onUsbPermission(UsbDevice device) {
-        core.showInLog("USB DETECTED");
+//        core.showInLog("USB DETECTED");
         if (!mUsbManager.hasPermission(device)) {
-            core.showInLog("NO PERM");
+//            core.showInLog("NO PERM");
             mUsbManager.requestPermission(device, PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0));
         } else {
-            core.showInLog("HAS PERM");
+//            core.showInLog("HAS PERM");
             onUsbReady(device);
         }
     }
@@ -90,10 +90,10 @@ public class UsbConnectionHandler implements UsbBroadcastReceiver.OnUSBEventList
     @Override
     public void onUsbAccessoryPermission(UsbAccessory accessory) {
         if (!mUsbManager.hasPermission(accessory)) {
-            core.showInLog("NO PERM");
+//            core.showInLog("NO PERM");
             mUsbManager.requestPermission(accessory, PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0));
         } else {
-            core.showInLog("HAS PERM");
+//            core.showInLog("HAS PERM");
             onAccessory(accessory);
         }
     }
@@ -110,14 +110,14 @@ public class UsbConnectionHandler implements UsbBroadcastReceiver.OnUSBEventList
 
     @Override
     public void onUsbReady(UsbDevice device) {
-        core.showInLog("USB READY");
+//        core.showInLog("USB READY");
     }
 
     @Override
     public void onAccessory(UsbAccessory accessory) {
-        core.showInLog("ACCESSORY");
+//        core.showInLog("ACCESSORY");
         fileDescriptor = mUsbManager.openAccessory(accessory);
-        core.showInLog((fileDescriptor != null) + "||");
+//        core.showInLog((fileDescriptor != null) + "||");
         if (fileDescriptor != null) {
             FileDescriptor fd = fileDescriptor.getFileDescriptor();
             inputStream = new FileInputStream(fd);

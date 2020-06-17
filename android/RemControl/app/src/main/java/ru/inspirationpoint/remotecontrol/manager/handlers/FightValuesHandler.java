@@ -72,7 +72,9 @@ public class FightValuesHandler implements ActionUploadCallback {
         } else if (person == PERSON_TYPE_RIGHT) {
             handler.setRightName(name);
         }
-        core.sendToSM(CommandHelper.setName(person, name));
+        if (!core.isInRestore) {
+            core.sendToSM(CommandHelper.setName(person, name));
+        }
         core.getBackupHelper().backupFight(handler.getFightData());
     }
 
@@ -83,13 +85,17 @@ public class FightValuesHandler implements ActionUploadCallback {
             } else if (person == PERSON_TYPE_RIGHT) {
                 handler.setRightId(id);
             }
-            core.sendToSM(CommandHelper.setId(person, id));
+            if (!core.isInRestore) {
+                core.sendToSM(CommandHelper.setId(person, id));
+            }
             core.getBackupHelper().backupFight(handler.getFightData());
         }
     }
 
     public void setScore(long time, int person, int score) {
-        core.sendToSM(CommandHelper.setScore(person, score));
+        if (!core.isInRestore) {
+            core.sendToSM(CommandHelper.setScore(person, score));
+        }
         if (person == PERSON_TYPE_LEFT) {
             handler.addAction(FightActionData.createSetScoreLeft(time,
                     handler.getFightData().getmCurrentPeriod(), score, 14), this, null);
@@ -101,7 +107,9 @@ public class FightValuesHandler implements ActionUploadCallback {
     }
 
     public void setPriority(long time, int person) {
-        core.sendToSM(CommandHelper.setPriority(person));
+        if (!core.isInRestore) {
+            core.sendToSM(CommandHelper.setPriority(person));
+        }
         if (person == PERSON_TYPE_LEFT) {
             handler.addAction(FightActionData.createSetPriorityLeft(time,
                     handler.getFightData().getmCurrentPeriod()), this, null);
@@ -115,7 +123,9 @@ public class FightValuesHandler implements ActionUploadCallback {
     }
 
     public void setCard(long time, int person, int card) {
-        core.sendToSM(CommandHelper.setCard(person, card - 19));
+        if (!core.isInRestore) {
+            core.sendToSM(CommandHelper.setCard(person, card - 19));
+        }
         if (person == PERSON_TYPE_LEFT) {
             handler.addAction(FightActionData.createSetCardLeft(time,
                         handler.getFightData().getmCurrentPeriod(), card - 19), this, null);
@@ -127,7 +137,9 @@ public class FightValuesHandler implements ActionUploadCallback {
     }
 
     public void setPCard(long time, int person, int card) {
-        core.sendToSM(CommandHelper.setCard(person, card-15));
+        if (!core.isInRestore) {
+            core.sendToSM(CommandHelper.setCard(person, card - 15));
+        }
         if (person == PERSON_TYPE_LEFT) {
             handler.addAction(FightActionData.createSetPCardLeft(time,
                         handler.getFightData().getmCurrentPeriod(), card - 15), this, null);
@@ -154,7 +166,9 @@ public class FightValuesHandler implements ActionUploadCallback {
     }
 
     public void setPeriod (long time, int period, int defTime) {
-        core.sendToSM(CommandHelper.setPeriod(period));
+        if (!core.isInRestore) {
+            core.sendToSM(CommandHelper.setPeriod(period));
+        }
 //        core.sendToSM(CommandHelper.setTimer(defTime, 0));
         handler.addAction(FightActionData.createSetPeriod(time, period), this, null);
         core.getBackupHelper().backupFight(handler.getFightData());

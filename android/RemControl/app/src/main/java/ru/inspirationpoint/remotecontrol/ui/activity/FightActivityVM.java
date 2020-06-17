@@ -13,11 +13,19 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.net.NetworkRequest;
 import android.net.Uri;
+import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Handler;
+import android.provider.Settings;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
@@ -29,6 +37,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
@@ -279,6 +289,9 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
     public ObservableField<CyranoState> cyranoState = new ObservableField<>(CyranoState.Off);
 
+    private ConnectivityManager mConnectivityManager = null;
+    private ConnectivityManager.NetworkCallback mNetworkCallback = null;
+
     public FightActivityVM(FightActivity activity) {
         super(activity);
 //        CodeScannerView scannerView = getActivity().getBinding().syncLay.scannerView;
@@ -286,6 +299,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         core.setActivity(getActivity());
         core.setServerCallback(this);
         fightFinishAskHandler = new FightFinishAskHandler(core);
+        activity.getBinding().syncLay.btnSettings.setOnClickListener(view ->
+                activity.startActivityForResult(new Intent(Settings.ACTION_WIFI_SETTINGS), 54));
 //        mCodeScanner = new CodeScanner(getActivity(), scannerView);
 //        mCodeScanner.setDecodeCallback(result -> {
 //            if (result.getBarcodeFormat().equals(BarcodeFormat.QR_CODE)) {
@@ -341,9 +356,9 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
                 switch (screenState.get()) {
-                    case SCREEN_SYNC_LAY:
-                        mCodeScanner.startPreview();
-                        break;
+//                    case SCREEN_SYNC_LAY:
+//                        mCodeScanner.startPreview();
+//                        break;
                     case SCREEN_SCORE_LAY:
                         getActivity().getBinding().scoreLay.scoreLeft.setValue(leftScore.get());
                         getActivity().getBinding().scoreLay.scoreRight.setValue(rightScore.get());
@@ -432,26 +447,30 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //                    if (withSEMI.get()) {
 //                        screenState.set(SCREEN_STATE_WAITING);
 //                    } else {
-                    screenState.set(SCREEN_MAIN);
-                    FightData tempFightCache = core.getBackupHelper().getBackup();
-                    Gson gson = new Gson();
-                    Log.wtf("RESTORED", gson.toJson(tempFightCache));
-                    if (tempFightCache != null) {
-                        FightRestoreDialog.show(getActivity(), tempFightCache, false);
-//                        uiHandler.postDelayed(() -> restoreFromExisted(tempFightCache), 1000);
-                        uiHandler.removeCallbacksAndMessages(null);
-                    } else {
-                        uiHandler.removeCallbacksAndMessages(null);
-                        uiHandler.postDelayed(() -> {
-                            fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
-                            SettingsManager.setValue(UNFINISHED_FIGHT, fightId);
-                            reset();
-                        }, 1000);
+                    if (udpHelper != null) {
+                        udpHelper.resetListener();
                     }
-                    fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
-                    SettingsManager.setValue(UNFINISHED_FIGHT, fightId);
-                    saveFightData();
+                    screenState.set(SCREEN_MAIN);
+//                    FightData tempFightCache = core.getBackupHelper().getBackup();
+//                    Gson gson = new Gson();
+//                    Log.wtf("RESTORED", gson.toJson(tempFightCache));
+//                    if (tempFightCache != null) {
+//                        FightRestoreDialog.show(getActivity(), tempFightCache, false);
+////                        uiHandler.postDelayed(() -> restoreFromExisted(tempFightCache), 1000);
+//                        uiHandler.removeCallbacksAndMessages(null);
+//                    } else {
+//                        uiHandler.removeCallbacksAndMessages(null);
+//                        uiHandler.postDelayed(() -> {
+//                            fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
+//                            SettingsManager.setValue(UNFINISHED_FIGHT, fightId);
+//                            reset();
+//                        }, 1000);
 //                    }
+//                    fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
+//                    SettingsManager.setValue(UNFINISHED_FIGHT, fightId);
+//                    saveFightData();
+//                    }
+                    uiHandler.removeCallbacksAndMessages(null);
                 } else {
                     screenState.set(SCREEN_SYNC_LAY);
                     //TODO resume to select network (now programmatically, not from settings)
@@ -597,44 +616,44 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             }
         });
 
-        OnPropertyChangedCallback timeSetCallback = new OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable sender, int propertyId) {
-                if (screenState.get() == SCREEN_MENU_FIGHT_ACTIONS) {
-                    timeMillisecs.set(((timerMinDec.get() * 10 + timerMinUnit.get()) * 60 +
-                            (timerSecDec.get() * 10 + timerSecUnit.get())) * 1000);
-                    timeNotifySM02();
-                    Log.wtf("IN TIMER SET CALL", "+");
-                }
-            }
-        };
-        timerMinDec.addOnPropertyChangedCallback(timeSetCallback);
-        timerMinUnit.addOnPropertyChangedCallback(timeSetCallback);
-        timerSecDec.addOnPropertyChangedCallback(timeSetCallback);
-        timerSecUnit.addOnPropertyChangedCallback(timeSetCallback);
+//        OnPropertyChangedCallback timeSetCallback = new OnPropertyChangedCallback() {
+//            @Override
+//            public void onPropertyChanged(Observable sender, int propertyId) {
+//                if (screenState.get() == SCREEN_MENU_FIGHT_ACTIONS) {
+//                    timeMillisecs.set(((timerMinDec.get() * 10 + timerMinUnit.get()) * 60 +
+//                            (timerSecDec.get() * 10 + timerSecUnit.get())) * 1000);
+//                    timeNotifySM02();
+//                    Log.wtf("IN TIMER SET CALL", "+");
+//                }
+//            }
+//        };
+//        timerMinDec.addOnPropertyChangedCallback(timeSetCallback);
+//        timerMinUnit.addOnPropertyChangedCallback(timeSetCallback);
+//        timerSecDec.addOnPropertyChangedCallback(timeSetCallback);
+//        timerSecUnit.addOnPropertyChangedCallback(timeSetCallback);
 
-        OnPropertyChangedCallback defTimerSetCallback = new OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable sender, int propertyId) {
-                defaultTime.set(((timerDefMinDec.get() * 10 + timerDefMinUnit.get()) * 60 +
-                        (timerDefSecDec.get() * 10 + timerDefSecUnit.get())) * 1000);
-            }
-        };
-        timerDefMinDec.addOnPropertyChangedCallback(defTimerSetCallback);
-        timerDefMinUnit.addOnPropertyChangedCallback(defTimerSetCallback);
-        timerDefSecDec.addOnPropertyChangedCallback(defTimerSetCallback);
-        timerDefSecUnit.addOnPropertyChangedCallback(defTimerSetCallback);
+//        OnPropertyChangedCallback defTimerSetCallback = new OnPropertyChangedCallback() {
+//            @Override
+//            public void onPropertyChanged(Observable sender, int propertyId) {
+//                defaultTime.set(((timerDefMinDec.get() * 10 + timerDefMinUnit.get()) * 60 +
+//                        (timerDefSecDec.get() * 10 + timerDefSecUnit.get())) * 1000);
+//            }
+//        };
+//        timerDefMinDec.addOnPropertyChangedCallback(defTimerSetCallback);
+//        timerDefMinUnit.addOnPropertyChangedCallback(defTimerSetCallback);
+//        timerDefSecDec.addOnPropertyChangedCallback(defTimerSetCallback);
+//        timerDefSecUnit.addOnPropertyChangedCallback(defTimerSetCallback);
 
-        OnPropertyChangedCallback defPassiveSetCallback = new OnPropertyChangedCallback() {
-            @Override
-            public void onPropertyChanged(Observable sender, int propertyId) {
-                defaultPassiveTime.set(((timerPDefSecHoun.get()) * 100 +
-                        (timerPDefSecDec.get() * 10 + timerPDefSecUnit.get())) * 1000);
-            }
-        };
-        timerPDefSecHoun.addOnPropertyChangedCallback(defPassiveSetCallback);
-        timerPDefSecDec.addOnPropertyChangedCallback(defPassiveSetCallback);
-        timerPDefSecUnit.addOnPropertyChangedCallback(defPassiveSetCallback);
+//        OnPropertyChangedCallback defPassiveSetCallback = new OnPropertyChangedCallback() {
+//            @Override
+//            public void onPropertyChanged(Observable sender, int propertyId) {
+//                defaultPassiveTime.set(((timerPDefSecHoun.get()) * 100 +
+//                        (timerPDefSecDec.get() * 10 + timerPDefSecUnit.get())) * 1000);
+//            }
+//        };
+//        timerPDefSecHoun.addOnPropertyChangedCallback(defPassiveSetCallback);
+//        timerPDefSecDec.addOnPropertyChangedCallback(defPassiveSetCallback);
+//        timerPDefSecUnit.addOnPropertyChangedCallback(defPassiveSetCallback);
         videosLeft.addOnPropertyChangedCallback(new OnPropertyChangedCallback() {
             @Override
             public void onPropertyChanged(Observable sender, int propertyId) {
@@ -845,7 +864,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //        }
         switch (screenState.get()) {
             case SCREEN_SYNC_LAY:
-                mCodeScanner.startPreview();
+//                mCodeScanner.startPreview();
                 break;
             case SCREEN_SCORE_LAY:
                 getActivity().getBinding().scoreLay.scoreLeft.setValue(leftScore.get());
@@ -888,21 +907,27 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     @Override
     public void onResume() {
         super.onResume();
+        if (!getNetworkSsid().isEmpty()) {
+            routeNetworkRequestsThroughWifi(getNetworkSsid());
+        }
         if (!core.isUSBMode.get()) {
             if (core.getConnectedSm() != null) {
                 Log.wtf("SYNCED", "+");
                 syncState.set(SYNC_STATE_SYNCED);
             } else {
                 screenState.set(SCREEN_SYNC_LAY);
+                syncState.set(SYNC_STATE_SYNCING);
                 if (
 //                        !TextUtils.isEmpty(SettingsManager.getValue(SM_CODE, "")) &&
                         !TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
-                    syncState.set(SYNC_STATE_SYNCING);
                     Log.wtf("SYNCing", "+");
                     core.tryToConnect();
                 } else {
-                    syncState.set(SYNC_STATE_NONE);
-                    Log.wtf("SYNCED", "NOO");
+                    startListen();
+                    uiHandler.postDelayed(() -> {
+                        udpHelper.resetListener();
+                        syncState.set(SYNC_STATE_NONE);
+                    }, 12000);
                 }
             }
             IntentFilter wifiFilter = new IntentFilter();
@@ -917,6 +942,28 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         }
 
 //        core.sendToCams(TIMER_START_UDP);
+    }
+
+    public void startListen() {
+        udpHelper = new UDPHelper(getActivity());
+        udpHelper.setListener(new UDPHelper.BroadcastListener() {
+            @Override
+            public void onReceive(String[] msg, String ip) {
+//                core.showInLog(msg[0]);
+                Log.wtf("RECEIVED", "receive message " + msg[0] + " from " + ip);
+                if ("SRCH".equals(msg[0])) {
+                    uiHandler.removeCallbacksAndMessages(null);
+                    SettingsManager.setValue(SM_IP, ip);
+                    core.tryToConnect();
+                }
+            }
+
+            @Override
+            public void onCreated() {
+
+            }
+        });
+        udpHelper.start();
     }
 
     @Override
@@ -964,6 +1011,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public void restoreFromExisted(FightData info) {
 //            timeMillisecs.set((int) info.getmCurrentTime());
 //        reset();
+        core.isInRestore = true;
         core.getFightHandler().resetFightData();
         uiHandler.postDelayed(new Runnable() {
             @Override
@@ -972,7 +1020,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 leftScore.set(info.getLeftFighter().getScore());
                 rightScore.set(info.getRightFighter().getScore());
                 period.set(info.getmCurrentPeriod());
-                core.sendToSM(CommandHelper.setTimer(info.getmCurrentTime(), 0));
+//                core.sendToSM(CommandHelper.setTimer(info.getmCurrentTime(), 0));
                 rightName.set(info.getRightFighter().getName());
                 leftName.set(info.getLeftFighter().getName());
                 priority.set(info.getmPriority());
@@ -1048,16 +1096,16 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                             rightPCard.set(CARD_STATE_NONE);
                         }
                     }
-                    videosLeft.set(info.getmVideoLeft());
-                    videosRight.set(info.getmVideoRight());
                 } else {
-                    videosLeft.set(1);
-                    videosRight.set(1);
                     core.getFightHandler().restorePCards();
                 }
                 core.sendToSM(CommandHelper.confirmNames());
+                videosLeft.set(info.getmVideoLeft());
+                videosRight.set(info.getmVideoRight());
+                isIndividual = info.getEthCompetType().equals("I");
             }
         }, 700);
+        uiHandler.postDelayed(() -> core.isInRestore = false, 1200);
     }
 
     private void convertMStoDigits(int milliseconds) {
@@ -1315,14 +1363,23 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     }
 
     public void onTimerAccepted() {
+        timeMillisecs.set(((timerMinDec.get() * 10 + timerMinUnit.get()) * 60 +
+                (timerSecDec.get() * 10 + timerSecUnit.get())) * 1000);
+        Log.wtf("TIMER", timerMinDec.get() + " " + timerMinUnit.get() +
+                " " + timerSecDec.get() + "  " + timerSecUnit.get());
+        timeNotifySM02();
         onCloseBtn();
     }
 
     public void onDefTimeAccepted() {
+        defaultTime.set(((timerDefMinDec.get() * 10 + timerDefMinUnit.get()) * 60 +
+                (timerDefSecDec.get() * 10 + timerDefSecUnit.get())) * 1000);
         onCloseBtn();
     }
 
     public void onDefPTimeAccepted() {
+        defaultPassiveTime.set(((timerPDefSecHoun.get()) * 100 +
+                (timerPDefSecDec.get() * 10 + timerPDefSecUnit.get())) * 1000);
         onCloseBtn();
     }
 
@@ -1491,8 +1548,9 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public void onMenuDisconnect() {
         core.vibr();
         SettingsManager.removeValue(SM_CODE);
+        SettingsManager.removeValue(SM_IP);
         core.onDisconnect();
-        mCodeScanner.startPreview();
+//        mCodeScanner.startPreview();
     }
 
     public void onMenuPhrases() {
@@ -1783,7 +1841,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         syncState.set(SYNC_STATE_NONE);
         Log.wtf("DISCONNECT", "ON SYNC CANCEL");
         core.onDisconnect();
-        mCodeScanner.startPreview();
+//        mCodeScanner.startPreview();
         SettingsManager.removeValue(SM_CODE);
         SettingsManager.removeValue(SM_IP);
     }
@@ -1851,6 +1909,17 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     @Override
     public void messageReceived(byte command, byte[] message) {
         switch (command) {
+            case RESTORE_FIGHT_CMD:
+                byte[] restoreBuf = new byte[message.length];
+                System.arraycopy(message, 0, restoreBuf, 0, message.length);
+                String restoreString = new String(restoreBuf, Charset.forName("UTF-8"));
+                Log.wtf("LENGTH", "" + (restoreString.length()));
+                Gson gson = new Gson();
+                FightData restoreData = gson.fromJson(restoreString, FightData.class);
+                restoreFromExisted(restoreData);
+                Log.wtf("DATA STATE", restoreData.getEthStatus());
+                cyranoState.set(CyranoState.FightActive);
+                break;
             case BROADCAST_TCP_CMD:
                 if (message[0] == 0 && isSM01alive.get()) {
                     isSM01alive.set(false);
@@ -1993,7 +2062,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                     isVideoBtnVisible.set(false);
                 }
                 if (message[1] == 0) {
-                    isIndividual = true;
                     core.getFightHandler().backupPCards();
                     cyranoState.set(CyranoState.Off);
                 } else {
@@ -2048,7 +2116,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             syncState.set(SYNC_STATE_SYNCING);
         } else {
             syncState.set(SYNC_STATE_NONE);
-            mCodeScanner.startPreview();
+//            mCodeScanner.startPreview();
         }
     }
 
@@ -2106,4 +2174,74 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //        System.exit(0);
 //        super.onDestroy();
 //    }
+
+    //Network temporary fix attempt
+
+    private String getNetworkSsid() {
+        WifiManager mWifiManager = (WifiManager) InspirationDayApplication.getApplication()
+                .getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        WifiInfo wifiInfo = null;
+        if (mWifiManager != null) {
+            wifiInfo = mWifiManager.getConnectionInfo();
+            if (wifiInfo.getSupplicantState() == SupplicantState.COMPLETED) {
+                return wifiInfo.getSSID().replace("\"", "");
+            }
+        }
+        return "";
+    }
+
+    private Boolean releaseNetworkRoute() {
+        boolean processBoundToNetwork = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            processBoundToNetwork = mConnectivityManager.bindProcessToNetwork(null);
+        }
+        return processBoundToNetwork;
+    }
+
+    private Boolean createNetworkRoute(Network network) {
+        boolean processBoundToNetwork = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            processBoundToNetwork = mConnectivityManager.bindProcessToNetwork(network);
+        }
+        return processBoundToNetwork;
+    }
+
+    private void unregisterNetworkCallback(ConnectivityManager.NetworkCallback networkCallback) {
+        if (networkCallback != null) {
+            try {
+                mConnectivityManager.unregisterNetworkCallback(networkCallback);
+
+            } catch (Exception e) {
+            } finally {
+                mNetworkCallback = null;
+            }
+        }
+    }
+
+    private void routeNetworkRequestsThroughWifi(String ssid) {
+        mConnectivityManager = (ConnectivityManager)activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        unregisterNetworkCallback(mNetworkCallback);
+
+        // new NetworkRequest with WiFi transport type
+        NetworkRequest request = new NetworkRequest.Builder().addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                .build();
+
+        // network callback to listen for network changes
+        ConnectivityManager.NetworkCallback mNetworkCallback = new ConnectivityManager.NetworkCallback() {
+
+            // on new network ready to use
+
+            @Override
+            public void onAvailable(@NonNull Network network) {
+                if (getNetworkSsid().equals(ssid)) {
+                    releaseNetworkRoute();
+                    createNetworkRoute(network);
+                } else {
+                    releaseNetworkRoute();
+                }
+            }
+        };
+        mConnectivityManager.requestNetwork(request, mNetworkCallback);
+    }
 }

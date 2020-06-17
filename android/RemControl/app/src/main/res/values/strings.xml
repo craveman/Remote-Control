@@ -267,8 +267,8 @@
     <string name="reserve_referee">Reserve referee</string>
     <string name="referee_code">Code: %s</string>
     <string name="waiting_fight">Waiting for fight</string>
-    <string name="qr_need_explain">Please scan QR-code displayed by selected SM02</string>
-    <string name="fa_sync_explain">For connection, direct the camera of the phone to the QR code located on the screen</string>
+    <string name="qr_need_explain">Please scan QR-code displayed by selected SM</string>
+    <string name="fa_sync_explain">For connection go to settings and choose the correct WiFi network</string>
     <string name="fa_sync_message">Remote control is not connected to the device</string>
     <string name="fa_timers_period_score">Timers</string>
     <string name="fa_warnings_priority">Penalties</string>
@@ -345,11 +345,11 @@
     <string name="exit_app_title">Exit</string>
     <string name="exit_app_question">Close application?</string>
     <string name="sync_warn_check_wifi"><![CDATA[Unable to connect.
-Do you connected to necessary network, displayed on SM02?
+Do you connected to necessary network, displayed on SM?
  Current network: %s ]]></string>
     <string name="extras">Extras</string>
     <string name="bt_title" translatable="false">Bluetooth</string>
-    <string name="bt_explain">"By default, the Sm02 visibility for other bluetooth devices is disabled. Turn it on if you want to reconnect the remote for AndroidTV. Otherwise, do not change this setting. "</string>
+    <string name="bt_explain">"By default, the Sm visibility for other bluetooth devices is disabled. Turn it on if you want to reconnect the remote for AndroidTV. Otherwise, do not change this setting. "</string>
     <string name="bt_off">Invisible</string>
     <string name="bt_on">Discoverable</string>
     <string name="protocol">Protocol</string>
