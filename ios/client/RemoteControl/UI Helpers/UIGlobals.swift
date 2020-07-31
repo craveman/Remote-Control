@@ -24,13 +24,15 @@ class UIGlobals {
   static let activeCardBorder = (color: CGColor(#colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)),  width: CGFloat(2))
   static let activeButtonBorder = (color: CGColor(#colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)),  width: CGFloat(4))
   
+  static let activeBackground_SUI = Color(#colorLiteral(red: 0.9920703769, green: 0.9922123551, blue: 0.9920392632, alpha: 0.01))
   static let activeButtonBackground_SUI = Color(#colorLiteral(red: 0.3765910268, green: 0.3763456941, blue: 0.3850344718, alpha: 1))
   static let headerBackground_SUI = Color(#colorLiteral(red: 0.3765910268, green: 0.3763456941, blue: 0.3850344718, alpha: 1))
   static let disabledButtonBackground_SUI = Color(#colorLiteral(red: 0, green: 0.5049814582, blue: 1, alpha: 0.5))
 }
 
 @discardableResult func withDelay (_ callback: @escaping () -> Void, _ timeout: TimeInterval = 1) -> Timer {
-  return Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) {_ in
+  return Timer.scheduledTimer(withTimeInterval: timeout, repeats: false) {timer in
+    timer.invalidate()
     callback()
   }
 }

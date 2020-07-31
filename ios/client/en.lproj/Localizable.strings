@@ -68,8 +68,16 @@
 "speed" = "speed";
 "No saved replays found" = "No saved replays found";
 
+"loading video" = "Loading";
 "video replays" = "video replays";
+"recording is active" = "recording is active";
+"recording turned off" = "recording turned off";
 "title Video replays" = "Video replays";
+"title Replay RC" = "Replay Remote";
+"tab Counters" = "Counters";
+"tab Records" = "Records";
+"No records found" = "No records found";
+"no camera" = "Sm02 has no connected camera";
 
 "priority" = "priority";
 "title Priority" = "Priority";
@@ -97,6 +105,9 @@
 "button 1' pause" = "1' pause";
 "1' pause 1" = "pause";
 "1' pause 2" = "1 min";
+
+"Left fencer" = "Left fencer";
+"Right fencer" = "Right fencer";
 
 "Start" = "START";
 "Stop" = "STOP";

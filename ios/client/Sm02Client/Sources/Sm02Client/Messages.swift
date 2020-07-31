@@ -114,14 +114,15 @@ public struct Camera {
 public enum Inbound {
 
   case broadcast(weapon: Weapon, left: FlagState, right: FlagState, timer: UInt32, timerState: TimerState)
+  case additionalState(isCamConnected: Bool, isEthernetEnabled: Bool)
   case deviceList(devices: [Device])
   case ethernetDisplay(period: UInt8, time: UInt32, left: Side, right: Side)
   case fightResult(result: Decision)
   case passiveMax
   case pauseFinished
+  case videoList(names: [String]?)
   case videoReady(name: String)
   case videoReceived
-  case cameraOnline
   case authentication(status: AuthenticationStatus)
   case genericResponse(status: UInt8 = 0x01, request: UInt8)
 }
@@ -129,6 +130,7 @@ public enum Inbound {
 public enum Outbound {
 
   case setName(person: PersonType, name: String)
+  case confirmNames
   case setScore(person: PersonType, score: UInt8)
   case setCard(person: PersonType, status: StatusCard)
   case setPriority(person: PersonType)
@@ -148,6 +150,8 @@ public enum Outbound {
   case player(speed: UInt8, recordMode: RecordMode, timestamp: UInt32)
   case record(recordMode: RecordMode)
   case devicesRequest
+  case videoListRequest
+  case stopReplayLoading
   case reset
   case ethernetNextOrPrevious(next: Bool)
   case ethernetApply
@@ -188,13 +192,15 @@ extension Inbound: Message {
       return 0x11
     case .pauseFinished:
       return 0x12
+    case .videoList:
+      return 0x2A
     case .videoReady:
       return 0x1B
     case .videoReceived:
       return 0x1C
     case .authentication:
       return 0x24
-    case .cameraOnline:
+    case .additionalState:
         return 0x66
     case .genericResponse:
       return 0xAA
@@ -208,6 +214,8 @@ extension Outbound: Message {
     switch self {
     case .setName:
       return 0x01
+    case .confirmNames:
+      return 0x27
     case .setScore:
       return 0x03
     case .setCard:
@@ -240,12 +248,16 @@ extension Outbound: Message {
       return 0x15
     case .loadFile:
       return 0x16
+    case .stopReplayLoading:
+      return 0x25
     case .player:
       return 0x17
     case .record:
       return 0x18
     case .devicesRequest:
       return 0x19
+    case .videoListRequest:
+      return 0x29
     case .reset:
       return 0x1D
     case .ethernetNextOrPrevious:

@@ -1,6 +1,7 @@
 
 import struct Foundation.UUID
 import class NIOConcurrencyHelpers.ConditionLock
+import class NIO.EventLoopFuture
 
 public typealias InboundHandler = (_ message: Inbound) -> Void
 public typealias EventHandler = (_ event: ConnectionEvent) -> Void
@@ -67,8 +68,9 @@ public class Sm02 {
     return .success(result)
   }
 
-  public static func send (message: Outbound) {
-    client.send(message: message)
+  @discardableResult
+  public static func send (message: Outbound) -> EventLoopFuture<Void>? {
+    return client.send(message: message)
   }
 
   @discardableResult

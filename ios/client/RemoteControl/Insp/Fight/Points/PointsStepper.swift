@@ -63,6 +63,7 @@ struct PointsStepper: View {
       Button(action: {
         print("- Button Pushed")
         if (self.getScore() == 0) {
+          Vibration.warning()
           return
         }
         self.setScore(self.getScore() - 1)
@@ -76,10 +77,12 @@ struct PointsStepper: View {
       .background(minusIsActive ? UIGlobals.disabledButtonBackground_SUI: nil)
       .border(Color.gray, width: 0.5)
       Button(action: {
+        print("+ Button Pushed")
         if (self.getScore() == MAX_SCORE) {
+          Vibration.warning()
           return
         }
-        print("+ Button Pushed")
+        
         self.setScore(self.getScore() + 1)
         self.plusIsActive = true
         Vibration.on()

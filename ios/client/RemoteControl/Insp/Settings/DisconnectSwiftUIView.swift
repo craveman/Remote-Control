@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct ConnectButton: View {
-  @Environment(\.presentationMode) var presentationMode
   @EnvironmentObject var insp: InspSettings
   var body: some View {
     Button(action: {
@@ -30,7 +29,7 @@ struct DisconnectButtonSwiftUIView: View {
   var body: some View {
     CommonModalButton(imageName: "multiply", imageColor: primaryColor, buttonType: .disconnect, text: "disconnect",  action: {
       print("DisconnectButtonSwiftUIView:action")
-      rs.connection.disconnect()
+      Vibration.impact()
     }, onDismiss: {
       
       print("DisconnectButtonSwiftUIView:onDismiss")
@@ -60,7 +59,7 @@ struct DisconnectSwiftUIView: View {
       Spacer()
       Divider()
       HStack {
-        ConfirmModalButton(action: {
+        ConfirmModalButton(vibrate: false, action: {
           self.presentationMode.wrappedValue.dismiss()
         }, text: "cancel", color: primaryColor, imageName: "chevron.left")
         ConfirmModalButton(action: {

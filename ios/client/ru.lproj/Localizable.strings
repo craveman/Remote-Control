@@ -64,8 +64,16 @@
 "names" = "имена";
 "title Set names" = "Имена";
 
-"video replays" = "видео повторы";
-"title Video replays" = "Видеоповтор";
+"video replays" = "видеоповторы";
+"loading video" = "Загрузка";
+"recording is active" = "запись включена";
+"recording turned off" = "запись выключена";
+"title Video replays" = "Видеоповторы";
+"title Replay RC" = "Пульт повтора";
+"tab Counters" = "Счётчики";
+"tab Records" = "Записи";
+"No records found" = "Нет записей";
+"no camera" = "нет камеры подключенной к Sm02";
 
 "priority" = "приоритет";
 "title Priority" = "Приоритет";
@@ -108,8 +116,8 @@
 "set period" = "период";
 "reset bout" = "сброс";
 
-"Left player" = "Левая сторона";
-"Right player" = "Правая сторона";
+"Left fencer" = "Боец слева";
+"Right fencer" = "Боец справа";
 
 "Start" = "СТАРТ";
 "Stop" = "СТОП";

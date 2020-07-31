@@ -17,6 +17,11 @@ let INSPIRATION_MED_TIMOUT = TimeAmount.minutes(5)
 let INSPIRATION_SHORT_TIMOUT = TimeAmount.minutes(1)
 let INSPIRATION_MAX_PERIOD: Int = 99
 
+public enum InspirationRCTypes {
+  case Basic
+  case Video
+}
+
 class InspSettings: ObservableObject {
   @Published var isConnected: Bool = rs.connection.isAuthenticated && rs.connection.isConnected
   
@@ -26,10 +31,24 @@ class InspSettings: ObservableObject {
   @Published var shouldShowTimerView: Bool = rs.timer.mode == .main && rs.timer.state == .running
   @Published var shouldShowPauseView: Bool = rs.timer.mode == .pause && rs.timer.state == .running
   @Published var shouldShowMedicalView: Bool = rs.timer.mode == .medicine && rs.timer.state == .running
+  @Published var shouldShowVideoRCView: Bool = false
+  @Published var shouldShowVideoSelectView: Bool = false
+  @Published var videoModalSelectedTab: Int = 0
   private var vc: UIViewController?
   
   public func setVC (vc: UIViewController) {
     self.vc = vc
+  }
+  
+  
+  func switchRCType (_ type: InspirationRCTypes) {
+    switch type {
+    case .Video:
+      self.shouldShowVideoRCView = true
+      
+    case .Basic:
+      self.shouldShowVideoRCView = false
+    }
   }
   
   func prepareView(_ mode: TimerMode) {
@@ -60,27 +79,100 @@ class InspSettings: ObservableObject {
 }
 
 class PlaybackControls: ObservableObject {
-  @Published var selectedPlayer: PersonType = .left {
+  @Published var isEnabled = false
+  @Published var selectedReplay: (_: String, title: String)? = nil
+  @Published var replaysList: [String] = []
+  @Published var isRecordActive: Bool = false {
     didSet {
-      self.isActive = false
-      self.selectedReplay = 0
-      self.currentPosition = 0
-      self.selectedSpeed = 10
+      if (isRecordActive) {
+        rs.video.recordMode = .play
+        UIApplication.shared.isIdleTimerDisabled = true
+      } else {
+        rs.video.recordMode = .pause
+        UIApplication.shared.isIdleTimerDisabled = false
+      }
+      print("Record mode mow is \(isRecordActive)")
     }
   }
-  @Published var selectedReplay: UInt8 = 0
-  @Published var isActive: Bool = false {
+  @Published var canPlay: Bool = false
+  @Published var isPlayActive: Bool = false {
     didSet {
-      if (isActive) {
+      if (isPlayActive) {
         rs.video.player.play()
-      } else {
+      } else if canPlay {
         rs.video.player.pause()
+      }
+      print("active \(isPlayActive)")
+    }
+  }
+ 
+  @Published var selectedSpeed: Double = 0 {
+    didSet {
+      if(selectedSpeed.rounded() != oldValue.rounded()) {
+        Vibration.selection()
+      }
+      let val = UInt8(selectedSpeed.rounded())
+      if val != rs.video.player.speed {
+        rs.video.player.speed = val
+      }
+      print("speed \(selectedSpeed)")
+    }
+  }
+  @Published var currentPosition: Double = 0 {
+    didSet {
+      let val = UInt32(currentPosition.rounded())
+      print("goto \(currentPosition)")
+      if (rs.video.player.timestamp != val) {
+        rs.video.player.goto(val)
       }
     }
   }
-  @Published var selectedSpeed: UInt8 = 10
-  @Published var currentPosition: UInt8 = 0
   @Published var replayLength: UInt32 = 0
+  
+  func refreshVideoList() -> Void {
+    var list = rs.video.replay.recordsList
+    list.sort(by: FileNameConverter.sortByTimeAsc)
+    self.replaysList.removeAll()
+    self.replaysList.append(contentsOf: list)
+  }
+  
+  func loaded() -> Bool {
+    print("loaded")
+    guard selectedReplay != nil else {
+      // ejected before loaded
+      return false
+    }
+    
+    canPlay = true
+    rs.video.player.standBy()
+    selectedSpeed = Double(rs.video.player.speed)
+    currentPosition = 0
+    return true
+  }
+  
+  func eject() -> Void {
+    canPlay = false
+    isPlayActive = false
+    selectedReplay = nil
+    rs.video.player.stop()
+  }
+  
+  func choose(filename: String?) -> Void {
+    selectedReplay = nil
+    guard filename != nil else {
+      canPlay = false
+      print("choosen filename is nil")
+      return
+    }
+    let name = filename!
+    guard replaysList.contains(name) else {
+      print("choosen filename '\(name)' is not presented in list")
+      Vibration.notification(.error)
+      return
+    }
+    selectedReplay = (name, FileNameConverter.getTitle(name))
+    rs.video.upload(to: filename!)
+  }
 }
 
 class FightSettings: ObservableObject {
@@ -114,17 +206,20 @@ class FightSettings: ObservableObject {
   
   @Published var weapon: Weapon = .none
   
-  @Published var period: Int = 0 {
-    didSet {
-      print("settings.period updated to \(period)")
-      rs.competition.period = UInt8(period + 1)
-      rs.timer.set(time: INSPIRATION_DEFAULT_FIGHT_TIME, mode: .main)
-    }
+  @Published var period: Int = 0
+  
+  func setPeriod(_ next: Int) -> Void {
+    
+    rs.competition.period = UInt8(next + 1)
+    period = next
+    rs.timer.set(time: INSPIRATION_DEFAULT_FIGHT_TIME, mode: .main)
+    
+    print("settings.period updated to \(rs.competition.period) with Int \(next)")
   }
   
   func resetBout() {
     self.resetPassive()
-    self.period = 0
+    self.setPeriod(0)
     self.leftScore = 0
     self.rightScore = 0
     self.resetCards()
@@ -167,6 +262,7 @@ class FightSettings: ObservableObject {
   func resetVideo() -> Void {
     rs.video.replay.leftCounter = 2
     rs.video.replay.rightCounter = 2
+    rs.video.replay.clear()
   }
   
   func resetPriority() -> Void {

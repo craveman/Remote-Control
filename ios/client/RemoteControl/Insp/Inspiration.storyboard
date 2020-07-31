@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rCi-4G-J1m">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rCi-4G-J1m">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,13 +11,14 @@
         <!--Rc View Controller-->
         <scene sceneID="CiA-5O-Xyi">
             <objects>
-                <viewController id="rCi-4G-J1m" customClass="RcViewController" customModule="RemoteControl" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="rCi-4G-J1m" customClass="RcViewController" customModule="Inspiration_Point" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MnF-4x-xZz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FKU-uV-XQd">
                                 <rect key="frame" x="0.0" y="44" width="414" height="48"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="lI3-3b-hQI"/>
                                 </constraints>
@@ -30,7 +31,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </containerView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" red="0.0" green="0.5098522902" blue="0.98811227079999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="R9Y-Nj-D4R" firstAttribute="trailing" secondItem="FKU-uV-XQd" secondAttribute="trailing" id="3TN-Sq-ECV"/>
                             <constraint firstItem="FKU-uV-XQd" firstAttribute="top" secondItem="MnF-4x-xZz" secondAttribute="topMargin" id="6fx-48-3WL"/>
@@ -87,7 +88,7 @@
                                         </constraints>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.11769623310000001" green="0.49596798419999999" blue="0.98828810450000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.0" green="0.50593143699999998" blue="0.99987572430000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="wor-JY-ZqO" firstAttribute="centerY" secondItem="iZV-7H-RNx" secondAttribute="centerY" id="aFg-Dh-ld8"/>
                                     <constraint firstItem="wor-JY-ZqO" firstAttribute="centerX" secondItem="iZV-7H-RNx" secondAttribute="centerX" id="oOd-pJ-0bx"/>
@@ -110,6 +111,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="inspiration" width="20" height="20"/>
+        <image name="inspiration" width="40" height="40"/>
     </resources>
 </document>

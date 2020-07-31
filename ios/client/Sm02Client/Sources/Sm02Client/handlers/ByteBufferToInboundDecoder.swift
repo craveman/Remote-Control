@@ -1,4 +1,5 @@
 
+import Foundation
 import NIO
 import NIOExtras
 
@@ -9,6 +10,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
   private static let decoders: [UInt8: Decoder] = [
     0x0B: decodeBroadcast,
     0x1A: decodeDeviceList,
+    0x2A: decodeVideoReplaysList,
     0x21: decodeEthernetDisplay,
     0x22: decodeFightResult,
     0x11: decodePassiveMax,
@@ -16,7 +18,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     0x1B: decodeVideoReady,
     0x1C: decodeVideoReceived,
     0x24: decodeAuthentication,
-    0x66: decodeCameraIsOnline,
+    0x66: decodeAdditionalInfo,
     0xAA: decodeGenericResponse,
   ]
 
@@ -60,6 +62,28 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     }
     return .deviceList(devices: devices)
   }
+  
+  private static func decodeVideoReplaysList (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
+//    guard let jsonLength = buffer.readUInt8() else {
+//      print("ERROR: The 'decodeVideoReplaysList' message doesn't have 'count' field")
+//      return nil
+//    }
+    let desc = buffer.description
+    
+    var names: [String] = []
+    guard let json = buffer.readJsonBody() else {
+      print("ERROR: The 'decodeVideoReplaysList' message doesn't have 'json' body in buffer: \(desc)")
+      return nil
+    }
+    
+    guard let list = json as? [String] else {
+      print("ERROR: The 'decodeVideoReplaysList' message failed to parse json data as list of strings from json object: \(json)")
+      return nil
+    }
+    names.append(contentsOf: list)
+    
+    return .videoList(names: names)
+  }
 
   private static func decodeEthernetDisplay (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
     guard let period = buffer.readUInt8() else {
@@ -93,8 +117,18 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     return .passiveMax
   }
 
-  private static func decodeCameraIsOnline (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
-    return .cameraOnline
+  private static func decodeAdditionalInfo (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
+    guard let cam = buffer.readUInt8() else {
+      print("ERROR: The 'additionalState' message doesn't have 'camera' field")
+      return nil
+    }
+    
+    guard let cyrano = buffer.readUInt8() else {
+      print("ERROR: The 'additionalState' message doesn't have 'cyrano' field")
+      return nil
+    }
+
+    return .additionalState(isCamConnected: cam == 0x01, isEthernetEnabled: cyrano == 0x01)
   }
 
   private static func decodePauseFinished (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
@@ -216,6 +250,22 @@ extension ByteBuffer {
             return self.readString(length: $0)
         }
   }
+}
+
+extension ByteBuffer {
+  
+  mutating func readJsonBody (_ size: Int? = nil) -> Any? {
+    let length = size ?? readableBytes
+    guard let jsonString = self.readString(length: length) else {
+      return nil
+    }
+    guard let json = try? JSONSerialization.jsonObject(with: jsonString.data(using: .utf8)!, options: []) else {
+      print("ERROR: The 'readJsonBody' method failed to parse json  from \(jsonString)")
+      return nil
+    }
+    return json
+  }
+  
 }
 
 extension ByteBuffer {

@@ -107,6 +107,13 @@ class RcViewController: UIViewController {
     subscriptions.append(auth$)
     
     let connected$ = rs.connection.$isConnected.on(change: { isConnected in
+      if self.playbackController.selectedReplay != nil {
+        self.onMainThread({
+          self.playbackController.eject()
+          self.rcModel.switchRCType(.Basic)
+        })
+      }
+      
       guard isConnected == false else {
         if !self.rcModel.isConnected {
           self.onMainThread({
@@ -213,6 +220,49 @@ class RcViewController: UIViewController {
     
     subscriptions.append(rScore$)
     subscriptions.append(rCard$)
+
+    let cameraIsOnline$ = rs.competition.$cameraIsOnline.on(change: { v in
+      guard self.playbackController.isEnabled != v else {
+        return
+      }
+      print("changed")
+      self.onMainThread({
+
+        self.playbackController.isEnabled = v
+        
+        if (!self.playbackController.isEnabled) {
+          print("clean up list")
+          self.playbackController.replaysList = []
+        } else {
+          
+        }
+      })
+    })
+    
+    let videoRecordReady$ = rs.video.replay.$isReady.on(change: { v in
+      self.onMainThread({self.playbackController.refreshVideoList()})
+    })
+    
+    
+    let videoRecordLoaded$ = rs.video.replay.$isReceived.on(change: { _ in
+      self.onMainThread({
+        
+        let ok = self.playbackController.loaded()
+        
+        if ok {
+          self.rcModel.shouldShowVideoSelectView = false
+          
+          withDelay({
+            self.rcModel.switchRCType(.Video)
+          }, 0.125)
+          
+        }
+      })
+    })
+    
+    subscriptions.append(cameraIsOnline$)
+    subscriptions.append(videoRecordReady$)
+    subscriptions.append(videoRecordLoaded$)
   }
   
   private func addViewControllerAsChildViewController(childViewController: UIViewController) {
