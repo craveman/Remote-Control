@@ -15,7 +15,19 @@ fileprivate func log(_ items: Any...) {
   print("QrViewController:log: ", items)
 }
 
-class QrViewController: UIViewController {
+class QrViewController: UIViewController, ConnectionControllerProtocol {
+  func doCompletion() {
+    log ("doCompletion")
+    successAction()
+  }
+  
+  private var successAction: () -> Void = {
+    log ("Not defined success action")
+  }
+  func onSuccess(_ action: @escaping () -> Void) {
+    self.successAction = action
+  }
+  
   
   public static let SCANNER = "QR scanner"
   public static let SCAN_SUCCESS = "The code is recognized"
@@ -58,13 +70,13 @@ class QrViewController: UIViewController {
   }
   
   @IBAction func skipButtonClicked(_ sender: UIButton) {
-    self.onSuccess()
+    self.doCompletion()
   }
   
   lazy var reader: QRCodeReader = QRCodeReader()
   private var qrCodeProcessor: QrCodeProcessor? = nil
   var alert: UIAlertController?
-  var onSuccess: (() -> Void) = { log ("Not defined success action") }
+//  var onSuccess: (() -> Void) = { log ("Not defined success action") }
   
   
   override func viewDidAppear (_ animated: Bool) {

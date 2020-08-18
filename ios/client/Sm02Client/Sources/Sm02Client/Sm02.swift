@@ -18,6 +18,8 @@ public class Sm02 {
   static var container: Container = DependencyContainer()
 
   private static var client: Sm02Client = Sm02DummyClient()
+  
+  public static var lanConnectionOptions: [RemoteAddress] = []
 
   public static func connect (to remote: RemoteAddress) -> Result<AuthenticationStatus, Error> {
     client.close()

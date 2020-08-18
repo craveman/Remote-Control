@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8504102024E86CA3002CF656 /* ConnectionControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8504101F24E86CA3002CF656 /* ConnectionControllerProtocol.swift */; };
+		8504102424E8867F002CF656 /* LanLookupConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8504102324E8867F002CF656 /* LanLookupConnectionViewController.swift */; };
 		850AAE5F2322CF7100DBFD93 /* UITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAE5E2322CF7100DBFD93 /* UITools.swift */; };
 		850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAE602322D78400DBFD93 /* UIGlobals.swift */; };
 		850AAEAA23271F2A00DBFD93 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 850AAEA923271F2A00DBFD93 /* AVFoundation.framework */; };
@@ -32,6 +34,7 @@
 		85512DE12450CCCB00254D5F /* Inspiration_PointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85512DE02450CCCB00254D5F /* Inspiration_PointTests.swift */; };
 		85584AE3239ED5A2006EC133 /* RcViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85584AE2239ED5A2006EC133 /* RcViewModels.swift */; };
 		859B2C1A23E6289200699383 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 859B2C1923E6289200699383 /* NetworkExtension.framework */; };
+		85A2A02C24E89B9300DB6244 /* LanConfigReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A2A02B24E89B9300DB6244 /* LanConfigReader.swift */; };
 		85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A99338230B47A4003FC5BE /* Inspiration.storyboard */; };
 		85A9934A23109CB7003FC5BE /* RcViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934923109CB7003FC5BE /* RcViewController.swift */; };
 		85B661F7239327920016CE4F /* KeyboardGuardianSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B661F6239327920016CE4F /* KeyboardGuardianSwiftUI.swift */; };
@@ -58,7 +61,7 @@
 		B97043C723E099C1003F4F47 /* Published.Publisher+on.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97043C623E099C1003F4F47 /* Published.Publisher+on.swift */; };
 		B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */; };
 		B9C8BEE02305A2C5004DBBF8 /* QrViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDF2305A2C5004DBBF8 /* QrViewController.swift */; };
-		B9C8BEE32305A2C6004DBBF8 /* QRConnect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE12305A2C6004DBBF8 /* QRConnect.storyboard */; };
+		B9C8BEE32305A2C6004DBBF8 /* Connect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE12305A2C6004DBBF8 /* Connect.storyboard */; };
 		B9C8BEE52305A2C7004DBBF8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE42305A2C7004DBBF8 /* Assets.xcassets */; };
 		B9C8BEE82305A2C7004DBBF8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE62305A2C7004DBBF8 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -75,6 +78,8 @@
 
 /* Begin PBXFileReference section */
 		850143B52382120800B63867 /* SwiftUITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUITools.swift; sourceTree = "<group>"; };
+		8504101F24E86CA3002CF656 /* ConnectionControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionControllerProtocol.swift; sourceTree = "<group>"; };
+		8504102324E8867F002CF656 /* LanLookupConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanLookupConnectionViewController.swift; sourceTree = "<group>"; };
 		850AAE5E2322CF7100DBFD93 /* UITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITools.swift; sourceTree = "<group>"; };
 		850AAE602322D78400DBFD93 /* UIGlobals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIGlobals.swift; sourceTree = "<group>"; };
 		850AAE6A23270CBC00DBFD93 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -112,11 +117,12 @@
 		85512DDE2450CCCB00254D5F /* Inspiration_PointTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Inspiration_PointTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85512DE02450CCCB00254D5F /* Inspiration_PointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspiration_PointTests.swift; sourceTree = "<group>"; };
 		85512DE22450CCCB00254D5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		85584ADD239C491A006EC133 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/QRConnect.strings; sourceTree = "<group>"; };
-		85584ADF239C4944006EC133 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/QRConnect.strings; sourceTree = "<group>"; };
+		85584ADD239C491A006EC133 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Connect.strings; sourceTree = "<group>"; };
+		85584ADF239C4944006EC133 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Connect.strings; sourceTree = "<group>"; };
 		85584AE2239ED5A2006EC133 /* RcViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RcViewModels.swift; sourceTree = "<group>"; };
 		859B2C1823E6289100699383 /* Inspiration Point.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Inspiration Point.entitlements"; sourceTree = "<group>"; };
 		859B2C1923E6289200699383 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+		85A2A02B24E89B9300DB6244 /* LanConfigReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanConfigReader.swift; sourceTree = "<group>"; };
 		85A99338230B47A4003FC5BE /* Inspiration.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Inspiration.storyboard; sourceTree = "<group>"; };
 		85A9934923109CB7003FC5BE /* RcViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RcViewController.swift; sourceTree = "<group>"; };
 		85B661F6239327920016CE4F /* KeyboardGuardianSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardGuardianSwiftUI.swift; sourceTree = "<group>"; };
@@ -144,7 +150,7 @@
 		B9C8BEDA2305A2C5004DBBF8 /* Inspiration Point.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Inspiration Point.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9C8BEDF2305A2C5004DBBF8 /* QrViewController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = QrViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
-		B9C8BEE22305A2C6004DBBF8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/QRConnect.storyboard; sourceTree = "<group>"; };
+		B9C8BEE22305A2C6004DBBF8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Connect.storyboard; sourceTree = "<group>"; };
 		B9C8BEE42305A2C7004DBBF8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B9C8BEE72305A2C7004DBBF8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B9C8BEFD2305A2C7004DBBF8 /* RemoteControlUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteControlUITests.swift; sourceTree = "<group>"; };
@@ -173,15 +179,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8504102524E88EE7002CF656 /* QR */ = {
+			isa = PBXGroup;
+			children = (
+				B9C8BEDF2305A2C5004DBBF8 /* QrViewController.swift */,
+			);
+			path = QR;
+			sourceTree = "<group>";
+		};
+		8504102624E88EF6002CF656 /* LAN */ = {
+			isa = PBXGroup;
+			children = (
+				8504102324E8867F002CF656 /* LanLookupConnectionViewController.swift */,
+				85A2A02B24E89B9300DB6244 /* LanConfigReader.swift */,
+			);
+			path = LAN;
+			sourceTree = "<group>";
+		};
 		850AAE6D23270DE500DBFD93 /* Connect */ = {
 			isa = PBXGroup;
 			children = (
-				B9C8BEE12305A2C6004DBBF8 /* QRConnect.storyboard */,
-				B9C8BEDF2305A2C5004DBBF8 /* QrViewController.swift */,
+				8504102624E88EF6002CF656 /* LAN */,
+				8504102524E88EE7002CF656 /* QR */,
+				B9C8BEE12305A2C6004DBBF8 /* Connect.storyboard */,
 				850AAEDD232723F400DBFD93 /* ConnectionsViewController.swift */,
 				8FFBF9E32336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift */,
 				85BD5ADF2446499500215D82 /* NetworkReachability.swift */,
 				85BD5AE124464B8C00215D82 /* ConnectionProcessor.swift */,
+				8504101F24E86CA3002CF656 /* ConnectionControllerProtocol.swift */,
 			);
 			path = Connect;
 			sourceTree = "<group>";
@@ -460,7 +485,7 @@
 				B9C8BEE82305A2C7004DBBF8 /* LaunchScreen.storyboard in Resources */,
 				85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */,
 				B9C8BEE52305A2C7004DBBF8 /* Assets.xcassets in Resources */,
-				B9C8BEE32305A2C6004DBBF8 /* QRConnect.storyboard in Resources */,
+				B9C8BEE32305A2C6004DBBF8 /* Connect.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -502,16 +527,19 @@
 				85371938244B672700B14418 /* VideoRC.swift in Sources */,
 				851AE9C1238932C2001BE3FB /* RcSwiftUIView.swift in Sources */,
 				851AE9BB23875FA4001BE3FB /* SegmentedPickerElementView.swift in Sources */,
+				85A2A02C24E89B9300DB6244 /* LanConfigReader.swift in Sources */,
 				85B661F7239327920016CE4F /* KeyboardGuardianSwiftUI.swift in Sources */,
 				85BD5AE02446499500215D82 /* NetworkReachability.swift in Sources */,
 				851AE9B323874353001BE3FB /* ResetBoutUIView.swift in Sources */,
 				850AAE5F2322CF7100DBFD93 /* UITools.swift in Sources */,
 				851AE9B12385F56B001BE3FB /* SwiftUITools.swift in Sources */,
+				8504102024E86CA3002CF656 /* ConnectionControllerProtocol.swift in Sources */,
 				850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */,
 				851AE9C323893D06001BE3FB /* CardsSwiftUIView.swift in Sources */,
 				85D6E91F23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift in Sources */,
 				851AE9CF2389E4F2001BE3FB /* WeaponsSwiftUIView.swift in Sources */,
 				85B661F9239327F10016CE4F /* TestKeabordGuardianSwiftUIView.swift in Sources */,
+				8504102424E8867F002CF656 /* LanLookupConnectionViewController.swift in Sources */,
 				8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */,
 				851AE9C52389D4FE001BE3FB /* PrioritySwiftUIView.swift in Sources */,
 				8FD7CB962392C030003DF83B /* Vibration.swift in Sources */,
@@ -555,14 +583,14 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		B9C8BEE12305A2C6004DBBF8 /* QRConnect.storyboard */ = {
+		B9C8BEE12305A2C6004DBBF8 /* Connect.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				B9C8BEE22305A2C6004DBBF8 /* Base */,
 				85584ADD239C491A006EC133 /* en */,
 				85584ADF239C4944006EC133 /* ru */,
 			);
-			name = QRConnect.storyboard;
+			name = Connect.storyboard;
 			sourceTree = "<group>";
 		};
 		B9C8BEE62305A2C7004DBBF8 /* LaunchScreen.storyboard */ = {
@@ -765,7 +793,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.1.11;
+				MARKETING_VERSION = 1.1.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "Inspiration Point";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -794,7 +822,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.1.11;
+				MARKETING_VERSION = 1.1.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "Inspiration Point";
 				PROVISIONING_PROFILE_SPECIFIER = "";

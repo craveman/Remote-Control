@@ -32,9 +32,9 @@ class ConnectionProcessor {
   public static let PASSWORD_PRIVACY = "We never save or share your data"
   public static let PROCEED = "Proceed"
   
-  let controller: QrViewController
+  let controller: ConnectionControllerProtocol
   
-  init(controller: QrViewController) {
+  init(controller: ConnectionControllerProtocol) {
     self.controller = controller
   }
   
@@ -139,7 +139,7 @@ class ConnectionProcessor {
     
     switch result {
     case .success(AuthenticationStatus.success):
-      controller.onSuccess()
+      controller.doCompletion()
     case .success(AuthenticationStatus.wrongAuthenticationCode):
       let message = NSLocalizedString(ConnectionProcessor.WRONG_CODE, comment: "")
       showError(remote, message)
@@ -180,7 +180,7 @@ class ConnectionProcessor {
       preferredStyle: .alert
     )
     alert.addAction(UIAlertAction(title: tryAgainButtonString, style: .cancel, handler: { action in
-      self.controller.reader.startScanning()
+      self.controller.startScanner()
     }))
     self.controller.showAlert(alert)
   }
