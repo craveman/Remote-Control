@@ -66,11 +66,11 @@ class Sm02TcpClient: Sm02Client {
     return nil
   }
 
-  func send (message: Outbound) -> EventLoopFuture<Void>? {
+  func send (message: Outbound) {
     if isConnected == false {
-      return nil
+      return
     }
-    return channel?.writeAndFlush(message)
+    channel?.writeAndFlush(message, promise: nil)
   }
 
   func close () {
