@@ -96,12 +96,13 @@ final class RemoteService {
     private(set) var isStarted: Bool = false
 
     @Published
-    private(set) var remoteServers: [RemoteAddress] = []
+    private(set) var remoteAddresses: [RemoteAddress] = []
 
     init () {
-      Sm02Lookup.on(server: { [unowned self] (remoteServer) in
-        if (self.remoteServers.contains(remoteServer) == false) {
-          self.remoteServers.append(remoteServer)
+      Sm02Lookup.on(server: { [unowned self] (remoteAddress) in
+        if (self.remoteAddresses.contains(remoteAddress) == false) {
+          self.remoteAddresses.append(remoteAddress)
+          print("RemoteService.LookupManagement - INFO: the new added remote address \(remoteAddress)")
         }
       })
     }
@@ -113,7 +114,7 @@ final class RemoteService {
 
     func stop () {
       Sm02Lookup.stop()
-      remoteServers.removeAll()
+      remoteAddresses.removeAll()
       isStarted = false
     }
   }

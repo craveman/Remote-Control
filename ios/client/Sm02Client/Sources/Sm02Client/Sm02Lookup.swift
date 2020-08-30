@@ -13,11 +13,13 @@ public class Sm02Lookup {
   private static var server: Sm02LookupServer = Sm02DummyLookupServer()
 
   public static func start (listen port: Int = 21075) {
+    print("Sm02Lookup - INFO: starting the lookup server...")
     server.stop()
     if server is Sm02DummyLookupServer {
       server = container.makeUdpLookup()
     }
     server.start(listen: port)
+    print("Sm02Lookup - INFO: the lookup server was started")
   }
 
   @discardableResult
@@ -31,6 +33,8 @@ public class Sm02Lookup {
   }
 
   public static func stop () {
+    print("Sm02Lookup - INFO: stopping the lookup server...")
     server.stop()
+    print("Sm02Lookup - INFO: the lookup server was stopped")
   }
 }

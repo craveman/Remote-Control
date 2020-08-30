@@ -18,6 +18,7 @@ final class LookupMessagesHandler: ChannelInboundHandler {
 
   public func channelRead (context: ChannelHandlerContext, data: NIOAny) {
     let envelope = unwrapInboundIn(data)
+    print("LookupMessagesHandler - INFO: an inbound message from \(envelope.remoteAddress.ipAddress!)")
 
     let buffer = envelope.data
     guard let string = buffer.getString(at: 0, length: LookupMessagesHandler.SEARCH_MESSAGE.utf8.count) else {
@@ -25,8 +26,9 @@ final class LookupMessagesHandler: ChannelInboundHandler {
       return
     }
 
+    print("LookupMessagesHandler - INFO: the inbound message is '\(string)'")
     if string != LookupMessagesHandler.SEARCH_MESSAGE {
-      print("LookupMessagesHandler - WARN: the unknown inbound message - {}", string)
+      print("LookupMessagesHandler - WARN: the unknown inbound message - \(string)")
       return
     }
 
@@ -35,8 +37,10 @@ final class LookupMessagesHandler: ChannelInboundHandler {
       ip: envelope.remoteAddress.ipAddress!,
       code: [0,0,0,0,0]
     )
+
+    print("LookupMessagesHandler - INFO: the new created remote address is \(remoteAddress)")
     if servers.fire(it: remoteAddress) == false {
-      print("LookupMessagesHandler - WARN: there is no messages processor for {} client", context.remoteAddress!)
+      print("LookupMessagesHandler - WARN: there is no messages processor for \(context.remoteAddress!) client")
       return
     }
   }

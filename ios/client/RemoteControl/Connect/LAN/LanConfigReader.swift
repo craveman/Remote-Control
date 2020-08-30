@@ -15,7 +15,7 @@ class LanConfigReader: ObservableObject {
   private let checksPerSec = 1;
   init() {
   }
-  
+
   func startReader() -> Void {
     print("LanConfigReader::startReader")
     hasError = nil;
@@ -28,28 +28,28 @@ class LanConfigReader: ObservableObject {
       self.Sm02ConnectionConfigCheck()
     }
   }
-  
+
   func stopReader() -> Void {
     if lookupTimer != nil {
          lookupTimer?.invalidate()
        }
     rs.lookup.stop()
   }
-  
+
   private func Sm02ConnectionConfigCheck() {
-    print(rs.lookup.remoteServers)
-    guard let first = rs.lookup.remoteServers.first else {
+    print(rs.lookup.remoteAddresses)
+    guard let first = rs.lookup.remoteAddresses.first else {
       if (config != nil) {
         config = nil
       }
-      
+
 //      if (Int.random(in: 0..<100) > 95) {
 //        config = LanConfig(ip: "192.168.0.101", code: [0,0,0,0,0])
 //      }
-      
+
       return
     }
-    
+
     config = LanConfig(ip: first.ip, code: first.code)
   }
 }

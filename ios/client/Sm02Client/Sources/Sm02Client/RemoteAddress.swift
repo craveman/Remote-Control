@@ -7,7 +7,7 @@ public class RemoteAddress: Codable, CustomStringConvertible, Equatable {
   public let ip: String
   public let code: [UInt8]
 
-  public static func == (lhs: RemoteAddress, rhs: RemoteAddress) -> Bool {
+public static func == (lhs: RemoteAddress, rhs: RemoteAddress) -> Bool {
     return lhs.ssid == rhs.ssid &&
            lhs.ip == rhs.ip &&
            lhs.code == rhs.code
