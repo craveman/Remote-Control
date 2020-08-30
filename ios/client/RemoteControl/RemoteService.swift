@@ -19,6 +19,7 @@ import Sm02Client
 import struct NIO.TimeAmount
 
 @_exported import class Sm02Client.RemoteAddress
+@_exported import class Sm02Client.Sm02UdpLookup
 
 @_exported import enum Sm02Client.ConnectionEvent
 @_exported import enum Sm02Client.ConnectionError
@@ -106,7 +107,7 @@ final class RemoteService {
   final class ConnectionManagement {
 
     @Published
-    private(set) var в: Bool = false
+    private(set) var isConnected: Bool = false
 
     @Published
     private(set) var isAuthenticated: Bool = false

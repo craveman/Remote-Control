@@ -1,6 +1,5 @@
 //
-//  File.swift
-//  
+//  Sm02UdpLookup.swift
 //
 //  Created by Sergei Andreev on 16.08.2020.
 //
@@ -82,14 +81,14 @@ private final class SearchSmOptionHandler: ChannelHandler, ChannelInboundHandler
   }
 }
 
-let defaultUdpListenPort = 21075
+public let defaultUdpListenPort = 21075
 
 public class Sm02UdpLookup {
   private let group: MultiThreadedEventLoopGroup
   private let bootstrap: DatagramBootstrap
   private var channel: Channel?
   
-  init() {
+  public init() {
     self.group = MultiThreadedEventLoopGroup(numberOfThreads: System.coreCount)
     self.bootstrap = DatagramBootstrap(group: group)
       .channelOption(ChannelOptions.socket(SocketOptionLevel(SOL_SOCKET), SO_REUSEADDR), value: 1)
@@ -105,11 +104,11 @@ public class Sm02UdpLookup {
     }
   }
   
-  func stop() -> Void {
+  public func stop() -> Void {
     try! self.channel?.close().wait()
   }
   
-  func start(_ port: Int = defaultUdpListenPort) throws {
+  public func start(_ port: Int = defaultUdpListenPort) throws {
     
     self.channel = try! bootstrap.bind(host: "0.0.0.0", port: port).wait()
     
