@@ -81,7 +81,7 @@ extension DependencyContainer: ChannelHandlerFactory {
   func makeClientPipeline (_ channel: Channel) -> EventLoopFuture<Void> {
     return channel.pipeline.addHandler(BackPressureHandler()).flatMap { [weak self] in
       let handlers = [
-        DebugInboundEventsHandler(),
+        // DebugInboundEventsHandler(),
         ByteToMessageHandler(LengthFieldBasedFrameDecoder(lengthFieldLength: .two), maximumBufferSize: Int(UInt16.max)),
         LengthFieldPrepender(lengthFieldLength: .two),
         TickTockHandler(container: self!),
