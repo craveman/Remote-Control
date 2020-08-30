@@ -92,14 +92,26 @@ final class RemoteService {
   final class LookupManagement {
 
     @Published
+    private(set) var isStarted: Bool = false
+
+    @Published
     private(set) var remoteServers: [RemoteAddress] = []
 
-    func start (listen port: Int = 21075) {
+    init () {
+      Sm02Lookup.on(server: { [unowned self] (remoteServer) in
+        self.remoteServers.append(remoteServer)
+      })
+    }
 
+    func start (listen port: Int = 21075) {
+      Sm02Lookup.start(listen: port)
+      isStarted = true
     }
 
     func stop () {
-
+      Sm02Lookup.stop()
+      remoteServers.removeAll()
+      isStarted = false
     }
   }
 

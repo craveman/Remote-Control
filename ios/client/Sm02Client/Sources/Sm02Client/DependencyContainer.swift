@@ -7,11 +7,13 @@ protocol Singletons {
 
   var eventsManager: HandlersManager<ConnectionEvent> { get }
   var messagesManager: HandlersManager<Inbound> { get }
+  var serversManager: HandlersManager<RemoteAddress> { get }
 }
 
 protocol NetworkServiceFactory {
 
   func makeTcpClient () -> Sm02TcpClient
+  func makeUdpLookup () -> Sm02UdpLookup
 }
 
 protocol ChannelHandlerFactory {
@@ -23,18 +25,25 @@ protocol ChannelHandlerFactory {
   func makeMainChannelHandler () -> ChannelHandler
 
   func makeClientPipeline (_ channel: Channel) -> EventLoopFuture<Void>
+
+  func makeLookupPipeline (_ channel: Channel) -> EventLoopFuture<Void>
 }
 
 class DependencyContainer: Singletons {
 
   lazy private(set) var eventsManager = HandlersManager<ConnectionEvent>()
   lazy private(set) var messagesManager = HandlersManager<Inbound>()
+  lazy private(set) var serversManager = HandlersManager<RemoteAddress>()
 }
 
 extension DependencyContainer: NetworkServiceFactory {
 
   func makeTcpClient () -> Sm02TcpClient {
     return Sm02TcpClient(container: self)
+  }
+
+  func makeUdpLookup () -> Sm02UdpLookup {
+    return Sm02UdpLookupServer(container: self)
   }
 }
 
@@ -63,6 +72,10 @@ extension DependencyContainer: ChannelHandlerFactory {
     return MessagesHandler(container: self)
   }
 
+  func makeLookupMainChannel () -> ChannelHandler {
+    return LookupMessagesHandler(container: self)
+  }
+
   func makeClientPipeline (_ channel: Channel) -> EventLoopFuture<Void> {
     return channel.pipeline.addHandler(BackPressureHandler()).flatMap { [weak self] in
       let handlers = [
@@ -72,6 +85,17 @@ extension DependencyContainer: ChannelHandlerFactory {
         self!.decoderChanneHandler,
         self!.encoderChanneHandler,
         self!.makeMainChannelHandler(),
+        self!.errorChannelHandler,
+      ]
+      return channel.pipeline.addHandlers(handlers)
+    }
+  }
+
+  func makeLookupPipeline (_ channel: Channel) -> EventLoopFuture<Void> {
+    return channel.pipeline.addHandler(BackPressureHandler()).flatMap { [weak self] in
+      let handlers = [
+        FixedLengthFrameDecoder(frameLength: 4),
+        self!.makeLookupMainChannel(),
         self!.errorChannelHandler,
       ]
       return channel.pipeline.addHandlers(handlers)
