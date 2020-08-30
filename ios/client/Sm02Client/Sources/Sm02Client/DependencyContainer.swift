@@ -94,7 +94,6 @@ extension DependencyContainer: ChannelHandlerFactory {
   func makeLookupPipeline (_ channel: Channel) -> EventLoopFuture<Void> {
     return channel.pipeline.addHandler(BackPressureHandler()).flatMap { [weak self] in
       let handlers = [
-        ByteToMessageHandler(FixedLengthFrameDecoder(frameLength: 4), maximumBufferSize: 4),
         self!.makeLookupMainChannel(),
         self!.errorChannelHandler
       ]

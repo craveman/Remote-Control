@@ -32,7 +32,7 @@ final class LookupMessagesHandler: ChannelInboundHandler {
 
     let remoteAddress = RemoteAddress(
       ssid: "",
-      ip: "\(envelope.remoteAddress)",
+      ip: "\(envelope.remoteAddress.ipAddress)",
       code: [0,0,0,0,0]
     )
     if servers.fire(it: remoteAddress) == false {
