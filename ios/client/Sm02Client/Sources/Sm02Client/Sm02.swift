@@ -57,9 +57,10 @@ public class Sm02 {
     )
     send(message: request)
 
-    if lock.lock(whenValue: 1, timeoutSeconds: 5) {
-      lock.unlock()
+    if (lock.lock(whenValue: 1, timeoutSeconds: 5) == false) {
+      print("Sm02 - WARN: timeout condition for the lock is unsuccessful")
     }
+    lock.unlock()
 
     guard let result = responseStatus else {
       let error = ConnectionError.responseTimeout(5)

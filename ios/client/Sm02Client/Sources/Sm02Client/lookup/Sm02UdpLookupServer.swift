@@ -40,11 +40,10 @@ class Sm02UdpLookupServer: Sm02LookupServer {
     print("Sm02UdpLookupServer - INFO: starting the server on port \(port)...")
     do {
       channel = try bootstrap.bind(host: "0.0.0.0", port: port).wait()
+      print("Sm02UdpLookupServer - INFO: the server was started")
     } catch {
       print("Sm02UdpLookupServer - ERROR: starting error - \(error)")
-      throw error
     }
-    print("Sm02UdpLookupServer - INFO: the server was started")
   }
 
   func stop () {
