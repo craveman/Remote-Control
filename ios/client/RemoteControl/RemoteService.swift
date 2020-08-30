@@ -100,7 +100,9 @@ final class RemoteService {
 
     init () {
       Sm02Lookup.on(server: { [unowned self] (remoteServer) in
-        self.remoteServers.append(remoteServer)
+        if (self.remoteServers.contains(remoteServer) == false) {
+          self.remoteServers.append(remoteServer)
+        }
       })
     }
 
