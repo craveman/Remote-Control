@@ -69,9 +69,8 @@ public class Sm02 {
     return .success(result)
   }
 
-  @discardableResult
-  public static func send (message: Outbound) -> EventLoopFuture<Void>? {
-    return client.send(message: message)
+  public static func send (message: Outbound) {
+    client.send(message: message)
   }
 
   @discardableResult

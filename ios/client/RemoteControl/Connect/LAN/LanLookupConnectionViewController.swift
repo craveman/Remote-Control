@@ -14,12 +14,13 @@ fileprivate func log(_ items: Any...) {
 }
 
 class LanLookupConnectionViewController: UIViewController, ConnectionControllerProtocol {
-  
+  private var autoConnect = true;
   private var reader: LanConfigReader = LanConfigReader()
   private var configSub: AnyCancellable?
   
   @IBAction func manualConnectAction(_ sender: UIBarButtonItem) {
     log("Manual")
+    autoConnect = false
     showInputDialog()
   }
   
@@ -47,6 +48,13 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   var waitConnectTimer: Timer? = nil
   
+  func onCloseManual(_ auto: Bool = true) -> Void {
+    autoConnect = auto
+    if autoConnect, let auto = reader.config {
+      applyConfig(auto)
+    }
+  }
+  
   func showInputDialog() {
     
     let alertController = UIAlertController(title: "Manual connection", message: "Enter connection config", preferredStyle: .alert)
@@ -60,9 +68,12 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
       }
       
       self.applyConfig(LanConfig(ip: ip, code: [0,0,0,0,0]))
+      self.onCloseManual(false)
     }
     
-    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
+      self.onCloseManual()
+    }
     
     alertController.addTextField { (textField) in
       textField.placeholder = "Enter IP adress"
@@ -78,7 +89,20 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   }
   
   func showAlert(_ alert: UIAlertController) {
-    log("showAlert")
+    log("showAlert", alert)
+    func applyAlert() {
+      self.present(alert, animated: true, completion: {
+        self.alert = alert
+      })
+    }
+    
+    if self.alert != nil {
+      self.alert?.dismiss(animated: true, completion: {
+        applyAlert()
+      })
+    } else {
+      applyAlert()
+    }
   }
   
   func startScanner() {
@@ -101,6 +125,7 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   func doCompletion() {
     log ("doCompletion")
+    stopScanner()
     successAction()
   }
   
@@ -129,6 +154,7 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
     configSub = reader.$config.on(change: { config in
       log("config updated: \(String(describing: config))")
       guard let lan = config else {
+        log("$config.on(change nil")
         return
       }
       self.applyConfig(lan)
@@ -136,9 +162,13 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   }
   
   func applyConfig(_ lan: LanConfig) -> Void {
-    let remote = RemoteAddress(ssid: "", ip: lan.ip, code: lan.code)
-    if case .failure(_) = rs.connection.connect(to: remote) {
-      log("connect failure")
+    log("applyConfig")
+    let connectionProcessor = ConnectionProcessor(controller: self)
+    DispatchQueue.main.async {
+      log("applyConfig: DispatchQueue.main.async")
+      let remote = RemoteAddress(ssid: "", ip: lan.ip, code: lan.code)
+      connectionProcessor.connectServer(to: remote)
+      
     }
   }
   

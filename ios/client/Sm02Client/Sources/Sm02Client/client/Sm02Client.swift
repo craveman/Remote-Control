@@ -6,8 +6,7 @@ protocol Sm02Client {
 
   func connect (to remote: RemoteAddress) -> Error?
   
-  @discardableResult
-  func send (message: Outbound) -> EventLoopFuture<Void>?
+  func send (message: Outbound)
 
   func close ()
 }

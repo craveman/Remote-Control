@@ -38,7 +38,7 @@ class LanConfigReader: ObservableObject {
 
   private func Sm02ConnectionConfigCheck() {
     print(rs.lookup.remoteAddresses)
-    guard let first = rs.lookup.remoteAddresses.first else {
+    guard let option = rs.lookup.remoteAddresses.last else {
       if (config != nil) {
         config = nil
       }
@@ -49,8 +49,7 @@ class LanConfigReader: ObservableObject {
 
       return
     }
-
-    config = LanConfig(ip: first.ip, code: first.code)
+    config = LanConfig(ip: option.ip, code: option.code)
   }
 }
 
