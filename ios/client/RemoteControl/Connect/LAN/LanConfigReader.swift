@@ -44,9 +44,9 @@ class LanConfigReader: ObservableObject {
         config = nil
       }
       
-      if (Int.random(in: 0..<100) > 95) {
-        config = LanConfig(ip: "192.168.0.101", code: [0,0,0,0,0])
-      }
+//      if (Int.random(in: 0..<100) > 95) {
+//        config = LanConfig(ip: "192.168.0.101", code: [0,0,0,0,0])
+//      }
       
       return
     }

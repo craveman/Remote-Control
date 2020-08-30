@@ -20,6 +20,7 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   @IBAction func manualConnectAction(_ sender: UIBarButtonItem) {
     log("Manual")
+    showInputDialog()
   }
   
   @IBAction func skipConnectAction(_ sender: UIBarButtonItem) {
@@ -46,6 +47,36 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   var waitConnectTimer: Timer? = nil
   
+  func showInputDialog() {
+    
+    let alertController = UIAlertController(title: "Manual connection", message: "Enter connection config", preferredStyle: .alert)
+    
+    let confirmAction = UIAlertAction(title: "Join", style: .default) { (_) in
+      
+      let name = alertController.textFields?[0].text
+      
+      guard let ip = name else {
+        return
+      }
+      
+      self.applyConfig(LanConfig(ip: ip, code: [0,0,0,0,0]))
+    }
+    
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+    
+    alertController.addTextField { (textField) in
+      textField.placeholder = "Enter IP adress"
+      textField.keyboardType = .numbersAndPunctuation
+    }
+    // code ???
+    alertController.addAction(confirmAction)
+    alertController.addAction(cancelAction)
+    
+    //finally presenting the dialog box
+    self.present(alertController, animated: true, completion: nil)
+    self.alert = alertController
+  }
+  
   func showAlert(_ alert: UIAlertController) {
     log("showAlert")
   }
@@ -55,6 +86,9 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
     toggleFailedCase(false)
     spinner.startAnimating()
     reader.startReader()
+    withDelay({
+      self.searchLabel.isHidden = false;
+    }, 1.5)
     setWaitTimeout()
   }
   
@@ -86,9 +120,6 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   func setWaitTimeout() {
     waitConnectTimer?.invalidate()
-    waitConnectTimer = withDelay({
-      self.searchLabel.isHidden = false;
-    }, 1.5)
     waitConnectTimer = withDelay({
       self.toggleFailedCase(true)
     }, 10)
