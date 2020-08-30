@@ -22,7 +22,9 @@ protocol ChannelHandlerFactory {
   var encoderChanneHandler: ChannelHandler { get }
   var errorChannelHandler: ChannelHandler { get }
 
-  func makeMainChannelHandler () -> ChannelHandler
+  func makeInboundMessagesHandler () -> ChannelHandler
+
+  func makeLookupMessagesHandler () -> ChannelHandler
 
   func makeClientPipeline (_ channel: Channel) -> EventLoopFuture<Void>
 
@@ -68,11 +70,11 @@ extension DependencyContainer: ChannelHandlerFactory {
       }
   }
 
-  func makeMainChannelHandler () -> ChannelHandler {
-    return MessagesHandler(container: self)
+  func makeInboundMessagesHandler () -> ChannelHandler {
+    return InboundMessagesHandler(container: self)
   }
 
-  func makeLookupMainChannel () -> ChannelHandler {
+  func makeLookupMessagesHandler () -> ChannelHandler {
     return LookupMessagesHandler(container: self)
   }
 
@@ -84,7 +86,7 @@ extension DependencyContainer: ChannelHandlerFactory {
         TickTockHandler(container: self!),
         self!.decoderChanneHandler,
         self!.encoderChanneHandler,
-        self!.makeMainChannelHandler(),
+        self!.makeInboundMessagesHandler(),
         self!.errorChannelHandler,
       ]
       return channel.pipeline.addHandlers(handlers)
@@ -94,7 +96,7 @@ extension DependencyContainer: ChannelHandlerFactory {
   func makeLookupPipeline (_ channel: Channel) -> EventLoopFuture<Void> {
     return channel.pipeline.addHandler(BackPressureHandler()).flatMap { [weak self] in
       let handlers = [
-        self!.makeLookupMainChannel(),
+        self!.makeLookupMessagesHandler(),
         self!.errorChannelHandler
       ]
       return channel.pipeline.addHandlers(handlers)

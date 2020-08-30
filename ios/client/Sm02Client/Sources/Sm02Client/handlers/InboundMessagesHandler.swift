@@ -3,7 +3,7 @@ import NIO
 import Foundation
 
 
-final class MessagesHandler: ChannelInboundHandler {
+final class InboundMessagesHandler: ChannelInboundHandler {
 
   typealias Container = Singletons & ChannelHandlerFactory
   typealias InboundIn = Inbound
