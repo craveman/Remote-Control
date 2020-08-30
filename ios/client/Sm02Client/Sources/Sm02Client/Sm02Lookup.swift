@@ -14,7 +14,7 @@ public class Sm02Lookup {
 
   public static func start (listen port: Int = 21075) {
     server.stop()
-    if server is Sm02LookupServer {
+    if server is Sm02DummyLookupServer {
       server = container.makeUdpLookup()
     }
     server.start(listen: port)

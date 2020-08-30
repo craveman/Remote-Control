@@ -11,7 +11,6 @@ import Foundation
 class LanConfigReader: ObservableObject {
   @Published var config: LanConfig? = nil
   @Published var hasError: Bool? = nil
-  private let udpReader = Sm02UdpLookup()
   private var lookupTimer: Timer? = nil
   private let checksPerSec = 1;
   init() {

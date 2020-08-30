@@ -13,7 +13,7 @@ protocol Singletons {
 protocol NetworkServiceFactory {
 
   func makeTcpClient () -> Sm02TcpClient
-  func makeUdpLookup () -> Sm02UdpLookup
+  func makeUdpLookup () -> Sm02LookupServer
 }
 
 protocol ChannelHandlerFactory {
@@ -42,7 +42,7 @@ extension DependencyContainer: NetworkServiceFactory {
     return Sm02TcpClient(container: self)
   }
 
-  func makeUdpLookup () -> Sm02UdpLookup {
+  func makeUdpLookup () -> Sm02LookupServer {
     return Sm02UdpLookupServer(container: self)
   }
 }
@@ -94,9 +94,9 @@ extension DependencyContainer: ChannelHandlerFactory {
   func makeLookupPipeline (_ channel: Channel) -> EventLoopFuture<Void> {
     return channel.pipeline.addHandler(BackPressureHandler()).flatMap { [weak self] in
       let handlers = [
-        FixedLengthFrameDecoder(frameLength: 4),
+        ByteToMessageHandler(FixedLengthFrameDecoder(frameLength: 4), maximumBufferSize: 4),
         self!.makeLookupMainChannel(),
-        self!.errorChannelHandler,
+        self!.errorChannelHandler
       ]
       return channel.pipeline.addHandlers(handlers)
     }

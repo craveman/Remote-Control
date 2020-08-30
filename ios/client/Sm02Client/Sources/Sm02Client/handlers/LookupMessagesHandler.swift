@@ -17,22 +17,22 @@ final class LookupMessagesHandler: ChannelInboundHandler {
   }
 
   public func channelRead (context: ChannelHandlerContext, data: NIOAny) {
-    let message = unwrapInboundIn(data)
+    let envelope = unwrapInboundIn(data)
 
-    var buffer = message.data
-    guard let message = buffer.getString(at: 0, length: SEARCH_MESSAGE.utf8.count) else {
+    let buffer = envelope.data
+    guard let string = buffer.getString(at: 0, length: LookupMessagesHandler.SEARCH_MESSAGE.utf8.count) else {
       print("LookupMessagesHandler - WARN: message doesn't have enough length")
       return
     }
 
-    if message != SEARCH_MESSAGE {
-      print("LookupMessagesHandler - WARN: the unknown inbound message - {}", message)
+    if string != LookupMessagesHandler.SEARCH_MESSAGE {
+      print("LookupMessagesHandler - WARN: the unknown inbound message - {}", string)
       return
     }
 
     let remoteAddress = RemoteAddress(
       ssid: "",
-      ip: "\(message.remoteAddress)",
+      ip: "\(envelope.remoteAddress)",
       code: [0,0,0,0,0]
     )
     if servers.fire(it: remoteAddress) == false {

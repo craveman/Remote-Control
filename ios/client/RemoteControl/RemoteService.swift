@@ -19,7 +19,7 @@ import Sm02Client
 import struct NIO.TimeAmount
 
 @_exported import class Sm02Client.RemoteAddress
-@_exported import class Sm02Client.Sm02UdpLookup
+@_exported import class Sm02Client.Sm02Lookup
 
 @_exported import enum Sm02Client.ConnectionEvent
 @_exported import enum Sm02Client.ConnectionError
