@@ -28,26 +28,31 @@ class Sm02UdpLookupServer: Sm02LookupServer {
   deinit {
     stop()
 
-    print("terminating NIO group")
+    print("Sm02UdpLookupServer - INFO: terminating NIO group")
     do {
       try group.syncShutdownGracefully()
     } catch {
-      print("ERROR: closing error - \(error)")
+      print("Sm02UdpLookupServer - ERROR: closing error - \(error)")
     }
   }
 
   func start (listen port: Int) {
+    print("Sm02UdpLookupServer - INFO: starting the server on port \(port)...")
     do {
       channel = try bootstrap.bind(host: "0.0.0.0", port: port).wait()
     } catch {
-      print("ERROR: starting error - \(error)")
+      print("Sm02UdpLookupServer - ERROR: starting error - \(error)")
+      throw error
     }
+    print("Sm02UdpLookupServer - INFO: the server was started")
   }
 
   func stop () {
+    print("Sm02UdpLookupServer - INFO: stopping the server...")
     if let channel = channel {
       let _ = channel.close();
       self.channel = nil
     }
+    print("Sm02UdpLookupServer - INFO: the server was stopped")
   }
 }
