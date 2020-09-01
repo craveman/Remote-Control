@@ -70,6 +70,7 @@ public class VideoReplaysAdapter extends RecyclerView.Adapter<VideoReplaysAdapte
         private TextView timeText;
 
         public void setItem (String item) {
+            Log.wtf("GAIN ITEM", item);
             this.item = item;
             scoreText.setText(item.split("#")[0]);
             timeText.setText(item.split("#")[1].replace("_", ":").replace(".mp4", ""));

@@ -1059,7 +1059,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                         rightCard.set(CARD_STATE_NONE);
                     }
                 }
-                if (isIndividual) {
+//                if (isIndividual) {
                     int rpcl = info.getLeftFighter().getRedPCardCount();
                     Log.wtf("RPCL", rpcl + "");
                     if (rpcl != 0) {
@@ -1096,9 +1096,9 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                             rightPCard.set(CARD_STATE_NONE);
                         }
                     }
-                } else {
-                    core.getFightHandler().restorePCards();
-                }
+//                } else {
+//                    core.getFightHandler().restorePCards();
+//                }
                 core.sendToSM(CommandHelper.confirmNames());
                 videosLeft.set(info.getmVideoLeft());
                 videosRight.set(info.getmVideoRight());
@@ -1139,7 +1139,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         } else {
             core.sendToSM(CommandHelper.setTimer(timeToSend, timerMode.get() - 80));
         }
-        Log.wtf("TIME NOTIFY", timeToSend + "");
 
     }
 
@@ -1174,24 +1173,26 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         if (System.currentTimeMillis() - lastTimerTS > 200) {
             isPeriodFinished = false;
             core.vibr();
-            //TODO check
+            if (!(cyranoState.get() != CyranoState.Off && ethState.get().equals("W"))) {
+                //TODO check
 //            timerState.set(TIMER_STATE_IN_PROGRESS);
 ////        timerMode.set(TIMER_MODE_MAIN);
 //            getActivity().getBinding().titleMain.setVisibility(View.GONE);
-            core.sendToSM(CommandHelper.startTimer(true));
-            isPassiveBtnVisible.set(false);
-            lastTimerTS = System.currentTimeMillis();
-            isVideoBtnVisible.set(false);
+                core.sendToSM(CommandHelper.startTimer(true));
+                isPassiveBtnVisible.set(false);
+                lastTimerTS = System.currentTimeMillis();
+                isVideoBtnVisible.set(false);
+            }
         }
     }
 
     public void pauseBreak() {
         Log.wtf("PAUSE BREAK", "START");
         core.sendToSM(CommandHelper.startTimer(false));
-        timeMillisecs.set(lastTimerBeforePause == 0 ? defaultTime.get() :
+        int tempTimeMillisecs = (lastTimerBeforePause == 0 ? defaultTime.get() :
                 (timerMode.get() == TIMER_MODE_MEDICINE ? lastTimerBeforePause : defaultTime.get()));
-        int minutes = (int) TimeUnit.MILLISECONDS.toMinutes(timeMillisecs.get());
-        int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(timeMillisecs.get()) % 60;
+        int minutes = (int) TimeUnit.MILLISECONDS.toMinutes(tempTimeMillisecs);
+        int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(tempTimeMillisecs) % 60;
         timerSecUnit.set(seconds % 10);
         timerMinUnit.set(minutes % 10);
         timerSecDec.set(seconds / 10);
@@ -1200,7 +1201,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             onPeriodNext();
         }
         timerMode.set(TIMER_MODE_MAIN);
-        timeNotifySM02();
+        core.sendToSM(CommandHelper.setTimer(tempTimeMillisecs, timerMode.get() - 80));
         lastTimerBeforePause = 0;
         uiHandler.postDelayed(() -> isPeriodFinished = false, 700);
     }
@@ -1208,33 +1209,39 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public void onDecLeft() {
         if (System.currentTimeMillis() - lastScoreTS > 1000) {
             core.vibr();
-            leftScore.set(leftScore.get() - 1);
-            getActivity().getBinding().mainContent.decLeft.setImageResource(DEC_SELECTED);
-            uiHandler.postDelayed(() -> getActivity().getBinding().mainContent.decLeft.setImageResource(DEC_USUAL), 1000);
-            lastScoreTS = System.currentTimeMillis();
+            if (!(cyranoState.get() != CyranoState.Off && ethState.get().equals("W"))) {
+                leftScore.set(leftScore.get() - 1);
+                getActivity().getBinding().mainContent.decLeft.setImageResource(DEC_SELECTED);
+                uiHandler.postDelayed(() -> getActivity().getBinding().mainContent.decLeft.setImageResource(DEC_USUAL), 1000);
+                lastScoreTS = System.currentTimeMillis();
+            }
         }
     }
 
     public void onDecRight() {
         if (System.currentTimeMillis() - lastScoreTS > 1000) {
             core.vibr();
-            rightScore.set(rightScore.get() - 1);
-            getActivity().getBinding().mainContent.decRight.setImageResource(DEC_SELECTED);
-            uiHandler.postDelayed(() -> getActivity().getBinding().mainContent.decRight.setImageResource(DEC_USUAL), 1000);
-            lastScoreTS = System.currentTimeMillis();
+            if (!(cyranoState.get() != CyranoState.Off && ethState.get().equals("W"))) {
+                rightScore.set(rightScore.get() - 1);
+                getActivity().getBinding().mainContent.decRight.setImageResource(DEC_SELECTED);
+                uiHandler.postDelayed(() -> getActivity().getBinding().mainContent.decRight.setImageResource(DEC_USUAL), 1000);
+                lastScoreTS = System.currentTimeMillis();
+            }
         }
     }
 
     public void onIncLeft() {
         if (System.currentTimeMillis() - lastScoreTS > 1000) {
             core.vibr();
-            leftScore.set(leftScore.get() + 1);
-            getActivity().getBinding().mainContent.incLeft.setImageResource(INC_SELECTED);
-            uiHandler.postDelayed(() -> getActivity().getBinding().mainContent.incLeft.setImageResource(INC_USUAL), 1000);
-            lastScoreTS = System.currentTimeMillis();
-            if (phrasesEnabled.get()) {
-                getActivity().showPhraseDialog(true);
-                isLastAndOutdated = false;
+            if (!(cyranoState.get() != CyranoState.Off && ethState.get().equals("W"))) {
+                leftScore.set(leftScore.get() + 1);
+                getActivity().getBinding().mainContent.incLeft.setImageResource(INC_SELECTED);
+                uiHandler.postDelayed(() -> getActivity().getBinding().mainContent.incLeft.setImageResource(INC_USUAL), 1000);
+                lastScoreTS = System.currentTimeMillis();
+                if (phrasesEnabled.get()) {
+                    getActivity().showPhraseDialog(true);
+                    isLastAndOutdated = false;
+                }
             }
         }
     }
@@ -1242,13 +1249,15 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public void onIncRight() {
         if (System.currentTimeMillis() - lastScoreTS > 1000) {
             core.vibr();
-            rightScore.set(rightScore.get() + 1);
-            getActivity().getBinding().mainContent.incRight.setImageResource(INC_SELECTED);
-            uiHandler.postDelayed(() -> getActivity().getBinding().mainContent.incRight.setImageResource(INC_USUAL), 1000);
-            lastScoreTS = System.currentTimeMillis();
-            if (phrasesEnabled.get()) {
-                getActivity().showPhraseDialog(false);
-                isLastAndOutdated = false;
+            if (!(cyranoState.get() != CyranoState.Off && ethState.get().equals("W"))) {
+                rightScore.set(rightScore.get() + 1);
+                getActivity().getBinding().mainContent.incRight.setImageResource(INC_SELECTED);
+                uiHandler.postDelayed(() -> getActivity().getBinding().mainContent.incRight.setImageResource(INC_USUAL), 1000);
+                lastScoreTS = System.currentTimeMillis();
+                if (phrasesEnabled.get()) {
+                    getActivity().showPhraseDialog(false);
+                    isLastAndOutdated = false;
+                }
             }
         }
     }
@@ -1266,7 +1275,9 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
     public void onPenaltiesPriorityBtn() {
         core.vibr();
-        screenState.set(SCREEN_MENU_PENALTIES);
+        if (!(cyranoState.get() != CyranoState.Off && ethState.get().equals("W"))) {
+            screenState.set(SCREEN_MENU_PENALTIES);
+        }
     }
 
     public void onPBlackLeft() {
@@ -1385,8 +1396,10 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
     public void onMenuPause() {
         core.vibr();
-        ConfirmationDialog.show(getActivity(), PAUSE_CALL_MAIN_MESSAGE, "",
-                getActivity().getResources().getString(R.string.pause_call_message));
+        if (!(cyranoState.get() != CyranoState.Off && ethState.get().equals("W"))) {
+            ConfirmationDialog.show(getActivity(), PAUSE_CALL_MAIN_MESSAGE, "",
+                    getActivity().getResources().getString(R.string.pause_call_message));
+        }
     }
 
     public void performPause() {
@@ -1561,6 +1574,11 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         core.vibr();
         period.set(period.get() + 1);
         getActivity().getBinding().periodLay.periodNp.setValue(period.get());
+        timerMinDec.set(0);
+        timerMinUnit.set(3);
+        timerSecDec.set(0);
+        timerSecUnit.set(0);
+        timeNotifySM02();
     }
 
     public void onPeriodConfirmed() {
@@ -1576,26 +1594,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
     public void onSwapBtn() {
         core.vibr();
-        FightData data = core.getFightHandler().getFightData();
-        FighterData temp = data.getLeftFighter();
-        data.setmLeftFighterData(data.getRightFighter());
-        data.setmRightFighterData(temp);
-        int tempVideo = data.getmVideoLeft();
-        data.setmVideoLeft(data.getmVideoRight());
-        data.setmVideoRight(tempVideo);
-        int tempPrio = data.getmPriority();
-        if (tempPrio == PERSON_TYPE_LEFT) {
-            data.setmPriority(PERSON_TYPE_RIGHT);
-        } else if (tempPrio == PERSON_TYPE_RIGHT) {
-            data.setmPriority(PERSON_TYPE_LEFT);
-        }
-        restoreFromExisted(data);
-        uiHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                core.sendToSM(CommandHelper.swap());
-            }
-        }, 900);
+        core.sendToSM(CommandHelper.swap());
         screenState.set(SCREEN_MAIN);
     }
 
@@ -1721,10 +1720,12 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
     public void onDoubleBtn() {
         core.vibr();
-        core.vibr();
-        leftScore.set(leftScore.get() + 1);
-        rightScore.set(rightScore.get() + 1);
-        lastScoreTS = System.currentTimeMillis();
+        if (!(cyranoState.get() != CyranoState.Off && ethState.get().equals("W"))) {
+            core.vibr();
+            leftScore.set(leftScore.get() + 1);
+            rightScore.set(rightScore.get() + 1);
+            lastScoreTS = System.currentTimeMillis();
+        }
     }
 
     public void onVideoBtn() {
@@ -1913,7 +1914,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 byte[] restoreBuf = new byte[message.length];
                 System.arraycopy(message, 0, restoreBuf, 0, message.length);
                 String restoreString = new String(restoreBuf, Charset.forName("UTF-8"));
-                Log.wtf("LENGTH", "" + (restoreString.length()));
+                Log.wtf("RESTORE STRING", restoreString);
                 Gson gson = new Gson();
                 FightData restoreData = gson.fromJson(restoreString, FightData.class);
                 restoreFromExisted(restoreData);
@@ -2048,9 +2049,13 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //                Log.wtf("VIDEO READY", "++");
 //                if (timerState.get() == TIMER_STATE_PAUSED) {
 //                    if (!core.getConnectedCameras().isEmpty()) {
+                byte[] videoNameBuf = new byte[message[0] & 0xFF];
+                System.arraycopy(message, 1, videoNameBuf, 0, message[0] & 0xFF);
+                String videoName = new String(videoNameBuf, Charset.forName("UTF-8"));
                 if (isCamConnected.get()) {
                     isVideoBtnVisible.set(true);
                 }
+                Log.wtf("VIDEO READY RECEIVE", videoName);
 //                }
                 break;
             case DISCONNECT_TCP_CMD:
