@@ -6,13 +6,6 @@
   Copyright © 2019 Sergei Andreev. All rights reserved.
 */
 
-
-// QR code scanner
-
-"QR scanner" = "QR сканер";
-
-"The code is recognized" = "Код распознан. Удостоверьтесь, что вы подключены к нужной Wi-Fi сети прежде чем продолжить. Выберите тип Wi-Fi сети для автоматического одноразового подключения";
-"The code is unrecognized" = "Код не распознан";
 "Connect Sm02" = "Подключиться к Sm02";
 "Connect Open WiFi first" = "Открытая сеть";
 "Connect Protected WiFi first" = "Защищённая сеть";
@@ -24,19 +17,16 @@
 
 "Wrong authentication code." = "Неверный код авторизации.";
 "Another remote control is already registered on the server." = "Другой пульт уже зарегестрирован на стороне сервера.";
-"Connection timeout. Check that you are connected to the '%@' Wi-Fi network." = "Время подключения истекло. Проверьте, что вы подключены к Wi-Fi сети '%@'.";
+"Connection timeout. Check that you are connected to the correct Wi-Fi network." = "Время подключения истекло. Проверьте, что вы подключены к нужной Wi-Fi сети.";
 "A remote server is not reachable." = "Удаленный сервер недоступен.";
 "Unknown connection error: %@" = "Неизвестная ошибка: %@";
-"Connection to the server in Wi-Fi network '%@' was lost." = "Связь с сервером в сети '%@' была потеряна.";
+"Connection to the server was lost." = "Связь с сервером была потеряна.";
 
 "Connection error" = "Ошибка подключения";
 "Can't connect to %@. %@" = "Невозможно подключиться к %@. %@";
 "Try again" = "Попробовать снова";
 "Reconnect" = "Переподключиться";
 
-"QR scanner error" = "Ошибка QR сканера";
-"The app is not authorized to use back camera." = "Приложение не авторизовано для использования задней камеры.";
-"QR scanner is not supported by the current device." = "QR сканер не поддерживается данным устройством.";
 "Settings" = "Настройки";
 "Ok" = "Ок";
 
@@ -125,3 +115,5 @@
 
 "Connect" = "подключиться";
 "Disconnect this Remote Control?" = "Отключить этот пульт?";
+
+"Searching for Sm02" = "Ожидание сигнала от Sm02...";

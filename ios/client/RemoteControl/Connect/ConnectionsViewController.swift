@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import AVFoundation
-
 
 fileprivate func log(_ items: Any...) {
   print("ConnectionsViewController:log: ", items)
@@ -16,7 +14,7 @@ fileprivate func log(_ items: Any...) {
 
 class ConnectionsViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
   public static let RECONNECT = "Reconnect"
-  public static let CONNECTION_LOST = "Connection to the server in Wi-Fi network '%@' was lost."
+  public static let CONNECTION_LOST = "Connection to the server was lost."
   public static let CONNECTION_ERROR = "Connection error"
   var alert: UIAlertController?
   
@@ -68,8 +66,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
 
   func warning (_ remote: RemoteAddress) {
     let bodyString = String(
-      format: NSLocalizedString(ConnectionsViewController.CONNECTION_LOST, comment: ""),
-      remote.ssid
+      format: NSLocalizedString(ConnectionsViewController.CONNECTION_LOST, comment: "")
     )
     prepareAlert(bodyString)
     present(self.alert!, animated: true, completion: nil)
@@ -129,9 +126,4 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     #endif
   }
 
-  private func skipQR () {
-    Utils.delay({
-      self.jumpToInspiration()
-    }, seconds: 1)
-  }
 }

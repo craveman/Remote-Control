@@ -14,7 +14,8 @@ protocol ConnectionControllerProtocol: UIViewController {
   var alert: UIAlertController? { get set }
   func showAlert(_ alert: UIAlertController) -> Void
   func onSuccess(_ action: @escaping () -> Void) -> Void
-  func doCompletion () -> Void
+  func doConnectionCompletion () -> Void
+  func doConnectionRejection () -> Void
   func startScanner () -> Void
   func stopScanner () -> Void
 }

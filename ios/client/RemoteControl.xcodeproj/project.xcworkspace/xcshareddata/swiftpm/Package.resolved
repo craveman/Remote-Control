@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "QRCodeReader",
-        "repositoryURL": "https://github.com/xxlabaza/QRCodeReader.swift.git",
-        "state": {
-          "branch": "master",
-          "revision": "fdf03b5013e76b595138ff08bcaea862ca3c0760",
-          "version": null
-        }
-      },
-      {
         "package": "swift-nio",
         "repositoryURL": "https://github.com/apple/swift-nio.git",
         "state": {

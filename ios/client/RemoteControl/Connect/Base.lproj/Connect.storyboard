@@ -39,66 +39,6 @@
             </objects>
             <point key="canvasLocation" x="-1901" y="-366"/>
         </scene>
-        <!--Qr View Controller-->
-        <scene sceneID="tne-QT-ifu">
-            <objects>
-                <viewController id="BYZ-38-t0r" customClass="QrViewController" customModule="Inspiration_Point" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ROG-L6-Gnz" customClass="QRCodeReaderView" customModule="QRCodeReader">
-                                <rect key="frame" x="16" y="16" width="343" height="343"/>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="ROG-L6-Gnz" secondAttribute="height" multiplier="1:1" id="I4Q-GF-Bwd"/>
-                                </constraints>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Connection message" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10P-Ts-tf1">
-                                <rect key="frame" x="16" y="367" width="343" height="284"/>
-                                <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uoc-8G-Nt4">
-                                <rect key="frame" x="170.5" y="618" width="34" height="33"/>
-                                <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="18"/>
-                                <state key="normal" title="Skip"/>
-                                <connections>
-                                    <action selector="skipButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SLI-NY-ZQc"/>
-                                </connections>
-                            </button>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="geW-1R-Yyr">
-                                <rect key="frame" x="16" y="389" width="343" height="20"/>
-                                <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </activityIndicatorView>
-                        </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="geW-1R-Yyr" firstAttribute="centerX" secondItem="uoc-8G-Nt4" secondAttribute="centerX" id="BNj-RZ-PH8"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="10P-Ts-tf1" secondAttribute="bottom" constant="16" id="CbO-aS-HYF"/>
-                            <constraint firstItem="10P-Ts-tf1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Drc-S3-d2W"/>
-                            <constraint firstItem="ROG-L6-Gnz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="ILI-rg-2vX"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ROG-L6-Gnz" secondAttribute="trailing" constant="16" id="KCK-Ol-dWq"/>
-                            <constraint firstItem="geW-1R-Yyr" firstAttribute="top" secondItem="ROG-L6-Gnz" secondAttribute="bottom" constant="30" id="LeW-bJ-jpx"/>
-                            <constraint firstItem="10P-Ts-tf1" firstAttribute="top" secondItem="ROG-L6-Gnz" secondAttribute="bottom" constant="8" symbolic="YES" id="Rwo-FJ-9Gi"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="10P-Ts-tf1" secondAttribute="trailing" constant="16" id="S2S-pJ-gBK"/>
-                            <constraint firstItem="geW-1R-Yyr" firstAttribute="leading" secondItem="10P-Ts-tf1" secondAttribute="leading" id="ZsK-gc-nUW"/>
-                            <constraint firstItem="uoc-8G-Nt4" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="baT-Zj-akp"/>
-                            <constraint firstItem="ROG-L6-Gnz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="ha4-jd-dUn"/>
-                            <constraint firstItem="uoc-8G-Nt4" firstAttribute="bottom" secondItem="10P-Ts-tf1" secondAttribute="bottom" id="zKa-8R-6ti"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                    </view>
-                    <connections>
-                        <outlet property="previewView" destination="ROG-L6-Gnz" id="AnF-TH-j7l"/>
-                        <outlet property="spinner" destination="geW-1R-Yyr" id="a10-TD-Igk"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2508" y="400"/>
-        </scene>
         <!--Lan Lookup Connection View Controller-->
         <scene sceneID="MB0-7d-ba8">
             <objects>
@@ -118,7 +58,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="P8n-EH-csV"/>
                                     <barButtonItem title="Skip" image="forward" catalog="system" id="c0I-XA-vKg">
                                         <connections>
-                                            <action selector="skipConnectAction:" destination="nOr-SJ-XJb" id="Fyn-is-74E"/>
+                                            <action selector="skipButton:" destination="nOr-SJ-XJb" id="BXv-FY-tE1"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -151,17 +91,21 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Searching for Sm02..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dzn-dq-53K">
-                                <rect key="frame" x="106.5" y="250" width="162" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Searching for Sm02" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dzn-dq-53K">
+                                <rect key="frame" x="113" y="250" width="149" height="21"/>
                                 <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mUE-ZE-aa3">
+                                <rect key="frame" x="112.5" y="556" width="150" height="2"/>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="AoN-z9-Jph" firstAttribute="bottom" secondItem="g5T-YM-x00" secondAttribute="bottom" id="1HR-7w-WhK"/>
                             <constraint firstItem="g5T-YM-x00" firstAttribute="leading" secondItem="AoN-z9-Jph" secondAttribute="leading" id="5fG-Fe-soT"/>
+                            <constraint firstItem="g5T-YM-x00" firstAttribute="top" secondItem="mUE-ZE-aa3" secondAttribute="bottom" constant="65" id="6Lq-Ki-Y29"/>
                             <constraint firstItem="Yuu-4A-y9K" firstAttribute="centerX" secondItem="AoN-z9-Jph" secondAttribute="centerX" id="8KP-6s-4IZ"/>
                             <constraint firstItem="AoN-z9-Jph" firstAttribute="trailing" secondItem="Yuu-4A-y9K" secondAttribute="trailing" constant="99" id="Ehv-6U-J51"/>
                             <constraint firstItem="dzn-dq-53K" firstAttribute="centerX" secondItem="AoN-z9-Jph" secondAttribute="centerX" id="GQI-fE-rEA"/>
@@ -170,17 +114,21 @@
                             <constraint firstItem="2oV-fH-BLy" firstAttribute="centerX" secondItem="AoN-z9-Jph" secondAttribute="centerX" id="Lqq-fE-L3u"/>
                             <constraint firstItem="uma-yX-2zc" firstAttribute="top" secondItem="Yuu-4A-y9K" secondAttribute="bottom" constant="160" id="OEr-3j-cUp"/>
                             <constraint firstItem="Yuu-4A-y9K" firstAttribute="top" secondItem="AoN-z9-Jph" secondAttribute="top" constant="20" id="PWG-Je-eiY"/>
+                            <constraint firstItem="mUE-ZE-aa3" firstAttribute="width" secondItem="DSC-Y3-hEs" secondAttribute="width" multiplier="0.4" id="X7R-yD-Bpf"/>
                             <constraint firstItem="dzn-dq-53K" firstAttribute="top" secondItem="AoN-z9-Jph" secondAttribute="top" constant="250" id="hiT-tD-Ec6"/>
                             <constraint firstItem="uma-yX-2zc" firstAttribute="top" secondItem="2oV-fH-BLy" secondAttribute="bottom" constant="20" id="khL-Nm-TJ4"/>
+                            <constraint firstItem="mUE-ZE-aa3" firstAttribute="centerX" secondItem="AoN-z9-Jph" secondAttribute="centerX" id="uJT-xl-lge"/>
                             <constraint firstItem="AoN-z9-Jph" firstAttribute="trailing" secondItem="g5T-YM-x00" secondAttribute="trailing" id="xWh-lz-1bt"/>
                             <constraint firstItem="2oV-fH-BLy" firstAttribute="width" secondItem="AoN-z9-Jph" secondAttribute="width" multiplier="1.40267" constant="-183" id="zDu-SD-d9m"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="AoN-z9-Jph"/>
                     </view>
                     <connections>
+                        <outlet property="connectionProgressBar" destination="mUE-ZE-aa3" id="ePm-6L-Wba"/>
                         <outlet property="failedToConnectLabel" destination="2oV-fH-BLy" id="89y-dn-GG5"/>
                         <outlet property="goToSettingsButton" destination="uma-yX-2zc" id="hfM-p5-yyD"/>
                         <outlet property="searchLabel" destination="dzn-dq-53K" id="yqL-I6-KeX"/>
+                        <outlet property="skipButton" destination="c0I-XA-vKg" id="s8Y-7c-m86"/>
                         <outlet property="spinner" destination="Yuu-4A-y9K" id="XqM-Sb-pdZ"/>
                     </connections>
                 </viewController>

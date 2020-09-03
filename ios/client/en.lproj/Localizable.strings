@@ -6,13 +6,6 @@
   Copyright © 2019 Sergei Andreev. All rights reserved.
 */
 
-
-// QrViewController
-
-"QR scanner" = "QR scanner";
-
-"The code is recognized" = "The code is recognized. Check that you are connected to required Wi-Fi network before proceed. Or choose Wi-Fi network type to create automatic disposable connection";
-"The code is unrecognized" = "The code is unrecognized";
 "Connect Sm02" = "Connect to Sm02";
 "Connect Open WiFi first" = "Open Wi-Fi";
 "Connect Protected WiFi first" = "Secured Wi-Fi";
@@ -24,19 +17,16 @@
 
 "Wrong authentication code." = "Wrong authentication code.";
 "Another remote control is already registered on the server." = "Another remote control is already registered on the server.";
-"Connection timeout. Check that you are connected to the '%@' Wi-Fi network." = "Connection timeout. Check that you are connected to the '%@' Wi-Fi network.";
+
 "A remote server is not reachable." = "A remote server is not reachable.";
 "Unknown connection error: %@" = "Unknown connection error: %@";
-"Connection to the server in Wi-Fi network '%@' was lost." = "Connection to the server in Wi-Fi network '%@' was lost.";
+"Connection to the server was lost." = "Connection to the server was lost.";
 
 "Connection error" = "Connection error";
 "Can't connect to %@. %@" = "Can't connect to %@. %@";
 "Try again" = "Try again";
 "Reconnect" = "Reconnect";
 
-"QR scanner error" = "QR scanner error";
-"The app is not authorized to use back camera." = "The app is not authorized to use back camera.";
-"QR scanner is not supported by the current device." = "QR scanner is not supported by the current device.";
 "Settings" = "Settings";
 "Ok" = "Ok";
 
@@ -115,3 +105,5 @@
 
 "Connect" = "сonnect";
 "Disconnect this Remote Control?" = "Disconnect this Remote Control?";
+
+"Searching for Sm02" = "Waiting Sm02 signal...";

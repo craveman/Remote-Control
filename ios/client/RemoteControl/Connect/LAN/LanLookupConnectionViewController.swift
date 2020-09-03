@@ -13,22 +13,39 @@ fileprivate func log(_ items: Any...) {
   print("LanLookupConnectionViewController:log: ", items)
 }
 
+fileprivate let WAIT_TIMEOUT = 15.0
+fileprivate let NOTIFY_TIMEOUT = 2.5
+
 class LanLookupConnectionViewController: UIViewController, ConnectionControllerProtocol {
-  private var autoConnect = true;
+  private var autoConnect = true
+  private var isConnecting = false {
+    didSet {
+      connectionProgressBar.setProgress(0, animated: false)
+      connectionProgressBar.isHidden = !isConnecting
+      if isConnecting {
+        connectionProgressBar.setProgress(0.95, animated: true)
+      }
+      skipButton?.isEnabled = !isConnecting
+      log("didSet isConnecting", isConnecting)
+    }
+  }
   private var reader: LanConfigReader = LanConfigReader()
   private var configSub: AnyCancellable?
+  @IBOutlet weak var connectionProgressBar: UIProgressView!
   
   @IBAction func manualConnectAction(_ sender: UIBarButtonItem) {
     log("Manual")
     autoConnect = false
     showInputDialog()
+    stopScanner()
   }
   
   @IBAction func skipConnectAction(_ sender: UIBarButtonItem) {
     log("Skip")
-    doCompletion()
+    doConnectionCompletion()
   }
   
+  @IBOutlet weak var skipButton: UIBarButtonItem!
   @IBOutlet weak var searchLabel: UILabel!
   @IBOutlet weak var failedToConnectLabel: UILabel!
   @IBOutlet weak var goToSettingsButton: UIButton!
@@ -36,7 +53,9 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   @IBAction func toSettings(_ sender: UIButton) {
     log("to Settings")
     DispatchQueue.main.async {
-      if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+      let wifiURL = URL(string:"App-Prefs:root=WIFI")
+      let appURL = URL(string: UIApplication.openSettingsURLString)
+      if let settingsURL = wifiURL ?? appURL {
         UIApplication.shared.open(settingsURL)
       }
     }
@@ -50,9 +69,10 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   func onCloseManual(_ auto: Bool = true) -> Void {
     autoConnect = auto
-    if autoConnect, let auto = reader.config {
-      applyConfig(auto)
+    if autoConnect, let manConfig = reader.config {
+      applyConfig(manConfig)
     }
+    startScanner()
   }
   
   func showInputDialog() {
@@ -112,7 +132,7 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
     reader.startReader()
     withDelay({
       self.searchLabel.isHidden = false;
-    }, 1.5)
+    }, NOTIFY_TIMEOUT)
     setWaitTimeout()
   }
   
@@ -120,13 +140,18 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
     log("Stop scanner")
     toggleFailedCase(false)
     spinner.stopAnimating()
+    waitConnectTimer?.invalidate()
     reader.stopReader()
   }
   
-  func doCompletion() {
-    log ("doCompletion")
+  func doConnectionCompletion() {
+    log ("doConnectionCompletion")
     stopScanner()
     successAction()
+  }
+  
+  func doConnectionRejection() {
+    isConnecting = false
   }
   
   private var successAction: () -> Void = {
@@ -147,7 +172,7 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
     waitConnectTimer?.invalidate()
     waitConnectTimer = withDelay({
       self.toggleFailedCase(true)
-    }, 10)
+    }, WAIT_TIMEOUT)
   }
   
   func setConfigSubscription() -> Void {
@@ -157,18 +182,26 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
         log("$config.on(change nil")
         return
       }
+      guard self.autoConnect else {
+        log("autoConnect if off")
+        return
+      }
       self.applyConfig(lan)
     })
   }
   
   func applyConfig(_ lan: LanConfig) -> Void {
-    log("applyConfig")
+    log("applyConfig", lan)
+    guard !isConnecting else {
+      log("applyConfig guard !isConnecting: exit", lan)
+      return
+    }
+    isConnecting = true
     let connectionProcessor = ConnectionProcessor(controller: self)
     DispatchQueue.main.async {
       log("applyConfig: DispatchQueue.main.async")
       let remote = RemoteAddress(ssid: "", ip: lan.ip, code: lan.code)
       connectionProcessor.connectServer(to: remote)
-      
     }
   }
   

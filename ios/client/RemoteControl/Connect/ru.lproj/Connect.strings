@@ -1,6 +1,16 @@
 
-/* Class = "UILabel"; text = "Connection message"; ObjectID = "10P-Ts-tf1"; */
-"10P-Ts-tf1.text" = "Для подключения, необходимо считать QR-код с телеэкрана";
+/* Class = "UILabel"; text = "Failed to Auto-connect to Sm02 please check your network connection"; ObjectID = "2oV-fH-BLy"; */
+"2oV-fH-BLy.text" = "Не удалось подключиться к Sm02
+Проверьте подключение к сети";
 
-/* Class = "UIButton"; normalTitle = "Skip"; ObjectID = "uoc-8G-Nt4"; */
-"uoc-8G-Nt4.normalTitle" = "Пропустить";
+/* Class = "UIBarButtonItem"; title = "Manual"; ObjectID = "WG6-K3-YCD"; */
+"WG6-K3-YCD.title" = "Manual";
+
+/* Class = "UIBarButtonItem"; title = "Skip"; ObjectID = "c0I-XA-vKg"; */
+"c0I-XA-vKg.title" = "Skip";
+
+/* Class = "UILabel"; text = "Searching for Sm02"; ObjectID = "dzn-dq-53K"; */
+"dzn-dq-53K.text" = "Ожидание сигнала от Sm02...";
+
+/* Class = "UIButton"; normalTitle = "Go to Settings"; ObjectID = "uma-yX-2zc"; */
+"uma-yX-2zc.normalTitle" = "Настройки";

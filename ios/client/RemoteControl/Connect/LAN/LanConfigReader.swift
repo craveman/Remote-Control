@@ -24,7 +24,6 @@ class LanConfigReader: ObservableObject {
     }
     rs.lookup.start()
     lookupTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(1 / checksPerSec), repeats: true) {timer in
-//      print("LanConfigReader::lookupTimer body")
       self.Sm02ConnectionConfigCheck()
     }
   }
@@ -37,15 +36,11 @@ class LanConfigReader: ObservableObject {
   }
 
   private func Sm02ConnectionConfigCheck() {
-    print(rs.lookup.remoteAddresses)
+
     guard let option = rs.lookup.remoteAddresses.last else {
       if (config != nil) {
         config = nil
       }
-
-//      if (Int.random(in: 0..<100) > 95) {
-//        config = LanConfig(ip: "192.168.0.101", code: [0,0,0,0,0])
-//      }
 
       return
     }
