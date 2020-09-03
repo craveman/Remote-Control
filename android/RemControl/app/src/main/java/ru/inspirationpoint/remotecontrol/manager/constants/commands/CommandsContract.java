@@ -54,6 +54,11 @@ public interface CommandsContract {
     byte RESPONSE_CMD = (byte) 0xAA;
 
     byte SET_BLUETOOTH_MODE = (byte) 0xB0;
+    byte SWITCH_LANG = (byte) 0xB1;
+    byte SWITCH_AUTOINC = (byte) 0xB2;
+    byte SET_PISTE_NUM = (byte) 0xB3;
+    byte ADD_OPT_REQUEST = (byte) 0xBA;
+    byte ADD_OPT_RESPONSE = (byte) 0xBB;
 
     byte PING_IN = (byte) 0xF1;
     byte PING_OUT = (byte) 0xF2;

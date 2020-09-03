@@ -215,6 +215,15 @@
             android:visibility="@{viewModel.screenState == viewModel.SCREEN_STATE_PROTOCOL ? v.VISIBLE:v.GONE }"
             />
 
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/incl_additional_lay"
+            android:id="@+id/additional_lay"
+            app:viewModel="@{viewModel}"
+            android:visibility="@{viewModel.screenState == viewModel.SCREEN_STATE_ADDITIONAL ? v.VISIBLE:v.GONE }"
+            />
+
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

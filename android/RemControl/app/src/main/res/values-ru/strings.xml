@@ -242,7 +242,7 @@
     <string name="connection_lost_title">Соединение прервано!</string>
     <string name="connection_lost_out_fight">Необходимо заново произвести синхронизацию</string>
     <string name="connection_lost_message">Соединение потеряно, пожалуйста, восстановите соединение</string>
-    <string name="off">Выключить</string>
+    <string name="off">Выкл.</string>
     <string name="mode_camera">Записать видео</string>
     <string name="select_video_resolution">Выберите разрешение видео</string>
     <string name="sync_wait">   Ожидание синхронизации…   </string>
@@ -381,5 +381,10 @@
     <string name="show_video_target">Показывать видео на повторителе</string>
     <string name="gps_off_title">Определение местоположения выключено!</string>
     <string name="gps_off_message">Включите определение местоположения в настройках для продолжения работы</string>
+    <string name="opt_additional">Дополнительно</string>
+    <string name="add_autoinc">Автоинкремент счета (шпага):</string>
+    <string name="add_piste_num">Номер дорожки</string>
+    <string name="add_lang_switch">Переключить язык SM</string>
+    <string name="on">Вкл.</string>
 
 </resources>

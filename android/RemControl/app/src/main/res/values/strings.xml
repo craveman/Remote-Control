@@ -381,5 +381,10 @@ Do you connected to necessary network, displayed on SM?
     <string name="show_video_target">Show video on repeater</string>
     <string name="gps_off_title">Location is off!</string>
     <string name="gps_off_message">Please enable location detection to continue.</string>
+    <string name="opt_additional">Additional</string>
+    <string name="add_autoinc">Automatic score increment (Epee):</string>
+    <string name="add_piste_num">Piste number</string>
+    <string name="add_lang_switch">Switch SM language</string>
+    <string name="on">On</string>
 
 </resources>

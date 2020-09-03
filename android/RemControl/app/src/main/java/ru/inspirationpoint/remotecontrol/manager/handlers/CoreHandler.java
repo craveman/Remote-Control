@@ -445,22 +445,22 @@ public class CoreHandler implements TCPHelper.TCPListener {
     }
 
     public void showInLog(String text) {
-        if (activity != null) {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ((FightActivity) activity).getBinding().syncLay.tvLog.setMovementMethod(new ScrollingMovementMethod());
-                    final Layout layout = ((FightActivity) activity).getBinding().syncLay.tvLog.getLayout();
-                    if (layout != null) {
-                        int scrollDelta = layout.getLineBottom(((FightActivity) activity).getBinding().syncLay.tvLog.getLineCount() - 1)
-                                - ((FightActivity) activity).getBinding().syncLay.tvLog.getScrollY() - ((FightActivity) activity).getBinding().syncLay.tvLog.getHeight();
-                        if (scrollDelta > 0)
-                            ((FightActivity) activity).getBinding().syncLay.tvLog.scrollBy(0, scrollDelta);
-                    }
-//                Log.wtf("LOG", activity.get().getViewModel().logTextTemp.get());
-                }
-            });
-            ((FightActivity) activity).getViewModel().logTextTemp.set(((FightActivity) activity).getViewModel().logTextTemp.get() + "\n " + text);
-        }
+//        if (activity != null) {
+//            activity.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    ((FightActivity) activity).getBinding().syncLay.tvLog.setMovementMethod(new ScrollingMovementMethod());
+//                    final Layout layout = ((FightActivity) activity).getBinding().syncLay.tvLog.getLayout();
+//                    if (layout != null) {
+//                        int scrollDelta = layout.getLineBottom(((FightActivity) activity).getBinding().syncLay.tvLog.getLineCount() - 1)
+//                                - ((FightActivity) activity).getBinding().syncLay.tvLog.getScrollY() - ((FightActivity) activity).getBinding().syncLay.tvLog.getHeight();
+//                        if (scrollDelta > 0)
+//                            ((FightActivity) activity).getBinding().syncLay.tvLog.scrollBy(0, scrollDelta);
+//                    }
+////                Log.wtf("LOG", activity.get().getViewModel().logTextTemp.get());
+//                }
+//            });
+//            ((FightActivity) activity).getViewModel().logTextTemp.set(((FightActivity) activity).getViewModel().logTextTemp.get() + "\n " + text);
+//        }
     }
 }

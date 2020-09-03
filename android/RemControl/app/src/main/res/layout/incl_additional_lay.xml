@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark">
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_title_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".015" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_title_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".07" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_divider_1_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".085" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_item1_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".10" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_item1_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".19" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_item1_text_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".105" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_item1_text_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".14" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_item1_curr_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".14" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_item1_curr_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".185" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_divider_2_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".205" />
+
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_item2_text_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".22" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_item2_text_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".26" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_item2_curr_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".265" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_item2_curr_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".33" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_divider_3_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".345" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_item3_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".36" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_item3_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".45" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_item3_text_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".375" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_item3_text_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".435" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_divider_4_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".45" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_divider_ok_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".87" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_ok_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".89" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/adds_ok_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".97" />
+
+        <TextView
+            android:id="@+id/options_title"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:text="@string/opt_additional"
+            android:textAlignment="center"
+            android:textColor="@color/textColorSecondary"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@id/adds_title_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/adds_title_top" />
+
+        <View
+            android:id="@+id/options_divider_1"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="@id/adds_divider_1_top" />
+
+        <TextView
+            android:id="@+id/adds_autoinc"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:text="@string/add_autoinc"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@id/adds_item1_text_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/adds_item1_text_top" />
+
+        <TextView
+            android:id="@+id/adds_autoinc_curr"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:text="@{viewModel.isAutoIncOn ? @string/on : @string/off}"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@id/adds_item1_curr_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/adds_item1_curr_top" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:id="@+id/opt_names_btn"
+            android:onClick="@{() -> viewModel.onAutoIncSwitch()}"
+            app:layout_constraintTop_toTopOf="@id/adds_item1_top"
+            app:layout_constraintBottom_toBottomOf="@id/adds_item1_bottom"/>
+
+        <View
+            android:id="@+id/options_divider_2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="@id/adds_divider_2_top" />
+
+        <TextView
+            android:id="@+id/adds_piste_name_text"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:text="@string/add_piste_num"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@id/adds_item2_text_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/adds_item2_text_top" />
+
+        <EditText
+            android:id="@+id/add_piste_num_edit"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textColor="@color/white"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:backgroundTint="@color/white"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            android:text="@={viewModel.pisteNum}"
+            android:maxLength="6"
+            android:imeOptions="flagNoExtractUi|actionDone"
+            android:inputType="textCapSentences"
+            app:layout_constraintTop_toTopOf="@id/adds_item2_curr_top"
+            app:layout_constraintBottom_toBottomOf="@id/adds_item2_curr_bottom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/add_piste_check"/>
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_piste_check"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="6dp"
+            android:text="@string/show"
+            android:textColor="@color/white"
+            android:shadowColor="@color/white"
+            android:checked="@={viewModel.isPisteNumOn}"
+            android:onClick="@{() -> viewModel.onPisteNumSet()}"
+            app:layout_constraintTop_toTopOf="@id/adds_item2_curr_top"
+            app:layout_constraintBottom_toBottomOf="@id/adds_item2_curr_bottom"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/options_divider_3"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="@id/adds_divider_3_top" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/add_lang_switch"
+            android:textColor="@color/white"
+            android:id="@+id/options_reset"
+            android:textAlignment="center"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintTop_toTopOf="@id/adds_item3_text_top"
+            app:layout_constraintBottom_toBottomOf="@id/adds_item3_text_bottom"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:id="@+id/opt_lang_btn"
+            android:onClick="@{() -> viewModel.onLangSwitch()}"
+            app:layout_constraintTop_toTopOf="@id/adds_item3_top"
+            app:layout_constraintBottom_toBottomOf="@id/adds_item3_bottom"/>
+
+        <View
+            android:id="@+id/options_divider_4"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="@id/adds_divider_4_top" />
+
+        <View
+            android:id="@+id/adds_divider_ok"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toTopOf="@id/adds_divider_ok_top" />
+
+        <TextView
+            android:id="@+id/adds_ok"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:onClick="@{() -> viewModel.onCloseBtn()}"
+            android:text="@string/ok"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@id/adds_ok_bottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/adds_ok_top" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>
