@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-let NAME_LENGTH_LIMIT = 30
+let NAME_LENGTH_LIMIT = 160
 
 struct NamesSettingsButtonSwiftUIView: View {
   @State var showModal = false
@@ -17,7 +17,12 @@ struct NamesSettingsButtonSwiftUIView: View {
       self.showModal.toggle()
     }) {
       VStack {
-        primaryColor(dinFont(Text("John..."), 36)).fixedSize().padding(.top, 14)
+        ZStack {
+          Image(systemName: "person").resizable().offset(x: -16, y: 0)
+          Image(systemName: "person.fill").resizable().offset(x: 16, y: 0)
+          //                Image(systemName: "play.fill")
+        }.frame(width: 36, height: 36).foregroundColor(primaryColor).padding(.top, 14)
+        //        primaryColor(dinFont(Text("John..."), 36)).fixedSize().padding(.top, 14)
         primaryColor(dinFont(Text("names")))
       }
       
@@ -25,7 +30,9 @@ struct NamesSettingsButtonSwiftUIView: View {
     }.foregroundColor(primaryColor)
       .frame(width: width / 2, height: mediumHeightOfButton())
       .border(Color.gray, width: 0.5)
-      .sheet(isPresented: self.$showModal) {
+      .sheet(isPresented: self.$showModal, onDismiss: {
+        
+      }) {
         NamesSettingsSwiftUIView()
           .background(UIGlobals.modalSheetBackground)
     }
@@ -42,10 +49,11 @@ class NameBindingManager: ObservableObject {
     didSet {
       if text.count > characterLimit && oldValue.count <= characterLimit {
         text = oldValue
+        Vibration.warning()
       }
       setter(text)
       if(text != oldValue) {
-        Vibration.impact()
+        Vibration.notification()
       }
       
     }
@@ -72,7 +80,7 @@ struct NamesSettingsSwiftUIView: View {
           VStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
               HStack(spacing: 0) {
-                dinFont(Text("Left player"),  UIGlobals.appDefaultFontSize)
+                dinFont(Text("Left fencer"),  UIGlobals.appDefaultFontSize)
                 Spacer()
                 if self.leftName.text.count * 2 > NAME_LENGTH_LIMIT {
                   dinFont(Text("\(self.leftName.text.count) / \(NAME_LENGTH_LIMIT)"),  UIGlobals.appDefaultFontSize)
@@ -84,12 +92,12 @@ struct NamesSettingsSwiftUIView: View {
                 
               }.font(.largeTitle)
                 .background(primaryColor.opacity(0.05))
-                .accessibility(label: Text("Left player"))
+                .accessibility(label: Text("Left fencer"))
             }.padding()
             Divider()
             VStack(alignment: .leading, spacing: 0) {
               HStack(spacing: 0) {
-                dinFont(Text("Right player"), UIGlobals.appDefaultFontSize)
+                dinFont(Text("Right fencer"), UIGlobals.appDefaultFontSize)
                 Spacer()
                 if self.rightName.text.count * 2 > NAME_LENGTH_LIMIT {
                   dinFont(Text("\(self.rightName.text.count) / \(NAME_LENGTH_LIMIT)"),  UIGlobals.appDefaultFontSize)
@@ -99,7 +107,7 @@ struct NamesSettingsSwiftUIView: View {
                 self.endEditing()
               }.font(.largeTitle)
                 .background(primaryColor.opacity(0.05))
-                .accessibility(label: Text("Right player"))
+                .accessibility(label: Text("Right fencer"))
             }.padding()
             Spacer()
           }
@@ -112,6 +120,8 @@ struct NamesSettingsSwiftUIView: View {
       HStack {
         ConfirmModalButton(action: {
           self.presentationMode.wrappedValue.dismiss()
+          rs.persons.confirmNames()
+          rs.video.replay.clear()
         }, color: .green)
       }.padding([.vertical]).frame(width: width)
       

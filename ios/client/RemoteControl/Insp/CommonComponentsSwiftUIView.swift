@@ -102,6 +102,7 @@ struct CommonModalButton<Content>: View where Content: View {
 
 struct ConfirmModalButton: View {
   var vibrate = true
+  var haptic = true
   var action: () -> Void = {}
   var text = "done"
   var color = primaryColor
@@ -112,6 +113,8 @@ struct ConfirmModalButton: View {
       self.action()
       if self.vibrate {
         Vibration.on()
+      } else if self.haptic {
+        Vibration.notification()
       }
     }) {
       VStack{
@@ -151,15 +154,27 @@ struct CommonFloatSlider: View {
   var formatter: (_ value: Double) -> String = {value in
     return "\(Int(value))"
   }
+  var onComplete: () -> Void = {}
   var body: some View {
     VStack {
-      HStack {
-        primaryColor(dinFont(Text("\(formatter(minimumValue))")))
-        Slider(value: $sliderValue, in: minimumValue...maximumvalue)
-        primaryColor(dinFont(Text("\(formatter(maximumvalue))")))
-      }.padding()
+      HStack(spacing: 0) {
+        primaryColor(dinFont(Text("\(formatter(minimumValue))"))).frame(width: width / 6)
+        Group() {
+          Slider(value: $sliderValue, in: minimumValue...maximumvalue, onEditingChanged: { changing in
+          if !changing {
+            self.onComplete()
+          }
+          })
+          .accentColor(Color.gray)
+            .shadow(radius: 0)
+          .frame(width: width / 3)
+          .scaleEffect(2, anchor: .center)
+        }.frame(width: 2 * width / 3)
+        
+        primaryColor(dinFont(Text("\(formatter(maximumvalue))"))).frame(width: width / 6)
+        }.frame(width: width).padding(.vertical)
       primaryColor(dinFont(Text("\(formatter(sliderValue))")))
-    }
+      }
   }
 }
 
@@ -293,6 +308,14 @@ struct CommonButtonsSwiftUIView2_Previews: PreviewProvider {
 
 // .actionSheet(isPresented: self.$showModal) {
 //          ActionSheet(title: "Action")
+
+struct CommonSliderSwiftUIView2_Previews: PreviewProvider {
+  @State static var value = 37.1;
+  static var previews: some View {
+    CommonFloatSlider(sliderValue: $value)
+  }
+}
+
 fileprivate var testActionSheet = ActionSheet(title: Text("Action title"), message: Text("Some message"),
                                               buttons: [
                                                 ActionSheet.Button.cancel({print("cancel")}),

@@ -3,7 +3,7 @@
 //  RemoteControl
 //
 //  Created by Artem Labazin on 14.11.2019.
-//  Copyright © 2019 Sergei Andreev. All rights reserved.
+//  Copyright © 2019 Artem Labazin, Sergei Andreev. All rights reserved.
 //
 
 import struct Foundation.UUID
@@ -35,6 +35,11 @@ import struct NIO.TimeAmount
 @_exported import enum Sm02Client.AuthenticationStatus
 @_exported import enum Sm02Client.Inbound
 @_exported import enum Sm02Client.Outbound
+
+
+fileprivate func log(_ items: Any...) {
+  print("RemoteService:log: ", items)
+}
 
 final class RemoteService {
   
@@ -174,6 +179,11 @@ final class RemoteService {
       Sm02.send(message: outbound)
     }
     
+    func confirmNames () {
+      let outbound = Outbound.confirmNames
+      Sm02.send(message: outbound)
+    }
+    
     final class Person {
       
       fileprivate static var priorityType: PersonType = .none
@@ -236,6 +246,12 @@ final class RemoteService {
     var name = ""
     
     @Published
+    var cyranoWorks = false
+    
+    @Published
+    var cameraIsOnline = false
+    
+    @Published
     var weapon: Weapon = .none
     
     @Published
@@ -258,6 +274,13 @@ final class RemoteService {
           return
         }
         self.weapon = weapon
+      })
+      Sm02.on(message: { [unowned self] (inbound) in
+        guard case let .additionalState(camera, cyrano) = inbound else {
+          return
+        }
+        self.cameraIsOnline = camera
+        self.cyranoWorks = cyrano
       })
       Sm02.on(message: { [unowned self] (inbound) in
         guard case let .fightResult(result) = inbound else {
@@ -350,9 +373,9 @@ final class RemoteService {
         switch inbound {
         case .pauseFinished:
           self.isPauseFinished = true
-          print("pauseFinished: \(self.isPauseFinished)")
+          log("pauseFinished: \(self.isPauseFinished)")
         case let .broadcast(_, _, _, timer, timerState):
-          print("\(timer), \(timerState)")
+          log("\(timer), \(timerState)")
           if self.time != timer {
             self.time = timer
           }
@@ -360,11 +383,11 @@ final class RemoteService {
             if self.raceConditionLock {
               return
             }
-            print("toggle state")
+            log("toggle state")
             self.state = timerState
             if self.state == .running && (self.mode == .medicine || self.mode == .pause) && self.isPauseFinished {
               self.isPauseFinished = false
-              print("pauseFinished set: \(self.isPauseFinished)")
+              log("pauseFinished set: \(self.isPauseFinished)")
             }
           }
         default:
@@ -416,7 +439,7 @@ final class RemoteService {
       var isBlocked = false {
         didSet {
           if (isBlocked) {
-            Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {_ in
+            Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {[unowned self] _ in
               self.isBlocked = false
             }
           }
@@ -437,7 +460,7 @@ final class RemoteService {
           switch inbound {
           case .passiveMax:
             self.isMaxTimerReached = true
-            Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {_ in
+            Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {[unowned self] _ in
               self.isMaxTimerReached = false
             }
           default:
@@ -490,6 +513,15 @@ final class RemoteService {
     @Published
     var recordMode: RecordMode = .stop
     
+    func cut() -> Void {
+      let outbound = Outbound.record(recordMode: .pause)
+      Sm02.send(message: outbound)
+//
+//      withDelay({
+//        self.replay.doVideoReady()
+//      })
+    }
+    
     @Published
     var routes: [Camera] = []
     
@@ -512,12 +544,16 @@ final class RemoteService {
     func upload (to fileName: String) {
       let outbound = Outbound.loadFile(name: fileName)
       Sm02.send(message: outbound)
+//      
+//      withDelay({
+//        self.replay.doReceived()
+//      })
     }
     
     final class VideoPlayerManagement {
       
       @Published
-      var speed: UInt8 = 0
+      var speed: UInt8 = 10
       
       @Published
       private(set) var mode: RecordMode = .stop
@@ -526,15 +562,22 @@ final class RemoteService {
       private(set) var timestamp: UInt32 = 0
       
       fileprivate var subs: [AnyCancellable] = []
+      private var comboLock = false
       
       fileprivate init () {
         let temp = [
           $speed.on(change: { [unowned self] update in
-            let outbound = Outbound.player(speed: update, recordMode: self.mode, timestamp: 0)
+            guard !self.comboLock else {
+              return
+            }
+            let outbound = Outbound.player(speed: update, recordMode: self.mode, timestamp: self.timestamp)
             Sm02.send(message: outbound)
           }),
           $mode.on(change: { [unowned self] update in
-            let outbound = Outbound.player(speed: self.speed, recordMode: update, timestamp: 0)
+            guard !self.comboLock else {
+              return
+            }
+            let outbound = Outbound.player(speed: self.speed, recordMode: update, timestamp: self.timestamp)
             Sm02.send(message: outbound)
           })
         ]
@@ -556,11 +599,30 @@ final class RemoteService {
       }
       
       func pause () {
+        let temp = timestamp
+        timestamp = 101
         mode = .pause
+        Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {[unowned self] _ in
+          self.timestamp = temp
+        }
+      }
+      
+      func standBy() {
+        comboLock = true
+        mode = .pause
+        speed = 10
+        goto(0)
+        Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {[unowned self] _ in
+          self.comboLock = false
+        }
       }
     }
     
     final class VideoReplayManagement {
+      
+      fileprivate func doReceived() {
+        isReceived = true
+      }
       
       public static var MAX_COUNTER: UInt8 = 2
       public static var DEFAULT_INIT_COUNTER: UInt8 = MAX_COUNTER
@@ -574,23 +636,45 @@ final class RemoteService {
       @Published
       private(set) var isReady = false
       
+//      @Published
+      private(set) var recordsList: [String] = []
+      
       @Published
       private(set) var isReceived = false
       
       fileprivate var subs: [AnyCancellable] = []
-      
+      private var counter = 0
       fileprivate init () {
         Sm02.on(message: { [unowned self] (inbound) in
-          guard case .videoReady(_) = inbound else {
+          guard case let .videoReady(name) = inbound else {
             return
           }
           self.isReady = true
+          self.recordsList.append(name)
         })
         Sm02.on(message: { [unowned self] (inbound) in
           guard case .videoReceived = inbound else {
             return
           }
           self.isReceived = true
+          
+          Timer.scheduledTimer(withTimeInterval: RemoteService.SYNC_INTERVAL, repeats: false) {[unowned self] _ in
+            self.isReceived = false
+          }
+        })
+        Sm02.on(message: { [unowned self] (inbound) in
+          guard case let .videoList(list) = inbound else {
+            return
+          }
+          self.recordsList.removeAll()
+          guard let names = list else {
+            log("Failed to parse list name Inbound (.videoList)")
+            self.isReady = false
+            return
+          }
+          
+          self.recordsList.append(contentsOf: names)
+          self.isReady = names.count > 0
         })
         let temp = [
           $leftCounter.on(change: { [unowned self] (update) in
@@ -604,6 +688,28 @@ final class RemoteService {
         ]
         self.subs = temp
       }
+      
+      fileprivate func doVideoReady() {
+        self.counter += 1
+        self.isReady = true
+        self.recordsList.append("\(self.counter)")
+      }
+      
+      func stopLoading() -> Void {
+        if (!isReceived) {
+          Sm02.send(message: .stopReplayLoading)
+        }
+      }
+      
+      func clear() -> Void {
+        self.recordsList.removeAll()
+      }
+      
+      func refresh() -> Void {
+        Sm02.send(message: .videoListRequest)
+      }
+      
+      // TODO: add refresh of recordsList
     }
   }
   

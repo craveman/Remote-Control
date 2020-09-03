@@ -1,3 +1,4 @@
+import class NIO.EventLoopFuture
 
 class Sm02DummyClient: Sm02Client {
 
@@ -7,8 +8,9 @@ class Sm02DummyClient: Sm02Client {
     return nil
   }
 
-  func send (message: Outbound) {
+  func send (message: Outbound) -> EventLoopFuture<Void>? {
     // noop
+    return nil
   }
 
   func close () {

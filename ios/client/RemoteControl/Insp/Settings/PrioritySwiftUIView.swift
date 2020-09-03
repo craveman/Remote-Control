@@ -89,7 +89,7 @@ struct PrioritySwiftUIView: View {
       .opacity(self.hasPriority ? 1.0 : 0.0)
        Divider()
       HStack {
-        ConfirmModalButton(action: {
+        ConfirmModalButton(vibrate: false, action: {
           self.insp.fightSwitchActiveTab = 0
           self.insp.tab = 1
           self.presentationMode.wrappedValue.dismiss()

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct SettingsSwiftUIView: View {
   @EnvironmentObject var insp: InspSettings
+  @EnvironmentObject var playback: PlaybackControls
   var body: some View {
     VStack(spacing: 0) {
       HStack(spacing: 0) {
@@ -24,13 +25,15 @@ struct SettingsSwiftUIView: View {
       HStack(spacing: 0) {
         PriorityButtonSwiftUIView()
         VideoReplaysButtonSwiftUIView()
+          .environmentObject(insp)
+          .environmentObject(playback)
       }
       HStack(spacing: 0) {
         NamesSettingsButtonSwiftUIView()
         WeaponsButtonSwiftUIView()
       }
       ScoreButtonSwiftUIView()
-    }.frame(minWidth: width, idealWidth: width, maxWidth: width, minHeight: getSubScreenHeight(), idealHeight: height, maxHeight: .infinity, alignment: .top)
+    }.frame(width: width, alignment: .top)
   }
 }
 
@@ -39,5 +42,6 @@ struct SettingsSwiftUIView_Previews: PreviewProvider {
     SettingsSwiftUIView()
       .environmentObject(InspSettings())
     .environmentObject(FightSettings())
+    .environmentObject(PlaybackControls())
   }
 }

@@ -14,10 +14,10 @@ fileprivate struct TimersSetters: View {
     HStack(spacing: 0) {
       SetPassiveButtonSwiftUIView(onDismiss: {
 //        self.settings.fightSwitchActiveTab = 0
-      })
+      }).environmentObject(settings)
       SetTimeButtonSwiftUIView(onDismiss: {
 //        self.settings.fightSwitchActiveTab = 0
-      })
+        }).environmentObject(settings)
     }
   }
 }
@@ -44,5 +44,7 @@ struct TimersSwiftUIView: View {
 struct TimersSwiftUIView_Previews: PreviewProvider {
   static var previews: some View {
     TimersSwiftUIView()
+      .environmentObject(FightSettings())
+    .environmentObject(InspSettings())
   }
 }

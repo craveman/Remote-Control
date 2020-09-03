@@ -41,7 +41,9 @@ fileprivate struct PeriodSetter: View {
         
     }
     .frame(width: width)
-    .sheet(isPresented: self.$showModal, onDismiss: {}) {
+    .sheet(isPresented: self.$showModal, onDismiss: {
+//      self.settings.period = Int(rs.competition.period - 1)
+    }) {
       PeriodModalContent()
         .environmentObject(self.settings)
         .background(UIGlobals.modalSheetBackground)
@@ -54,29 +56,35 @@ fileprivate struct PeriodSetter: View {
 }
 
 fileprivate struct PeriodModalContent: View {
+  
   @EnvironmentObject var settings: FightSettings
   @Environment(\.presentationMode) var presentationMode
+  @State var nextLocked = false
+  @State var period = max(Int(rs.competition.period) - 1, 0)
   
   var body: some View {
     VStack(spacing: 0) {
       CommonModalHeader(title: "Period")
       Spacer()
-      CommonPicker(selected: self.$settings.period, options: Array(1...maxPeriod).map({"\($0)"})).frame(width: width/100*80)
+      CommonPicker(selected: $period, options: Array(1...maxPeriod).map({"\($0)"})).frame(width: width/100*80)
       Spacer()
       VStack(spacing: 0) {
         Divider()
         Button(action: {
-          self.settings.period += 1
+          self.settings.setPeriod(self.period + 1)
+          self.period += 1
           Vibration.on()
         }) {
           primaryColor(dinFont(Text("next period"))).padding()
         }
           .frame(width: width)
-          .disabled(self.settings.period >= maxPeriod - 1)
-      }.opacity(self.settings.period < maxPeriod - 1 ? 1 : 0)
+          .disabled(period >= maxPeriod - 1)
+      }.opacity(period < maxPeriod - 1 ? 1 : 0)
       Divider()
       HStack(spacing: 0) {
-        ConfirmModalButton(action: {
+        ConfirmModalButton(vibrate: false, action: {
+          self.settings.setPeriod(self.period)
+          Vibration.on()
           self.presentationMode.wrappedValue.dismiss()
         }, text: "done", color: .green)
       }

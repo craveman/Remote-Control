@@ -42,8 +42,10 @@ struct PauseSetters: View {
   func pauseDismissAction() -> Void {
     unsubscribeFinish()
     self.dismiss()
+    log("pause dissmised")
     if (self.settings.period + 1 < INSPIRATION_MAX_PERIOD) {
-      self.settings.period += 1
+      log("period bump")
+      self.settings.setPeriod(self.settings.period + 1)
     }
   }
   
@@ -178,5 +180,17 @@ struct PauseModalContentUIView: View {
         }, color: .green)
       }.padding([.vertical]).frame(width: width)
     }
+  }
+}
+
+struct PauseSettersSwiftUIView_Previews: PreviewProvider {
+  static var previews: some View {
+    PauseModalContentUIView(time: .constant(UInt32(180)))
+  }
+}
+
+struct MedPauseSettersSwiftUIView_Previews: PreviewProvider {
+  static var previews: some View {
+    MedicalPauseModalContentUIView(time: .constant(UInt32(180)))
   }
 }
