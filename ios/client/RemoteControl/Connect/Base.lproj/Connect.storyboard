@@ -58,7 +58,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="P8n-EH-csV"/>
                                     <barButtonItem title="Skip" image="forward" catalog="system" id="c0I-XA-vKg">
                                         <connections>
-                                            <action selector="skipButton:" destination="nOr-SJ-XJb" id="BXv-FY-tE1"/>
+                                            <action selector="skipConnectAction:" destination="nOr-SJ-XJb" id="aMi-Qe-FMo"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>

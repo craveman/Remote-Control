@@ -55,7 +55,7 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
     DispatchQueue.main.async {
       let wifiURL = URL(string:"App-Prefs:root=WIFI")
       let appURL = URL(string: UIApplication.openSettingsURLString)
-      if let settingsURL = wifiURL ?? appURL {
+      if let settingsURL = UIApplication.shared.canOpenURL(wifiURL!) ? wifiURL : appURL {
         UIApplication.shared.open(settingsURL)
       }
     }
