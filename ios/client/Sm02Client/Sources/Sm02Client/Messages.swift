@@ -119,6 +119,7 @@ public struct FightState: Decodable {
   public enum CompetitionType: String, Decodable {
     case team = "T"
     case individual = "I"
+    case none = ""
   }
   public enum Status: String, Decodable {
     case fencing = "F"
@@ -126,6 +127,7 @@ public struct FightState: Decodable {
     case pause = "P"
     case waitin = "W"
     case ending = "E"
+    case none = ""
   }
   public enum Priority: Int, Decodable {
     case left = 1
@@ -139,12 +141,14 @@ public struct FightState: Decodable {
       case yellow = "CardStatus_Yellow"
       case red = "CardStatus_Red"
       case black = "CardStatus_Black"
+      case unknown = ""
     }
     public enum PassiveCardStatus: String, Decodable {
       case none = "CardPStatus_None"
       case yellow = "CardPStatus_Yellow"
       case red = "CardPStatus_Red"
       case black = "CardPStatus_Black"
+      case unknown = ""
     }
 
     public let matchCard: CardStatus
