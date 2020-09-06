@@ -116,6 +116,20 @@ public struct Camera {
 
 public struct FightState: Decodable {
 
+  public let ethernetCompetitionType: CompetitionType
+  public let ethernetLeftNation: String
+  public let ethernetMatchNumber: String
+  public let ethernetRightNation: String
+  public let ethernetStatus: Status
+  public let matchCurrentPeriod: Int
+  public let matchCurrentTime: Int64
+  // public let matchDate: Date
+  public let matchPriority: Priority
+  public let matchVideoLeft: Int
+  public let matchVideoRight: Int
+  public let matchLeftFighterData: FighterData
+  public let matchRightFighterData: FighterData
+
   public enum CompetitionType: String, Decodable {
     case team = "T"
     case individual = "I"
@@ -136,6 +150,16 @@ public struct FightState: Decodable {
   }
   public struct FighterData: Decodable {
 
+    public let matchCard: CardStatus
+    public let matchId: String
+    public let matchName: String
+    public let matchPassiveCard: PassiveCardStatus
+    public let matchScore: Int
+    public let redCardCount: Int
+    public let redPassiveCardCount: Int
+    public let yellowCardCount: Int
+    public let yellowPassiveCardCount: Int
+
     public enum CardStatus: String, Decodable {
       case none = "CardStatus_None"
       case yellow = "CardStatus_Yellow"
@@ -150,31 +174,7 @@ public struct FightState: Decodable {
       case black = "CardPStatus_Black"
       case unknown = ""
     }
-
-    public let matchCard: CardStatus
-    public let matchId: String
-    public let matchName: String
-    public let matchPassiveCard: PassiveCardStatus
-    public let matchScore: Int
-    public let redCardCount: Int
-    public let redPassiveCardCount: Int
-    public let yellowCardCount: Int
-    public let yellowPassiveCardCount: Int
   }
-
-  public let ethernetCompetitionType: CompetitionType
-  public let ethernetLeftNation: String
-  public let ethernetMatchNumber: String
-  public let ethernetRightNation: String
-  public let ethernetStatus: Status
-  public let matchCurrentPeriod: Int
-  public let matchCurrentTime: Int64
-  public let matchDate: Date
-  public let matchPriority: Priority
-  public let matchVideoLeft: Int
-  public let matchVideoRight: Int
-  public let matchLeftFighterData: FighterData
-  public let matchRightFighterData: FighterData
 }
 
 public enum Inbound {
