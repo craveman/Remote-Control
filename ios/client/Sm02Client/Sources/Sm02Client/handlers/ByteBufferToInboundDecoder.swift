@@ -172,6 +172,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
       print("ERROR: The 'setFightCommand' message doesn't have a JSON payload")
       return nil
     }
+    print("POPA: \(String(decoding: jsonData, as: UTF8.self))")
 
     let state = try! ByteBufferToInboundDecoder.jsonDecoder.decode(FightState.self, from: jsonData)
     return .setFightCommand(state: state)
