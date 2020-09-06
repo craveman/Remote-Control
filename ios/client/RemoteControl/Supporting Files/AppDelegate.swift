@@ -277,6 +277,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       }
       
       log("ping check")
+      return
       if (!self.pingMissed) {
         self.pingMissed = true
         return

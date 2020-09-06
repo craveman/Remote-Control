@@ -22,9 +22,17 @@ public enum InspirationRCTypes {
   case Video
 }
 
+public enum FightPhase: Int, Decodable {
+  case standby = 1
+  case active = 2
+  case ended = 3
+  case none = 0
+}
+
 class InspSettings: ObservableObject {
   @Published var isConnected: Bool = rs.connection.isAuthenticated && rs.connection.isConnected
-  
+  @Published var isEthernetMode: Bool = rs.competition.cyranoWorks
+  @Published var fightPhase: FightPhase = .none
   @Published var tab: Int = !rs.connection.isConnected ? 2 : 1
   @Published var fightSwitchActiveTab: Int = rs.timer.mode == .main ? 0 : 1
   

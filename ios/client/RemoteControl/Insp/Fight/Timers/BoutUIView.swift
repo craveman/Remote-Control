@@ -16,7 +16,35 @@ struct ResetBoutButton: View {
     CommonModalButton(imageName: "arrow.2.circlepath", imageColor: nil, buttonType: .special, text: "reset bout",
                       action: { Vibration.on() }, onDismiss: {},
                       border: Color.clear, showModal: $showModal) {
-      ResetBoutModalContentUIView().environmentObject(self.settings).environmentObject(self.insp)
+                        ResetBoutModalContentUIView().environmentObject(self.settings).environmentObject(self.insp)
+    }
+  }
+}
+
+
+struct EnthernetBoutButton: View {
+  @EnvironmentObject var settings: FightSettings
+  @EnvironmentObject var insp: InspSettings
+  @State var showModal = false
+  var body: some View {
+    CommonModalButton(imageName: "antenna.radiowaves.left.and.right", imageColor: nil, buttonType: .special, text: "bout",
+                      action: { Vibration.impact() }, onDismiss: {},
+                      border: Color.clear, showModal: $showModal) {
+                        EthernetBoutModalContentUIView().environmentObject(self.settings).environmentObject(self.insp)
+    }
+  }
+}
+
+struct BoutButton: View {
+  @EnvironmentObject var insp: InspSettings
+  
+  var body: some View {
+    VStack{
+      if (insp.isEthernetMode) {
+        EnthernetBoutButton()
+      } else {
+        ResetBoutButton()
+      }
     }
   }
 }
@@ -54,14 +82,33 @@ struct ResetBoutModalContentUIView: View {
   }
 }
 
+
 struct ResetBoutUIView: View {
   var body: some View {
     ResetBoutModalContentUIView()
   }
 }
 
+struct EthBoutUIView: View {
+  var body: some View {
+    EthernetBoutModalContentUIView()
+  }
+}
+
 struct ResetBoutUIView_Previews: PreviewProvider {
   static var previews: some View {
     ResetBoutUIView()
+  }
+}
+
+struct EthBoutUIView_Previews: PreviewProvider {
+  static var previews: some View {
+    EthBoutUIView()
+  }
+}
+
+struct EthBoutButtonView_Previews: PreviewProvider {
+  static var previews: some View {
+    EnthernetBoutButton()
   }
 }

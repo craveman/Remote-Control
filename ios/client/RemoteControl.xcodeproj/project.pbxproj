@@ -13,7 +13,7 @@
 		850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAE602322D78400DBFD93 /* UIGlobals.swift */; };
 		850AAEDE232723F400DBFD93 /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAEDD232723F400DBFD93 /* ConnectionsViewController.swift */; };
 		851AE9B12385F56B001BE3FB /* SwiftUITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B02385F56B001BE3FB /* SwiftUITools.swift */; };
-		851AE9B323874353001BE3FB /* ResetBoutUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B223874353001BE3FB /* ResetBoutUIView.swift */; };
+		851AE9B323874353001BE3FB /* BoutUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B223874353001BE3FB /* BoutUIView.swift */; };
 		851AE9B523874393001BE3FB /* CommonComponentsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B423874393001BE3FB /* CommonComponentsSwiftUIView.swift */; };
 		851AE9B723874465001BE3FB /* PauseSettersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */; };
 		851AE9B923875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B823875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift */; };
@@ -51,6 +51,7 @@
 		85D6E91F23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E91E23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift */; };
 		85D6E9212390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */; };
 		85D6E9252393049500CBE74D /* TestTimersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */; };
+		85ECCF4A2504E6B400F9CB95 /* EthernetBoutModalSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85ECCF492504E6B400F9CB95 /* EthernetBoutModalSwiftUIView.swift */; };
 		8F07A75123892F4800C7F783 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F07A75323892F4800C7F783 /* Localizable.strings */; };
 		8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6D773C237D2C530077B65D /* RemoteService.swift */; };
 		8FD7CB962392C030003DF83B /* Vibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD7CB952392C030003DF83B /* Vibration.swift */; };
@@ -94,7 +95,7 @@
 		850AAEB423271FDF00DBFD93 /* NIOConcurrencyHelpers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NIOConcurrencyHelpers.framework; path = "../../../../Library/Developer/Xcode/DerivedData/workspace-ggxzmdnwwomtqbeikrrxmfaogzqm/Build/Products/Debug-iphoneos/NIOConcurrencyHelpers.framework"; sourceTree = "<group>"; };
 		850AAEDD232723F400DBFD93 /* ConnectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewController.swift; sourceTree = "<group>"; };
 		851AE9B02385F56B001BE3FB /* SwiftUITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftUITools.swift; path = "RemoteControl/UI Helpers/SwiftUITools.swift"; sourceTree = "<group>"; };
-		851AE9B223874353001BE3FB /* ResetBoutUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetBoutUIView.swift; sourceTree = "<group>"; };
+		851AE9B223874353001BE3FB /* BoutUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoutUIView.swift; sourceTree = "<group>"; };
 		851AE9B423874393001BE3FB /* CommonComponentsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonComponentsSwiftUIView.swift; sourceTree = "<group>"; };
 		851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseSettersSwiftUIView.swift; sourceTree = "<group>"; };
 		851AE9B823875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalSeletorSwiftUIView.swift; sourceTree = "<group>"; };
@@ -137,6 +138,7 @@
 		85D6E91E23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimeButtonSwiftUIView.swift; sourceTree = "<group>"; };
 		85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPassiveButtonSwiftUIView.swift; sourceTree = "<group>"; };
 		85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTimersSwiftUIView.swift; sourceTree = "<group>"; };
+		85ECCF492504E6B400F9CB95 /* EthernetBoutModalSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthernetBoutModalSwiftUIView.swift; sourceTree = "<group>"; };
 		8F07A75223892F4800C7F783 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8F07A75523892FB000C7F783 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8F6D773C237D2C530077B65D /* RemoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
@@ -226,7 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				85B95705237E06C50063E32C /* TimersSwiftUIView.swift */,
-				851AE9B223874353001BE3FB /* ResetBoutUIView.swift */,
+				851AE9B223874353001BE3FB /* BoutUIView.swift */,
 				851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */,
 				85D6E91E23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift */,
 				85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */,
@@ -278,6 +280,7 @@
 				850AAEEC232AFC3A00DBFD93 /* Timers */,
 				85B95703237B608C0063E32C /* FightTabsSelectorsUIView.swift */,
 				85B95707237E07130063E32C /* FightSectionSwiftUIView.swift */,
+				85ECCF492504E6B400F9CB95 /* EthernetBoutModalSwiftUIView.swift */,
 			);
 			path = Fight;
 			sourceTree = "<group>";
@@ -512,7 +515,8 @@
 				85A2A02C24E89B9300DB6244 /* LanConfigReader.swift in Sources */,
 				85B661F7239327920016CE4F /* KeyboardGuardianSwiftUI.swift in Sources */,
 				85BD5AE02446499500215D82 /* NetworkReachability.swift in Sources */,
-				851AE9B323874353001BE3FB /* ResetBoutUIView.swift in Sources */,
+				851AE9B323874353001BE3FB /* BoutUIView.swift in Sources */,
+				85ECCF4A2504E6B400F9CB95 /* EthernetBoutModalSwiftUIView.swift in Sources */,
 				850AAE5F2322CF7100DBFD93 /* UITools.swift in Sources */,
 				851AE9B12385F56B001BE3FB /* SwiftUITools.swift in Sources */,
 				8504102024E86CA3002CF656 /* ConnectionControllerProtocol.swift in Sources */,

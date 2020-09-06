@@ -21,40 +21,42 @@ struct PauseSetters: View {
   private func dismiss () -> Void {
     log("dismiss")
     UIApplication.shared.isIdleTimerDisabled = false
-    self.settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
+    settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
     rs.timer.stop()
-    self.settings.savedTime = nil
     Vibration.on()
   }
   
   private func start (_ time: TimeAmount, _ mode: TimerMode) -> Void {
     log("start", time, mode)
     UIApplication.shared.isIdleTimerDisabled = true
-    self.settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
-    if rs.timer.mode == .main {
-      self.settings.savedTime = .milliseconds(Int64(rs.timer.time))
-      log("set savedTime", self.settings.savedTime!)
-    }
-    
+    settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER?.invalidate()
     rs.timer.pause(time, mode: mode)
   }
   
   func pauseDismissAction() -> Void {
     unsubscribeFinish()
-    self.dismiss()
+    dismiss()
     log("pause dissmised")
-    if (self.settings.period + 1 < INSPIRATION_MAX_PERIOD) {
+    if (settings.period + 1 < INSPIRATION_MAX_PERIOD) {
       log("period bump")
-      self.settings.setPeriod(self.settings.period + 1)
+      settings.setPeriod(settings.period + 1)
+    }
+  }
+  
+  func revertTime() {
+    if let time = self.settings.savedTime {
+      settings.PAUSE_DISSMISED_DEFERED_ACTION_TIMER = withDelay({
+        print("set savedTime", time)
+        rs.timer.set(time: time, mode: .main)
+        self.settings.savedTime = nil
+      }, RemoteService.SYNC_INTERVAL)
     }
   }
   
   func medicalDismissAction() -> Void {
     unsubscribeFinish()
-    let time = self.settings.savedTime ?? INSPIRATION_DEFAULT_FIGHT_TIME
-    print("set savedTime", time)
-    self.dismiss()
-    rs.timer.set(time: time, mode: .main)
+    dismiss()
+    revertTime()
   }
   
   func unsubscribeFinish() -> Void {
@@ -79,6 +81,10 @@ struct PauseSetters: View {
   }
   
   func medicalAction() {
+    if rs.timer.mode == .main {
+      self.settings.savedTime = .milliseconds(Int64(rs.timer.time))
+      log("set savedTime", self.settings.savedTime!)
+    }
     DispatchQueue.main.async {
       self.insp.shouldShowMedicalView = true
       self.start(INSPIRATION_MED_TIMOUT, .medicine)

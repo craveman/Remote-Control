@@ -53,9 +53,9 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   @IBAction func toSettings(_ sender: UIButton) {
     log("to Settings")
     DispatchQueue.main.async {
-      let wifiURL = URL(string:"App-Prefs:root=WIFI")
-      let appURL = URL(string: UIApplication.openSettingsURLString)
-      if let settingsURL = UIApplication.shared.canOpenURL(wifiURL!) ? wifiURL : appURL {
+      let wifiSettingsURL = URL(string:"App-Prefs:root=WIFI")
+      let appSettingsURL = URL(string: UIApplication.openSettingsURLString)
+      if let settingsURL = UIApplication.shared.canOpenURL(wifiSettingsURL!) ? wifiSettingsURL : appSettingsURL {
         UIApplication.shared.open(settingsURL)
       }
     }
@@ -148,10 +148,17 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
     log ("doConnectionCompletion")
     stopScanner()
     successAction()
+    withDelay({
+      self.isConnecting = false
+      self.connectionProgressBar.isHidden = true
+    })
   }
   
   func doConnectionRejection() {
+    stopScanner()
+    connectionProgressBar.isHidden = true
     isConnecting = false
+    startScanner()
   }
   
   private var successAction: () -> Void = {

@@ -43,6 +43,7 @@
 "tab Left" = "Left";
 "tab Right" = "Right";
 
+"apply" = "apply";
 "done" = "done";
 "cancel" = "cancel";
 "disconnect" = "disconnect";

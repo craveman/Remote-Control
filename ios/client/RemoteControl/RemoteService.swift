@@ -297,7 +297,11 @@ final class RemoteService {
     private(set) var fightStatus: Decision = .continueFight
 
     @Published
-    private(set) var state: FightState?
+    private(set) var state: FightState? {
+      didSet {
+        print(state!)
+      }
+    }
 
     @Published
     private(set) var status: CompetitionState?

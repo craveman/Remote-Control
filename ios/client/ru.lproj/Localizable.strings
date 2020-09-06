@@ -43,6 +43,7 @@
 "tab Left" = "Левый";
 "tab Right" = "Правый";
 
+"apply" = "применить";
 "confirm" = "да";
 "done" = "готово";
 "cancel" = "отмена";
