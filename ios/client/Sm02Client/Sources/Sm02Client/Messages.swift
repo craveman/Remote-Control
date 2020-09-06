@@ -139,7 +139,7 @@ public struct FightState: Decodable {
     case fencing = "F"
     case halt = "H"
     case pause = "P"
-    case waitin = "W"
+    case waiting = "W"
     case ending = "E"
     case none = ""
   }
