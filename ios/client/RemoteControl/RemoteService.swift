@@ -34,6 +34,7 @@ import struct NIO.TimeAmount
 @_exported import enum Sm02Client.PersonType
 @_exported import enum Sm02Client.TimerMode
 @_exported import enum Sm02Client.AuthenticationStatus
+@_exported import struct Sm02Client.FightState
 @_exported import enum Sm02Client.Inbound
 @_exported import enum Sm02Client.Outbound
 
@@ -294,6 +295,9 @@ final class RemoteService {
     @Published
     private(set) var fightStatus: Decision = .continueFight
 
+    @Published
+    private(set) var state: FightState?
+
     fileprivate var subs: [AnyCancellable] = []
 
     fileprivate init () {
@@ -318,6 +322,12 @@ final class RemoteService {
           return
         }
         self.fightStatus = result
+      })
+      Sm02.on(message: { [unowned self] (inbound) in
+        guard case let .setFightCommand(state) = inbound else {
+          return
+        }
+        self.state = state
       })
       let temp = [
         $name.on(change: { update in

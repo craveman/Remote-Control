@@ -2,9 +2,12 @@
 import Foundation
 import NIO
 import NIOExtras
+import NIOFoundationCompat
 
 
 final class ByteBufferToInboundDecoder: ChannelInboundHandler {
+
+  private static let jsonDecoder = JSONDecoder(dateFormat: "MMM d, yyyy h:mm:ss a")
 
   private typealias Decoder = (UInt8, inout ByteBuffer) -> Inbound?
   private static let decoders: [UInt8: Decoder] = [
@@ -20,6 +23,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     0x24: decodeAuthentication,
     0x66: decodeAdditionalInfo,
     0xAA: decodeGenericResponse,
+    0x2B: decodeSetFightCommand,
   ]
 
   private static func decodeBroadcast (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
@@ -62,26 +66,26 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     }
     return .deviceList(devices: devices)
   }
-  
+
   private static func decodeVideoReplaysList (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
 //    guard let jsonLength = buffer.readUInt8() else {
 //      print("ERROR: The 'decodeVideoReplaysList' message doesn't have 'count' field")
 //      return nil
 //    }
     let desc = buffer.description
-    
+
     var names: [String] = []
     guard let json = buffer.readJsonBody() else {
       print("ERROR: The 'decodeVideoReplaysList' message doesn't have 'json' body in buffer: \(desc)")
       return nil
     }
-    
+
     guard let list = json as? [String] else {
       print("ERROR: The 'decodeVideoReplaysList' message failed to parse json data as list of strings from json object: \(json)")
       return nil
     }
     names.append(contentsOf: list)
-    
+
     return .videoList(names: names)
   }
 
@@ -122,7 +126,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
       print("ERROR: The 'additionalState' message doesn't have 'camera' field")
       return nil
     }
-    
+
     guard let cyrano = buffer.readUInt8() else {
       print("ERROR: The 'additionalState' message doesn't have 'cyrano' field")
       return nil
@@ -161,6 +165,16 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
       return nil
     }
     return .genericResponse(status: status, request: request)
+  }
+
+  private static func decodeSetFightCommand (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
+    guard let jsonData = buffer.readData() else {
+      print("ERROR: The 'setFightCommand' message doesn't have a JSON payload")
+      return nil
+    }
+
+    let state = try! ByteBufferToInboundDecoder.jsonDecoder.decode(FightState.self, from: jsonData)
+    return .setFightCommand(state: state)
   }
 
   typealias InboundIn = ByteBuffer
@@ -253,7 +267,7 @@ extension ByteBuffer {
 }
 
 extension ByteBuffer {
-  
+
   mutating func readJsonBody (_ size: Int? = nil) -> Any? {
     let length = size ?? readableBytes
     guard let jsonString = self.readString(length: length) else {
@@ -265,7 +279,7 @@ extension ByteBuffer {
     }
     return json
   }
-  
+
 }
 
 extension ByteBuffer {
@@ -351,3 +365,55 @@ extension ByteBuffer {
   }
 }
 
+extension ByteBuffer {
+
+ mutating func readData () -> Data? {
+   return readData(length: readableBytes)
+ }
+}
+
+extension JSONDecoder {
+
+  convenience init (dateFormat: String) {
+    self.init()
+
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = dateFormat
+
+    dateDecodingStrategy = .formatted(dateFormatter)
+  }
+}
+
+extension FightState {
+
+  enum CodingKeys: String, CodingKey {
+    case ethernetCompetitionType = "ethCompetType"
+    case ethernetLeftNation = "ethLeftNat"
+    case ethernetMatchNumber = "ethMatchNumber"
+    case ethernetRightNation = "ethRightNat"
+    case ethernetStatus = "ethStatus"
+    case matchCurrentPeriod = "mCurrentPeriod"
+    case matchCurrentTime = "mCurrentTime"
+    case matchDate = "mDate"
+    case matchPriority = "mPriority"
+    case matchVideoLeft = "mVideoLeft"
+    case matchVideoRight = "mVideoRight"
+    case matchLeftFighterData = "mLeftFighterData"
+    case matchRightFighterData = "mRightFighterData"
+  }
+}
+
+extension FightState.FighterData {
+
+  enum CodingKeys: String, CodingKey {
+    case matchCard = "mCard"
+    case matchId = "mId"
+    case matchName = "mName"
+    case matchPassiveCard = "mPCard"
+    case matchScore = "mScore"
+    case redCardCount = "redCardCount"
+    case redPassiveCardCount = "redPCardCount"
+    case yellowCardCount = "yellowCardCount"
+    case yellowPassiveCardCount = "yellowPCardCount"
+  }
+}

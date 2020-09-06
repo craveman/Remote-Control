@@ -25,6 +25,7 @@ let package = Package(
         "NIO",
         "NIOConcurrencyHelpers",
         "NIOExtras",
+        "NIOFoundationCompat"
       ]
     ),
     .testTarget(
