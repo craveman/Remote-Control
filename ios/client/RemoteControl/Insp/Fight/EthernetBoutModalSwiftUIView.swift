@@ -116,7 +116,7 @@ struct EthernetBoutModalContentUIView: View {
           .frame(width: width/2)
         if settings.ethernetFightPhase != .active {
         ConfirmModalButton(action: {
-          rs.ethernetApply()
+          rs.competition.cyranoApply()
           self.settings.ethernetFightPhase = .active
           self.presentationMode.wrappedValue.dismiss()
         }, text: "apply", color: .green)
