@@ -90,22 +90,42 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
   }
 
   private static func decodeEthernetDisplay (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
+    guard let leftScore = readUInt8() else {
+      print("ERROR: The 'ethernetDisplay' message doesn't have 'leftScore' field")
+      return nil
+    }
+    guard let rightScore = readUInt8() else {
+      print("ERROR: The 'ethernetDisplay' message doesn't have 'rightScore' field")
+      return nil
+    }
     guard let period = buffer.readUInt8() else {
       print("ERROR: The 'ethernetDisplay' message doesn't have 'period' field")
+      return nil
+    }
+    guard let leftCard = readStatusCard() else {
+      print("ERROR: The 'ethernetDisplay' message doesn't have 'leftCard' field")
+      return nil
+    }
+    guard let rightCard = readStatusCard() else {
+      print("ERROR: The 'ethernetDisplay' message doesn't have 'rightCard' field")
+      return nil
+    }
+    guard let leftName = readString() else {
+      print("ERROR: The 'ethernetDisplay' message doesn't have 'leftName' field")
+      return nil
+    }
+    guard let rightName = readString() else {
+      print("ERROR: The 'ethernetDisplay' message doesn't have 'rightName' field")
       return nil
     }
     guard let time = buffer.readUInt32() else {
       print("ERROR: The 'ethernetDisplay' message doesn't have 'time' field")
       return nil
     }
-    guard let leftSide = buffer.readSide() else {
-      print("ERROR: The 'ethernetDisplay' message doesn't have 'left side' field")
-      return nil
-    }
-    guard let rightSide = buffer.readSide() else {
-      print("ERROR: The 'ethernetDisplay' message doesn't have 'right side' field")
-      return nil
-    }
+
+    let leftSide = Side(score: leftScore, card: leftCard, name: leftName)
+    let rightSide = Side(score: rightScore, card: rightCard, name: rightName)
+
     return .ethernetDisplay(period: period, time: time, left: leftSide, right: rightSide)
   }
 
@@ -346,22 +366,6 @@ extension ByteBuffer {
       return nil
     }
     return Device(name: name, type: type)
-  }
-}
-
-extension ByteBuffer {
-
-  mutating func readSide () -> Side? {
-    guard let score = readUInt8() else {
-      return nil
-    }
-    guard let card = readStatusCard() else {
-      return nil
-    }
-    guard let name = readString() else {
-      return nil
-    }
-    return Side(score: score, card: card, name: name)
   }
 }
 
