@@ -37,7 +37,7 @@ extension Inbound {
     switch self {
     case .broadcast,
          .additionalState,
-         .ethernetDisplay,
+         .competition,
          .fightResult,
          .videoReady,
          .videoReceived:

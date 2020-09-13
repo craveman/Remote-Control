@@ -114,6 +114,18 @@ public struct Camera {
   }
 }
 
+public enum CompetitionType: String, Decodable {
+  case team = "T"
+  case individual = "I"
+  case none = ""
+}
+
+public enum Priority: Int, Decodable {
+  case left = 1
+  case right = 2
+  case none = 0
+}
+
 public struct FightState: Decodable {
 
   public let ethernetCompetitionType: CompetitionType
@@ -130,11 +142,6 @@ public struct FightState: Decodable {
   public let matchLeftFighterData: FighterData
   public let matchRightFighterData: FighterData
 
-  public enum CompetitionType: String, Decodable {
-    case team = "T"
-    case individual = "I"
-    case none = ""
-  }
   public enum Status: String, Decodable {
     case fencing = "F"
     case halt = "H"
@@ -142,11 +149,6 @@ public struct FightState: Decodable {
     case waiting = "W"
     case ending = "E"
     case none = ""
-  }
-  public enum Priority: Int, Decodable {
-    case left = 1
-    case right = 2
-    case none = 0
   }
   public struct FighterData: Decodable {
 
@@ -177,12 +179,36 @@ public struct FightState: Decodable {
   }
 }
 
+public struct CompetitionState {
+
+  public let id: String
+  public let phase: String
+  public let matchNumber: Int
+  public let period: Int
+  public let timer: String
+  public let type: CompetitionType
+  public let priority: Priority
+  public let left: Fighter
+  public let right: Fighter
+
+  public struct Fighter {
+
+    public let id: String
+    public let name: String
+    public let nation: String
+    public let score: Int
+    public let status: String
+    public let yellowCardCount: UInt
+    public let redCardCount: UInt
+  }
+}
+
 public enum Inbound {
 
   case broadcast(weapon: Weapon, left: FlagState, right: FlagState, timer: UInt32, timerState: TimerState)
   case additionalState(isCamConnected: Bool, isEthernetEnabled: Bool)
   case deviceList(devices: [Device])
-  case ethernetDisplay(period: UInt8, time: UInt32, left: Side, right: Side)
+  case competition(state: CompetitionState)
   case fightResult(result: Decision)
   case passiveMax
   case pauseFinished
@@ -251,7 +277,7 @@ extension Inbound: Message {
       return 0x0B
     case .deviceList:
       return 0x1A
-    case .ethernetDisplay:
+    case .competition:
       return 0x21
     case .fightResult:
       return 0x22

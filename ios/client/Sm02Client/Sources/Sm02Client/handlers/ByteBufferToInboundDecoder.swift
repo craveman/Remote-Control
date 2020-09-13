@@ -14,7 +14,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     0x0B: decodeBroadcast,
     0x1A: decodeDeviceList,
     0x2A: decodeVideoReplaysList,
-    0x21: decodeEthernetDisplay,
+    0x21: decodeCompetition,
     0x22: decodeFightResult,
     0x11: decodePassiveMax,
     0x12: decodePauseFinished,
@@ -89,44 +89,25 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
     return .videoList(names: names)
   }
 
-  private static func decodeEthernetDisplay (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
-    guard let leftScore = readUInt8() else {
-      print("ERROR: The 'ethernetDisplay' message doesn't have 'leftScore' field")
-      return nil
-    }
-    guard let rightScore = readUInt8() else {
-      print("ERROR: The 'ethernetDisplay' message doesn't have 'rightScore' field")
-      return nil
-    }
-    guard let period = buffer.readUInt8() else {
-      print("ERROR: The 'ethernetDisplay' message doesn't have 'period' field")
-      return nil
-    }
-    guard let leftCard = readStatusCard() else {
-      print("ERROR: The 'ethernetDisplay' message doesn't have 'leftCard' field")
-      return nil
-    }
-    guard let rightCard = readStatusCard() else {
-      print("ERROR: The 'ethernetDisplay' message doesn't have 'rightCard' field")
-      return nil
-    }
-    guard let leftName = readString() else {
-      print("ERROR: The 'ethernetDisplay' message doesn't have 'leftName' field")
-      return nil
-    }
-    guard let rightName = readString() else {
-      print("ERROR: The 'ethernetDisplay' message doesn't have 'rightName' field")
-      return nil
-    }
-    guard let time = buffer.readUInt32() else {
-      print("ERROR: The 'ethernetDisplay' message doesn't have 'time' field")
+  private static func decodeCompetition (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
+    guard let string = buffer.readString() else {
+      print("ERROR: The 'competition' message doesn't have 'fightData' field string")
       return nil
     }
 
-    let leftSide = Side(score: leftScore, card: leftCard, name: leftName)
-    let rightSide = Side(score: rightScore, card: rightCard, name: rightName)
+    let stringParts = string.split(separator: "%", maxSplits: 2)
+      .map({ (stringPart: String.SubSequence) -> Substring in
+        let start = stringPart.index(stringPart.startIndex, offsetBy: 1)
+        let end = stringPart.lastIndex(of: "|")!
+        return stringPart[start..<end]
+      })
+      .map({ (stringPart: Substring) -> [String] in
+        return stringPart
+          .split(separator: "|", omittingEmptySubsequences: false)
+          .map { String($0) }
+      })
 
-    return .ethernetDisplay(period: period, time: time, left: leftSide, right: rightSide)
+    return .competition(state: CompetitionState.parse(elements: stringParts))
   }
 
   private static func decodeFightResult (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
@@ -419,5 +400,53 @@ extension FightState.FighterData {
     case redPassiveCardCount = "redPCardCount"
     case yellowCardCount = "yellowCardCount"
     case yellowPassiveCardCount = "yellowPCardCount"
+  }
+}
+
+extension Priority {
+
+  static func parse (string: String) -> Priority {
+    switch (string.uppercased()) {
+    case "L":
+      return Priority.left
+    case "R":
+      return Priority.right
+    default:
+      return Priority.none
+    }
+  }
+}
+
+extension CompetitionState.Fighter {
+
+  static func parse (elements: [String]) -> CompetitionState.Fighter {
+    return CompetitionState.Fighter(
+      id: elements[0],
+      name: elements[1],
+      nation: elements[2],
+      score: Int(elements[3]) ?? 0,
+      status: elements[4],
+      yellowCardCount: UInt(elements[5]) ?? 0,
+      redCardCount: UInt(elements[6]) ?? 0
+    )
+  }
+}
+
+extension CompetitionState {
+
+  static func parse (elements: [[String]]) -> CompetitionState {
+    let left = CompetitionState.Fighter.parse(elements: elements[2])
+    let right = CompetitionState.Fighter.parse(elements: elements[1])
+    return CompetitionState(
+      id: elements[0][5],
+      phase: elements[0][4],
+      matchNumber: Int(elements[0][6]) ?? 1,
+      period: Int(elements[0][7]) ?? 1,
+      timer: elements[0][9],
+      type: CompetitionType(rawValue: elements[0][10].uppercased()) ?? CompetitionType.none,
+      priority: Priority.parse(string: elements[0][12]),
+      left: left,
+      right: right
+    )
   }
 }
