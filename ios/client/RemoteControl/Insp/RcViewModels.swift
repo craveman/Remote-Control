@@ -187,17 +187,28 @@ class FightSettings: ObservableObject {
   var PAUSE_DISSMISED_DEFERED_ACTION_TIMER: Timer? = nil
   var PAUSE_FINISHED_CANCELABLE: AnyCancellable? = nil
   var savedTime: TimeAmount? = nil
+  private var isSyncing = false
+  @Published var ethernetFightPhase: FightPhase = .none
+  @Published var ethernetFightOption: String = ""
   @Published var leftCardP: StatusCard = .passiveNone
   @Published var rightCardP: StatusCard = .passiveNone
   @Published var leftCard: StatusCard = .none
   @Published var rightCard: StatusCard = .none
   @Published var leftScore: UInt8 = 0 {
     didSet {
+      guard !isSyncing else {
+        return
+      }
+      print("leftScore didSet \(leftScore)")
       rs.persons.left.score = leftScore
     }
   }
   @Published var rightScore: UInt8 = 0 {
     didSet {
+      guard !isSyncing else {
+        return
+      }
+      print("rightScore didSet \(rightScore)")
       rs.persons.right.score = rightScore
     }
   }
@@ -233,6 +244,25 @@ class FightSettings: ObservableObject {
     self.resetCards()
     self.resetVideo()
     self.resetPriority()
+  }
+  
+  func loadFightConfig(_ state: FightState) {
+    DispatchQueue.main.async {
+      self.isSyncing = true
+      self.period = Int(rs.competition.period) - 1
+      
+      self.leftScore = rs.persons.left.score
+      self.leftCard = rs.persons.left.card
+      self.leftCardP = rs.persons.left.passiveCard
+      
+      self.rightScore = rs.persons.right.score
+      self.rightCard = rs.persons.right.card
+      self.rightCardP = rs.persons.right.passiveCard
+      
+      self.ethernetFightPhase = .active
+      self.ethernetFightOption = ""
+      self.isSyncing = false
+    }
   }
   
   

@@ -48,6 +48,7 @@ class RcViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    syncState()
     setSubscriptions()
   }
   
@@ -78,6 +79,25 @@ class RcViewController: UIViewController {
     subscriptions.forEach({ subscription in
       subscription.cancel()
     })
+  }
+  
+  private func syncState() {
+    self.onMainThread({
+      self.rcModel.isConnected = rs.connection.isAuthenticated && rs.connection.isConnected
+      self.rcModel.isEthernetMode = rs.competition.cyranoWorks
+      self.rcModel.tab = !rs.connection.isConnected ? 2 : 1
+      self.rcModel.fightSwitchActiveTab = rs.timer.mode == .main ? 0 : 1
+      
+      self.rcModel.shouldShowTimerView = rs.timer.mode == .main && rs.timer.state == .running
+      self.rcModel.shouldShowPauseView = rs.timer.mode == .pause && rs.timer.state == .running
+      self.rcModel.shouldShowMedicalView = rs.timer.mode == .medicine && rs.timer.state == .running
+    })
+    print("syncState: \(rs.competition.state)")
+    if let fightState = rs.competition.state {
+      
+      self.game.loadFightConfig(fightState)
+    }
+    
   }
   
   private func setSubscriptions() {
@@ -220,12 +240,28 @@ class RcViewController: UIViewController {
     
     subscriptions.append(rScore$)
     subscriptions.append(rCard$)
+    
+    
+    let ethModeChange$ = rs.competition.$cyranoWorks.on(change: { v in
+      print("$cyranoWorks changed: \(v)")
+      guard self.rcModel.isEthernetMode != v else {
+        return
+      }
+      print("ethModeChange$ changed")
+      self.onMainThread({
+
+        self.rcModel.isEthernetMode = v
+        
+      })
+    })
+    
+    subscriptions.append(ethModeChange$)
 
     let cameraIsOnline$ = rs.competition.$cameraIsOnline.on(change: { v in
       guard self.playbackController.isEnabled != v else {
         return
       }
-      print("changed")
+//      print("cameraIsOnline$ changed")
       self.onMainThread({
 
         self.playbackController.isEnabled = v
@@ -263,6 +299,17 @@ class RcViewController: UIViewController {
     subscriptions.append(cameraIsOnline$)
     subscriptions.append(videoRecordReady$)
     subscriptions.append(videoRecordLoaded$)
+    
+    let ethState$ = rs.competition.$state.on(change: { cfg in
+      guard cfg != nil else {
+        print("Unsupported state was set")
+        return
+      }
+      self.game.loadFightConfig(cfg!)
+      print("rs.competition.$state on change", cfg!)
+    })
+    
+    subscriptions.append(ethState$)
   }
   
   private func addViewControllerAsChildViewController(childViewController: UIViewController) {

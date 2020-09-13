@@ -39,7 +39,7 @@ fileprivate struct EthDisplayView: View {
   var body: some View {
     VStack(spacing: 0) {
       primaryColor(dinFont(Text("competition")))
-      primaryColor(dinFont(Text("\(rs.competition.name)")))
+      primaryColor(dinFont(Text("123")))
     }
     .padding(.vertical)
     .frame(minHeight: mediumHeightOfButton())
@@ -47,17 +47,52 @@ fileprivate struct EthDisplayView: View {
 }
 
 fileprivate struct EthCompleteView: View {
+  @EnvironmentObject var settings: FightSettings
   var body: some View {
     HStack(spacing: 0) {
       ConfirmModalButton(vibrate: false, action: {
         //
         rs.ethernetFinishAsk()
+        withDelay({
+          self.settings.ethernetFightPhase = .none
+          rs.ethernetNextOrPrevious(next: true)
+        }, RemoteService.SYNC_INTERVAL)
+        
       }, text: "complete",
          color: primaryColor,
          imageName: "checkmark.circle")
         .padding([.vertical])
         .frame(width: width)
     }.frame(height: mediumHeightOfButton())
+  }
+}
+
+struct PhaseNoneMenu: View {
+  @EnvironmentObject var settings: FightSettings
+  var body: some View {
+    VStack(spacing: 0) {
+      if settings.ethernetFightPhase == .none {
+        Divider()
+        EthNextPrevView()
+        Divider()
+        EthDisplayView()
+        Divider()
+      }
+    }
+  }
+}
+
+
+struct PhaseActiveMenu: View {
+  @EnvironmentObject var settings: FightSettings
+  var body: some View {
+    VStack(spacing: 0) {
+      if settings.ethernetFightPhase == .active {
+        Divider()
+        EthCompleteView()
+        Divider()
+      }
+    }
   }
 }
 
@@ -68,18 +103,8 @@ struct EthernetBoutModalContentUIView: View {
   var body: some View {
     VStack(spacing: 0) {
       Spacer()
-      if insp.fightPhase == .none {
-        Divider()
-        EthNextPrevView()
-        Divider()
-        EthDisplayView()
-        Divider()
-      }
-      if insp.fightPhase == .active {
-        Divider()
-        EthCompleteView()
-        Divider()
-      }
+      PhaseNoneMenu()
+      PhaseActiveMenu()
       Spacer()
       Divider()
       HStack(spacing: 0) {
@@ -89,12 +114,16 @@ struct EthernetBoutModalContentUIView: View {
            color: primaryColor, imageName: "chevron.left")
           .padding([.vertical])
           .frame(width: width/2)
+        if settings.ethernetFightPhase != .active {
         ConfirmModalButton(action: {
           rs.ethernetApply()
+          self.settings.ethernetFightPhase = .active
           self.presentationMode.wrappedValue.dismiss()
         }, text: "apply", color: .green)
           .padding([.vertical])
           .frame(width: width/2)
+          
+        }
       }
     }
   }
@@ -108,11 +137,9 @@ struct EthernetBoutModalSwiftUIView: View {
 }
 
 struct EthernetBoutModalSwiftUIView_Previews: PreviewProvider {
-  init() {
-    EthernetBoutModalSwiftUIView_Previews.mock.fightPhase = .active
-  }
-  static var mock = InspSettings()
   static var previews: some View {
-    EthernetBoutModalSwiftUIView().environmentObject(mock)
+    EthernetBoutModalSwiftUIView()
+      .environmentObject(FightSettings())
+      .environmentObject(InspSettings())
   }
 }

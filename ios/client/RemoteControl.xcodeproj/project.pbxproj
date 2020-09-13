@@ -112,12 +112,12 @@
 		851AE9CE2389E4F2001BE3FB /* WeaponsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponsSwiftUIView.swift; sourceTree = "<group>"; };
 		851AE9D02389ECE5001BE3FB /* ScoreSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreSwiftUIView.swift; sourceTree = "<group>"; };
 		85371937244B672700B14418 /* VideoRC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRC.swift; sourceTree = "<group>"; };
+		85479DC3250E9A22003D314D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Connect.strings; sourceTree = "<group>"; };
+		85479DC4250E9A2B003D314D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Connect.strings; sourceTree = "<group>"; };
 		85512DDE2450CCCB00254D5F /* Inspiration_PointTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Inspiration_PointTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85512DE02450CCCB00254D5F /* Inspiration_PointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspiration_PointTests.swift; sourceTree = "<group>"; };
 		85512DE22450CCCB00254D5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85584AE2239ED5A2006EC133 /* RcViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RcViewModels.swift; sourceTree = "<group>"; };
-		8587078D250172E500E9C54B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Connect.strings; sourceTree = "<group>"; };
-		8587078F250172E600E9C54B /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Connect.strings; sourceTree = "<group>"; };
 		859B2C1823E6289100699383 /* Inspiration Point.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Inspiration Point.entitlements"; sourceTree = "<group>"; };
 		859B2C1923E6289200699383 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		85A2A02B24E89B9300DB6244 /* LanConfigReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanConfigReader.swift; sourceTree = "<group>"; };
@@ -573,8 +573,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				B9C8BEE22305A2C6004DBBF8 /* Base */,
-				8587078D250172E500E9C54B /* en */,
-				8587078F250172E600E9C54B /* ru */,
+				85479DC3250E9A22003D314D /* ru */,
+				85479DC4250E9A2B003D314D /* en */,
 			);
 			name = Connect.storyboard;
 			sourceTree = "<group>";
@@ -768,7 +768,7 @@
 				CODE_SIGN_ENTITLEMENTS = "RemoteControl/Inspiration Point.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = NB936833RX;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -779,7 +779,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "Inspiration Point";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -797,7 +797,7 @@
 				CODE_SIGN_ENTITLEMENTS = "RemoteControl/Inspiration Point.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = NB936833RX;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -808,7 +808,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.2.1;
+				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "Inspiration Point";
 				PROVISIONING_PROFILE_SPECIFIER = "";

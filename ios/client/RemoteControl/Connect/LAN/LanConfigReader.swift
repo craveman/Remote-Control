@@ -22,7 +22,10 @@ class LanConfigReader: ObservableObject {
     if lookupTimer != nil {
       lookupTimer?.invalidate()
     }
-    rs.lookup.start()
+    if (!rs.lookup.isStarted) {
+      rs.lookup.start()
+    }
+    
     lookupTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(1 / checksPerSec), repeats: true) {timer in
       self.Sm02ConnectionConfigCheck()
     }
@@ -32,7 +35,10 @@ class LanConfigReader: ObservableObject {
     if lookupTimer != nil {
          lookupTimer?.invalidate()
        }
-    rs.lookup.stop()
+    if (rs.lookup.isStarted) {
+      rs.lookup.stop()
+    }
+    
   }
 
   private func Sm02ConnectionConfigCheck() {

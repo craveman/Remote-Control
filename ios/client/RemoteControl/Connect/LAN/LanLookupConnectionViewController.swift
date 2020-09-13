@@ -16,8 +16,22 @@ fileprivate func log(_ items: Any...) {
 fileprivate let WAIT_TIMEOUT = 15.0
 fileprivate let NOTIFY_TIMEOUT = 2.5
 
+class ManualConfiguration {
+  static let MANUAL_CONNECTION = NSLocalizedString("lan_manual Manual connection", comment: "")
+  static let SET_CONFIG = NSLocalizedString("lan_manual Enter connection config", comment: "")
+  static let JOIN_BTN = NSLocalizedString("lan_manual Join", comment: "")
+  static let CANCEL_BTN = NSLocalizedString("lan_manual Cancel", comment: "")
+  static let IP_INPUT_PLACEHOLDER = NSLocalizedString("lan_manual Enter IP adress", comment: "")
+}
+
 class LanLookupConnectionViewController: UIViewController, ConnectionControllerProtocol {
-  private var autoConnect = true
+  
+  private var autoConnect = true {
+    didSet {
+      autoConnectSwitch.isOn = autoConnect
+    }
+  }
+  private var isLookupStarted = false
   private var isConnecting = false {
     didSet {
       connectionProgressBar.setProgress(0, animated: false)
@@ -33,6 +47,25 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   private var configSub: AnyCancellable?
   @IBOutlet weak var connectionProgressBar: UIProgressView!
   
+  
+  @IBAction func autoConnectSwitchChanged(_ sender: UISwitch) {
+    print(sender.isOn)
+    self.autoConnect = sender.isOn
+  }
+  @IBOutlet weak var autoConnectSwitch: UISwitch!
+  
+  @IBOutlet weak var serverFoundLabel: UILabel!
+  
+  @IBOutlet weak var connectionButton: UIButton!
+  
+  @IBAction func userAsksToConnect(_ sender: UIButton) {
+    guard let config = reader.config else {
+      print("userAsksToConnect: Emty config found")
+      return
+    }
+    applyConfig(config)
+  }
+  
   @IBAction func manualConnectAction(_ sender: UIBarButtonItem) {
     log("Manual")
     autoConnect = false
@@ -42,7 +75,7 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   @IBAction func skipConnectAction(_ sender: UIBarButtonItem) {
     log("Skip")
-    doConnectionCompletion()
+    doConnectionCompletion(stopScan: !autoConnect)
   }
   
   @IBOutlet weak var skipButton: UIBarButtonItem!
@@ -75,11 +108,15 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
     startScanner()
   }
   
+  func setAutoConnectionMode(_ bool: Bool) -> Void {
+    self.autoConnect = bool
+  }
+  
   func showInputDialog() {
     
-    let alertController = UIAlertController(title: "Manual connection", message: "Enter connection config", preferredStyle: .alert)
+    let alertController = UIAlertController(title: ManualConfiguration.MANUAL_CONNECTION, message: ManualConfiguration.SET_CONFIG, preferredStyle: .alert)
     
-    let confirmAction = UIAlertAction(title: "Join", style: .default) { (_) in
+    let confirmAction = UIAlertAction(title: ManualConfiguration.JOIN_BTN, style: .default) { (_) in
       
       let name = alertController.textFields?[0].text
       
@@ -91,12 +128,12 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
       self.onCloseManual(false)
     }
     
-    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
-      self.onCloseManual()
+    let cancelAction = UIAlertAction(title: ManualConfiguration.CANCEL_BTN, style: .cancel) { (_) in
+      self.onCloseManual(self.autoConnectSwitch.isOn)
     }
     
     alertController.addTextField { (textField) in
-      textField.placeholder = "Enter IP adress"
+      textField.placeholder = ManualConfiguration.IP_INPUT_PLACEHOLDER
       textField.keyboardType = .numbersAndPunctuation
     }
     // code ???
@@ -134,19 +171,31 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
       self.searchLabel.isHidden = false;
     }, NOTIFY_TIMEOUT)
     setWaitTimeout()
+    isLookupStarted = true
   }
   
   func stopScanner() {
+    if !isLookupStarted {
+      log("scanner was not started")
+      return
+    }
     log("Stop scanner")
     toggleFailedCase(false)
     spinner.stopAnimating()
     waitConnectTimer?.invalidate()
     reader.stopReader()
+    isLookupStarted = false
   }
   
   func doConnectionCompletion() {
+    self.doConnectionCompletion(stopScan: true)
+  }
+  
+  func doConnectionCompletion(stopScan: Bool = true) {
     log ("doConnectionCompletion")
-    stopScanner()
+    if stopScan {
+      stopScanner()
+    }
     successAction()
     withDelay({
       self.isConnecting = false
@@ -186,9 +235,15 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
     configSub = reader.$config.on(change: { config in
       log("config updated: \(String(describing: config))")
       guard let lan = config else {
+        self.serverFoundLabel.isHidden = true
+        self.connectionButton.isHidden = true
         log("$config.on(change nil")
         return
       }
+      self.serverFoundLabel.isHidden = false
+      self.connectionButton.isHidden = false
+      self.toggleFailedCase(false)
+      self.waitConnectTimer?.invalidate()
       guard self.autoConnect else {
         log("autoConnect if off")
         return
@@ -214,6 +269,9 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   override func viewDidAppear (_ animated: Bool) {
     // todo:
+    serverFoundLabel.isHidden = true
+    connectionButton.isHidden = true
+    autoConnectSwitch.isOn = autoConnect
     toggleFailedCase(false)
     log("did appear")
     super.viewDidAppear(animated)

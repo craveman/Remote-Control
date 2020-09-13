@@ -69,6 +69,8 @@
 "priority" = "приоритет";
 "title Priority" = "Приоритет";
 
+"bout" = "бой";
+
 "weapon" = "оружие";
 "title Weapon" = "Оружие";
 "Epee" = "Шпага";
@@ -118,3 +120,9 @@
 "Disconnect this Remote Control?" = "Отключить этот пульт?";
 
 "Searching for Sm02" = "Ожидание сигнала от Sm02...";
+
+"lan_manual Manual connection" = "Ручной ввод";
+"lan_manual Enter connection config" = "";
+"lan_manual Join" = "Найти Sm02";
+"lan_manual Cancel" = "Отмена";
+"lan_manual Enter IP adress" = "IP адрес";

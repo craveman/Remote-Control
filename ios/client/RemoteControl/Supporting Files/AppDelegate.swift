@@ -84,6 +84,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
   
+  @objc func disconnectedByUser() {
+    log("disconnectedByUser called")
+    if rs.connection.address != nil {
+      self.invalidate(connection: rs.connection.address!, withWarning: false)
+    }
+    
+    guard let controller = self.window?.rootViewController as? ConnectionsViewController else {
+      return
+    }
+    controller.isAutoConnectEnabled = false
+  }
+  
   private func terminateConnection() {
     log("terminateConnection")
     if rs.connection.isConnected {
@@ -96,7 +108,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     log("setEventsAndTimers")
     //    setNetworkEventsListerers()
     setSmEventsListerers()
-    setPingCheckerTimer()
   }
   
   private func stopEventsAndTimers() {
@@ -190,11 +201,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     controller.stop()
   }
   
-  private func invalidate (connection remote: RemoteAddress) {
+  private func invalidate (connection remote: RemoteAddress, withWarning shouldWarn: Bool = true) {
     self.wasInvalidated = true
     DispatchQueue.main.async {
       rs.connection.forget()
-      
+      guard shouldWarn else {
+        return
+      }
       guard let controller = self.window?.rootViewController as? ConnectionsViewController else {
         return
       }
@@ -246,49 +259,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   private func setNetworkEventsListerers() {
     let networkHandler = NetworkReachability();
     networkHandler.start()
-  }
-  
-  private func setPingCheckerTimer() {
-    
-    self.messageListener = rs.connection.$lastMessageAt.on(change: {[unowned self] _ in
-      if (rs.connection.isConnected && self.pingMissed) {
-        self.pingMissed = false
-      }
-    })
-    
-    var videoRcModeOn = false
-    
-    rs.video.player.$mode.on(change: { v in
-      guard v != .stop else {
-        videoRcModeOn = false
-        return
-      }
-      videoRcModeOn = true
-    })
-    
-    self.pingTimer = Timer.scheduledTimer(withTimeInterval: 3 * RemoteService.PING_INTERVAL, repeats: true) {[unowned self] _ in
-      guard rs.connection.isConnected else {
-        self.pingMissed = false
-        return
-      }
-      
-      guard !videoRcModeOn else {
-        return
-      }
-      
-      log("ping check")
-      return
-      if (!self.pingMissed) {
-        self.pingMissed = true
-        return
-      }
-      log("Ping disconnect")
-      
-      rs.connection.disconnect(temporary: true)
-      self.stopBgTasks()
-      self.stopEventsAndTimers()
-      self.reconnect()
-    }
   }
   
   private func registerBgTask() {

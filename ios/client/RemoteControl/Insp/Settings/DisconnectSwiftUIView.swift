@@ -6,6 +6,7 @@
 //  Copyright © 2019 Sergei Andreev. All rights reserved.
 //
 
+import UIKit
 import SwiftUI
 
 struct ConnectButton: View {
@@ -68,6 +69,8 @@ struct DisconnectSwiftUIView: View {
           withDelay({
             rs.connection.disconnect()
           })
+          let appDelegate = UIApplication.shared.delegate as! AppDelegate
+          appDelegate.disconnectedByUser();
           Vibration.impact()
         }, text: "disconnect", color: .red, imageName: "power")
       }.padding([.vertical]).frame(width: width)

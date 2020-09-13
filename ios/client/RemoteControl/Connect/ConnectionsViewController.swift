@@ -17,6 +17,11 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
   public static let CONNECTION_LOST = "Connection to the server was lost."
   public static let CONNECTION_ERROR = "Connection error"
   var alert: UIAlertController?
+  var isAutoConnectEnabled = true {
+    didSet {
+      getScanner()?.setAutoConnectionMode(isAutoConnectEnabled)
+    }
+  }
   
   let segueName = "jumpToInspiration"
   @IBOutlet weak var connectionConfigReaderSubViewWrapper: UIView!

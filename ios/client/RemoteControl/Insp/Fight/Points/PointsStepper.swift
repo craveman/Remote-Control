@@ -82,8 +82,9 @@ struct PointsStepper: View {
           Vibration.warning()
           return
         }
-        
+//        print("1 self.getScore() \(self.getScore())")
         self.setScore(self.getScore() + 1)
+//        print("2 self.getScore() \(self.getScore())")
         self.plusIsActive = true
         Vibration.on()
         self.thenDeactivatePlus()

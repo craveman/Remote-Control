@@ -73,6 +73,8 @@
 "priority" = "priority";
 "title Priority" = "Priority";
 
+"bout" = "bout";
+
 "weapon" = "weapon";
 "title Weapon" = "Weapon";
 "Epee" = "Epee";
@@ -108,3 +110,9 @@
 "Disconnect this Remote Control?" = "Disconnect this Remote Control?";
 
 "Searching for Sm02" = "Waiting Sm02 signal...";
+
+"lan_manual Manual connection" = "Manual connection";
+"lan_manual Enter connection config" = "";
+"lan_manual Join" = "Join Sm02";
+"lan_manual Cancel" = "Cancel";
+"lan_manual Enter IP adress" = "Enter IP adress";

@@ -3,14 +3,23 @@
 "2oV-fH-BLy.text" = "Не удалось подключиться к Sm02
 Проверьте подключение к сети";
 
+/* Class = "UILabel"; text = "Server found"; ObjectID = "Mka-hq-Dpj"; */
+"Mka-hq-Dpj.text" = "Найден Sm02";
+
 /* Class = "UIBarButtonItem"; title = "Manual"; ObjectID = "WG6-K3-YCD"; */
-"WG6-K3-YCD.title" = "Manual";
+"WG6-K3-YCD.title" = "Ручной ввод";
 
 /* Class = "UIBarButtonItem"; title = "Skip"; ObjectID = "c0I-XA-vKg"; */
-"c0I-XA-vKg.title" = "Skip";
+"c0I-XA-vKg.title" = "Пульт";
 
 /* Class = "UILabel"; text = "Searching for Sm02"; ObjectID = "dzn-dq-53K"; */
 "dzn-dq-53K.text" = "Ожидание сигнала от Sm02...";
+
+/* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "gH5-Q2-QhX"; */
+"gH5-Q2-QhX.normalTitle" = "Подключить";
+
+/* Class = "UIBarButtonItem"; title = "Auto connect"; ObjectID = "oyx-Zq-SdD"; */
+"oyx-Zq-SdD.title" = "Авто подключение";
 
 /* Class = "UIButton"; normalTitle = "Go to Settings"; ObjectID = "uma-yX-2zc"; */
 "uma-yX-2zc.normalTitle" = "Настройки";
