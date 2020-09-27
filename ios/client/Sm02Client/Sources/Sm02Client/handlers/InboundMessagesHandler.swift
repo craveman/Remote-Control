@@ -36,6 +36,7 @@ extension Inbound {
   var hasGenericResponse: Bool {
     switch self {
     case .broadcast,
+         .quit,
          .additionalState,
          .competition,
          .fightResult,

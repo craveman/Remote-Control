@@ -16,19 +16,19 @@ fileprivate struct EthNextPrevView: View {
           //
           rs.ethernetNextOrPrevious(next: false)
         }, text: "prev",
-           color: primaryColor,
-           imageName: "chevron.left")
-          .padding([.vertical])
-          .frame(width: width/2)
+        color: primaryColor,
+        imageName: "chevron.left")
+        .padding([.vertical])
+        .frame(width: width/2)
         Divider().frame(height: mediumHeightOfButton())
         ConfirmModalButton(vibrate: false, action: {
           //
           rs.ethernetNextOrPrevious(next: true)
         }, text: "next",
-           color: primaryColor,
-           imageName: "chevron.right")
-          .padding([.vertical])
-          .frame(width: width/2)
+        color: primaryColor,
+        imageName: "chevron.right")
+        .padding([.vertical])
+        .frame(width: width/2)
       }.frame(height: mediumHeightOfButton())
       
     }
@@ -36,10 +36,10 @@ fileprivate struct EthNextPrevView: View {
 }
 
 fileprivate struct EthDisplayView: View {
+  @Binding var competitionName: String
   var body: some View {
     VStack(spacing: 0) {
-      primaryColor(dinFont(Text("competition")))
-      primaryColor(dinFont(Text("123")))
+      primaryColor(dinFont(Text(competitionName))).lineLimit(3)
     }
     .padding(.vertical)
     .frame(minHeight: mediumHeightOfButton())
@@ -53,16 +53,11 @@ fileprivate struct EthCompleteView: View {
       ConfirmModalButton(vibrate: false, action: {
         //
         rs.ethernetFinishAsk()
-        withDelay({
-          self.settings.ethernetFightPhase = .none
-          rs.ethernetNextOrPrevious(next: true)
-        }, RemoteService.SYNC_INTERVAL)
-        
       }, text: "complete",
-         color: primaryColor,
-         imageName: "checkmark.circle")
-        .padding([.vertical])
-        .frame(width: width)
+      color: primaryColor,
+      imageName: "checkmark.circle")
+      .padding([.vertical])
+      .frame(width: width)
     }.frame(height: mediumHeightOfButton())
   }
 }
@@ -75,7 +70,7 @@ struct PhaseNoneMenu: View {
         Divider()
         EthNextPrevView()
         Divider()
-        EthDisplayView()
+        EthDisplayView(competitionName: $settings.ethernetFightOption)
         Divider()
       }
     }
@@ -111,15 +106,16 @@ struct EthernetBoutModalContentUIView: View {
         ConfirmModalButton(vibrate: false, action: {
           self.presentationMode.wrappedValue.dismiss()
         }, text: "cancel",
-           color: primaryColor, imageName: "chevron.left")
-          .padding([.vertical])
-          .frame(width: width/2)
+        color: primaryColor, imageName: "chevron.left")
+        .padding([.vertical])
+        .frame(width: width/2)
         if settings.ethernetFightPhase != .active {
-        ConfirmModalButton(action: {
-          rs.competition.cyranoApply()
-          self.settings.ethernetFightPhase = .active
-          self.presentationMode.wrappedValue.dismiss()
-        }, text: "apply", color: .green)
+          ConfirmModalButton(action: {
+            rs.competition.cyranoApply()
+            self.settings.period = Int(rs.competition.period - 1)
+            self.settings.ethernetFightPhase = .active
+            self.presentationMode.wrappedValue.dismiss()
+          }, text: "apply", color: .green)
           .padding([.vertical])
           .frame(width: width/2)
           

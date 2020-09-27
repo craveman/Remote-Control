@@ -249,21 +249,21 @@ class RcViewController: UIViewController {
       }
       print("ethModeChange$ changed")
       self.onMainThread({
-
+        
         self.rcModel.isEthernetMode = v
         
       })
     })
     
     subscriptions.append(ethModeChange$)
-
+    
     let cameraIsOnline$ = rs.competition.$cameraIsOnline.on(change: { v in
       guard self.playbackController.isEnabled != v else {
         return
       }
-//      print("cameraIsOnline$ changed")
+      //      print("cameraIsOnline$ changed")
       self.onMainThread({
-
+        
         self.playbackController.isEnabled = v
         
         if (!self.playbackController.isEnabled) {
@@ -309,7 +309,26 @@ class RcViewController: UIViewController {
       print("rs.competition.$state on change", cfg!)
     })
     
+    let ethFightStatus$ = rs.competition.$fightStatus.on(change: { status in
+      
+      if status == .stopFight {
+        print("ETH fight end done")
+        self.game.ethernetFightPhase = .none
+        rs.ethernetNextOrPrevious(next: true)
+      } else {
+//        self.game.ethernetFightPhase = .active
+        print("Notify ETH fight end is not possible")
+      }
+    })
+    
+    let ethOption$ = rs.competition.$cyranoOption.on(change: {name in
+      self.game.ethernetFightOption = name
+    })
+    
     subscriptions.append(ethState$)
+    subscriptions.append(ethFightStatus$)
+    subscriptions.append(ethOption$)
+    
   }
   
   private func addViewControllerAsChildViewController(childViewController: UIViewController) {

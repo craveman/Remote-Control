@@ -28,13 +28,13 @@ struct NamesSettingsButtonSwiftUIView: View {
       
       
     }.foregroundColor(primaryColor)
-      .frame(width: width / 2, height: mediumHeightOfButton())
-      .border(Color.gray, width: 0.5)
-      .sheet(isPresented: self.$showModal, onDismiss: {
-        
-      }) {
-        NamesSettingsSwiftUIView()
-          .background(UIGlobals.modalSheetBackground)
+    .frame(width: width / 2, height: mediumHeightOfButton())
+    .border(Color.gray, width: 0.5)
+    .sheet(isPresented: self.$showModal, onDismiss: {
+      
+    }) {
+      NamesSettingsSwiftUIView()
+        .background(UIGlobals.modalSheetBackground)
     }
   }
 }
@@ -74,7 +74,6 @@ struct NamesSettingsSwiftUIView: View {
     
     VStack(spacing: 0) {
       CommonModalHeader(title: "Set names")
-      
       ScrollView {
         Background {
           VStack(spacing: 0) {
@@ -91,8 +90,9 @@ struct NamesSettingsSwiftUIView: View {
                 self.endEditing()
                 
               }.font(.largeTitle)
-                .background(primaryColor.opacity(0.05))
-                .accessibility(label: Text("Left fencer"))
+              .background(primaryColor.opacity(0.05))
+              .accessibility(label: Text("Left fencer"))
+              .disabled(rs.competition.cyranoWorks)
             }.padding()
             Divider()
             VStack(alignment: .leading, spacing: 0) {
@@ -106,8 +106,9 @@ struct NamesSettingsSwiftUIView: View {
               TextField(" ", text: self.$rightName.text) {
                 self.endEditing()
               }.font(.largeTitle)
-                .background(primaryColor.opacity(0.05))
-                .accessibility(label: Text("Right fencer"))
+              .background(primaryColor.opacity(0.05))
+              .accessibility(label: Text("Right fencer"))
+              .disabled(rs.competition.cyranoWorks)
             }.padding()
             Spacer()
           }
@@ -116,6 +117,15 @@ struct NamesSettingsSwiftUIView: View {
           self.endEditing()
         }
       }
+      Divider()
+      CommonButton(action: {
+        rs.competition.swap()
+        Vibration.on()
+        self.presentationMode.wrappedValue.dismiss()
+      },
+      text: "swap",
+      imageName: "arrow.right.arrow.left.circle",
+      frame: getButtonFrame(.withImageFullWidth))
       Divider()
       HStack {
         ConfirmModalButton(action: {

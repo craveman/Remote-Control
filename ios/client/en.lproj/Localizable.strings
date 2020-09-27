@@ -116,3 +116,5 @@
 "lan_manual Join" = "Join Sm02";
 "lan_manual Cancel" = "Cancel";
 "lan_manual Enter IP adress" = "Enter IP adress";
+
+"Local Network access is required to be able to search and connect to SM02" = "Local Network access is required to be able to search and connect to SM02";

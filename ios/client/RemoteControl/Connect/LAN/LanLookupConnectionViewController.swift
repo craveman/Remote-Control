@@ -86,9 +86,9 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   @IBAction func toSettings(_ sender: UIButton) {
     log("to Settings")
     DispatchQueue.main.async {
-      let wifiSettingsURL = URL(string:"App-Prefs:root=WIFI")
+//      let wifiSettingsURL = URL(string:"App-Prefs:root=WIFI")
       let appSettingsURL = URL(string: UIApplication.openSettingsURLString)
-      if let settingsURL = UIApplication.shared.canOpenURL(wifiSettingsURL!) ? wifiSettingsURL : appSettingsURL {
+      if let settingsURL = appSettingsURL {
         UIApplication.shared.open(settingsURL)
       }
     }

@@ -106,7 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   private func setEventsAndTimers() {
     log("setEventsAndTimers")
-    //    setNetworkEventsListerers()
+    setNetworkEventsListerers()
     setSmEventsListerers()
   }
   
@@ -244,6 +244,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   private func setSmEventsListerers() {
     self.eventListenerUUID = rs.on(event: { [weak self] (event) in
+      if case .readTimeout = event {
+        log("readTimeout")
+      }
+      
       guard case .serverDown = event else {
         return
       }

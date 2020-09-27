@@ -247,6 +247,7 @@ class FightSettings: ObservableObject {
   }
   
   func loadFightConfig(_ state: FightState) {
+    print("loadFightConfig")
     DispatchQueue.main.async {
       self.isSyncing = true
       self.period = Int(rs.competition.period) - 1
@@ -259,8 +260,9 @@ class FightSettings: ObservableObject {
       self.rightCard = rs.persons.right.card
       self.rightCardP = rs.persons.right.passiveCard
       
-      self.ethernetFightPhase = .active
-      self.ethernetFightOption = ""
+      self.ethernetFightPhase = state.ethernetStatus == .waiting ? .none : .active
+      self.ethernetFightOption = state.ethernetStatus == .waiting ? getFightName(left: state.matchLeftFighterData.matchName, right: state.matchRightFighterData.matchName): ""
+      print(self.ethernetFightOption)
       self.isSyncing = false
     }
   }

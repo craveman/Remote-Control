@@ -206,6 +206,7 @@ public struct CompetitionState {
 public enum Inbound {
 
   case broadcast(weapon: Weapon, left: FlagState, right: FlagState, timer: UInt32, timerState: TimerState)
+  case quit
   case additionalState(isCamConnected: Bool, isEthernetEnabled: Bool)
   case deviceList(devices: [Device])
   case competition(state: CompetitionState)
@@ -275,6 +276,8 @@ extension Inbound: Message {
     switch self {
     case .broadcast:
       return 0x0B
+    case .quit:
+      return 0x0F
     case .deviceList:
       return 0x1A
     case .competition:

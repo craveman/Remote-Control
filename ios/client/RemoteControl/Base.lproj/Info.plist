@@ -24,6 +24,13 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_inspirationpoint._tcp</string>
+		<string>_inspirationpoint._udp</string>
+	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Local Network access is required to be able to search and connect to SM02</string>
 	<key>UIAppFonts</key>
 	<array/>
 	<key>UILaunchStoryboardName</key>

@@ -7,7 +7,7 @@
 //
 
 import struct Foundation.UUID
-import struct Foundation.NSCalendar.Calendar
+import class Foundation.NSCalendar
 import typealias Foundation.Published
 
 import class Foundation.NSTimer.Timer
@@ -133,16 +133,16 @@ final class RemoteService {
     @Published
     private(set) var address: RemoteAddress? = nil
     
-    @Published
-    private(set) var lastMessageAt: Calendar?
-    
     fileprivate var subs: [AnyCancellable] = []
     
     init () {
       Sm02.on(message: { [unowned self] (inbound) in
-        self.lastMessageAt = Calendar.current
         if case .authentication(.success) = inbound {
           self.isAuthenticated = true
+        }
+        if case .quit = inbound {
+          print("quit")
+          self.disconnect()
         }
       })
       Sm02.on(event: { [unowned self] (event) in
@@ -430,11 +430,12 @@ final class RemoteService {
           return
         }
         self.status = state
+        print("RS \(self.status)")
+        clearCyranoOption()
         guard let fight = self.status else {
-          self.cyranoOption = "-"
           return
         }
-        self.cyranoOption = "\(fight.left.name) - \(fight.right.name)"
+        self.cyranoOption = getFightName(left: fight.left.name, right: fight.right.name)
       })
       
       let temp = [
@@ -482,6 +483,7 @@ final class RemoteService {
     }
     
     func cyranoApply () {
+      print("cyranoApply")
       RemoteService.shared.ethernetApply()
       
       guard let next = status else {

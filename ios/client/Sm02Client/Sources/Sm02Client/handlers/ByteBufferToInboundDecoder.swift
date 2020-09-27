@@ -12,6 +12,7 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
   private typealias Decoder = (UInt8, inout ByteBuffer) -> Inbound?
   private static let decoders: [UInt8: Decoder] = [
     0x0B: decodeBroadcast,
+    0x0F: decodeQuit,
     0x1A: decodeDeviceList,
     0x2A: decodeVideoReplaysList,
     0x21: decodeCompetition,
@@ -120,6 +121,10 @@ final class ByteBufferToInboundDecoder: ChannelInboundHandler {
 
   private static func decodePassiveMax (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
     return .passiveMax
+  }
+  
+  private static func decodeQuit (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
+    return .quit
   }
 
   private static func decodeAdditionalInfo (status: UInt8, buffer: inout ByteBuffer) -> Inbound? {
