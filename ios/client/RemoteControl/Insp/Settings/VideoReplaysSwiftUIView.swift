@@ -43,7 +43,7 @@ struct VideoReplaysButtonSwiftUIView: View {
         }
         print("sheet: $insp.shouldShowVideoSelectView -> onDismiss")
       }) {
-        self.modal.environmentObject(self.playback)
+        self.modal.environmentObject(self.playback).edgesIgnoringSafeArea(.bottom)
     }
   }
 }

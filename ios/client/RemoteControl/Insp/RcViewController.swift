@@ -301,6 +301,7 @@ class RcViewController: UIViewController {
     subscriptions.append(videoRecordLoaded$)
     
     let ethState$ = rs.competition.$state.on(change: { cfg in
+      self.game.turnOffEthLockTimer()
       guard cfg != nil else {
         print("Unsupported state was set")
         return
@@ -310,11 +311,10 @@ class RcViewController: UIViewController {
     })
     
     let ethFightStatus$ = rs.competition.$fightStatus.on(change: { status in
-      
+      self.game.turnOffEthLockTimer()
       if status == .stopFight {
         print("ETH fight end done")
         self.game.ethernetFightPhase = .none
-        rs.ethernetNextOrPrevious(next: true)
       } else {
 //        self.game.ethernetFightPhase = .active
         print("Notify ETH fight end is not possible")
@@ -322,7 +322,8 @@ class RcViewController: UIViewController {
     })
     
     let ethOption$ = rs.competition.$cyranoOption.on(change: {name in
-      self.game.ethernetFightOption = name
+      self.game.turnOffEthLockTimer()
+      self.game.ethernetNextFightTitle = name
     })
     
     subscriptions.append(ethState$)

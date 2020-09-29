@@ -185,11 +185,13 @@ class PlaybackControls: ObservableObject {
 
 class FightSettings: ObservableObject {
   var PAUSE_DISSMISED_DEFERED_ACTION_TIMER: Timer? = nil
+  var ETHERNET_DEFERED_ACTION_TIMER: Timer? = nil
   var PAUSE_FINISHED_CANCELABLE: AnyCancellable? = nil
   var savedTime: TimeAmount? = nil
   private var isSyncing = false
   @Published var ethernetFightPhase: FightPhase = .none
-  @Published var ethernetFightOption: String = ""
+  @Published var ethernetNextFightTitle: String = ""
+  @Published var ethernetActionIsLocked: Bool = false
   @Published var leftCardP: StatusCard = .passiveNone
   @Published var rightCardP: StatusCard = .passiveNone
   @Published var leftCard: StatusCard = .none
@@ -236,6 +238,28 @@ class FightSettings: ObservableObject {
     print("settings.period updated to \(rs.competition.period) with Int \(next)")
   }
   
+  func turnOnEthLockTimer() -> Void {
+    if self.ethernetActionIsLocked {
+      print("self.ethernetActionIsLocked already turned on")
+      return;
+    }
+    
+    self.ethernetActionIsLocked = true
+    
+    self.ETHERNET_DEFERED_ACTION_TIMER = withDelay({
+      self.ethernetActionIsLocked = false
+      self.ETHERNET_DEFERED_ACTION_TIMER = nil
+    }, 5)
+  }
+  
+  func turnOffEthLockTimer() -> Void {
+    self.ethernetActionIsLocked = false
+    
+    if self.ETHERNET_DEFERED_ACTION_TIMER != nil {
+      self.ETHERNET_DEFERED_ACTION_TIMER?.invalidate()
+    }
+  }
+  
   func resetBout() {
     self.resetPassive()
     self.setPeriod(0)
@@ -247,7 +271,6 @@ class FightSettings: ObservableObject {
   }
   
   func loadFightConfig(_ state: FightState) {
-    print("loadFightConfig")
     DispatchQueue.main.async {
       self.isSyncing = true
       self.period = Int(rs.competition.period) - 1
@@ -261,9 +284,11 @@ class FightSettings: ObservableObject {
       self.rightCardP = rs.persons.right.passiveCard
       
       self.ethernetFightPhase = state.ethernetStatus == .waiting ? .none : .active
-      self.ethernetFightOption = state.ethernetStatus == .waiting ? getFightName(left: state.matchLeftFighterData.matchName, right: state.matchRightFighterData.matchName): ""
-      print(self.ethernetFightOption)
+      self.ethernetNextFightTitle = state.ethernetStatus == .waiting ? getFightName(left: state.matchLeftFighterData.matchName, right: state.matchRightFighterData.matchName): ""
+      self.turnOffEthLockTimer()
       self.isSyncing = false
+      print("loadFightConfig sync complete")
+      
     }
   }
   

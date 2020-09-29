@@ -30,8 +30,9 @@ struct PointsSwiftUIView: View {
   var body: some View {
     VStack(spacing: 0) {
       Divider()
-      Spacer()
+      Spacer().frame(width: width, height: getPreferedControlsGap() * 2)
       FightControls()
+      Spacer().frame(width: width, height: getPreferedControlsGap())
       StartTimerButtonWithModalView(showModal: $insp.shouldShowTimerView ,start: startAction, stop: stopAction)
       Spacer()
     }
@@ -85,6 +86,7 @@ fileprivate struct StartTimerButtonWithModalView: View {
         TimerModalView(onTap: self.stop)
           .environmentObject(self.settings)
           .background(UIGlobals.modalSheetBackground)
+          .edgesIgnoringSafeArea(.bottom)
     }
   }
 }

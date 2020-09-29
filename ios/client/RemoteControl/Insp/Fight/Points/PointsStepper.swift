@@ -59,7 +59,7 @@ struct PointsStepper: View {
   }
   
   var body: some View {
-    VStack {
+    VStack(spacing: 0) {
       Button(action: {
         print("- Button Pushed")
         if (self.getScore() == 0) {
@@ -76,6 +76,7 @@ struct PointsStepper: View {
       .disabled(minusIsActive)
       .background(minusIsActive ? UIGlobals.disabledButtonBackground_SUI: nil)
       .border(Color.gray, width: 0.5)
+      Spacer().frame(width: width/2, height: 24)
       Button(action: {
         print("+ Button Pushed")
         if (self.getScore() == MAX_SCORE) {

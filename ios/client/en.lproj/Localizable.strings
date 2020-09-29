@@ -99,8 +99,16 @@
 "1' pause 1" = "pause";
 "1' pause 2" = "1 min";
 
+//
+"title Bout" = "Bout";
+"request bout" = "request bout";
+"next" = "next";
+"prev" = "previous";
+"complete" = "complete";
+
 "Left fencer" = "Left fencer";
 "Right fencer" = "Right fencer";
+"swap" = "swap";
 
 "Start" = "START";
 "Stop" = "STOP";

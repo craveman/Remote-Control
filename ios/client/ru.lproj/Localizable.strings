@@ -108,9 +108,16 @@
 "set time" = "время";
 "set period" = "период";
 "reset bout" = "сброс";
+//
+"title Bout" = "Бой";
+"request bout" = "запросить бой";
+"next" = "следующий";
+"prev" = "предыдущий";
+"complete" = "завершить";
 
 "Left fencer" = "Боец слева";
 "Right fencer" = "Боец справа";
+"swap" = "переворот";
 
 "Start" = "СТАРТ";
 "Stop" = "СТОП";

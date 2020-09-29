@@ -38,6 +38,7 @@ struct CommonButton: View {
   var imageColor = primaryColor
   var frame = getButtonFrame(.withImage)
   var border = Color.gray
+  var locked = false
   var body: some View {
     Button(action: {
       self.action()
@@ -51,6 +52,8 @@ struct CommonButton: View {
       }.frame(width: frame.idealWidth)
     }.frame(width: frame.idealWidth, height: frame.idealHeight, alignment: frame.alignment)
       .border(self.border, width: 0.5)
+    .disabled(locked)
+    .background(locked ? UIGlobals.disabledButtonBackground_SUI: nil)
   }
 }
 
@@ -95,7 +98,7 @@ struct CommonModalButton<Content>: View where Content: View {
       self.action()
     }, text: self.text, imageName: self.imageName, imageColor: self.imageColor, frame: self.frame, border: self.border)
       .sheet(isPresented: self.$showModal, onDismiss: self.onDismiss) {
-        self.content().background(UIGlobals.modalSheetBackground)
+        self.content().background(UIGlobals.modalSheetBackground).edgesIgnoringSafeArea(.bottom)
     }
   }
 }

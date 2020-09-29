@@ -35,6 +35,7 @@ struct NamesSettingsButtonSwiftUIView: View {
     }) {
       NamesSettingsSwiftUIView()
         .background(UIGlobals.modalSheetBackground)
+        .edgesIgnoringSafeArea(.bottom)
     }
   }
 }

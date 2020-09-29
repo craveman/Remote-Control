@@ -31,6 +31,7 @@ struct PriorityButtonSwiftUIView: View {
           .environmentObject(self.settings)
           .environmentObject(self.insp)
         .background(UIGlobals.modalSheetBackground)
+          .edgesIgnoringSafeArea(.bottom)
     }
   }
 }

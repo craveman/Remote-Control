@@ -70,7 +70,6 @@ final class RemoteService {
   func ethernetNextOrPrevious (next: Bool) {
     let outbound = Outbound.ethernetNextOrPrevious(next: next)
     Sm02.send(message: outbound)
-    competition.clearCyranoOption()
   }
   
   func ethernetApply () {
@@ -431,7 +430,6 @@ final class RemoteService {
         }
         self.status = state
         print("RS \(self.status)")
-        clearCyranoOption()
         guard let fight = self.status else {
           return
         }
@@ -466,10 +464,6 @@ final class RemoteService {
           Sm02.send(message: outbound)
         })]
       self.subs = temp
-    }
-    
-    fileprivate func clearCyranoOption() {
-      cyranoOption = ""
     }
     
     func reset () {

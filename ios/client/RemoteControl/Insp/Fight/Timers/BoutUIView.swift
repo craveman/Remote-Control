@@ -30,14 +30,15 @@ struct EnthernetBoutButton: View {
     CommonModalButton(imageName: "antenna.radiowaves.left.and.right", imageColor: nil, buttonType: .special, text: "bout",
                       action: { Vibration.impact() }, onDismiss: {},
                       border: Color.clear, showModal: $showModal) {
-                        EthernetBoutModalContentUIView().environmentObject(self.settings).environmentObject(self.insp)
+                        EthernetBoutModalContentUIView()
+                          .environmentObject(settings)
+                          .environmentObject(insp)
     }
   }
 }
 
 struct BoutButton: View {
   @EnvironmentObject var insp: InspSettings
-  
   var body: some View {
     VStack{
       if (insp.isEthernetMode) {
@@ -103,12 +104,15 @@ struct ResetBoutUIView_Previews: PreviewProvider {
 
 struct EthBoutUIView_Previews: PreviewProvider {
   static var previews: some View {
-    EthBoutUIView()
+    EthBoutUIView().environmentObject(FightSettings())
+      .environmentObject(InspSettings())
   }
 }
 
 struct EthBoutButtonView_Previews: PreviewProvider {
   static var previews: some View {
     EnthernetBoutButton()
+      .environmentObject(FightSettings())
+      .environmentObject(InspSettings())
   }
 }

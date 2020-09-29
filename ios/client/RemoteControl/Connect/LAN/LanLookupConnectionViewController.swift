@@ -13,7 +13,7 @@ fileprivate func log(_ items: Any...) {
   print("LanLookupConnectionViewController:log: ", items)
 }
 
-fileprivate let WAIT_TIMEOUT = 15.0
+fileprivate let WAIT_TIMEOUT = 9.0
 fileprivate let NOTIFY_TIMEOUT = 2.5
 
 class ManualConfiguration {

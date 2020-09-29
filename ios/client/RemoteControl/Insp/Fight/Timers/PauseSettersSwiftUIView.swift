@@ -37,6 +37,10 @@ struct PauseSetters: View {
     unsubscribeFinish()
     dismiss()
     log("pause dissmised")
+    guard !rs.competition.cyranoWorks else {
+      log("period bump canceled due to cyranoWorks flag")
+      return
+    }
     if (settings.period + 1 < INSPIRATION_MAX_PERIOD) {
       log("period bump")
       settings.setPeriod(settings.period + 1)
