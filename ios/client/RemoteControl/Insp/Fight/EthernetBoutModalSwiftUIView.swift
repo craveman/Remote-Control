@@ -126,10 +126,7 @@ struct EthModalControls: View {
   func applyAction() -> Void {
     rs.competition.cyranoApply()
     self.settings.turnOnEthLockTimer()
-    if (rs.competition.period > 0) {
-      self.settings.period = Int(rs.competition.period - 1)
-    }
-    
+    self.settings.syncPeriod()
     self.settings.ethernetFightPhase = .active
     self.presentationMode.wrappedValue.dismiss()
   }

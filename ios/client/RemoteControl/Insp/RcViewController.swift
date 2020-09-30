@@ -92,12 +92,11 @@ class RcViewController: UIViewController {
       self.rcModel.shouldShowPauseView = rs.timer.mode == .pause && rs.timer.state == .running
       self.rcModel.shouldShowMedicalView = rs.timer.mode == .medicine && rs.timer.state == .running
     })
+    
     print("syncState: \(rs.competition.state)")
     if let fightState = rs.competition.state {
-      
-      self.game.loadFightConfig(fightState)
+      self.game.syncFightState(fightState)
     }
-    
   }
   
   private func setSubscriptions() {
@@ -306,7 +305,7 @@ class RcViewController: UIViewController {
         print("Unsupported state was set")
         return
       }
-      self.game.loadFightConfig(cfg!)
+      self.game.syncFightState(cfg!)
       print("rs.competition.$state on change", cfg!)
     })
     

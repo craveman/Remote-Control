@@ -236,8 +236,12 @@ final class RemoteService {
         } else {
           self.card = .none
         }
-        self.isSyncing = false
+        self.passiveCard = .none
+        withDelay({
+          self.isSyncing = false
+        }, RemoteService.SYNC_INTERVAL)
       }
+      
       fileprivate func sync(fight data: FightState.FighterData, priority: Bool) {
         self.isSyncing = true
         self.score = UInt8(data.matchScore)
@@ -268,7 +272,9 @@ final class RemoteService {
         default:
           self.passiveCard = .none
         }
-        self.isSyncing = false
+        withDelay({
+          self.isSyncing = false
+        }, RemoteService.SYNC_INTERVAL)
       }
       
       private func send(message outbound: Outbound) {
@@ -306,22 +312,28 @@ final class RemoteService {
             let outbound = Outbound.setName(person: type, name: update)
             self.send(message: outbound)
           }),
-          $card.on(change: { update in
-            let outbound = Outbound.setCard(person: type, status: update)
-            self.send(message: outbound)
-          }),
-          $passiveCard.on(change: { update in
-            let outbound = Outbound.setCard(person: type, status: update)
-            self.send(message: outbound)
-          }),
           $score.on(change: { update in
             let outbound = Outbound.setScore(person: type, score: update)
             self.send(message: outbound)
-//            log("\(self.type) score was send \(update)")
+            //            log("\(self.type) score was send \(update)")
           })
         ]
         
         self.subs = temp
+      }
+      
+      func setCard(_ card: StatusCard) -> Void {
+        switch card {
+        case .none, .black, .yellow, .red:
+          self.card = card
+          break
+        case .passiveNone, .passiveBlack, .passiveYellow, .passiveRed:
+          self.passiveCard = card
+          break
+        }
+        
+        let outbound = Outbound.setCard(person: type, status: card)
+        send(message: outbound)
       }
       
       func setPriority () {
@@ -352,13 +364,15 @@ final class RemoteService {
     var weapon: Weapon = .none
     
     @Published
-    var period: UInt8 = 0
+    private(set) var period: UInt8 = 0
     
     @Published
     var periodTime: UInt32 = 0
     
     @Published
     private(set) var individualFight = true
+    @Published
+    private(set) var teamFight = false
     
     @Published
     private(set) var fightStatus: Decision = .continueFight
@@ -373,7 +387,8 @@ final class RemoteService {
         
         period = UInt8(input.matchCurrentPeriod)
         
-        individualFight = input.ethernetCompetitionType != .team
+        individualFight = input.ethernetCompetitionType == .individual
+        teamFight = input.ethernetCompetitionType == .team
         
         PersonsManagement.Person.priorityType = .none
         RemoteService.shared.persons.left.sync(fight: input.matchLeftFighterData, priority: input.matchPriority == .left)
@@ -382,10 +397,10 @@ final class RemoteService {
         RemoteService.shared.video.replay.syncCounters(leftCount: UInt8(input.matchVideoLeft), rightCount: UInt8(input.matchVideoRight))
       }
     }
-
+    
     @Published
     private(set) var status: CompetitionState?
-
+    
     fileprivate var subs: [AnyCancellable] = []
     
     fileprivate init () {
@@ -433,6 +448,7 @@ final class RemoteService {
         guard let fight = self.status else {
           return
         }
+        
         self.cyranoOption = getFightName(left: fight.left.name, right: fight.right.name)
       })
       
@@ -455,10 +471,6 @@ final class RemoteService {
             self.raceConditionLock = false
           }
         }),
-        $period.on(change: { update in
-          let outbound = Outbound.setPeriod(period: update)
-          Sm02.send(message: outbound)
-        }),
         $periodTime.on(change: { update in
           let outbound = Outbound.setDefaultTime(time: update)
           Sm02.send(message: outbound)
@@ -476,6 +488,12 @@ final class RemoteService {
       Sm02.send(message: outbound)
     }
     
+    func setPeriod(_ next: UInt8) -> Void {
+      let outbound = Outbound.setPeriod(period: next)
+      Sm02.send(message: outbound)
+      period = next
+    }
+    
     func cyranoApply () {
       print("cyranoApply")
       RemoteService.shared.ethernetApply()
@@ -484,10 +502,11 @@ final class RemoteService {
         log("cyranoApply failed to find status")
         return
       }
-
+      
       period = UInt8(next.period)
       
-      individualFight = next.type != .team
+      individualFight = next.type == .individual
+      teamFight = next.type == .team
       
       PersonsManagement.Person.priorityType = .none
       
@@ -543,7 +562,7 @@ final class RemoteService {
           self.isPauseFinished = true
           log("pauseFinished: \(self.isPauseFinished)")
         case let .broadcast(_, _, _, timer, timerState):
-//          log("\(timer), \(timerState)")
+          //          log("\(timer), \(timerState)")
           if self.time != timer {
             self.time = timer
           }

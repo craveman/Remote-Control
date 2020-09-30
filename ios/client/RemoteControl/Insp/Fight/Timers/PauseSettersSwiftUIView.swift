@@ -37,13 +37,13 @@ struct PauseSetters: View {
     unsubscribeFinish()
     dismiss()
     log("pause dissmised")
-    guard !rs.competition.cyranoWorks else {
-      log("period bump canceled due to cyranoWorks flag")
+    guard !insp.isEthernetMode else {
+      log("period bump canceled due to isEthernetMode flag")
       return
     }
-    if (settings.period + 1 < INSPIRATION_MAX_PERIOD) {
+    if (settings.period < INSPIRATION_MAX_PERIOD) {
       log("period bump")
-      settings.setPeriod(settings.period + 1)
+      settings.setPeriod(UInt8(settings.period + 1))
     }
   }
   

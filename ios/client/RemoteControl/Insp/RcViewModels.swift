@@ -227,15 +227,16 @@ class FightSettings: ObservableObject {
   
   @Published var weapon: Weapon = .none
   
-  @Published var period: Int = 0
+  @Published private(set) var period: Int = 1
   
-  func setPeriod(_ next: Int) -> Void {
-    
-    rs.competition.period = UInt8(next + 1)
-    period = next
+  func syncPeriod() -> Void {
+    period = Int(rs.competition.period)
+  }
+  
+  func setPeriod(_ next: UInt8) -> Void {
+    rs.competition.setPeriod(next)
+    period = Int(next)
     rs.timer.set(time: INSPIRATION_DEFAULT_FIGHT_TIME, mode: .main)
-    
-    print("settings.period updated to \(rs.competition.period) with Int \(next)")
   }
   
   func turnOnEthLockTimer() -> Void {
@@ -243,7 +244,7 @@ class FightSettings: ObservableObject {
       print("self.ethernetActionIsLocked already turned on")
       return;
     }
-    
+  
     self.ethernetActionIsLocked = true
     
     self.ETHERNET_DEFERED_ACTION_TIMER = withDelay({
@@ -262,7 +263,7 @@ class FightSettings: ObservableObject {
   
   func resetBout() {
     self.resetPassive()
-    self.setPeriod(0)
+    self.setPeriod(1)
     self.leftScore = 0
     self.rightScore = 0
     self.resetCards()
@@ -270,10 +271,10 @@ class FightSettings: ObservableObject {
     self.resetPriority()
   }
   
-  func loadFightConfig(_ state: FightState) {
+  func syncFightState(_ state: FightState) {
     DispatchQueue.main.async {
       self.isSyncing = true
-      self.period = Int(rs.competition.period) - 1
+      self.syncPeriod()
       
       self.leftScore = rs.persons.left.score
       self.leftCard = rs.persons.left.card
@@ -286,7 +287,10 @@ class FightSettings: ObservableObject {
       self.ethernetFightPhase = state.ethernetStatus == .waiting ? .none : .active
       self.ethernetNextFightTitle = state.ethernetStatus == .waiting ? getFightName(left: state.matchLeftFighterData.matchName, right: state.matchRightFighterData.matchName): ""
       self.turnOffEthLockTimer()
-      self.isSyncing = false
+      withDelay({
+        self.isSyncing = false
+      }, RemoteService.SYNC_INTERVAL)
+     
       print("loadFightConfig sync complete")
       
     }

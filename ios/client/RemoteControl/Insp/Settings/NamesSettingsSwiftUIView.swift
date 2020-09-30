@@ -11,6 +11,7 @@ import SwiftUI
 let NAME_LENGTH_LIMIT = 160
 
 struct NamesSettingsButtonSwiftUIView: View {
+  @EnvironmentObject var insp: InspSettings
   @State var showModal = false
   var body: some View {
     Button(action: {
@@ -36,6 +37,7 @@ struct NamesSettingsButtonSwiftUIView: View {
       NamesSettingsSwiftUIView()
         .background(UIGlobals.modalSheetBackground)
         .edgesIgnoringSafeArea(.bottom)
+        .environmentObject(insp)
     }
   }
 }
@@ -63,6 +65,7 @@ class NameBindingManager: ObservableObject {
 }
 
 struct NamesSettingsSwiftUIView: View {
+  @EnvironmentObject var insp: InspSettings
   @Environment(\.presentationMode) var presentationMode
   @ObservedObject var leftName = NameBindingManager(rs.persons.left.name, updater: { name in rs.persons.left.name = name})
   @ObservedObject var rightName = NameBindingManager(rs.persons.right.name, updater: { name in rs.persons.right.name = name})
@@ -93,7 +96,7 @@ struct NamesSettingsSwiftUIView: View {
               }.font(.largeTitle)
               .background(primaryColor.opacity(0.05))
               .accessibility(label: Text("Left fencer"))
-              .disabled(rs.competition.cyranoWorks)
+              .disabled(insp.isEthernetMode)
             }.padding()
             Divider()
             VStack(alignment: .leading, spacing: 0) {
@@ -109,7 +112,7 @@ struct NamesSettingsSwiftUIView: View {
               }.font(.largeTitle)
               .background(primaryColor.opacity(0.05))
               .accessibility(label: Text("Right fencer"))
-              .disabled(rs.competition.cyranoWorks)
+              .disabled(insp.isEthernetMode)
             }.padding()
             Spacer()
           }
