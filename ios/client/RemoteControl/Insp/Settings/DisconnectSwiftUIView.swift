@@ -70,7 +70,7 @@ struct DisconnectSwiftUIView: View {
             rs.connection.disconnect()
           })
           let appDelegate = UIApplication.shared.delegate as! AppDelegate
-          appDelegate.disconnectedByUser();
+          appDelegate.disconnectedByUser()
           Vibration.impact()
         }, text: "disconnect", color: .red, imageName: "power")
       }.padding([.vertical]).frame(width: width)

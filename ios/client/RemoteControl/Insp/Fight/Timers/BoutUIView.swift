@@ -73,6 +73,7 @@ struct ResetBoutModalContentUIView: View {
         ConfirmModalButton(action: {
           self.presentationMode.wrappedValue.dismiss()
           rs.competition.reset()
+          rs.persons.resetNames()
           self.settings.resetBout()
           self.insp.onReset()
         }, text: "confirm", color: .green)

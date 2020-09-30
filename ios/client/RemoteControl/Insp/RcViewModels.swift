@@ -113,7 +113,7 @@ class PlaybackControls: ObservableObject {
       print("active \(isPlayActive)")
     }
   }
- 
+  
   @Published var selectedSpeed: Double = 0 {
     didSet {
       if(selectedSpeed.rounded() != oldValue.rounded()) {
@@ -202,7 +202,7 @@ class FightSettings: ObservableObject {
         return
       }
       print("leftScore didSet \(leftScore)")
-      rs.persons.left.score = leftScore
+      rs.persons.left.setScore(leftScore)
     }
   }
   @Published var rightScore: UInt8 = 0 {
@@ -211,7 +211,7 @@ class FightSettings: ObservableObject {
         return
       }
       print("rightScore didSet \(rightScore)")
-      rs.persons.right.score = rightScore
+      rs.persons.right.setScore(rightScore)
     }
   }
   @Published var time: UInt32 = GAME_DEFAULT_TIME
@@ -244,7 +244,7 @@ class FightSettings: ObservableObject {
       print("self.ethernetActionIsLocked already turned on")
       return;
     }
-  
+    
     self.ethernetActionIsLocked = true
     
     self.ETHERNET_DEFERED_ACTION_TIMER = withDelay({
@@ -262,20 +262,25 @@ class FightSettings: ObservableObject {
   }
   
   func resetBout() {
-    self.resetPassive()
-    self.setPeriod(1)
-    self.leftScore = 0
-    self.rightScore = 0
-    self.resetCards()
-    self.resetVideo()
-    self.resetPriority()
+    DispatchQueue.main.async {
+      self.isSyncing = true
+      self.resetPassive()
+      self.setPeriod(1)
+      self.leftScore = 0
+      self.rightScore = 0
+      self.resetCards()
+      self.resetVideo()
+      self.resetPriority()
+      self.isSyncing = false
+    }
   }
   
   func syncFightState(_ state: FightState) {
     DispatchQueue.main.async {
+      print("loadFightConfig sync started")
       self.isSyncing = true
       self.syncPeriod()
-      
+      self.time = rs.timer.time
       self.leftScore = rs.persons.left.score
       self.leftCard = rs.persons.left.card
       self.leftCardP = rs.persons.left.passiveCard
@@ -288,9 +293,11 @@ class FightSettings: ObservableObject {
       self.ethernetNextFightTitle = state.ethernetStatus == .waiting ? getFightName(left: state.matchLeftFighterData.matchName, right: state.matchRightFighterData.matchName): ""
       self.turnOffEthLockTimer()
       withDelay({
-        self.isSyncing = false
+        DispatchQueue.main.async {
+          self.isSyncing = false
+        }
       }, RemoteService.SYNC_INTERVAL)
-     
+      
       print("loadFightConfig sync complete")
       
     }
@@ -329,13 +336,12 @@ class FightSettings: ObservableObject {
   }
   
   func resetVideo() -> Void {
-    rs.video.replay.leftCounter = 2
-    rs.video.replay.rightCounter = 2
+    rs.video.replay.resetCounters()
     rs.video.replay.clear()
   }
   
   func resetPriority() -> Void {
-    rs.persons.resetPriority()
+    rs.persons.resetPriority(updateRemote: !isSyncing)
   }
   
   func resetPassive() -> Void {

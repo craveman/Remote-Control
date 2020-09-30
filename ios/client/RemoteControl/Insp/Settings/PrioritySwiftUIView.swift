@@ -55,7 +55,7 @@ struct PrioritySwiftUIView: View {
   }
   
   func clear() {
-    rs.persons.resetPriority()
+    rs.persons.resetPriority(updateRemote: true)
     self.updateState()
   }
   

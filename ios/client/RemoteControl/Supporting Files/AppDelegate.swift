@@ -84,6 +84,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
   
+  @objc func disconnectedByConnection() {
+    log("disconnectedByConnection called")
+  }
+  
   @objc func disconnectedByUser() {
     log("disconnectedByUser called")
     if rs.connection.address != nil {

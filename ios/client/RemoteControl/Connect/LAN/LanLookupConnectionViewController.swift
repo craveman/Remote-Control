@@ -204,6 +204,7 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   }
   
   func doConnectionRejection() {
+    print("doConnectionRejection")
     stopScanner()
     connectionProgressBar.isHidden = true
     isConnecting = false

@@ -44,8 +44,8 @@ struct NamesSettingsButtonSwiftUIView: View {
 
 class NameBindingManager: ObservableObject {
   init(_ initialValue: String, updater setter: @escaping (String) -> Void) {
-    self.setter = setter
     self.text = initialValue
+    self.setter = setter
   }
   var setter: (String) -> Void
   @Published var text = "" {
@@ -54,6 +54,7 @@ class NameBindingManager: ObservableObject {
         text = oldValue
         Vibration.warning()
       }
+      print("call name setter")
       setter(text)
       if(text != oldValue) {
         Vibration.notification()
@@ -67,8 +68,8 @@ class NameBindingManager: ObservableObject {
 struct NamesSettingsSwiftUIView: View {
   @EnvironmentObject var insp: InspSettings
   @Environment(\.presentationMode) var presentationMode
-  @ObservedObject var leftName = NameBindingManager(rs.persons.left.name, updater: { name in rs.persons.left.name = name})
-  @ObservedObject var rightName = NameBindingManager(rs.persons.right.name, updater: { name in rs.persons.right.name = name})
+  @ObservedObject var leftName = NameBindingManager(rs.persons.left.name, updater: { name in rs.persons.left.setName(name) })
+  @ObservedObject var rightName = NameBindingManager(rs.persons.right.name, updater: { name in rs.persons.right.setName(name) })
   
   private func endEditing() {
     UIApplication.shared.endEditing()
@@ -90,10 +91,10 @@ struct NamesSettingsSwiftUIView: View {
                 }
               }
               
-              TextField(" ", text: self.$leftName.text) {
+              TextField(" ", text: self.$leftName.text, onCommit:  {
                 self.endEditing()
                 
-              }.font(.largeTitle)
+              }).font(.largeTitle)
               .background(primaryColor.opacity(0.05))
               .accessibility(label: Text("Left fencer"))
               .disabled(insp.isEthernetMode)
@@ -107,9 +108,9 @@ struct NamesSettingsSwiftUIView: View {
                   dinFont(Text("\(self.rightName.text.count) / \(NAME_LENGTH_LIMIT)"),  UIGlobals.appDefaultFontSize)
                 }
               }
-              TextField(" ", text: self.$rightName.text) {
+              TextField(" ", text: self.$rightName.text, onCommit:  {
                 self.endEditing()
-              }.font(.largeTitle)
+              }).font(.largeTitle)
               .background(primaryColor.opacity(0.05))
               .accessibility(label: Text("Right fencer"))
               .disabled(insp.isEthernetMode)

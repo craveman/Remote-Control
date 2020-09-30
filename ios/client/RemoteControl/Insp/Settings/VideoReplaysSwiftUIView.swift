@@ -51,13 +51,13 @@ struct VideoReplaysButtonSwiftUIView: View {
 final class PlayersReplaysCountStore: ObservableObject {
   var playbacksLeftCount = Int(rs.video.replay.leftCounter) {
     didSet {
-      rs.video.replay.leftCounter = UInt8(self.playbacksLeftCount)
+      rs.video.replay.setCounter(left: UInt8(self.playbacksLeftCount))
       print("playbacksLeftCount", self.playbacksLeftCount)
     }
   }
   var playbacksRightCount =  Int(rs.video.replay.rightCounter) {
     didSet {
-      rs.video.replay.rightCounter = UInt8(self.playbacksRightCount)
+      rs.video.replay.setCounter(right: UInt8(self.playbacksRightCount))
       print("playbacksRightCount", self.playbacksRightCount)
     }
   }

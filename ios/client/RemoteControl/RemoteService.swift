@@ -110,7 +110,9 @@ final class RemoteService {
     }
     
     func start (listen port: Int = 21075) {
-      Sm02Lookup.start(listen: port)
+      DispatchQueue.global(qos: .default).async {
+        Sm02Lookup.start(listen: port)
+      }
       isStarted = true
     }
     
@@ -207,13 +209,23 @@ final class RemoteService {
     }
     
     private func send(message outbound: Outbound) {
+      log("PersonsManagement send", outbound)
       Sm02.send(message: outbound)
     }
     
-    func resetPriority () {
+    func resetPriority (updateRemote: Bool = true) {
       Person.priorityType = .none
+      guard updateRemote else {
+        log("Person.priorityType reset was not send")
+        return
+      }
       let outbound = Outbound.setPriority(person: .none)
       send(message: outbound)
+    }
+    
+    func resetNames () {
+      left.name = ""
+      right.name = ""
     }
     
     func confirmNames () {
@@ -223,10 +235,9 @@ final class RemoteService {
     
     final class Person {
       fileprivate func sync(competition data: CompetitionState.Fighter, priority: Bool) {
-        self.isSyncing = true
         self.score = UInt8(data.score)
         if priority {
-          self.setPriority()
+          Person.priorityType = self.type
         }
         self.name = data.name
         if data.redCardCount > 0 {
@@ -237,20 +248,14 @@ final class RemoteService {
           self.card = .none
         }
         self.passiveCard = .none
-        withDelay({
-          self.isSyncing = false
-        }, RemoteService.SYNC_INTERVAL)
       }
       
       fileprivate func sync(fight data: FightState.FighterData, priority: Bool) {
-        self.isSyncing = true
         self.score = UInt8(data.matchScore)
         if priority {
-          self.setPriority()
+          Person.priorityType = self.type
         }
         self.name = data.matchName
-        // select Card
-        print("\(type) Person card: \(data.matchCard)")
         switch data.matchCard {
         case .black:
           self.card = .black
@@ -262,6 +267,7 @@ final class RemoteService {
           self.card = .none
         }
         // select P-Card
+        log("sync(fight data", type, data.matchPassiveCard )
         switch data.matchPassiveCard {
         case .black:
           self.passiveCard = .black
@@ -270,11 +276,8 @@ final class RemoteService {
         case .yellow:
           self.passiveCard = .yellow
         default:
-          self.passiveCard = .none
+          self.passiveCard = .passiveNone
         }
-        withDelay({
-          self.isSyncing = false
-        }, RemoteService.SYNC_INTERVAL)
       }
       
       private func send(message outbound: Outbound) {
@@ -282,6 +285,7 @@ final class RemoteService {
           log("Message send canceled (isSyncing): \(outbound)")
           return
         }
+        log("Person update Message send: \(outbound)")
         Sm02.send(message: outbound)
       }
       private var isSyncing: Bool = false
@@ -306,20 +310,18 @@ final class RemoteService {
       
       fileprivate init (type: PersonType) {
         self.type = type
-        
-        let temp = [
-          $name.on(change: { update in
-            let outbound = Outbound.setName(person: type, name: update)
-            self.send(message: outbound)
-          }),
-          $score.on(change: { update in
-            let outbound = Outbound.setScore(person: type, score: update)
-            self.send(message: outbound)
-            //            log("\(self.type) score was send \(update)")
-          })
-        ]
-        
-        self.subs = temp
+      }
+      
+      func setScore(_ score: UInt8) -> Void {
+        let outbound = Outbound.setScore(person: type, score: score)
+        self.send(message: outbound)
+        self.score = score
+      }
+      
+      func setName(_ name: String) -> Void {
+        let outbound = Outbound.setName(person: type, name: name)
+        self.send(message: outbound)
+        self.name = name
       }
       
       func setCard(_ card: StatusCard) -> Void {
@@ -387,14 +389,18 @@ final class RemoteService {
         
         period = UInt8(input.matchCurrentPeriod)
         
+        
         individualFight = input.ethernetCompetitionType == .individual
         teamFight = input.ethernetCompetitionType == .team
         
         PersonsManagement.Person.priorityType = .none
         RemoteService.shared.persons.left.sync(fight: input.matchLeftFighterData, priority: input.matchPriority == .left)
+//        print("sync RemoteService.shared.persons.left.passiveCard \(RemoteService.shared.persons.left.passiveCard)")
         RemoteService.shared.persons.right.sync(fight: input.matchRightFighterData, priority: input.matchPriority == .right)
-        
+//        print("sync RemoteService.shared.persons.right.passiveCard \(RemoteService.shared.persons.right.passiveCard)")
         RemoteService.shared.video.replay.syncCounters(leftCount: UInt8(input.matchVideoLeft), rightCount: UInt8(input.matchVideoRight))
+        RemoteService.shared.timer.syncTime(time: UInt32(input.matchCurrentTime))
+        print("sync RemoteService.shared.timer.time ", RemoteService.shared.timer.time)
       }
     }
     
@@ -479,6 +485,7 @@ final class RemoteService {
     }
     
     func reset () {
+      log("competition reset")
       let outbound = Outbound.reset
       Sm02.send(message: outbound)
     }
@@ -581,6 +588,10 @@ final class RemoteService {
           break
         }
       })
+    }
+    
+    func syncTime(time: UInt32) {
+      self.time = time
     }
     
     func set (time: TimeAmount, mode: TimerMode) {
@@ -818,16 +829,12 @@ final class RemoteService {
       }
       
       fileprivate func syncCounters(leftCount: UInt8?, rightCount: UInt8?) {
-        isSyncing = true
         if leftCount != nil {
           leftCounter = leftCount!
         }
         if rightCount != nil {
           rightCounter = rightCount!
         }
-        withDelay({
-          self.isSyncing = false
-        }, RemoteService.SYNC_INTERVAL)
       }
       
       fileprivate func doReceived() {
@@ -836,6 +843,30 @@ final class RemoteService {
       
       public static var MAX_COUNTER: UInt8 = 2
       public static var DEFAULT_INIT_COUNTER: UInt8 = MAX_COUNTER
+      
+      func setCounter(left num: UInt8) {
+        let outbound = Outbound.videoCounters(left: num, right: self.rightCounter)
+        self.send(message: outbound)
+        self.leftCounter = num
+      }
+      
+      func setCounter(right num: UInt8) {
+        let outbound = Outbound.videoCounters(left: self.leftCounter, right: num)
+        self.send(message: outbound)
+        self.rightCounter = num
+      }
+      
+      func setCounters(left leftNum: UInt8, right rightNum: UInt8) {
+        let outbound = Outbound.videoCounters(left: leftNum, right: rightNum)
+        self.send(message: outbound)
+        self.leftCounter = leftNum
+        self.rightCounter = rightNum
+      }
+      
+      func resetCounters() {
+        self.leftCounter = VideoReplayManagement.DEFAULT_INIT_COUNTER
+        self.rightCounter = VideoReplayManagement.DEFAULT_INIT_COUNTER
+      }
       
       @Published
       var leftCounter: UInt8 = VideoReplayManagement.DEFAULT_INIT_COUNTER
@@ -886,17 +917,6 @@ final class RemoteService {
           self.recordsList.append(contentsOf: names)
           self.isReady = names.count > 0
         })
-        let temp = [
-          $leftCounter.on(change: { [unowned self] (update) in
-            let outbound = Outbound.videoCounters(left: update, right: self.rightCounter)
-            self.send(message: outbound)
-          }),
-          $rightCounter.on(change: { [unowned self] (update) in
-            let outbound = Outbound.videoCounters(left: self.leftCounter, right: update)
-            self.send(message: outbound)
-          })
-        ]
-        self.subs = temp
       }
       
       fileprivate func doVideoReady() {

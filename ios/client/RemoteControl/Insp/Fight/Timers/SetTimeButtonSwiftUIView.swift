@@ -46,7 +46,7 @@ fileprivate struct TimeModalContent: View {
     self.minFirstDigitOpts = Array(0...minDeciMax).map({"\($0)"})
     self.secFirstDigitOpts = Array(0...5).map({"\($0)"})
     self._selectedTime = time
-    let ms = max(time.wrappedValue, UInt32(minDeciMax * Int(multiplication[0])*1000)) + 1
+    let ms = min(time.wrappedValue, UInt32(minDeciMax * Int(multiplication[0])*1000)) + 1
     log("time.wrappedValue:", time.wrappedValue, "ms: ", ms)
 
     self._minDeci = State(wrappedValue: getSelectedTime(ms, divideBy: multiplication[0]*1000))

@@ -155,7 +155,11 @@ class RcViewController: UIViewController {
       guard self.game.time != update else {
         return
       }
-      self.onMainThread({self.game.time = update})
+      self.onMainThread({
+        print("Set game time", update)
+                          self.game.time = update
+        
+      })
     })
     
     subscriptions.append(time$)
@@ -217,9 +221,11 @@ class RcViewController: UIViewController {
       guard self.game.leftScore != score else {
         return
       }
+      print("lScore$ update")
       self.onMainThread({self.game.leftScore = score})
     })
     let lCard$ = rs.persons.left.$card.on(change: { card in
+      print("lCard$ update")
       self.onMainThread({self.game.setCard(card, .left)})
     })
     
@@ -231,9 +237,11 @@ class RcViewController: UIViewController {
       guard self.game.rightScore != score else {
         return
       }
+      print("rScore$ update")
       self.onMainThread({self.game.rightScore = score})
     })
     let rCard$ = rs.persons.right.$card.on(change: { card in
+      print("rCard$ update")
       self.onMainThread({self.game.setCard(card, .right)})
     })
     
