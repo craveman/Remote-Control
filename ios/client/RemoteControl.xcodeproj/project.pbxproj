@@ -52,6 +52,7 @@
 		85D6E9212390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */; };
 		85D6E9252393049500CBE74D /* TestTimersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */; };
 		85ECCF4A2504E6B400F9CB95 /* EthernetBoutModalSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85ECCF492504E6B400F9CB95 /* EthernetBoutModalSwiftUIView.swift */; };
+		85F02728252BAF74002E307D /* LanAccessHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F02727252BAF74002E307D /* LanAccessHelper.swift */; };
 		8F07A75123892F4800C7F783 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F07A75323892F4800C7F783 /* Localizable.strings */; };
 		8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6D773C237D2C530077B65D /* RemoteService.swift */; };
 		8FD7CB962392C030003DF83B /* Vibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD7CB952392C030003DF83B /* Vibration.swift */; };
@@ -139,6 +140,7 @@
 		85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPassiveButtonSwiftUIView.swift; sourceTree = "<group>"; };
 		85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTimersSwiftUIView.swift; sourceTree = "<group>"; };
 		85ECCF492504E6B400F9CB95 /* EthernetBoutModalSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthernetBoutModalSwiftUIView.swift; sourceTree = "<group>"; };
+		85F02727252BAF74002E307D /* LanAccessHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanAccessHelper.swift; sourceTree = "<group>"; };
 		8F07A75223892F4800C7F783 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8F07A75523892FB000C7F783 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8F6D773C237D2C530077B65D /* RemoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */,
 				85B661F6239327920016CE4F /* KeyboardGuardianSwiftUI.swift */,
 				85B661F8239327F10016CE4F /* TestKeabordGuardianSwiftUIView.swift */,
+				85F02727252BAF74002E307D /* LanAccessHelper.swift */,
 			);
 			path = "UI Helpers";
 			sourceTree = "<group>";
@@ -503,6 +506,7 @@
 				B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */,
 				851AE9B723874465001BE3FB /* PauseSettersSwiftUIView.swift in Sources */,
 				85B956FA237A0FA50063E32C /* PointsSwiftUIView.swift in Sources */,
+				85F02728252BAF74002E307D /* LanAccessHelper.swift in Sources */,
 				85B95700237A31DF0063E32C /* VideoButton.swift in Sources */,
 				85B95708237E07130063E32C /* FightSectionSwiftUIView.swift in Sources */,
 				85B95706237E06C50063E32C /* TimersSwiftUIView.swift in Sources */,
@@ -781,7 +785,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.2.7;
+				MARKETING_VERSION = 1.2.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "Inspiration Point";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -810,7 +814,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.2.7;
+				MARKETING_VERSION = 1.2.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "Inspiration Point";
 				PROVISIONING_PROFILE_SPECIFIER = "";

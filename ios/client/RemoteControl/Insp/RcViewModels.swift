@@ -292,11 +292,7 @@ class FightSettings: ObservableObject {
       self.ethernetFightPhase = state.ethernetStatus == .waiting ? .none : .active
       self.ethernetNextFightTitle = state.ethernetStatus == .waiting ? getFightName(left: state.matchLeftFighterData.matchName, right: state.matchRightFighterData.matchName): ""
       self.turnOffEthLockTimer()
-      withDelay({
-        DispatchQueue.main.async {
-          self.isSyncing = false
-        }
-      }, RemoteService.SYNC_INTERVAL)
+      self.isSyncing = false
       
       print("loadFightConfig sync complete")
       

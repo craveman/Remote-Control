@@ -109,7 +109,7 @@ final class RemoteService {
       })
     }
     
-    func start (listen port: Int = 21075) {
+    func start (listen port: Int = Sm02Lookup.DEFAULT_SM_UDP_PORT) {
       DispatchQueue.global(qos: .default).async {
         Sm02Lookup.start(listen: port)
       }

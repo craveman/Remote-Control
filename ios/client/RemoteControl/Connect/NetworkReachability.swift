@@ -8,7 +8,6 @@
 
 import Foundation
 import Network
-//import UIKit
 
 fileprivate func log(_ items: Any...) {
   print("NetworkReachability:log: ", items)
@@ -23,13 +22,9 @@ class NetworkReachability {
     self?.path = path
     if path.status == NWPath.Status.satisfied {
       log("Connected")
+      checkLanPermission()
     } else if path.status == NWPath.Status.unsatisfied {
       log("unsatisfied")
-//      DispatchQueue.main.async {
-//        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-//        appDelegate.disconnectedByConnection()
-//      }
-      
     } else if path.status == NWPath.Status.requiresConnection {
       log("requiresConnection")
     }
