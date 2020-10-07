@@ -23,10 +23,13 @@ class NetworkReachability {
     if path.status == NWPath.Status.satisfied {
       log("Connected")
       checkLanPermission()
+      toggleLanConnetionState(online: true)
     } else if path.status == NWPath.Status.unsatisfied {
       log("unsatisfied")
+      toggleLanConnetionState(online: false)
     } else if path.status == NWPath.Status.requiresConnection {
       log("requiresConnection")
+      toggleLanConnetionState(online: false)
     }
   }
   

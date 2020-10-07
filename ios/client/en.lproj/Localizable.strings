@@ -6,17 +6,17 @@
   Copyright © 2019 Sergei Andreev. All rights reserved.
 */
 
-"Connect Sm02" = "Connect to Sm02";
+"Connect Sm02" = "Connect to device";
 "Connect Open WiFi first" = "Open Wi-Fi";
 "Connect Protected WiFi first" = "Secured Wi-Fi";
 "Please provide password" = "Please provide password";
 "We never save or share your data" = "We never save or share your data";
 "Skip" = "Skip";
 "Proceed" = "Proceed";
-"disconnected" = "disconnected from Sm02";
+"disconnected" = "disconnected from device";
 
 "Wrong authentication code." = "Wrong authentication code.";
-"Another remote control is already registered on the server." = "Another remote control is already registered on the server.";
+"Another remote control is already registered on the server." = "Another remote control is already registered on the device.";
 
 "A remote server is not reachable." = "A remote server is not reachable.";
 "Unknown connection error: %@" = "Unknown connection error: %@";
@@ -68,7 +68,7 @@
 "tab Counters" = "Counters";
 "tab Records" = "Records";
 "No records found" = "No records found";
-"no camera" = "Sm02 has no connected camera";
+"no camera" = "Device has no connected camera";
 
 "priority" = "priority";
 "title Priority" = "Priority";
@@ -115,14 +115,14 @@
 "Close" = "CLOSE";
 
 "Connect" = "сonnect";
-"Disconnect this Remote Control?" = "Disconnect this Remote Control?";
+"Disconnect this Remote Control?" = "Disconnect this remote control?";
 
-"Searching for Sm02" = "Waiting Sm02 signal...";
+"Searching for Sm02" = "Waiting device signal...";
 
 "lan_manual Manual connection" = "Manual connection";
 "lan_manual Enter connection config" = "";
-"lan_manual Join" = "Join Sm02";
+"lan_manual Join" = "Join deveice";
 "lan_manual Cancel" = "Cancel";
-"lan_manual Enter IP adress" = "Enter IP adress";
+"lan_manual Enter IP address" = "Enter IP address";
 
-"Local Network access is required to be able to search and connect to SM02" = "Local Network access is required to be able to search and connect to SM02";
+"Local Network access is required to be able to search and connect to SM02" = "Local Network access is required to be able to search and connect to device";

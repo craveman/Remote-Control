@@ -6,14 +6,14 @@
   Copyright © 2019 Sergei Andreev. All rights reserved.
 */
 
-"Connect Sm02" = "Подключиться к Sm02";
+"Connect Sm02" = "Подключиться к аппарату";
 "Connect Open WiFi first" = "Открытая сеть";
 "Connect Protected WiFi first" = "Защищённая сеть";
 "Please provide password" = "Введите пароль";
 "We never save or share your data" = "Мы никогда не сохраняем и не передаем ваши данные";
 "Proceed" = "Продолжить";
 "Skip" = "Пропустить";
-"disconnected" = "нет связи с Sm02";
+"disconnected" = "нет связи с аппаратом";
 
 "Wrong authentication code." = "Неверный код авторизации.";
 "Another remote control is already registered on the server." = "Другой пульт уже зарегестрирован на стороне сервера.";
@@ -64,7 +64,7 @@
 "tab Counters" = "Счётчики";
 "tab Records" = "Записи";
 "No records found" = "Нет записей";
-"no camera" = "нет камеры подключенной к Sm02";
+"no camera" = "нет камеры подключенной к аппарату";
 
 "priority" = "приоритет";
 "title Priority" = "Приоритет";
@@ -126,12 +126,12 @@
 "Connect" = "подключиться";
 "Disconnect this Remote Control?" = "Отключить этот пульт?";
 
-"Searching for Sm02" = "Ожидание сигнала от Sm02...";
+"Searching for Sm02" = "Ожидание сигнала от аппарата...";
 
 "lan_manual Manual connection" = "Ручной ввод";
 "lan_manual Enter connection config" = "";
-"lan_manual Join" = "Найти Sm02";
+"lan_manual Join" = "Найти аппарат";
 "lan_manual Cancel" = "Отмена";
-"lan_manual Enter IP adress" = "IP адрес";
+"lan_manual Enter IP address" = "IP-адрес";
 
-"Local Network access is required to be able to search and connect to SM02" = "Доступ к локальной сети необходим для поиска и подключения к SM02";
+"Local Network access is required to be able to search and connect to SM02" = "Доступ к локальной сети необходим для поиска и подключения к аппарату";

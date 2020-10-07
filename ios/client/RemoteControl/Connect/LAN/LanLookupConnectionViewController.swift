@@ -21,7 +21,7 @@ class ManualConfiguration {
   static let SET_CONFIG = NSLocalizedString("lan_manual Enter connection config", comment: "")
   static let JOIN_BTN = NSLocalizedString("lan_manual Join", comment: "")
   static let CANCEL_BTN = NSLocalizedString("lan_manual Cancel", comment: "")
-  static let IP_INPUT_PLACEHOLDER = NSLocalizedString("lan_manual Enter IP adress", comment: "")
+  static let IP_INPUT_PLACEHOLDER = NSLocalizedString("lan_manual Enter IP address", comment: "")
 }
 
 class LanLookupConnectionViewController: UIViewController, ConnectionControllerProtocol {

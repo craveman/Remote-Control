@@ -40,3 +40,7 @@ func checkLanPermission() -> Void {
   addr.sin_addr.s_addr = inet_addr(ip)
   udpSend(textToSend: word, address: addr)
 }
+
+func toggleLanConnetionState(online: Bool) -> Void {
+    print("toggleLanConnetionState online: \(online)")
+}
