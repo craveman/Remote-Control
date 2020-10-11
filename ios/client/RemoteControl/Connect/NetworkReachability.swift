@@ -18,19 +18,8 @@ class NetworkReachability {
   var pathMonitor: NWPathMonitor!
   var path: NWPath?
   lazy var pathUpdateHandler: ((NWPath) -> Void) = {[weak self] path in
-    log(path)
     self?.path = path
-    if path.status == NWPath.Status.satisfied {
-      log("Connected")
-      checkLanPermission()
-      toggleLanConnetionState(online: true)
-    } else if path.status == NWPath.Status.unsatisfied {
-      log("unsatisfied")
-      toggleLanConnetionState(online: false)
-    } else if path.status == NWPath.Status.requiresConnection {
-      log("requiresConnection")
-      toggleLanConnetionState(online: false)
-    }
+    log(path)
   }
   
   let backgroudQueue = DispatchQueue.global(qos: .background)
@@ -39,6 +28,14 @@ class NetworkReachability {
     pathMonitor = NWPathMonitor()
     pathMonitor.pathUpdateHandler = self.pathUpdateHandler
     
+  }
+  
+  init(withHandler handler: ((NWPath) -> Void)?) {
+    pathMonitor = NWPathMonitor()
+    pathMonitor.pathUpdateHandler = {[weak self] path in
+      self?.path = path
+      handler?(path)
+    }
   }
   
   func start() -> Void {

@@ -1,7 +1,7 @@
 
 /* Class = "UILabel"; text = "Failed to connect to device please check configuration"; ObjectID = "2oV-fH-BLy"; */
-"2oV-fH-BLy.text" = "Не удалось подключиться к аппарату
-Проверьте настройки доступа к локальной сети";
+"2oV-fH-BLy.text" = "Аппарат не найден
+Проверьте что вы подключены к Wi-Fi сети аппарата";
 
 /* Class = "UILabel"; text = "Device found"; ObjectID = "Mka-hq-Dpj"; */
 "Mka-hq-Dpj.text" = "Аппарат найден";

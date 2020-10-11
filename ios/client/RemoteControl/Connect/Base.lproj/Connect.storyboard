@@ -84,11 +84,11 @@
                                 <rect key="frame" x="99" y="20" width="177" height="20"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uma-yX-2zc">
-                                <rect key="frame" x="124" y="200" width="127" height="30"/>
+                                <rect key="frame" x="135.5" y="200" width="104" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="5JX-US-Ngc"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="22"/>
+                                <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="18"/>
                                 <state key="normal" title="Go to Settings">
                                     <color key="titleColor" systemColor="linkColor"/>
                                 </state>
@@ -96,8 +96,10 @@
                                     <action selector="toSettings:" destination="nOr-SJ-XJb" eventType="touchUpInside" id="2Zb-eY-lKI"/>
                                 </connections>
                             </button>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Failed to connect to device please check configuration" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" enabled="NO" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="2oV-fH-BLy">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="10" enabled="NO" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="2oV-fH-BLy">
                                 <rect key="frame" x="16" y="40" width="343" height="140"/>
+                                <string key="text">Scoring machine is not found
+Make sure your phone is connected to the scoring machine's Wi-Fi network</string>
                                 <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="18"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

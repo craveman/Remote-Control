@@ -135,3 +135,9 @@
 "lan_manual Enter IP address" = "IP-адрес";
 
 "Local Network access is required to be able to search and connect to SM02" = "Доступ к локальной сети необходим для поиска и подключения к аппарату";
+
+"Failed to connect to device please check configuration" = "Аппарат не найден
+Проверьте что вы подключены к Wi-Fi сети аппарата";
+
+"Not valid lan configuration" = "Аппарат не найден
+Проверьте что вы подключены к Wi-Fi сети аппарата";

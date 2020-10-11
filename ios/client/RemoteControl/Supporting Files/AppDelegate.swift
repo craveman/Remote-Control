@@ -265,7 +265,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   private func setNetworkEventsListerers() {
-    let networkHandler = NetworkReachability();
+    let networkHandler = NetworkReachability(withHandler: {
+      if ($0.status != .satisfied) {
+        log("NetworkReachability is not satisfied")
+      } else {
+        log("NetworkReachability - OK")
+      }
+    })
     networkHandler.start()
   }
   

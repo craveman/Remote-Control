@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Network
 import class Combine.AnyCancellable
 
 fileprivate func log(_ items: Any...) {
@@ -16,15 +17,10 @@ fileprivate func log(_ items: Any...) {
 fileprivate let WAIT_TIMEOUT = 9.0
 fileprivate let NOTIFY_TIMEOUT = 2.5
 
-class ManualConfiguration {
-  static let MANUAL_CONNECTION = NSLocalizedString("lan_manual Manual connection", comment: "")
-  static let SET_CONFIG = NSLocalizedString("lan_manual Enter connection config", comment: "")
-  static let JOIN_BTN = NSLocalizedString("lan_manual Join", comment: "")
-  static let CANCEL_BTN = NSLocalizedString("lan_manual Cancel", comment: "")
-  static let IP_INPUT_PLACEHOLDER = NSLocalizedString("lan_manual Enter IP address", comment: "")
-}
 
 class LanLookupConnectionViewController: UIViewController, ConnectionControllerProtocol {
+  
+  private var netWatcher: NetworkReachability? = nil
   
   private var autoConnect = true {
     didSet {
@@ -49,7 +45,7 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   
   @IBAction func autoConnectSwitchChanged(_ sender: UISwitch) {
-    print(sender.isOn)
+    print("autoConnectSwitchChanged", sender.isOn)
     self.autoConnect = sender.isOn
   }
   @IBOutlet weak var autoConnectSwitch: UISwitch!
@@ -86,7 +82,6 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   @IBAction func toSettings(_ sender: UIButton) {
     log("to Settings")
     DispatchQueue.main.async {
-//      let wifiSettingsURL = URL(string:"App-Prefs:root=WIFI")
       let appSettingsURL = URL(string: UIApplication.openSettingsURLString)
       if let settingsURL = appSettingsURL {
         UIApplication.shared.open(settingsURL)
@@ -94,98 +89,108 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
     }
   }
   
-  var isOnWiFiLookup: Bool = false
+  var isOnWiFiLookup: Bool = false {
+    didSet {
+      print("isOnWiFiLookup didSet \(isOnWiFiLookup)")
+//      failedToConnectLabel.text = isOnWiFiLookup ? LanConnectionFails.NOT_FOUND : LanConnectionFails.NOT_VALID
+//      failedToConnectLabel.setNeedsDisplay()
+    }
+  }
   
   var alert: UIAlertController? = nil
   
   var waitConnectTimer: Timer? = nil
   
-  func onCloseManual(_ auto: Bool = true) -> Void {
-    autoConnect = auto
-    if autoConnect, let manConfig = reader.config {
-      applyConfig(manConfig)
-    }
-    startScanner()
-  }
-  
   func setAutoConnectionMode(_ bool: Bool) -> Void {
+    print("setAutoConnectionMode \(bool)")
     self.autoConnect = bool
   }
   
-  func showInputDialog() {
-    
-    let alertController = UIAlertController(title: ManualConfiguration.MANUAL_CONNECTION, message: ManualConfiguration.SET_CONFIG, preferredStyle: .alert)
-    
-    let confirmAction = UIAlertAction(title: ManualConfiguration.JOIN_BTN, style: .default) { (_) in
-      
-      let name = alertController.textFields?[0].text
-      
-      guard let ip = name else {
-        return
-      }
-      
-      self.applyConfig(LanConfig(ip: ip, code: [0,0,0,0,0]))
-      self.onCloseManual(false)
-    }
-    
-    let cancelAction = UIAlertAction(title: ManualConfiguration.CANCEL_BTN, style: .cancel) { (_) in
-      self.onCloseManual(self.autoConnectSwitch.isOn)
-    }
-    
-    alertController.addTextField { (textField) in
-      textField.placeholder = ManualConfiguration.IP_INPUT_PLACEHOLDER
-      textField.keyboardType = .numbersAndPunctuation
-    }
-    // code ???
-    alertController.addAction(confirmAction)
-    alertController.addAction(cancelAction)
-    
-    //finally presenting the dialog box
-    self.present(alertController, animated: true, completion: nil)
-    self.alert = alertController
+  
+  func onSuccess(_ action: @escaping () -> Void) {
+    self.successAction = action
   }
   
-  func showAlert(_ alert: UIAlertController) {
-    log("showAlert", alert)
-    func applyAlert() {
-      self.present(alert, animated: true, completion: {
-        self.alert = alert
-      })
-    }
-    
-    if self.alert != nil {
-      self.alert?.dismiss(animated: true, completion: {
-        applyAlert()
-      })
-    } else {
-      applyAlert()
-    }
+  func toggleFailedCase(_ on: Bool) -> Void {
+    self.failedToConnectLabel.isHidden = !on
+//    self.goToSettingsButton.isHidden = !on
+    self.searchLabel.isHidden = true
   }
   
-  func startScanner() {
-    log("Start scanner")
-    toggleFailedCase(false)
-    spinner.startAnimating()
-    reader.startReader()
-    withDelay({
-      self.searchLabel.isHidden = false;
-    }, NOTIFY_TIMEOUT)
-    setWaitTimeout()
-    isLookupStarted = true
-  }
-  
-  func stopScanner() {
-    if !isLookupStarted {
-      log("scanner was not started")
-      return
-    }
-    log("Stop scanner")
-    toggleFailedCase(false)
-    spinner.stopAnimating()
+  func setWaitTimeout() {
     waitConnectTimer?.invalidate()
-    reader.stopReader()
-    isLookupStarted = false
+    waitConnectTimer = withDelay({
+      self.toggleFailedCase(true)
+    }, WAIT_TIMEOUT)
   }
+  
+  override func viewDidAppear (_ animated: Bool) {
+    // todo:
+    self.netWatcher?.start()
+    serverFoundLabel.isHidden = true
+    connectionButton.isHidden = true
+    autoConnectSwitch.isOn = autoConnect
+    toggleFailedCase(false)
+    log("did appear")
+    super.viewDidAppear(animated)
+    setConfigSubscription()
+  }
+  
+  override func viewWillDisappear (_ animated: Bool) {
+    log("viewWillDisappear")
+    alert?.dismiss(animated: false, completion: {
+      log("alert dismissed")
+    })
+    configSub?.cancel();
+    waitConnectTimer?.invalidate();
+    super.viewWillDisappear(animated)
+  }
+  
+  override func viewDidDisappear (_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    toggleFailedCase(false)
+    DispatchQueue.main.async {
+      self.stopScanner()
+    }
+    self.netWatcher?.stop()
+  }
+  
+  override func viewDidLoad () {
+    super.viewDidLoad()
+    
+    initNetWatcher()
+  }
+  
+  private func initNetWatcher() {
+    let lanPathUpdateHandler: ((NWPath) -> Void) = {path in
+      DispatchQueue.main.async {
+        log("Asking permitions")
+        checkLanPermission()
+        
+        guard let watcher = self.netWatcher else {
+          self.toggleLanConnetionState(online: false)
+          return;
+        }
+        self.toggleLanConnetionState(online: watcher.isNetworkAvailable())
+        
+      }
+    }
+    
+    self.netWatcher = NetworkReachability(withHandler: lanPathUpdateHandler)
+  }
+  
+  private func toggleLanConnetionState(online: Bool) -> Void {
+      log("toggleLanConnetionState online: \(online)")
+      isOnWiFiLookup = online
+  }
+  
+  private var successAction: () -> Void = {
+    log ("Not defined success action")
+  }
+}
+
+
+extension LanLookupConnectionViewController {
   
   func doConnectionCompletion() {
     self.doConnectionCompletion(stopScan: true)
@@ -211,26 +216,9 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
     startScanner()
   }
   
-  private var successAction: () -> Void = {
-    log ("Not defined success action")
-  }
-  
-  func onSuccess(_ action: @escaping () -> Void) {
-    self.successAction = action
-  }
-  
-  func toggleFailedCase(_ on: Bool) -> Void {
-    self.failedToConnectLabel.isHidden = !on
-    self.goToSettingsButton.isHidden = !on
-    self.searchLabel.isHidden = true
-  }
-  
-  func setWaitTimeout() {
-    waitConnectTimer?.invalidate()
-    waitConnectTimer = withDelay({
-      self.toggleFailedCase(true)
-    }, WAIT_TIMEOUT)
-  }
+}
+
+extension LanLookupConnectionViewController {
   
   func setConfigSubscription() -> Void {
     configSub = reader.$config.on(change: { config in
@@ -268,32 +256,93 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
     }
   }
   
-  override func viewDidAppear (_ animated: Bool) {
-    // todo:
-    serverFoundLabel.isHidden = true
-    connectionButton.isHidden = true
-    autoConnectSwitch.isOn = autoConnect
+}
+
+extension LanLookupConnectionViewController {
+  
+  func startScanner() {
+    log("Start scanner")
     toggleFailedCase(false)
-    log("did appear")
-    super.viewDidAppear(animated)
-    setConfigSubscription()
+    spinner.startAnimating()
+    reader.startReader()
+    withDelay({
+      self.searchLabel.isHidden = false;
+    }, NOTIFY_TIMEOUT)
+    setWaitTimeout()
+    isLookupStarted = true
   }
   
-  override func viewWillDisappear (_ animated: Bool) {
-    log("viewWillDisappear")
-    alert?.dismiss(animated: false, completion: {
-      log("alert dismissed")
-    })
-    configSub?.cancel();
-    waitConnectTimer?.invalidate();
-    super.viewWillDisappear(animated)
+  func stopScanner() {
+    if !isLookupStarted {
+      log("scanner was not started")
+      return
+    }
+    log("Stop scanner")
+    toggleFailedCase(false)
+    spinner.stopAnimating()
+    waitConnectTimer?.invalidate()
+    reader.stopReader()
+    isLookupStarted = false
+  }
+}
+
+extension LanLookupConnectionViewController {
+  
+  func onCloseManual(_ auto: Bool = true) -> Void {
+    autoConnect = auto
+    if autoConnect, let manConfig = reader.config {
+      applyConfig(manConfig)
+    }
+    startScanner()
   }
   
-  override func viewDidDisappear (_ animated: Bool) {
-    super.viewDidDisappear(animated)
-    toggleFailedCase(false)
-    DispatchQueue.main.async {
-      self.stopScanner()
+  func showInputDialog() {
+    
+    let alertController = UIAlertController(title: LanManualConfiguration.MANUAL_CONNECTION, message: LanManualConfiguration.SET_CONFIG, preferredStyle: .alert)
+    
+    let confirmAction = UIAlertAction(title: LanManualConfiguration.JOIN_BTN, style: .default) { (_) in
+      
+      let name = alertController.textFields?[0].text
+      
+      guard let ip = name else {
+        return
+      }
+      
+      self.applyConfig(LanConfig(ip: ip, code: [0,0,0,0,0]))
+      self.onCloseManual(false)
+    }
+    
+    let cancelAction = UIAlertAction(title: LanManualConfiguration.CANCEL_BTN, style: .cancel) { (_) in
+      self.onCloseManual(self.autoConnectSwitch.isOn)
+    }
+    
+    alertController.addTextField { (textField) in
+      textField.placeholder = LanManualConfiguration.IP_INPUT_PLACEHOLDER
+      textField.keyboardType = .numbersAndPunctuation
+    }
+    // code ???
+    alertController.addAction(confirmAction)
+    alertController.addAction(cancelAction)
+    
+    //finally presenting the dialog box
+    self.present(alertController, animated: true, completion: nil)
+    self.alert = alertController
+  }
+  
+  func showAlert(_ alert: UIAlertController) {
+    log("showAlert", alert)
+    func applyAlert() {
+      self.present(alert, animated: true, completion: {
+        self.alert = alert
+      })
+    }
+    
+    if self.alert != nil {
+      self.alert?.dismiss(animated: true, completion: {
+        applyAlert()
+      })
+    } else {
+      applyAlert()
     }
   }
   

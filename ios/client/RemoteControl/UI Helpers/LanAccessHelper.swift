@@ -9,7 +9,7 @@
 import Foundation
 
 fileprivate func udpSend(textToSend: String, address addr: sockaddr_in) {
-  
+  let host = ProcessInfo.processInfo.hostName
   let fd = socket(AF_INET, SOCK_DGRAM, 0) // DGRAM makes it UDP
   
   let sent = textToSend.withCString { cstr -> Int in
@@ -24,7 +24,7 @@ fileprivate func udpSend(textToSend: String, address addr: sockaddr_in) {
     
     return sent
   }
-  print("udpSend count: \(sent)")
+  print("\(host) udpSend count: \(sent)")
   close(fd)
   
 }
@@ -39,8 +39,4 @@ func checkLanPermission() -> Void {
   addr.sin_port = port
   addr.sin_addr.s_addr = inet_addr(ip)
   udpSend(textToSend: word, address: addr)
-}
-
-func toggleLanConnetionState(online: Bool) -> Void {
-    print("toggleLanConnetionState online: \(online)")
 }

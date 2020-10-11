@@ -117,7 +117,7 @@
 "Connect" = "сonnect";
 "Disconnect this Remote Control?" = "Disconnect this remote control?";
 
-"Searching for Sm02" = "Waiting device signal...";
+"Searching for Sm02" = "Waiting scoring machine signal...";
 
 "lan_manual Manual connection" = "Manual connection";
 "lan_manual Enter connection config" = "";
@@ -126,3 +126,9 @@
 "lan_manual Enter IP address" = "Enter IP address";
 
 "Local Network access is required to be able to search and connect to SM02" = "Local Network access is required to be able to search and connect to device";
+
+"Failed to connect to device please check configuration" = "Scoring machine is not found
+Make sure your device is connected to the scoring machine's Wi-Fi network";
+
+"Not valid lan configuration" = "Scoring machine is not found
+Make sure your device is connected to the scoring machine's Wi-Fi network";
