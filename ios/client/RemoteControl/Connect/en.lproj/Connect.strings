@@ -1,0 +1,25 @@
+
+/* Class = "UILabel"; text = "Scoring machine is not found Make sure your phone is connected to the scoring machine's Wi-Fi network"; ObjectID = "2oV-fH-BLy"; */
+"2oV-fH-BLy.text" = "Scoring machine is not found
+Make sure your device is connected to the scoring machine's Wi-Fi network";
+
+/* Class = "UILabel"; text = "Device found"; ObjectID = "Mka-hq-Dpj"; */
+"Mka-hq-Dpj.text" = "Device found";
+
+/* Class = "UIBarButtonItem"; title = "Manual"; ObjectID = "WG6-K3-YCD"; */
+"WG6-K3-YCD.title" = "Manual";
+
+/* Class = "UIBarButtonItem"; title = "Skip"; ObjectID = "c0I-XA-vKg"; */
+"c0I-XA-vKg.title" = "Remote Control";
+
+/* Class = "UILabel"; text = "Searching for device"; ObjectID = "dzn-dq-53K"; */
+"dzn-dq-53K.text" = "Waiting scoring machine signal...";
+
+/* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "gH5-Q2-QhX"; */
+"gH5-Q2-QhX.normalTitle" = "Connect";
+
+/* Class = "UIBarButtonItem"; title = "Auto connect"; ObjectID = "oyx-Zq-SdD"; */
+"oyx-Zq-SdD.title" = "Auto connect";
+
+/* Class = "UIButton"; normalTitle = "Go to Settings"; ObjectID = "uma-yX-2zc"; */
+"uma-yX-2zc.normalTitle" = "Go to Settings";

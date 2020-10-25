@@ -1,11 +1,17 @@
 
-public class RemoteAddress: Codable, CustomStringConvertible {
+public class RemoteAddress: Codable, CustomStringConvertible, Equatable {
 
   public static let empty = RemoteAddress(ssid: "", ip: "", code: [])
 
   public let ssid: String
   public let ip: String
   public let code: [UInt8]
+
+public static func == (lhs: RemoteAddress, rhs: RemoteAddress) -> Bool {
+    return lhs.ssid == rhs.ssid &&
+           lhs.ip == rhs.ip &&
+           lhs.code == rhs.code
+  }
 
   public var description: String {
     return "RemoteAddress(ssid:\(ssid),ip:\(ip),code:\(code))"

@@ -17,20 +17,25 @@ struct SetPeriodButtonSwiftUIView: View {
 fileprivate let maxPeriod: Int = INSPIRATION_MAX_PERIOD
 
 fileprivate struct PeriodSetter: View {
+  @EnvironmentObject var insp: InspSettings
   @EnvironmentObject var settings: FightSettings
   @State var showModal = false
   let frame = getButtonFrame(.special)
   func getPeriodString() -> String {
     let period = self.settings.period;
-    guard period + 1 > 1 else {
+    if insp.isEthernetMode && rs.competition.teamFight {
+      return "\(period)"
+    }
+    
+    guard period > 1 else {
       return "1..."
     }
     
-    guard period + 1 < maxPeriod else {
+    guard period < maxPeriod else {
       return "...\(maxPeriod)"
     }
     
-    return "..\(period + 1).."
+    return "..\(period).."
   }
   var body: some View {
     Button(action: {self.showModal.toggle()}) {
@@ -40,19 +45,25 @@ fileprivate struct PeriodSetter: View {
         }.padding().frame(width: width)
         
     }
+    .disabled(insp.isEthernetMode && rs.competition.teamFight)
     .frame(width: width)
     .sheet(isPresented: self.$showModal, onDismiss: {
-//      self.settings.period = Int(rs.competition.period - 1)
     }) {
       PeriodModalContent()
         .environmentObject(self.settings)
         .background(UIGlobals.modalSheetBackground)
+        .edgesIgnoringSafeArea(.bottom)
     }
-//    CommonModalButton(imageName: "textformat.123", imageColor: primaryColor , buttonType: .special, text: "set period", onDismiss: {
-//    }) {
-//      PeriodModalContent().environmentObject(self.settings)
-//    }
   }
+}
+
+fileprivate func perIndexToPeriod(_ index: Int) -> UInt8 {
+  return UInt8(index + 1)
+}
+
+
+fileprivate func periodToPerIndex(_ period: UInt8) -> Int {
+  return Int(period - 1)
 }
 
 fileprivate struct PeriodModalContent: View {
@@ -60,30 +71,30 @@ fileprivate struct PeriodModalContent: View {
   @EnvironmentObject var settings: FightSettings
   @Environment(\.presentationMode) var presentationMode
   @State var nextLocked = false
-  @State var period = max(Int(rs.competition.period) - 1, 0)
+  @State var perIndex = periodToPerIndex(max(rs.competition.period, 1))
   
   var body: some View {
     VStack(spacing: 0) {
       CommonModalHeader(title: "Period")
       Spacer()
-      CommonPicker(selected: $period, options: Array(1...maxPeriod).map({"\($0)"})).frame(width: width/100*80)
+      CommonPicker(selected: $perIndex, options: Array(1...maxPeriod).map({"\($0)"})).frame(width: width/100*80)
       Spacer()
       VStack(spacing: 0) {
         Divider()
         Button(action: {
-          self.settings.setPeriod(self.period + 1)
-          self.period += 1
+          self.perIndex += 1
+          self.settings.setPeriod(perIndexToPeriod(self.perIndex))
           Vibration.on()
         }) {
           primaryColor(dinFont(Text("next period"))).padding()
         }
           .frame(width: width)
-          .disabled(period >= maxPeriod - 1)
-      }.opacity(period < maxPeriod - 1 ? 1 : 0)
+          .disabled(perIndex >= maxPeriod - 1)
+      }.opacity(perIndex < maxPeriod - 1 ? 1 : 0)
       Divider()
       HStack(spacing: 0) {
         ConfirmModalButton(vibrate: false, action: {
-          self.settings.setPeriod(self.period)
+          self.settings.setPeriod(perIndexToPeriod(self.perIndex))
           Vibration.on()
           self.presentationMode.wrappedValue.dismiss()
         }, text: "done", color: .green)
@@ -96,6 +107,8 @@ fileprivate struct PeriodModalContent: View {
 
 struct SetPeriodButtonSwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        SetPeriodButtonSwiftUIView().environmentObject(FightSettings())
+        SetPeriodButtonSwiftUIView()
+          .environmentObject(FightSettings())
+          .environmentObject(InspSettings())
     }
 }

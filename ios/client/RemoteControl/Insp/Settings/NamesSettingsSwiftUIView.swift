@@ -11,6 +11,7 @@ import SwiftUI
 let NAME_LENGTH_LIMIT = 160
 
 struct NamesSettingsButtonSwiftUIView: View {
+  @EnvironmentObject var insp: InspSettings
   @State var showModal = false
   var body: some View {
     Button(action: {
@@ -28,21 +29,23 @@ struct NamesSettingsButtonSwiftUIView: View {
       
       
     }.foregroundColor(primaryColor)
-      .frame(width: width / 2, height: mediumHeightOfButton())
-      .border(Color.gray, width: 0.5)
-      .sheet(isPresented: self.$showModal, onDismiss: {
-        
-      }) {
-        NamesSettingsSwiftUIView()
-          .background(UIGlobals.modalSheetBackground)
+    .frame(width: width / 2, height: mediumHeightOfButton())
+    .border(Color.gray, width: 0.5)
+    .sheet(isPresented: self.$showModal, onDismiss: {
+      
+    }) {
+      NamesSettingsSwiftUIView()
+        .background(UIGlobals.modalSheetBackground)
+        .edgesIgnoringSafeArea(.bottom)
+        .environmentObject(insp)
     }
   }
 }
 
 class NameBindingManager: ObservableObject {
   init(_ initialValue: String, updater setter: @escaping (String) -> Void) {
-    self.setter = setter
     self.text = initialValue
+    self.setter = setter
   }
   var setter: (String) -> Void
   @Published var text = "" {
@@ -51,6 +54,7 @@ class NameBindingManager: ObservableObject {
         text = oldValue
         Vibration.warning()
       }
+      print("call name setter")
       setter(text)
       if(text != oldValue) {
         Vibration.notification()
@@ -62,9 +66,10 @@ class NameBindingManager: ObservableObject {
 }
 
 struct NamesSettingsSwiftUIView: View {
+  @EnvironmentObject var insp: InspSettings
   @Environment(\.presentationMode) var presentationMode
-  @ObservedObject var leftName = NameBindingManager(rs.persons.left.name, updater: { name in rs.persons.left.name = name})
-  @ObservedObject var rightName = NameBindingManager(rs.persons.right.name, updater: { name in rs.persons.right.name = name})
+  @ObservedObject var leftName = NameBindingManager(rs.persons.left.name, updater: { name in rs.persons.left.setName(name) })
+  @ObservedObject var rightName = NameBindingManager(rs.persons.right.name, updater: { name in rs.persons.right.setName(name) })
   
   private func endEditing() {
     UIApplication.shared.endEditing()
@@ -74,7 +79,6 @@ struct NamesSettingsSwiftUIView: View {
     
     VStack(spacing: 0) {
       CommonModalHeader(title: "Set names")
-      
       ScrollView {
         Background {
           VStack(spacing: 0) {
@@ -87,12 +91,13 @@ struct NamesSettingsSwiftUIView: View {
                 }
               }
               
-              TextField(" ", text: self.$leftName.text) {
+              TextField(" ", text: self.$leftName.text, onCommit:  {
                 self.endEditing()
                 
-              }.font(.largeTitle)
-                .background(primaryColor.opacity(0.05))
-                .accessibility(label: Text("Left fencer"))
+              }).font(.largeTitle)
+              .background(primaryColor.opacity(0.05))
+              .accessibility(label: Text("Left fencer"))
+              .disabled(insp.isEthernetMode)
             }.padding()
             Divider()
             VStack(alignment: .leading, spacing: 0) {
@@ -103,11 +108,12 @@ struct NamesSettingsSwiftUIView: View {
                   dinFont(Text("\(self.rightName.text.count) / \(NAME_LENGTH_LIMIT)"),  UIGlobals.appDefaultFontSize)
                 }
               }
-              TextField(" ", text: self.$rightName.text) {
+              TextField(" ", text: self.$rightName.text, onCommit:  {
                 self.endEditing()
-              }.font(.largeTitle)
-                .background(primaryColor.opacity(0.05))
-                .accessibility(label: Text("Right fencer"))
+              }).font(.largeTitle)
+              .background(primaryColor.opacity(0.05))
+              .accessibility(label: Text("Right fencer"))
+              .disabled(insp.isEthernetMode)
             }.padding()
             Spacer()
           }
@@ -116,6 +122,15 @@ struct NamesSettingsSwiftUIView: View {
           self.endEditing()
         }
       }
+      Divider()
+      CommonButton(action: {
+        rs.competition.swap()
+        Vibration.on()
+        self.presentationMode.wrappedValue.dismiss()
+      },
+      text: "swap",
+      imageName: "arrow.right.arrow.left.circle",
+      frame: getButtonFrame(.withImageFullWidth))
       Divider()
       HStack {
         ConfirmModalButton(action: {

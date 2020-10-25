@@ -3,7 +3,7 @@ import NIO
 import Foundation
 
 
-final class MessagesHandler: ChannelInboundHandler {
+final class InboundMessagesHandler: ChannelInboundHandler {
 
   typealias Container = Singletons & ChannelHandlerFactory
   typealias InboundIn = Inbound
@@ -36,8 +36,9 @@ extension Inbound {
   var hasGenericResponse: Bool {
     switch self {
     case .broadcast,
+         .quit,
          .additionalState,
-         .ethernetDisplay,
+         .competition,
          .fightResult,
          .videoReady,
          .videoReceived:

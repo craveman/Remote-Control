@@ -1,6 +1,0 @@
-
-/* Class = "UILabel"; text = "Connection message"; ObjectID = "10P-Ts-tf1"; */
-"10P-Ts-tf1.text" = "Для подключения, необходимо считать QR-код с телеэкрана";
-
-/* Class = "UIButton"; normalTitle = "Skip"; ObjectID = "uoc-8G-Nt4"; */
-"uoc-8G-Nt4.normalTitle" = "Пропустить";

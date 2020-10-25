@@ -6,6 +6,7 @@
 //  Copyright © 2019 Sergei Andreev. All rights reserved.
 //
 
+import UIKit
 import SwiftUI
 
 struct ConnectButton: View {
@@ -26,6 +27,7 @@ struct ConnectButton: View {
 }
 
 struct DisconnectButtonSwiftUIView: View {
+  @State var showModal = false
   var body: some View {
     CommonModalButton(imageName: "multiply", imageColor: primaryColor, buttonType: .disconnect, text: "disconnect",  action: {
       print("DisconnectButtonSwiftUIView:action")
@@ -35,7 +37,7 @@ struct DisconnectButtonSwiftUIView: View {
       print("DisconnectButtonSwiftUIView:onDismiss")
       
       
-    }, border: Color.clear ) {
+    }, border: Color.clear, showModal: $showModal ) {
       DisconnectSwiftUIView()
     }
   }
@@ -63,8 +65,13 @@ struct DisconnectSwiftUIView: View {
           self.presentationMode.wrappedValue.dismiss()
         }, text: "cancel", color: primaryColor, imageName: "chevron.left")
         ConfirmModalButton(action: {
-          rs.connection.disconnect()
           self.presentationMode.wrappedValue.dismiss()
+          withDelay({
+            rs.connection.disconnect()
+          })
+          let appDelegate = UIApplication.shared.delegate as! AppDelegate
+          appDelegate.disconnectedByUser()
+          Vibration.impact()
         }, text: "disconnect", color: .red, imageName: "power")
       }.padding([.vertical]).frame(width: width)
     }

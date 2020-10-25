@@ -88,6 +88,14 @@ func getSubScreenHeight() -> CGFloat {
   return 320
 }
 
+func isSmallScreenHeight() -> Bool {
+  return height < (getSubScreenHeight() + 250)
+}
+
+func getPreferedControlsGap() -> CGFloat {
+  return isSmallScreenHeight() ? 0 : 12
+}
+
 final class TimerResponder: ObservableObject {
   @Published private(set) var finished: Bool = false
   @Published private(set) var tick: UInt32 = 0

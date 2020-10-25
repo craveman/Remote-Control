@@ -1,0 +1,25 @@
+
+/* Class = "UILabel"; text = "Failed to connect to device please check configuration"; ObjectID = "2oV-fH-BLy"; */
+"2oV-fH-BLy.text" = "Аппарат не найден
+Проверьте что вы подключены к Wi-Fi сети аппарата";
+
+/* Class = "UILabel"; text = "Device found"; ObjectID = "Mka-hq-Dpj"; */
+"Mka-hq-Dpj.text" = "Аппарат найден";
+
+/* Class = "UIBarButtonItem"; title = "Manual"; ObjectID = "WG6-K3-YCD"; */
+"WG6-K3-YCD.title" = "Ручной ввод";
+
+/* Class = "UIBarButtonItem"; title = "Skip"; ObjectID = "c0I-XA-vKg"; */
+"c0I-XA-vKg.title" = "Пульт";
+
+/* Class = "UILabel"; text = "Searching for device"; ObjectID = "dzn-dq-53K"; */
+"dzn-dq-53K.text" = "Ожидание сигнала от аппарата...";
+
+/* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "gH5-Q2-QhX"; */
+"gH5-Q2-QhX.normalTitle" = "Подключить";
+
+/* Class = "UIBarButtonItem"; title = "Auto connect"; ObjectID = "oyx-Zq-SdD"; */
+"oyx-Zq-SdD.title" = "Авто подключение";
+
+/* Class = "UIButton"; normalTitle = "Go to Settings"; ObjectID = "uma-yX-2zc"; */
+"uma-yX-2zc.normalTitle" = "Настройки";

@@ -149,7 +149,8 @@ fileprivate struct PlayerPenaltiesBoard: View {
   }
   
   func setCard(_ card: StatusCard) -> Void {
-    rs.persons[self.type].card = card
+    rs.persons[self.type].setCard(card)
+    settings.setCard(card, type)
   }
   
   func getOponentType() -> PersonType {
@@ -177,8 +178,7 @@ fileprivate struct PlayerPenaltiesBoard: View {
   }
   
   func oponentScoreMaxReached() -> Bool {
-    let op = getOponentType()
-    switch op {
+    switch getOponentType() {
     case .left:
       return settings.leftScore >= MAX_SCORE
     case .right:

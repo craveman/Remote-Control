@@ -19,7 +19,9 @@ struct RcSwiftUIView: View {
   }
   
   @State var ofc: CGFloat = -height
-  
+  init() {
+    UITabBar.appearance().barTintColor = UIColor.systemGray6
+  }
   var general: some View {
     VStack(spacing: 0){
       if !insp.isConnected {
@@ -34,21 +36,22 @@ struct RcSwiftUIView: View {
           .tabItem {
             Image(systemName: "square.fill")
             Text("Cards")
-        }.tag(0)
+          }.tag(0)
         
         FightSectionSwiftUIView()
           .tabItem {
             Image(systemName: "circle.fill")
             Text("Fight")
-        }.tag(1)
+          }.tag(1)
         
         SettingsSwiftUIView().environmentObject(playback)
           .tabItem {
             Image(systemName: "arrowtriangle.down.fill")
             Text("SettingsTab")
-        }.tag(2)
+          }.tag(2)
       }
       .font(.headline)
+      .accentColor(UIGlobals.insp_blue_SUI)
     }
   }
   
@@ -67,19 +70,19 @@ struct RcSwiftUIView: View {
         }, self.animationTime)
       }).environmentObject(playback)
     }.background(UIGlobals.modalSheetBackground)
-      
-      .offset(CGSize(width: 0, height: ofc))
-      .onAppear(perform: {
-        withAnimation(self.animation) {
-          self.ofc = 0
-        }
-        withDelay({
-          Vibration.impact(.heavy)
-        }, self.animationTime)
-      })
-      .onDisappear(perform: {
-        self.ofc = -height
-      })
+    
+    .offset(CGSize(width: 0, height: ofc))
+    .onAppear(perform: {
+      withAnimation(self.animation) {
+        self.ofc = 0
+      }
+      withDelay({
+        Vibration.impact(.heavy)
+      }, self.animationTime)
+    })
+    .onDisappear(perform: {
+      self.ofc = -height
+    })
   }
   
   var body: some View {

@@ -102,6 +102,10 @@ func getTimeString(_ timer: UInt32, _ showMs: Bool = false) -> String {
   return "\(getMinutes(timer)):\(getSeconds(timer))"
 }
 
+func getFightName(left: String, right: String) -> String {
+  return "\(left) – \(right)"
+}
+
 extension UIApplication {
   func endEditing() {
     sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)

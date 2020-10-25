@@ -31,6 +31,7 @@ struct PriorityButtonSwiftUIView: View {
           .environmentObject(self.settings)
           .environmentObject(self.insp)
         .background(UIGlobals.modalSheetBackground)
+          .edgesIgnoringSafeArea(.bottom)
     }
   }
 }
@@ -54,7 +55,7 @@ struct PrioritySwiftUIView: View {
   }
   
   func clear() {
-    rs.persons.resetPriority()
+    rs.persons.resetPriority(updateRemote: true)
     self.updateState()
   }
   

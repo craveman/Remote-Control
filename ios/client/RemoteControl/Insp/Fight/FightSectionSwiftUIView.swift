@@ -17,7 +17,9 @@ struct FightSectionSwiftUIView: View {
       if insp.fightSwitchActiveTab == 0 {
         PointsSwiftUIView()
       } else if insp.fightSwitchActiveTab == 1 {
-        TimersSwiftUIView().environmentObject(settings)
+        TimersSwiftUIView()
+          .environmentObject(settings)
+          .environmentObject(insp)
       }
     }
     

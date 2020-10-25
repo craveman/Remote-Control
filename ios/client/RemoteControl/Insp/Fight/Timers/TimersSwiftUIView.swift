@@ -25,11 +25,10 @@ fileprivate struct TimersSetters: View {
 
 
 struct TimersSwiftUIView: View {
-  
   var body: some View {
     VStack(spacing: 0){
       Divider()
-      ResetBoutButton()
+      BoutButton()
       PauseSetters()
       TimersSetters()
       Divider()

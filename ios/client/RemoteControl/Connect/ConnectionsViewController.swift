@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import AVFoundation
-
 
 fileprivate func log(_ items: Any...) {
   print("ConnectionsViewController:log: ", items)
@@ -16,41 +14,44 @@ fileprivate func log(_ items: Any...) {
 
 class ConnectionsViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
   public static let RECONNECT = "Reconnect"
-  public static let CONNECTION_LOST = "Connection to the server in Wi-Fi network '%@' was lost."
+  public static let CONNECTION_LOST = "Connection to the server was lost."
   public static let CONNECTION_ERROR = "Connection error"
   var alert: UIAlertController?
+  var isAutoConnectEnabled = true {
+    didSet {
+      getScanner()?.setAutoConnectionMode(isAutoConnectEnabled)
+    }
+  }
   
   let segueName = "jumpToInspiration"
-  @IBOutlet weak var qrReaderSubViewWrapper: UIView!
+  @IBOutlet weak var connectionConfigReaderSubViewWrapper: UIView!
   
   override func viewDidAppear (_ animated: Bool) {
     log("did appear")
-    getScanner()?.onSuccess = { [weak self] in
+    getScanner()?.onSuccess({ [weak self] in
       log("scanner on success", self == self)
       guard self == self else {
         return
       }
       self?.jumpToInspiration()
-    }
+    })
 
-    if isSimulationEnv() {
-      AVCaptureDevice.requestAccess(for: AVMediaType.video) {_ in}
-    } else {
+    if !isSimulationEnv() {
       start()
     }
     
     super.viewDidAppear(animated)
   }
 
-  private func getScanner () -> QrViewController? {
-    guard qrReaderSubViewWrapper.subviews.count > 0 else {
+  private func getScanner () -> ConnectionControllerProtocol? {
+    guard connectionConfigReaderSubViewWrapper.subviews.count > 0 else {
       return nil
     }
-    return qrReaderSubViewWrapper.subviews[0].next as? QrViewController
+    return connectionConfigReaderSubViewWrapper.subviews[0].next as? ConnectionControllerProtocol
   }
 
   override func prepare (for segue: UIStoryboardSegue, sender: Any?) {
-    guard qrReaderSubViewWrapper.subviews.count > 0 else {
+    guard connectionConfigReaderSubViewWrapper.subviews.count > 0 else {
       return
     }
     if segue.identifier == segueName {
@@ -59,8 +60,8 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     if isSimulationEnv() {
       return
     }
-    if let qrReader = qrReaderSubViewWrapper.subviews[0].next as? QrViewController {
-      qrReader.stopScanner()
+    if let reader = connectionConfigReaderSubViewWrapper.subviews[0].next as? ConnectionControllerProtocol {
+      reader.stopScanner()
     }
   }
 
@@ -70,8 +71,7 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
 
   func warning (_ remote: RemoteAddress) {
     let bodyString = String(
-      format: NSLocalizedString(ConnectionsViewController.CONNECTION_LOST, comment: ""),
-      remote.ssid
+      format: NSLocalizedString(ConnectionsViewController.CONNECTION_LOST, comment: "")
     )
     prepareAlert(bodyString)
     present(self.alert!, animated: true, completion: nil)
@@ -131,9 +131,4 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     #endif
   }
 
-  private func skipQR () {
-    Utils.delay({
-      self.jumpToInspiration()
-    }, seconds: 1)
-  }
 }

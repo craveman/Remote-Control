@@ -34,6 +34,7 @@ struct ScoreButtonSwiftUIView: View {
         ScoreSwiftUIView(left: self.settings.leftScore, right: self.settings.rightScore)
           .environmentObject(self.settings)
           .background(UIGlobals.modalSheetBackground)
+          .edgesIgnoringSafeArea(.bottom)
     }
   }
 }

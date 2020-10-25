@@ -22,9 +22,17 @@ public enum InspirationRCTypes {
   case Video
 }
 
+public enum FightPhase: Int, Decodable {
+  case standby = 1
+  case active = 2
+  case ended = 3
+  case none = 0
+}
+
 class InspSettings: ObservableObject {
   @Published var isConnected: Bool = rs.connection.isAuthenticated && rs.connection.isConnected
-  
+  @Published var isEthernetMode: Bool = rs.competition.cyranoWorks
+  @Published var fightPhase: FightPhase = .none
   @Published var tab: Int = !rs.connection.isConnected ? 2 : 1
   @Published var fightSwitchActiveTab: Int = rs.timer.mode == .main ? 0 : 1
   
@@ -105,7 +113,7 @@ class PlaybackControls: ObservableObject {
       print("active \(isPlayActive)")
     }
   }
- 
+  
   @Published var selectedSpeed: Double = 0 {
     didSet {
       if(selectedSpeed.rounded() != oldValue.rounded()) {
@@ -177,20 +185,33 @@ class PlaybackControls: ObservableObject {
 
 class FightSettings: ObservableObject {
   var PAUSE_DISSMISED_DEFERED_ACTION_TIMER: Timer? = nil
+  var ETHERNET_DEFERED_ACTION_TIMER: Timer? = nil
   var PAUSE_FINISHED_CANCELABLE: AnyCancellable? = nil
   var savedTime: TimeAmount? = nil
+  private var isSyncing = false
+  @Published var ethernetFightPhase: FightPhase = .none
+  @Published var ethernetNextFightTitle: String = ""
+  @Published var ethernetActionIsLocked: Bool = false
   @Published var leftCardP: StatusCard = .passiveNone
   @Published var rightCardP: StatusCard = .passiveNone
   @Published var leftCard: StatusCard = .none
   @Published var rightCard: StatusCard = .none
   @Published var leftScore: UInt8 = 0 {
     didSet {
-      rs.persons.left.score = leftScore
+      guard !isSyncing else {
+        return
+      }
+      print("leftScore didSet \(leftScore)")
+      rs.persons.left.setScore(leftScore)
     }
   }
   @Published var rightScore: UInt8 = 0 {
     didSet {
-      rs.persons.right.score = rightScore
+      guard !isSyncing else {
+        return
+      }
+      print("rightScore didSet \(rightScore)")
+      rs.persons.right.setScore(rightScore)
     }
   }
   @Published var time: UInt32 = GAME_DEFAULT_TIME
@@ -206,25 +227,76 @@ class FightSettings: ObservableObject {
   
   @Published var weapon: Weapon = .none
   
-  @Published var period: Int = 0
+  @Published private(set) var period: Int = 1
   
-  func setPeriod(_ next: Int) -> Void {
-    
-    rs.competition.period = UInt8(next + 1)
-    period = next
+  func syncPeriod() -> Void {
+    period = Int(rs.competition.period)
+  }
+  
+  func setPeriod(_ next: UInt8) -> Void {
+    rs.competition.setPeriod(next)
+    period = Int(next)
     rs.timer.set(time: INSPIRATION_DEFAULT_FIGHT_TIME, mode: .main)
+  }
+  
+  func turnOnEthLockTimer() -> Void {
+    if self.ethernetActionIsLocked {
+      print("self.ethernetActionIsLocked already turned on")
+      return;
+    }
     
-    print("settings.period updated to \(rs.competition.period) with Int \(next)")
+    self.ethernetActionIsLocked = true
+    
+    self.ETHERNET_DEFERED_ACTION_TIMER = withDelay({
+      self.ethernetActionIsLocked = false
+      self.ETHERNET_DEFERED_ACTION_TIMER = nil
+    }, 5)
+  }
+  
+  func turnOffEthLockTimer() -> Void {
+    self.ethernetActionIsLocked = false
+    
+    if self.ETHERNET_DEFERED_ACTION_TIMER != nil {
+      self.ETHERNET_DEFERED_ACTION_TIMER?.invalidate()
+    }
   }
   
   func resetBout() {
-    self.resetPassive()
-    self.setPeriod(0)
-    self.leftScore = 0
-    self.rightScore = 0
-    self.resetCards()
-    self.resetVideo()
-    self.resetPriority()
+    DispatchQueue.main.async {
+      self.isSyncing = true
+      self.resetPassive()
+      self.setPeriod(1)
+      self.leftScore = 0
+      self.rightScore = 0
+      self.resetCards()
+      self.resetVideo()
+      self.resetPriority()
+      self.isSyncing = false
+    }
+  }
+  
+  func syncFightState(_ state: FightState) {
+    DispatchQueue.main.async {
+      print("loadFightConfig sync started")
+      self.isSyncing = true
+      self.syncPeriod()
+      self.time = rs.timer.time
+      self.leftScore = rs.persons.left.score
+      self.leftCard = rs.persons.left.card
+      self.leftCardP = rs.persons.left.passiveCard
+      
+      self.rightScore = rs.persons.right.score
+      self.rightCard = rs.persons.right.card
+      self.rightCardP = rs.persons.right.passiveCard
+      
+      self.ethernetFightPhase = state.ethernetStatus == .waiting ? .none : .active
+      self.ethernetNextFightTitle = state.ethernetStatus == .waiting ? getFightName(left: state.matchLeftFighterData.matchName, right: state.matchRightFighterData.matchName): ""
+      self.turnOffEthLockTimer()
+      self.isSyncing = false
+      
+      print("loadFightConfig sync complete")
+      
+    }
   }
   
   
@@ -260,13 +332,12 @@ class FightSettings: ObservableObject {
   }
   
   func resetVideo() -> Void {
-    rs.video.replay.leftCounter = 2
-    rs.video.replay.rightCounter = 2
+    rs.video.replay.resetCounters()
     rs.video.replay.clear()
   }
   
   func resetPriority() -> Void {
-    rs.persons.resetPriority()
+    rs.persons.resetPriority(updateRemote: !isSyncing)
   }
   
   func resetPassive() -> Void {
