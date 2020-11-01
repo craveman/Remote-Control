@@ -24,14 +24,19 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>To connect to the server, we need to scan a QR code.</string>
+	<key>NSBonjourServices</key>
+	<array>
+		<string>_inspirationpoint._tcp</string>
+		<string>_inspirationpoint._udp</string>
+	</array>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Local Network access is required to be able to search and connect to SM02</string>
 	<key>UIAppFonts</key>
 	<array/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
-	<string>QRConnect</string>
+	<string>Connect</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

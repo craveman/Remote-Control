@@ -8,9 +8,8 @@ class Sm02DummyClient: Sm02Client {
     return nil
   }
 
-  func send (message: Outbound) -> EventLoopFuture<Void>? {
+  func send (message: Outbound) {
     // noop
-    return nil
   }
 
   func close () {

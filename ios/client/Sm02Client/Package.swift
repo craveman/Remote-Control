@@ -14,8 +14,8 @@ let package = Package(
   ],
 
   dependencies: [
-    .package(url: "https://github.com/apple/swift-nio.git", .exact("2.10.1")),
-    .package(url: "https://github.com/apple/swift-nio-extras.git", .exact("1.3.2")),
+    .package(url: "https://github.com/apple/swift-nio.git", .exact("2.22.0")),
+    .package(url: "https://github.com/apple/swift-nio-extras.git", .exact("1.7.0")),
   ],
 
   targets: [
@@ -25,6 +25,7 @@ let package = Package(
         "NIO",
         "NIOConcurrencyHelpers",
         "NIOExtras",
+        "NIOFoundationCompat"
       ]
     ),
     .testTarget(

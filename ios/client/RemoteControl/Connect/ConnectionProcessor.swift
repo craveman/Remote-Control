@@ -25,16 +25,16 @@ class ConnectionProcessor {
   
   public static let WRONG_CODE = "Wrong authentication code."
   public static let BUSY = "Another remote control is already registered on the server."
-  public static let TIMEOUT = "Connection timeout. Check that you are connected to the '%@' Wi-Fi network."
+  public static let TIMEOUT = "Connection timeout. Check that you are connected to the correct Wi-Fi network."
   public static let REFUSED = "A remote server is not reachable."
   public static let UNKNOWN = "Unknown connection error: %@"
   public static let PROVIDE_PASSWORD = "Please provide password"
   public static let PASSWORD_PRIVACY = "We never save or share your data"
   public static let PROCEED = "Proceed"
   
-  let controller: QrViewController
+  let controller: ConnectionControllerProtocol
   
-  init(controller: QrViewController) {
+  init(controller: ConnectionControllerProtocol) {
     self.controller = controller
   }
   
@@ -139,30 +139,34 @@ class ConnectionProcessor {
     
     switch result {
     case .success(AuthenticationStatus.success):
-      controller.onSuccess()
+      controller.doConnectionCompletion()
     case .success(AuthenticationStatus.wrongAuthenticationCode):
       let message = NSLocalizedString(ConnectionProcessor.WRONG_CODE, comment: "")
       showError(remote, message)
+      controller.doConnectionRejection()
     case .success(AuthenticationStatus.alreadyRegistered):
       let message = NSLocalizedString(ConnectionProcessor.BUSY, comment: "")
       showError(remote, message)
+      controller.doConnectionRejection()
     case .failure(ConnectionError.responseTimeout(_)):
       fallthrough
     case .failure(ConnectionError.connectionTimeout(_)):
       let message = String(
-        format: NSLocalizedString(ConnectionProcessor.TIMEOUT, comment: ""),
-        remote.ssid
+        format: NSLocalizedString(ConnectionProcessor.TIMEOUT, comment: "")
       )
       showError(remote, message)
+      controller.doConnectionRejection()
     case .failure(ConnectionError.connectionRefused):
       let message = NSLocalizedString(ConnectionProcessor.REFUSED, comment: "")
       showError(remote, message)
+      controller.doConnectionRejection()
     case let .failure(error):
       let message = String(
         format: NSLocalizedString(ConnectionProcessor.UNKNOWN, comment: ""),
         "\(error)"
       )
       showError(remote, message)
+      controller.doConnectionRejection()
     }
   }
   
@@ -180,7 +184,7 @@ class ConnectionProcessor {
       preferredStyle: .alert
     )
     alert.addAction(UIAlertAction(title: tryAgainButtonString, style: .cancel, handler: { action in
-      self.controller.reader.startScanning()
+      self.controller.startScanner()
     }))
     self.controller.showAlert(alert)
   }

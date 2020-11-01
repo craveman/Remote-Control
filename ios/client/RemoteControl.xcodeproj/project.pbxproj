@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8504102024E86CA3002CF656 /* ConnectionControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8504101F24E86CA3002CF656 /* ConnectionControllerProtocol.swift */; };
+		8504102424E8867F002CF656 /* LanLookupConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8504102324E8867F002CF656 /* LanLookupConnectionViewController.swift */; };
 		850AAE5F2322CF7100DBFD93 /* UITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAE5E2322CF7100DBFD93 /* UITools.swift */; };
 		850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAE602322D78400DBFD93 /* UIGlobals.swift */; };
-		850AAEAA23271F2A00DBFD93 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 850AAEA923271F2A00DBFD93 /* AVFoundation.framework */; };
 		850AAEDE232723F400DBFD93 /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850AAEDD232723F400DBFD93 /* ConnectionsViewController.swift */; };
 		851AE9B12385F56B001BE3FB /* SwiftUITools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B02385F56B001BE3FB /* SwiftUITools.swift */; };
-		851AE9B323874353001BE3FB /* ResetBoutUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B223874353001BE3FB /* ResetBoutUIView.swift */; };
+		851AE9B323874353001BE3FB /* BoutUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B223874353001BE3FB /* BoutUIView.swift */; };
 		851AE9B523874393001BE3FB /* CommonComponentsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B423874393001BE3FB /* CommonComponentsSwiftUIView.swift */; };
 		851AE9B723874465001BE3FB /* PauseSettersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */; };
 		851AE9B923875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9B823875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift */; };
@@ -29,9 +30,11 @@
 		851AE9CF2389E4F2001BE3FB /* WeaponsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9CE2389E4F2001BE3FB /* WeaponsSwiftUIView.swift */; };
 		851AE9D12389ECE5001BE3FB /* ScoreSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9D02389ECE5001BE3FB /* ScoreSwiftUIView.swift */; };
 		85371938244B672700B14418 /* VideoRC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85371937244B672700B14418 /* VideoRC.swift */; };
+		853F66C1252FCE2500A8F2E1 /* LanHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853F66C0252FCE2500A8F2E1 /* LanHelpers.swift */; };
 		85512DE12450CCCB00254D5F /* Inspiration_PointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85512DE02450CCCB00254D5F /* Inspiration_PointTests.swift */; };
 		85584AE3239ED5A2006EC133 /* RcViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85584AE2239ED5A2006EC133 /* RcViewModels.swift */; };
 		859B2C1A23E6289200699383 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 859B2C1923E6289200699383 /* NetworkExtension.framework */; };
+		85A2A02C24E89B9300DB6244 /* LanConfigReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A2A02B24E89B9300DB6244 /* LanConfigReader.swift */; };
 		85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85A99338230B47A4003FC5BE /* Inspiration.storyboard */; };
 		85A9934A23109CB7003FC5BE /* RcViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A9934923109CB7003FC5BE /* RcViewController.swift */; };
 		85B661F7239327920016CE4F /* KeyboardGuardianSwiftUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B661F6239327920016CE4F /* KeyboardGuardianSwiftUI.swift */; };
@@ -49,16 +52,16 @@
 		85D6E91F23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E91E23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift */; };
 		85D6E9212390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */; };
 		85D6E9252393049500CBE74D /* TestTimersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */; };
+		85ECCF4A2504E6B400F9CB95 /* EthernetBoutModalSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85ECCF492504E6B400F9CB95 /* EthernetBoutModalSwiftUIView.swift */; };
+		85F02728252BAF74002E307D /* LanAccessHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F02727252BAF74002E307D /* LanAccessHelper.swift */; };
 		8F07A75123892F4800C7F783 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F07A75323892F4800C7F783 /* Localizable.strings */; };
 		8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6D773C237D2C530077B65D /* RemoteService.swift */; };
 		8FD7CB962392C030003DF83B /* Vibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD7CB952392C030003DF83B /* Vibration.swift */; };
-		8FE69D5423398B6200E3B539 /* QRCodeReader in Frameworks */ = {isa = PBXBuildFile; productRef = 8FE69D5323398B6200E3B539 /* QRCodeReader */; };
 		8FFBF9E22336BD4000736BB7 /* Sm02Client in Frameworks */ = {isa = PBXBuildFile; productRef = 8FFBF9E12336BD4000736BB7 /* Sm02Client */; };
 		8FFBF9E42336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FFBF9E32336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift */; };
 		B97043C723E099C1003F4F47 /* Published.Publisher+on.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97043C623E099C1003F4F47 /* Published.Publisher+on.swift */; };
 		B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */; };
-		B9C8BEE02305A2C5004DBBF8 /* QrViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8BEDF2305A2C5004DBBF8 /* QrViewController.swift */; };
-		B9C8BEE32305A2C6004DBBF8 /* QRConnect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE12305A2C6004DBBF8 /* QRConnect.storyboard */; };
+		B9C8BEE32305A2C6004DBBF8 /* Connect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE12305A2C6004DBBF8 /* Connect.storyboard */; };
 		B9C8BEE52305A2C7004DBBF8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE42305A2C7004DBBF8 /* Assets.xcassets */; };
 		B9C8BEE82305A2C7004DBBF8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9C8BEE62305A2C7004DBBF8 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -75,6 +78,8 @@
 
 /* Begin PBXFileReference section */
 		850143B52382120800B63867 /* SwiftUITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUITools.swift; sourceTree = "<group>"; };
+		8504101F24E86CA3002CF656 /* ConnectionControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionControllerProtocol.swift; sourceTree = "<group>"; };
+		8504102324E8867F002CF656 /* LanLookupConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanLookupConnectionViewController.swift; sourceTree = "<group>"; };
 		850AAE5E2322CF7100DBFD93 /* UITools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITools.swift; sourceTree = "<group>"; };
 		850AAE602322D78400DBFD93 /* UIGlobals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIGlobals.swift; sourceTree = "<group>"; };
 		850AAE6A23270CBC00DBFD93 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -92,7 +97,7 @@
 		850AAEB423271FDF00DBFD93 /* NIOConcurrencyHelpers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NIOConcurrencyHelpers.framework; path = "../../../../Library/Developer/Xcode/DerivedData/workspace-ggxzmdnwwomtqbeikrrxmfaogzqm/Build/Products/Debug-iphoneos/NIOConcurrencyHelpers.framework"; sourceTree = "<group>"; };
 		850AAEDD232723F400DBFD93 /* ConnectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewController.swift; sourceTree = "<group>"; };
 		851AE9B02385F56B001BE3FB /* SwiftUITools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftUITools.swift; path = "RemoteControl/UI Helpers/SwiftUITools.swift"; sourceTree = "<group>"; };
-		851AE9B223874353001BE3FB /* ResetBoutUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetBoutUIView.swift; sourceTree = "<group>"; };
+		851AE9B223874353001BE3FB /* BoutUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoutUIView.swift; sourceTree = "<group>"; };
 		851AE9B423874393001BE3FB /* CommonComponentsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonComponentsSwiftUIView.swift; sourceTree = "<group>"; };
 		851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseSettersSwiftUIView.swift; sourceTree = "<group>"; };
 		851AE9B823875B0C001BE3FB /* VerticalSeletorSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalSeletorSwiftUIView.swift; sourceTree = "<group>"; };
@@ -109,14 +114,16 @@
 		851AE9CE2389E4F2001BE3FB /* WeaponsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponsSwiftUIView.swift; sourceTree = "<group>"; };
 		851AE9D02389ECE5001BE3FB /* ScoreSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreSwiftUIView.swift; sourceTree = "<group>"; };
 		85371937244B672700B14418 /* VideoRC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRC.swift; sourceTree = "<group>"; };
+		853F66C0252FCE2500A8F2E1 /* LanHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanHelpers.swift; sourceTree = "<group>"; };
+		85479DC3250E9A22003D314D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Connect.strings; sourceTree = "<group>"; };
+		85479DC4250E9A2B003D314D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Connect.strings; sourceTree = "<group>"; };
 		85512DDE2450CCCB00254D5F /* Inspiration_PointTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Inspiration_PointTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		85512DE02450CCCB00254D5F /* Inspiration_PointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspiration_PointTests.swift; sourceTree = "<group>"; };
 		85512DE22450CCCB00254D5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		85584ADD239C491A006EC133 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/QRConnect.strings; sourceTree = "<group>"; };
-		85584ADF239C4944006EC133 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/QRConnect.strings; sourceTree = "<group>"; };
 		85584AE2239ED5A2006EC133 /* RcViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RcViewModels.swift; sourceTree = "<group>"; };
 		859B2C1823E6289100699383 /* Inspiration Point.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Inspiration Point.entitlements"; sourceTree = "<group>"; };
 		859B2C1923E6289200699383 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+		85A2A02B24E89B9300DB6244 /* LanConfigReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanConfigReader.swift; sourceTree = "<group>"; };
 		85A99338230B47A4003FC5BE /* Inspiration.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Inspiration.storyboard; sourceTree = "<group>"; };
 		85A9934923109CB7003FC5BE /* RcViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RcViewController.swift; sourceTree = "<group>"; };
 		85B661F6239327920016CE4F /* KeyboardGuardianSwiftUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardGuardianSwiftUI.swift; sourceTree = "<group>"; };
@@ -134,6 +141,8 @@
 		85D6E91E23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTimeButtonSwiftUIView.swift; sourceTree = "<group>"; };
 		85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetPassiveButtonSwiftUIView.swift; sourceTree = "<group>"; };
 		85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTimersSwiftUIView.swift; sourceTree = "<group>"; };
+		85ECCF492504E6B400F9CB95 /* EthernetBoutModalSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthernetBoutModalSwiftUIView.swift; sourceTree = "<group>"; };
+		85F02727252BAF74002E307D /* LanAccessHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanAccessHelper.swift; sourceTree = "<group>"; };
 		8F07A75223892F4800C7F783 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8F07A75523892FB000C7F783 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8F6D773C237D2C530077B65D /* RemoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
@@ -143,8 +152,7 @@
 		B97043C623E099C1003F4F47 /* Published.Publisher+on.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Published.Publisher+on.swift"; sourceTree = "<group>"; };
 		B9C8BEDA2305A2C5004DBBF8 /* Inspiration Point.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Inspiration Point.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B9C8BEDF2305A2C5004DBBF8 /* QrViewController.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = QrViewController.swift; sourceTree = "<group>"; tabWidth = 2; };
-		B9C8BEE22305A2C6004DBBF8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/QRConnect.storyboard; sourceTree = "<group>"; };
+		B9C8BEE22305A2C6004DBBF8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Connect.storyboard; sourceTree = "<group>"; };
 		B9C8BEE42305A2C7004DBBF8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B9C8BEE72305A2C7004DBBF8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B9C8BEFD2305A2C7004DBBF8 /* RemoteControlUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteControlUITests.swift; sourceTree = "<group>"; };
@@ -163,9 +171,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				850AAEAA23271F2A00DBFD93 /* AVFoundation.framework in Frameworks */,
 				859B2C1A23E6289200699383 /* NetworkExtension.framework in Frameworks */,
-				8FE69D5423398B6200E3B539 /* QRCodeReader in Frameworks */,
 				8FFBF9E22336BD4000736BB7 /* Sm02Client in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -173,15 +179,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8504102624E88EF6002CF656 /* LAN */ = {
+			isa = PBXGroup;
+			children = (
+				8504102324E8867F002CF656 /* LanLookupConnectionViewController.swift */,
+				85A2A02B24E89B9300DB6244 /* LanConfigReader.swift */,
+				853F66C0252FCE2500A8F2E1 /* LanHelpers.swift */,
+			);
+			path = LAN;
+			sourceTree = "<group>";
+		};
 		850AAE6D23270DE500DBFD93 /* Connect */ = {
 			isa = PBXGroup;
 			children = (
-				B9C8BEE12305A2C6004DBBF8 /* QRConnect.storyboard */,
-				B9C8BEDF2305A2C5004DBBF8 /* QrViewController.swift */,
+				8504102624E88EF6002CF656 /* LAN */,
+				B9C8BEE12305A2C6004DBBF8 /* Connect.storyboard */,
 				850AAEDD232723F400DBFD93 /* ConnectionsViewController.swift */,
 				8FFBF9E32336CA6F00736BB7 /* RemoteAddress+UrlParsing.swift */,
 				85BD5ADF2446499500215D82 /* NetworkReachability.swift */,
 				85BD5AE124464B8C00215D82 /* ConnectionProcessor.swift */,
+				8504101F24E86CA3002CF656 /* ConnectionControllerProtocol.swift */,
 			);
 			path = Connect;
 			sourceTree = "<group>";
@@ -208,6 +225,7 @@
 				85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */,
 				85B661F6239327920016CE4F /* KeyboardGuardianSwiftUI.swift */,
 				85B661F8239327F10016CE4F /* TestKeabordGuardianSwiftUIView.swift */,
+				85F02727252BAF74002E307D /* LanAccessHelper.swift */,
 			);
 			path = "UI Helpers";
 			sourceTree = "<group>";
@@ -216,7 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				85B95705237E06C50063E32C /* TimersSwiftUIView.swift */,
-				851AE9B223874353001BE3FB /* ResetBoutUIView.swift */,
+				851AE9B223874353001BE3FB /* BoutUIView.swift */,
 				851AE9B623874465001BE3FB /* PauseSettersSwiftUIView.swift */,
 				85D6E91E23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift */,
 				85D6E9202390716D00CBE74D /* SetPassiveButtonSwiftUIView.swift */,
@@ -268,6 +286,7 @@
 				850AAEEC232AFC3A00DBFD93 /* Timers */,
 				85B95703237B608C0063E32C /* FightTabsSelectorsUIView.swift */,
 				85B95707237E07130063E32C /* FightSectionSwiftUIView.swift */,
+				85ECCF492504E6B400F9CB95 /* EthernetBoutModalSwiftUIView.swift */,
 			);
 			path = Fight;
 			sourceTree = "<group>";
@@ -396,7 +415,6 @@
 			name = RemoteControl;
 			packageProductDependencies = (
 				8FFBF9E12336BD4000736BB7 /* Sm02Client */,
-				8FE69D5323398B6200E3B539 /* QRCodeReader */,
 			);
 			productName = RemoteControl;
 			productReference = B9C8BEDA2305A2C5004DBBF8 /* Inspiration Point.app */;
@@ -409,7 +427,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1140;
-				LastUpgradeCheck = 1120;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Sergei Andreev";
 				TargetAttributes = {
 					85512DDD2450CCCB00254D5F = {
@@ -432,7 +450,6 @@
 			);
 			mainGroup = B9C8BED12305A2C5004DBBF8;
 			packageReferences = (
-				8FE69D5223398B6200E3B539 /* XCRemoteSwiftPackageReference "QRCodeReader.swift" */,
 			);
 			productRefGroup = B9C8BEDB2305A2C5004DBBF8 /* Products */;
 			projectDirPath = "";
@@ -460,7 +477,7 @@
 				B9C8BEE82305A2C7004DBBF8 /* LaunchScreen.storyboard in Resources */,
 				85A99339230B47A4003FC5BE /* Inspiration.storyboard in Resources */,
 				B9C8BEE52305A2C7004DBBF8 /* Assets.xcassets in Resources */,
-				B9C8BEE32305A2C6004DBBF8 /* QRConnect.storyboard in Resources */,
+				B9C8BEE32305A2C6004DBBF8 /* Connect.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,7 +499,6 @@
 				85D6E91D2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift in Sources */,
 				850AAEDE232723F400DBFD93 /* ConnectionsViewController.swift in Sources */,
 				851AE9BD23876424001BE3FB /* DraggableCircle.swift in Sources */,
-				B9C8BEE02305A2C5004DBBF8 /* QrViewController.swift in Sources */,
 				851AE9C72389DC7B001BE3FB /* SettingsSwiftUIView.swift in Sources */,
 				851AE9CD2389E452001BE3FB /* NamesSettingsSwiftUIView.swift in Sources */,
 				85B95702237A363A0063E32C /* PointsStepper.swift in Sources */,
@@ -493,6 +509,7 @@
 				B9C8BEDE2305A2C5004DBBF8 /* AppDelegate.swift in Sources */,
 				851AE9B723874465001BE3FB /* PauseSettersSwiftUIView.swift in Sources */,
 				85B956FA237A0FA50063E32C /* PointsSwiftUIView.swift in Sources */,
+				85F02728252BAF74002E307D /* LanAccessHelper.swift in Sources */,
 				85B95700237A31DF0063E32C /* VideoButton.swift in Sources */,
 				85B95708237E07130063E32C /* FightSectionSwiftUIView.swift in Sources */,
 				85B95706237E06C50063E32C /* TimersSwiftUIView.swift in Sources */,
@@ -502,16 +519,21 @@
 				85371938244B672700B14418 /* VideoRC.swift in Sources */,
 				851AE9C1238932C2001BE3FB /* RcSwiftUIView.swift in Sources */,
 				851AE9BB23875FA4001BE3FB /* SegmentedPickerElementView.swift in Sources */,
+				85A2A02C24E89B9300DB6244 /* LanConfigReader.swift in Sources */,
 				85B661F7239327920016CE4F /* KeyboardGuardianSwiftUI.swift in Sources */,
 				85BD5AE02446499500215D82 /* NetworkReachability.swift in Sources */,
-				851AE9B323874353001BE3FB /* ResetBoutUIView.swift in Sources */,
+				851AE9B323874353001BE3FB /* BoutUIView.swift in Sources */,
+				85ECCF4A2504E6B400F9CB95 /* EthernetBoutModalSwiftUIView.swift in Sources */,
 				850AAE5F2322CF7100DBFD93 /* UITools.swift in Sources */,
 				851AE9B12385F56B001BE3FB /* SwiftUITools.swift in Sources */,
+				8504102024E86CA3002CF656 /* ConnectionControllerProtocol.swift in Sources */,
 				850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */,
 				851AE9C323893D06001BE3FB /* CardsSwiftUIView.swift in Sources */,
 				85D6E91F23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift in Sources */,
 				851AE9CF2389E4F2001BE3FB /* WeaponsSwiftUIView.swift in Sources */,
 				85B661F9239327F10016CE4F /* TestKeabordGuardianSwiftUIView.swift in Sources */,
+				8504102424E8867F002CF656 /* LanLookupConnectionViewController.swift in Sources */,
+				853F66C1252FCE2500A8F2E1 /* LanHelpers.swift in Sources */,
 				8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */,
 				851AE9C52389D4FE001BE3FB /* PrioritySwiftUIView.swift in Sources */,
 				8FD7CB962392C030003DF83B /* Vibration.swift in Sources */,
@@ -555,14 +577,14 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		B9C8BEE12305A2C6004DBBF8 /* QRConnect.storyboard */ = {
+		B9C8BEE12305A2C6004DBBF8 /* Connect.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				B9C8BEE22305A2C6004DBBF8 /* Base */,
-				85584ADD239C491A006EC133 /* en */,
-				85584ADF239C4944006EC133 /* ru */,
+				85479DC3250E9A22003D314D /* ru */,
+				85479DC4250E9A2B003D314D /* en */,
 			);
-			name = QRConnect.storyboard;
+			name = Connect.storyboard;
 			sourceTree = "<group>";
 		};
 		B9C8BEE62305A2C7004DBBF8 /* LaunchScreen.storyboard */ = {
@@ -647,6 +669,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -713,6 +736,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -765,7 +789,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.1.11;
+				MARKETING_VERSION = 1.2.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "Inspiration Point";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -794,7 +818,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.1.11;
+				MARKETING_VERSION = 1.2.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "Inspiration Point";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -836,23 +860,7 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		8FE69D5223398B6200E3B539 /* XCRemoteSwiftPackageReference "QRCodeReader.swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/xxlabaza/QRCodeReader.swift.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		8FE69D5323398B6200E3B539 /* QRCodeReader */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8FE69D5223398B6200E3B539 /* XCRemoteSwiftPackageReference "QRCodeReader.swift" */;
-			productName = QRCodeReader;
-		};
 		8FFBF9E12336BD4000736BB7 /* Sm02Client */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Sm02Client;

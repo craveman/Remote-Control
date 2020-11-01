@@ -48,6 +48,7 @@ class RcViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
+    syncState()
     setSubscriptions()
   }
   
@@ -78,6 +79,24 @@ class RcViewController: UIViewController {
     subscriptions.forEach({ subscription in
       subscription.cancel()
     })
+  }
+  
+  private func syncState() {
+    self.onMainThread({
+      self.rcModel.isConnected = rs.connection.isAuthenticated && rs.connection.isConnected
+      self.rcModel.isEthernetMode = rs.competition.cyranoWorks
+      self.rcModel.tab = !rs.connection.isConnected ? 2 : 1
+      self.rcModel.fightSwitchActiveTab = rs.timer.mode == .main ? 0 : 1
+      
+      self.rcModel.shouldShowTimerView = rs.timer.mode == .main && rs.timer.state == .running
+      self.rcModel.shouldShowPauseView = rs.timer.mode == .pause && rs.timer.state == .running
+      self.rcModel.shouldShowMedicalView = rs.timer.mode == .medicine && rs.timer.state == .running
+    })
+    
+    print("syncState: \(rs.competition.state)")
+    if let fightState = rs.competition.state {
+      self.game.syncFightState(fightState)
+    }
   }
   
   private func setSubscriptions() {
@@ -136,7 +155,11 @@ class RcViewController: UIViewController {
       guard self.game.time != update else {
         return
       }
-      self.onMainThread({self.game.time = update})
+      self.onMainThread({
+        print("Set game time", update)
+                          self.game.time = update
+        
+      })
     })
     
     subscriptions.append(time$)
@@ -198,9 +221,11 @@ class RcViewController: UIViewController {
       guard self.game.leftScore != score else {
         return
       }
+      print("lScore$ update")
       self.onMainThread({self.game.leftScore = score})
     })
     let lCard$ = rs.persons.left.$card.on(change: { card in
+      print("lCard$ update")
       self.onMainThread({self.game.setCard(card, .left)})
     })
     
@@ -212,22 +237,40 @@ class RcViewController: UIViewController {
       guard self.game.rightScore != score else {
         return
       }
+      print("rScore$ update")
       self.onMainThread({self.game.rightScore = score})
     })
     let rCard$ = rs.persons.right.$card.on(change: { card in
+      print("rCard$ update")
       self.onMainThread({self.game.setCard(card, .right)})
     })
     
     subscriptions.append(rScore$)
     subscriptions.append(rCard$)
-
+    
+    
+    let ethModeChange$ = rs.competition.$cyranoWorks.on(change: { v in
+      print("$cyranoWorks changed: \(v)")
+      guard self.rcModel.isEthernetMode != v else {
+        return
+      }
+      print("ethModeChange$ changed")
+      self.onMainThread({
+        
+        self.rcModel.isEthernetMode = v
+        
+      })
+    })
+    
+    subscriptions.append(ethModeChange$)
+    
     let cameraIsOnline$ = rs.competition.$cameraIsOnline.on(change: { v in
       guard self.playbackController.isEnabled != v else {
         return
       }
-      print("changed")
+      //      print("cameraIsOnline$ changed")
       self.onMainThread({
-
+        
         self.playbackController.isEnabled = v
         
         if (!self.playbackController.isEnabled) {
@@ -263,6 +306,37 @@ class RcViewController: UIViewController {
     subscriptions.append(cameraIsOnline$)
     subscriptions.append(videoRecordReady$)
     subscriptions.append(videoRecordLoaded$)
+    
+    let ethState$ = rs.competition.$state.on(change: { cfg in
+      self.game.turnOffEthLockTimer()
+      guard cfg != nil else {
+        print("Unsupported state was set")
+        return
+      }
+      self.game.syncFightState(cfg!)
+      print("rs.competition.$state on change", cfg!)
+    })
+    
+    let ethFightStatus$ = rs.competition.$fightStatus.on(change: { status in
+      self.game.turnOffEthLockTimer()
+      if status == .stopFight {
+        print("ETH fight end done")
+        self.game.ethernetFightPhase = .none
+      } else {
+//        self.game.ethernetFightPhase = .active
+        print("Notify ETH fight end is not possible")
+      }
+    })
+    
+    let ethOption$ = rs.competition.$cyranoOption.on(change: {name in
+      self.game.turnOffEthLockTimer()
+      self.game.ethernetNextFightTitle = name
+    })
+    
+    subscriptions.append(ethState$)
+    subscriptions.append(ethFightStatus$)
+    subscriptions.append(ethOption$)
+    
   }
   
   private func addViewControllerAsChildViewController(childViewController: UIViewController) {

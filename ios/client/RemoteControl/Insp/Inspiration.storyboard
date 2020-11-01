@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rCi-4G-J1m">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rCi-4G-J1m">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -12,7 +14,7 @@
         <scene sceneID="CiA-5O-Xyi">
             <objects>
                 <viewController id="rCi-4G-J1m" customClass="RcViewController" customModule="Inspiration_Point" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="MnF-4x-xZz">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="MnF-4x-xZz">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -30,7 +32,12 @@
                                 <rect key="frame" x="0.0" y="92" width="414" height="770"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </containerView>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dhy-Gi-I3d">
+                                <rect key="frame" x="0.0" y="862" width="414" height="34"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color"/>
+                            </view>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="ayx-Ov-SmN"/>
                         <color key="backgroundColor" red="0.0" green="0.5098522902" blue="0.98811227079999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="R9Y-Nj-D4R" firstAttribute="trailing" secondItem="FKU-uV-XQd" secondAttribute="trailing" id="3TN-Sq-ECV"/>
@@ -38,10 +45,13 @@
                             <constraint firstItem="R9Y-Nj-D4R" firstAttribute="bottom" secondItem="ayx-Ov-SmN" secondAttribute="bottom" id="A9V-Mq-gKx"/>
                             <constraint firstItem="FKU-uV-XQd" firstAttribute="leading" secondItem="ayx-Ov-SmN" secondAttribute="leading" id="AlM-0A-TWL"/>
                             <constraint firstItem="FKU-uV-XQd" firstAttribute="centerX" secondItem="MnF-4x-xZz" secondAttribute="centerX" id="LcA-Ob-aq2"/>
+                            <constraint firstAttribute="bottom" secondItem="dhy-Gi-I3d" secondAttribute="bottom" id="Oqt-iK-csJ"/>
+                            <constraint firstItem="dhy-Gi-I3d" firstAttribute="top" secondItem="R9Y-Nj-D4R" secondAttribute="bottom" id="baX-KL-XYx"/>
                             <constraint firstItem="R9Y-Nj-D4R" firstAttribute="leading" secondItem="FKU-uV-XQd" secondAttribute="leading" id="bhO-Wi-FO5"/>
+                            <constraint firstAttribute="trailing" secondItem="dhy-Gi-I3d" secondAttribute="trailing" id="fKR-FM-UXD"/>
+                            <constraint firstItem="dhy-Gi-I3d" firstAttribute="leading" secondItem="MnF-4x-xZz" secondAttribute="leading" id="fL3-U9-Tfg"/>
                             <constraint firstItem="R9Y-Nj-D4R" firstAttribute="top" secondItem="ayx-Ov-SmN" secondAttribute="top" constant="48" id="wDT-xX-1Ia"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="ayx-Ov-SmN"/>
                     </view>
                     <navigationItem key="navigationItem" id="Qvw-V2-KZD"/>
                     <connections>
@@ -50,7 +60,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZCr-CM-7Xn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="723" y="-1383"/>
+            <point key="canvasLocation" x="721.73913043478262" y="-1383.4821428571429"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="nOk-uo-egS">
@@ -95,14 +105,14 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="d7D-cR-DsT"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="iZV-7H-RNx" firstAttribute="leading" secondItem="d7D-cR-DsT" secondAttribute="leading" id="647-cy-75r"/>
                             <constraint firstItem="iZV-7H-RNx" firstAttribute="top" secondItem="Ost-LK-jtM" secondAttribute="top" id="eOg-n4-Ha1"/>
                             <constraint firstAttribute="bottomMargin" secondItem="iZV-7H-RNx" secondAttribute="bottom" id="hHH-AH-v9u"/>
                             <constraint firstItem="iZV-7H-RNx" firstAttribute="centerX" secondItem="Ost-LK-jtM" secondAttribute="centerX" id="vDL-KM-RjT"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="d7D-cR-DsT"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uAs-1G-ZkZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -112,5 +122,11 @@
     </scenes>
     <resources>
         <image name="inspiration" width="40" height="40"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

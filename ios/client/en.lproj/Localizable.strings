@@ -6,37 +6,27 @@
   Copyright © 2019 Sergei Andreev. All rights reserved.
 */
 
-
-// QrViewController
-
-"QR scanner" = "QR scanner";
-
-"The code is recognized" = "The code is recognized. Check that you are connected to required Wi-Fi network before proceed. Or choose Wi-Fi network type to create automatic disposable connection";
-"The code is unrecognized" = "The code is unrecognized";
-"Connect Sm02" = "Connect to Sm02";
+"Connect Sm02" = "Connect to device";
 "Connect Open WiFi first" = "Open Wi-Fi";
 "Connect Protected WiFi first" = "Secured Wi-Fi";
 "Please provide password" = "Please provide password";
 "We never save or share your data" = "We never save or share your data";
 "Skip" = "Skip";
 "Proceed" = "Proceed";
-"disconnected" = "disconnected from Sm02";
+"disconnected" = "disconnected from device";
 
 "Wrong authentication code." = "Wrong authentication code.";
-"Another remote control is already registered on the server." = "Another remote control is already registered on the server.";
-"Connection timeout. Check that you are connected to the '%@' Wi-Fi network." = "Connection timeout. Check that you are connected to the '%@' Wi-Fi network.";
+"Another remote control is already registered on the server." = "Another remote control is already registered on the device.";
+
 "A remote server is not reachable." = "A remote server is not reachable.";
 "Unknown connection error: %@" = "Unknown connection error: %@";
-"Connection to the server in Wi-Fi network '%@' was lost." = "Connection to the server in Wi-Fi network '%@' was lost.";
+"Connection to the server was lost." = "Connection to the server was lost.";
 
 "Connection error" = "Connection error";
 "Can't connect to %@. %@" = "Can't connect to %@. %@";
 "Try again" = "Try again";
 "Reconnect" = "Reconnect";
 
-"QR scanner error" = "QR scanner error";
-"The app is not authorized to use back camera." = "The app is not authorized to use back camera.";
-"QR scanner is not supported by the current device." = "QR scanner is not supported by the current device.";
 "Settings" = "Settings";
 "Ok" = "Ok";
 
@@ -53,6 +43,7 @@
 "tab Left" = "Left";
 "tab Right" = "Right";
 
+"apply" = "apply";
 "done" = "done";
 "cancel" = "cancel";
 "disconnect" = "disconnect";
@@ -77,10 +68,12 @@
 "tab Counters" = "Counters";
 "tab Records" = "Records";
 "No records found" = "No records found";
-"no camera" = "Sm02 has no connected camera";
+"no camera" = "Device has no connected camera";
 
 "priority" = "priority";
 "title Priority" = "Priority";
+
+"bout" = "bout";
 
 "weapon" = "weapon";
 "title Weapon" = "Weapon";
@@ -106,12 +99,36 @@
 "1' pause 1" = "pause";
 "1' pause 2" = "1 min";
 
+//
+"title Bout" = "Bout";
+"request bout" = "request bout";
+"next" = "next";
+"prev" = "previous";
+"complete" = "complete";
+
 "Left fencer" = "Left fencer";
 "Right fencer" = "Right fencer";
+"swap" = "swap";
 
 "Start" = "START";
 "Stop" = "STOP";
 "Close" = "CLOSE";
 
 "Connect" = "сonnect";
-"Disconnect this Remote Control?" = "Disconnect this Remote Control?";
+"Disconnect this Remote Control?" = "Disconnect this remote control?";
+
+"Searching for Sm02" = "Waiting scoring machine signal...";
+
+"lan_manual Manual connection" = "Manual connection";
+"lan_manual Enter connection config" = "";
+"lan_manual Join" = "Join deveice";
+"lan_manual Cancel" = "Cancel";
+"lan_manual Enter IP address" = "Enter IP address";
+
+"Local Network access is required to be able to search and connect to SM02" = "Local Network access is required to be able to search and connect to device";
+
+"Failed to connect to device please check configuration" = "Scoring machine is not found
+Make sure your device is connected to the scoring machine's Wi-Fi network";
+
+"Not valid lan configuration" = "Scoring machine is not found
+Make sure your device is connected to the scoring machine's Wi-Fi network";

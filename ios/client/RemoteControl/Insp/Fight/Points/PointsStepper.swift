@@ -59,7 +59,7 @@ struct PointsStepper: View {
   }
   
   var body: some View {
-    VStack {
+    VStack(spacing: 0) {
       Button(action: {
         print("- Button Pushed")
         if (self.getScore() == 0) {
@@ -82,8 +82,9 @@ struct PointsStepper: View {
           Vibration.warning()
           return
         }
-        
+//        print("1 self.getScore() \(self.getScore())")
         self.setScore(self.getScore() + 1)
+//        print("2 self.getScore() \(self.getScore())")
         self.plusIsActive = true
         Vibration.on()
         self.thenDeactivatePlus()
