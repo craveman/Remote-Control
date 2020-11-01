@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class SetNameCommand extends CommonTCPCommand {
 
@@ -29,7 +30,7 @@ public class SetNameCommand extends CommonTCPCommand {
         try {
             s1.writeByte(person);
             s1.writeByte(nameLength);
-            byte[] buf = name.getBytes(Charset.forName("UTF-8"));
+            byte[] buf = name.getBytes(StandardCharsets.UTF_8);
             s1.write(buf);
         } catch (IOException e) {
             e.printStackTrace();

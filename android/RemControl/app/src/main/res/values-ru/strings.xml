@@ -116,7 +116,7 @@
     <string name="extra_time">Добавленное время</string>
     <string name="other_time">Другое время</string>
 
-    <string name="next_period">Следующий период</string>
+    <string name="next_period">След. период</string>
     <string name="reset_period">Сбросить</string>
     <string name="period">Период %d</string>
 
@@ -269,8 +269,8 @@
     <string name="waiting_fight">Ожидание боя</string>
 
     <string name="qr_need_explain">Просканируйте QR-код, отображенный на экране нужного аппарата</string>
-    <string name="fa_sync_explain">Для подключения перейдите в настройки и выберите нужную сеть WiFi</string>
-    <string name="fa_sync_message">Не соединен с аппаратом</string>
+    <string name="fa_sync_explain">Проверьте: \n\n-вы подключены к Wi-Fi сети аппарата \n\n-к аппарату не подключен другой пульт управления</string>
+    <string name="fa_sync_message">Аппарат не найден</string>
     <string name="fa_timers_period_score">Таймеры</string>
     <string name="fa_warnings_priority">Карточки</string>
     <string name="fa_medical_pause">мед. пауза</string>
@@ -300,7 +300,7 @@
     <string name="fa_timeout">Пауза</string>
     <string name="fa_accept">Принять</string>
     <string name="fa_timer_title">Таймер боя</string>
-    <string name="fa_syncing_msg">Синхронизация с аппаратом, пожалуйста подождите…</string>
+    <string name="fa_syncing_msg">Поиск аппарата</string>
     <string name="next">След.</string>
     <string name="semi_mode">Cyrano 1.0</string>
     <string name="fight_received">Получен бой от сервера:</string>

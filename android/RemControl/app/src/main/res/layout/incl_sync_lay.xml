@@ -44,14 +44,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".225" />
+            app:layout_constraintGuide_percent=".17" />
 
         <android.support.constraint.Guideline
             android:id="@+id/msg_1_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".33" />
+            app:layout_constraintGuide_percent=".32" />
 
         <android.support.constraint.Guideline
             android:id="@+id/left_border"
@@ -79,14 +79,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".50" />
+            app:layout_constraintGuide_percent=".75" />
 
         <android.support.constraint.Guideline
             android:id="@+id/qr_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".55" />
+            app:layout_constraintGuide_percent=".40" />
 
         <android.support.constraint.Guideline
             android:id="@+id/qr_left"
@@ -107,7 +107,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".80" />
+            app:layout_constraintGuide_percent=".60" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -137,13 +137,11 @@
             android:layout_height="0dp"
             android:layout_marginEnd="30dp"
             android:layout_marginStart="30dp"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
             android:text="@string/fa_sync_message"
             android:textAlignment="center"
             android:textColor="@color/white"
-            app:autoSizeMaxTextSize="100sp"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="2sp"
-            app:autoSizeTextType="uniform"
+            android:textSize="36sp"
             app:layout_constraintBottom_toBottomOf="@id/msg_1_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -155,7 +153,6 @@
         android:layout_marginEnd="30dp"
         android:layout_marginStart="30dp"
         android:text="@string/fa_sync_explain"
-        android:textAlignment="center"
         android:textColor="@color/white"
         android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
         app:autoSizeMaxTextSize="100sp"
@@ -167,26 +164,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/msg_2_top" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginStart="30dp"
-            android:paddingStart="40dp"
-            android:paddingEnd="40dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:background="@drawable/btn_border"
-            android:id="@+id/btn_settings"
-            android:text="@string/settings"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
-            android:textSize="30sp"
-            app:layout_constraintTop_toBottomOf="@id/msg_2_bottom"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="40dp"-->
+<!--            android:layout_marginEnd="30dp"-->
+<!--            android:layout_marginStart="30dp"-->
+<!--            android:paddingStart="40dp"-->
+<!--            android:paddingEnd="40dp"-->
+<!--            android:paddingTop="20dp"-->
+<!--            android:paddingBottom="20dp"-->
+<!--            android:background="@drawable/btn_border"-->
+<!--            android:id="@+id/btn_settings"-->
+<!--            android:text="@string/settings"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"-->
+<!--            android:textSize="30sp"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/msg_2_bottom"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
 
         <!--<com.budiyev.android.codescanner.CodeScannerView-->
             <!--android:id="@+id/scanner_view"-->
@@ -230,27 +227,26 @@
                 android:textSize="25sp"
                 android:textColor="@color/white"
                 android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
                 android:text="@string/fa_syncing_msg"/>
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_SYNCING ? v.VISIBLE : v.GONE}"
-            app:layout_constraintTop_toBottomOf="@id/sync_progress_bottom"
-            android:textColor="@color/white"
-            android:text="@string/cancel"
-            android:textSize="24sp"
-            android:textAlignment="center"
-            android:layout_marginTop="28dp"
-            android:id="@+id/sync_cancel"
-            android:onClick="@{() -> viewModel.onSyncCancel()}"/>
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_SYNCING ? v.VISIBLE : v.GONE}"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/sync_progress_bottom"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:text="@string/cancel"-->
+<!--            android:textSize="24sp"-->
+<!--            android:textAlignment="center"-->
+<!--            android:layout_marginTop="28dp"-->
+<!--            android:id="@+id/sync_cancel"-->
+<!--            android:onClick="@{() -> viewModel.onSyncCancel()}"/>-->
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             android:textColor="@color/white"
             android:text="@string/exit_app_title"

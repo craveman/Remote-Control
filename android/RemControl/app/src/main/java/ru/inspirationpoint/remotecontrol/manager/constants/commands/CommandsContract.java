@@ -71,6 +71,9 @@ public interface CommandsContract {
 
     byte ADD_STATE = (byte) 0x66;
 
+    byte PROTOCOL_REQUEST = (byte)0x54;
+    byte PROTOCOL_RESPONSE = (byte)0x55;
+
     byte END_USB_MODE = (byte) 0x90;
 
     int PERSON_TYPE_LEFT = 1;

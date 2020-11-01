@@ -29,6 +29,8 @@ public class TCPHelper extends Thread {
             public void messageReceived(byte command, byte status, byte[] message) {
                 if (listener != null) {
                     listener.onReceive(command, status, message);
+                } else {
+                    Log.wtf("TCPHelper:", "Listener null");
                 }
             }
 

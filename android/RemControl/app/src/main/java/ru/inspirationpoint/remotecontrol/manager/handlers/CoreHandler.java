@@ -325,7 +325,7 @@ public class CoreHandler implements TCPHelper.TCPListener {
     @Override
     public void onStreamCreated() {
 //        sendToSM(new SetTimerCommand(180000, 0).getBytes());
-//        Log.wtf("STREAM", "+");
+        Log.wtf("STREAM", "+");
         sendToSM(CommandHelper.auth(SettingsManager.getValue(SM_CODE, ""),
                 SettingsManager.getValue(DEVICE_ID_SETTING, "")));
         smMainAliveHandler.start();

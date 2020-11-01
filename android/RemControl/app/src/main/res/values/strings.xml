@@ -268,8 +268,8 @@
     <string name="referee_code">Code: %s</string>
     <string name="waiting_fight">Waiting for fight</string>
     <string name="qr_need_explain">Please scan QR-code displayed by selected SM</string>
-    <string name="fa_sync_explain">For connection go to settings and choose the correct WiFi network</string>
-    <string name="fa_sync_message">Remote control is not connected to the device</string>
+    <string name="fa_sync_explain">Check: \n \n- you are connected to the scoring machine\'s Wi-Fi network \n \n- other remote control is not connected to the scoring machine already</string>
+    <string name="fa_sync_message">Scoring machine not found</string>
     <string name="fa_timers_period_score">Timers</string>
     <string name="fa_warnings_priority">Penalties</string>
     <string name="fa_medical_pause">medical pause</string>
@@ -298,7 +298,7 @@
     <string name="fa_timeout">Timeout</string>
     <string name="fa_accept">Accept</string>
     <string name="fa_timer_title">Fight timer</string>
-    <string name="fa_syncing_msg">Syncing, please wait...</string>
+    <string name="fa_syncing_msg">Searching…</string>
     <string name="semi_mode">Cyrano 1.0</string>
     <string name="fight_received">Received fight from server:</string>
     <string name="next">Next</string>

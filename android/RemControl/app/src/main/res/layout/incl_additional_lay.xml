@@ -8,6 +8,7 @@
         <variable
             name="viewModel"
             type="ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM" />
+        <import type="android.view.View" alias="v"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -272,6 +273,7 @@
             app:autoSizeMinTextSize="12sp"
             app:autoSizeStepGranularity="2sp"
             app:autoSizeTextType="uniform"
+            android:visibility="@{viewModel.isNamesLocked ? v.GONE : v.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="@id/adds_item2_text_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -290,9 +292,10 @@
             app:autoSizeStepGranularity="2sp"
             app:autoSizeTextType="uniform"
             android:text="@={viewModel.pisteNum}"
-            android:maxLength="6"
+            android:maxLength="10"
             android:imeOptions="flagNoExtractUi|actionDone"
             android:inputType="textCapSentences"
+            android:visibility="@{viewModel.isNamesLocked ? v.GONE : v.VISIBLE}"
             app:layout_constraintTop_toTopOf="@id/adds_item2_curr_top"
             app:layout_constraintBottom_toBottomOf="@id/adds_item2_curr_bottom"
             app:layout_constraintStart_toStartOf="parent"
@@ -309,6 +312,7 @@
             android:shadowColor="@color/white"
             android:checked="@={viewModel.isPisteNumOn}"
             android:onClick="@{() -> viewModel.onPisteNumSet()}"
+            android:visibility="@{viewModel.isNamesLocked ? v.GONE : v.VISIBLE}"
             app:layout_constraintTop_toTopOf="@id/adds_item2_curr_top"
             app:layout_constraintBottom_toBottomOf="@id/adds_item2_curr_bottom"
             app:layout_constraintEnd_toEndOf="parent"/>
