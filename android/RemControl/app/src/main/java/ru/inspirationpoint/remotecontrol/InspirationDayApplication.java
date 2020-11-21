@@ -25,7 +25,6 @@ import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
 import ru.inspirationpoint.remotecontrol.manager.handlers.CoreHandler;
 import ru.inspirationpoint.remotecontrol.manager.handlers.UsbConnectionHandler;
 import ru.inspirationpoint.remotecontrol.manager.helpers.LocaleHelper;
-import ru.inspirationpoint.remotecontrol.manager.helpers.UDPHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPHelper;
 import ru.inspirationpoint.remotecontrol.ui.activity.LoginActivity;
 

@@ -18,6 +18,8 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.NetworkRequest;
+import android.net.nsd.NsdManager;
+import android.net.nsd.NsdServiceInfo;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -28,6 +30,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -51,6 +54,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -87,7 +91,6 @@ import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
 import ru.inspirationpoint.remotecontrol.manager.handlers.CoreHandler;
 import ru.inspirationpoint.remotecontrol.manager.handlers.EthernetCommandsHelpers.EthernetDispHandler;
 import ru.inspirationpoint.remotecontrol.manager.handlers.EthernetCommandsHelpers.FightFinishAskHandler;
-import ru.inspirationpoint.remotecontrol.manager.helpers.UDPHelper;
 import ru.inspirationpoint.remotecontrol.manager.helpers.WiFiHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.CommandHelper;
 import ru.inspirationpoint.remotecontrol.ui.DividerItemDecoration;
@@ -280,12 +283,10 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
     public ObservableField<String> logTextTemp = new ObservableField<>();
 
-    private String currentSSID = "";
     private String currentSMIp = "";
     private String requiredSSID = "";
 
     private WiFiHelper wiFiHelper;
-    private UDPHelper udpHelper;
 
     boolean isIndividual = true;
 
@@ -295,6 +296,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     private ConnectivityManager.NetworkCallback mNetworkCallback = null;
 
     private int previousScreen = SCREEN_MAIN;
+
+    private ArrayList<FightActionData> tempProtocol = new ArrayList<>(300);
 
     public FightActivityVM(FightActivity activity) {
         super(activity);
@@ -457,9 +460,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //                    if (withSEMI.get()) {
 //                        screenState.set(SCREEN_STATE_WAITING);
 //                    } else {
-                    if (udpHelper != null) {
-                        udpHelper.resetListener();
-                    }
                     previousScreen = screenState.get();
                     screenState.set(SCREEN_MAIN);
 //                    FightData tempFightCache = core.getBackupHelper().getBackup();
@@ -489,6 +489,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                     //TODO resume to select network (now programmatically, not from settings)
                     if (syncState.get() == SYNC_STATE_SYNCING) {
                         if (checkWifiOnAndConnected()) {
+                            core.initializeDiscoveryListener();
                             uiHandler.postDelayed(() -> {
                                 onSyncCancel();
                                 Log.wtf("SYNC CANCEL", "15000 timeout");
@@ -515,6 +516,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                         }
                     } else {
                         uiHandler.removeCallbacksAndMessages(null);
+//                        stopDiscovery();
                     }
                 }
             }
@@ -839,15 +841,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                                     .getApplicationContext().getSystemService(WIFI_SERVICE)))
                                     .getConnectionInfo().getSSID()
                                     .equals("\"" + requiredSSID + "\"")) {
-                                Log.wtf("SSID", "EQUALS");
-//                                wiFiHelper.routeNetworkRequestsThroughWifi("\"" + requiredSSID + "\"");
-                                uiHandler.removeCallbacksAndMessages(null);
-                                uiHandler.postDelayed(() -> {
-                                    SettingsManager.setValue(SM_IP, currentSMIp);
-                                    syncState.set(SYNC_STATE_SYNCING);
-                                    Log.wtf("RESYNCing", "+");
-                                    core.tryToConnect();
-                                }, 700);
+                                core.initializeDiscoveryListener();
                             } else {
                                 Log.wtf("SSID", ((WifiManager) Objects.requireNonNull(getActivity()
                                         .getApplicationContext().getSystemService(WIFI_SERVICE)))
@@ -936,10 +930,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //                    Log.wtf("Resume","SYNCing");
 //                    core.tryToConnect();
 //                } else {
-                    startListen();
                     Log.wtf("RESUME", "No SM IP");
                     uiHandler.postDelayed(() -> {
-                        udpHelper.resetListener();
                         syncState.set(SYNC_STATE_NONE);
                     }, 3000);
 //                }
@@ -959,27 +951,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 //        core.sendToCams(TIMER_START_UDP);
     }
 
-    public void startListen() {
-        udpHelper = new UDPHelper(getActivity());
-        udpHelper.setListener(new UDPHelper.BroadcastListener() {
-            @Override
-            public void onReceive(String[] msg, String ip) {
-//                core.showInLog(msg[0]);
-                Log.wtf("RECEIVED", "receive message " + msg[0] + " from " + ip);
-                if ("SRCH".equals(msg[0]) && SettingsManager.getValue(SM_IP, "").isEmpty()) {
-                    uiHandler.removeCallbacksAndMessages(null);
-                    SettingsManager.setValue(SM_IP, ip);
-                    core.tryToConnect();
-                }
-            }
-
-            @Override
-            public void onCreated() {
-
-            }
-        });
-        udpHelper.start();
-    }
 
     @Override
     public void onPause() {
@@ -1012,6 +983,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     }
 
     private void fillProtocol() {
+        tempProtocol.clear();
         core.sendToSM(new ProtocolRequestCommand().getBytes());
     }
 
@@ -1590,8 +1562,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
     public void onMenuDisconnect() {
         core.vibr();
-        SettingsManager.removeValue(SM_CODE);
-        SettingsManager.removeValue(SM_IP);
         core.onDisconnect();
 //        mCodeScanner.startPreview();
     }
@@ -1782,8 +1752,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     }
 
     public void onDisconnect() {
-        SettingsManager.removeValue(SM_CODE);
-        SettingsManager.removeValue(SM_IP);
         core.onDisconnect();
         currentSMIp = "";
         requiredSSID = "";
@@ -1793,6 +1761,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
     public void onVideoCloseBtn() {
         if (previousScreen == SCREEN_STATE_PROTOCOL) {
             onMenuProtocol();
+            core.sendToSM(CommandHelper.notifyPlayer(CommandsContract.PLAYER_STOP, videoSpeed.get(), videoProgress.get()));
         } else {
             onCloseBtn();
         }
@@ -1890,8 +1859,11 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
         Log.wtf("DISCONNECT", "ON SYNC CANCEL");
         core.onDisconnect();
 //        mCodeScanner.startPreview();
-        SettingsManager.removeValue(SM_CODE);
-        SettingsManager.removeValue(SM_IP);
+    }
+
+    public void onSyncRequested() {
+        core.vibr();
+        syncState.set(SYNC_STATE_SYNCING);
     }
 
     public void onBluetooth() {
@@ -1938,7 +1910,6 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
             if (wifiMgr.isWifiEnabled()) {
 
                 WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
-                currentSSID = wifiInfo.getSSID();
                 Log.wtf("check wifi INFO: ", wifiInfo.toString());
                 return wifiInfo.getNetworkId() != -1;
             } else {
@@ -1976,8 +1947,8 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
                 cyranoState.set(CyranoState.FightActive);
                 break;
             case PROTOCOL_RESPONSE:
-                byte[] protocolBuf = new byte[message.length];
-                System.arraycopy(message, 0, protocolBuf, 0, message.length);
+                byte[] protocolBuf = new byte[message.length-2];
+                System.arraycopy(message, 2, protocolBuf, 0, message.length-2);
                 final char[] charBuffer = new char[protocolBuf.length];
                 StringBuilder builder = new StringBuilder();
                 InputStream stream = new ByteArrayInputStream(protocolBuf);
@@ -1994,12 +1965,14 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
                 }
                 String protocolString = builder.toString();
-                Log.wtf("IN PROTOCOL: ", "" + protocolBuf.length + "|" + protocolString.length() + "|" );
-                Log.wtf("RESTORE STRING", protocolString);
-
                 Gson protocolGson = new Gson();
-                FightData data = protocolGson.fromJson(protocolString, FightData.class);
-                Log.wtf("FIGHT DATA", data.toString());
+                FightActionData data = protocolGson.fromJson(protocolString, FightActionData.class);
+                Log.wtf("IN PROTO", message[1] + " of " + message[0] + "   || " + protocolString);
+                tempProtocol.ensureCapacity(message[0]);
+                tempProtocol.add(data);
+                if (tempProtocol.size() - 1 == message[0]) {
+                    activity.runOnUiThread(() -> adapter.setData(tempProtocol));
+                }
 //                activity.runOnUiThread(() -> {
 //                    adapter.setData(data.getActionsList());
 //                    adapter.notifyDataSetChanged();
@@ -2233,15 +2206,7 @@ public class FightActivityVM extends ActivityViewModel<FightActivity> implements
 
     @Override
     public void connectionLost() {
-        //TODO check if need??
-        if (
-//                !TextUtils.isEmpty(SettingsManager.getValue(SM_CODE, "")) &&
-                !TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
-            syncState.set(SYNC_STATE_SYNCING);
-        } else {
-            syncState.set(SYNC_STATE_NONE);
-//            mCodeScanner.startPreview();
-        }
+
     }
 
     @Override

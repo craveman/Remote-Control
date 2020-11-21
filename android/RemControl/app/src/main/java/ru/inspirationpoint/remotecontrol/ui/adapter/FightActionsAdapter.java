@@ -1,6 +1,7 @@
 package ru.inspirationpoint.remotecontrol.ui.adapter;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
@@ -11,7 +12,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 
 import ru.inspirationpoint.remotecontrol.R;
@@ -27,8 +33,7 @@ public class FightActionsAdapter extends RecyclerView.Adapter<FightActionsAdapte
     private LayoutInflater mLayoutInflater;
     private Context mContext;
     private ArrayList<FightActionData> data;
-    private ArrayList<FightActionData> list;
-    private boolean isForPDF = false;
+    private boolean isForPDF;
     private OnItemClickListener mItemClickListener;
     private Pair[] score;
     private int left = 0;
@@ -41,35 +46,41 @@ public class FightActionsAdapter extends RecyclerView.Adapter<FightActionsAdapte
         data = new ArrayList<>();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void setData(ArrayList<FightActionData> list) {
-        this.list = list;
         data.clear();
         for (FightActionData data0 : list) {
             if (data0.equals(list.get(list.size()-1)) ) {
                 data.add(data0);
             } else if (data0.getActionType() != FightActionData.ActionType.Start &&
                     data0.getActionType() != FightActionData.ActionType.Stop &&
+                    data0.getActionType() != FightActionData.ActionType.SetTime &&
+                    data0.getActionType() != FightActionData.ActionType.NoneCardLeft &&
+                    data0.getActionType() != FightActionData.ActionType.NoneCardRight &&
+                    data0.getActionType() != FightActionData.ActionType.NonePCardLeft &&
+                    data0.getActionType() != FightActionData.ActionType.NonePCardRight &&
                     data0.getPhrase() != 10) {
                 data.add(data0);
             }
             Log.wtf("DATA CAPACITY", data.size() + "");
         }
         score = new Pair[data.size()];
+        data.sort((o1, o2) -> (int) (o1.getSystemTime() - o2.getSystemTime()));
         int i = 0;
-        left = 0;
-        right = 0;
         for (FightActionData data1 : data) {
             Log.wtf("DATA", data1.getStringActionType() + "|" + data1.getScore());
-            if (data1.getActionType() == FightActionData.ActionType.SetScoreLeft ||
-                    data1.getActionType() == FightActionData.ActionType.RedCardRight ||
-                    data1.getActionType() == FightActionData.ActionType.PCardRedRight) {
+            if (data1.getActionType() == FightActionData.ActionType.SetScoreLeft
+//                    || data1.getActionType() == FightActionData.ActionType.RedCardRight ||
+//                    data1.getActionType() == FightActionData.ActionType.PCardRedRight
+            ) {
                 left = data1.getScore();
-            } else if (data1.getActionType() == FightActionData.ActionType.SetScoreRight ||
-                    data1.getActionType() == FightActionData.ActionType.RedCardLeft ||
-                    data1.getActionType() == FightActionData.ActionType.PCardRedLeft) {
+            } else if (data1.getActionType() == FightActionData.ActionType.SetScoreRight
+//                    || data1.getActionType() == FightActionData.ActionType.RedCardLeft ||
+//                    data1.getActionType() == FightActionData.ActionType.PCardRedLeft
+            ) {
                 right = data1.getScore();
             }
-            score[i] = new Pair(left, right);
+            score[i] = new Pair<>(left, right);
             i++;
             Log.wtf("LR", left + "|" + right);
         }
@@ -85,8 +96,9 @@ public class FightActionsAdapter extends RecyclerView.Adapter<FightActionsAdapte
         return new int[]{left, right};
     }
 
+    @NotNull
     @Override
-    public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ItemHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         return new ItemHolder(mLayoutInflater.inflate(R.layout.fight_result_item, parent, false));
     }
 

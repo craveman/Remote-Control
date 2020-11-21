@@ -77,26 +77,32 @@ public class TCPClient {
             inputStream = new DataInputStream(socket.getInputStream());
 
             while (mRun) {
-                byte[] temp = new byte[2];
-                int read = inputStream.read(temp);
-                if (temp[1] != 0) {
-                    int length =((temp[0] & 0xff) << 8 | (temp[1] & 0xff));
-                    if (length != 0) {
-                        byte[] header = new byte[2];
-                        int read2 = inputStream.read(header);
-                        byte[] buffer = new byte[length - 2];
-                        inputStream.read(buffer);
-                        if (header[1] == (byte) 0x00 || header[0] == AUTH_RESPONSE) {
-                            mMessageListener.messageReceived(header[0], header[1], buffer);
-                        } else {
-                            //TODO handle strange statuses
-                        }
-                        if (read == -1) {
-                            if (mMessageListener != null) {
-                                Log.wtf("READ -1", "+");
-                                mMessageListener.connectionLost();
+                if (inputStream != null) {
+                    byte[] temp = new byte[2];
+                    int read = inputStream.read(temp);
+                    if (temp[1] != 0) {
+                        int length = ((temp[0] & 0xff) << 8 | (temp[1] & 0xff));
+                        if (length != 0) {
+                            byte[] header = new byte[2];
+                            int read2 = inputStream.read(header);
+                            byte[] buffer = new byte[length - 2];
+                            inputStream.read(buffer);
+                            if (header[1] == (byte) 0x00 || header[0] == AUTH_RESPONSE) {
+                                mMessageListener.messageReceived(header[0], header[1], buffer);
+                            } else {
+                                //TODO handle strange statuses
+                            }
+                            if (read == -1) {
+                                if (mMessageListener != null) {
+                                    Log.wtf("READ -1", "+");
+                                    mMessageListener.connectionLost();
+                                }
                             }
                         }
+                    }
+                } else {
+                    if (mMessageListener != null) {
+                        mMessageListener.connectionLost();
                     }
                 }
             }

@@ -4,54 +4,39 @@ import android.content.Context;
 import android.databinding.Observable;
 import android.databinding.ObservableBoolean;
 import android.hardware.usb.UsbDevice;
+import android.net.nsd.NsdManager;
+import android.net.nsd.NsdServiceInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
 import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 
-import com.stfalcon.androidmvvmhelper.mvvm.activities.ActivityViewModel;
-
-import java.io.IOException;
-import java.net.InetAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import ru.inspirationpoint.remotecontrol.R;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
-import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
 import ru.inspirationpoint.remotecontrol.manager.coreObjects.Device;
 import ru.inspirationpoint.remotecontrol.manager.helpers.BackupHelper;
-import ru.inspirationpoint.remotecontrol.manager.helpers.UDPHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.CommandHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPScheduler;
 import ru.inspirationpoint.remotecontrol.ui.activity.FightActivity;
 import ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM;
-import ru.inspirationpoint.remotecontrol.ui.dialog.ConfirmationDialog;
 
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEVICE_ID_SETTING;
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEV_TYPE_REFEREE;
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.DEV_TYPE_SM;
-import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.SM_CODE;
-import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.SM_IP;
-import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UDPCommands.PING_UDP;
 import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.AUTH_RESPONSE;
 import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.CODE_INCORRECT_AUTH;
 import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.DEV_TYPE_CAM;
 import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.RC_EXISTS_AUTH;
 import static ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract.TCP_OK;
-import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivity.WIFI_MESSAGE;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.CARD_STATE_NONE;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.CARD_STATE_RED;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.CARD_STATE_YELLOW;
@@ -70,7 +55,6 @@ public class CoreHandler implements TCPHelper.TCPListener {
     private CoreServerCallback serverCallback;
     private UsbConnectionHandler usbHandler;
     private TCPHelper tcpHelper;
-    private UDPHelper udpHelper;
     private String camIp = "";
     private String smIp = "";
     private FightValuesHandler fightHandler;
@@ -85,11 +69,15 @@ public class CoreHandler implements TCPHelper.TCPListener {
     public ObservableBoolean isUSBMode = new ObservableBoolean(false);
     public Boolean isInRestore = false;
 
+    private NsdManager.DiscoveryListener discoveryListener;
+    private NsdManager nsdManager;
+    private boolean isDiscoveryActive = false;
+
     public CoreHandler(Context context, int mode) {
         this.context = context;
         this.mode = mode;
+        nsdManager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
         vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        udpHelper = new UDPHelper(context);
         scheduler = new TCPScheduler(this);
 //        udpHelper.setListener(new UDPHelper.BroadcastListener() {
 //            @Override
@@ -139,45 +127,21 @@ public class CoreHandler implements TCPHelper.TCPListener {
         });
     }
 
-    public void tryToConnect() {
-        Log.wtf("CODE", SettingsManager.getValue(SM_CODE, "") + "|||" + SettingsManager.getValue(SM_IP, ""));
+    public void tryToConnect(String ip) {
         if (tcpHelper == null || !tcpHelper.isConnected()) {
             showInLog("CONN TRY");
             if (tcpHelper!= null) {
                 tcpHelper.end();
             }
-            if (!TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
                 Handler handler = new Handler(Looper.getMainLooper());
                 handler.postDelayed(() -> {
-                    tcpHelper = new TCPHelper(SettingsManager.getValue(SM_IP, ""));
+                    tcpHelper = new TCPHelper(ip);
                     tcpHelper.setListener(CoreHandler.this);
                     tcpHelper.start();
                     showInLog("TCP START TRY");
                 }, 100);
-            } else {
-                showInLog("IP EMPTY");
-                SettingsManager.removeValue(SM_CODE);
-                SettingsManager.removeValue(SM_IP);
-                onDisconnect();
-            }
         } else {
             Log.wtf("TCP NOT NULL", " ");
-        }
-    }
-
-    public void startWiFiNetworking() {
-        if (!isUSBMode.get()) {
-            if (checkWifiOnAndConnected()) {
-                if (!udpHelper.isAlive()) {
-                    if (!udpHelper.isUDPAlive()) {
-                        udpHelper.start();
-                    }
-                }
-
-            } else {
-//                ConfirmationDialog.show(activity, WIFI_MESSAGE, "",
-//                        context.getResources().getString(R.string.wifi_off_error));
-            }
         }
     }
 
@@ -299,20 +263,17 @@ public class CoreHandler implements TCPHelper.TCPListener {
 
     @Override
     public void onReceive(byte command, byte status, byte[] message) {
-        showInLog("RCV" + command);
         smMainAliveHandler.start();
         if (command == AUTH_RESPONSE) {
             switch (status) {
                 case TCP_OK:
                     ((FightActivity) activity).getViewModel().syncState.set(SYNC_STATE_SYNCED);
                     if (!isUSBMode.get()) {
-                        connectedDevices.add(new Device(tcpHelper.getServerIp(), DEV_TYPE_SM, SettingsManager.getValue(SM_CODE, "")));
+                        connectedDevices.add(new Device(tcpHelper.getServerIp(), DEV_TYPE_SM, ""));
                     }
                     break;
                 case CODE_INCORRECT_AUTH:
                 case RC_EXISTS_AUTH:
-                    SettingsManager.removeValue(SM_CODE);
-                    SettingsManager.removeValue(SM_IP);
                     onDisconnect();
                     break;
 
@@ -326,10 +287,11 @@ public class CoreHandler implements TCPHelper.TCPListener {
     public void onStreamCreated() {
 //        sendToSM(new SetTimerCommand(180000, 0).getBytes());
         Log.wtf("STREAM", "+");
-        sendToSM(CommandHelper.auth(SettingsManager.getValue(SM_CODE, ""),
+        sendToSM(CommandHelper.auth("",
                 SettingsManager.getValue(DEVICE_ID_SETTING, "")));
         smMainAliveHandler.start();
         scheduler.start();
+        stopDiscovery();
         showInLog("STREAM +");
     }
 
@@ -346,25 +308,12 @@ public class CoreHandler implements TCPHelper.TCPListener {
         smMainAliveHandler.finish();
         scheduler.finish();
         if (!isUSBMode.get()) {
-            if (checkWifiOnAndConnected()) {
-                if (
-//                                !TextUtils.isEmpty(SettingsManager.getValue(SM_CODE, "")) &&
-                        !TextUtils.isEmpty(SettingsManager.getValue(SM_IP, ""))) {
-                    ((FightActivity) activity).getViewModel().syncState.set(SYNC_STATE_SYNCING);
-                    tryToConnect();
-                }
-//                else {
-//                    ((FightActivity) activity).getViewModel().startListen();
-//                }
-            } else {
-                startWiFiNetworking();
-            }
+            ((FightActivity)activity).getViewModel().syncState.set(SYNC_STATE_NONE);
         }
     }
 
     public void updateSMAlive(int remain) {
         if (!isUSBMode.get()) {
-            Log.wtf("REMAIN", remain + "");
             if (remain == 0) {
                 Log.wtf("DISCONNECT", "UPD SM ALIVE");
                 onDisconnect();
@@ -441,6 +390,98 @@ public class CoreHandler implements TCPHelper.TCPListener {
             } else {
                 model.rightPCard.set(CARD_STATE_NONE);
             }
+        }
+    }
+
+    public void initializeDiscoveryListener() {
+
+        NsdManager.ResolveListener resolveListener = new NsdManager.ResolveListener() {
+
+            @Override
+            public void onResolveFailed(NsdServiceInfo serviceInfo, int errorCode) {
+                // Called when the resolve fails. Use the error code to debug.
+                Log.wtf("TAG", "Resolve failed: " + errorCode);
+            }
+
+            @Override
+            public void onServiceResolved(NsdServiceInfo serviceInfo) {
+                Log.wtf("TAG", "Resolve Succeeded. " + serviceInfo);
+
+//                if (serviceInfo.getServiceName().equals(serviceName)) {
+//                    Log.wtf("TAG", "Same IP.");
+//                    return;
+//                }
+                if (serviceInfo.getAttributes().containsKey("RC")) {
+                    boolean isRCExists = new String(serviceInfo.getAttributes().get("RC"), StandardCharsets.UTF_8).contains("YES");
+                    if (!isRCExists) {
+                        tryToConnect(serviceInfo.getHost().getHostAddress());
+                    } else {
+                        ((FightActivity)activity).getViewModel().syncState.set(SYNC_STATE_NONE);
+                    }
+                }
+            }
+        };
+
+        // Instantiate a new DiscoveryListener
+        discoveryListener = new NsdManager.DiscoveryListener() {
+
+            // Called as soon as service discovery begins.
+            @Override
+            public void onDiscoveryStarted(String regType) {
+                Log.wtf("TAG", "Service discovery started");
+                isDiscoveryActive = true;
+            }
+
+            @Override
+            public void onServiceFound(NsdServiceInfo service) {
+                // A service was found! Do something with it.
+                Log.wtf("TAG", "Service discovery success" + service);
+//                if (!service.getServiceType().equals(SERVICE_TYPE)) {
+//                    // Service type is the string containing the protocol and
+//                    // transport layer for this service.
+//                    Log.wtf("TAG", "Unknown Service Type: " + service.getServiceType());
+//                } else if (service.getServiceName().equals(serviceName)) {
+//                    // The name of the service tells the user what they'd be
+//                    // connecting to. It could be "Bob's Chat App".
+//                    Log.wtf("TAG", "Same machine: " + serviceName);
+//                } else
+                if (service.getServiceName().contains("Inspiration")){
+                    nsdManager.resolveService(service, resolveListener);
+                }
+            }
+
+            @Override
+            public void onServiceLost(NsdServiceInfo service) {
+                // When the network service is no longer available.
+                // Internal bookkeeping code goes here.
+                Log.wtf("TAG", "service lost: " + service);
+            }
+
+            @Override
+            public void onDiscoveryStopped(String serviceType) {
+                Log.wtf("TAG", "Discovery stopped: " + serviceType);
+                isDiscoveryActive = false;
+            }
+
+            @Override
+            public void onStartDiscoveryFailed(String serviceType, int errorCode) {
+                Log.wtf("TAG", "Discovery failed: Error code:" + errorCode);
+                nsdManager.stopServiceDiscovery(this);
+            }
+
+            @Override
+            public void onStopDiscoveryFailed(String serviceType, int errorCode) {
+                Log.wtf("TAG", "Discovery failed: Error code:" + errorCode);
+                nsdManager.stopServiceDiscovery(this);
+            }
+        };
+        nsdManager.discoverServices(
+                "_ip_top._tcp", NsdManager.PROTOCOL_DNS_SD, discoveryListener);
+    }
+
+    public void stopDiscovery() {
+        if (isDiscoveryActive) {
+            nsdManager.stopServiceDiscovery(discoveryListener);
         }
     }
 

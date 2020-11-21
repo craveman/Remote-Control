@@ -11,8 +11,8 @@ android {
         applicationId "ru.inspirationpoint.inspirationrc"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 122
-        versionName "1.37051"
+        versionCode 126
+        versionName "1.37060"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {

@@ -21,12 +21,11 @@ public class SMMainAliveHandler {
                 HandlerThread thread = new HandlerThread("sm_alive_thread");
                 thread.start();
                 h = new Handler(thread.getLooper());
-                h.postDelayed(callback, DELAY);
             }
             else {
                 h.removeCallbacksAndMessages(null);
-                h.postDelayed(callback, DELAY);
             }
+            h.postDelayed(callback, DELAY);
         }
     }
 

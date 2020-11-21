@@ -164,6 +164,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/msg_2_top" />
 
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
+            android:onClick="@{() -> viewModel.onSyncRequested()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/msg_2_bottom"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_search_dark"/>
+
 <!--        <TextView-->
 <!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"-->

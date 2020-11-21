@@ -28,8 +28,6 @@ public interface CommonConstants {
     String IS_BY_FLAGS_STOP = "by_flags";
     String DEVICE_ID_SETTING = "device_id";
     String UNFINISHED_FIGHT = "unfinished";
-    String SM_CODE = "group_address";
-    String SM_IP = "sm_ip";
 
 
     String[] phrasesRU = {"Простая атака", "Атака с действием на оружие", "Сложная атака",
