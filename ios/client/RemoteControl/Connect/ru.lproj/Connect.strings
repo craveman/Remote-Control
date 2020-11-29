@@ -13,7 +13,7 @@
 "c0I-XA-vKg.title" = "Пульт";
 
 /* Class = "UILabel"; text = "Searching for device"; ObjectID = "dzn-dq-53K"; */
-"dzn-dq-53K.text" = "Ожидание сигнала от аппарата...";
+"dzn-dq-53K.text" = "Выберите аппарат:";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "gH5-Q2-QhX"; */
 "gH5-Q2-QhX.normalTitle" = "Подключить";

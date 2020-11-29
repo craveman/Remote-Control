@@ -6,6 +6,7 @@
 //  Copyright © 2019 Artem Labazin, Sergei Andreev. All rights reserved.
 //
 
+import Foundation.NSNetServices
 import struct Foundation.UUID
 import class Foundation.NSCalendar
 import typealias Foundation.Published
@@ -92,34 +93,141 @@ final class RemoteService {
     return Sm02.remove(eventHandler: uuid)
   }
   
+  enum SM_Data_Keys: String {
+    case id = "ID"
+    case rc = "RC"
+  }
+  
+  enum SM_RC_States: String {
+    case isBusy = "YES"
+    case isVacant = "NO"
+  }
+  
+  
   final class LookupManagement {
+    private let UDP_LOOKUP_MODE = false
+    private let BONJOUR_LOOKUP_MODE = true
+    let SM_DOMAIN = "local." // or ""
+    let SM_TYPE = "_ip_top._tcp."
+    let SM_NAME = "InspirationPoint"
+    private var nsb: NetServiceBrowser?
+    private var nsbdel:SMNetBrowserDelegate?
     
     @Published
     private(set) var isStarted: Bool = false
     
     @Published
-    private(set) var remoteAddresses: [RemoteAddress] = []
+    private(set) var remoteAddresses: [(address: RemoteAddress, busy: Bool)] = []
     
     init () {
-      Sm02Lookup.on(server: { [unowned self] (remoteAddress) in
-        if (self.remoteAddresses.contains(remoteAddress) == false) {
-          self.remoteAddresses.append(remoteAddress)
-          print("RemoteService.LookupManagement - INFO: the new added remote address \(remoteAddress)")
-        }
-      })
+      
+      registerNetServices()
+      
+    }
+    
+    func refresh() -> Void {
+      guard isStarted else {
+        return
+      }
+      self.stop(false)
+      self.start()
     }
     
     func start (listen port: Int = Sm02Lookup.DEFAULT_SM_UDP_PORT) {
-      DispatchQueue.global(qos: .default).async {
-        Sm02Lookup.start(listen: port)
+      
+      //      nsb?.searchForServices(ofType: "_companion-link._tcp.", inDomain: "local.") // check for devices
+      if BONJOUR_LOOKUP_MODE {
+        nsb?.searchForServices(ofType: SM_TYPE, inDomain: SM_DOMAIN)
+        withDelay({
+          self.nsb?.stop();
+        }, PING_INTERVAL)
       }
+      if UDP_LOOKUP_MODE {
+        DispatchQueue.global(qos: .default).async {
+          Sm02Lookup.start(listen: port)
+        }
+      }
+      
       isStarted = true
     }
     
-    func stop () {
-      Sm02Lookup.stop()
-      remoteAddresses.removeAll()
+    func stop (_ clean: Bool = true) {
+      if BONJOUR_LOOKUP_MODE {
+        nsb?.stop()
+      }
+      if UDP_LOOKUP_MODE {
+        Sm02Lookup.stop()
+      }
+      if clean {
+        remoteAddresses.removeAll()
+      }
+      
       isStarted = false
+    }
+    
+    private func onNetServicesResolved(_ netService: NetService, _ action: SMNetBrowserAction) {
+      let addr = netService.addresses?.map({self.nameForAddress($0)}) ?? [];
+      //        print("domn: ", netService.domain)
+      //        print("type: ", netService.type)
+      //        print("host: ", netService.hostName ?? "<no_host_name>")
+      //        print("addr: ", addr)
+      //        print("name: ", netService.name)
+      //        print("port: ", netService.port)
+      
+      if let data = netService.txtRecordData(), netService.name.hasPrefix(self.SM_NAME), let ip = addr.first {
+        guard self.remoteAddresses.map({ $0.address.ip }).contains(ip) == false else {
+          return
+        }
+        let dict = NetService.dictionary(fromTXTRecord: data);
+        //          print("data: ", dict, String(data: data, encoding: .utf8) ?? "<no_data>")
+        var name = "\(ip)"
+        if let id = dict[SM_Data_Keys.id.rawValue] {
+          name = String(data: id, encoding: .utf8) ?? ""
+        }
+        var hasRC = false
+        if let rc = dict[SM_Data_Keys.rc.rawValue] {
+          hasRC = String(data: rc, encoding: .utf8) != SM_RC_States.isVacant.rawValue;
+          log(action)
+          let remote = RemoteAddress(ssid: "", ip: ip, code: [0,0,0,0,0], name: name)
+          self.remoteAddresses.append((address: remote, busy: hasRC))
+        } else {
+          log("Non RC capable \(self.SM_NAME) service was skipped")
+        }
+        
+      }
+    }
+    
+    private func registerNetServices() {
+      /// Net service browser.
+      log("registerNetServices")
+      
+      if UDP_LOOKUP_MODE {
+        Sm02Lookup.on(server: { [unowned self] (remoteAddress) in
+          if (self.remoteAddresses.map({ $0.address }).contains(remoteAddress) == false) {
+            self.remoteAddresses.append((address: remoteAddress, busy: false))
+            print("RemoteService.LookupManagement - INFO: the new added remote address \(remoteAddress)")
+          }
+        })
+      }
+      
+      if BONJOUR_LOOKUP_MODE {
+        self.nsb = NetServiceBrowser()
+        nsbdel = SMNetBrowserDelegate(self.onNetServicesResolved) //see bellow
+        nsb?.delegate = nsbdel
+      }
+      
+      //    nsb?.searchForBrowsableDomains()
+    }
+    
+    private func nameForAddress(_ address: Data) -> String {
+      var host = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+      let err = address.withUnsafeBytes { buf -> Int32 in
+        let sa = buf.baseAddress!.assumingMemoryBound(to: sockaddr.self)
+        let saLen = socklen_t(buf.count)
+        return getnameinfo(sa, saLen, &host, socklen_t(host.count), nil, 0, NI_NUMERICHOST | NI_NUMERICSERV)
+      }
+      guard err == 0 else { return "?" }
+      return String(cString: host)
     }
   }
   
@@ -395,9 +503,9 @@ final class RemoteService {
         
         PersonsManagement.Person.priorityType = .none
         RemoteService.shared.persons.left.sync(fight: input.matchLeftFighterData, priority: input.matchPriority == .left)
-//        print("sync RemoteService.shared.persons.left.passiveCard \(RemoteService.shared.persons.left.passiveCard)")
+        //        print("sync RemoteService.shared.persons.left.passiveCard \(RemoteService.shared.persons.left.passiveCard)")
         RemoteService.shared.persons.right.sync(fight: input.matchRightFighterData, priority: input.matchPriority == .right)
-//        print("sync RemoteService.shared.persons.right.passiveCard \(RemoteService.shared.persons.right.passiveCard)")
+        //        print("sync RemoteService.shared.persons.right.passiveCard \(RemoteService.shared.persons.right.passiveCard)")
         RemoteService.shared.video.replay.syncCounters(leftCount: UInt8(input.matchVideoLeft), rightCount: UInt8(input.matchVideoRight))
         RemoteService.shared.timer.syncTime(time: UInt32(input.matchCurrentTime))
         print("sync RemoteService.shared.timer.time ", RemoteService.shared.timer.time)
