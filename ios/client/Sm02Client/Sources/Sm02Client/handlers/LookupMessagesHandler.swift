@@ -35,7 +35,8 @@ final class LookupMessagesHandler: ChannelInboundHandler {
     let remoteAddress = RemoteAddress(
       ssid: "",
       ip: envelope.remoteAddress.ipAddress!,
-      code: [0,0,0,0,0]
+      code: [0,0,0,0,0],
+      name: envelope.remoteAddress.ipAddress!
     )
 
     print("LookupMessagesHandler - INFO: the new created remote address is \(remoteAddress)")

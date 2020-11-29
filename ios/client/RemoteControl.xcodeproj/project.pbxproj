@@ -29,6 +29,7 @@
 		851AE9CD2389E452001BE3FB /* NamesSettingsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9CC2389E452001BE3FB /* NamesSettingsSwiftUIView.swift */; };
 		851AE9CF2389E4F2001BE3FB /* WeaponsSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9CE2389E4F2001BE3FB /* WeaponsSwiftUIView.swift */; };
 		851AE9D12389ECE5001BE3FB /* ScoreSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851AE9D02389ECE5001BE3FB /* ScoreSwiftUIView.swift */; };
+		8521EA452572D299002249C6 /* LanOptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8521EA442572D299002249C6 /* LanOptionsTableViewController.swift */; };
 		85371938244B672700B14418 /* VideoRC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85371937244B672700B14418 /* VideoRC.swift */; };
 		853F66C1252FCE2500A8F2E1 /* LanHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853F66C0252FCE2500A8F2E1 /* LanHelpers.swift */; };
 		85512DE12450CCCB00254D5F /* Inspiration_PointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85512DE02450CCCB00254D5F /* Inspiration_PointTests.swift */; };
@@ -54,6 +55,7 @@
 		85D6E9252393049500CBE74D /* TestTimersSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */; };
 		85ECCF4A2504E6B400F9CB95 /* EthernetBoutModalSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85ECCF492504E6B400F9CB95 /* EthernetBoutModalSwiftUIView.swift */; };
 		85F02728252BAF74002E307D /* LanAccessHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85F02727252BAF74002E307D /* LanAccessHelper.swift */; };
+		85FA162D256AC287001658BD /* BrowserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA162C256AC287001658BD /* BrowserDelegate.swift */; };
 		8F07A75123892F4800C7F783 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F07A75323892F4800C7F783 /* Localizable.strings */; };
 		8F6D773D237D2C530077B65D /* RemoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6D773C237D2C530077B65D /* RemoteService.swift */; };
 		8FD7CB962392C030003DF83B /* Vibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD7CB952392C030003DF83B /* Vibration.swift */; };
@@ -113,6 +115,7 @@
 		851AE9CC2389E452001BE3FB /* NamesSettingsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamesSettingsSwiftUIView.swift; sourceTree = "<group>"; };
 		851AE9CE2389E4F2001BE3FB /* WeaponsSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeaponsSwiftUIView.swift; sourceTree = "<group>"; };
 		851AE9D02389ECE5001BE3FB /* ScoreSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreSwiftUIView.swift; sourceTree = "<group>"; };
+		8521EA442572D299002249C6 /* LanOptionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanOptionsTableViewController.swift; sourceTree = "<group>"; };
 		85371937244B672700B14418 /* VideoRC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRC.swift; sourceTree = "<group>"; };
 		853F66C0252FCE2500A8F2E1 /* LanHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanHelpers.swift; sourceTree = "<group>"; };
 		85479DC3250E9A22003D314D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Connect.strings; sourceTree = "<group>"; };
@@ -143,6 +146,7 @@
 		85D6E9242393049500CBE74D /* TestTimersSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTimersSwiftUIView.swift; sourceTree = "<group>"; };
 		85ECCF492504E6B400F9CB95 /* EthernetBoutModalSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EthernetBoutModalSwiftUIView.swift; sourceTree = "<group>"; };
 		85F02727252BAF74002E307D /* LanAccessHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanAccessHelper.swift; sourceTree = "<group>"; };
+		85FA162C256AC287001658BD /* BrowserDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserDelegate.swift; sourceTree = "<group>"; };
 		8F07A75223892F4800C7F783 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8F07A75523892FB000C7F783 /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8F6D773C237D2C530077B65D /* RemoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteService.swift; sourceTree = "<group>"; };
@@ -185,6 +189,7 @@
 				8504102324E8867F002CF656 /* LanLookupConnectionViewController.swift */,
 				85A2A02B24E89B9300DB6244 /* LanConfigReader.swift */,
 				853F66C0252FCE2500A8F2E1 /* LanHelpers.swift */,
+				8521EA442572D299002249C6 /* LanOptionsTableViewController.swift */,
 			);
 			path = LAN;
 			sourceTree = "<group>";
@@ -209,6 +214,7 @@
 				B9C8BEDD2305A2C5004DBBF8 /* AppDelegate.swift */,
 				B9C8BEE62305A2C7004DBBF8 /* LaunchScreen.storyboard */,
 				B9C8BEE42305A2C7004DBBF8 /* Assets.xcassets */,
+				85FA162C256AC287001658BD /* BrowserDelegate.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -499,6 +505,7 @@
 				85D6E91D2390089E00CBE74D /* SetPeriodButtonSwiftUIView.swift in Sources */,
 				850AAEDE232723F400DBFD93 /* ConnectionsViewController.swift in Sources */,
 				851AE9BD23876424001BE3FB /* DraggableCircle.swift in Sources */,
+				8521EA452572D299002249C6 /* LanOptionsTableViewController.swift in Sources */,
 				851AE9C72389DC7B001BE3FB /* SettingsSwiftUIView.swift in Sources */,
 				851AE9CD2389E452001BE3FB /* NamesSettingsSwiftUIView.swift in Sources */,
 				85B95702237A363A0063E32C /* PointsStepper.swift in Sources */,
@@ -527,6 +534,7 @@
 				850AAE5F2322CF7100DBFD93 /* UITools.swift in Sources */,
 				851AE9B12385F56B001BE3FB /* SwiftUITools.swift in Sources */,
 				8504102024E86CA3002CF656 /* ConnectionControllerProtocol.swift in Sources */,
+				85FA162D256AC287001658BD /* BrowserDelegate.swift in Sources */,
 				850AAE612322D78400DBFD93 /* UIGlobals.swift in Sources */,
 				851AE9C323893D06001BE3FB /* CardsSwiftUIView.swift in Sources */,
 				85D6E91F23900D4900CBE74D /* SetTimeButtonSwiftUIView.swift in Sources */,
@@ -789,7 +797,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.2.9;
+				MARKETING_VERSION = 1.2.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "Inspiration Point";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -818,7 +826,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.2.9;
+				MARKETING_VERSION = 1.2.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "Inspiration Point";
 				PROVISIONING_PROFILE_SPECIFIER = "";

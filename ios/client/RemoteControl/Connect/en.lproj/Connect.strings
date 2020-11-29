@@ -13,7 +13,7 @@ Make sure your device is connected to the scoring machine's Wi-Fi network";
 "c0I-XA-vKg.title" = "Remote Control";
 
 /* Class = "UILabel"; text = "Searching for device"; ObjectID = "dzn-dq-53K"; */
-"dzn-dq-53K.text" = "Waiting scoring machine signal...";
+"dzn-dq-53K.text" = "Select scoring machine:";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "gH5-Q2-QhX"; */
 "gH5-Q2-QhX.normalTitle" = "Connect";

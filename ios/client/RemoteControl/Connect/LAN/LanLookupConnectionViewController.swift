@@ -22,7 +22,7 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   private var netWatcher: NetworkReachability? = nil
   
-  private var autoConnect = true {
+  private var autoConnect = false {
     didSet {
       autoConnectSwitch.isOn = autoConnect
     }
@@ -41,6 +41,7 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   }
   private var reader: LanConfigReader = LanConfigReader()
   private var configSub: AnyCancellable?
+  private var optionsSub: AnyCancellable?
   @IBOutlet weak var connectionProgressBar: UIProgressView!
   
   
@@ -50,13 +51,13 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   }
   @IBOutlet weak var autoConnectSwitch: UISwitch!
   
-  @IBOutlet weak var serverFoundLabel: UILabel!
+  @IBOutlet weak var serversFoundSubView: UIView!
   
   @IBOutlet weak var connectionButton: UIButton!
   
   @IBAction func userAsksToConnect(_ sender: UIButton) {
     guard let config = reader.config else {
-      print("userAsksToConnect: Emty config found")
+      print("userAsksToConnect: Empty config found")
       return
     }
     applyConfig(config)
@@ -92,8 +93,8 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   var isOnWiFiLookup: Bool = false {
     didSet {
       print("isOnWiFiLookup didSet \(isOnWiFiLookup)")
-//      failedToConnectLabel.text = isOnWiFiLookup ? LanConnectionFails.NOT_FOUND : LanConnectionFails.NOT_VALID
-//      failedToConnectLabel.setNeedsDisplay()
+      //      failedToConnectLabel.text = isOnWiFiLookup ? LanConnectionFails.NOT_FOUND : LanConnectionFails.NOT_VALID
+      //      failedToConnectLabel.setNeedsDisplay()
     }
   }
   
@@ -113,8 +114,8 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   func toggleFailedCase(_ on: Bool) -> Void {
     self.failedToConnectLabel.isHidden = !on
-//    self.goToSettingsButton.isHidden = !on
-    self.searchLabel.isHidden = true
+    //    self.goToSettingsButton.isHidden = !on
+//    self.searchLabel.isHidden = true
   }
   
   func setWaitTimeout() {
@@ -127,13 +128,14 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   override func viewDidAppear (_ animated: Bool) {
     // todo:
     self.netWatcher?.start()
-    serverFoundLabel.isHidden = true
+    serversFoundSubView.isHidden = false
     connectionButton.isHidden = true
     autoConnectSwitch.isOn = autoConnect
     toggleFailedCase(false)
     log("did appear")
     super.viewDidAppear(animated)
     setConfigSubscription()
+    setOptionsSubscription()
   }
   
   override func viewWillDisappear (_ animated: Bool) {
@@ -142,6 +144,7 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
       log("alert dismissed")
     })
     configSub?.cancel();
+    optionsSub?.cancel();
     waitConnectTimer?.invalidate();
     super.viewWillDisappear(animated)
   }
@@ -180,8 +183,8 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   }
   
   private func toggleLanConnetionState(online: Bool) -> Void {
-      log("toggleLanConnetionState online: \(online)")
-      isOnWiFiLookup = online
+    log("toggleLanConnetionState online: \(online)")
+    isOnWiFiLookup = online
   }
   
   private var successAction: () -> Void = {
@@ -221,16 +224,17 @@ extension LanLookupConnectionViewController {
 extension LanLookupConnectionViewController {
   
   func setConfigSubscription() -> Void {
+    // todo:
     configSub = reader.$config.on(change: { config in
       log("config updated: \(String(describing: config))")
       guard let lan = config else {
-        self.serverFoundLabel.isHidden = true
-        self.connectionButton.isHidden = true
+//        self.serversFoundSubView.isHidden = true
+//        self.connectionButton.isHidden = true
         log("$config.on(change nil")
         return
       }
-      self.serverFoundLabel.isHidden = false
-      self.connectionButton.isHidden = false
+//      self.serversFoundSubView.isHidden = false
+//      self.connectionButton.isHidden = false
       self.toggleFailedCase(false)
       self.waitConnectTimer?.invalidate()
       guard self.autoConnect else {
@@ -239,6 +243,39 @@ extension LanLookupConnectionViewController {
       }
       self.applyConfig(lan)
     })
+  }
+  
+  func getConnectionOptionsList(_ opts: [(address: RemoteAddress, busy: Bool)]) -> [String] {
+    let busy = opts.filter({ $0.busy }).map({$0.address.name + " [X]"})
+    let vacant = opts.filter({ !$0.busy }).map({$0.address.name})
+    var list: [String] = []
+    list.append(contentsOf: vacant)
+    list.append(contentsOf: busy)
+    return list;
+  }
+  
+  func setOptionsSubscription() -> Void {
+    // todo:
+    optionsSub = reader.$options.on(change: { opts in
+      
+      guard let selector = self.serversFoundSubView.subviews[0].next as? LanOptionsSelector else {
+        return
+      }
+      
+      selector.setOptions(self.getConnectionOptionsList(opts))
+      
+      selector.onOptionSelected({ title in
+        self.reader.options.firstIndex(where: { option in
+          if option.address.name == title {
+            self.applyConfig(LanConfig(ip: option.address.ip, code: option.address.code))
+            return true
+          }
+          return false
+        })
+      })
+      
+    })
+    
   }
   
   func applyConfig(_ lan: LanConfig) -> Void {
@@ -251,7 +288,7 @@ extension LanLookupConnectionViewController {
     let connectionProcessor = ConnectionProcessor(controller: self)
     DispatchQueue.main.async {
       log("applyConfig: DispatchQueue.main.async")
-      let remote = RemoteAddress(ssid: "", ip: lan.ip, code: lan.code)
+      let remote = RemoteAddress(ssid: "", ip: lan.ip, code: lan.code, name: lan.ip)
       connectionProcessor.connectServer(to: remote)
     }
   }
@@ -261,13 +298,11 @@ extension LanLookupConnectionViewController {
 extension LanLookupConnectionViewController {
   
   func startScanner() {
-    log("Start scanner")
+    log("Start LAN Lookup scanner")
     toggleFailedCase(false)
     spinner.startAnimating()
     reader.startReader()
-    withDelay({
-      self.searchLabel.isHidden = false;
-    }, NOTIFY_TIMEOUT)
+    searchLabel.isHidden = false
     setWaitTimeout()
     isLookupStarted = true
   }
