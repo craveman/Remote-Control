@@ -31,13 +31,13 @@ struct RcSwiftUIView: View {
             .background(Color.red)
         }
       }
-      if insp.isConnected && !insp.isAlive {
-        ZStack() {
-          primaryColor(dinFont(Text("weak connection"), UIGlobals.appSmallerFontSize))
-            .frame(width: width)
-            .background(Color.orange)
-        }
-      }
+//      if insp.isConnected && !insp.isAlive {
+//        ZStack() {
+//          primaryColor(dinFont(Text("weak connection"), UIGlobals.appSmallerFontSize))
+//            .frame(width: width)
+//            .background(Color.orange)
+//        }
+//      }
       TabView(selection: $insp.tab) {
         CardsSwiftUIView()
           .tabItem {
