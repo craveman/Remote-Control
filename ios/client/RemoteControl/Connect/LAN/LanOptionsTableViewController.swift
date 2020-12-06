@@ -10,17 +10,28 @@ import UIKit
 
 protocol LanOptionsSelector {
   
-  func setOptions(_ list: [String]) -> Void
+  func setOptions(_ list: [LanConfigReaderOption]) -> Void
   
   func onOptionSelected(_ fn: @escaping (String) -> Void) -> Void
 }
 
 class LanOptionsTableViewController: UITableViewController, LanOptionsSelector {
-  func setOptions(_ list: [String]) {
-    self.options = list
+  private var optionsUpdateTmt: Timer?
+  func setOptions(_ list: [LanConfigReaderOption]) {
+    nextListComming = true
+    optionsUpdateTmt?.invalidate()
     self.tableView.reloadData()
     self.view.setNeedsLayout()
-    print("LanOptionsTableViewController options: ", list)
+    self.nextOptions = list
+//    print("LanOptionsTableViewController setOptions", list)
+    optionsUpdateTmt = withDelay({
+      self.options = self.nextOptions
+      self.nextOptions = []
+      self.nextListComming = false
+      self.tableView.reloadData()
+      self.view.setNeedsLayout()
+    }, 0.5)
+//    print("LanOptionsTableViewController options: ", list)
   }
   
   func onOptionSelected(_ fn: @escaping (String) -> Void) {
@@ -28,7 +39,9 @@ class LanOptionsTableViewController: UITableViewController, LanOptionsSelector {
   }
   
   var selectHandler: (String) -> Void = {_ in }
-  var options: [String] = []
+  var options: [LanConfigReaderOption] = []
+  var nextOptions: [LanConfigReaderOption] = []
+  var nextListComming = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +70,14 @@ class LanOptionsTableViewController: UITableViewController, LanOptionsSelector {
       guard let label = cell.contentView.subviews[0] as? UILabel else {
         return cell
       }
-      label.text = options[indexPath.row]
+      let opt = options[indexPath.row]
+      let nextOption: LanConfigReaderOption? = nextOptions.count > indexPath.row ? nextOptions[indexPath.row] : nil
+//      print(nextOptions.count, indexPath.row) // nextOptions.count > indexPath.row ? nextOptions[indexPath.row] : nil
+      let willChange = self.nextListComming && nextOption?.address != opt.address
+      label.text = opt.name
+      label.textColor = willChange ? UIColor.systemGray2 : UIColor.black
+      cell.isUserInteractionEnabled = !willChange
+      cell.backgroundColor = opt.busy ? UIColor.systemPink : UIColor.clear
 //      cell = "It's a cell"
         // Configure the cell...
 
@@ -77,8 +97,6 @@ class LanOptionsTableViewController: UITableViewController, LanOptionsSelector {
       withDelay({
         self.tableView.deselectRow(at: indexPath, animated: true)
       }, 2)
-      
-      print(label)
       
     }
 

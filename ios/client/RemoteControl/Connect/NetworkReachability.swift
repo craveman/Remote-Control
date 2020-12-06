@@ -25,24 +25,25 @@ class NetworkReachability {
   let backgroudQueue = DispatchQueue.global(qos: .background)
   
   init() {
-    pathMonitor = NWPathMonitor()
-    pathMonitor.pathUpdateHandler = self.pathUpdateHandler
     
   }
   
   init(withHandler handler: ((NWPath) -> Void)?) {
-    pathMonitor = NWPathMonitor()
-    pathMonitor.pathUpdateHandler = {[weak self] path in
+    self.pathUpdateHandler = {[weak self] path in
       self?.path = path
       handler?(path)
     }
   }
   
   func start() -> Void {
+    log("START")
+    pathMonitor = NWPathMonitor()
+    pathMonitor.pathUpdateHandler = self.pathUpdateHandler
     pathMonitor.start(queue: backgroudQueue)
   }
   
   func stop() -> Void {
+    log("STOP")
     pathMonitor.cancel()
   }
   

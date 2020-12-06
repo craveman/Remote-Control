@@ -8,9 +8,11 @@
 
 import Foundation
 
+typealias LanConfigReaderOption = (address: RemoteAddress, busy: Bool, name: String)
+
 class LanConfigReader: ObservableObject {
-  @Published var config: LanConfig? = nil
-  @Published var options: [(address: RemoteAddress, busy: Bool)] = []
+  @Published var primaryConfig: LanConfig? = nil
+  @Published var options: [LanConfigReaderOption] = []
   @Published var hasError: Bool? = nil
   private var lookupTimer: Timer? = nil
   private let checksPerSec = 0.25;
@@ -19,7 +21,8 @@ class LanConfigReader: ObservableObject {
 
   func startReader() -> Void {
     print("LanConfigReader::startReader")
-    hasError = nil;
+    hasError = nil
+    primaryConfig = nil
     if lookupTimer != nil {
       lookupTimer?.invalidate()
     }
@@ -44,39 +47,37 @@ class LanConfigReader: ObservableObject {
     }
     
   }
+  
+  private func checkOption(_ option: LanConfigReaderOption) {
+    checkLanPermission(ip: option.address.ip)
+  }
 
   private func Sm02ConnectionConfigCheck() {
-    let knownIps = options.map({ $0.address.ip })
-    let newOptionsList = rs.lookup.remoteAddresses.filter({ !knownIps.contains($0.address.ip) })
+    var list = rs.lookup.remoteAddresses
+    list.sort(by: {lhs, rhs in return lhs.name < rhs.name})
+    options.removeAll(where: { _ in true })
+    options.append(contentsOf: list)
+    
+    options.forEach({ opt in self.checkOption(opt) })
    
-    options.removeAll(where: { old in
-      return !rs.lookup.remoteAddresses.contains(where: {
-        if $0.address.ip == old.address.ip && $0.busy == old.busy {
-          return true;
-        }
-        print("Options removing old: ", old)
-        return false
-      })
-    })
+//    print("result options list: ", options)
     
-    if newOptionsList.count > 0 {
-      options.append(contentsOf: newOptionsList)
-      print("added options: ", newOptionsList)
-    }
-    
-    guard let option = rs.lookup.remoteAddresses.last else {
-      if (config != nil) {
-        config = nil
+    guard let option = list.first(where: {!$0.busy}) else {
+      if (primaryConfig != nil) {
+        primaryConfig = nil
       }
 
       return
     }
-    
-    config = LanConfig(ip: option.address.ip, code: option.address.code)
+    if (primaryConfig?.ip == option.address.ip && primaryConfig?.code == option.address.code) {
+      return
+    }
+    primaryConfig = LanConfig(ip: option.address.ip, port: option.address.port, code: option.address.code)
   }
 }
 
 struct LanConfig {
   public let ip: String
+  public let port: UInt16
   public let code: [UInt8]
 }

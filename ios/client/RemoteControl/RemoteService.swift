@@ -42,7 +42,7 @@ import struct NIO.TimeAmount
 
 
 fileprivate func log(_ items: Any...) {
-  print("RemoteService:log: ", items)
+//  print("RemoteService:log: ", items)
 }
 
 final class RemoteService {
@@ -112,36 +112,35 @@ final class RemoteService {
     let SM_NAME = "InspirationPoint"
     private var nsb: NetServiceBrowser?
     private var nsbdel:SMNetBrowserDelegate?
+    private var bonjourRefreshTimerStopper: (() -> Void)? = nil
     
     @Published
     private(set) var isStarted: Bool = false
     
     @Published
-    private(set) var remoteAddresses: [(address: RemoteAddress, busy: Bool)] = []
+    private(set) var remoteAddresses: [LanConfigReaderOption] = []
     
     init () {
-      
       registerNetServices()
-      
     }
     
-    func refresh() -> Void {
-      guard isStarted else {
-        return
+    deinit {
+      destroyNetServices()
+    }
+    
+    func refreshBonjor() -> Void {
+      if isStarted {
+        nsb?.stop()
+        nsb?.searchForServices(ofType: SM_TYPE, inDomain: SM_DOMAIN)
+        withDelay({
+          self.nsb?.stop();
+        }, 2 * PING_INTERVAL)
       }
-      self.stop(false)
-      self.start()
     }
     
     func start (listen port: Int = Sm02Lookup.DEFAULT_SM_UDP_PORT) {
       
       //      nsb?.searchForServices(ofType: "_companion-link._tcp.", inDomain: "local.") // check for devices
-      if BONJOUR_LOOKUP_MODE {
-        nsb?.searchForServices(ofType: SM_TYPE, inDomain: SM_DOMAIN)
-        withDelay({
-          self.nsb?.stop();
-        }, PING_INTERVAL)
-      }
       if UDP_LOOKUP_MODE {
         DispatchQueue.global(qos: .default).async {
           Sm02Lookup.start(listen: port)
@@ -149,6 +148,7 @@ final class RemoteService {
       }
       
       isStarted = true
+      refreshBonjor()
     }
     
     func stop (_ clean: Bool = true) {
@@ -167,6 +167,33 @@ final class RemoteService {
     
     private func onNetServicesResolved(_ netService: NetService, _ action: SMNetBrowserAction) {
       let addr = netService.addresses?.map({self.nameForAddress($0)}) ?? [];
+     
+      if let data = netService.txtRecordData(), netService.name.hasPrefix(self.SM_NAME), let ip = addr.first {
+       
+        let dict = NetService.dictionary(fromTXTRecord: data)
+        //          print("data: ", dict, String(data: data, encoding: .utf8) ?? "<no_data>")
+        var name = "\(ip)"
+        if let id = dict[SM_Data_Keys.id.rawValue] {
+          name = String(data: id, encoding: .utf8) ?? ""
+        }
+        
+        var hasRC = false
+        if let rc = dict[SM_Data_Keys.rc.rawValue] {
+          hasRC = String(data: rc, encoding: .utf8) != SM_RC_States.isVacant.rawValue;
+          log(action)
+          let remote = RemoteAddress(ssid: "", ip: ip, code: [0,0,0,0,0])
+          self.handleSmAddrLost(addr: remote)
+          if (action == .serviceFound) {
+            self.handleSmAddrFound(addr: remote, name: name, busy: hasRC)
+          }
+          
+        } else {
+          log("Non RC capable \(self.SM_NAME) service was skipped")
+        }
+        
+      } else {
+        log("Not suitable service was skipped")
+      }
       //        print("domn: ", netService.domain)
       //        print("type: ", netService.type)
       //        print("host: ", netService.hostName ?? "<no_host_name>")
@@ -174,49 +201,49 @@ final class RemoteService {
       //        print("name: ", netService.name)
       //        print("port: ", netService.port)
       
-      if let data = netService.txtRecordData(), netService.name.hasPrefix(self.SM_NAME), let ip = addr.first {
-        guard self.remoteAddresses.map({ $0.address.ip }).contains(ip) == false else {
-          return
-        }
-        let dict = NetService.dictionary(fromTXTRecord: data);
-        //          print("data: ", dict, String(data: data, encoding: .utf8) ?? "<no_data>")
-        var name = "\(ip)"
-        if let id = dict[SM_Data_Keys.id.rawValue] {
-          name = String(data: id, encoding: .utf8) ?? ""
-        }
-        var hasRC = false
-        if let rc = dict[SM_Data_Keys.rc.rawValue] {
-          hasRC = String(data: rc, encoding: .utf8) != SM_RC_States.isVacant.rawValue;
-          log(action)
-          let remote = RemoteAddress(ssid: "", ip: ip, code: [0,0,0,0,0], name: name)
-          self.remoteAddresses.append((address: remote, busy: hasRC))
-        } else {
-          log("Non RC capable \(self.SM_NAME) service was skipped")
-        }
-        
-      }
+    }
+    
+    private func handleSmAddrFound(addr: RemoteAddress, name: String, busy: Bool = false) {
+      self.remoteAddresses.append((address: addr, busy: busy, name: name))
+    }
+    
+    private func handleSmAddrLost(addr: RemoteAddress) {
+      self.remoteAddresses = self.remoteAddresses.filter({ $0.address != addr })
+      
     }
     
     private func registerNetServices() {
-      /// Net service browser.
+      
       log("registerNetServices")
       
       if UDP_LOOKUP_MODE {
         Sm02Lookup.on(server: { [unowned self] (remoteAddress) in
-          if (self.remoteAddresses.map({ $0.address }).contains(remoteAddress) == false) {
-            self.remoteAddresses.append((address: remoteAddress, busy: false))
-            print("RemoteService.LookupManagement - INFO: the new added remote address \(remoteAddress)")
-          }
+          self.handleSmAddrLost(addr: remoteAddress)
+          self.handleSmAddrFound(addr: remoteAddress, name: "\(remoteAddress.ip)")
+          print("RemoteService.LookupManagement - INFO: the new added remote address \(remoteAddress)")
         })
       }
       
       if BONJOUR_LOOKUP_MODE {
-        self.nsb = NetServiceBrowser()
-        nsbdel = SMNetBrowserDelegate(self.onNetServicesResolved) //see bellow
+        nsb = NetServiceBrowser()
+        nsbdel = SMNetBrowserDelegate(onNetServicesResolved) //see bellow
         nsb?.delegate = nsbdel
+        let timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(3 * PING_INTERVAL), repeats: true) {timer in
+          self.refreshBonjor()
+        }
+        bonjourRefreshTimerStopper = {
+          timer.invalidate();
+        }
       }
+    }
+    
+    private func destroyNetServices() {
       
-      //    nsb?.searchForBrowsableDomains()
+      log("stopNetServices")
+      if (bonjourRefreshTimerStopper != nil) {
+        bonjourRefreshTimerStopper!()
+      }
+      stop()
     }
     
     private func nameForAddress(_ address: Data) -> String {
@@ -242,12 +269,25 @@ final class RemoteService {
     @Published
     private(set) var address: RemoteAddress? = nil
     
+    @Published
+    private(set) var isAlive: Bool = false
+    
     fileprivate var subs: [AnyCancellable] = []
+    
+    private func setAliveChecker() {
+        self.isAlive = true
+    }
     
     init () {
       Sm02.on(message: { [unowned self] (inbound) in
+        if case .broadcast(_, _, _, _, _) = inbound {
+//          print("<<<<<<<<<<<<<<<<<< broadcast")
+          self.setAliveChecker()
+        }
+        
         if case .authentication(.success) = inbound {
           self.isAuthenticated = true
+          self.setAliveChecker()
         }
         if case .quit = inbound {
           print("quit")
@@ -255,9 +295,11 @@ final class RemoteService {
         }
       })
       Sm02.on(event: { [unowned self] (event) in
+//        print(">>>>>>>>>>>>>>>>>>>>>>>>>>", event)
         switch event {
         case .connected:
           self.isConnected = true
+          self.setAliveChecker()
         case .disconnected:
           self.isConnected = false
         default:

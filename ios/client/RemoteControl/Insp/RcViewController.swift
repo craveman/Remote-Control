@@ -110,6 +110,7 @@ class RcViewController: UIViewController {
         if !self.rcModel.isConnected {
           self.onMainThread({
             self.rcModel.isConnected = isAuth && rs.connection.isConnected
+            self.rcModel.isAlive = isAuth && rs.connection.isAlive
           })
         }
         return
@@ -124,6 +125,21 @@ class RcViewController: UIViewController {
     })
     
     subscriptions.append(auth$)
+    var disconnectTimer: Timer?
+    let alive$ = rs.connection.$isAlive.on(change: { isAlive in
+      disconnectTimer?.invalidate()
+      print("isAlive", isAlive)
+      disconnectTimer = withDelay({
+        self.onMainThread({
+          self.rcModel.isAlive = false
+        })
+      })
+      self.onMainThread({
+        self.rcModel.isAlive = isAlive
+      })
+    })
+    
+    subscriptions.append(alive$)
     
     let connected$ = rs.connection.$isConnected.on(change: { isConnected in
       if self.playbackController.selectedReplay != nil {

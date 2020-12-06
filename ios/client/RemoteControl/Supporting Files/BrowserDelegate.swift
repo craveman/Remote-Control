@@ -10,7 +10,7 @@ import Foundation
 import Combine
 
 fileprivate func log(_ items: Any...) {
-  print("`smBrowserDelegate:log: ", items)
+//  print("`smBrowserDelegate:log: ", items)
 }
 
 enum SMNetBrowserAction {
