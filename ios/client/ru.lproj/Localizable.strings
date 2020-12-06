@@ -24,7 +24,7 @@
 "Connection to the server was lost." = "Связь с сервером была потеряна.";
 
 "Connection error" = "Ошибка подключения";
-"Can't connect to %@. %@" = "Невозможно подключиться к %@. %@";
+"Can't connect to server. %@" = "Невозможно подключиться к аппарату. %@";
 "Try again" = "Попробовать снова";
 "Reconnect" = "Переподключиться";
 

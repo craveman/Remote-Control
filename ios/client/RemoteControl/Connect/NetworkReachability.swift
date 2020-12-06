@@ -44,7 +44,10 @@ class NetworkReachability {
   
   func stop() -> Void {
     log("STOP")
-    pathMonitor.cancel()
+    if pathMonitor != nil {
+      pathMonitor.cancel()
+    }
+    
   }
   
   func isNetworkAvailable() -> Bool {

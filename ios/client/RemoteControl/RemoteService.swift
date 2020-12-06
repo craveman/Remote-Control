@@ -274,20 +274,13 @@ final class RemoteService {
     
     fileprivate var subs: [AnyCancellable] = []
     
-    private func setAliveChecker() {
-//        self.isAlive = true
-    }
     
     init () {
       Sm02.on(message: { [unowned self] (inbound) in
-        if case .broadcast(_, _, _, _, _) = inbound {
-//          print("<<<<<<<<<<<<<<<<<< broadcast")
-          self.setAliveChecker()
-        }
+        self.isAlive = true
         
         if case .authentication(.success) = inbound {
           self.isAuthenticated = true
-          self.setAliveChecker()
         }
         if case .quit = inbound {
           print("quit")
@@ -295,11 +288,9 @@ final class RemoteService {
         }
       })
       Sm02.on(event: { [unowned self] (event) in
-//        print(">>>>>>>>>>>>>>>>>>>>>>>>>>", event)
         switch event {
         case .connected:
           self.isConnected = true
-          self.setAliveChecker()
         case .disconnected:
           self.isConnected = false
         default:

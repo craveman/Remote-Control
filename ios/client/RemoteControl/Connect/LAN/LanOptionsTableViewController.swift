@@ -12,7 +12,7 @@ protocol LanOptionsSelector {
   
   func setOptions(_ list: [LanConfigReaderOption]) -> Void
   
-  func onOptionSelected(_ fn: @escaping (String) -> Void) -> Void
+  func onOptionSelected(_ fn: @escaping (LanConfigReaderOption) -> Void) -> Void
 }
 
 class LanOptionsTableViewController: UITableViewController, LanOptionsSelector {
@@ -28,17 +28,29 @@ class LanOptionsTableViewController: UITableViewController, LanOptionsSelector {
       self.options = self.nextOptions
       self.nextOptions = []
       self.nextListComming = false
+      self.tableView.showsVerticalScrollIndicator = false
+      if (self.tableView.visibleSize.height < self.tableView.contentSize.height) {
+        self.tableView.showsVerticalScrollIndicator = true
+        self.tableView.flashScrollIndicators()
+      }
+      
       self.tableView.reloadData()
       self.view.setNeedsLayout()
     }, 0.5)
 //    print("LanOptionsTableViewController options: ", list)
   }
   
-  func onOptionSelected(_ fn: @escaping (String) -> Void) {
+  func onOptionSelected(_ fn: @escaping (LanConfigReaderOption) -> Void) {
     self.selectHandler = fn
   }
   
-  var selectHandler: (String) -> Void = {_ in }
+  var selectHandler: (LanConfigReaderOption) -> Void = {_ in }
+  var lastSelected: LanConfigReaderOption? {
+    didSet {
+      self.tableView.reloadData()
+      self.view.setNeedsLayout()
+    }
+  }
   var options: [LanConfigReaderOption] = []
   var nextOptions: [LanConfigReaderOption] = []
   var nextListComming = false
@@ -67,6 +79,7 @@ class LanOptionsTableViewController: UITableViewController, LanOptionsSelector {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "lanOptionReuseIdentifier", for: indexPath)
+      guard options.count > indexPath.row else { return cell }
       guard let label = cell.contentView.subviews[0] as? UILabel else {
         return cell
       }
@@ -74,10 +87,14 @@ class LanOptionsTableViewController: UITableViewController, LanOptionsSelector {
       let nextOption: LanConfigReaderOption? = nextOptions.count > indexPath.row ? nextOptions[indexPath.row] : nil
 //      print(nextOptions.count, indexPath.row) // nextOptions.count > indexPath.row ? nextOptions[indexPath.row] : nil
       let willChange = self.nextListComming && nextOption?.address != opt.address
+      let isSelected = self.lastSelected != nil ? opt == self.lastSelected! : false
       label.text = opt.name
       label.textColor = willChange ? UIColor.systemGray2 : UIColor.black
       cell.isUserInteractionEnabled = !willChange
       cell.backgroundColor = opt.busy ? UIColor.systemPink : UIColor.clear
+      if isSelected {
+        cell.backgroundColor = UIColor.gray
+      }
 //      cell = "It's a cell"
         // Configure the cell...
 
@@ -85,16 +102,18 @@ class LanOptionsTableViewController: UITableViewController, LanOptionsSelector {
     }
   
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        guard let cell = tableView.cellForRow(at: indexPath) else { return }
-      guard let label = cell.contentView.subviews[0] as? UILabel else {
+      if (self.lastSelected != nil) {
         return
       }
-      if let title = label.text {
-        self.selectHandler(title)
-      }
+      guard tableView.cellForRow(at: indexPath) != nil else { return }
+      guard options.count > indexPath.row else { return }
+      
+      let opt = options[indexPath.row]
+      self.selectHandler(opt)
+      self.lastSelected = opt
       
       withDelay({
+        self.lastSelected = nil
         self.tableView.deselectRow(at: indexPath, animated: true)
       }, 2)
       
