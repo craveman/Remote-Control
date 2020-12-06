@@ -24,7 +24,7 @@
 "Connection to the server was lost." = "Connection to the server was lost.";
 
 "Connection error" = "Connection error";
-"Can't connect to %@. %@" = "Can't connect to %@. %@";
+"Can't connect to server. %@" = "Can't connect to machine. %@";
 "Try again" = "Try again";
 "Reconnect" = "Reconnect";
 

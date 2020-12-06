@@ -10,6 +10,41 @@ import Foundation
 
 typealias LanConfigReaderOption = (address: RemoteAddress, busy: Bool, name: String)
 
+fileprivate let mockedConnectionList: [LanConfigReaderOption] = [
+  (address: RemoteAddress.empty, busy: true, name: "2"),
+  (address: RemoteAddress.empty, busy: false, name: "3"),
+  (address: RemoteAddress.empty, busy: true, name: "5"),
+  (address: RemoteAddress.empty, busy: true, name: "8"),
+  
+  (address: RemoteAddress.empty, busy: false, name: "21"),
+  (address: RemoteAddress.empty, busy: false, name: "ABC"),
+  (address: RemoteAddress.empty, busy: true, name: "XYZ"),
+//  (address: RemoteAddress.empty, busy: false, name: "55"),
+  (address: RemoteAddress.empty, busy: false, name: "FINAL"),
+  (address: RemoteAddress.empty, busy: true, name: "13"),
+  (address: RemoteAddress.empty, busy: false, name: "34"),
+]
+
+fileprivate func primarySort(lhs: LanConfigReaderOption, rhs: LanConfigReaderOption) -> Bool {
+  // digital asc
+  //  titles asc
+  let lNum = Int(lhs.name)
+  let rNum = Int(rhs.name)
+  if lNum == nil {
+    if rNum == nil {
+      return lhs.address.ip < rhs.address.ip
+    }
+    return false
+  }
+  
+  if rNum == nil {
+    return true
+  }
+  
+  return lNum! < rNum!
+            
+}
+
 class LanConfigReader: ObservableObject {
   @Published var primaryConfig: LanConfig? = nil
   @Published var options: [LanConfigReaderOption] = []
@@ -54,7 +89,8 @@ class LanConfigReader: ObservableObject {
 
   private func Sm02ConnectionConfigCheck() {
     var list = rs.lookup.remoteAddresses
-    list.sort(by: {lhs, rhs in return lhs.name < rhs.name})
+//    var list = mockedConnectionList // rs.lookup.remoteAddresses
+    list.sort(by: primarySort)
     options.removeAll(where: { _ in true })
     options.append(contentsOf: list)
     

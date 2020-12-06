@@ -21,7 +21,7 @@ class ConnectionProcessor {
   //     todo: ask user for location -> WiFi list reading
   private var hasWiFiReadingPermition = true
   
-  public static let CONNECTION_FAILED = "Can't connect to %@. %@"
+  public static let CONNECTION_FAILED = "Can't connect to server. %@"
   
   public static let WRONG_CODE = "Wrong authentication code."
   public static let BUSY = "Another remote control is already registered on the server."
@@ -174,7 +174,7 @@ class ConnectionProcessor {
     let titleString = NSLocalizedString(ConnectionProcessor.ERROR, comment: "")
     let bodyString = String(
       format: NSLocalizedString(ConnectionProcessor.CONNECTION_FAILED, comment: ""),
-      remote.ip, text
+      text
     )
     let tryAgainButtonString = NSLocalizedString(ConnectionProcessor.RECONNECT, comment: "")
     

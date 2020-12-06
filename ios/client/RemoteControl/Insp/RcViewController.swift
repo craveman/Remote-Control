@@ -10,6 +10,8 @@ import UIKit
 import SwiftUI
 import class Combine.AnyCancellable
 
+fileprivate let CONNECTION_CHECK_FEATURE = false
+
 class RcViewController: UIViewController {
   
   @IBOutlet weak var fightSubView: UIView!
@@ -17,7 +19,9 @@ class RcViewController: UIViewController {
   internal var game = FightSettings()
   internal var rcModel = InspSettings()
   internal var playbackController = PlaybackControls()
-  
+  internal var lastAliveAt: Date?
+  internal var disconnectTimer: Timer?
+  internal var weakConnectionTimer: Timer?
   //  todo: use saved subscribtions tokens
   internal var subscriptions: [AnyCancellable] = []
   
@@ -50,12 +54,16 @@ class RcViewController: UIViewController {
     super.viewDidAppear(animated)
     syncState()
     setSubscriptions()
+    if (self.rcModel.isConnected) {
+      self.setConnectionCheckers()
+    }
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     if isBeingDismissed {
       clearSubscriptions()
+      stopConnectionCheckers()
     }
   }
   
@@ -79,6 +87,12 @@ class RcViewController: UIViewController {
     subscriptions.forEach({ subscription in
       subscription.cancel()
     })
+  
+  }
+  
+  private func stopConnectionCheckers() {
+    self.weakConnectionTimer?.invalidate()
+    self.disconnectTimer?.invalidate()
   }
   
   private func syncState() {
@@ -93,10 +107,45 @@ class RcViewController: UIViewController {
       self.rcModel.shouldShowMedicalView = rs.timer.mode == .medicine && rs.timer.state == .running
     })
     
-    print("syncState: \(rs.competition.state)")
+//    print("syncState: \(rs.competition.state)")
     if let fightState = rs.competition.state {
       self.game.syncFightState(fightState)
     }
+  }
+  
+  private func setConnectionCheckers() {
+    if (!CONNECTION_CHECK_FEATURE) {
+      return
+    }
+    self.stopConnectionCheckers()
+    
+    let timersTick = 0.1
+    
+    self.weakConnectionTimer = Timer.scheduledTimer(withTimeInterval: timersTick, repeats: true, block: {_ in
+//      print("TICK weakConnectionTimer")
+      guard let since = self.lastAliveAt else {
+        return
+      }
+      
+      if (Date().timeIntervalSince(since) > 1) {
+        self.onMainThread({
+          self.rcModel.isAlive = false
+        })
+      }
+    })
+    
+    self.disconnectTimer = Timer.scheduledTimer(withTimeInterval: timersTick, repeats: true, block: {_ in
+//      print("TICK disconnectTimer")
+      guard let since = self.lastAliveAt else {
+        return
+      }
+      
+      if (Date().timeIntervalSince(since) > RemoteService.PING_INTERVAL + timersTick) {
+        self.onMainThread({
+          rs.connection.disconnect()
+        })
+      }
+    })
   }
   
   private func setSubscriptions() {
@@ -125,23 +174,31 @@ class RcViewController: UIViewController {
     })
     
     subscriptions.append(auth$)
-    var disconnectTimer: Timer?
+    
     let alive$ = rs.connection.$isAlive.on(change: { isAlive in
-      disconnectTimer?.invalidate()
-      print("isAlive", isAlive)
-      disconnectTimer = withDelay({
+      if (self.lastAliveAt != nil) {
+        self.lastAliveAt = Date()
+      }
+      
+//      print("isAlive", isAlive)
+      
+      if (self.rcModel.isAlive != isAlive) {
         self.onMainThread({
-          self.rcModel.isAlive = false
+          self.rcModel.isAlive = isAlive
         })
-      })
-      self.onMainThread({
-        self.rcModel.isAlive = isAlive
-      })
+      }
+      
     })
     
     subscriptions.append(alive$)
     
     let connected$ = rs.connection.$isConnected.on(change: { isConnected in
+//      print("isConnected", isConnected)
+      if (isConnected) {
+        self.lastAliveAt = Date()
+      } else {
+        self.lastAliveAt = nil
+      }
       if self.playbackController.selectedReplay != nil {
         self.onMainThread({
           self.playbackController.eject()
@@ -154,6 +211,9 @@ class RcViewController: UIViewController {
           self.onMainThread({
             self.rcModel.isConnected = rs.connection.isAuthenticated && isConnected
             self.rcModel.tab = 1
+            if (self.rcModel.isConnected) {
+              self.setConnectionCheckers()
+            }
           })
         }
         return

@@ -253,23 +253,17 @@ extension LanLookupConnectionViewController {
   }
   
   func getConnectionOptionsList(_ opts: [LanConfigReaderOption]) -> [LanConfigReaderOption] {
-    var vacant = opts.filter({ !$0.busy })
-    var busy = opts.filter({ $0.busy })
-    vacant.sort(by: {lhs, rhs in
-      return lhs.name < rhs.name
-    })
-    busy.sort(by: {lhs, rhs in
-      return lhs.name < rhs.name
-    })
+    let vacant = opts.filter({ !$0.busy })
+    let busy = opts.filter({ $0.busy })
     var list: [LanConfigReaderOption] = []
     list.append(contentsOf: vacant)
     list.append(contentsOf: busy)
     return list;
   }
   
-  func onOptionSelected(title: String) -> Void {
+  func onOptionSelected(selection: LanConfigReaderOption) -> Void {
     func searchSelectedTitle (_ option: LanConfigReaderOption) -> Bool {
-      if option.name == title {
+      if option.name == selection.name && option.address == selection.address {
         return true
       }
       return false
