@@ -167,6 +167,7 @@ Make sure your phone is connected to the scoring machine's Wi-Fi network</string
                     </view>
                     <connections>
                         <outlet property="autoConnectSwitch" destination="2k8-Rg-7eq" id="U5B-Vh-hsl"/>
+                        <outlet property="autoConnectSwitchLabel" destination="oyx-Zq-SdD" id="Syt-XV-apd"/>
                         <outlet property="connectionButton" destination="gH5-Q2-QhX" id="vWB-cT-3ew"/>
                         <outlet property="connectionProgressBar" destination="mUE-ZE-aa3" id="ePm-6L-Wba"/>
                         <outlet property="failedToConnectLabel" destination="2oV-fH-BLy" id="89y-dn-GG5"/>

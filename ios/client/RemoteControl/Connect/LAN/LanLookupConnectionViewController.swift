@@ -17,7 +17,6 @@ fileprivate func log(_ items: Any...) {
 fileprivate let WAIT_TIMEOUT = 9.0
 fileprivate let NOTIFY_TIMEOUT = 2.5
 
-
 class LanLookupConnectionViewController: UIViewController, ConnectionControllerProtocol {
   
   private var netWatcher: NetworkReachability? = nil
@@ -55,8 +54,10 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   @IBOutlet weak var connectionButton: UIButton!
   
+  @IBOutlet weak var autoConnectSwitchLabel: UIBarButtonItem!
+  
   @IBAction func userAsksToConnect(_ sender: UIButton) {
-    guard let config = reader.config else {
+    guard let config = reader.primaryConfig else {
       print("userAsksToConnect: Empty config found")
       return
     }
@@ -72,6 +73,9 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   @IBAction func skipConnectAction(_ sender: UIBarButtonItem) {
     log("Skip")
+    if let next = reader.primaryConfig {
+      applyConfig(next)
+    }
     doConnectionCompletion(stopScan: !autoConnect)
   }
   
@@ -131,6 +135,9 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
     serversFoundSubView.isHidden = false
     connectionButton.isHidden = true
     autoConnectSwitch.isOn = autoConnect
+    autoConnectSwitch.isHidden = true
+    autoConnectSwitchLabel.isEnabled = false
+    autoConnectSwitchLabel.tintColor = UIColor.clear
     toggleFailedCase(false)
     log("did appear")
     super.viewDidAppear(animated)
@@ -225,12 +232,12 @@ extension LanLookupConnectionViewController {
   
   func setConfigSubscription() -> Void {
     // todo:
-    configSub = reader.$config.on(change: { config in
-      log("config updated: \(String(describing: config))")
+    configSub = reader.$primaryConfig.on(change: { config in
+      log("$primaryConfig updated: \(String(describing: config))")
       guard let lan = config else {
 //        self.serversFoundSubView.isHidden = true
 //        self.connectionButton.isHidden = true
-        log("$config.on(change nil")
+        log("$$primaryConfig.on(change nil")
         return
       }
 //      self.serversFoundSubView.isHidden = false
@@ -245,34 +252,51 @@ extension LanLookupConnectionViewController {
     })
   }
   
-  func getConnectionOptionsList(_ opts: [(address: RemoteAddress, busy: Bool)]) -> [String] {
-    let busy = opts.filter({ $0.busy }).map({$0.address.name + " [X]"})
-    let vacant = opts.filter({ !$0.busy }).map({$0.address.name})
-    var list: [String] = []
+  func getConnectionOptionsList(_ opts: [LanConfigReaderOption]) -> [LanConfigReaderOption] {
+    var vacant = opts.filter({ !$0.busy })
+    var busy = opts.filter({ $0.busy })
+    vacant.sort(by: {lhs, rhs in
+      return lhs.name < rhs.name
+    })
+    busy.sort(by: {lhs, rhs in
+      return lhs.name < rhs.name
+    })
+    var list: [LanConfigReaderOption] = []
     list.append(contentsOf: vacant)
     list.append(contentsOf: busy)
     return list;
   }
   
+  func onOptionSelected(title: String) -> Void {
+    func searchSelectedTitle (_ option: LanConfigReaderOption) -> Bool {
+      if option.name == title {
+        return true
+      }
+      return false
+    }
+    guard let config = self.reader.options.first(where: searchSelectedTitle) else {
+      return
+    }
+    self.applyConfig(LanConfig(ip: config.address.ip, port: config.address.port, code: config.address.code))
+  }
+  
   func setOptionsSubscription() -> Void {
+    
+    guard let selector = self.serversFoundSubView.subviews[0].next as? LanOptionsSelector else {
+      return
+    }
+    
+    selector.onOptionSelected(self.onOptionSelected)
     // todo:
     optionsSub = reader.$options.on(change: { opts in
       
       guard let selector = self.serversFoundSubView.subviews[0].next as? LanOptionsSelector else {
         return
       }
-      
+      if(opts.count > 0) {
+        self.waitConnectTimer?.invalidate()
+      }
       selector.setOptions(self.getConnectionOptionsList(opts))
-      
-      selector.onOptionSelected({ title in
-        self.reader.options.firstIndex(where: { option in
-          if option.address.name == title {
-            self.applyConfig(LanConfig(ip: option.address.ip, code: option.address.code))
-            return true
-          }
-          return false
-        })
-      })
       
     })
     
@@ -288,7 +312,7 @@ extension LanLookupConnectionViewController {
     let connectionProcessor = ConnectionProcessor(controller: self)
     DispatchQueue.main.async {
       log("applyConfig: DispatchQueue.main.async")
-      let remote = RemoteAddress(ssid: "", ip: lan.ip, code: lan.code, name: lan.ip)
+      let remote = RemoteAddress(ssid: "", ip: lan.ip, port: lan.port, code: lan.code)
       connectionProcessor.connectServer(to: remote)
     }
   }
@@ -325,7 +349,7 @@ extension LanLookupConnectionViewController {
   
   func onCloseManual(_ auto: Bool = true) -> Void {
     autoConnect = auto
-    if autoConnect, let manConfig = reader.config {
+    if autoConnect, let manConfig = reader.primaryConfig {
       applyConfig(manConfig)
     }
     startScanner()
@@ -343,7 +367,7 @@ extension LanLookupConnectionViewController {
         return
       }
       
-      self.applyConfig(LanConfig(ip: ip, code: [0,0,0,0,0]))
+      self.applyConfig(LanConfig(ip: ip, port: 21074, code: [0,0,0,0,0]))
       self.onCloseManual(false)
     }
     

@@ -7,7 +7,9 @@
 //
 
 import Foundation
-
+fileprivate func log(_ items: Any...) {
+//  print("LanAccessHelper:log: ", items)
+}
 fileprivate func udpSend(textToSend: String, address addr: sockaddr_in) {
   let host = ProcessInfo.processInfo.hostName
   let fd = socket(AF_INET, SOCK_DGRAM, 0) // DGRAM makes it UDP
@@ -24,15 +26,13 @@ fileprivate func udpSend(textToSend: String, address addr: sockaddr_in) {
     
     return sent
   }
-  print("\(host) udpSend count: \(sent)")
+  log("\(host) udpSend to \(addr.sin_addr) count: \(sent)")
   close(fd)
   
 }
 
-func checkLanPermission() -> Void {
+func checkLanPermission(ip: String = "192.168.31.252", _ port: UInt16 = 21075) -> Void {
   let word = "HELLO:(SM_RC@IOS)"
-  let ip = "192.168.31.252"
-  let port: UInt16 = 21075
   var addr = sockaddr_in()
   addr.sin_len = UInt8(MemoryLayout.size(ofValue: addr))
   addr.sin_family = sa_family_t(AF_INET)

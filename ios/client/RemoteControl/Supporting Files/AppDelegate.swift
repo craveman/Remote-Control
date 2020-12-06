@@ -9,6 +9,7 @@
 import UIKit
 import BackgroundTasks
 import class Combine.AnyCancellable
+import struct Network.NWPath
 
 
 fileprivate func log(_ items: Any...) {
@@ -22,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   var window: UIWindow?
   var app: UIApplication?
+  private var networkHandler: NetworkReachability?
   private var wasInvalidated = false
   private var hasRegisteredBgTask = false
   private var pingMissed = false
@@ -265,14 +267,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   private func setNetworkEventsListerers() {
-    let networkHandler = NetworkReachability(withHandler: {
-      if ($0.status != .satisfied) {
+    let handler: ((NWPath) -> Void)? = { path in
+      if (path.status != .satisfied) {
         log("NetworkReachability is not satisfied")
+//        rs.connection.disconnect(temporary: true)
       } else {
         log("NetworkReachability - OK")
+//        self.reconnect()
       }
-    })
-    networkHandler.start()
+    }
+    self.networkHandler = NetworkReachability(withHandler: handler)
+    self.networkHandler?.start()
   }
   
   private func registerBgTask() {
