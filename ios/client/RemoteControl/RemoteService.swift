@@ -275,7 +275,7 @@ final class RemoteService {
     fileprivate var subs: [AnyCancellable] = []
     
     private func setAliveChecker() {
-        self.isAlive = true
+//        self.isAlive = true
     }
     
     init () {
