@@ -90,7 +90,7 @@ class LanOptionsTableViewController: UITableViewController, LanOptionsSelector {
       let isSelected = self.lastSelected != nil ? opt == self.lastSelected! : false
       label.text = opt.name
       label.textColor = willChange ? UIColor.systemGray2 : UIColor.black
-      cell.isUserInteractionEnabled = !willChange
+      cell.isUserInteractionEnabled = !willChange && !opt.busy
       cell.backgroundColor = opt.busy ? UIColor.systemPink : UIColor.clear
       if isSelected {
         cell.backgroundColor = UIColor.gray

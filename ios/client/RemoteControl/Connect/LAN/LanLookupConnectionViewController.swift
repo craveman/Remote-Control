@@ -23,7 +23,7 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   private var autoConnect = false {
     didSet {
-      autoConnectSwitch.isOn = autoConnect
+//      autoConnectSwitch.isOn = autoConnect
     }
   }
   private var isLookupStarted = false
@@ -131,6 +131,7 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   override func viewDidAppear (_ animated: Bool) {
     // todo:
+    checkLanPermission()
     self.netWatcher?.start()
     serversFoundSubView.isHidden = false
     connectionButton.isHidden = true
@@ -167,8 +168,16 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   override func viewDidLoad () {
     super.viewDidLoad()
-    
+    registerSelector()
     initNetWatcher()
+  }
+  private func registerSelector() {
+    
+    guard let selector = self.serversFoundSubView.subviews[0].next as? LanOptionsSelector else {
+      return
+    }
+    
+    selector.onOptionSelected(self.onOptionSelected)
   }
   
   private func initNetWatcher() {
@@ -276,11 +285,6 @@ extension LanLookupConnectionViewController {
   
   func setOptionsSubscription() -> Void {
     
-    guard let selector = self.serversFoundSubView.subviews[0].next as? LanOptionsSelector else {
-      return
-    }
-    
-    selector.onOptionSelected(self.onOptionSelected)
     // todo:
     optionsSub = reader.$options.on(change: { opts in
       
@@ -343,10 +347,12 @@ extension LanLookupConnectionViewController {
   
   func onCloseManual(_ auto: Bool = true) -> Void {
     autoConnect = auto
+    self.alert?.textFields?.first?.resignFirstResponder()
     if autoConnect, let manConfig = reader.primaryConfig {
       applyConfig(manConfig)
     }
     startScanner()
+    self.view.layoutIfNeeded()
   }
   
   func showInputDialog() {
@@ -376,6 +382,8 @@ extension LanLookupConnectionViewController {
     // code ???
     alertController.addAction(confirmAction)
     alertController.addAction(cancelAction)
+    alertController.view.layoutIfNeeded()
+    log("showInputDialog")
     
     //finally presenting the dialog box
     self.present(alertController, animated: true, completion: nil)
@@ -385,6 +393,7 @@ extension LanLookupConnectionViewController {
   func showAlert(_ alert: UIAlertController) {
     log("showAlert", alert)
     func applyAlert() {
+      alert.view.layoutIfNeeded()
       self.present(alert, animated: true, completion: {
         self.alert = alert
       })

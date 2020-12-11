@@ -10,7 +10,7 @@ import UIKit
 import SwiftUI
 import class Combine.AnyCancellable
 
-fileprivate let CONNECTION_CHECK_FEATURE = false
+fileprivate let CONNECTION_CHECK_FEATURE = true
 
 class RcViewController: UIViewController {
   
@@ -119,15 +119,15 @@ class RcViewController: UIViewController {
     }
     self.stopConnectionCheckers()
     
-    let timersTick = 0.1
+    let timersTick = 0.3
     
     self.weakConnectionTimer = Timer.scheduledTimer(withTimeInterval: timersTick, repeats: true, block: {_ in
-//      print("TICK weakConnectionTimer")
+      print("TICK weakConnectionTimer", self.lastAliveAt, self.rcModel.isAlive)
       guard let since = self.lastAliveAt else {
         return
       }
       
-      if (Date().timeIntervalSince(since) > 1) {
+      if (Date().timeIntervalSince(since) > RemoteService.PING_INTERVAL + timersTick) {
         self.onMainThread({
           self.rcModel.isAlive = false
         })
@@ -140,7 +140,7 @@ class RcViewController: UIViewController {
         return
       }
       
-      if (Date().timeIntervalSince(since) > RemoteService.PING_INTERVAL + timersTick) {
+      if (Date().timeIntervalSince(since) > 2 * RemoteService.PING_INTERVAL + timersTick) {
         self.onMainThread({
           rs.connection.disconnect()
         })
@@ -159,7 +159,7 @@ class RcViewController: UIViewController {
         if !self.rcModel.isConnected {
           self.onMainThread({
             self.rcModel.isConnected = isAuth && rs.connection.isConnected
-            self.rcModel.isAlive = isAuth && rs.connection.isAlive
+            self.rcModel.isAlive = self.rcModel.isConnected && rs.connection.isAlive
           })
         }
         return
@@ -176,13 +176,17 @@ class RcViewController: UIViewController {
     subscriptions.append(auth$)
     
     let alive$ = rs.connection.$isAlive.on(change: { isAlive in
-      if (self.lastAliveAt != nil) {
+//      print(isAlive, "rs.connection.$isAlive.on(change" )
+      if (isAlive) {
         self.lastAliveAt = Date()
+      } else {
+        self.lastAliveAt = nil
       }
       
 //      print("isAlive", isAlive)
       
       if (self.rcModel.isAlive != isAlive) {
+        print("change is Alive")
         self.onMainThread({
           self.rcModel.isAlive = isAlive
         })

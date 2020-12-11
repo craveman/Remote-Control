@@ -124,7 +124,6 @@
 		85512DE02450CCCB00254D5F /* Inspiration_PointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inspiration_PointTests.swift; sourceTree = "<group>"; };
 		85512DE22450CCCB00254D5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85584AE2239ED5A2006EC133 /* RcViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RcViewModels.swift; sourceTree = "<group>"; };
-		859B2C1823E6289100699383 /* Inspiration Point.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Inspiration Point.entitlements"; sourceTree = "<group>"; };
 		859B2C1923E6289200699383 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		85A2A02B24E89B9300DB6244 /* LanConfigReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanConfigReader.swift; sourceTree = "<group>"; };
 		85A99338230B47A4003FC5BE /* Inspiration.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Inspiration.storyboard; sourceTree = "<group>"; };
@@ -362,7 +361,6 @@
 		B9C8BEDC2305A2C5004DBBF8 /* RemoteControl */ = {
 			isa = PBXGroup;
 			children = (
-				859B2C1823E6289100699383 /* Inspiration Point.entitlements */,
 				850AAE802327194800DBFD93 /* Info.plist */,
 				850AAE7223270F3300DBFD93 /* UI Helpers */,
 				850AAE7123270F1B00DBFD93 /* Supporting Files */,
@@ -613,7 +611,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = NB936833RX;
+				DEVELOPMENT_TEAM = 79PVB6X854;
 				INFOPLIST_FILE = Inspiration_PointTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -634,7 +632,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = NB936833RX;
+				DEVELOPMENT_TEAM = 79PVB6X854;
 				INFOPLIST_FILE = Inspiration_PointTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -784,11 +782,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_ENTITLEMENTS = "RemoteControl/Inspiration Point.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = NB936833RX;
+				DEVELOPMENT_TEAM = 79PVB6X854;
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = RemoteControl/Base.lproj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -797,7 +795,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.2.10;
+				MARKETING_VERSION = 1.3.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "Inspiration Point";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -813,11 +811,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CODE_SIGN_ENTITLEMENTS = "RemoteControl/Inspiration Point.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = NB936833RX;
+				DEVELOPMENT_TEAM = 79PVB6X854;
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = RemoteControl/Base.lproj/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -826,7 +824,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "";
-				MARKETING_VERSION = 1.2.10;
+				MARKETING_VERSION = 1.3.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.inspirationApp.RemoteControl;
 				PRODUCT_NAME = "Inspiration Point";
 				PROVISIONING_PROFILE_SPECIFIER = "";

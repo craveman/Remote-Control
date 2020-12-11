@@ -291,8 +291,10 @@ final class RemoteService {
         switch event {
         case .connected:
           self.isConnected = true
+          self.isAlive = true
         case .disconnected:
           self.isConnected = false
+          self.isAlive = false
         default:
           break
         }
