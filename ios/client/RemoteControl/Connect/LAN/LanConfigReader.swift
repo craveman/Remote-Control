@@ -84,7 +84,8 @@ class LanConfigReader: ObservableObject {
   }
   
   private func checkOption(_ option: LanConfigReaderOption) {
-    checkLanPermission(ip: option.address.ip)
+    // todo: check option if needed
+//    checkLanPermission(ip: option.address.ip)
   }
 
   private func Sm02ConnectionConfigCheck() {

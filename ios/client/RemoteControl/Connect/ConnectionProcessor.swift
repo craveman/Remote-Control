@@ -184,8 +184,13 @@ class ConnectionProcessor {
       preferredStyle: .alert
     )
     alert.addAction(UIAlertAction(title: tryAgainButtonString, style: .cancel, handler: { action in
-      self.controller.startScanner()
+      DispatchQueue.main.async {
+        self.controller.startScanner()
+      }
     }))
-    self.controller.showAlert(alert)
+    DispatchQueue.main.async {
+      self.controller.showAlert(alert)
+    }
+    
   }
 }

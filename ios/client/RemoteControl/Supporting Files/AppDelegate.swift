@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application (_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     self.app = application
-//    setNetworkEventsListerers()
+    setNetworkEventsListerers()
     setEventsAndTimers()
     //    TODO: if needed; N.B.! add task id to Info.plist
     //    registerBgTask()
@@ -294,6 +294,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        rs.connection.disconnect(temporary: true)
       } else {
         log("NetworkReachability - OK")
+//        DispatchQueue.global(qos: .background).async {
+//          checkLanPermission()
+//        }
 //        self.reconnect()
       }
     }
