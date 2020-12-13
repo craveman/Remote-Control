@@ -36,7 +36,7 @@ class LanOptionsTableViewController: UITableViewController, LanOptionsSelector {
       
       self.tableView.reloadData()
       self.view.setNeedsLayout()
-    }, 0.5)
+    }, 0.75)
 //    print("LanOptionsTableViewController options: ", list)
   }
   
@@ -89,11 +89,16 @@ class LanOptionsTableViewController: UITableViewController, LanOptionsSelector {
       let willChange = self.nextListComming && nextOption?.address != opt.address
       let isSelected = self.lastSelected != nil ? opt == self.lastSelected! : false
       label.text = opt.name
-      label.textColor = willChange ? UIColor.systemGray2 : UIColor.black
-      cell.isUserInteractionEnabled = !willChange && !opt.busy
+      label.textColor = UIColor.black
+      cell.isUserInteractionEnabled = !opt.busy
       cell.backgroundColor = opt.busy ? UIColor.systemPink : UIColor.clear
       if isSelected {
         cell.backgroundColor = UIColor.gray
+      }
+      if willChange {
+        label.textColor = UIColor.systemGray2
+        cell.isUserInteractionEnabled = false
+        cell.backgroundColor = UIColor.systemYellow
       }
 //      cell = "It's a cell"
         // Configure the cell...

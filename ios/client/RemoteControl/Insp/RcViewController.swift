@@ -122,7 +122,7 @@ class RcViewController: UIViewController {
     let timersTick = 0.3
     
     self.weakConnectionTimer = Timer.scheduledTimer(withTimeInterval: timersTick, repeats: true, block: {_ in
-      print("TICK weakConnectionTimer", self.lastAliveAt, self.rcModel.isAlive)
+//      print("TICK weakConnectionTimer", self.lastAliveAt, self.rcModel.isAlive)
       guard let since = self.lastAliveAt else {
         return
       }

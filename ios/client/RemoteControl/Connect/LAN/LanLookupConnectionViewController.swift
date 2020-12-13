@@ -130,8 +130,6 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   }
   
   override func viewDidAppear (_ animated: Bool) {
-    // todo:
-    checkLanPermission()
     self.netWatcher?.start()
     serversFoundSubView.isHidden = false
     connectionButton.isHidden = true
@@ -151,15 +149,17 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
     alert?.dismiss(animated: false, completion: {
       log("alert dismissed")
     })
-    configSub?.cancel();
-    optionsSub?.cancel();
-    waitConnectTimer?.invalidate();
+    
     super.viewWillDisappear(animated)
   }
   
   override func viewDidDisappear (_ animated: Bool) {
     super.viewDidDisappear(animated)
     toggleFailedCase(false)
+    configSub?.cancel();
+    optionsSub?.cancel();
+    waitConnectTimer?.invalidate();
+    resetOptionsList()
     DispatchQueue.main.async {
       self.stopScanner()
     }
@@ -183,8 +183,8 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   private func initNetWatcher() {
     let lanPathUpdateHandler: ((NWPath) -> Void) = {path in
       DispatchQueue.main.async {
-        log("Asking permitions")
-        checkLanPermission()
+//        log("Asking permitions")
+//        checkLanPermission()
         
         guard let watcher = self.netWatcher else {
           self.toggleLanConnetionState(online: false)
@@ -216,23 +216,28 @@ extension LanLookupConnectionViewController {
   }
   
   func doConnectionCompletion(stopScan: Bool = true) {
-    log ("doConnectionCompletion")
-    if stopScan {
-      stopScanner()
+    DispatchQueue.main.async {
+      log ("doConnectionCompletion")
+      if stopScan {
+        self.stopScanner()
+      }
+      self.successAction()
+      withDelay({
+        self.isConnecting = false
+        self.connectionProgressBar.isHidden = true
+      })
     }
-    successAction()
-    withDelay({
-      self.isConnecting = false
-      self.connectionProgressBar.isHidden = true
-    })
+   
   }
   
   func doConnectionRejection() {
-    print("doConnectionRejection")
-    stopScanner()
-    connectionProgressBar.isHidden = true
-    isConnecting = false
-    startScanner()
+    DispatchQueue.main.async {
+      print("doConnectionRejection")
+      self.stopScanner()
+      self.connectionProgressBar.isHidden = true
+      self.isConnecting = false
+      self.startScanner()
+      }
   }
   
 }
@@ -300,6 +305,13 @@ extension LanLookupConnectionViewController {
     
   }
   
+  func resetOptionsList() -> Void {
+    guard let selector = self.serversFoundSubView.subviews[0].next as? LanOptionsSelector else {
+      return
+    }
+    selector.setOptions([])
+  }
+  
   func applyConfig(_ lan: LanConfig) -> Void {
     log("applyConfig", lan)
     guard !isConnecting else {
@@ -308,7 +320,7 @@ extension LanLookupConnectionViewController {
     }
     isConnecting = true
     let connectionProcessor = ConnectionProcessor(controller: self)
-    DispatchQueue.main.async {
+    DispatchQueue.global(qos: .userInitiated).async {
       log("applyConfig: DispatchQueue.main.async")
       let remote = RemoteAddress(ssid: "", ip: lan.ip, port: lan.port, code: lan.code)
       connectionProcessor.connectServer(to: remote)
