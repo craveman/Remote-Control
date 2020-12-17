@@ -21,7 +21,7 @@ class ConnectionProcessor {
   //     todo: ask user for location -> WiFi list reading
   private var hasWiFiReadingPermition = true
   
-  public static let CONNECTION_FAILED = "Can't connect to %@. %@"
+  public static let CONNECTION_FAILED = "Can't connect to server. %@"
   
   public static let WRONG_CODE = "Wrong authentication code."
   public static let BUSY = "Another remote control is already registered on the server."
@@ -86,53 +86,53 @@ class ConnectionProcessor {
     controller.present(alert, animated: true, completion: nil)
   }
   
-  func connectHotspot(_ ssid: String, passoword pass: String? = nil, joinOnce once: Bool = true, isWEP wep: Bool = false, completionHandler: ((Bool) -> Void)? = nil) {
-    
-    var configuration: NEHotspotConfiguration
-    if (pass == nil) {
-      configuration = NEHotspotConfiguration.init(ssid: ssid)
-    } else {
-      configuration = NEHotspotConfiguration.init(ssid: ssid, passphrase: pass!, isWEP: wep)
-    }
-    
-    controller.isOnWiFiLookup = true
-    
-    configuration.joinOnce = once
-    //      NEHotspotConfigurationManager.shared.removeConfiguration(forSSID: ssid)
-    NEHotspotConfigurationManager.shared.apply(configuration) { (error) in
-      
-      self.controller.isOnWiFiLookup = false
-      
-      var connected = false
-      if error != nil {
-        if (error! as NSError).code == NEHotspotConfigurationError.alreadyAssociated.rawValue {
-          log("Already Connected", error ?? "NO_ERROR")
-          connected = true
-        }
-        else if (error! as NSError).code == NEHotspotConfigurationError.userDenied.rawValue {
-          log("User Denied", error ?? "NO_ERROR")
-        }
-        else {
-          log("Not Connected", error ?? "NO_ERROR")
-        }
-      }
-      else {
-        if self.hasWiFiReadingPermition {
-          let list = self.currentSSIDs()
-          
-          log("currentSSIDs:", list)
-          connected = list.first == ssid;
-        } else {
-          connected = true
-        }
-        
-        log("Connected:", connected)
-      }
-      if completionHandler != nil {
-        completionHandler!(connected)
-      }
-    }
-  }
+//  func connectHotspot(_ ssid: String, passoword pass: String? = nil, joinOnce once: Bool = true, isWEP wep: Bool = false, completionHandler: ((Bool) -> Void)? = nil) {
+//    
+//    var configuration: NEHotspotConfiguration
+//    if (pass == nil) {
+//      configuration = NEHotspotConfiguration.init(ssid: ssid)
+//    } else {
+//      configuration = NEHotspotConfiguration.init(ssid: ssid, passphrase: pass!, isWEP: wep)
+//    }
+//    
+//    controller.isOnWiFiLookup = true
+//    
+//    configuration.joinOnce = once
+//    //      NEHotspotConfigurationManager.shared.removeConfiguration(forSSID: ssid)
+//    NEHotspotConfigurationManager.shared.apply(configuration) { (error) in
+//      
+//      self.controller.isOnWiFiLookup = false
+//      
+//      var connected = false
+//      if error != nil {
+//        if (error! as NSError).code == NEHotspotConfigurationError.alreadyAssociated.rawValue {
+//          log("Already Connected", error ?? "NO_ERROR")
+//          connected = true
+//        }
+//        else if (error! as NSError).code == NEHotspotConfigurationError.userDenied.rawValue {
+//          log("User Denied", error ?? "NO_ERROR")
+//        }
+//        else {
+//          log("Not Connected", error ?? "NO_ERROR")
+//        }
+//      }
+//      else {
+//        if self.hasWiFiReadingPermition {
+//          let list = self.currentSSIDs()
+//          
+//          log("currentSSIDs:", list)
+//          connected = list.first == ssid;
+//        } else {
+//          connected = true
+//        }
+//        
+//        log("Connected:", connected)
+//      }
+//      if completionHandler != nil {
+//        completionHandler!(connected)
+//      }
+//    }
+//  }
   
   func connectServer (to remote: RemoteAddress) {
     let result = rs.connection.connect(to: remote)
@@ -174,7 +174,7 @@ class ConnectionProcessor {
     let titleString = NSLocalizedString(ConnectionProcessor.ERROR, comment: "")
     let bodyString = String(
       format: NSLocalizedString(ConnectionProcessor.CONNECTION_FAILED, comment: ""),
-      remote.ip, text
+      text
     )
     let tryAgainButtonString = NSLocalizedString(ConnectionProcessor.RECONNECT, comment: "")
     
@@ -184,8 +184,13 @@ class ConnectionProcessor {
       preferredStyle: .alert
     )
     alert.addAction(UIAlertAction(title: tryAgainButtonString, style: .cancel, handler: { action in
-      self.controller.startScanner()
+      DispatchQueue.main.async {
+        self.controller.startScanner()
+      }
     }))
-    self.controller.showAlert(alert)
+    DispatchQueue.main.async {
+      self.controller.showAlert(alert)
+    }
+    
   }
 }

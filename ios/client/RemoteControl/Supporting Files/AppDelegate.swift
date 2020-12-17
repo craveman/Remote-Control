@@ -9,6 +9,7 @@
 import UIKit
 import BackgroundTasks
 import class Combine.AnyCancellable
+import struct Network.NWPath
 
 
 fileprivate func log(_ items: Any...) {
@@ -22,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   var window: UIWindow?
   var app: UIApplication?
+  private var networkHandler: NetworkReachability?
   private var wasInvalidated = false
   private var hasRegisteredBgTask = false
   private var pingMissed = false
@@ -33,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application (_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     self.app = application
+    setNetworkEventsListerers()
     setEventsAndTimers()
     //    TODO: if needed; N.B.! add task id to Info.plist
     //    registerBgTask()
@@ -57,11 +60,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     tempoparyDisconnect()
     startShedulledUpdates()
+//    showPreview()
+  }
+  
+  private func showPreview() -> Void {
+    // todo: load image
+    let blanckViewController = UIViewController()
+    let img: UIImage? = nil // UIImage(named: "AppIcon")
+    blanckViewController.view.backgroundColor = img != nil ? UIColor(patternImage: img!) : .blue
+    blanckViewController.modalPresentationStyle = .fullScreen
+    
+    self.window?.rootViewController?.present(blanckViewController, animated: false, completion: nil)
+  }
+  
+  private func hidePreview() {
+    self.window?.rootViewController?.dismiss(animated: false, completion: nil)
   }
   
   func applicationWillEnterForeground (_ application: UIApplication) {
     
     log("applicationWillEnterForeground")
+//    hidePreview()
     stopShedulledUpdates()
     reconnect()
     
@@ -110,7 +129,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   private func setEventsAndTimers() {
     log("setEventsAndTimers")
-    setNetworkEventsListerers()
     setSmEventsListerers()
   }
   
@@ -265,14 +283,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   private func setNetworkEventsListerers() {
-    let networkHandler = NetworkReachability(withHandler: {
-      if ($0.status != .satisfied) {
+    if let oldHandler = self.networkHandler {
+      oldHandler.stop()
+      self.networkHandler = nil
+    }
+    
+    let handler: ((NWPath) -> Void)? = { path in
+      if (path.status != .satisfied) {
         log("NetworkReachability is not satisfied")
+//        rs.connection.disconnect(temporary: true)
       } else {
         log("NetworkReachability - OK")
+//        DispatchQueue.global(qos: .background).async {
+//          checkLanPermission()
+//        }
+//        self.reconnect()
       }
-    })
-    networkHandler.start()
+    }
+    self.networkHandler = NetworkReachability(withHandler: handler)
+    self.networkHandler?.start()
   }
   
   private func registerBgTask() {

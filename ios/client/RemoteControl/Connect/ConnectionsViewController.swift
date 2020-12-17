@@ -41,6 +41,8 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
     }
     
     super.viewDidAppear(animated)
+    self.view.setNeedsLayout()
+    self.view.setNeedsUpdateConstraints()
   }
 
   private func getScanner () -> ConnectionControllerProtocol? {
@@ -110,11 +112,12 @@ class ConnectionsViewController: UIViewController, UIAdaptivePresentationControl
       }))
       
       self.alert = alert
+      self.alert?.view.layoutIfNeeded()
       return;
     }
     
     self.alert?.message = bodyString
-    
+    self.alert?.view.layoutIfNeeded()
   }
 
   func jumpToInspiration () {

@@ -17,14 +17,13 @@ fileprivate func log(_ items: Any...) {
 fileprivate let WAIT_TIMEOUT = 9.0
 fileprivate let NOTIFY_TIMEOUT = 2.5
 
-
 class LanLookupConnectionViewController: UIViewController, ConnectionControllerProtocol {
   
   private var netWatcher: NetworkReachability? = nil
   
-  private var autoConnect = true {
+  private var autoConnect = false {
     didSet {
-      autoConnectSwitch.isOn = autoConnect
+//      autoConnectSwitch.isOn = autoConnect
     }
   }
   private var isLookupStarted = false
@@ -41,6 +40,7 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   }
   private var reader: LanConfigReader = LanConfigReader()
   private var configSub: AnyCancellable?
+  private var optionsSub: AnyCancellable?
   @IBOutlet weak var connectionProgressBar: UIProgressView!
   
   
@@ -50,13 +50,15 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   }
   @IBOutlet weak var autoConnectSwitch: UISwitch!
   
-  @IBOutlet weak var serverFoundLabel: UILabel!
+  @IBOutlet weak var serversFoundSubView: UIView!
   
   @IBOutlet weak var connectionButton: UIButton!
   
+  @IBOutlet weak var autoConnectSwitchLabel: UIBarButtonItem!
+  
   @IBAction func userAsksToConnect(_ sender: UIButton) {
-    guard let config = reader.config else {
-      print("userAsksToConnect: Emty config found")
+    guard let config = reader.primaryConfig else {
+      print("userAsksToConnect: Empty config found")
       return
     }
     applyConfig(config)
@@ -71,6 +73,9 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   @IBAction func skipConnectAction(_ sender: UIBarButtonItem) {
     log("Skip")
+    if let next = reader.primaryConfig {
+      applyConfig(next)
+    }
     doConnectionCompletion(stopScan: !autoConnect)
   }
   
@@ -92,8 +97,8 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   var isOnWiFiLookup: Bool = false {
     didSet {
       print("isOnWiFiLookup didSet \(isOnWiFiLookup)")
-//      failedToConnectLabel.text = isOnWiFiLookup ? LanConnectionFails.NOT_FOUND : LanConnectionFails.NOT_VALID
-//      failedToConnectLabel.setNeedsDisplay()
+      //      failedToConnectLabel.text = isOnWiFiLookup ? LanConnectionFails.NOT_FOUND : LanConnectionFails.NOT_VALID
+      //      failedToConnectLabel.setNeedsDisplay()
     }
   }
   
@@ -113,8 +118,8 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   func toggleFailedCase(_ on: Bool) -> Void {
     self.failedToConnectLabel.isHidden = !on
-//    self.goToSettingsButton.isHidden = !on
-    self.searchLabel.isHidden = true
+    //    self.goToSettingsButton.isHidden = !on
+//    self.searchLabel.isHidden = true
   }
   
   func setWaitTimeout() {
@@ -125,15 +130,18 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   }
   
   override func viewDidAppear (_ animated: Bool) {
-    // todo:
     self.netWatcher?.start()
-    serverFoundLabel.isHidden = true
+    serversFoundSubView.isHidden = false
     connectionButton.isHidden = true
     autoConnectSwitch.isOn = autoConnect
+    autoConnectSwitch.isHidden = true
+    autoConnectSwitchLabel.isEnabled = false
+    autoConnectSwitchLabel.tintColor = UIColor.clear
     toggleFailedCase(false)
     log("did appear")
     super.viewDidAppear(animated)
     setConfigSubscription()
+    setOptionsSubscription()
   }
   
   override func viewWillDisappear (_ animated: Bool) {
@@ -141,14 +149,17 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
     alert?.dismiss(animated: false, completion: {
       log("alert dismissed")
     })
-    configSub?.cancel();
-    waitConnectTimer?.invalidate();
+    
     super.viewWillDisappear(animated)
   }
   
   override func viewDidDisappear (_ animated: Bool) {
     super.viewDidDisappear(animated)
     toggleFailedCase(false)
+    configSub?.cancel();
+    optionsSub?.cancel();
+    waitConnectTimer?.invalidate();
+    resetOptionsList()
     DispatchQueue.main.async {
       self.stopScanner()
     }
@@ -157,15 +168,23 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   
   override func viewDidLoad () {
     super.viewDidLoad()
-    
+    registerSelector()
     initNetWatcher()
+  }
+  private func registerSelector() {
+    
+    guard let selector = self.serversFoundSubView.subviews[0].next as? LanOptionsSelector else {
+      return
+    }
+    
+    selector.onOptionSelected(self.onOptionSelected)
   }
   
   private func initNetWatcher() {
     let lanPathUpdateHandler: ((NWPath) -> Void) = {path in
       DispatchQueue.main.async {
-        log("Asking permitions")
-        checkLanPermission()
+//        log("Asking permitions")
+//        checkLanPermission()
         
         guard let watcher = self.netWatcher else {
           self.toggleLanConnetionState(online: false)
@@ -180,8 +199,8 @@ class LanLookupConnectionViewController: UIViewController, ConnectionControllerP
   }
   
   private func toggleLanConnetionState(online: Bool) -> Void {
-      log("toggleLanConnetionState online: \(online)")
-      isOnWiFiLookup = online
+    log("toggleLanConnetionState online: \(online)")
+    isOnWiFiLookup = online
   }
   
   private var successAction: () -> Void = {
@@ -197,23 +216,28 @@ extension LanLookupConnectionViewController {
   }
   
   func doConnectionCompletion(stopScan: Bool = true) {
-    log ("doConnectionCompletion")
-    if stopScan {
-      stopScanner()
+    DispatchQueue.main.async {
+      log ("doConnectionCompletion")
+      if stopScan {
+        self.stopScanner()
+      }
+      self.successAction()
+      withDelay({
+        self.isConnecting = false
+        self.connectionProgressBar.isHidden = true
+      })
     }
-    successAction()
-    withDelay({
-      self.isConnecting = false
-      self.connectionProgressBar.isHidden = true
-    })
+   
   }
   
   func doConnectionRejection() {
-    print("doConnectionRejection")
-    stopScanner()
-    connectionProgressBar.isHidden = true
-    isConnecting = false
-    startScanner()
+    DispatchQueue.main.async {
+      print("doConnectionRejection")
+      self.stopScanner()
+      self.connectionProgressBar.isHidden = true
+      self.isConnecting = false
+      self.startScanner()
+      }
   }
   
 }
@@ -221,16 +245,17 @@ extension LanLookupConnectionViewController {
 extension LanLookupConnectionViewController {
   
   func setConfigSubscription() -> Void {
-    configSub = reader.$config.on(change: { config in
-      log("config updated: \(String(describing: config))")
+    // todo:
+    configSub = reader.$primaryConfig.on(change: { config in
+      log("$primaryConfig updated: \(String(describing: config))")
       guard let lan = config else {
-        self.serverFoundLabel.isHidden = true
-        self.connectionButton.isHidden = true
-        log("$config.on(change nil")
+//        self.serversFoundSubView.isHidden = true
+//        self.connectionButton.isHidden = true
+        log("$$primaryConfig.on(change nil")
         return
       }
-      self.serverFoundLabel.isHidden = false
-      self.connectionButton.isHidden = false
+//      self.serversFoundSubView.isHidden = false
+//      self.connectionButton.isHidden = false
       self.toggleFailedCase(false)
       self.waitConnectTimer?.invalidate()
       guard self.autoConnect else {
@@ -241,6 +266,52 @@ extension LanLookupConnectionViewController {
     })
   }
   
+  func getConnectionOptionsList(_ opts: [LanConfigReaderOption]) -> [LanConfigReaderOption] {
+    let vacant = opts.filter({ !$0.busy })
+    let busy = opts.filter({ $0.busy })
+    var list: [LanConfigReaderOption] = []
+    list.append(contentsOf: vacant)
+    list.append(contentsOf: busy)
+    return list;
+  }
+  
+  func onOptionSelected(selection: LanConfigReaderOption) -> Void {
+    func searchSelectedTitle (_ option: LanConfigReaderOption) -> Bool {
+      if option.name == selection.name && option.address == selection.address {
+        return true
+      }
+      return false
+    }
+    guard let config = self.reader.options.first(where: searchSelectedTitle) else {
+      return
+    }
+    self.applyConfig(LanConfig(ip: config.address.ip, port: config.address.port, code: config.address.code))
+  }
+  
+  func setOptionsSubscription() -> Void {
+    
+    // todo:
+    optionsSub = reader.$options.on(change: { opts in
+      
+      guard let selector = self.serversFoundSubView.subviews[0].next as? LanOptionsSelector else {
+        return
+      }
+      if(opts.count > 0) {
+        self.waitConnectTimer?.invalidate()
+      }
+      selector.setOptions(self.getConnectionOptionsList(opts))
+      
+    })
+    
+  }
+  
+  func resetOptionsList() -> Void {
+    guard let selector = self.serversFoundSubView.subviews[0].next as? LanOptionsSelector else {
+      return
+    }
+    selector.setOptions([])
+  }
+  
   func applyConfig(_ lan: LanConfig) -> Void {
     log("applyConfig", lan)
     guard !isConnecting else {
@@ -249,9 +320,9 @@ extension LanLookupConnectionViewController {
     }
     isConnecting = true
     let connectionProcessor = ConnectionProcessor(controller: self)
-    DispatchQueue.main.async {
+    DispatchQueue.global(qos: .userInitiated).async {
       log("applyConfig: DispatchQueue.main.async")
-      let remote = RemoteAddress(ssid: "", ip: lan.ip, code: lan.code)
+      let remote = RemoteAddress(ssid: "", ip: lan.ip, port: lan.port, code: lan.code)
       connectionProcessor.connectServer(to: remote)
     }
   }
@@ -261,13 +332,11 @@ extension LanLookupConnectionViewController {
 extension LanLookupConnectionViewController {
   
   func startScanner() {
-    log("Start scanner")
+    log("Start LAN Lookup scanner")
     toggleFailedCase(false)
     spinner.startAnimating()
     reader.startReader()
-    withDelay({
-      self.searchLabel.isHidden = false;
-    }, NOTIFY_TIMEOUT)
+    searchLabel.isHidden = false
     setWaitTimeout()
     isLookupStarted = true
   }
@@ -290,10 +359,12 @@ extension LanLookupConnectionViewController {
   
   func onCloseManual(_ auto: Bool = true) -> Void {
     autoConnect = auto
-    if autoConnect, let manConfig = reader.config {
+    self.alert?.textFields?.first?.resignFirstResponder()
+    if autoConnect, let manConfig = reader.primaryConfig {
       applyConfig(manConfig)
     }
     startScanner()
+    self.view.layoutIfNeeded()
   }
   
   func showInputDialog() {
@@ -308,7 +379,7 @@ extension LanLookupConnectionViewController {
         return
       }
       
-      self.applyConfig(LanConfig(ip: ip, code: [0,0,0,0,0]))
+      self.applyConfig(LanConfig(ip: ip, port: 21074, code: [0,0,0,0,0]))
       self.onCloseManual(false)
     }
     
@@ -323,6 +394,8 @@ extension LanLookupConnectionViewController {
     // code ???
     alertController.addAction(confirmAction)
     alertController.addAction(cancelAction)
+    alertController.view.layoutIfNeeded()
+    log("showInputDialog")
     
     //finally presenting the dialog box
     self.present(alertController, animated: true, completion: nil)
@@ -332,6 +405,7 @@ extension LanLookupConnectionViewController {
   func showAlert(_ alert: UIAlertController) {
     log("showAlert", alert)
     func applyAlert() {
+      alert.view.layoutIfNeeded()
       self.present(alert, animated: true, completion: {
         self.alert = alert
       })

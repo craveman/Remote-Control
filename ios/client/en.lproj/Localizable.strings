@@ -14,6 +14,7 @@
 "Skip" = "Skip";
 "Proceed" = "Proceed";
 "disconnected" = "disconnected from device";
+"weak connection" = "weak connection with device";
 
 "Wrong authentication code." = "Wrong authentication code.";
 "Another remote control is already registered on the server." = "Another remote control is already registered on the device.";
@@ -23,7 +24,7 @@
 "Connection to the server was lost." = "Connection to the server was lost.";
 
 "Connection error" = "Connection error";
-"Can't connect to %@. %@" = "Can't connect to %@. %@";
+"Can't connect to server. %@" = "Can't connect to machine. %@";
 "Try again" = "Try again";
 "Reconnect" = "Reconnect";
 

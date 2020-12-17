@@ -57,8 +57,9 @@ public class Sm02 {
     )
     send(message: request)
 
-    if (lock.lock(whenValue: 1, timeoutSeconds: 5) == false) {
+    if (lock.lock(whenValue: 1, timeoutSeconds: 4) == false) {
       print("Sm02 - WARN: timeout condition for the lock is unsuccessful")
+      
     }
     lock.unlock()
 

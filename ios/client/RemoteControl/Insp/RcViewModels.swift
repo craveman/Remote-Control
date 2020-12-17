@@ -31,6 +31,7 @@ public enum FightPhase: Int, Decodable {
 
 class InspSettings: ObservableObject {
   @Published var isConnected: Bool = rs.connection.isAuthenticated && rs.connection.isConnected
+  @Published var isAlive: Bool = rs.connection.isAlive
   @Published var isEthernetMode: Bool = rs.competition.cyranoWorks
   @Published var fightPhase: FightPhase = .none
   @Published var tab: Int = !rs.connection.isConnected ? 2 : 1

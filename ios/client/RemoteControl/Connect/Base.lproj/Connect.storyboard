@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sQ0-z0-FbK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="sQ0-z0-FbK">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -52,6 +52,7 @@
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="g5T-YM-x00">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="qFI-ZX-fVw"/>
                                 </constraints>
@@ -84,7 +85,7 @@
                                 <rect key="frame" x="99" y="20" width="177" height="20"/>
                             </activityIndicatorView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uma-yX-2zc">
-                                <rect key="frame" x="135.5" y="200" width="104" height="30"/>
+                                <rect key="frame" x="135.5" y="535" width="104" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="5JX-US-Ngc"/>
                                 </constraints>
@@ -96,16 +97,8 @@
                                     <action selector="toSettings:" destination="nOr-SJ-XJb" eventType="touchUpInside" id="2Zb-eY-lKI"/>
                                 </connections>
                             </button>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="10" enabled="NO" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="2oV-fH-BLy">
-                                <rect key="frame" x="16" y="40" width="343" height="140"/>
-                                <string key="text">Scoring machine is not found
-Make sure your phone is connected to the scoring machine's Wi-Fi network</string>
-                                <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="18"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Searching for device" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dzn-dq-53K">
-                                <rect key="frame" x="111" y="138" width="153.5" height="21"/>
+                                <rect key="frame" x="111" y="48" width="153.5" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="JTv-lF-dwA"/>
                                 </constraints>
@@ -114,13 +107,14 @@ Make sure your phone is connected to the scoring machine's Wi-Fi network</string
                                 <nil key="highlightedColor"/>
                             </label>
                             <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mUE-ZE-aa3">
-                                <rect key="frame" x="112.5" y="556" width="150" height="2"/>
+                                <rect key="frame" x="112.5" y="611" width="150" height="2"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="2" id="Yq7-DF-O6f"/>
+                                    <constraint firstAttribute="width" constant="150" id="lVI-aC-ibM"/>
                                 </constraints>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gH5-Q2-QhX">
-                                <rect key="frame" x="150.5" y="455" width="74" height="38"/>
+                                <rect key="frame" x="150.5" y="565" width="74" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="J0X-jA-pSK"/>
                                 </constraints>
@@ -130,47 +124,57 @@ Make sure your phone is connected to the scoring machine's Wi-Fi network</string
                                     <action selector="userAsksToConnect:" destination="nOr-SJ-XJb" eventType="touchUpInside" id="DCj-bU-TgU"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Device found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mka-hq-Dpj">
-                                <rect key="frame" x="131" y="348.5" width="113" height="24.5"/>
-                                <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="21"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZIO-WJ-pUD">
+                                <rect key="frame" x="0.0" y="77" width="375" height="448"/>
+                                <connections>
+                                    <segue destination="gxF-a3-QkX" kind="embed" id="Rvb-NP-Yuk"/>
+                                </connections>
+                            </containerView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="10" enabled="NO" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="2oV-fH-BLy">
+                                <rect key="frame" x="16" y="443" width="343" height="84"/>
+                                <string key="text">Scoring machine is not found
+Make sure your phone is connected to the scoring machine's Wi-Fi network</string>
+                                <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="18"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="AoN-z9-Jph"/>
                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                         <constraints>
-                            <constraint firstItem="Mka-hq-Dpj" firstAttribute="centerX" secondItem="AoN-z9-Jph" secondAttribute="centerX" id="0F4-YW-HPg"/>
-                            <constraint firstItem="mUE-ZE-aa3" firstAttribute="top" secondItem="gH5-Q2-QhX" secondAttribute="bottom" constant="63" id="3Dt-cu-O5n"/>
+                            <constraint firstItem="mUE-ZE-aa3" firstAttribute="top" secondItem="gH5-Q2-QhX" secondAttribute="bottom" constant="8" symbolic="YES" id="3Dt-cu-O5n"/>
                             <constraint firstItem="Yuu-4A-y9K" firstAttribute="leading" secondItem="AoN-z9-Jph" secondAttribute="leading" constant="99" id="3RP-Hg-znt"/>
-                            <constraint firstItem="g5T-YM-x00" firstAttribute="top" secondItem="mUE-ZE-aa3" secondAttribute="bottom" constant="65" id="4ev-v3-cZ8"/>
+                            <constraint firstItem="g5T-YM-x00" firstAttribute="top" secondItem="mUE-ZE-aa3" secondAttribute="bottom" constant="10" id="4ev-v3-cZ8"/>
                             <constraint firstItem="uma-yX-2zc" firstAttribute="centerX" secondItem="gH5-Q2-QhX" secondAttribute="centerX" id="4kl-31-2uf"/>
-                            <constraint firstItem="2oV-fH-BLy" firstAttribute="top" secondItem="Yuu-4A-y9K" secondAttribute="bottom" id="5gc-bm-jeT"/>
-                            <constraint firstItem="uma-yX-2zc" firstAttribute="top" secondItem="2oV-fH-BLy" secondAttribute="bottom" constant="20" id="AVw-af-5YM"/>
+                            <constraint firstItem="ZIO-WJ-pUD" firstAttribute="centerX" secondItem="AoN-z9-Jph" secondAttribute="centerX" id="9f7-Ld-HPq"/>
+                            <constraint firstItem="uma-yX-2zc" firstAttribute="top" secondItem="2oV-fH-BLy" secondAttribute="bottom" constant="8" id="AVw-af-5YM"/>
                             <constraint firstItem="Yuu-4A-y9K" firstAttribute="top" secondItem="AoN-z9-Jph" secondAttribute="top" constant="20" id="EFe-YH-rkQ"/>
-                            <constraint firstItem="uma-yX-2zc" firstAttribute="top" secondItem="dzn-dq-53K" secondAttribute="bottom" constant="41" id="EJI-RB-YoM"/>
                             <constraint firstItem="Yuu-4A-y9K" firstAttribute="centerX" secondItem="dzn-dq-53K" secondAttribute="centerX" id="IIL-po-bgy"/>
+                            <constraint firstItem="AoN-z9-Jph" firstAttribute="bottom" secondItem="2oV-fH-BLy" secondAttribute="bottom" constant="140" id="NuJ-1L-Rbm"/>
+                            <constraint firstItem="AoN-z9-Jph" firstAttribute="trailing" secondItem="ZIO-WJ-pUD" secondAttribute="trailing" id="UqA-sc-Dj8"/>
                             <constraint firstItem="2oV-fH-BLy" firstAttribute="leading" secondItem="DSC-Y3-hEs" secondAttribute="leadingMargin" id="Wbt-Bh-v3U"/>
+                            <constraint firstItem="ZIO-WJ-pUD" firstAttribute="top" secondItem="dzn-dq-53K" secondAttribute="bottom" constant="8" symbolic="YES" id="XJV-Vq-qnm"/>
                             <constraint firstItem="2oV-fH-BLy" firstAttribute="trailing" secondItem="DSC-Y3-hEs" secondAttribute="trailingMargin" id="b0U-WF-d4M"/>
                             <constraint firstItem="2oV-fH-BLy" firstAttribute="centerX" secondItem="dzn-dq-53K" secondAttribute="centerX" id="be6-UL-lfp"/>
+                            <constraint firstItem="ZIO-WJ-pUD" firstAttribute="leading" secondItem="AoN-z9-Jph" secondAttribute="leading" id="gC9-w2-y4a"/>
+                            <constraint firstItem="gH5-Q2-QhX" firstAttribute="top" secondItem="ZIO-WJ-pUD" secondAttribute="bottom" constant="40" id="gTS-se-hG3"/>
                             <constraint firstItem="gH5-Q2-QhX" firstAttribute="centerX" secondItem="mUE-ZE-aa3" secondAttribute="centerX" id="gxe-jj-dyb"/>
                             <constraint firstItem="g5T-YM-x00" firstAttribute="bottom" secondItem="AoN-z9-Jph" secondAttribute="bottom" id="lMh-8c-dnh"/>
-                            <constraint firstItem="dzn-dq-53K" firstAttribute="top" secondItem="Yuu-4A-y9K" secondAttribute="bottom" constant="98" id="oX3-Qa-H6F"/>
+                            <constraint firstItem="dzn-dq-53K" firstAttribute="top" secondItem="Yuu-4A-y9K" secondAttribute="bottom" constant="8" symbolic="YES" id="oX3-Qa-H6F"/>
                             <constraint firstItem="g5T-YM-x00" firstAttribute="leading" secondItem="AoN-z9-Jph" secondAttribute="leading" id="vAf-5Y-w8l"/>
-                            <constraint firstItem="g5T-YM-x00" firstAttribute="top" secondItem="Mka-hq-Dpj" secondAttribute="bottom" constant="250" id="vWH-vh-EOo"/>
                             <constraint firstItem="dzn-dq-53K" firstAttribute="centerX" secondItem="uma-yX-2zc" secondAttribute="centerX" id="whF-bM-kYQ"/>
-                            <constraint firstItem="mUE-ZE-aa3" firstAttribute="leading" secondItem="DSC-Y3-hEs" secondAttribute="leadingMargin" constant="96.5" id="zhx-MO-4yB"/>
                             <constraint firstItem="mUE-ZE-aa3" firstAttribute="centerX" secondItem="g5T-YM-x00" secondAttribute="centerX" id="zyZ-I4-i5H"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="autoConnectSwitch" destination="2k8-Rg-7eq" id="U5B-Vh-hsl"/>
+                        <outlet property="autoConnectSwitchLabel" destination="oyx-Zq-SdD" id="Syt-XV-apd"/>
                         <outlet property="connectionButton" destination="gH5-Q2-QhX" id="vWB-cT-3ew"/>
                         <outlet property="connectionProgressBar" destination="mUE-ZE-aa3" id="ePm-6L-Wba"/>
                         <outlet property="failedToConnectLabel" destination="2oV-fH-BLy" id="89y-dn-GG5"/>
                         <outlet property="goToSettingsButton" destination="uma-yX-2zc" id="hfM-p5-yyD"/>
                         <outlet property="searchLabel" destination="dzn-dq-53K" id="yqL-I6-KeX"/>
-                        <outlet property="serverFoundLabel" destination="Mka-hq-Dpj" id="iYl-t6-Zrp"/>
+                        <outlet property="serversFoundSubView" destination="ZIO-WJ-pUD" id="2dl-ss-g3y"/>
                         <outlet property="skipButton" destination="c0I-XA-vKg" id="s8Y-7c-m86"/>
                         <outlet property="spinner" destination="Yuu-4A-y9K" id="XqM-Sb-pdZ"/>
                     </connections>
@@ -188,6 +192,55 @@ Make sure your phone is connected to the scoring machine's Wi-Fi network</string
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A59-1I-ld1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-701" y="-366"/>
+        </scene>
+        <!--Lan Options Table View Controller-->
+        <scene sceneID="ncu-gZ-TvL">
+            <objects>
+                <tableViewController id="gxF-a3-QkX" customClass="LanOptionsTableViewController" customModule="Inspiration_Point" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="91h-Cl-07B">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="448"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemGray5Color"/>
+                        <color key="separatorColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="lanOptionReuseIdentifier" id="ewl-ON-nmv">
+                                <rect key="frame" x="0.0" y="28" width="375" height="54"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ewl-ON-nmv" id="PI8-jZ-Kch">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="54"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4TY-Oz-OMg">
+                                            <rect key="frame" x="16" y="11" width="343" height="32"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="32" id="YpR-pg-RVH"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="DINAlternate-Bold" family="DIN Alternate" pointSize="20"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailingMargin" secondItem="4TY-Oz-OMg" secondAttribute="trailing" id="7b2-K2-MKJ"/>
+                                        <constraint firstItem="4TY-Oz-OMg" firstAttribute="centerY" secondItem="PI8-jZ-Kch" secondAttribute="centerY" id="ALO-ga-rcB"/>
+                                        <constraint firstItem="4TY-Oz-OMg" firstAttribute="top" secondItem="PI8-jZ-Kch" secondAttribute="topMargin" id="T2e-kf-8AD"/>
+                                        <constraint firstItem="4TY-Oz-OMg" firstAttribute="leading" secondItem="PI8-jZ-Kch" secondAttribute="leadingMargin" id="hLM-dX-R0u"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="4TY-Oz-OMg" secondAttribute="bottom" id="puT-vg-kj5"/>
+                                        <constraint firstItem="4TY-Oz-OMg" firstAttribute="centerX" secondItem="PI8-jZ-Kch" secondAttribute="centerX" id="ybP-30-HJT"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="gxF-a3-QkX" id="5i1-j9-coc"/>
+                            <outlet property="delegate" destination="gxF-a3-QkX" id="zSE-PR-sYF"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tcC-RJ-VUQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-587.20000000000005" y="398.50074962518744"/>
         </scene>
     </scenes>
     <resources>
