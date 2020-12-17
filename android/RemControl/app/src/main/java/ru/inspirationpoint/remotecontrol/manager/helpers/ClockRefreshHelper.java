@@ -2,7 +2,7 @@ package ru.inspirationpoint.remotecontrol.manager.helpers;
 
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -11,8 +11,8 @@ public class ClockRefreshHelper {
 
     private Handler h = null;
     private int pingCounter = 0;
-    private AppCompatActivity activity;
-    private TextView view;
+    private final AppCompatActivity activity;
+    private final TextView view;
 
     public ClockRefreshHelper(AppCompatActivity activity, TextView view) {
         this.activity = activity;
@@ -40,7 +40,7 @@ public class ClockRefreshHelper {
         }
     }
 
-    private Runnable callback = new Runnable() {
+    private final Runnable callback = new Runnable() {
         @Override
         public void run() {
             method();

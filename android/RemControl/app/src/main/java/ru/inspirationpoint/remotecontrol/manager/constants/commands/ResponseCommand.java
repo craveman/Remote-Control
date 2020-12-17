@@ -8,7 +8,7 @@ import static ru.inspirationpoint.remotecontrol.manager.constants.commands.Comma
 
 public class ResponseCommand extends CommonTCPCommand {
 
-    private int command;
+    private final int command;
     private int result = 1;
 
     public ResponseCommand(int command) {

@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class SetPeriodCommand extends CommonTCPCommand {
 
-    private int period;
+    private final int period;
 
     public SetPeriodCommand(int period) {
         this.period = period;

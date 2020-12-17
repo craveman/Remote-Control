@@ -1,18 +1,11 @@
 package ru.inspirationpoint.remotecontrol.ui.activity;
 
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.support.v4.util.Pair;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.core.util.Pair;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.InputType;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -52,10 +45,10 @@ public class ProfileMainActivity extends LocalAppCompatActivity
 
     private EditText mBirthdayEdit;
 
-    private ArrayList<Pair<String, String>> mClubList = new ArrayList<>();
-    private Profile mProfile = new Profile();
+    private final ArrayList<Pair<String, String>> mClubList = new ArrayList<>();
+    private final Profile mProfile = new Profile();
 
-    private String removedUserId = "";
+    private final String removedUserId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

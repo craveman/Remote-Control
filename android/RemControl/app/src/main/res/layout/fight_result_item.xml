@@ -9,35 +9,37 @@
         android:orientation="horizontal"
         android:layout_marginTop="9dp"
         android:layout_marginBottom="9dp"
-        android:weightSum="16"
+        android:weightSum="160"
         android:background="@color/colorPrimaryThemeDark">
 
         <TextView
             android:id="@+id/fight_result_time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="30"
             android:paddingLeft="4dp"
             android:text="@string/time"
             android:lines="1"
+            android:textSize="20sp"
             android:textColor="@color/white"
             android:textAlignment="viewStart" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="30"
             android:text="@string/score"
             android:id="@+id/fight_result_score"
             android:textAlignment="viewStart"
             android:lines="1"
             android:textColor="@color/white"
+            android:textSize="20sp"
             android:paddingLeft="4dp"/>
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="10"
             android:scaleType="fitCenter"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
@@ -47,11 +49,12 @@
             android:id="@+id/fight_result_action"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="6"
+            android:layout_weight="70"
             android:paddingLeft="5dp"
             android:text="@string/action"
             android:ellipsize="end"
             android:lines="1"
+            android:textSize="20sp"
             android:textColor="@color/white"
             android:textAlignment="viewStart" />
 
@@ -59,7 +62,7 @@
             android:id="@+id/fight_result_video"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="20"
             android:paddingLeft="5dp"
             android:paddingTop="-7dp"
             android:paddingBottom="-7dp"

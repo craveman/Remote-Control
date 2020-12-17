@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class SetCamTargetCommand extends CommonTCPCommand {
 
-    private int toRepeaters;
+    private final int toRepeaters;
 
     public SetCamTargetCommand(boolean toRepeaters) {
         this.toRepeaters = toRepeaters?1:0;

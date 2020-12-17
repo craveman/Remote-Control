@@ -9,10 +9,10 @@ import static ru.inspirationpoint.remotecontrol.manager.constants.commands.Comma
 
 public class AuthRequestCommand extends CommonTCPCommand {
 
-    private String code;
-    private String name;
-    private int codeLen;
-    private int nameLen;
+    private final String code;
+    private final String name;
+    private final int codeLen;
+    private final int nameLen;
 
     public AuthRequestCommand(String code, String name) {
         this.code = code;

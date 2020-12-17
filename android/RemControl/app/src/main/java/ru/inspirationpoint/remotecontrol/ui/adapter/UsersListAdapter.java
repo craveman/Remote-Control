@@ -1,7 +1,7 @@
 package ru.inspirationpoint.remotecontrol.ui.adapter;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,7 +13,7 @@ import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.Fighte
 
 public class UsersListAdapter extends RecyclerView.Adapter<UsersListAdapter.OrdersViewHolder> {
 
-    private Activity mActivity;
+    private final Activity mActivity;
     private OnItemClickListener mItemClickListener;
     private Fighter[] mUserArray;
 

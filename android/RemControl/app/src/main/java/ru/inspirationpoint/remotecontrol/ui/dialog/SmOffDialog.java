@@ -2,8 +2,8 @@ package ru.inspirationpoint.remotecontrol.ui.dialog;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
+import androidx.appcompat.app.AlertDialog;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,9 +22,9 @@ public class SmOffDialog extends DialogFragment {
     @NotNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        android.support.v7.app.AlertDialog.Builder builder = SettingsManager.getValue(CommonConstants.IS_DARK_THEME, false) ?
-                new android.support.v7.app.AlertDialog.Builder(getActivity(), R.style.AppThemeDark_AlertDialogTheme) :
-                new android.support.v7.app.AlertDialog.Builder(getActivity());
+        androidx.appcompat.app.AlertDialog.Builder builder = SettingsManager.getValue(CommonConstants.IS_DARK_THEME, false) ?
+                new androidx.appcompat.app.AlertDialog.Builder(getActivity(), R.style.AppThemeDark_AlertDialogTheme) :
+                new androidx.appcompat.app.AlertDialog.Builder(getActivity());
 
         smDialog = builder.setTitle(getResources().getString(R.string.warning))
                 .setMessage(getResources().getString(R.string.sm_off))

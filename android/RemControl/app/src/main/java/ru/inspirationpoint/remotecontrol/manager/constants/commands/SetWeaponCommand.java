@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class SetWeaponCommand extends CommonTCPCommand {
 
-    private int weapon;
+    private final int weapon;
 
     public SetWeaponCommand(int weapon) {
         this.weapon = weapon;

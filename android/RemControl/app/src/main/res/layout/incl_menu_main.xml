@@ -1,0 +1,1528 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:keepScreenOn="true">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM" />
+        <import type="android.view.View" alias="v"/>
+        <import type="ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.CyranoState" alias="cyranoState"/>
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/piste_name"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/gray_back">
+
+        <TextView
+            android:id="@+id/tv_piste"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.TextMain"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="@{viewModel.pisteName}"
+            android:textAlignment="center"
+            android:letterSpacing="0.2"
+            android:textColor="@color/textNew"
+            android:textSize="24sp"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/backLay"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/menu_back_btn"
+        android:onClick="@{() -> viewModel.onCloseBtn()}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/piste_name">
+
+        <TextView
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.TextMain"
+            android:layout_marginStart="20dp"
+            android:text="@string/to_fight"
+            android:textAlignment="center"
+            android:letterSpacing="0.2"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/arrow_back"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/arrow_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="40dp"
+            android:src="@drawable/strelka"
+            app:layout_constraintBottom_toTopOf="@+id/view14"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <View
+            android:id="@+id/view14"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <View
+        android:id="@+id/line_left"
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        app:layout_constraintStart_toStartOf="parent" />
+    <View
+        android:id="@+id/line_right"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/main_menu_scroll"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backLay">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/resetLayoutPress"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:visibility="@{viewModel.cyranoState == cyranoState.Off ? v.VISIBLE : v.GONE}"
+                android:onClick="@{() -> viewModel.onMenuDeviceReset()}"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp">
+
+
+                <ImageView
+                    android:id="@+id/icon_parent1"
+                    android:layout_width="40dp"
+                    android:scaleType="centerCrop"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/reset"
+                    tools:ignore="ContentDescription"/>
+
+                <TextView
+                    android:id="@+id/resetButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:letterSpacing="0.2"
+                    android:text="@string/reset"
+                    style="@style/AppTheme.TextMain"
+                    android:textColor="@color/textNew"
+                    android:textSize="20sp"
+                    android:textAllCaps="true"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_parent1"
+                    app:layout_constraintStart_toEndOf="@id/icon_parent1"
+                    app:layout_constraintTop_toTopOf="@id/icon_parent1" />
+
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/resetLay"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/menu_subitem_background"
+                android:onClick="@{() -> viewModel.reset()}"
+                android:visibility="@{viewModel.menuState == viewModel.MENU_MODE_RESET ? v.VISIBLE : v.GONE}">
+
+                <TextView
+                    style="@style/AppTheme.TextMain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/menu_subitem_background"
+                    android:letterSpacing="0.2"
+                    android:text="@string/confirm"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/black"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fightLayoutPress"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:visibility="@{viewModel.cyranoState == cyranoState.Off ? v.GONE : v.VISIBLE}"
+                android:onClick="@{() -> viewModel.onMenuCyrano()}"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp">
+
+
+                <ImageView
+                    android:id="@+id/icon_parent0"
+                    android:layout_width="40dp"
+                    android:scaleType="centerCrop"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="40dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:src="@drawable/reset"
+                    tools:ignore="ContentDescription"/>
+
+                <TextView
+                    android:id="@+id/fightButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:letterSpacing="0.2"
+                    android:text="@string/fight"
+                    style="@style/AppTheme.TextMain"
+                    android:textColor="@color/textNew"
+                    android:textSize="20sp"
+                    android:textAllCaps="true"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_parent0"
+                    app:layout_constraintStart_toEndOf="@id/icon_parent0"
+                    app:layout_constraintTop_toTopOf="@id/icon_parent0" />
+
+                <View
+                    android:id="@+id/view0"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/fightLay"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp"
+                android:background="@color/menu_subitem_background"
+                android:visibility="@{viewModel.menuState == viewModel.MENU_MODE_CYRANO ? v.VISIBLE : v.GONE}">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/sendLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:background="@color/menu_subitem_background"
+                    android:onClick="@{() -> viewModel.onFightEndStart()}"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        style="@style/AppTheme.TextMain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.2"
+                        android:text="@string/send"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/white"
+                    app:layout_constraintTop_toBottomOf="@id/sendLay"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/acceptLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:background="@color/menu_subitem_background"
+                    android:onClick="@{() -> viewModel.fightApplyOk()}"
+                    app:layout_constraintTop_toBottomOf="@id/sendLay">
+
+                    <TextView
+                        style="@style/AppTheme.TextMain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.2"
+                        android:text="@string/fa_accept"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@id/acceptLay" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/nextLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:background="@color/menu_subitem_background"
+                    android:onClick="@{() -> viewModel.fightNext()}"
+                    app:layout_constraintTop_toBottomOf="@id/acceptLay">
+
+                    <TextView
+                        style="@style/AppTheme.TextMain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.2"
+                        android:text="@string/fa_next"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@id/nextLay"
+                    />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/prevLay"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:background="@color/menu_subitem_background"
+                    android:onClick="@{() -> viewModel.fightPrev()}"
+                    app:layout_constraintTop_toBottomOf="@id/nextLay">
+
+                    <TextView
+                        style="@style/AppTheme.TextMain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="0.2"
+                        android:text="@string/prev"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/namesLayoutPress"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp"
+                android:onClick="@{() -> viewModel.onMenuNames()}"
+                >
+
+                <ImageView
+                    android:id="@+id/icon_parent9"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/names"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"/>
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/names"
+                    android:letterSpacing="0.2"
+                    style="@style/AppTheme.TextMain"
+                    android:textColor="@color/textNew"
+                    android:textSize="20sp"
+                    android:textAllCaps="true"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_parent9"
+                    app:layout_constraintStart_toEndOf="@id/icon_parent9"
+                    app:layout_constraintTop_toTopOf="@id/icon_parent9" />
+
+                <View
+                    android:id="@+id/view9"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/namesLay"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:background="@color/menu_subitem_background"
+                android:orientation="vertical"
+                android:visibility="@{viewModel.menuState == viewModel.MENU_MODE_NAMES ? v.VISIBLE : v.GONE}">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/firstFighterLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/left"
+                        android:layout_marginStart="30dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/firstFighter"
+                        style="@style/AppTheme.TextMain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autoLink="all"
+                        android:letterSpacing="0.2"
+                        android:linksClickable="false"
+                        android:selectAllOnFocus="false"
+                        android:text="@string/left_fighter_hint"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/secondFighterLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/firstFighterLayout">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/right"
+                        android:layout_marginEnd="30dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/secondFighter"
+                        style="@style/AppTheme.TextMain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autoLink="all"
+                        android:linksClickable="false"
+                        android:selectAllOnFocus="false"
+                        android:text="@string/right_fighter_hint"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/changeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:onClick="@{() -> viewModel.onSwapBtn()}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/secondFighterLayout">
+
+                    <ImageView
+                        android:id="@+id/changeFighter"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/rotate"
+                        android:onClick="@{() -> viewModel.onSwapBtn()}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/black"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/pauseLayoutPress"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp"
+                android:onClick="@{() -> viewModel.onMenuPause()}"
+                >
+
+                <ImageView
+                    android:id="@+id/icon_parent4"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/pause"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"/>
+
+                <TextView
+                    android:id="@+id/pauseButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:letterSpacing="0.2"
+                    style="@style/AppTheme.TextMain"
+                    android:textColor="@color/textNew"
+                    android:textSize="20sp"
+                    android:textAllCaps="true"
+                    android:text="@string/pause"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_parent4"
+                    app:layout_constraintStart_toEndOf="@id/icon_parent4"
+                    app:layout_constraintTop_toTopOf="@id/icon_parent4" />
+
+                <View
+                    android:id="@+id/view4"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/pauseConfirmLay"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:onClick="@{() -> viewModel.performPause()}"
+                android:visibility="@{viewModel.menuState == viewModel.MENU_MODE_PAUSE ? v.VISIBLE : v.GONE}"
+                android:background="@color/menu_subitem_background">
+
+                <TextView
+                    android:id="@+id/buttonOneMinutePause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/confirm"
+                    android:letterSpacing="0.2"
+                    style="@style/AppTheme.TextMain"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textAllCaps="true"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+<!--                <View-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="2dp"-->
+<!--                    android:background="@color/white"-->
+<!--                    app:layout_constraintBottom_toBottomOf="@id/buttonOneMinutePause"-->
+<!--                    app:layout_constraintTop_toTopOf="@id/medicinePause"/>-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/medicinePause"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="80dp"-->
+<!--                    android:text="@string/fa_medical_pause"-->
+<!--                    android:letterSpacing="0.2"-->
+<!--                    style="@style/AppTheme.TextMain"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="22sp"-->
+<!--                    android:textAllCaps="true"-->
+<!--                    android:padding="30dp"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/buttonOneMinutePause"/>-->
+<!--                <View-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="2dp"-->
+<!--                    android:background="@color/black"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent" />-->
+<!--                <View-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="2dp"-->
+<!--                    android:background="@color/black"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardsLayoutPress"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp"
+                android:onClick="@{() -> viewModel.onMenuCards()}"
+                >
+
+
+                <ImageView
+                    android:id="@+id/icon_parent5"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/cards"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"/>
+
+                <TextView
+                    android:id="@+id/cardsButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/action_cards"
+                    android:letterSpacing="0.2"
+                    style="@style/AppTheme.TextMain"
+                    android:textColor="@color/textNew"
+                    android:textSize="20sp"
+                    android:textAllCaps="true"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_parent5"
+                    app:layout_constraintStart_toEndOf="@id/icon_parent5"
+                    app:layout_constraintTop_toTopOf="@id/icon_parent5" />
+
+                <View
+                    android:id="@+id/view5"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cardsLay"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:background="@color/menu_subitem_background"
+                android:visibility="@{viewModel.menuState == viewModel.MENU_MODE_CARDS ? v.VISIBLE : v.GONE}">
+
+                <TextView
+                    android:id="@+id/leftCard"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginVertical="14dp"
+                    android:textColor="@color/colorPrimaryThemeDark"
+                    android:textAlignment="center"
+                    android:background="@{viewModel.leftCard == viewModel.CARD_STATE_NONE ? @drawable/p_card_yellow : @drawable/p_card_red}"
+                    android:onClick="@{() -> viewModel.onCardLeft()}"
+                    app:autoSizeMaxTextSize="100sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toTopOf="@+id/cardView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintDimensionRatio="H, 1:1"
+                    tools:ignore="ContentDescription"/>
+
+                <TextView
+                    android:id="@+id/rightCard"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="60dp"
+                    android:layout_marginVertical="14dp"
+                    android:textColor="@color/colorPrimaryThemeDark"
+                    android:background="@{viewModel.rightCard == viewModel.CARD_STATE_NONE ? @drawable/p_card_yellow : @drawable/p_card_red}"
+                    android:textAlignment="center"
+                    android:onClick="@{() -> viewModel.onCardRight()}"
+                    app:autoSizeMaxTextSize="100sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toTopOf="@+id/cardView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintDimensionRatio="H, 1:1"
+                    tools:ignore="ContentDescription"/>
+
+                <View
+                    android:id="@+id/cardView"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:layout_marginEnd="60dp"
+                    android:layout_marginVertical="14dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/leftCardP"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginVertical="14dp"
+                    android:text="P"
+                    app:autoSizeMaxTextSize="100sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform"
+                    android:textAlignment="center"
+                    android:onClick="@{() -> viewModel.onPCardLeft()}"
+                    android:background="@{viewModel.leftPCard == viewModel.CARD_STATE_NONE ? @drawable/p_card_yellow : @drawable/p_card_red}"
+                    android:visibility="@{viewModel.weapon == viewModel.WEAPON_SABER ? v.GONE : v.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView"
+                    app:layout_constraintDimensionRatio="H, 1:1"
+                    tools:ignore="ContentDescription"/>
+
+                <TextView
+                    android:id="@+id/rightCardP"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="60dp"
+                    android:layout_marginVertical="14dp"
+                    android:text="P"
+                    app:autoSizeMaxTextSize="100sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform"
+                    android:textAlignment="center"
+                    android:onClick="@{() -> viewModel.onPCardRight()}"
+                    android:background="@{viewModel.rightPCard == viewModel.CARD_STATE_NONE ? @drawable/p_card_yellow : @drawable/p_card_red}"
+                    android:visibility="@{viewModel.weapon == viewModel.WEAPON_SABER ? v.GONE : v.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView"
+                    app:layout_constraintDimensionRatio="H, 1:1"
+                    tools:ignore="ContentDescription"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/priorityLayoutPress"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp"
+                android:onClick="@{() -> viewModel.onMenuPriority()}"
+                >
+
+
+                <ImageView
+                    android:id="@+id/icon_parent6"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/priority"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"/>
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/priority_title"
+                    android:letterSpacing="0.2"
+                    style="@style/AppTheme.TextMain"
+                    android:textColor="@color/textNew"
+                    android:textSize="20sp"
+                    android:textAllCaps="true"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_parent6"
+                    app:layout_constraintStart_toEndOf="@id/icon_parent6"
+                    app:layout_constraintTop_toTopOf="@id/icon_parent6" />
+
+                <View
+                    android:id="@+id/view6"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/priorityLay"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:onClick="@{() -> viewModel.onPriority()}"
+                android:background="@color/menu_subitem_background"
+                android:visibility="@{viewModel.menuState == viewModel.MENU_MODE_PRIORITY ? v.VISIBLE : v.GONE}">
+
+                <TextView
+                    android:id="@+id/prioritetButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/confirm"
+                    android:letterSpacing="0.2"
+                    style="@style/AppTheme.TextMain"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textAllCaps="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/periodLayoutPress"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp"
+                android:onClick="@{() -> viewModel.onMenuPeriod()}"
+                >
+
+                <ImageView
+                    android:id="@+id/icon_parent11"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/period"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"/>
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/action_period"
+                    android:letterSpacing="0.2"
+                    style="@style/AppTheme.TextMain"
+                    android:textColor="@color/textNew"
+                    android:textSize="20sp"
+                    android:textAllCaps="true"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_parent11"
+                    app:layout_constraintStart_toEndOf="@id/icon_parent11"
+                    app:layout_constraintTop_toTopOf="@id/icon_parent11" />
+
+                <View
+                    android:id="@+id/view11"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/periodLay"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:background="@color/menu_subitem_background"
+                android:visibility="@{viewModel.menuState == viewModel.MENU_MODE_PERIOD ? v.VISIBLE : v.GONE}">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/next_period_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:onClick="@{() -> viewModel.onPeriodNext()}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/next_period_text"
+                        style="@style/AppTheme.TextMain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:autoLink="all"
+                        android:linksClickable="false"
+                        android:selectAllOnFocus="false"
+                        android:text="@string/fa_next"
+                        android:letterSpacing="0.2"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/period_picker"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/next_period_btn">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <com.shawnlin.numberpicker.NumberPicker
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/menu_subitem_background"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        app:np_max="99"
+                        app:np_min="1"
+                        app:np_value="@={viewModel.period}"
+                        app:np_textColor="@color/white"
+                        app:np_dividerColor="@color/white"
+                        app:np_selectedTextColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/protocolLayoutPress"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp"
+                android:onClick="@{() -> viewModel.onMenuProtocol()}"
+                >
+
+                <ImageView
+                    android:id="@+id/icon_parent7"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/protocol"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"/>
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/protocol"
+                    android:letterSpacing="0.2"
+                    style="@style/AppTheme.TextMain"
+                    android:textColor="@color/textNew"
+                    android:textSize="20sp"
+                    android:textAllCaps="true"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_parent7"
+                    app:layout_constraintStart_toEndOf="@id/icon_parent7"
+                    app:layout_constraintTop_toTopOf="@id/icon_parent7" />
+
+                <View
+                    android:id="@+id/view7"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/protocolLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
+                android:visibility="@{viewModel.menuState == viewModel.MENU_MODE_PROTOCOL ? v.VISIBLE : v.GONE}">
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/scoreLayoutPress"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp"
+                android:onClick="@{() -> viewModel.onMenuScore()}"
+                >
+
+                <ImageView
+                    android:id="@+id/icon_parent8"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/score"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"/>
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/score"
+                    android:letterSpacing="0.2"
+                    style="@style/AppTheme.TextMain"
+                    android:textColor="@color/textNew"
+                    android:textSize="20sp"
+                    android:textAllCaps="true"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_parent8"
+                    app:layout_constraintStart_toEndOf="@id/icon_parent8"
+                    app:layout_constraintTop_toTopOf="@id/icon_parent8" />
+
+                <View
+                    android:id="@+id/view8"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/scoreLay"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:background="@color/menu_subitem_background"
+                android:orientation="horizontal"
+                android:visibility="@{viewModel.menuState == viewModel.MENU_MODE_SCORE ? v.VISIBLE : v.GONE}">
+
+                <com.shawnlin.numberpicker.NumberPicker
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/np_score_left"
+                    app:np_min="0"
+                    app:np_max="99"
+                    app:np_value="@={viewModel.leftScore}"
+                    app:np_textColor="@color/white"
+                    app:np_dividerColor="@color/white"
+                    app:np_selectedTextColor="@color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/np_score_right"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <com.shawnlin.numberpicker.NumberPicker
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/np_score_right"
+                    app:np_min="0"
+                    app:np_max="59"
+                    app:np_value="@={viewModel.rightScore}"
+                    app:np_textColor="@color/white"
+                    app:np_dividerColor="@color/white"
+                    app:np_selectedTextColor="@color/white"
+                    app:layout_constraintStart_toEndOf="@+id/np_score_left"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/black"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/timerLayoutPress"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp"
+                android:onClick="@{() -> viewModel.onMenuTimer()}"
+                >
+
+                <ImageView
+                    android:id="@+id/icon_parent10"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/timer"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"/>
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:text="@string/timer"
+                    style="@style/AppTheme.TextMain"
+                    android:letterSpacing="0.2"
+                    android:textColor="@color/textNew"
+                    android:textSize="20sp"
+                    android:textAllCaps="true"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_parent10"
+                    app:layout_constraintStart_toEndOf="@id/icon_parent10"
+                    app:layout_constraintTop_toTopOf="@id/icon_parent10" />
+
+                <View
+                    android:id="@+id/view10"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/timerLay"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@color/menu_subitem_background"
+                android:orientation="horizontal"
+                android:visibility="@{viewModel.menuState == viewModel.MENU_MODE_TIMER ? v.VISIBLE : v.GONE}">
+
+                <com.shawnlin.numberpicker.NumberPicker
+                    android:id="@+id/picker_min"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/menu_subitem_background"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    app:np_max="59"
+                    app:np_min="0"
+                    app:np_value="@={viewModel.timerMin}"
+                    app:np_textColor="@color/white"
+                    app:np_dividerColor="@color/white"
+                    app:np_selectedTextColor="@color/white"
+                    app:layout_constraintEnd_toStartOf="@+id/picker_sec"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <com.shawnlin.numberpicker.NumberPicker
+                    android:id="@+id/picker_sec"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/menu_subitem_background"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    app:np_max="59"
+                    app:np_min="0"
+                    app:np_value="@={viewModel.timerSec}"
+                    app:np_textColor="@color/white"
+                    app:np_dividerColor="@color/white"
+                    app:np_selectedTextColor="@color/white"
+                    app:layout_constraintStart_toEndOf="@+id/picker_min"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/weaponLayoutPress"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp"
+                android:onClick="@{() -> viewModel.onMenuWeaponType()}"
+                >
+
+
+                <ImageView
+                    android:id="@+id/icon_parent"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/weapon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"/>
+
+                <TextView
+                    android:id="@+id/weaponButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:letterSpacing="0.2"
+                    android:text="@string/fa_weapon_type"
+                    style="@style/AppTheme.TextMain"
+                    android:textColor="@color/textNew"
+                    android:textSize="20sp"
+                    android:textAllCaps="true"
+                    app:layout_constraintBottom_toBottomOf="@id/icon_parent"
+                    app:layout_constraintStart_toEndOf="@id/icon_parent"
+                    app:layout_constraintTop_toTopOf="@id/icon_parent" />
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/weaponLay"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:background="@color/menu_subitem_background"
+                android:visibility="@{viewModel.menuState == viewModel.MENU_MODE_WEAPON ? v.VISIBLE : v.GONE}">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:id="@+id/btn_foil"
+                    android:onClick="@{() -> viewModel.onWeaponChanged(1)}"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/buttonEpee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/type_epee"
+                        style="@style/AppTheme.TextMain"
+                        android:letterSpacing="0.2"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginBottom="40dp"
+                        android:textAlignment="center"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:id="@+id/btn_epee"
+                android:orientation="vertical"
+                android:onClick="@{() -> viewModel.onWeaponChanged(2)}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_foil">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/type_foil"
+                    style="@style/AppTheme.TextMain"
+                    android:letterSpacing="0.2"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:id="@+id/btn_saber"
+                android:orientation="vertical"
+                android:onClick="@{() -> viewModel.onWeaponChanged(3)}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_epee">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/type_saber"
+                    style="@style/AppTheme.TextMain"
+                    android:letterSpacing="0.2"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/buttonSettingsLay"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp"
+                android:onClick="@{() -> viewModel.onSettingsBtn()}">
+                <TextView
+                    android:id="@+id/button_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings"
+                    style="@style/AppTheme.TextMain"
+                    android:textAlignment="center"
+                    android:letterSpacing="0.2"
+                    android:textColor="@color/textNew"
+                    android:textSize="24sp"
+                    android:textAllCaps="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

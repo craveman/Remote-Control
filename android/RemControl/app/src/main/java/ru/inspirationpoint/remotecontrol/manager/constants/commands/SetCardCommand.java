@@ -6,8 +6,8 @@ import java.io.IOException;
 
 public class SetCardCommand extends CommonTCPCommand {
 
-    private int fighter;
-    private int card;
+    private final int fighter;
+    private final int card;
 
     public SetCardCommand(int fighter, int card) {
         this.fighter = fighter;

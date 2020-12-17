@@ -25,7 +25,7 @@ import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.TIME
 public class FightValuesHandler implements ActionUploadCallback {
 
     private FightActionsHandler handler;
-    private CoreHandler core;
+    private final CoreHandler core;
     private int leftYPCache = 0;
     private int leftRPCache = 0;
     private int rightYPCache = 0;

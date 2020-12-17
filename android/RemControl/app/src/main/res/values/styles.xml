@@ -169,4 +169,39 @@
         <item name="android:textSize">@dimen/main_font_size</item>
         <item name="android:shape">oval</item>
     </style>
+
+
+    <style name="AppTheme.TextMain" parent="@android:style/TextAppearance">>
+        <item name="android:textColor">@color/textNew</item>
+        <item name="android:letterSpacing">0.33</item>
+        <item name="android:lineSpacingExtra">36sp</item>
+        <item name="fontFamily">@font/helv_roman</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTheme.TextTitle" parent="@android:style/TextAppearance">>
+        <item name="android:textColor">@color/textNew</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:lineSpacingExtra">5sp</item>
+        <item name="fontFamily">@font/helv_light</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTheme.TextField3" parent="@android:style/TextAppearance">>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:letterSpacing">0.33</item>
+        <item name="android:lineSpacingExtra">36sp</item>
+        <item name="android:textSize">23sp</item>
+        <item name="fontFamily">@font/geometria_normal</item>
+        <item name="android:textStyle">bold</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="AppTheme.Picker" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">40dp</item>
+    </style>
+
 </resources>

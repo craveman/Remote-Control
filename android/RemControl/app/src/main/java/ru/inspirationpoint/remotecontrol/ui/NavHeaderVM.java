@@ -1,6 +1,6 @@
 package ru.inspirationpoint.remotecontrol.ui;
 
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 
 public class NavHeaderVM {
 

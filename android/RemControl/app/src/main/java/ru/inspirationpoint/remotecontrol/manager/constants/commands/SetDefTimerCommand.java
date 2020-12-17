@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class SetDefTimerCommand extends CommonTCPCommand {
 
-    private long time;
+    private final long time;
 
     public SetDefTimerCommand(long time) {
         this.time = time;

@@ -7,7 +7,7 @@ public class NetworkException extends Exception {
 
     private static final long serialVersionUID = -4276026795305272738L;
     private static final String errorPostfix = "_server_error";
-    private String mErrorId;
+    private final String mErrorId;
 
     public NetworkException(Context context, String errorId, String message) {
         super(getLocalErrorMessage(context, errorId, message));

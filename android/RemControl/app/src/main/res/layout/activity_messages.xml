@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:inflatedId="@+id/inflate" />
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/small_margin"
@@ -21,13 +21,13 @@
         android:layout_marginStart="@dimen/large_margin"
         android:layout_marginTop="@dimen/large_margin">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/message_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/text"
             android:textSize="@dimen/main_font_size" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -44,18 +44,18 @@
             android:textSize="@dimen/large_font_size" />
     </RelativeLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/messages_swipe"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="@dimen/small_margin"
         android:layout_weight="9">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/messages_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

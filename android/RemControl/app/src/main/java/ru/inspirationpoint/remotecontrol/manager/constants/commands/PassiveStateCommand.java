@@ -6,9 +6,9 @@ import java.io.IOException;
 
 public class PassiveStateCommand extends CommonTCPCommand {
 
-    private int show;
-    private int lock;
-    private int defTime;
+    private final int show;
+    private final int lock;
+    private final int defTime;
 
     public PassiveStateCommand(boolean isShown, boolean isLocked, int defTime) {
         show = isShown?1:0;

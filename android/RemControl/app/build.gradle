@@ -11,8 +11,8 @@ android {
         applicationId "ru.inspirationpoint.inspirationrc"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 126
-        versionName "1.37060"
+        versionCode 127
+        versionName "1.37064"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -58,17 +58,15 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:support-vector-drawable:27.1.1'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'com.shawnlin:number-picker:2.4.4'
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.yalantis:contextmenu:1.0.7'
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.github.stfalcon:androidmvvmhelper:0.4'
     implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'commons-net:commons-net:3.6'

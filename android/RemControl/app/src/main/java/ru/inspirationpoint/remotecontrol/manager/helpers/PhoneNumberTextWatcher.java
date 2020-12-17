@@ -12,7 +12,7 @@ public class PhoneNumberTextWatcher implements TextWatcher {
     // stack(onTextChanged)
     private int mLastStartLocation;
     private String mLastBeforeText;
-    private WeakReference<EditText> mWeakEditText;
+    private final WeakReference<EditText> mWeakEditText;
 
     public PhoneNumberTextWatcher(WeakReference<EditText> weakEditText) {
         this.mWeakEditText = weakEditText;

@@ -7,7 +7,7 @@ public class SMMainAliveHandler {
 
     private static final long DELAY = 1000L;
     private Handler h = null;
-    private CoreHandler core;
+    private final CoreHandler core;
     private int remain = 6;
 
     public SMMainAliveHandler(CoreHandler core) {
@@ -40,7 +40,7 @@ public class SMMainAliveHandler {
         }
     }
 
-    private Runnable callback = new Runnable() {
+    private final Runnable callback = new Runnable() {
         @Override
         public void run() {
             method();

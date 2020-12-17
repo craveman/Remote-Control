@@ -2,11 +2,9 @@ package ru.inspirationpoint.remotecontrol.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.InputType;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,6 @@ import android.widget.TextView;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +34,7 @@ public class UserDispFightActivity extends LocalAppCompatActivity implements Cal
     private RecyclerView.LayoutManager mTrainingLayoutManager;
     private TextView mListIsEmptyTextView;
     private ProgressBar mFilterProgressBar;
-    private ArrayList<Training> list = new ArrayList<>();
+    private final ArrayList<Training> list = new ArrayList<>();
     private ArrayList<Training> tempList = new ArrayList<>();
     private EditText filterView;
     private String userId;

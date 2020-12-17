@@ -9,9 +9,9 @@ import java.nio.ByteBuffer;
 
 public class TCPHeader {
 
-    private int len;
-    private byte cmd;
-    private int status;
+    private final int len;
+    private final byte cmd;
+    private final int status;
 
     public TCPHeader(int len, byte cmd, int status) {
         this.len = len;

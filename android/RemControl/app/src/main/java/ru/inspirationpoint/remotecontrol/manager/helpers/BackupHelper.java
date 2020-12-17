@@ -16,7 +16,7 @@ import ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPHelper;
 
 public class BackupHelper {
 
-    private Context context;
+    private final Context context;
 
     public BackupHelper(Context context) {
         this.context = context;

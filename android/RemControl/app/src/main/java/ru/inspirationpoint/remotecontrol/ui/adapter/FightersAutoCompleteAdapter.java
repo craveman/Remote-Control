@@ -25,7 +25,7 @@ public class FightersAutoCompleteAdapter extends BaseAdapter implements Filterab
     private final Context mContext;
     private List<ListUser> mResults;
     private List<ListUser> mExcludeUserList;
-    private boolean mIncludeMe;
+    private final boolean mIncludeMe;
 
     public FightersAutoCompleteAdapter(Context context, boolean includeMe) {
         mContext = context;

@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.view.View;
 
 import com.stfalcon.androidmvvmhelper.mvvm.activities.ActivityViewModel;
@@ -16,11 +16,8 @@ import ru.inspirationpoint.remotecontrol.R;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
 import ru.inspirationpoint.remotecontrol.manager.cloudManager.CloudRequestManager;
 import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
-import ru.inspirationpoint.remotecontrol.manager.helpers.LocaleHelper;
 import ru.inspirationpoint.remotecontrol.manager.helpers.PermissionHelper;
 import ru.inspirationpoint.remotecontrol.ui.dialog.MessageDialog;
-
-import static android.app.Activity.RESULT_OK;
 
 
 public class StartActivityVM extends ActivityViewModel<StartActivity> {
@@ -29,9 +26,9 @@ public class StartActivityVM extends ActivityViewModel<StartActivity> {
 
     public static final int LOCATION_REQUEST = 22;
 
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
     private boolean mTimeIsOut = false;
-    private Runnable mProceedRunnable = new Runnable() {
+    private final Runnable mProceedRunnable = new Runnable() {
         @Override
         public void run() {
             mTimeIsOut = true;

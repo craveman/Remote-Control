@@ -7,7 +7,7 @@ import java.io.IOException;
 public class TCPHelper extends Thread {
 
     private TCPClient mTcpClient;
-    private String serverIp;
+    private final String serverIp;
     private TCPListener listener;
     private int code;
     public static final int PORT = 21074;

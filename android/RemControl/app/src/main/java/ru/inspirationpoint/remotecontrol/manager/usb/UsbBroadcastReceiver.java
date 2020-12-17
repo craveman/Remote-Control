@@ -19,7 +19,7 @@ import static android.hardware.usb.UsbManager.EXTRA_DEVICE;
 
 public class UsbBroadcastReceiver extends BroadcastReceiver {
 
-    private OnUSBEventListener listener;
+    private final OnUSBEventListener listener;
     public static final String ACTION_USB_PERMISSION =
             "ru.inspirationpoint.remotecontrol.manager.usb.USB_PERMISSION";
 

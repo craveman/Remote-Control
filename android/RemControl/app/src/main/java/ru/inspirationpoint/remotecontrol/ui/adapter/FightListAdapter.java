@@ -1,7 +1,7 @@
 package ru.inspirationpoint.remotecontrol.ui.adapter;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,7 @@ import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
 
 public class FightListAdapter extends RecyclerView.Adapter<FightListAdapter.FightViewHolder> {
 
-    private Activity mActivity;
+    private final Activity mActivity;
     private OnItemClickListener mItemClickListener;
 
     public boolean isFromName = false;

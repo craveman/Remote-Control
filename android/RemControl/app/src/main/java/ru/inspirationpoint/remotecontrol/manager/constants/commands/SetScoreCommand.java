@@ -6,8 +6,8 @@ import java.io.IOException;
 
 public class SetScoreCommand extends CommonTCPCommand {
 
-    private int fighter;
-    private int score;
+    private final int fighter;
+    private final int score;
 
     public SetScoreCommand(int fighter, int score) {
         this.fighter = fighter;

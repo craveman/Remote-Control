@@ -8,8 +8,8 @@ import java.nio.charset.StandardCharsets;
 
 public class SetNameCommand extends CommonTCPCommand {
 
-    private int person;
-    private int nameLength;
+    private final int person;
+    private final int nameLength;
     private String name;
 
     public SetNameCommand(int person, String name) {

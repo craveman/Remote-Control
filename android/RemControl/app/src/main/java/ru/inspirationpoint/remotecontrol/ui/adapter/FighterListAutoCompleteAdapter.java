@@ -23,7 +23,7 @@ public class FighterListAutoCompleteAdapter extends BaseAdapter implements Filte
     private final Context mContext;
     private List<ListUser> mResults;
     private List<ListUser> mExcludeUserList;
-    private boolean mIncludeMe;
+    private final boolean mIncludeMe;
 
     public FighterListAutoCompleteAdapter(Context context, boolean includeMe) {
         mContext = context;

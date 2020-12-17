@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/fighter_lay">
 
-        <ru.inspirationpoint.inspirationrc.rc.ui.view.FightersAutoCompleteTextView
+        <ru.inspirationpoint.remotecontrol.ui.view.FightersAutoCompleteTextView
             android:id="@+id/new_friend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

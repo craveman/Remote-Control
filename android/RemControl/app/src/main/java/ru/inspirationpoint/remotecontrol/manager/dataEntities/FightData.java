@@ -21,7 +21,7 @@ public class FightData implements Cloneable, Serializable {
     @SerializedName("mOwner")
     private String mOwner;
     @SerializedName("mActionsList")
-    private ArrayList<FightActionData> mActionsList = new ArrayList<>();
+    private final ArrayList<FightActionData> mActionsList = new ArrayList<>();
     @SerializedName("mStartTime")
     private long mStartTime;
     @SerializedName("mEndTime")

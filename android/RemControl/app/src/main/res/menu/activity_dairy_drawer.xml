@@ -10,7 +10,7 @@
     <group android:id="@+id/group_rc_inner">
         <item
             android:id="@+id/foil"
-            android:title="@string/type_rapier"
+            android:title="@string/type_foil"
             />
         <item
             android:id="@+id/epee"

@@ -23,7 +23,7 @@ public class EthernetDispHandler {
     private EthernetInfoMain infoMain = new EthernetInfoMain();
     private EthernetInfoFighter infoRight = new EthernetInfoFighter();
     private EthernetInfoFighter infoLeft = new EthernetInfoFighter();
-    private FightData ethFightData = new FightData();
+    private final FightData ethFightData = new FightData();
     private FighterData ethLeftFighter = new FighterData("", "");
     private FighterData ethRightFighter = new FighterData("", "");
 

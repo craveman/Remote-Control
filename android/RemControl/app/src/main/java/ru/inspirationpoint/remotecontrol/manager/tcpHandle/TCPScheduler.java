@@ -10,7 +10,7 @@ public class TCPScheduler {
 
     private static final long DELAY = 2000L;
     private Handler h = null;
-    private CoreHandler core;
+    private final CoreHandler core;
 
     public TCPScheduler(CoreHandler core) {
         this.core = core;
@@ -37,7 +37,7 @@ public class TCPScheduler {
         }
     }
 
-    private Runnable callback = new Runnable() {
+    private final Runnable callback = new Runnable() {
         @Override
         public void run() {
             method();

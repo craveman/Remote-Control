@@ -14,7 +14,7 @@ public class FightFinishAskHandler {
 
     private static final long DELAY = 700L;
     private Handler h = null;
-    private CoreHandler core;
+    private final CoreHandler core;
 
     public void start() {
         synchronized (this) {
@@ -48,7 +48,7 @@ public class FightFinishAskHandler {
         }
     }
 
-    private Runnable callback = new Runnable() {
+    private final Runnable callback = new Runnable() {
         @Override
         public void run() {
             synchronized (FightFinishAskHandler.this) {

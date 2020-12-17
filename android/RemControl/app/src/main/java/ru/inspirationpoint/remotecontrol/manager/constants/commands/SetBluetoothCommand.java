@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class SetBluetoothCommand extends CommonTCPCommand {
 
-    private int enabled;
+    private final int enabled;
 
     public SetBluetoothCommand(int enabled) {
         this.enabled = enabled;

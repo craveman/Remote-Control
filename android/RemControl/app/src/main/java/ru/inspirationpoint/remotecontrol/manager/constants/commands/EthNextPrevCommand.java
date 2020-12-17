@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class EthNextPrevCommand extends CommonTCPCommand {
 
-    private int mode;
+    private final int mode;
 
     public EthNextPrevCommand(int mode) {
         this.mode = mode;

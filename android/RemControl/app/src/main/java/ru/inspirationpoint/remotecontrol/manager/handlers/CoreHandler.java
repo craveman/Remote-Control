@@ -1,8 +1,8 @@
 package ru.inspirationpoint.remotecontrol.manager.handlers;
 
 import android.content.Context;
-import android.databinding.Observable;
-import android.databinding.ObservableBoolean;
+import androidx.databinding.Observable;
+import androidx.databinding.ObservableBoolean;
 import android.hardware.usb.UsbDevice;
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;
@@ -13,16 +13,20 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
+import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
 import ru.inspirationpoint.remotecontrol.manager.coreObjects.Device;
 import ru.inspirationpoint.remotecontrol.manager.helpers.BackupHelper;
+import ru.inspirationpoint.remotecontrol.manager.helpers.NsdHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.CommandHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPHelper;
 import ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPScheduler;
@@ -41,42 +45,58 @@ import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.CARD
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.CARD_STATE_RED;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.CARD_STATE_YELLOW;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SYNC_STATE_NONE;
+import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SYNC_STATE_REVEALED;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SYNC_STATE_SYNCED;
-import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SYNC_STATE_SYNCING;
 
 
 public class CoreHandler implements TCPHelper.TCPListener {
 
     private static Vibrator vibrator;
-    private Context context;
+    private final Context context;
     private AppCompatActivity activity;
-    private ArrayList<Device> connectedDevices = new ArrayList<>();
+    private final ArrayList<Device> connectedDevices = new ArrayList<>();
     private int mode;
     private CoreServerCallback serverCallback;
     private UsbConnectionHandler usbHandler;
     private TCPHelper tcpHelper;
-    private String camIp = "";
-    private String smIp = "";
+    private final String camIp = "";
+    private final String smIp = "";
     private FightValuesHandler fightHandler;
     private BackupHelper backupHelper;
 
-    private SMMainAliveHandler smMainAliveHandler;
+    private final SMMainAliveHandler smMainAliveHandler;
 
-    private TCPScheduler scheduler;
+    private final TCPScheduler scheduler;
 
     public boolean camExists = false;
 
     public ObservableBoolean isUSBMode = new ObservableBoolean(false);
     public Boolean isInRestore = false;
 
-    private NsdManager.DiscoveryListener discoveryListener;
-    private NsdManager nsdManager;
-    private boolean isDiscoveryActive = false;
+    private final NsdHelper nsdHelper;
 
     public CoreHandler(Context context, int mode) {
         this.context = context;
         this.mode = mode;
-        nsdManager = (NsdManager) context.getSystemService(Context.NSD_SERVICE);
+        nsdHelper = new NsdHelper(InspirationDayApplication.getApplication().getApplicationContext()) {
+
+            @Override
+            public void onNsdServiceResolved(NsdServiceInfo service) {
+                FightActivity activityF = (FightActivity)activity;
+                activityF.runOnUiThread(() -> {
+                    activityF.getViewModel().syncState.set(SYNC_STATE_REVEALED);
+                    activityF.getViewModel().smAdapter.addItem(service);
+                });
+            }
+
+            @Override
+            public void onNsdServiceLost(NsdServiceInfo service) {
+                FightActivity activityF = (FightActivity)activity;
+                activityF.runOnUiThread(() -> {
+                    activityF.getViewModel().smAdapter.removeItem(service);
+                });
+            }
+        };
         vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         scheduler = new TCPScheduler(this);
 //        udpHelper.setListener(new UDPHelper.BroadcastListener() {
@@ -130,9 +150,6 @@ public class CoreHandler implements TCPHelper.TCPListener {
     public void tryToConnect(String ip) {
         if (tcpHelper == null || !tcpHelper.isConnected()) {
             showInLog("CONN TRY");
-            if (tcpHelper!= null) {
-                tcpHelper.end();
-            }
                 Handler handler = new Handler(Looper.getMainLooper());
                 handler.postDelayed(() -> {
                     tcpHelper = new TCPHelper(ip);
@@ -393,96 +410,18 @@ public class CoreHandler implements TCPHelper.TCPListener {
         }
     }
 
-    public void initializeDiscoveryListener() {
+    public void initializeDiscovery() {
+        nsdHelper.initializeNsd();
 
-        NsdManager.ResolveListener resolveListener = new NsdManager.ResolveListener() {
+        nsdHelper.discoverServices();
+    }
 
-            @Override
-            public void onResolveFailed(NsdServiceInfo serviceInfo, int errorCode) {
-                // Called when the resolve fails. Use the error code to debug.
-                Log.wtf("TAG", "Resolve failed: " + errorCode);
-            }
-
-            @Override
-            public void onServiceResolved(NsdServiceInfo serviceInfo) {
-                Log.wtf("TAG", "Resolve Succeeded. " + serviceInfo);
-
-//                if (serviceInfo.getServiceName().equals(serviceName)) {
-//                    Log.wtf("TAG", "Same IP.");
-//                    return;
-//                }
-                if (serviceInfo.getAttributes().containsKey("RC")) {
-                    boolean isRCExists = new String(serviceInfo.getAttributes().get("RC"), StandardCharsets.UTF_8).contains("YES");
-                    if (!isRCExists) {
-                        tryToConnect(serviceInfo.getHost().getHostAddress());
-                    } else {
-                        ((FightActivity)activity).getViewModel().syncState.set(SYNC_STATE_NONE);
-                    }
-                }
-            }
-        };
-
-        // Instantiate a new DiscoveryListener
-        discoveryListener = new NsdManager.DiscoveryListener() {
-
-            // Called as soon as service discovery begins.
-            @Override
-            public void onDiscoveryStarted(String regType) {
-                Log.wtf("TAG", "Service discovery started");
-                isDiscoveryActive = true;
-            }
-
-            @Override
-            public void onServiceFound(NsdServiceInfo service) {
-                // A service was found! Do something with it.
-                Log.wtf("TAG", "Service discovery success" + service);
-//                if (!service.getServiceType().equals(SERVICE_TYPE)) {
-//                    // Service type is the string containing the protocol and
-//                    // transport layer for this service.
-//                    Log.wtf("TAG", "Unknown Service Type: " + service.getServiceType());
-//                } else if (service.getServiceName().equals(serviceName)) {
-//                    // The name of the service tells the user what they'd be
-//                    // connecting to. It could be "Bob's Chat App".
-//                    Log.wtf("TAG", "Same machine: " + serviceName);
-//                } else
-                if (service.getServiceName().contains("Inspiration")){
-                    nsdManager.resolveService(service, resolveListener);
-                }
-            }
-
-            @Override
-            public void onServiceLost(NsdServiceInfo service) {
-                // When the network service is no longer available.
-                // Internal bookkeeping code goes here.
-                Log.wtf("TAG", "service lost: " + service);
-            }
-
-            @Override
-            public void onDiscoveryStopped(String serviceType) {
-                Log.wtf("TAG", "Discovery stopped: " + serviceType);
-                isDiscoveryActive = false;
-            }
-
-            @Override
-            public void onStartDiscoveryFailed(String serviceType, int errorCode) {
-                Log.wtf("TAG", "Discovery failed: Error code:" + errorCode);
-                nsdManager.stopServiceDiscovery(this);
-            }
-
-            @Override
-            public void onStopDiscoveryFailed(String serviceType, int errorCode) {
-                Log.wtf("TAG", "Discovery failed: Error code:" + errorCode);
-                nsdManager.stopServiceDiscovery(this);
-            }
-        };
-        nsdManager.discoverServices(
-                "_ip_top._tcp", NsdManager.PROTOCOL_DNS_SD, discoveryListener);
+    public void initSMConnection(NsdServiceInfo service) {
+        tryToConnect(service.getHost().getHostAddress());
     }
 
     public void stopDiscovery() {
-        if (isDiscoveryActive) {
-            nsdManager.stopServiceDiscovery(discoveryListener);
-        }
+        nsdHelper.stopDiscovery();
     }
 
     public void showInLog(String text) {

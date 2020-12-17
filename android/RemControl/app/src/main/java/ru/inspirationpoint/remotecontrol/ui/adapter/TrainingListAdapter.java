@@ -1,7 +1,7 @@
 package ru.inspirationpoint.remotecontrol.ui.adapter;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +16,9 @@ import ru.inspirationpoint.remotecontrol.manager.helpers.Helper;
 
 public class TrainingListAdapter extends RecyclerView.Adapter<TrainingListAdapter.OrdersViewHolder> {
 
-    private Activity mActivity;
+    private final Activity mActivity;
     private OnItemClickListener mItemClickListener;
-    private int count;
+    private final int count;
     private Training[] mTrainingArray;
 
     public TrainingListAdapter(Activity activity, int count) {

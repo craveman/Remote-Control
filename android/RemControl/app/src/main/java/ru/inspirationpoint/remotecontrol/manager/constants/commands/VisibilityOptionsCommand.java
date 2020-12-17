@@ -6,10 +6,10 @@ import java.io.IOException;
 
 public class VisibilityOptionsCommand extends CommonTCPCommand {
 
-    private int isVideo;
-    private int isPhoto;
-    private int isPassive;
-    private int isCountry;
+    private final int isVideo;
+    private final int isPhoto;
+    private final int isPassive;
+    private final int isCountry;
 
     public VisibilityOptionsCommand(boolean isv, boolean isph, boolean isp, boolean isc) {
         isVideo = isv?1:0;

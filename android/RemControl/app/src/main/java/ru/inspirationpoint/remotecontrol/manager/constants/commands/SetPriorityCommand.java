@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class SetPriorityCommand extends CommonTCPCommand {
 
-    private int fighter;
+    private final int fighter;
 
     public SetPriorityCommand(int fighter) {
         this.fighter = fighter;

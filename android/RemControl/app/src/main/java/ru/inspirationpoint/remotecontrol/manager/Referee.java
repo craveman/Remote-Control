@@ -1,6 +1,6 @@
 package ru.inspirationpoint.remotecontrol.manager;
 
-import android.databinding.ObservableField;
+import androidx.databinding.ObservableField;
 
 import java.util.Objects;
 

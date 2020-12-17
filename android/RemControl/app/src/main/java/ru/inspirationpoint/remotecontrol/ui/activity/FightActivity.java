@@ -1,18 +1,12 @@
 package ru.inspirationpoint.remotecontrol.ui.activity;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.databinding.BindingAdapter;
+
+import androidx.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.os.PowerManager;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -24,18 +18,13 @@ import com.stfalcon.androidmvvmhelper.mvvm.activities.BindingActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import ru.inspirationpoint.remotecontrol.BR;
 import ru.inspirationpoint.remotecontrol.R;
 import ru.inspirationpoint.remotecontrol.databinding.ActivityFightBinding;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
-import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
 import ru.inspirationpoint.remotecontrol.manager.dataEntities.FightData;
-import ru.inspirationpoint.remotecontrol.manager.dataEntities.FighterData;
-import ru.inspirationpoint.remotecontrol.manager.dataEntities.FullFightInfo;
-import ru.inspirationpoint.remotecontrol.manager.helpers.LocaleHelper;
 import ru.inspirationpoint.remotecontrol.ui.dialog.ConfirmationDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.FightApplyDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.FightFinishAskDialog;
@@ -47,7 +36,6 @@ import ru.inspirationpoint.remotecontrol.ui.dialog.ReplaysDialog;
 import ru.inspirationpoint.remotecontrol.ui.dialog.WiFiPassDialog;
 
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.UNFINISHED_FIGHT;
-import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.SCREEN_MAIN;
 import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.TIMER_STATE_IN_PROGRESS;
 
 
@@ -271,24 +259,6 @@ public class FightActivity extends BindingActivity<ActivityFightBinding, FightAc
                 getViewModel().core.getBackupHelper().copyFight(getViewModel().leftName.get() + "_" +
                         getViewModel().rightName.get() + "_" +
                         new SimpleDateFormat("HH_mm", Locale.getDefault()).format(Calendar.getInstance().getTime()));
-//        DataManager.instance().saveFight(Helper.convertFightDataToInput(fightData), new DataManager.RequestListener<SaveFightResult>() {
-//            @Override
-//            public void onSuccess(SaveFightResult result) {
-//                SettingsManager.setValue(CommonConstants.LAST_FIGHT_ID, result.fight._id);
-//                Log.wtf("Fight ID", result.fight._id);
-//            }
-//
-//            @Override
-//            public void onFailed(String error, String message) {
-//                Log.wtf("ERR FIGHT UPL", error + "|" + message);
-//            }
-//
-//            @Override
-//            public void onStateChanged(boolean inProgress) {
-//            }
-//        });
-                getViewModel().fightId = new SimpleDateFormat("MM_dd_yyyy__HH_mm_ss", Locale.getDefault()).format(Calendar.getInstance().getTime());
-                SettingsManager.setValue(UNFINISHED_FIGHT, getViewModel().fightId);
                 getViewModel().reset();
                 break;
             case EXIT_MESSAGE:

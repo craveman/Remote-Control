@@ -1,25 +1,20 @@
 package ru.inspirationpoint.remotecontrol.ui.activity;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableInt;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.appcompat.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -85,18 +80,18 @@ public class NewFightActivityVM extends ActivityViewModel<NewFightActivity> impl
     private String ownerName = "";
     private SyncDialog dialog;
     private boolean accessLocationPermitted;
-    private LocationManager locationManager;
+    private final LocationManager locationManager;
     private Location location;
-    private ClockRefreshHelper clockRefreshHelper;
+    private final ClockRefreshHelper clockRefreshHelper;
 //    public CamerasAdapter adapter;
-    private MetricsHelper metricsHelper;
-    private HashSet<String> metrics = new HashSet<>();
+    private final MetricsHelper metricsHelper;
+    private final HashSet<String> metrics = new HashSet<>();
     public ObservableBoolean isReferee = new ObservableBoolean(false);
     public ObservableField<String> refereeName = new ObservableField<>();
     public CoreHandler core;
     private boolean isGoToFA = false;
 
-    private LocationListener locationListener = new LocationListener() {
+    private final LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
             NewFightActivityVM.this.location = location;
@@ -563,8 +558,8 @@ public class NewFightActivityVM extends ActivityViewModel<NewFightActivity> impl
         switch (command) {
             case CommandsContract.BROADCAST_TCP_CMD:
                 BitSet bitSet = BitSet.valueOf(new byte[]{message[0]});
-                final Byte weapon = Byte.parseByte("000000" + String.valueOf(bitSet.get(1) ? 1 : 0) + String.valueOf(bitSet.get(0) ? 1 : 0), 2);
-                Log.wtf("WEAPON TYPE", weapon.intValue() + "|" + String.valueOf(bitSet.get(1) ? 1 : 0) + String.valueOf(bitSet.get(0) ? 1 : 0));
+                final Byte weapon = Byte.parseByte("000000" + (bitSet.get(1) ? 1 : 0) + (bitSet.get(0) ? 1 : 0), 2);
+                Log.wtf("WEAPON TYPE", weapon.intValue() + "|" + (bitSet.get(1) ? 1 : 0) + (bitSet.get(0) ? 1 : 0));
                 SettingsManager.setValue(CommonConstants.WEAPON_TYPE, weapon.intValue());
                 getActivity().runOnUiThread(() -> getActivity().changeSelectedWeapon(weapon.intValue()));
                 break;

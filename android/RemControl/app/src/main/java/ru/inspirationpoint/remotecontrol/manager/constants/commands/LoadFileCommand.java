@@ -3,10 +3,11 @@ package ru.inspirationpoint.remotecontrol.manager.constants.commands;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class LoadFileCommand extends CommonTCPCommand {
 
-    private String fileName;
+    private final String fileName;
     private int nameLenght = 1;
 
     public LoadFileCommand(String fileName) {
@@ -24,7 +25,7 @@ public class LoadFileCommand extends CommonTCPCommand {
         DataOutputStream s1 = new DataOutputStream(b1);
         try {
             s1.writeByte(nameLenght);
-            byte[] buf = fileName.getBytes("UTF-8");
+            byte[] buf = fileName.getBytes(StandardCharsets.UTF_8);
             s1.write(buf);
         } catch (IOException e) {
             e.printStackTrace();

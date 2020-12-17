@@ -2,7 +2,7 @@ package ru.inspirationpoint.remotecontrol.ui.adapter;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
 import android.util.TypedValue;
@@ -17,7 +17,6 @@ import androidx.annotation.RequiresApi;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 
 import ru.inspirationpoint.remotecontrol.R;
@@ -30,10 +29,10 @@ import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstant
 
 public class FightActionsAdapter extends RecyclerView.Adapter<FightActionsAdapter.ItemHolder> {
 
-    private LayoutInflater mLayoutInflater;
-    private Context mContext;
-    private ArrayList<FightActionData> data;
-    private boolean isForPDF;
+    private final LayoutInflater mLayoutInflater;
+    private final Context mContext;
+    private final ArrayList<FightActionData> data;
+    private final boolean isForPDF;
     private OnItemClickListener mItemClickListener;
     private Pair[] score;
     private int left = 0;
@@ -49,6 +48,8 @@ public class FightActionsAdapter extends RecyclerView.Adapter<FightActionsAdapte
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void setData(ArrayList<FightActionData> list) {
         data.clear();
+        left = 0;
+        right = 0;
         for (FightActionData data0 : list) {
             if (data0.equals(list.get(list.size()-1)) ) {
                 data.add(data0);
@@ -127,11 +128,11 @@ public class FightActionsAdapter extends RecyclerView.Adapter<FightActionsAdapte
 
     class ItemHolder extends RecyclerView.ViewHolder {
 
-        private TextView mDate;
-        private TextView mScore;
-        private TextView mAction;
-        private ImageView actionIcon;
-        private ImageView videoBtn;
+        private final TextView mDate;
+        private final TextView mScore;
+        private final TextView mAction;
+        private final ImageView actionIcon;
+        private final ImageView videoBtn;
 
         ItemHolder(View itemView) {
             super(itemView);
@@ -158,7 +159,7 @@ public class FightActionsAdapter extends RecyclerView.Adapter<FightActionsAdapte
                 }
             });
 
-            mScore.setText(String.format("%s : %s", String.valueOf(score[position].first), String.valueOf(score[position].second)));
+            mScore.setText(String.format("%s : %s", score[position].first, score[position].second));
             switch (item.getActionType()) {
                 case Start:
                     mAction.setText(mContext.getResources().getString(R.string.end_fight));

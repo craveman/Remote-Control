@@ -1,7 +1,7 @@
 package ru.inspirationpoint.remotecontrol.ui.adapter;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +15,7 @@ import ru.inspirationpoint.remotecontrol.internalServer.schemas.responses.ListUs
 
 public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UsersViewHolder> {
 
-    private Activity mActivity;
+    private final Activity mActivity;
     private ArrayList<ListUser> mUserList;
     private OnUserRemoveListener mUserRemoveListener;
 

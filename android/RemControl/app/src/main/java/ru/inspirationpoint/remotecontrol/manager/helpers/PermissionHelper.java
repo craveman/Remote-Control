@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.widget.Toast;
 
 public class PermissionHelper {
@@ -37,7 +37,7 @@ public class PermissionHelper {
 
             // No explanation needed, we can request the permission.
 
-            String permissions[] = requestWritePermission ? new String[]{Manifest.permission.CAMERA,
+            String[] permissions = requestWritePermission ? new String[]{Manifest.permission.CAMERA,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}:
                     new String[]{Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -57,7 +57,7 @@ public class PermissionHelper {
 
             // No explanation needed, we can request the permission.
 
-            String permissions[] =  new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            String[] permissions =  new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
             ActivityCompat.requestPermissions(activity,permissions,RC_PERMISSION_REQUEST);
         }

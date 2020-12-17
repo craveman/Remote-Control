@@ -10,7 +10,7 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -22,9 +22,9 @@ import ru.inspirationpoint.remotecontrol.ui.dialog.WiFiPassDialog;
 
 public class WiFiHelper {
 
-    private AppCompatActivity activity;
+    private final AppCompatActivity activity;
 
-    private Handler handler;
+    private final Handler handler;
     private String requiredSSID;
     private ConnectivityManager mConnectivityManager;
     private ConnectivityManager.NetworkCallback mNetworkCallback;
@@ -39,32 +39,32 @@ public class WiFiHelper {
         handler = new Handler(activity.getMainLooper());
     }
 
-    public void tryToWiFiConnection(String ssid) {
-        wifiMgr = (WifiManager) activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (wifiMgr != null) {
-            wifiMgr.setWifiEnabled(true);
-            boolean wifiConfigurated = false;
-            int netId = -1;
-            for (WifiConfiguration wifiConfiguration : wifiMgr.getConfiguredNetworks()) {
-                Log.wtf("SSID COMPARE", wifiConfiguration.SSID + "||" + ssid);
-                if (wifiConfiguration.SSID.equals("\"" + ssid + "\"")) {
-                    wifiConfiguration.priority = 99999;
-                    wifiMgr.updateNetwork(wifiConfiguration);
-                    wifiMgr.saveConfiguration();
-                    wifiMgr.enableNetwork(wifiConfiguration.networkId, true);
-                    wifiConfigurated = true;
-                    Log.wtf("EXISTS", "CONN");
-                }
-            }
-            if (!wifiConfigurated) {
-                Log.wtf("NOT CONFIGED", "+");
-                wifiMgr.startScan();
-                handler.removeCallbacksAndMessages(null);
-                handler.postDelayed(() -> initNewWiFi(ssid), 1000);
-
-            }
-        } else Log.wtf("WIFI MGR", "NULL");
-    }
+//    public void tryToWiFiConnection(String ssid) {
+//        wifiMgr = (WifiManager) activity.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+//        if (wifiMgr != null) {
+//            wifiMgr.setWifiEnabled(true);
+//            boolean wifiConfigurated = false;
+//            int netId = -1;
+//            for (WifiConfiguration wifiConfiguration : wifiMgr.getConfiguredNetworks()) {
+//                Log.wtf("SSID COMPARE", wifiConfiguration.SSID + "||" + ssid);
+//                if (wifiConfiguration.SSID.equals("\"" + ssid + "\"")) {
+//                    wifiConfiguration.priority = 99999;
+//                    wifiMgr.updateNetwork(wifiConfiguration);
+//                    wifiMgr.saveConfiguration();
+//                    wifiMgr.enableNetwork(wifiConfiguration.networkId, true);
+//                    wifiConfigurated = true;
+//                    Log.wtf("EXISTS", "CONN");
+//                }
+//            }
+//            if (!wifiConfigurated) {
+//                Log.wtf("NOT CONFIGED", "+");
+//                wifiMgr.startScan();
+//                handler.removeCallbacksAndMessages(null);
+//                handler.postDelayed(() -> initNewWiFi(ssid), 1000);
+//
+//            }
+//        } else Log.wtf("WIFI MGR", "NULL");
+//    }
 
     private void initNewWiFi(String ssid) {
         List<ScanResult> networkList = wifiMgr.getScanResults();

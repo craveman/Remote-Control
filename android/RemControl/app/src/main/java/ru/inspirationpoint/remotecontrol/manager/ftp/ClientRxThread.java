@@ -9,17 +9,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.FILE_TRANSFER_START;
 
 public class ClientRxThread extends Thread {
-    private String dstAddress;
+    private final String dstAddress;
     private static final int dstPort = 8080;
     private Socket socket = null;
     private boolean mRun = false;
-    private String timestamp;
-    private String filePath;
-    private FileUploadListener listener;
+    private final String timestamp;
+    private final String filePath;
+    private final FileUploadListener listener;
 
     public ClientRxThread(String address, String timestamp, String filePath, FileUploadListener listener) {
         dstAddress = address;
@@ -72,8 +73,8 @@ public class ClientRxThread extends Thread {
             OutputStream out = socket.getOutputStream();
 
             out.write(FILE_TRANSFER_START);
-            out.write(prefix.getBytes("UTF-8").length);
-            out.write(prefix.getBytes("UTF-8"));
+            out.write(prefix.getBytes(StandardCharsets.UTF_8).length);
+            out.write(prefix.getBytes(StandardCharsets.UTF_8));
             int count;
             while ((count = in.read(bytes)) > 0) {
                 out.write(bytes, 0, count);

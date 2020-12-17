@@ -3,9 +3,9 @@ package ru.inspirationpoint.remotecontrol.ui.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,7 +99,7 @@ public class VideoDialog extends DialogFragment {
         speedSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                speedText.setText(getActivity().getResources().getString(R.string.video_speed, String.valueOf(progress*10) + "%"));
+                speedText.setText(getActivity().getResources().getString(R.string.video_speed, progress * 10 + "%"));
                 mListener.onVideoSpeedChange(progress);
             }
             @Override

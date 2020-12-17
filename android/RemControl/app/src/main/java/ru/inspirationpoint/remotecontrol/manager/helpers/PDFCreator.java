@@ -9,18 +9,13 @@ import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.GridLabelRenderer;
-import com.jjoe64.graphview.Viewport;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -45,12 +40,12 @@ import static ru.inspirationpoint.remotecontrol.manager.dataEntities.FightAction
 
 public class PDFCreator {
 
-    private File outputFile;
-    private Context mContext;
-    private ArrayList<String> labels = new ArrayList<>();
-    private Date mCurrentTime = new Date();
-    private SimpleDateFormat mTimerFormat = new SimpleDateFormat("mm:ss", Locale.getDefault());
-    private ArrayList<FightActionData> actionsList = new ArrayList<>();
+    private final File outputFile;
+    private final Context mContext;
+    private final ArrayList<String> labels = new ArrayList<>();
+    private final Date mCurrentTime = new Date();
+    private final SimpleDateFormat mTimerFormat = new SimpleDateFormat("mm:ss", Locale.getDefault());
+    private final ArrayList<FightActionData> actionsList = new ArrayList<>();
     private Boolean withPhrases = false;
     private int yOffset;
 
@@ -177,7 +172,7 @@ public class PDFCreator {
         if (TextUtils.isEmpty(address)) {
             address = InspirationDayApplication.getApplication().getApplicationContext().getResources().getString(R.string.not_detected);
         }
-        String arrWords[] = address.split(" ");
+        String[] arrWords = address.split(" ");
         Log.d("ARRAY", arrWords.length + "");
         ArrayList<String> arrPhrases = new ArrayList<>();
 
@@ -284,7 +279,7 @@ public class PDFCreator {
         scorePaint.setColor(Color.BLACK);
         scorePaint.setTextSize(28);
         scorePaint.setTextAlign(Paint.Align.LEFT);
-        String score = String.valueOf(leftScore) + " : " + String.valueOf(rightScore);
+        String score = leftScore + " : " + rightScore;
         scorePaint.getTextBounds(score, 0, score.length(), scoreBounds);
         float scoreOffset = center - scoreBounds.width()/2;
         float leftNameFirstOffset = scoreOffset/2 - leftNameFirstBounds.width()/2;
@@ -326,7 +321,7 @@ public class PDFCreator {
                 }
             }
             canvas.drawText(Helper.timeToString(new Date(actionData.getTime())), 120, yOffset, paint);
-            canvas.drawText(String.format("%s : %s", String.valueOf(left), String.valueOf(right)), 180, yOffset, paint);
+            canvas.drawText(String.format("%s : %s", left, right), 180, yOffset, paint);
                 switch (actionData.getActionType()) {
                     case Start:
                         canvas.drawText(mContext.getResources().getString(R.string.end_fight), 300, yOffset, paint);

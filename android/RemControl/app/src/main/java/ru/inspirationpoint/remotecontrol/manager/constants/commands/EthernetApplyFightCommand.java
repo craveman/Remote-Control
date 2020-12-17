@@ -6,10 +6,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class EthernetApplyFightCommand extends CommonTCPCommand {
 
-    private String necessaryInfo;
+    private final String necessaryInfo;
 
     public EthernetApplyFightCommand(String necessaryInfo) {
         this.necessaryInfo = necessaryInfo;
@@ -20,7 +21,7 @@ public class EthernetApplyFightCommand extends CommonTCPCommand {
         ByteArrayOutputStream b1 = new ByteArrayOutputStream();
         DataOutputStream s1 = new DataOutputStream(b1);
         try {
-            byte[] buf = necessaryInfo.getBytes(Charset.forName("UTF-8"));
+            byte[] buf = necessaryInfo.getBytes(StandardCharsets.UTF_8);
             s1.writeByte(buf.length);
             s1.write(buf);
         } catch (IOException e) {

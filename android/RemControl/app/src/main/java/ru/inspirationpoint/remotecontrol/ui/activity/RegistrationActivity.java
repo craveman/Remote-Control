@@ -30,7 +30,7 @@ public class RegistrationActivity extends LocalAppCompatActivity implements Mess
     private EditText mEmailEditText;
     private TextView weaponType;
     private TextView weaponTitle;
-    private String weapon = "";
+    private final String weapon = "";
     private EditText mNickEditText;
 
     @Override

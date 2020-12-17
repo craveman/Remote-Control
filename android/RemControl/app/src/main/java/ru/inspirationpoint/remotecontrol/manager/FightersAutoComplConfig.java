@@ -1,9 +1,9 @@
 package ru.inspirationpoint.remotecontrol.manager;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
-import android.databinding.BindingAdapter;
-import android.support.v7.app.AppCompatActivity;
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+import androidx.databinding.BindingAdapter;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextWatcher;
 import android.widget.AdapterView;
 import android.widget.ProgressBar;

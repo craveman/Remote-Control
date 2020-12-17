@@ -1,7 +1,7 @@
 package ru.inspirationpoint.remotecontrol.ui.adapter;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,8 +66,8 @@ public class VideoReplaysAdapter extends RecyclerView.Adapter<VideoReplaysAdapte
     class VideoReplayHolder extends RecyclerView.ViewHolder {
 
         private String item;
-        private TextView scoreText;
-        private TextView timeText;
+        private final TextView scoreText;
+        private final TextView timeText;
 
         public void setItem (String item) {
             Log.wtf("GAIN ITEM", item);

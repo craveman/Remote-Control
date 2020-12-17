@@ -10,9 +10,9 @@ import java.nio.charset.StandardCharsets;
 
 public class SetPisteNumCommand extends CommonTCPCommand {
 
-    private int numLength;
-    private String num;
-    private int isOn;
+    private final int numLength;
+    private final String num;
+    private final int isOn;
 
     public SetPisteNumCommand(@NotNull String num, int isOn) {
         this.isOn = isOn;

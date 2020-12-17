@@ -3,9 +3,9 @@ package ru.inspirationpoint.remotecontrol.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -46,7 +46,7 @@ public class FightResultActivity extends LocalAppCompatActivity implements Fight
 
     private FightData mFightData;
     private Handler handler;
-    private Runnable swipeRefreshRunnable = new Runnable() {
+    private final Runnable swipeRefreshRunnable = new Runnable() {
         @Override
         public void run() {
             swipeRefreshLayout.setRefreshing(true);

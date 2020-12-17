@@ -6,11 +6,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class CompetitionSetCommand extends CommonTCPCommand {
 
     private String name;
-    private int nameLen;
+    private final int nameLen;
 
     public CompetitionSetCommand(String name) {
         this.name = name;
@@ -26,7 +27,7 @@ public class CompetitionSetCommand extends CommonTCPCommand {
         DataOutputStream s1 = new DataOutputStream(b1);
         try {
             s1.writeByte(nameLen);
-            byte[] buf = name.getBytes(Charset.forName("UTF-8"));
+            byte[] buf = name.getBytes(StandardCharsets.UTF_8);
             s1.write(buf);
         } catch (IOException e) {
             e.printStackTrace();

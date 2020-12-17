@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class StartTimerCommand extends CommonTCPCommand {
 
-    private int start;
+    private final int start;
 
     public StartTimerCommand(int start) {
         this.start = start;

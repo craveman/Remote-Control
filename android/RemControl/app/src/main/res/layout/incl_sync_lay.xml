@@ -12,274 +12,243 @@
         <import type="android.view.View" alias="v"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/sync_lay"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/gray_back">
 
-        <android.support.constraint.Guideline
-            android:id="@+id/logo_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".03" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/logo_left"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/border_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent=".37" />
+            app:layout_constraintGuide_percent="0.89" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/logo_right"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/border_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent=".63" />
+            app:layout_constraintGuide_percent="0.11" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/msg_1_top"
+        <androidx.constraintlayout.widget.Guideline
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/bottom_border"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".17" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/msg_1_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".32" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/left_border"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".10" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/right_border"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".90" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/msg_2_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".35" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/msg_2_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".75" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/qr_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".40" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/qr_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".10" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/qr_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".90" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/sync_progress_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".60" />
+            app:layout_constraintGuide_percent="0.883"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/title"
+            style="@style/AppTheme.TextTitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_log"
-            android:text="@{viewModel.logTextTemp}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:maxLines="4"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="14dp"
-            android:background="@color/transparent"
-            android:textColor="@color/yellowCard"
-            android:textSize="16sp"/>
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:src="@drawable/logo_i_p"
-            app:layout_constraintDimensionRatio="h,1:1"
-            app:layout_constraintEnd_toEndOf="@id/logo_right"
-            app:layout_constraintStart_toStartOf="@id/logo_left"
-            app:layout_constraintTop_toTopOf="@id/logo_top" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginStart="30dp"
-            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
-            android:text="@string/fa_sync_message"
+            android:text="@string/title"
+            android:textAllCaps="false"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeStepGranularity="2sp"
+            app:autoSizeTextType="uniform"
             android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toBottomOf="@id/msg_1_bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/msg_1_top" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.058" />
 
         <TextView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginStart="30dp"
-        android:text="@string/fa_sync_explain"
-        android:textColor="@color/white"
-        android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
-        app:autoSizeMaxTextSize="100sp"
-        app:autoSizeMinTextSize="12sp"
-        app:autoSizeStepGranularity="2sp"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="@id/msg_2_bottom"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/msg_2_top" />
+            style="@style/AppTheme.TextMain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-8dp"
+            android:text="@string/sm_search"
+            android:textAllCaps="true"
+            android:textSize="24sp"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_SYNCING ? v.VISIBLE : v.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/border_right"
+            app:layout_constraintStart_toStartOf="@id/border_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.17" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_SYNCING ? v.VISIBLE : v.GONE}"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:indeterminate="true"
+            android:progressTint="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/border_right"
+            app:layout_constraintStart_toStartOf="@+id/border_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.35" />
+
+        <TextView
+            style="@style/AppTheme.TextMain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/fa_sync_message"
+            android:textSize="24sp"
+            android:textAllCaps="true"
+            android:layout_marginHorizontal="-2dp"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/border_right"
+            app:layout_constraintStart_toStartOf="@id/border_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.17" />
+
+        <TextView
+            style="@style/AppTheme.TextMain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/fa_sync_explain"
+            android:letterSpacing="0"
+            android:lineSpacingExtra="4sp"
+            android:textSize="22sp"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/border_right"
+            app:layout_constraintStart_toStartOf="@id/border_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.34" />
+
+        <TextView
+            style="@style/AppTheme.TextMain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/fa_sync_explain_2"
+            android:letterSpacing="0"
+            android:lineSpacingExtra="4sp"
+            android:textSize="22sp"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/border_right"
+            app:layout_constraintStart_toStartOf="@id/border_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.43" />
+
+        <TextView
+            style="@style/AppTheme.TextMain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/fa_sync_explain_3"
+            android:letterSpacing="0"
+            android:lineSpacingExtra="4sp"
+            android:textSize="22sp"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/border_right"
+            app:layout_constraintStart_toStartOf="@id/border_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.565" />
 
         <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
+            app:layout_constraintEnd_toStartOf="@+id/border_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.42"
+            app:srcCompat="@drawable/dot" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="10dp"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
+            app:layout_constraintEnd_toStartOf="@+id/border_left"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.54"
+            app:srcCompat="@drawable/dot" />
+
+        <Button
+            android:id="@+id/search_btn"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
             android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"
             android:onClick="@{() -> viewModel.onSyncRequested()}"
+            android:background="@drawable/ic_search_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.76" />
+
+        <TextView
+            style="@style/AppTheme.TextMain"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/sm_s"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textSize="24sp"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_REVEALED ? v.VISIBLE : v.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.17" />
+
+        <ImageView
+            android:id="@+id/sm_divider"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:src="@color/textNew"
+            android:layout_marginHorizontal="16dp"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_REVEALED ? v.VISIBLE : v.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/border_left"
+            app:layout_constraintEnd_toEndOf="@id/border_right"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.21" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/sm_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_REVEALED ? v.VISIBLE : v.GONE}"
+            app:layout_constraintBottom_toTopOf="@id/button_diary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/msg_2_bottom"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/ic_search_dark"/>
+            app:layout_constraintTop_toTopOf="@id/sm_divider"
+            app:layout_constraintVertical_bias="0.1"/>
 
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="40dp"-->
-<!--            android:layout_marginEnd="30dp"-->
-<!--            android:layout_marginStart="30dp"-->
-<!--            android:paddingStart="40dp"-->
-<!--            android:paddingEnd="40dp"-->
-<!--            android:paddingTop="20dp"-->
-<!--            android:paddingBottom="20dp"-->
-<!--            android:background="@drawable/btn_border"-->
-<!--            android:id="@+id/btn_settings"-->
-<!--            android:text="@string/settings"-->
-<!--            android:textAlignment="center"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"-->
-<!--            android:textSize="30sp"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/msg_2_bottom"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
-
-        <!--<com.budiyev.android.codescanner.CodeScannerView-->
-            <!--android:id="@+id/scanner_view"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"-->
-            <!--app:autoFocusButtonVisible="false"-->
-            <!--app:flashButtonVisible="false"-->
-            <!--app:frameAspectRatioHeight="1"-->
-            <!--app:frameAspectRatioWidth="1"-->
-            <!--app:frameColor="@color/redCard"-->
-            <!--app:frameCornersRadius="0dp"-->
-            <!--app:frameCornersSize="50dp"-->
-            <!--app:frameSize="0.75"-->
-            <!--app:frameThickness="2dp"-->
-            <!--app:layout_constraintDimensionRatio="h,16:9"-->
-            <!--app:layout_constraintEnd_toEndOf="@id/qr_right"-->
-            <!--app:layout_constraintStart_toStartOf="@id/qr_left"-->
-            <!--app:layout_constraintTop_toTopOf="@id/qr_top"-->
-            <!--app:maskColor="@color/transparent" />-->
-
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_SYNCING ? v.VISIBLE : v.GONE}"
-            app:layout_constraintEnd_toEndOf="@id/qr_right"
-            app:layout_constraintStart_toStartOf="@id/qr_left"
-            app:layout_constraintTop_toTopOf="@id/qr_top"
-            app:layout_constraintBottom_toBottomOf="@id/sync_progress_bottom">
-
-            <ProgressBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_centerInParent="true"
-                android:indeterminate="true"/>
+            android:id="@+id/button_diary"
+            android:background="@color/textNew"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/bottom_border"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
+                style="@style/AppTheme.TextMain"
+                android:textAlignment="center"
+                android:text="@string/my_diary"
                 android:textColor="@color/white"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentTop="true"
-                android:text="@string/fa_syncing_msg"/>
-        </RelativeLayout>
+                android:textSize="25sp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_SYNCING ? v.VISIBLE : v.GONE}"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/sync_progress_bottom"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:text="@string/cancel"-->
-<!--            android:textSize="24sp"-->
-<!--            android:textAlignment="center"-->
-<!--            android:layout_marginTop="28dp"-->
-<!--            android:id="@+id/sync_cancel"-->
-<!--            android:onClick="@{() -> viewModel.onSyncCancel()}"/>-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:textColor="@color/white"
-            android:text="@string/exit_app_title"
-            android:textSize="24sp"
-            android:textAlignment="center"
-            android:layout_marginBottom="28dp"
-            android:id="@+id/exit_app"
-            android:onClick="@{() -> viewModel.onExitApp()}"/>
-
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:visibility="@{viewModel.syncState == viewModel.SYNC_STATE_NONE ? v.VISIBLE : v.GONE}"-->
-            <!--app:layout_constraintTop_toBottomOf="@id/scanner_view"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:text="@string/cancel"-->
-            <!--android:textSize="24sp"-->
-            <!--android:textAlignment="center"-->
-            <!--android:layout_marginTop="28dp"-->
-            <!--android:id="@+id/sync_decline"-->
-            <!--android:onClick="@{() -> viewModel.onSyncDecline()}"/>-->
-
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

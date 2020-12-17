@@ -151,7 +151,7 @@
     <string name="warning">Внимание!</string>
     <string name="priority_title">приоритет</string>
     <string name="card_title">Карточки</string>
-    <string name="time_period">Время</string>
+    <string name="time_period">Время периода</string>
     <string name="select_period">Выбрать период</string>
     <string name="change_score">Изменить счёт</string>
     <string name="comment">Комментарий</string>
@@ -173,7 +173,7 @@
     <string name="priority_right">Приоритет направо</string>
     <string name="rc_left">Красная налево</string>
     <string name="rc_right">Красная направо</string>
-    <string name="reset">Сброс аппарата</string>
+    <string name="reset">Сброс</string>
     <string name="yc_left">Желтая налево</string>
     <string name="yc_right">Желтая направо</string>
     <string name="set_time">Время: %s</string>
@@ -193,7 +193,7 @@
     <string name="limit_warning">Вы достигли лимита 100 боев в памяти устройства. С этого момента самые старые бои будут перезаписываться новыми. Мы работаем над тем, чтобы убрать этот лимит. Спасибо за понимание.</string>
     <string name="pause_cancel_confirmation">Завершить паузу?</string>
     <string name="type_saber">Сабля</string>
-    <string name="type_rapier">Рапира</string>
+    <string name="type_foil">Рапира</string>
     <string name="type_epee">Шпага</string>
     <string name="nav_messages">Сообщения</string>
     <string name="users_load_error">Не удалось загрузить список пользователей, отсутствует соединение с интернетом</string>
@@ -269,8 +269,10 @@
     <string name="waiting_fight">Ожидание боя</string>
 
     <string name="qr_need_explain">Просканируйте QR-код, отображенный на экране нужного аппарата</string>
-    <string name="fa_sync_explain">Проверьте: \n\n-вы подключены к Wi-Fi сети аппарата \n\n-к аппарату не подключен другой пульт управления</string>
-    <string name="fa_sync_message">Аппарат не найден</string>
+    <string name="fa_sync_explain">Проверьте:</string>
+    <string name="fa_sync_explain_2">Вы подключены к Wi-Fi сети аппарата</string>
+    <string name="fa_sync_explain_3">К аппарату не подключен другой пульт управления</string>
+    <string name="fa_sync_message">Аппараты\nне найдены</string>
     <string name="fa_timers_period_score">Таймеры</string>
     <string name="fa_warnings_priority">Карточки</string>
     <string name="fa_medical_pause">мед. пауза</string>
@@ -301,10 +303,10 @@
     <string name="fa_accept">Принять</string>
     <string name="fa_timer_title">Таймер боя</string>
     <string name="fa_syncing_msg">Поиск аппарата</string>
-    <string name="next">След.</string>
+    <string name="next">Следующий</string>
     <string name="semi_mode">Cyrano 1.0</string>
     <string name="fight_received">Получен бой от сервера:</string>
-    <string name="prev">Пред.</string>
+    <string name="prev">Предыдущий</string>
     <string name="ask_prev">Предыдущий бой</string>
     <string name="ask_next">Следующий бой</string>
     <string name="fight_waiting">Ждем ответ от сервера информационной системы соревнований</string>
@@ -368,7 +370,7 @@
     <string name="end">Конец</string>
     <string name="black">Черные</string>
     <string name="hold_to_reset">* удерж. для сброса</string>
-    <string name="passive_timer">пассив</string>
+    <string name="passive_timer">Таймер пассива</string>
     <string name="fight_timer_lowcase">таймер боя</string>
     <string name="remove_fight">Убрать бой</string>
     <string name="more_btn">Eщё</string>
@@ -382,9 +384,21 @@
     <string name="gps_off_title">Определение местоположения выключено!</string>
     <string name="gps_off_message">Включите определение местоположения в настройках для продолжения работы</string>
     <string name="opt_additional">Дополнительно</string>
-    <string name="add_autoinc">Автоинкремент счета (шпага):</string>
+    <string name="add_autoinc">Автоинкремент</string>
     <string name="add_piste_num">Номер дорожки</string>
-    <string name="add_lang_switch">Переключить язык SM</string>
+    <string name="add_lang_switch">Язык аппарата</string>
     <string name="on">Вкл.</string>
+    <string name="sm_search">Поиск
+        аппаратов</string>
+    <string name="sm_s">Аппараты</string>
+    <string name="double_btn">ДУБЛЬ</string>
+    <string name="decrease_explain">УМЕНЬШИТЬ - ДЕРЖИ</string>
+    <string name="menu_main">МЕНЮ</string>
+    <string name="timer_started">ТАЙМЕР ЗАПУЩЕН</string>
+    <string name="stop_time">СТОП</string>
+    <string name="confirm">ПОДТВЕРДИТЬ</string>
+    <string name="to_fight">К БОЮ</string>
+    <string name="to_menu">К МЕНЮ</string>
+    <string name="timer">Таймер</string>
 
 </resources>

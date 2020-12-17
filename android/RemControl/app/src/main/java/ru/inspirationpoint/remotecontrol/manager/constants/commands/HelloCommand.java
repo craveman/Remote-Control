@@ -3,12 +3,13 @@ package ru.inspirationpoint.remotecontrol.manager.constants.commands;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class HelloCommand extends CommonTCPCommand {
 
-    private int type;
-    private String name;
-    private int nameLength;
+    private final int type;
+    private final String name;
+    private final int nameLength;
 
     public HelloCommand(int type, String name) {
         this.type = type;
@@ -23,7 +24,7 @@ public class HelloCommand extends CommonTCPCommand {
         try {
             s1.writeByte(type);
             s1.writeByte(nameLength);
-            byte[] buf = name.getBytes("UTF-8");
+            byte[] buf = name.getBytes(StandardCharsets.UTF_8);
             s1.write(buf);
         } catch (IOException e) {
             e.printStackTrace();

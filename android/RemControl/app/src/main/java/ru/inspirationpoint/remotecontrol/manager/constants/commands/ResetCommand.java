@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class ResetCommand extends CommonTCPCommand {
 
-    private int time;
+    private final int time;
 
     public ResetCommand(int time) {
         this.time = time;

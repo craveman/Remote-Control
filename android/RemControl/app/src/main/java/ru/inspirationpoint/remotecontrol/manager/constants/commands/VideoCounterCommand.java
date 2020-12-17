@@ -6,8 +6,8 @@ import java.io.IOException;
 
 public class VideoCounterCommand extends CommonTCPCommand {
 
-    private int left;
-    private int right;
+    private final int left;
+    private final int right;
 
     public VideoCounterCommand(int left, int right) {
         this.left = left;

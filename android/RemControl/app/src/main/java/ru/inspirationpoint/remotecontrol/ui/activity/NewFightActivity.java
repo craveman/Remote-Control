@@ -2,30 +2,26 @@ package ru.inspirationpoint.remotecontrol.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.databinding.DataBindingUtil;
+import androidx.databinding.DataBindingUtil;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
+
+import androidx.annotation.NonNull;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
 import com.stfalcon.androidmvvmhelper.mvvm.activities.BindingActivity;
 
-import java.io.IOException;
 import java.util.Locale;
 
 import ru.inspirationpoint.remotecontrol.BR;
@@ -33,7 +29,6 @@ import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
 import ru.inspirationpoint.remotecontrol.R;
 import ru.inspirationpoint.remotecontrol.databinding.ActivityNewFightBinding;
 import ru.inspirationpoint.remotecontrol.databinding.NavHeaderDairyBinding;
-import ru.inspirationpoint.remotecontrol.manager.Camera;
 import ru.inspirationpoint.remotecontrol.manager.SettingsManager;
 import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
 import ru.inspirationpoint.remotecontrol.manager.coreObjects.Device;
@@ -293,7 +288,7 @@ public class NewFightActivity extends BindingActivity<ActivityNewFightBinding, N
     }
 
     public void changeSelectedWeapon(int weapon) {
-        SpannableString s1 = new SpannableString(getResources().getString(R.string.type_rapier));
+        SpannableString s1 = new SpannableString(getResources().getString(R.string.type_foil));
         SpannableString s2 = new SpannableString(getResources().getString(R.string.type_epee));
         SpannableString s3 = new SpannableString(getResources().getString(R.string.type_saber));
         SpannableString s4 = new SpannableString(getResources().getString(R.string.off));

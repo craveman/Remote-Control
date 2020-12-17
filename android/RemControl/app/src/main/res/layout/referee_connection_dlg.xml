@@ -75,7 +75,7 @@
                 android:id="@+id/btn_store_change"
                 android:layout_weight="2">
 
-                <android.support.v7.widget.SwitchCompat
+                <androidx.appcompat.widget.SwitchCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/store_switch"

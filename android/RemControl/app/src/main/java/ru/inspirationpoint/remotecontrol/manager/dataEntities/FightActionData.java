@@ -42,7 +42,7 @@ public class FightActionData implements Cloneable, Serializable {
     private static final String ACTION_PERIOD_OTHER = "other";
 
 
-    private String _id = "";
+    private final String _id = "";
     private ActionPeriod mActionPeriod = ActionPeriod.pause;
     private ActionType mActionType = ActionType.Start;
     private Fighter mFighter = Fighter.None;

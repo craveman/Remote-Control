@@ -6,11 +6,11 @@ import java.io.IOException;
 
 public class CurrentStateCommand extends CommonTCPCommand {
 
-    private int weapon;
-    private int flagLeft;
-    private int flagRight;
-    private int timestamp;
-    private int timerState;
+    private final int weapon;
+    private final int flagLeft;
+    private final int flagRight;
+    private final int timestamp;
+    private final int timerState;
 
     public CurrentStateCommand(int weapon, int flagLeft, int flagRight, int timestamp, int timerState) {
         this.weapon = weapon;

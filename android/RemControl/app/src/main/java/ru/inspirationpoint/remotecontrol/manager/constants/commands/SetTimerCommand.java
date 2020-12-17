@@ -9,7 +9,7 @@ import java.io.IOException;
 public class SetTimerCommand extends CommonTCPCommand {
 
     private long time;
-    private int mode;
+    private final int mode;
 
     public SetTimerCommand(long time, int mode) {
         this.time = time;

@@ -5,6 +5,7 @@
     <string name="language">Language:</string>
 
     <string name="app_name">Inspiration Point</string>
+    <string name="title" translatable="false">inspiration point</string>
 
     <string name="login">Enter</string>
     <string name="registration">Registration</string>
@@ -149,7 +150,7 @@
     <string name="warning">Warning!</string>
     <string name="priority_title">priority</string>
     <string name="card_title">Warnings</string>
-    <string name="time_period">Time</string>
+    <string name="time_period">Period time</string>
     <string name="select_period">Select period</string>
     <string name="change_score">Change score</string>
     <string name="comment">Comment</string>
@@ -193,7 +194,7 @@
     <string name="telegram" translatable="false">"Telegram: "</string>
     <string name="pause_cancel_confirmation">Finish pause?</string>
     <string name="type_saber">Sabre</string>
-    <string name="type_rapier">Foil</string>
+    <string name="type_foil">Foil</string>
     <string name="type_epee">Epee</string>
     <string name="nav_messages">Messages</string>
     <string name="users_load_error">Could not load user list, no internet connection</string>
@@ -268,8 +269,10 @@
     <string name="referee_code">Code: %s</string>
     <string name="waiting_fight">Waiting for fight</string>
     <string name="qr_need_explain">Please scan QR-code displayed by selected SM</string>
-    <string name="fa_sync_explain">Check: \n \n- you are connected to the scoring machine\'s Wi-Fi network \n \n- other remote control is not connected to the scoring machine already</string>
-    <string name="fa_sync_message">Scoring machine not found</string>
+    <string name="fa_sync_explain">Check:</string>
+    <string name="fa_sync_explain_2">You are connected to the SM\'s Wi-Fi network</string>
+    <string name="fa_sync_explain_3">Other remote control is not connected to the SM already</string>
+    <string name="fa_sync_message">SM\nnot found</string>
     <string name="fa_timers_period_score">Timers</string>
     <string name="fa_warnings_priority">Penalties</string>
     <string name="fa_medical_pause">medical pause</string>
@@ -302,7 +305,7 @@
     <string name="semi_mode">Cyrano 1.0</string>
     <string name="fight_received">Received fight from server:</string>
     <string name="next">Next</string>
-    <string name="prev">Prev.</string>
+    <string name="prev">Previous</string>
     <string name="ask_prev">Ask previous</string>
     <string name="ask_next">Ask next</string>
     <string name="fight_waiting">Waiting data from competition info system server</string>
@@ -382,9 +385,21 @@ Do you connected to necessary network, displayed on SM?
     <string name="gps_off_title">Location is off!</string>
     <string name="gps_off_message">Please enable location detection to continue.</string>
     <string name="opt_additional">Additional</string>
-    <string name="add_autoinc">Automatic score increment (Epee):</string>
+    <string name="add_autoinc">Autoincrement</string>
     <string name="add_piste_num">Piste number</string>
-    <string name="add_lang_switch">Switch SM language</string>
+    <string name="add_lang_switch">SM language</string>
     <string name="on">On</string>
+    <string name="sm_search">SM
+        searching</string>
+    <string name="sm_s">SM</string>
+    <string name="double_btn">DOUBLE</string>
+    <string name="decrease_explain">DECREASE - HOLD</string>
+    <string name="menu_main">MENU</string>
+    <string name="timer_started">TIMER STARTED</string>
+    <string name="stop_time">STOP</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="to_fight">TO FIGHT</string>
+    <string name="to_menu">TO MENU</string>
+    <string name="timer">Timer</string>
 
 </resources>

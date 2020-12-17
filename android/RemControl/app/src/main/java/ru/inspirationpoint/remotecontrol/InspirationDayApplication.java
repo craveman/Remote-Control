@@ -36,7 +36,7 @@ import static ru.inspirationpoint.remotecontrol.manager.constants.commands.Comma
 
 public final class InspirationDayApplication extends Application {
 
-    private static String PROD_SERVER_URL = "http://public-api.inspirationpoint.ru";
+    private static final String PROD_SERVER_URL = "http://public-api.inspirationpoint.ru";
     private static InspirationDayApplication mApplicationInstance = null;
     private static Typeface customFontTypeface;
     private TCPHelper helper;
@@ -49,7 +49,7 @@ public final class InspirationDayApplication extends Application {
     private boolean isSMVideoTarget = true;
     private boolean isSaveNeeded = true;
     private CoreHandler coreHandler;
-    private Random rnd = new Random();
+    private final Random rnd = new Random();
     private int mode = DEV_TYPE_RC;
     private String modeString = DEV_STRING_TYPE_RC;
     private UsbConnectionHandler usbHandler;
@@ -119,9 +119,9 @@ public final class InspirationDayApplication extends Application {
         mApplicationInstance = this;
         if (TextUtils.isEmpty(SettingsManager.getValue(DEVICE_ID_SETTING, ""))) {
             SettingsManager.setValue(DEVICE_ID_SETTING, String.valueOf(rnd.nextInt(10)) +
-                    String.valueOf(rnd.nextInt(10)) +
+                    rnd.nextInt(10) +
                     CHARS[rnd.nextInt(CHARS.length)] + CHARS[rnd.nextInt(CHARS.length)] +
-                    String.valueOf(rnd.nextInt(10)));
+                    rnd.nextInt(10));
         }
         camId = (new Random().nextInt((999) + 1))*100;
         refereeId = (new Random().nextInt((999) + 1))*10;

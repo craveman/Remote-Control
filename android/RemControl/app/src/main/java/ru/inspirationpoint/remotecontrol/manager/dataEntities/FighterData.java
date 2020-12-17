@@ -1,19 +1,14 @@
 package ru.inspirationpoint.remotecontrol.manager.dataEntities;
 
-import android.databinding.ObservableField;
-import android.databinding.ObservableInt;
+import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableInt;
 
 import java.io.Serializable;
 
-import ru.inspirationpoint.remotecontrol.InspirationDayApplication;
 import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
-import ru.inspirationpoint.remotecontrol.manager.constants.commands.CommandsContract;
-import ru.inspirationpoint.remotecontrol.manager.tcpHandle.CommandHelper;
 
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.CardStatus.CardPStatus_None;
 import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.CardStatus.CardStatus_None;
-import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.CardStatus.CardStatus_Red;
-import static ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.CardStatus.CardStatus_Yellow;
 
 
 public class FighterData implements Cloneable, Serializable {

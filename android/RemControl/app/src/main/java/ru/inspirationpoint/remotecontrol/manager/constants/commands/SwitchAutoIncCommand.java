@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class SwitchAutoIncCommand extends CommonTCPCommand {
 
-    private int isOn;
+    private final int isOn;
 
     public SwitchAutoIncCommand(int isOn) {
         this.isOn = isOn;

@@ -10,601 +10,331 @@
             name="viewModel"
             type="ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM" />
         <import type="android.view.View" alias="v"/>
+        <import type="ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants.CyranoState" alias="cyranoState"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/gray_back">
 
-        <android.support.constraint.Guideline
-            android:id="@+id/tps_top"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/top_btns_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".015" />
+            app:layout_constraintGuide_percent=".05" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/tps_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".075" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/divider_2_top"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/top_btns_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".10" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/pause_top"
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/left_elements_border"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.115"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/right_elements_border"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.885"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/left_reset_border"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.64"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/right_passive_border"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.36"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/double_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".115" />
+            app:layout_constraintGuide_percent=".15" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/pause_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".175" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/divider_2_1_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".20" />
-
-        <android.support.constraint.Guideline
-            android:id="@+id/divider_2_2_left"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/double_left_border"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent=".5" />
+            app:layout_constraintGuide_percent=".35" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/buttons_main_top"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/double_right_border"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".105" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".65" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/buttons_main_bottom"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/left_score_right_border"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".895" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".415" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/divider_3_top"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/right_score_left_border"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".91" />
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".585" />
 
-        <android.support.constraint.Guideline
-            android:id="@+id/warnings_top"
+        <androidx.constraintlayout.widget.Guideline
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/score_top_border"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".93" />
+            app:layout_constraintGuide_percent=".32"/>
 
-        <android.support.constraint.Guideline
-            android:id="@+id/warnings_bottom"
+        <androidx.constraintlayout.widget.Guideline
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/explain_top_border"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".97" />
+            app:layout_constraintGuide_percent=".52"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/start_top_border"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".62"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/start_bottom_border"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".79"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bottom_border"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.87"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/tv_passive"
+        android:background="@drawable/btn_top_new"
+        android:onClick="@{() -> viewModel.onPassiveLock()}"
+        app:layout_constraintBottom_toBottomOf="@id/top_btns_bottom"
+        app:layout_constraintEnd_toEndOf="@id/right_passive_border"
+        app:layout_constraintStart_toStartOf="@id/left_elements_border"
+        app:layout_constraintTop_toTopOf="@id/top_btns_top">
 
         <TextView
-            android:id="@+id/tv_tps"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginStart="30dp"
-            android:text="@string/fa_timers_period_score"
+
+            style="@style/AppTheme.TextMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/passive"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:onClick="@{() -> viewModel.onTPSBtn()}"
-            app:autoSizeMaxTextSize="100sp"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="2sp"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="@id/tps_bottom"
+            android:textAllCaps="true"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tps_top" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/divider_2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginStart="40dp"
-            android:background="@color/white"
-            app:layout_constraintTop_toTopOf="@id/divider_2_top" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/tv_pause"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/pause"
-            android:textAlignment="center"
-            android:textColor="@color/yellowCard"
-            android:onClick="@{() -> viewModel.onMenuPause()}"
-            app:autoSizeMaxTextSize="100sp"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="2sp"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="@id/divider_2_1_top"
-            app:layout_constraintEnd_toEndOf="@id/divider_2_2_left"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/divider_2_top" />
-
-        <!--<TextView-->
-            <!--android:id="@+id/tv_next"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:layout_marginEnd="40dp"-->
-            <!--android:layout_marginStart="20dp"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:text="@string/next"-->
-            <!--android:textAlignment="center"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:onClick="@{() -> viewModel.fightNext()}"-->
-            <!--android:visibility="@{(viewModel.mainScreenBtnState == viewModel.BTN_STATE_NEXT) ? v.VISIBLE : v.GONE}"-->
-            <!--app:autoSizeMaxTextSize="100sp"-->
-            <!--app:autoSizeMinTextSize="12sp"-->
-            <!--app:autoSizeStepGranularity="2sp"-->
-            <!--app:autoSizeTextType="uniform"-->
-            <!--app:layout_constraintBottom_toBottomOf="@id/divider_2_1_top"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintStart_toStartOf="@id/divider_2_2_left"-->
-            <!--app:layout_constraintTop_toTopOf="@id/divider_2_top" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/tv_end_fight"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:layout_marginEnd="40dp"-->
-            <!--android:layout_marginStart="20dp"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:text="@string/end"-->
-            <!--android:textAlignment="center"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:onClick="@{() -> viewModel.onFightEndStart()}"-->
-            <!--android:visibility="@{(viewModel.mainScreenBtnState == viewModel.BTN_STATE_END) ? v.VISIBLE : v.GONE}"-->
-            <!--app:autoSizeMaxTextSize="100sp"-->
-            <!--app:autoSizeMinTextSize="12sp"-->
-            <!--app:autoSizeStepGranularity="2sp"-->
-            <!--app:autoSizeTextType="uniform"-->
-            <!--app:layout_constraintBottom_toBottomOf="@id/divider_2_1_top"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintStart_toStartOf="@id/divider_2_2_left"-->
-            <!--app:layout_constraintTop_toTopOf="@id/divider_2_top" />-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/tv_next"
+        android:background="@drawable/btn_top_new"
+        android:onClick="@{() -> viewModel.goToNewCyrano()}"
+        android:visibility="@{viewModel.cyranoState == cyranoState.Off ? v.GONE : v.VISIBLE}"
+        app:layout_constraintBottom_toBottomOf="@id/top_btns_bottom"
+        app:layout_constraintEnd_toEndOf="@id/right_elements_border"
+        app:layout_constraintStart_toStartOf="@id/left_reset_border"
+        app:layout_constraintTop_toTopOf="@id/top_btns_top">
 
         <TextView
-            android:id="@+id/tv_next"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/fight"
+            style="@style/AppTheme.TextMain"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:onClick="@{() -> viewModel.goToNewCyrano()}"
-            android:visibility="@{viewModel.mainScreenBtnState == viewModel.BTN_STATE_RESET ? v.GONE : v.VISIBLE}"
-            app:autoSizeMaxTextSize="100sp"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="2sp"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="@id/divider_2_1_top"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/divider_2_2_left"
-            app:layout_constraintTop_toTopOf="@id/divider_2_top" />
-
-        <TextView
-            android:id="@+id/tv_reset"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/action_reset"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:onClick="@{() -> viewModel.onMenuDeviceReset()}"
-            android:visibility="@{viewModel.mainScreenBtnState == viewModel.BTN_STATE_RESET ? v.VISIBLE : v.GONE}"
-            app:autoSizeMaxTextSize="100sp"
-            app:autoSizeMinTextSize="12sp"
-            app:autoSizeStepGranularity="2sp"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="@id/divider_2_1_top"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/divider_2_2_left"
-            app:layout_constraintTop_toTopOf="@id/divider_2_top" />
-
-        <View
-            android:id="@+id/divider_2_1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginStart="40dp"
-            android:background="@color/white"
-            app:layout_constraintTop_toTopOf="@id/divider_2_1_top" />
-
-        <View
-            android:id="@+id/divider_2_2"
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
-            android:background="@color/white"
-            app:layout_constraintTop_toTopOf="@id/divider_2_top"
-            app:layout_constraintBottom_toBottomOf="@id/divider_2_1_top"
-            app:layout_constraintStart_toStartOf="@id/divider_2_2_left"/>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/buttons_main_bottom"
+            android:textSize="12sp"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/buttons_main_top">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <android.support.constraint.Guideline
-                    android:id="@+id/decrement_top"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".18" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/tv_reset"
+        android:background="@drawable/btn_top_new"
+        android:onClick="@{() -> viewModel.onMenuDeviceReset()}"
+        android:visibility="@{viewModel.cyranoState == cyranoState.Off ? v.VISIBLE : v.GONE}"
+        app:layout_constraintBottom_toBottomOf="@id/top_btns_bottom"
+        app:layout_constraintEnd_toEndOf="@id/right_elements_border"
+        app:layout_constraintStart_toStartOf="@id/left_reset_border"
+        app:layout_constraintTop_toTopOf="@id/top_btns_top">
 
-                <android.support.constraint.Guideline
-                    android:id="@+id/play_top"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".16" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_reset"
+            style="@style/AppTheme.TextMain"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-                <android.support.constraint.Guideline
-                    android:id="@+id/increment_top"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".68" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <android.support.constraint.Guideline
-                    android:id="@+id/increment_bottom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".95" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/tv_double"
+            android:background="@drawable/btn_double"
+            android:onClick="@{() -> viewModel.onDoubleBtn()}"
+            android:visibility="@{viewModel.weapon == viewModel.WEAPON_EPEE?v.VISIBLE:v.GONE}"
+            app:layout_constraintEnd_toEndOf="@id/double_right_border"
+            app:layout_constraintStart_toStartOf="@id/double_left_border"
+            app:layout_constraintTop_toTopOf="@id/double_top"
+            app:layout_constraintDimensionRatio="1:1">
 
-                <android.support.constraint.Guideline
-                    android:id="@+id/timer_top"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".33" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/timer_bottom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".61" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/dec_1_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".19" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/dec_1_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".31" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/dec_2_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".69" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/dec_2_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".81" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/inc_1_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".12" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/inc_1_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".38" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/inc_2_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".62" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/inc_2_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".88" />
-
-                <android.support.constraint.Guideline
-                android:id="@+id/passive_left"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent=".08" />
+                style="@style/AppTheme.TextMain"
+                android:text="@string/double_btn"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textAllCaps="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-                <android.support.constraint.Guideline
-                    android:id="@+id/passive_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".24" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <android.support.constraint.Guideline
-                    android:id="@+id/passive_temp_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".76" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/passive_temp_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".92" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/play_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".41" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/play_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".59" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/passive_top"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".65" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/passive_bottom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_percent=".77" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/timer_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".12" />
-
-                <android.support.constraint.Guideline
-                    android:id="@+id/timer_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".88" />
-
-                <ImageView
-                    android:id="@+id/dec_left"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:src="@drawable/minus_white"
-                    android:onClick="@{() -> viewModel.onDecLeft()}"
-                    app:layout_constraintDimensionRatio="h,1:1"
-                    app:layout_constraintEnd_toEndOf="@id/dec_1_right"
-                    app:layout_constraintStart_toStartOf="@id/dec_1_left"
-                    app:layout_constraintTop_toTopOf="@id/decrement_top" />
-
-                <ImageView
-                    android:id="@+id/dec_right"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:src="@drawable/minus_white"
-                    android:onClick="@{() -> viewModel.onDecRight()}"
-                    app:layout_constraintDimensionRatio="h,1:1"
-                    app:layout_constraintEnd_toEndOf="@id/dec_2_right"
-                    app:layout_constraintStart_toStartOf="@id/dec_2_left"
-                    app:layout_constraintTop_toTopOf="@id/decrement_top" />
-
-                <ImageView
-                    android:id="@+id/inc_left"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:src="@drawable/btn_plus"
-                    android:onClick="@{() -> viewModel.onIncLeft()}"
-                    app:layout_constraintEnd_toEndOf="@id/inc_1_right"
-                    app:layout_constraintStart_toStartOf="@id/inc_1_left"
-                    app:layout_constraintTop_toTopOf="@id/increment_top"
-                    app:layout_constraintBottom_toBottomOf="@id/increment_bottom"/>
-
-                <ImageView
-                    android:id="@+id/inc_right"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:src="@drawable/btn_plus"
-                    android:onClick="@{() -> viewModel.onIncRight()}"
-                    app:layout_constraintBottom_toBottomOf="@id/increment_bottom"
-                    app:layout_constraintEnd_toEndOf="@id/inc_2_right"
-                    app:layout_constraintStart_toStartOf="@id/inc_2_left"
-                    app:layout_constraintTop_toTopOf="@id/increment_top" />
-
-                <RelativeLayout
-                    android:id="@+id/timer_main"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="@drawable/btn_border"
-                    android:onClick="@{() -> viewModel.onTimerStartClick()}"
-                    app:layout_constraintEnd_toEndOf="@id/timer_right"
-                    app:layout_constraintStart_toStartOf="@id/timer_left"
-                    app:layout_constraintTop_toTopOf="@id/timer_top"
-                    app:layout_constraintBottom_toBottomOf="@id/timer_bottom">
-
-                    <TextView
-                        android:id="@+id/tv_timer"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerVertical="true"
-                        android:layout_marginBottom="80dp"
-                        android:layout_marginEnd="6dp"
-                        android:layout_marginStart="6dp"
-                        android:text="@{viewModel.timeToDisplay}"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        app:autoSizeMaxTextSize="100sp"
-                        app:autoSizeMinTextSize="12sp"
-                        app:autoSizeStepGranularity="2sp"
-                        app:autoSizeTextType="uniform" />
-
-                    <!--<TextView-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_above="@id/tv_timer"-->
-                        <!--android:layout_centerVertical="true"-->
-                        <!--android:layout_marginEnd="6dp"-->
-                        <!--android:layout_marginStart="6dp"-->
-                        <!--android:layout_marginTop="10dp"-->
-                        <!--android:text="@string/fa_start"-->
-                        <!--android:textAlignment="center"-->
-                        <!--android:textColor="@color/white"-->
-                        <!--app:autoSizeMaxTextSize="100sp"-->
-                        <!--app:autoSizeMinTextSize="12sp"-->
-                        <!--app:autoSizeStepGranularity="2sp"-->
-                        <!--app:autoSizeTextType="uniform" />-->
-                </RelativeLayout>
-
-                <!--<ImageView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="0dp"-->
-                    <!--android:id="@+id/main_player_btn"-->
-                    <!--android:src="@drawable/ic_double"-->
-                    <!--android:scaleType="fitCenter"-->
-                    <!--android:background="@drawable/btn_border"-->
-                    <!--android:onClick="@{() -> viewModel.onVideoBtn()}"-->
-                    <!--android:visibility="@{viewModel.isVideoBtnVisible?v.VISIBLE:v.GONE}"-->
-                    <!--app:layout_constraintEnd_toEndOf="@id/play_right"-->
-                    <!--app:layout_constraintStart_toStartOf="@id/play_left"-->
-                    <!--app:layout_constraintTop_toTopOf="@id/play_top"-->
-                    <!--app:layout_constraintDimensionRatio="1:1"/>-->
-
-                <TextView
-                    android:id="@+id/tv_double"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:text="D"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:background="@drawable/btn_border"
-                    android:onClick="@{() -> viewModel.onDoubleBtn()}"
-                    android:visibility="@{viewModel.weapon == viewModel.WEAPON_EPEE?v.VISIBLE:v.GONE}"
-                    app:autoSizeMaxTextSize="100sp"
-                    app:autoSizeMinTextSize="12sp"
-                    app:autoSizeStepGranularity="2sp"
-                    app:autoSizeTextType="uniform"
-                    app:layout_constraintEnd_toEndOf="@id/play_right"
-                    app:layout_constraintStart_toStartOf="@id/play_left"
-                    app:layout_constraintTop_toTopOf="@id/play_top"
-                    app:layout_constraintDimensionRatio="1:1"/>
-
-
-            </android.support.constraint.ConstraintLayout>
-
-        </RelativeLayout>
-
-        <View
-            android:id="@+id/divider_3"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginStart="40dp"
-            android:background="@color/white"
-            app:layout_constraintTop_toTopOf="@id/divider_3_top" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/inc_left"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:onClick="@{() -> viewModel.onPenaltiesPriorityBtn()}"
-            app:layout_constraintBottom_toBottomOf="@id/warnings_bottom"
-            app:layout_constraintTop_toTopOf="@id/warnings_top">
+            android:src="@drawable/btn_plus_left"
+            android:onClick="@{() -> viewModel.onIncLeft()}"
+            app:layout_constraintEnd_toEndOf="@id/left_score_right_border"
+            app:layout_constraintStart_toStartOf="@id/left_elements_border"
+            app:layout_constraintTop_toTopOf="@id/score_top_border"
+            app:layout_constraintDimensionRatio="1:1"/>
 
-            <ImageView
+        <ImageView
+            android:id="@+id/inc_right"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/btn_plus_right"
+            android:onClick="@{() -> viewModel.onIncRight()}"
+            app:layout_constraintEnd_toEndOf="@id/right_elements_border"
+            app:layout_constraintStart_toStartOf="@id/right_score_left_border"
+            app:layout_constraintTop_toTopOf="@id/score_top_border"
+            app:layout_constraintDimensionRatio="1:1" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.TextTitle"
+            android:text="@string/decrease_explain"
+            android:textAlignment="center"
+            android:textColor="@color/dark_gray"
+            android:textSize="22sp"
+            android:textAllCaps="true"
+            android:letterSpacing="0"
+            app:layout_constraintEnd_toEndOf="@id/right_elements_border"
+            app:layout_constraintStart_toStartOf="@id/left_elements_border"
+            app:layout_constraintTop_toTopOf="@id/explain_top_border"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/btn_start_stop_timer"
+            android:id="@+id/tv_start"
+            android:onClick="@{() -> viewModel.onTimerStartClick()}"
+            app:layout_constraintBottom_toBottomOf="@id/start_bottom_border"
+            app:layout_constraintEnd_toEndOf="@id/right_elements_border"
+            app:layout_constraintStart_toStartOf="@id/left_elements_border"
+            app:layout_constraintTop_toTopOf="@id/start_top_border">
+
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/sq_red"
-                android:src="@drawable/ic_red_square"
-                android:layout_centerInParent="true"/>
+                android:layout_height="wrap_content"
+                android:text="@string/fa_start"
+                style="@style/AppTheme.TextMain"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="29sp"
+                android:textAllCaps="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/sq_yell"
-                android:src="@drawable/ic_yellow_square"
-                android:layout_alignEnd="@id/sq_red"
-                android:layout_marginEnd="80dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/sq_bl"
-                android:src="@drawable/ic_black_square"
-                android:layout_alignStart="@id/sq_red"
-                android:layout_marginStart="80dp"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/button_menu"
+        android:onClick="@{() -> viewModel.onMenuMain()}"
+        android:background="@color/textNew"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bottom_border"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        </RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.TextMain"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:text="@string/menu_main"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

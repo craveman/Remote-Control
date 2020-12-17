@@ -23,9 +23,9 @@ import static ru.inspirationpoint.remotecontrol.manager.tcpHandle.TCPHelper.PORT
 
 public class TCPClient {
 
-    private String serverIp;
+    private final String serverIp;
 
-    private OnMessageReceived mMessageListener;
+    private final OnMessageReceived mMessageListener;
     private boolean mRun = false;
     private DataInputStream inputStream;
     private DataOutputStream outputStream;

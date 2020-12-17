@@ -4,11 +4,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class SetFighterIdCommand extends CommonTCPCommand {
 
-    private int person;
-    private String id;
+    private final int person;
+    private final String id;
 
     public SetFighterIdCommand(int person, String name) {
         this.person = person;
@@ -21,7 +22,7 @@ public class SetFighterIdCommand extends CommonTCPCommand {
         DataOutputStream s1 = new DataOutputStream(b1);
         try {
             s1.writeByte(person);
-            byte[] buf = id.getBytes(Charset.forName("UTF-8"));
+            byte[] buf = id.getBytes(StandardCharsets.UTF_8);
             s1.write(buf);
         } catch (IOException e) {
             e.printStackTrace();

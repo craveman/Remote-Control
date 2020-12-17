@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/weapon_rapier"
-        android:text="@string/type_rapier"
+        android:text="@string/type_foil"
         android:layout_marginStart="@dimen/large_margin"
         android:layout_marginTop="@dimen/small_margin"
         android:layout_marginBottom="@dimen/small_margin"

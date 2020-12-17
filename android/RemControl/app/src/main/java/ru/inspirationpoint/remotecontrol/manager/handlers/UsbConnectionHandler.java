@@ -38,11 +38,11 @@ import static ru.inspirationpoint.remotecontrol.manager.usb.UsbBroadcastReceiver
 
 public class UsbConnectionHandler implements UsbBroadcastReceiver.OnUSBEventListener, Runnable{
 
-    private Context context;
-    private CoreHandler core;
-    private UsbBroadcastReceiver receiver;
-    private IntentFilter mIntentFilter;
-    private UsbManager mUsbManager;
+    private final Context context;
+    private final CoreHandler core;
+    private final UsbBroadcastReceiver receiver;
+    private final IntentFilter mIntentFilter;
+    private final UsbManager mUsbManager;
     private boolean mRun = false;
     UsbEndpoint mOutEndpoint = null;
     UsbEndpoint mInEndpoint = null;

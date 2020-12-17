@@ -1,7 +1,7 @@
 package ru.inspirationpoint.remotecontrol.ui.adapter;
 
 import android.content.Context;
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,7 @@ import ru.inspirationpoint.remotecontrol.manager.constants.CommonConstants;
 
 public class ClubSpinnerAdapter extends ArrayAdapter<Pair<String, String>> {
 
-    private Context context;
+    private final Context context;
 
     public ClubSpinnerAdapter(Context context, int resourceId, ArrayList<Pair<String, String>> list) {
         super(context, resourceId, list);

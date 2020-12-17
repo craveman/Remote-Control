@@ -16,7 +16,7 @@ import static ru.inspirationpoint.remotecontrol.ui.activity.FightActivityVM.PERS
 
 public class FightActionsHandler {
 
-    private FightData fightData;
+    private final FightData fightData;
 
     public FightActionsHandler(FightData fightData) {
         this.fightData = fightData;
