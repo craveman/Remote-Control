@@ -105,6 +105,8 @@ class RcViewController: UIViewController {
       self.rcModel.shouldShowTimerView = rs.timer.mode == .main && rs.timer.state == .running
       self.rcModel.shouldShowPauseView = rs.timer.mode == .pause && rs.timer.state == .running
       self.rcModel.shouldShowMedicalView = rs.timer.mode == .medicine && rs.timer.state == .running
+      
+      self.playbackController.isEnabled = rs.competition.cameraIsOnline
     })
     
 //    print("syncState: \(rs.competition.state)")
