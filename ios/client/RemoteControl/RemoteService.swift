@@ -93,14 +93,28 @@ final class RemoteService {
     return Sm02.remove(eventHandler: uuid)
   }
   
+  enum SM_Service_Names: String {
+    case hapTcp = "_hap._tcp." // v1 - current as of Jul'21
+    case ipTopTcp = "_ip_top._tcp." // v0 - deprecated on Jul'21
+  }
+  
   enum SM_Data_Keys: String {
     case id = "ID"
     case rc = "RC"
+    case name = "NAME"
+    case type = "TYPE"
   }
   
   enum SM_RC_States: String {
-    case isBusy = "YES"
-    case isVacant = "NO"
+    case isYes = "YES"
+    case isOne = "1"
+    case isNo = "NO"
+    case isZero = "0"
+  }
+  
+  
+  enum SM_RC_Types: String {
+    case isSM = "3"
   }
   
   
@@ -108,7 +122,10 @@ final class RemoteService {
     private let UDP_LOOKUP_MODE = false
     private let BONJOUR_LOOKUP_MODE = true
     let SM_DOMAIN = "local." // or ""
-    let SM_TYPE = "_ip_top._tcp."
+    let SM_TYPES = [
+      SM_Service_Names.hapTcp.rawValue,
+//      SM_Service_Names.ipTopTcp.rawValue,
+    ]
     let SM_NAME = "InspirationPoint"
     private var nsb: NetServiceBrowser?
     private var nsbdel:SMNetBrowserDelegate?
@@ -131,7 +148,12 @@ final class RemoteService {
     func refreshBonjor() -> Void {
       if isStarted {
         nsb?.stop()
-        nsb?.searchForServices(ofType: SM_TYPE, inDomain: SM_DOMAIN)
+        
+        for SM_TYPE in SM_TYPES {
+          nsb?.searchForServices(ofType: SM_TYPE, inDomain: SM_DOMAIN)
+        }
+
+//        nsb?.searchForServices(ofType: SM_TYPE, inDomain: SM_DOMAIN)
         withDelay({
           self.nsb?.stop();
         }, 2 * PING_INTERVAL)
@@ -171,15 +193,30 @@ final class RemoteService {
       if let data = netService.txtRecordData(), netService.name.hasPrefix(self.SM_NAME), let ip = addr.first {
        
         let dict = NetService.dictionary(fromTXTRecord: data)
-        //          print("data: ", dict, String(data: data, encoding: .utf8) ?? "<no_data>")
+//      print("data: ", dict, String(data: data, encoding: .utf8) ?? "<no_data>")
+        if let type = dict[SM_Data_Keys.type.rawValue] {
+          if (String(data: type, encoding: .utf8) != SM_RC_Types.isSM.rawValue) {
+            log("Unsupported SM type: ", String(data: type, encoding: .utf8) ?? "<empty>")
+            return;
+          }
+        } else {
+          log("SM with no type resolved and skipped")
+          return;
+        }
+        
+        
         var name = "\(ip)"
         if let id = dict[SM_Data_Keys.id.rawValue] {
-          name = String(data: id, encoding: .utf8) ?? ""
+          name = "ID: " + (String(data: id, encoding: .utf8) ?? "<empty>")
+        }
+        if let nameData = dict[SM_Data_Keys.name.rawValue] {
+          name = String(data: nameData, encoding: .utf8) ?? "<empty>"
         }
         
         var hasRC = false
         if let rc = dict[SM_Data_Keys.rc.rawValue] {
-          hasRC = String(data: rc, encoding: .utf8) != SM_RC_States.isVacant.rawValue;
+          let rcCode = String(data: rc, encoding: .utf8)
+          hasRC = rcCode != SM_RC_States.isNo.rawValue && rcCode != SM_RC_States.isZero.rawValue;
           log(action)
           let remote = RemoteAddress(ssid: "", ip: ip, code: [0,0,0,0,0])
           self.handleSmAddrLost(addr: remote)

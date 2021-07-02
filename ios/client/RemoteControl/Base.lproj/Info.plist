@@ -27,6 +27,7 @@
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_ip_top._tcp</string>
+		<string>_hap._tcp</string>
 		<string>_inspirationpoint._tcp</string>
 		<string>_inspirationpoint._udp</string>
 	</array>
